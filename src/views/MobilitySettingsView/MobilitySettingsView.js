@@ -16,6 +16,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const [openWalkSettings, setOpenWalkSettings] = useState(false);
   const [openBicycleSettings, setOpenBicycleSettings] = useState(false);
   const [openCarSettings, setOpenCarSettings] = useState(false);
+  const [isActiveMarker, setIsActiveMarker] = useState(false);
 
   const {
     setOpenMobilityPlatform,
@@ -29,11 +30,37 @@ const MobilitySettingsView = ({ classes, intl }) => {
     setShowBicycleStands,
   } = useContext(MobilityPlatformContext);
 
+  // Set value to true. Only then it will fetch data.
   useEffect(() => {
     setOpenMobilityPlatform(true);
   }, [setOpenMobilityPlatform]);
 
-  const showAllChargingStations = () => {
+  // Check if any visibility state is true after previous use.
+  // Open correct toggle settings is one or more is true
+  const checkVisibilityState = () => {
+    if (showEcoCounter) {
+      setOpenWalkSettings(true);
+      setOpenBicycleSettings(true);
+    } else if (showChargingStations || showGasFillingStations) {
+      setOpenCarSettings(true);
+    } else if (showBicycleStands) {
+      setOpenBicycleSettings(true);
+    }
+  };
+
+  useEffect(() => {
+    checkVisibilityState();
+  }, []);
+
+  useEffect(() => {
+    if (showBicycleStands || showChargingStations || showGasFillingStations || showEcoCounter) {
+      setIsActiveMarker(true);
+    } else if (!showBicycleStands && !showChargingStations && !showGasFillingStations && !showEcoCounter) {
+      setIsActiveMarker(false);
+    }
+  }, [showBicycleStands, showChargingStations, showGasFillingStations, showEcoCounter]);
+
+  const ChargingStationsToggle = () => {
     if (!showChargingStations) {
       setShowChargingStations(true);
     } else {
@@ -41,7 +68,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
     }
   };
 
-  const showAllGasFillingStations = () => {
+  const GasFillingStationsToggle = () => {
     if (!showGasFillingStations) {
       setShowGasFillingStations(true);
     } else {
@@ -49,7 +76,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
     }
   };
 
-  const showAllEcoCounterStations = () => {
+  const EcoCounterStationsToggle = () => {
     if (!showEcoCounter) {
       setShowEcoCounter(true);
     } else {
@@ -65,12 +92,19 @@ const MobilitySettingsView = ({ classes, intl }) => {
     }
   };
 
+  const hideAllMarkers = () => {
+    setShowBicycleStands(false);
+    setShowChargingStations(false);
+    setShowGasFillingStations(false);
+    setShowEcoCounter(false);
+  };
+
   const walkingControlTypes = [
     {
       type: 'ecoCounterStations',
       msgId: 'mobilityPlatform.menu.showEcoCounter',
       checkedValue: showEcoCounter,
-      onChangeValue: showAllEcoCounterStations,
+      onChangeValue: EcoCounterStationsToggle,
     },
   ];
 
@@ -79,7 +113,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
       type: 'ecoCounterStations',
       msgId: 'mobilityPlatform.menu.showEcoCounter',
       checkedValue: showEcoCounter,
-      onChangeValue: showAllEcoCounterStations,
+      onChangeValue: EcoCounterStationsToggle,
     },
     {
       type: 'bicycleStands',
@@ -94,13 +128,13 @@ const MobilitySettingsView = ({ classes, intl }) => {
       type: 'chargingStations',
       msgId: 'mobilityPlatform.menu.showChargingStations',
       checkedValue: showChargingStations,
-      onChangeValue: showAllChargingStations,
+      onChangeValue: ChargingStationsToggle,
     },
     {
       type: 'gasFillingStations',
       msgId: 'mobilityPlatform.menu.showGasStations',
       checkedValue: showGasFillingStations,
-      onChangeValue: showAllGasFillingStations,
+      onChangeValue: GasFillingStationsToggle,
     },
   ];
 
@@ -167,6 +201,19 @@ const MobilitySettingsView = ({ classes, intl }) => {
         className={classes.topBarColor}
       />
       <div className={classes.container}>
+        {isActiveMarker ? (
+          <div>
+            <Button variant="outlined" onClick={() => hideAllMarkers()} className={classes.button}>
+              <Typography variant="subtitle2">Piilota ikonit</Typography>
+            </Button>
+          </div>
+        ) : (
+          <div className={classes.border}>
+            <Button disabled variant="outlined" className={classes.button}>
+              <Typography variant="subtitle2">Piilota ikonit</Typography>
+            </Button>
+          </div>
+        )}
         <FormControl variant="standard" className={classes.formControl}>
           <FormGroup className={classes.formGroup}>
             <>

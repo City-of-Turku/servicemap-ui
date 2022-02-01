@@ -6,7 +6,7 @@ const styles = theme => ({
     width: '100%',
     height: '50px',
     background: 'rgba(245, 245, 245, 255)',
-    textTransform: 'capitalize',
+    textTransform: 'none',
     justifyContent: 'flex-start',
     borderRadius: '0',
     borderTop: 'none',
@@ -18,11 +18,11 @@ const styles = theme => ({
   buttonActive: {
     width: '100%',
     height: '50px',
-    textTransform: 'capitalize',
+    textTransform: 'none',
     justifyContent: 'flex-start',
     borderRadius: '0',
-    borderBottom: '1px solid #6f7276',
     borderTop: '1px solid #6f7276',
+    borderBottom: '1px solid #6f7276',
     background: '#46484b',
     color: '#fff',
     '&:hover': {
@@ -36,7 +36,7 @@ const styles = theme => ({
     width: '100%',
     height: '40px',
     background: 'rgba(230, 230, 230, 255)',
-    textTransform: 'capitalize',
+    textTransform: 'none',
     justifyContent: 'center',
     borderRadius: '0',
     borderTop: 'none',
@@ -48,7 +48,7 @@ const styles = theme => ({
   buttonSmallActive: {
     width: '100%',
     height: '40px',
-    textTransform: 'capitalize',
+    textTransform: 'none',
     justifyContent: 'center',
     borderRadius: '0',
     borderBottom: '1px solid #6f7276',
@@ -60,6 +60,11 @@ const styles = theme => ({
       background: '#3e3f42',
       borderBottom: '1px solid #6f7276',
       borderTop: '1px solid #6f7276',
+    },
+  },
+  buttonContainer: {
+    '&:first-child': {
+      borderTop: 'none',
     },
   },
   formControl: {
@@ -91,6 +96,10 @@ const styles = theme => ({
   },
   paragraph: {
     padding: theme.spacing(2),
+  },
+  border: {
+    borderTop: '1px solid #6f7276',
+    borderBottom: '1px solid #6f7276',
   },
 });
 
