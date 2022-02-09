@@ -579,10 +579,10 @@ const translations = {
   'mobilityPlatform.menu.showChargingStations': 'Laddplatser',
   'mobilityPlatform.menu.showGasStations': 'Gastationer',
   'mobilityPlatform.menu.showEcoCounter': 'Eco Counter',
-  'mobilityPlatform.menu.showMaintenanceLocations': 'Kunnossapito',
+  'mobilityPlatform.menu.showMaintenanceLocations': 'Underhåll',
   'mobilityPlatform.menu.showBicycleMain': 'Cykelnät',
-  'mobilityPlatform.menu.showRentalCars': 'Rental cars',
   'mobilityPlatform.menu.showBicycleStands': 'Cykelställning',
+  'mobilityPlatform.menu.hideIcons': 'Dölja ikoner på kartan',
 
   // Content
   'mobilityPlatform.content.cgsTitle': 'Laddplats',

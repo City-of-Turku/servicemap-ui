@@ -583,6 +583,7 @@ const translations = {
   'mobilityPlatform.menu.showGasStations': 'Kaasutankkausasemat',
   'mobilityPlatform.menu.showEcoCounter': 'Laskentapisteet',
   'mobilityPlatform.menu.showBicycleStands': 'Polkupyöräparkit',
+  'mobilityPlatform.menu.hideIcons': 'Piilota kartan kuvakkeet',
 
   // Content
   'mobilityPlatform.content.cgsTitle': 'Sähkölatausasema',
@@ -603,8 +604,6 @@ const translations = {
   'mobilityPlatform.content.bicycleStands.numOfPlaces': 'Pyöräpaikkojen määrä',
   'mobilityPlatform.content.bicycleStands.numOfStands': 'Pyörätelineiden määrä',
   'mobilityPlatform.content.bicycleStands.maintainedByTku': 'Turun kaupungin ylläpitämä.',
-  'mobilityPlatform.content.rentalCars.title': 'Yhteiskäyttöauto',
-  'mobilityPlatform.content.rentalCars.address': 'Osoite',
 
   // Info text
   'mobilityPlatform.info.ecoCounter': 'Laskentapisteet keräävät tietoa liikenteestä mittaamalla eri liikennemuotojen käyttäjien määriä valituissa kohteissa. Tiedot on toimittanut Turun kaupunki käyttöluvan CC BY 4.0 nojalla.',

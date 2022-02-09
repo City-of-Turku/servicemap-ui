@@ -67,6 +67,9 @@ const styles = theme => ({
       borderTop: 'none',
     },
   },
+  buttonText: {
+    paddingLeft: theme.spacing(1),
+  },
   formControl: {
     width: '100%',
   },
@@ -86,13 +89,13 @@ const styles = theme => ({
     fill: '#fff',
     width: '40px',
     height: '40px',
-    marginRight: '0.8rem',
+    marginRight: theme.spacing(1),
   },
   icon: {
     fill: '#000',
     width: '40px',
     height: '40px',
-    marginRight: '0.8rem',
+    marginRight: theme.spacing(1),
   },
   paragraph: {
     padding: theme.spacing(2),

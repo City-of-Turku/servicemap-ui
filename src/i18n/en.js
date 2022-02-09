@@ -579,8 +579,8 @@ const translations = {
   'mobilityPlatform.menu.showGasStations': 'Gas filling stations',
   'mobilityPlatform.menu.showEcoCounter': 'Eco Counter',
   'mobilityPlatform.menu.showMaintenanceLocations': 'Street maintenance',
-  'mobilityPlatform.menu.showRentalCars': 'Rental cars',
   'mobilityPlatform.menu.showBicycleStands': 'Bicycle stands',
+  'mobilityPlatform.menu.hideIcons': 'Hide icons on the map',
 
   // Content
   'mobilityPlatform.content.cgsTitle': 'Charging station',

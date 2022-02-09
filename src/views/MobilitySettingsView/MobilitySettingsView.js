@@ -16,7 +16,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const [openWalkSettings, setOpenWalkSettings] = useState(false);
   const [openBicycleSettings, setOpenBicycleSettings] = useState(false);
   const [openCarSettings, setOpenCarSettings] = useState(false);
-  const [isActiveMarker, setIsActiveMarker] = useState(false);
+  const [isContentVisible, setIsContentVisible] = useState(false);
 
   const {
     setOpenMobilityPlatform,
@@ -54,12 +54,38 @@ const MobilitySettingsView = ({ classes, intl }) => {
 
   useEffect(() => {
     if (showBicycleStands || showChargingStations || showGasFillingStations || showEcoCounter) {
-      setIsActiveMarker(true);
+      setIsContentVisible(true);
     } else if (!showBicycleStands && !showChargingStations && !showGasFillingStations && !showEcoCounter) {
-      setIsActiveMarker(false);
+      setIsContentVisible(false);
     }
   }, [showBicycleStands, showChargingStations, showGasFillingStations, showEcoCounter]);
 
+  // Toggle functions for user types
+  const walkSettingsToggle = () => {
+    if (!openWalkSettings) {
+      setOpenWalkSettings(true);
+    } else {
+      setOpenWalkSettings(false);
+    }
+  };
+
+  const bicycleSettingsToggle = () => {
+    if (!openBicycleSettings) {
+      setOpenBicycleSettings(true);
+    } else {
+      setOpenBicycleSettings(false);
+    }
+  };
+
+  const carSettingsToggle = () => {
+    if (!openCarSettings) {
+      setOpenCarSettings(true);
+    } else {
+      setOpenCarSettings(false);
+    }
+  };
+
+  // Toggle functions for content types
   const ChargingStationsToggle = () => {
     if (!showChargingStations) {
       setShowChargingStations(true);
@@ -92,13 +118,15 @@ const MobilitySettingsView = ({ classes, intl }) => {
     }
   };
 
-  const hideAllMarkers = () => {
+  // Hides all visible markers
+  const resetMarkers = () => {
     setShowBicycleStands(false);
     setShowChargingStations(false);
     setShowGasFillingStations(false);
     setShowEcoCounter(false);
   };
 
+  // Array data for control types
   const walkingControlTypes = [
     {
       type: 'ecoCounterStations',
@@ -137,30 +165,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
       onChangeValue: GasFillingStationsToggle,
     },
   ];
-
-  const walkSettingsToggle = () => {
-    if (!openWalkSettings) {
-      setOpenWalkSettings(true);
-    } else {
-      setOpenWalkSettings(false);
-    }
-  };
-
-  const bicycleSettingsToggle = () => {
-    if (!openBicycleSettings) {
-      setOpenBicycleSettings(true);
-    } else {
-      setOpenBicycleSettings(false);
-    }
-  };
-
-  const carSettingsToggle = () => {
-    if (!openCarSettings) {
-      setOpenCarSettings(true);
-    } else {
-      setOpenCarSettings(false);
-    }
-  };
 
   const formLabel = (keyVal, msgId, checkedValue, onChangeValue) => (
     <FormControlLabel
@@ -201,16 +205,20 @@ const MobilitySettingsView = ({ classes, intl }) => {
         className={classes.topBarColor}
       />
       <div className={classes.container}>
-        {isActiveMarker ? (
+        {isContentVisible ? (
           <div>
-            <Button variant="outlined" onClick={() => hideAllMarkers()} className={classes.button}>
-              <Typography variant="subtitle2">Piilota ikonit</Typography>
+            <Button variant="outlined" onClick={() => resetMarkers()} className={classes.button}>
+              <Typography variant="subtitle2" className={classes.buttonText}>
+                {intl.formatMessage({ id: 'mobilityPlatform.menu.hideIcons' })}
+              </Typography>
             </Button>
           </div>
         ) : (
           <div className={classes.border}>
             <Button disabled variant="outlined" className={classes.button}>
-              <Typography variant="subtitle2">Piilota ikonit</Typography>
+              <Typography variant="subtitle2" className={classes.buttonText}>
+                {intl.formatMessage({ id: 'mobilityPlatform.menu.hideIcons' })}
+              </Typography>
             </Button>
           </div>
         )}
