@@ -36,7 +36,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   }, [setOpenMobilityPlatform]);
 
   // Check if any visibility state is true after previous use.
-  // Open correct toggle settings is one or more is true
+  // Open correct toggle settings if one or more is true
   const checkVisibilityState = () => {
     if (showEcoCounter) {
       setOpenWalkSettings(true);
@@ -205,23 +205,18 @@ const MobilitySettingsView = ({ classes, intl }) => {
         className={classes.topBarColor}
       />
       <div className={classes.container}>
-        {isContentVisible ? (
-          <div>
-            <Button variant="outlined" onClick={() => resetMarkers()} className={classes.button}>
-              <Typography variant="subtitle2" className={classes.buttonText}>
-                {intl.formatMessage({ id: 'mobilityPlatform.menu.hideIcons' })}
-              </Typography>
-            </Button>
-          </div>
-        ) : (
-          <div className={classes.border}>
-            <Button disabled variant="outlined" className={classes.button}>
-              <Typography variant="subtitle2" className={classes.buttonText}>
-                {intl.formatMessage({ id: 'mobilityPlatform.menu.hideIcons' })}
-              </Typography>
-            </Button>
-          </div>
-        )}
+        <>
+          <Button
+            className={classes.button}
+            disabled={!isContentVisible}
+            onClick={() => resetMarkers()}
+            variant="outlined"
+          >
+            <Typography className={classes.buttonText} variant="body2">
+              {intl.formatMessage({ id: 'mobilityPlatform.menu.hideIcons' })}
+            </Typography>
+          </Button>
+        </>
         <FormControl variant="standard" className={classes.formControl}>
           <FormGroup className={classes.formGroup}>
             <>
