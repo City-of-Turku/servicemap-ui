@@ -3,6 +3,17 @@ export function cookieHubCode (req) {
     return '';
   }
 
+  if ((process.env.THEME_PKG === '1' || process.env.THEME_PKG === 'true') && process.env.COOKIEBOT_DATA_CBID) {
+    // Get CookieBot script if THEME_PKG is active and COOKIEBOT_DATA_CBID is defined.
+    try {
+      const {getCookieScript} = require('servicemap-ui-turku/assets/js');
+      return getCookieScript(process.env.COOKIEBOT_DATA_CBID);
+    } catch (e) {
+        console.error(e);
+        return '';
+    }
+  }
+
   let cookiehubURL;
   // Attempt to parse COOKIEHUB_DOMAINS object
   try {
@@ -29,7 +40,7 @@ export function cookieHubCode (req) {
     console.error(`Error while parsing COOKIEHUB_DOMAINS variable: ${e.message}`);
     return '';
   }
-  
+
   return `
     <script type="text/javascript">
       var cpm = {
