@@ -158,7 +158,7 @@ test('ServiceItem click event takes to service page', async(t) => {
 //   const button = await Selector('#ExpandSuggestions');
 //   await t
 //     .click(button);
-  
+
 //   const backButton = await ReactSelector('BackButton');
 //   await t
 //     .expect(backButton.focused).ok('Titlebar\'s back button should have focus')
@@ -252,7 +252,7 @@ test('ResultList accessibility attributes are OK', async(t) => {
 //     const expandedSuggestionsButton = await Selector('#ExpandSuggestions');
 //     const esbRole = await expandedSuggestionsButton.getAttribute('role')
 //     await t
-//       // We expect ExpandedSearchButton to have role link since it takes to another view 
+//       // We expect ExpandedSearchButton to have role link since it takes to another view
 //       .expect(esbRole).eql('link', 'ExpandedSearchButton should be considered a link');
 // });
 
@@ -356,7 +356,7 @@ test('SettingsInfo works correctly', async(t) => {
 //   await t
 //     .click(clickedItem)
 //     .expect(getLocation()).contains(`http://${server.address}:${server.port}/fi/search?q=${text}`)
-    
+
 // });
 
 fixture`Pagination tests`

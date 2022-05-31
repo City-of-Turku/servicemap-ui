@@ -7,13 +7,13 @@ const { server } = config;
 
 
 fixture`Settings view tests`
-  .page`http://${server.address}:${server.port}/fi/`
+  .page(`http://${server.address}:${server.port}/fi/`)
   .beforeEach(async () => {
     await waitForReact();
   });
 
 const openSettings = async t => {
-  const openButton = Selector('#SettingsButtonaccessibilitySettings');
+  const openButton = await Selector('#SettingsButtonaccessibilitySettings');
   await t
     .click(openButton)
   ;
@@ -44,7 +44,7 @@ test('Settings does work like dialog', async (t) => {
     .expect(settingsContainer.getAttribute('role')).eql('dialog', "Expected container to have role dialog")
     .click(ReactSelector('Settings').find('span').nth(0))
     .pressKey('tab') // Tab to close button
-    .pressKey('shift+tab') // Shift tab back to 
+    .pressKey('shift+tab') // Shift tab back to
     .expect(buttons.nth(buttonCount - 1).focused).ok('Expected dialog to loop backwards to last element of dialog')
     .pressKey('tab')
     .expect(closeButton.focused).ok('Expected close button to be focused after looping back to start')
@@ -52,7 +52,7 @@ test('Settings does work like dialog', async (t) => {
 });
 
 test('Settings radio and checkbox buttons are grouped', async (t) => {
-  openSettings(t);
+  await openSettings(t);
 
   const settings = ReactSelector('Settings');
   const checkboxGroup = settings.find('[aria-labelledby=SenseSettings]');
@@ -75,7 +75,7 @@ test('Settings radio and checkbox buttons are grouped', async (t) => {
 });
 
 test('Settings saves correctly', async (t) => {
-  openSettings(t);
+  await openSettings(t);
 
   const settings = ReactSelector('Settings');
   const checkboxGroup = settings.find('[aria-labelledby=SenseSettings]');
@@ -116,4 +116,4 @@ test('Settings saves correctly', async (t) => {
     )
     .expect(title.focused).ok('Expect focus to move to title on confirmation box save')
   ;
-})
+});

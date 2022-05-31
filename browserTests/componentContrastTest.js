@@ -6,6 +6,7 @@ export default (component) => {
     return component;
   }
 
+
   test('Component has good contrast ratio with background', async (t) => {
     const componentName = getComponentName();
     const elements = ReactSelector(`main ${componentName}`);
@@ -20,7 +21,7 @@ export default (component) => {
       ) {
         elementBorder = await element.getStyleProperty('border-top-color');
       }
-      
+
       const parentBackground = await getParentElementBG(element, element.parent())
       const elementColor = await getElementBG(await element)
 
