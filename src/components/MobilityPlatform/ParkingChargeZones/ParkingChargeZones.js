@@ -1,19 +1,24 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import ParkingChargeZoneContent from './components/ParkingChargeZoneContent';
 
 const ParkingChargeZones = () => {
-  const {
-    showParkingChargeZones, parkingChargeZones, parkingChargeZoneId,
-  } = useContext(MobilityPlatformContext);
+  const { showParkingChargeZones, parkingChargeZones, parkingChargeZoneId } = useContext(MobilityPlatformContext);
 
   const mapType = useSelector(state => state.settings.mapType);
 
-  const parkingChargeZone = parkingChargeZones.find(item => item.id === parkingChargeZoneId);
+  const parkingChargeZone = useMemo(
+    () => parkingChargeZones.find(item => item.id === parkingChargeZoneId),
+    [parkingChargeZones, parkingChargeZoneId],
+  );
 
-  const renderOneParkingChargeZone = !!(showParkingChargeZones && parkingChargeZone && Object.entries(parkingChargeZone).length > 0);
+  const renderOneParkingChargeZone = !!(
+    showParkingChargeZones
+    && parkingChargeZone
+    && Object.entries(parkingChargeZone).length > 0
+  );
 
   const { Polygon, Popup } = global.rL;
 
@@ -34,7 +39,7 @@ const ParkingChargeZones = () => {
       const bounds = parkingChargeZone.geometry_coords;
       map.fitBounds(bounds);
     }
-  }, [showParkingChargeZones, parkingChargeZone]);
+  }, [showParkingChargeZones, parkingChargeZone, map]);
 
   return (
     <>

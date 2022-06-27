@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, {
+  useEffect, useState, useContext, useMemo,
+} from 'react';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { fetchCultureRoutesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
@@ -27,7 +29,10 @@ const CultureRoutes = () => {
     }
   }, [openMobilityPlatform, setCultureRouteUnits]);
 
-  const activeCultureRoute = cultureRoutesGeometry.filter(item => item.mobile_unit_group.id === cultureRouteId);
+  const activeCultureRoute = useMemo(
+    () => cultureRoutesGeometry.filter(item => item.mobile_unit_group.id === cultureRouteId),
+    [cultureRoutesGeometry, cultureRouteId],
+  );
 
   const swapCoords = (inputData) => {
     if (inputData && inputData.length > 0) {
@@ -51,10 +56,16 @@ const CultureRoutes = () => {
     <>
       {showCultureRoutes ? (
         <>
-          {activeCultureRoute && activeCultureRoute.length > 0
+          {activeCultureRoute
+            && activeCultureRoute.length > 0
             && activeCultureRoute.map(item => (
               <div key={item.id}>
-                <Polyline key={item.geometry} weight={8} pathOptions={blueOptions} positions={swapCoords(item.geometry_coords)} />
+                <Polyline
+                  key={item.geometry}
+                  weight={8}
+                  pathOptions={blueOptions}
+                  positions={swapCoords(item.geometry_coords)}
+                />
                 <Polyline
                   key={item.geometry_coords}
                   weight={4}

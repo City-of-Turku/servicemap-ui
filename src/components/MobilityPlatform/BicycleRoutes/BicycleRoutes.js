@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, {
+  useEffect, useState, useContext, useMemo,
+} from 'react';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { fetchBicycleRoutesGeometry } from '../mobilityPlatformRequests/mobilityPlatformRequests';
@@ -19,7 +21,8 @@ const BicycleRoutes = () => {
     }
   }, [openMobilityPlatform, setBicycleRoutes]);
 
-  const activeBicycleRoute = bicycleRoutes.filter(item => item.bicycle_network_name === bicycleRouteName);
+  const activeBicycleRoute = useMemo(() => bicycleRoutes.filter(item => item.bicycle_network_name === bicycleRouteName),
+    [bicycleRoutes, bicycleRouteName]);
 
   const map = useMap();
 

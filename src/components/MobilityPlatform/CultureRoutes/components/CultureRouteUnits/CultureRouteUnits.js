@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
@@ -31,7 +31,10 @@ const CultureRouteUnits = ({ classes, cultureRouteUnits }) => {
     }
   };
 
-  const activeCultureRouteUnits = cultureRouteUnits.filter(item => item.mobile_unit_group.id === cultureRouteId);
+  const activeCultureRouteUnits = useMemo(
+    () => cultureRouteUnits.filter(item => item.mobile_unit_group.id === cultureRouteId),
+    [cultureRouteUnits, cultureRouteId],
+  );
 
   /**
    * Returns description based on locale
@@ -76,30 +79,26 @@ const CultureRouteUnits = ({ classes, cultureRouteUnits }) => {
     <>
       <div>
         {activeCultureRouteUnits
-          && activeCultureRouteUnits.length > 0
-          && activeCultureRouteUnits.map(item => (
-            <Marker key={item.id} icon={customIcon} position={[item.geometry_coords.lat, item.geometry_coords.lon]}>
-              <Popup closeButton={false} maxHeight={400} className="culture-route-unit-popup">
-                <div className={classes.popupInner}>
-                  <div className={classes.header}>
-                    <Typography variant="subtitle1">
-                      {selectRouteName(locale, item.name, item.name_en, item.name_sv)}
-                    </Typography>
-                    <ButtonBase onClick={() => closePopup()} className={classes.popupCloseButton}>
-                      <Close className={classes.closeIcon} />
-                    </ButtonBase>
-                  </div>
-                  <div className={classes.content}>
-                    {renderDescription(
-                      item.description,
-                      item.description_en,
-                      item.description_sv,
-                    )}
-                  </div>
+        && activeCultureRouteUnits.length > 0
+        && activeCultureRouteUnits.map(item => (
+          <Marker key={item.id} icon={customIcon} position={[item.geometry_coords.lat, item.geometry_coords.lon]}>
+            <Popup closeButton={false} maxHeight={400} className="culture-route-unit-popup">
+              <div className={classes.popupInner}>
+                <div className={classes.header}>
+                  <Typography variant="subtitle1">
+                    {selectRouteName(locale, item.name, item.name_en, item.name_sv)}
+                  </Typography>
+                  <ButtonBase onClick={() => closePopup()} className={classes.popupCloseButton}>
+                    <Close className={classes.closeIcon} />
+                  </ButtonBase>
                 </div>
-              </Popup>
-            </Marker>
-          ))}
+                <div className={classes.content}>
+                  {renderDescription(item.description, item.description_en, item.description_sv)}
+                </div>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
       </div>
     </>
   );

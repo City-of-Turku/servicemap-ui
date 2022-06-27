@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
 
@@ -10,7 +10,8 @@ const ParkingSpacesContent = ({
 }) => {
   let freeParkingSpaces = 0;
 
-  const parkingSpaceStats = parkingStatistics.filter(item => item.id === parkingSpace.id);
+  const parkingSpaceStats = useMemo(() => parkingStatistics.filter(item => item.id === parkingSpace.id),
+    [parkingStatistics, parkingSpace.id]);
 
   const renderText = (isTitle, translationId, text) => (
     <div className={isTitle ? classes.title : classes.text}>
