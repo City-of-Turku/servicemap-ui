@@ -15,6 +15,7 @@ export default theme => ({
     fontWeight: 'bold',
   },
   link: {
-    color: '#0000EE',
+    color: theme.palette.link.main,
+    textDecoration: 'underline',
   },
 });

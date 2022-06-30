@@ -6,6 +6,7 @@ export default theme => ({
     paddingBottom: theme.spacing(1),
   },
   link: {
-    color: '#0000EE',
+    color: theme.palette.link.main,
+    textDecoration: 'underline',
   },
 });

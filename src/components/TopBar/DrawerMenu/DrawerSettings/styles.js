@@ -20,9 +20,10 @@ export default theme => ({
     padding: `${theme.spacing(1)}px 0`,
   },
   link: {
+    color: theme.palette.link.main,
     textDecoration: 'underline',
     '&:hover': {
       color: 'rgba(255, 255, 255, 0.6)',
     },
-  }
+  },
 });

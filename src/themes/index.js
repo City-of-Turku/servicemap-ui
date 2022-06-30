@@ -231,6 +231,9 @@ export const paletteDefault = {
     background: 'rgb(25, 100, 230)',
     border: '#fff',
   },
+  link: {
+    main: '#3333FF',
+  },
 };
 
 // Color palette for dark theme
@@ -272,6 +275,9 @@ export const paletteDark = {
     main: '#313131',
     background: '#A6A6A6',
     border: '#fff',
+  },
+  link: {
+    main: '#3333FF',
   },
 };
 

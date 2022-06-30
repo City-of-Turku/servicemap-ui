@@ -1,8 +1,8 @@
 /* eslint-disable */
 import axeCheck from 'axe-testcafe';
-import config from './config';
-import focusIndicatorTest from './focusIndicatorTest';
-import componentContrastTest from './componentContrastTest';
+import config from '../config';
+import focusIndicatorTest from '../utility/focusIndicatorTest';
+import componentContrastTest from '../utility/componentContrastTest';
 import {waitForReact} from 'testcafe-react-selectors';
 
 const { server } = config;
@@ -133,5 +133,6 @@ test('Automated accessibility testing', async t => {
   await axeCheckHandler(t);
 });
 
+focusIndicatorTest();
 componentContrastTest('SMButton');
 componentContrastTest('BackButton');

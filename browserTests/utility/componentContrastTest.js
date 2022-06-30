@@ -1,4 +1,4 @@
-import { getContrast, getParentElementBG, getElementBG } from '../src/utils/componentContrast';
+import { getContrast, getParentElementBG, getElementBG } from '../../src/utils/componentContrast';
 import { ReactSelector } from 'testcafe-react-selectors';
 
 export default (component) => {

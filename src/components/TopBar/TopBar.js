@@ -6,13 +6,11 @@ import {
   AppBar,
   Toolbar,
   ButtonBase,
-  NoSsr,
 } from '@material-ui/core';
 import { Map } from '@material-ui/icons';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
-import HomeLogo from '../Logos/HomeLogo';
 import DrawerMenu from './DrawerMenu';
 import DesktopComponent from '../DesktopComponent';
 import MobileComponent from '../MobileComponent';
@@ -23,6 +21,7 @@ import { useNavigationParams } from '../../utils/address';
 import SettingsButton from './SettingsButton';
 import MenuButton from './MenuButton';
 import paths from '../../../config/paths';
+import SMLogo from './SMLogo';
 
 const TopBar = (props) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -280,19 +279,7 @@ const TopBar = (props) => {
                 : classes.toolbarWhite
             }
           >
-            <ButtonBase
-              aria-label={intl.formatMessage({ id: 'general.back.goToHome' })}
-              role="link"
-              onClick={() => handleNavigation('home')}
-            >
-              <NoSsr>
-                <HomeLogo
-                  aria-hidden
-                  contrast={theme === 'dark'}
-                  className={classes.logo}
-                />
-              </NoSsr>
-            </ButtonBase>
+            <SMLogo onClick={() => handleNavigation('home')} />
             <MobileComponent>
               <div className={classes.mobileButtonContainer}>
                 {renderMapButton()}
