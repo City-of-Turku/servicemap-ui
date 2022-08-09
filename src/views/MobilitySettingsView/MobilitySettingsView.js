@@ -4,9 +4,8 @@ import React, {
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
-  Typography, FormGroup, FormControl, FormControlLabel, Switch, Button, Checkbox,
+  Typography, FormGroup, FormControl, FormControlLabel, Checkbox,
 } from '@material-ui/core';
-import { ReactSVG } from 'react-svg';
 import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import iconBicycle from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle.svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
@@ -23,6 +22,9 @@ import Description from './components/Description';
 import RouteLength from './components/RouteLength';
 import ExtendedInfo from './components/ExtendedInfo';
 import CityBikeInfo from './components/CityBikeInfo';
+import ButtonMain from './components/ButtonMain';
+import FormLabel from './components/FormLabel';
+import EmptyRouteList from './components/EmptyRouteList';
 
 const MobilitySettingsView = ({ classes, intl }) => {
   const [openWalkSettings, setOpenWalkSettings] = useState(false);
@@ -82,6 +84,17 @@ const MobilitySettingsView = ({ classes, intl }) => {
       en: 'https://www.foli.fi/en/f%C3%B6li-bikes',
       sv: 'https://www.foli.fi/sv/fölicyklar',
     },
+  };
+
+  const chargeZoneTranslations = {
+    message1: 'mobilityPlatform.info.parkingChargeZones.paragraph.1',
+    message2: 'mobilityPlatform.info.parkingChargeZones.paragraph.2',
+    message3: 'mobilityPlatform.info.parkingChargeZones.paragraph.3',
+    zones: [
+      'mobilityPlatform.info.parkingChargeZones.zone.1',
+      'mobilityPlatform.info.parkingChargeZones.zone.2',
+      'mobilityPlatform.info.parkingChargeZones.zone.3',
+    ],
   };
 
   useEffect(() => {
@@ -443,101 +456,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
   ];
 
   /**
-   * @param {string} keyVal
-   * @param {string} msgId
-   * @param {boolean} checkedValue
-   * @param {Function} onChangeValue
-   */
-  const formLabel = (keyVal, msgId, checkedValue, onChangeValue) => (
-    <FormControlLabel
-      key={keyVal}
-      label={(
-        <Typography
-          variant="body2"
-          aria-label={intl.formatMessage({
-            id: msgId,
-          })}
-        >
-          {intl.formatMessage({
-            id: msgId,
-          })}
-        </Typography>
-      )}
-      control={(
-        <Switch
-          checked={checkedValue}
-          inputProps={{
-            'aria-label': intl.formatMessage({
-              id: msgId,
-            }),
-          }}
-          onChange={onChangeValue}
-          onKeyPress={(event) => {
-            if (event.key === 'Enter') {
-              onChangeValue();
-            }
-          }}
-        />
-      )}
-      className={classes.formLabel}
-    />
-  );
-
-  /**
-   * @param {Function} onClickFunc
-   * @param {boolean} settingState
-   * @param {string} iconName
-   * @param {string} translationId
-   */
-  const buttonComponent = (onClickFunc, settingState, iconName, translationId) => (
-    <Button
-      onClick={() => onClickFunc()}
-      variant="outlined"
-      className={settingState ? `${classes.button} ${classes.active}` : classes.button}
-      aria-label={intl.formatMessage({
-        id: translationId,
-      })}
-    >
-      <ReactSVG className={settingState ? `${classes.iconActive}` : `${classes.icon}`} src={iconName} />
-      <Typography variant="body2">
-        {intl.formatMessage({
-          id: translationId,
-        })}
-      </Typography>
-    </Button>
-  );
-
-  /**
-   * Check if route list is empty and render correct text
-   * @param {Array} input
-   * @param {Boolean} input
-   * @param {Boolean} length
-   * @returns {JSX Element} with correct id
-   */
-  const emptyRouteList = (input) => {
-    if (input) {
-      return (
-        <div className={classes.paragraph}>
-          <Typography
-            component="p"
-            variant="subtitle2"
-            aria-label={
-              input.length > 0
-                ? intl.formatMessage({ id: 'mobilityPlatform.menu.routes.info' })
-                : intl.formatMessage({ id: 'mobilityPlatform.menu.routes.emptyList' })
-            }
-          >
-            {input.length > 0
-              ? intl.formatMessage({ id: 'mobilityPlatform.menu.routes.info' })
-              : intl.formatMessage({ id: 'mobilityPlatform.menu.routes.emptyList' })}
-          </Typography>
-        </div>
-      );
-    }
-    return null;
-  };
-
-  /**
      * @param {Array} inputData
      * @returns {JSX Element}
      */
@@ -604,7 +522,14 @@ const MobilitySettingsView = ({ classes, intl }) => {
      */
   const renderSettings = (settingVisibility, typeVal) => {
     if (settingVisibility) {
-      return typeVal.map(item => formLabel(item.type, item.msgId, item.checkedValue, item.onChangeValue));
+      return typeVal.map(item => (
+        <FormLabel
+          key={item.type}
+          msgId={item.msgId}
+          checkedValue={item.checkedValue}
+          onChangeValue={item.onChangeValue}
+        />
+      ));
     }
     return null;
   };
@@ -642,17 +567,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
     </>
   );
 
-  const chargeZoneTranslations = {
-    message1: 'mobilityPlatform.info.parkingChargeZones.paragraph.1',
-    message2: 'mobilityPlatform.info.parkingChargeZones.paragraph.2',
-    message3: 'mobilityPlatform.info.parkingChargeZones.paragraph.3',
-    zones: [
-      'mobilityPlatform.info.parkingChargeZones.zone.1',
-      'mobilityPlatform.info.parkingChargeZones.zone.2',
-      'mobilityPlatform.info.parkingChargeZones.zone.3',
-    ],
-  };
-
   return (
     <div className={classes.content}>
       <TitleBar
@@ -666,31 +580,41 @@ const MobilitySettingsView = ({ classes, intl }) => {
           <FormGroup className={classes.formGroup}>
             <>
               <div className={classes.buttonContainer}>
-                {buttonComponent(walkSettingsToggle, openWalkSettings, iconWalk, 'mobilityPlatform.menu.title.walk')}
+                <ButtonMain
+                  onClickFunc={walkSettingsToggle}
+                  settingState={openWalkSettings}
+                  iconName={iconWalk}
+                  translationId="mobilityPlatform.menu.title.walk"
+                />
               </div>
               {renderSettings(openWalkSettings, walkingControlTypes)}
               <div className={openCultureRouteList ? classes.border : null}>
-                {openCultureRouteList && !cultureRouteId ? emptyRouteList(cultureRouteList) : null}
+                {openCultureRouteList && !cultureRouteId ? <EmptyRouteList route={cultureRouteList} /> : null}
               </div>
               {openCultureRouteList && (locale === 'en' || locale === 'sv')
                 ? renderCultureRoutes(localizedCultureRoutes)
                 : null}
               {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
               <div className={classes.buttonContainer}>
-                {buttonComponent(
-                  bicycleSettingsToggle,
-                  openBicycleSettings,
-                  iconBicycle,
-                  'mobilityPlatform.menu.title.bicycle',
-                )}
+                <ButtonMain
+                  onClickFunc={bicycleSettingsToggle}
+                  settingState={openBicycleSettings}
+                  iconName={iconBicycle}
+                  translationId="mobilityPlatform.menu.title.bicycle"
+                />
               </div>
               {renderSettings(openBicycleSettings, bicycleControlTypes)}
               <div className={openBicycleRouteList ? classes.border : null}>
-                {openBicycleRouteList && !bicycleRouteName ? emptyRouteList(bicycleRouteList) : null}
+                {openBicycleRouteList && !bicycleRouteName ? <EmptyRouteList route={bicycleRouteList} /> : null}
               </div>
               {openBicycleRouteList ? renderBicycleRoutes(bicycleRouteList) : null}
               <div className={classes.buttonContainer}>
-                {buttonComponent(carSettingsToggle, openCarSettings, iconCar, 'mobilityPlatform.menu.title.car')}
+                <ButtonMain
+                  onClickFunc={carSettingsToggle}
+                  settingState={openCarSettings}
+                  iconName={iconCar}
+                  translationId="mobilityPlatform.menu.title.car"
+                />
               </div>
               {renderSettings(openCarSettings, carControlTypes)}
               {openParkingChargeZoneList ? renderParkingChargeZoneList() : null}

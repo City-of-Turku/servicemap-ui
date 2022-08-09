@@ -63,10 +63,10 @@ describe('<CityBikeInfo />', () => {
     const p = container.querySelectorAll('p');
     const link = container.querySelector('a');
     expect(p[0].textContent).toEqual(
-      'Turun kaupunkipyörät eli tuttavallisemmin föllärit, ovat pyöriä, joita kuka vaan voi vuokrata Donkey Republicin sovelluksella.  Föllärin voi vuokrata kertamaksulla, kuukausimaksulla tai koko kesän kattavalla kausimaksulla.'
+      'Turun kaupunkipyörät eli tuttavallisemmin föllärit, ovat pyöriä, joita kuka vaan voi vuokrata Donkey Republicin sovelluksella.  Föllärin voi vuokrata kertamaksulla, kuukausimaksulla tai koko kesän kattavalla kausimaksulla.',
     );
     expect(p[1].textContent).toEqual(
-      'Jos sinulla on käytössä Fölin kausikortti, jonka kausi on vähintään 30 päivää, sisältää oikeuden käyttää fölläreitä tunnin ajan kerrallaan maksutta. Vuokrattavia pyöriä on 700 ja asemia yli 70 kappaletta.'
+      'Jos sinulla on käytössä Fölin kausikortti, jonka kausi on vähintään 30 päivää, sisältää oikeuden käyttää fölläreitä tunnin ajan kerrallaan maksutta. Vuokrattavia pyöriä on 700 ja asemia yli 70 kappaletta.',
     );
     expect(p[2].textContent).toEqual('Lue lisää kaupunkipyöristä:');
     expect(link.textContent).toEqual('https://foli.fi/föllärit');
@@ -78,10 +78,10 @@ describe('<CityBikeInfo />', () => {
 
     const p = container.querySelectorAll('p');
     expect(p[0].getAttribute('aria-label')).toEqual(
-      'Turun kaupunkipyörät eli tuttavallisemmin föllärit, ovat pyöriä, joita kuka vaan voi vuokrata Donkey Republicin sovelluksella.  Föllärin voi vuokrata kertamaksulla, kuukausimaksulla tai koko kesän kattavalla kausimaksulla.'
+      'Turun kaupunkipyörät eli tuttavallisemmin föllärit, ovat pyöriä, joita kuka vaan voi vuokrata Donkey Republicin sovelluksella.  Föllärin voi vuokrata kertamaksulla, kuukausimaksulla tai koko kesän kattavalla kausimaksulla.',
     );
     expect(p[1].getAttribute('aria-label')).toEqual(
-      'Jos sinulla on käytössä Fölin kausikortti, jonka kausi on vähintään 30 päivää, sisältää oikeuden käyttää fölläreitä tunnin ajan kerrallaan maksutta. Vuokrattavia pyöriä on 700 ja asemia yli 70 kappaletta.'
+      'Jos sinulla on käytössä Fölin kausikortti, jonka kausi on vähintään 30 päivää, sisältää oikeuden käyttää fölläreitä tunnin ajan kerrallaan maksutta. Vuokrattavia pyöriä on 700 ja asemia yli 70 kappaletta.',
     );
     expect(p[2].getAttribute('aria-label')).toEqual('Lue lisää kaupunkipyöristä:');
     expect(p[3].getAttribute('aria-label')).toEqual('https://foli.fi/föllärit');
