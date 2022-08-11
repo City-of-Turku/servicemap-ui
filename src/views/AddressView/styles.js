@@ -1,6 +1,6 @@
 export default theme => ({
   addressIcon: {
-    fontSize: 36,
+    fontSize: '2.25rem',
   },
   topArea: {
     backgroundColor: '#fff',
@@ -16,7 +16,7 @@ export default theme => ({
     marginRight: 12,
   },
   titleIcon: {
-    fontSize: 28,
+    fontSize: '1.75rem',
     height: 24,
     width: 24,
     marginLeft: 0,
@@ -59,7 +59,7 @@ export default theme => ({
     fontWeight: 'bold',
   },
   areaIcon: {
-    fontSize: 20,
+    fontSize: '1.25rem',
     marginLeft: 0,
     marginRight: theme.spacing(2),
   },

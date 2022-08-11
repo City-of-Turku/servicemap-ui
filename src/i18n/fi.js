@@ -586,6 +586,7 @@ const translations = {
   'mobilityPlatform.menu.title.walk': 'Kävely',
   'mobilityPlatform.menu.title.bicycle': 'Pyöräily',
   'mobilityPlatform.menu.title.car': 'Autoilu',
+  'mobilityPlatform.menu.title.boating': 'Veneily',
   'mobilityPlatform.menu.showChargingStations': 'Autojen sähkölatauspisteet',
   'mobilityPlatform.menu.showGasFillingStations': 'Kaasutankkausasemat',
   'mobilityPlatform.menu.showEcoCounter': 'Laskentapisteet',
@@ -604,6 +605,9 @@ const translations = {
   'mobilityPlatform.menu.parkingChargeZones.subtitle': 'Vyöhyke',
   'mobilityPlatform.menu.showBikeServiceStations': 'Pyöränkorjauspisteet',
   'mobilityPlatform.menu.showCityBikes': 'Kaupunkipyöräasemat',
+  'mobilityPlatform.menu.show.marinas': 'Venesatamat',
+  'mobilityPlatform.menu.show.boatParking': 'Veneparkit',
+  'mobilityPlatform.menu.show.guestHarbour': 'Vierasvenesatama',
 
   // Content
   'mobilityPlatform.content.address': 'Osoite',
@@ -685,6 +689,11 @@ const translations = {
   'mobilityPlatform.info.cityBikes.subtitle': 'Lue lisää kaupunkipyöristä:',
   'mobilityPlatform.info.cityBikes.link': 'https://foli.fi/föllärit',
   'mobilityPlatform.info.cityBikes.apiInfo': 'Kartan tiedot tulevat Donkey Republicin rajapinnasta reaaliajassa.',
+  'mobilityPlatform.info.guestHarbour': 'Turun vierasvenesatama sijaitsee aivan keskustan kupeessa, osoitteessa Läntinen Rantakatu 57. Lisätietoja liittyen esimerkiksi venepaikan varaamiseen löytyy osoitteesta',
+  'mobilityPlatform.info.guestHarbour.link': 'www.turunvierasvenesatama.fi',
+  'mobilityPlatform.info.marinas': 'Turun kaupungilla on venepaikkoja Lauttarannassa, Uittamolla ja Aurajoessa.  Venepaikkoja voi varata ja maksaa Varauspalvelussa, jossa vapaita paikkoja voi selata satamittain ja myös veneen mittojen mukaan. Lauttarannassa on lisäksi talvisäilytyspaikkoja.',
+  'mobilityPlatform.info.marinas.link': 'Varauspalvelu',
+  'mobilityPlatform.info.boatParking': 'Veneparkit sijaitsevat Aurajoen kummallakin rannalla Auransillan vieressä. Veneen niihin voi jättää 3 tunniksi maksutta pysäköintikiekkoa käyttäen.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',

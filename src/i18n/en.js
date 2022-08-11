@@ -582,6 +582,7 @@ const translations = {
   'mobilityPlatform.menu.title.walk': 'Walking',
   'mobilityPlatform.menu.title.bicycle': 'Cycling',
   'mobilityPlatform.menu.title.car': 'By car',
+  'mobilityPlatform.menu.title.boating': 'Boating',
   'mobilityPlatform.menu.showChargingStations': 'Car e-charging points',
   'mobilityPlatform.menu.showGasFillingStations': 'Gas filling stations',
   'mobilityPlatform.menu.showEcoCounter': 'Measurement point',
@@ -600,6 +601,9 @@ const translations = {
   'mobilityPlatform.menu.parkingChargeZones.subtitle': 'Zone',
   'mobilityPlatform.menu.showBikeServiceStations': 'Bicycle service stations',
   'mobilityPlatform.menu.showCityBikes': 'City bike stations',
+  'mobilityPlatform.menu.show.marinas': 'Marina berths',
+  'mobilityPlatform.menu.show.boatParking': 'Boat parking',
+  'mobilityPlatform.menu.show.guestHarbour': 'Guest harbour',
 
   // Content
   'mobilityPlatform.content.address': 'Address',
@@ -681,6 +685,11 @@ const translations = {
   'mobilityPlatform.info.cityBikes.subtitle': 'Read more:',
   'mobilityPlatform.info.cityBikes.link': 'https://www.foli.fi/en/f%C3%B6li-bikes',
   'mobilityPlatform.info.cityBikes.apiInfo': 'Map data comes from the Donkey Republic interface in real time.',
+  'mobilityPlatform.info.guestHarbour': 'Turku Guest harbour is directly next to the city centre, on Läntinen Rantakatu 57. More information about e.g. booking of boat place can be found on',
+  'mobilityPlatform.info.guestHarbour.link': 'www.turunvierasvenesatama.fi',
+  'mobilityPlatform.info.marinas': 'City of Turku´s marina berths are located in Uittamo, Lauttaranta and Aura River. A berth can be reserved and paid either on the Varauspalvelu reservation service (in Finnish only) or at the customer service of the City of Turku (Puolalankatu 5). On the Varauspalvelu reservation service you can browse available berths by harbour and by boat size. There are also winter storage places for boats in Lauttaranta.',
+  'mobilityPlatform.info.marinas.link': 'Reservation service',
+  'mobilityPlatform.info.boatParking': 'You can park your boat for 3 hours on the eastern bank of the Aura River next to Aurasilta (Aura Bridge). Parking is free of charge but you must use a parking disc.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',

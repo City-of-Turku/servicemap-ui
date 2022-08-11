@@ -16,6 +16,8 @@ const intlMock = {
 const mockProps = {
   showChargingStations: true,
   infoText: 'mobilityPlatform.info.chargingStations',
+  linkUrl: '',
+  linkText: '',
 };
 
 // eslint-disable-next-line react/prop-types
@@ -40,6 +42,7 @@ describe('<InfoTextBox />', () => {
     expect(p[0].textContent).toEqual(
       'Turun alueen julkiset autojen sähkölatauspisteet. Latauspistetiedot perustuvat 05/2022 tehtyyn kartoitukseen.',
     );
+    expect(p[1]).toBeFalsy();
   });
 
   it('does contain aria-label attribute', () => {

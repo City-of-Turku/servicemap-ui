@@ -57,7 +57,7 @@ const overrides = theme => ({
   },
   MuiSvgIcon: {
     root: {
-      fontSize: 24,
+      fontSize: '1.5rem',
     },
   },
   PrivateSwitchBase: {

@@ -174,7 +174,7 @@ const styles = theme => ({
   },
   innerCircle: {
     fontFamily: 'Lato',
-    fontSize: 20,
+    fontSize: '1.25rem',
     fontWeight: 'bold',
     color: '#fff',
     background: 'rgba(0, 22, 183)',
@@ -234,7 +234,7 @@ const styles = theme => ({
     maxHeight: '25vh',
     '& .popup-distance': {
       fontWeight: 'normal',
-      fontSize: '14px',
+      fontSize: '0.875rem',
     },
     '& li': {
       display: 'flex',
@@ -286,7 +286,7 @@ const styles = theme => ({
     fontWeight: 'bold',
   },
   addressIcon: {
-    fontSize: 50,
+    fontSize: '3.125rem',
     color: theme.palette.primary.main,
     textShadow: '-1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff',
     outline: 'none',
@@ -299,7 +299,7 @@ const styles = theme => ({
     color: '#fff',
     position: 'absolute',
     zIndex: theme.zIndex.behind,
-    fontSize: 16,
+    fontSize: '1rem',
     top: 16,
     left: 16,
   },
@@ -349,7 +349,7 @@ const styles = theme => ({
     paddingRight: theme.spacing(2),
   },
   eventDate: {
-    fontSize: 12,
+    fontSize: '0.75rem',
   },
 
   // Transit stops
@@ -369,7 +369,7 @@ const styles = theme => ({
     textShadow: '-1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff',
   },
   infoIcon: {
-    fontSize: 18,
+    fontSize: '1.125rem',
     width: 18,
     height: 18,
     lineHeight: '21px',
@@ -398,7 +398,7 @@ const styles = theme => ({
   },
   departureTime: {
     width: '15%',
-    fontSize: 13,
+    fontSize: '0.813rem',
   },
   departureVehicle: {
     width: '38%',
@@ -409,7 +409,7 @@ const styles = theme => ({
     fontWeight: 'bold',
   },
   routeName: {
-    fontSize: 12,
+    fontSize: '0.75rem',
     width: '55%',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
@@ -419,7 +419,7 @@ const styles = theme => ({
     marginLeft: 'auto',
   },
   closeText: {
-    fontSize: 12,
+    fontSize: '0.75rem',
     color: 'rgba(0,0,0,0.6)',
   },
   busIconColor: {

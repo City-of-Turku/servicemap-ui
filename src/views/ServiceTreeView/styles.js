@@ -31,13 +31,13 @@ export default theme => ({
     backgroundColor: '#f5f5f5',
   },
   text: {
-    fontSize: '15px',
-    lineHeight: '18px',
+    fontSize: '0.938rem',
+    lineHeight: '1.125rem',
   },
   iconRight: {
     marginLeft: 'auto',
     marginRight: theme.spacing(2),
-    fontSize: 30,
+    fontSize: '1.875rem',
   },
   checkBox: {
     width: 40,
@@ -79,12 +79,12 @@ export default theme => ({
     marginBottom: theme.spacing(1),
   },
   selectionText: {
-    fontSize: 12,
+    fontSize: '0.75rem',
     paddingRight: theme.spacing(2),
     color: '#fff',
   },
   deleteText: {
-    fontSize: 12,
+    fontSize: '0.75rem',
     paddingRight: theme.spacing(1),
     color: '#fff',
   },

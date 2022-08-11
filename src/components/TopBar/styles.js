@@ -72,7 +72,6 @@ const styles = theme => ({
       textAlign: 'left',
     },
     maxWidth: 350,
-    maxHeight: 58,
     flex: '0 1 auto',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -104,7 +103,8 @@ const styles = theme => ({
     zIndex: theme.zIndex.infront,
   },
   toolbarButtonPressed: {
-    width: 66,
+    display: 'inline-block',
+    width: '4.125rem',
     textTransform: 'none',
     backgroundColor: '#353638',
     color: '#fff',
@@ -115,7 +115,8 @@ const styles = theme => ({
     },
   },
   toolbarButton: {
-    width: 66,
+    display: 'inline-block',
+    width: '4.125rem',
     textTransform: 'none',
     color: '#000',
     marginLeft: 4,

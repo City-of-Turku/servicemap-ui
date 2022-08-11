@@ -50,7 +50,7 @@ const styles = () => ({
     margin: '5%',
     fontFamily: 'Lato',
     fontSize: 18,
-    lineHeight: '18px',
+    lineHeight: '1.125rem',
   },
   row: {
     display: 'flex',

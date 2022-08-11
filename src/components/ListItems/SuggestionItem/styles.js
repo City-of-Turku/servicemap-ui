@@ -14,7 +14,7 @@ export default theme => ({
     marginRight: theme.spacing(2),
     whiteSpace: 'pre-line',
     '& p': {
-      lineHeight: '18px',
+      lineHeight: '1.125rem',
     },
   },
   listIcon: {
@@ -36,9 +36,9 @@ export default theme => ({
     padding: theme.spacing(1),
   },
   subtitle: {
-    fontSize: '10px',
+    fontSize: '0.625rem',
     fontWeight: 'none',
-    lineHeight: '18px',
+    lineHeight: '1.125rem',
   },
   divider: {
     marginLeft: theme.spacing(8),

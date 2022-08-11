@@ -18,14 +18,14 @@ export default theme => ({
   },
   textSmall: {
     ...theme.typography.caption,
-    lineHeight: '18px',
+    lineHeight: '1.125rem',
     color: 'inherit',
   },
   titlePlain: {
     fontWeight: 'bold',
     lineHeight: '24px',
     textAlign: 'left',
-    fontSize: 14,
+    fontSize: '0.875rem',
   },
   textPlain: {
     display: '-webkit-box',

@@ -4,6 +4,6 @@ export default theme => ({
     display: 'inline-block',
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    fontSize: 24,
+    fontSize: '1.5rem',
   },
 });

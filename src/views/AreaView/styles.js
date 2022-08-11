@@ -98,7 +98,7 @@ const styles = theme => ({
     boxShadow: `0 0 0 4px ${theme.palette.focusBorder.main}`,
   },
   addressItem: {
-    fontSize: 24,
+    fontSize: '1.5rem',
   },
   areaTitle: {
     display: 'flex',
@@ -112,10 +112,10 @@ const styles = theme => ({
     paddingRight: theme.spacing(2),
   },
   addressIcon: {
-    fontSize: 24,
+    fontSize: '1.5rem',
   },
   selectedAddress: {
-    fontSize: 18,
+    fontSize: '1.125rem',
   },
   subdistrictContainer: {
     flexDirection: 'column',

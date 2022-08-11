@@ -2,7 +2,7 @@
 // Styles
 export default theme => ({
   arrowIcon: {
-    fontSize: 18,
+    fontSize: '1.125rem',
   },
   arrowFlip: {
     transform: 'scaleX(-1)',
