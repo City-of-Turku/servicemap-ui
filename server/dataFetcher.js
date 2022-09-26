@@ -1,12 +1,18 @@
 import AbortController from 'abort-controller';
+import config from '../config';
 import paths from '../config/paths';
-import { eventFetch, selectedUnitFetch, unitEventsFetch, accessibilitySentencesFetch, reservationsFetch, hearingMapsFetch, idFetch } from '../src/utils/fetch';
 import { changeSelectedEvent } from '../src/redux/actions/event';
+import { events, hearingMaps, reservations } from '../src/redux/actions/fetchDataActions';
 import { changeSelectedUnit } from '../src/redux/actions/selectedUnit';
 import { changeAccessibilitySentences } from '../src/redux/actions/selectedUnitAccessibility';
-import { events, reservations, hearingMaps } from '../src/redux/actions/fetchDataActions';
+import { accessibilitySentencesFetch, eventFetch, hearingMapsFetch, idFetch, reservationsFetch, selectedUnitFetch, unitEventsFetch } from '../src/utils/fetch';
 
 const timeoutTimer = process.env.SSR_FETCH_TIMEOUT;
+const externalTheme = config.themePKG;
+const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
+// ID prefix is tprek in Helsinki and tpr in Turku;
+const idPrefix = isExternalTheme ? 'tpr' : 'tprek';
 
 // Get ID from request Url
 const getParamID = (req, regex) => {
@@ -144,7 +150,7 @@ export const fetchSelectedUnitData = (req, res, next) => {
       store.dispatch(fetchSuccess(data.data));
       response();
     }
-    unitEventsFetch({ location: `tprek:${id}` }, null, eventFetchEnd, fetchOnError, null, null, controller);
+    unitEventsFetch({ location: `${idPrefix}:${id}` }, null, eventFetchEnd, fetchOnError, null, null, controller);
 
     // Fetch accessibility sentences for unit
     const accessibilitySentenceFetchEnd = (data) => {
@@ -170,7 +176,7 @@ export const fetchSelectedUnitData = (req, res, next) => {
       store.dispatch(fetchSuccess(data.results));
       response();
     }
-    reservationsFetch({ unit: `tprek:${id}` }, null, reservationFetchEnd, fetchOnError, null, null, controller)
+    reservationsFetch({ unit: `${idPrefix}:${id}` }, null, reservationFetchEnd, fetchOnError, null, null, controller)
 
     // Fetch hearing maps for unit if unit has keyword "kuuluvuuskartta"
     const hearingMapsFetchEnd = (data) => {

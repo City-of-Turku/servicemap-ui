@@ -1,5 +1,6 @@
-import { events } from './fetchDataActions';
+import config from '../../../config';
 import { unitEventsFetch } from '../../utils/fetch';
+import { events } from './fetchDataActions';
 
 const {
   setNewData, isFetching, fetchSuccess, fetchError, fetchProgressUpdate,
@@ -8,6 +9,12 @@ const {
 export const changeUnitEvents = (events, meta) => async (dispatch) => {
   dispatch(setNewData(events, meta));
 };
+
+const externalTheme = config.themePKG;
+const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
+// ID prefix is tprek in Helsinki and tpr in Turku;
+const idPrefix = isExternalTheme ? 'tpr' : 'tprek';
 
 export const fetchUnitEvents = (unitId, pageSize, all = false) => async (dispatch, getState) => {
   const { selectedUnit } = getState();
@@ -38,5 +45,5 @@ export const fetchUnitEvents = (unitId, pageSize, all = false) => async (dispatc
   } : null;
 
   // Fetch data
-  unitEventsFetch({ location: `tprek:${unitId}`, page_size: pageSize || 5 }, onStart, onSuccess, onError, onNext);
+  unitEventsFetch({ location: `${idPrefix}:${unitId}`, page_size: pageSize || 5 }, onStart, onSuccess, onError, onNext);
 };

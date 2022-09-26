@@ -1,9 +1,16 @@
-import { reservations } from './fetchDataActions';
+import config from '../../../config';
 import { reservationsFetch } from '../../utils/fetch';
+import { reservations } from './fetchDataActions';
 
 const {
   isFetching, fetchSuccess, fetchMoreSuccess, fetchError, fetchProgressUpdate,
 } = reservations;
+
+const externalTheme = config.themePKG;
+const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
+// ID prefix is tprek in Helsinki and tpr in Turku;
+const idPrefix = isExternalTheme ? 'tpr' : 'tprek';
 
 export const fetchReservations = (id, pageSize, all = false) => async (dispatch, getState) => {
   const { selectedUnit } = getState();
@@ -32,7 +39,7 @@ export const fetchReservations = (id, pageSize, all = false) => async (dispatch,
   } : null;
 
   // Fetch data
-  reservationsFetch({ unit: `tprek:${id}`, page_size: pageSize || 5 }, onStart, onSuccess, onError, onNext);
+  reservationsFetch({ unit: `${idPrefix}:${id}`, page_size: pageSize || 5 }, onStart, onSuccess, onError, onNext);
 };
 
 
