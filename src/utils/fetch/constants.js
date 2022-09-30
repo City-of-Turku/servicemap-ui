@@ -76,6 +76,7 @@ export const APIHandlers = {
     options: {
       page_size: 5,
       type: 'event',
+      event_status: 'eventscheduled',
       start: 'today',
       sort: 'end_time',
       include: 'location',
