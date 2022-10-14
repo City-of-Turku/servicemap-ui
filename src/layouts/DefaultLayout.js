@@ -101,6 +101,9 @@ const mobilityMapInitial = {
   parkingSpaces: false,
   bikeServiceStations: false,
   cityBikes: false,
+  marinas: false,
+  boatParking: false,
+  guestHarbour: false,
 };
 
 const DefaultLayout = (props) => {
@@ -115,9 +118,6 @@ const DefaultLayout = (props) => {
   const [showParkingChargeZones, setShowParkingChargeZones] = useState(false);
   const [parkingChargeZones, setParkingChargeZones] = useState([]);
   const [parkingChargeZoneId, setParkingChargeZoneId] = useState(null);
-  const [showMarinas, setShowMarinas] = useState(false);
-  const [showBoatParking, setShowBoatParking] = useState(false);
-  const [showGuestHarbour, setShowGuestHarbour] = useState(false);
   const [showSpeedLimitZones, setShowSpeedLimitZones] = useState(false);
   const [speedLimitSelections, setSpeedLimitSelections] = useState([]);
   const [speedLimitZones, setSpeedLimitZones] = useState([]);
@@ -223,12 +223,6 @@ const DefaultLayout = (props) => {
                       setParkingChargeZones,
                       parkingChargeZoneId,
                       setParkingChargeZoneId,
-                      showMarinas,
-                      setShowMarinas,
-                      showBoatParking,
-                      setShowBoatParking,
-                      showGuestHarbour,
-                      setShowGuestHarbour,
                       showSpeedLimitZones,
                       setShowSpeedLimitZones,
                       speedLimitSelections,
@@ -270,9 +264,6 @@ const DefaultLayout = (props) => {
                     parkingChargeZones,
                     setParkingChargeZones,
                     parkingChargeZoneId,
-                    showMarinas,
-                    showBoatParking,
-                    showGuestHarbour,
                     showSpeedLimitZones,
                     speedLimitSelections,
                     speedLimitZones,

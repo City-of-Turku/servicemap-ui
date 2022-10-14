@@ -11,7 +11,7 @@ import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobi
 const BoatParking = () => {
   const [boatParkingData, setBoatParkingData] = useState([]);
 
-  const { openMobilityPlatform, showBoatParking } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const mapType = useSelector(state => state.settings.mapType);
 
@@ -31,18 +31,18 @@ const BoatParking = () => {
   const map = useMap();
 
   useEffect(() => {
-    if (showBoatParking && boatParkingData && boatParkingData.length > 0) {
+    if (mobilityMap.boatParking && boatParkingData && boatParkingData.length > 0) {
       const bounds = [];
       boatParkingData.forEach((item) => {
         bounds.push(item.geometry_coords);
       });
       map.fitBounds(bounds);
     }
-  }, [showBoatParking, boatParkingData, map]);
+  }, [mobilityMap.boatParking, boatParkingData, map]);
 
   return (
     <>
-      {showBoatParking
+      {mobilityMap.boatParking
         && boatParkingData
         && boatParkingData.length > 0
         && boatParkingData.map(item => <Polygon key={item.id} pathOptions={pathOptions} positions={item.geometry_coords} />)}

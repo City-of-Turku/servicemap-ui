@@ -12,7 +12,7 @@ import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobi
 const Marinas = () => {
   const [marinasData, setMarinasData] = useState([]);
 
-  const { openMobilityPlatform, showMarinas } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const mapType = useSelector(state => state.settings.mapType);
 
@@ -32,18 +32,18 @@ const Marinas = () => {
   const map = useMap();
 
   useEffect(() => {
-    if (showMarinas && marinasData && marinasData.length > 0) {
+    if (mobilityMap.marinas && marinasData && marinasData.length > 0) {
       const bounds = [];
       marinasData.forEach((item) => {
         bounds.push(item.geometry_coords);
       });
       map.fitBounds(bounds);
     }
-  }, [showMarinas, marinasData, map]);
+  }, [mobilityMap.marinas, marinasData, map]);
 
   return (
     <>
-      {showMarinas
+      {mobilityMap.marinas
         && marinasData
         && marinasData.length > 0
         && marinasData.map(item => (

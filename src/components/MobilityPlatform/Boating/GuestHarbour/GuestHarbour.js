@@ -11,7 +11,7 @@ import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobi
 const GuestHarbour = () => {
   const [guestHarbourData, setGuestHarbourData] = useState([]);
 
-  const { openMobilityPlatform, showGuestHarbour } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const mapType = useSelector(state => state.settings.mapType);
 
@@ -31,18 +31,18 @@ const GuestHarbour = () => {
   const map = useMap();
 
   useEffect(() => {
-    if (showGuestHarbour && guestHarbourData && guestHarbourData.length > 0) {
+    if (mobilityMap.guestHarbour && guestHarbourData && guestHarbourData.length > 0) {
       const bounds = [];
       guestHarbourData.forEach((item) => {
         bounds.push(item.geometry_coords);
       });
       map.fitBounds(bounds);
     }
-  }, [showGuestHarbour, guestHarbourData, map]);
+  }, [mobilityMap.guestHarbour, guestHarbourData, map]);
 
   return (
     <>
-      {showGuestHarbour
+      {mobilityMap.guestHarbour
         && guestHarbourData
         && guestHarbourData.length > 0
         && guestHarbourData.map(item => <Polygon key={item.id} pathOptions={pathOptions} positions={item.geometry_coords} />)}
