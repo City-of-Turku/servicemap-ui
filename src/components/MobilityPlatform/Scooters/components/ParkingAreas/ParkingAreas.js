@@ -8,7 +8,7 @@ import TextContent from '../../../TextContent';
 const ParkingAreas = () => {
   const [parkingAreas, setParkingAreas] = useState([]);
 
-  const { openMobilityPlatform, showScooterParkingAreas } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const map = useMap();
 
@@ -28,18 +28,18 @@ const ParkingAreas = () => {
 
 
   useEffect(() => {
-    if (showScooterParkingAreas && parkingAreas && parkingAreas.length > 0) {
+    if (mobilityMap.scooterParking && parkingAreas && parkingAreas.length > 0) {
       const bounds = [];
       parkingAreas.forEach((item) => {
         bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
       });
       map.fitBounds(bounds);
     }
-  }, [showScooterParkingAreas, parkingAreas, map]);
+  }, [mobilityMap.scooterParking, parkingAreas, map]);
 
   return (
     <>
-      {showScooterParkingAreas ? (
+      {mobilityMap.scooterParking ? (
         <>
           {parkingAreas && parkingAreas.length > 0
               && parkingAreas.map(item => (

@@ -63,12 +63,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
     setSpeedLimitSelections,
     speedLimitZones,
     setSpeedLimitZones,
-    showScooterNoParking,
-    setShowScooterNoParking,
-    showScooterParkingAreas,
-    setShowScooterParkingAreas,
-    showScooterSpeedLimitAreas,
-    setShowScooterSpeedLimitAreas,
     showScootersRyde,
     setShowScootersRyde,
     mobilityMap,
@@ -191,10 +185,10 @@ const MobilitySettingsView = ({ classes, intl }) => {
   }, [mobilityMap]);
 
   useEffect(() => {
-    checkVisibilityValues(showScooterNoParking, setOpenScooterSettings);
-    checkVisibilityValues(showScooterParkingAreas, setOpenScooterSettings);
-    checkVisibilityValues(showScooterSpeedLimitAreas, setOpenScooterSettings);
-  }, [showScooterNoParking, showScooterParkingAreas, showScooterSpeedLimitAreas]);
+    checkVisibilityValues(mobilityMap.scooterNoParking, setOpenScooterSettings);
+    checkVisibilityValues(mobilityMap.scooterParking, setOpenScooterSettings);
+    checkVisibilityValues(mobilityMap.scooterSpeedLimit, setOpenScooterSettings);
+  }, [mobilityMap]);
 
   useEffect(() => {
     checkVisibilityValues(showScootersRyde, setOpenScooterSettings);
@@ -361,16 +355,22 @@ const MobilitySettingsView = ({ classes, intl }) => {
     } else setMobilityMap(mobilityMap => ({ ...mobilityMap, disabledParking: false }));
   };
 
-  const noParkingToggle = () => {
-    setShowScooterNoParking(current => !current);
+  const scooterNoParkingToggle = () => {
+    if (!mobilityMap.scooterNoParking) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, scooterNoParking: true }));
+    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, scooterNoParking: false }));
   };
 
-  const parkingAreasToggle = () => {
-    setShowScooterParkingAreas(current => !current);
+  const scooterParkingAreasToggle = () => {
+    if (!mobilityMap.scooterParking) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, scooterParking: true }));
+    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, scooterParking: false }));
   };
 
   const scooterSpeedLimitAreasToggle = () => {
-    setShowScooterSpeedLimitAreas(current => !current);
+    if (!mobilityMap.scooterSpeedLimit) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, scooterSpeedLimit: true }));
+    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, scooterSpeedLimit: false }));
   };
 
   const scooterListToggle = () => {
@@ -633,19 +633,19 @@ const MobilitySettingsView = ({ classes, intl }) => {
     {
       type: 'noParking',
       msgId: 'mobilityPlatform.menu.show.scooterNoParking',
-      checkedValue: showScooterNoParking,
-      onChangeValue: noParkingToggle,
+      checkedValue: mobilityMap.scooterNoParking,
+      onChangeValue: scooterNoParkingToggle,
     },
     {
       type: 'parkingAreas',
       msgId: 'mobilityPlatform.menu.show.scooterParkingAreas',
-      checkedValue: showScooterParkingAreas,
-      onChangeValue: parkingAreasToggle,
+      checkedValue: mobilityMap.scooterParking,
+      onChangeValue: scooterParkingAreasToggle,
     },
     {
       type: 'speedLimitAreas',
       msgId: 'mobilityPlatform.menu.show.scooterSpeedLimitAreas',
-      checkedValue: showScooterSpeedLimitAreas,
+      checkedValue: mobilityMap.scooterSpeedLimit,
       onChangeValue: scooterSpeedLimitAreasToggle,
     },
   ];
@@ -957,9 +957,9 @@ const MobilitySettingsView = ({ classes, intl }) => {
         />
       ) : null}
       {openScooterProviderList ? <InfoTextBox infoText="mobilityPlatform.info.scooters.general" /> : null}
-      {showScooterNoParking ? <InfoTextBox infoText="mobilityPlatform.info.scooters.noParking" /> : null}
-      {showScooterParkingAreas ? <InfoTextBox infoText="mobilityPlatform.info.scooters.parkingAreas" /> : null}
-      {showScooterSpeedLimitAreas ? <InfoTextBox infoText="mobilityPlatform.info.scooters.speedLimitAreas" /> : null}
+      {mobilityMap.scooterNoParking ? <InfoTextBox infoText="mobilityPlatform.info.scooters.noParking" /> : null}
+      {mobilityMap.scooterParking ? <InfoTextBox infoText="mobilityPlatform.info.scooters.parkingAreas" /> : null}
+      {mobilityMap.scooterSpeedLimit ? <InfoTextBox infoText="mobilityPlatform.info.scooters.speedLimitAreas" /> : null}
     </div>
   );
 };

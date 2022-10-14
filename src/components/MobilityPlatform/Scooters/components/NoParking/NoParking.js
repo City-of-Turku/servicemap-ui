@@ -12,7 +12,7 @@ import TextContent from '../../../TextContent';
 const NoParking = () => {
   const [noParkingData, setNoParkingData] = useState([]);
 
-  const { openMobilityPlatform, showScooterNoParking } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const mapType = useSelector(state => state.settings.mapType);
 
@@ -39,18 +39,18 @@ const NoParking = () => {
   const map = useMap();
 
   useEffect(() => {
-    if (showScooterNoParking && noParkingData && noParkingData.length > 0) {
+    if (mobilityMap.scooterNoParking && noParkingData && noParkingData.length > 0) {
       const bounds = [];
       noParkingData.forEach((item) => {
         bounds.push(swapCoords(item.geometry_coords));
       });
       map.fitBounds(bounds);
     }
-  }, [showScooterNoParking, noParkingData, map]);
+  }, [mobilityMap.scooterNoParking, noParkingData, map]);
 
   return (
     <>
-      {showScooterNoParking
+      {mobilityMap.scooterNoParking
         && noParkingData
         && noParkingData.length > 0
         && noParkingData.map(item => (

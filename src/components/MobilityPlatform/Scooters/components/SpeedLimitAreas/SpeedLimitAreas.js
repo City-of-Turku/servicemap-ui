@@ -11,7 +11,7 @@ import TextContent from '../../../TextContent';
 const SpeedLimitAreas = () => {
   const [speedLimitAreas, setSpeedLimitAreas] = useState([]);
 
-  const { openMobilityPlatform, showScooterSpeedLimitAreas } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const { Polygon, Popup } = global.rL;
 
@@ -26,18 +26,18 @@ const SpeedLimitAreas = () => {
   const map = useMap();
 
   useEffect(() => {
-    if (showScooterSpeedLimitAreas && speedLimitAreas && speedLimitAreas.length > 0) {
+    if (mobilityMap.scooterSpeedLimit && speedLimitAreas && speedLimitAreas.length > 0) {
       const bounds = [];
       speedLimitAreas.forEach((item) => {
         bounds.push(item.geometry_coords);
       });
       map.fitBounds(bounds);
     }
-  }, [showScooterSpeedLimitAreas, speedLimitAreas, map]);
+  }, [mobilityMap.scooterSpeedLimit, speedLimitAreas, map]);
 
   return (
     <>
-      {showScooterSpeedLimitAreas ? (
+      {mobilityMap.scooterSpeedLimit ? (
         <>
           {speedLimitAreas
             && speedLimitAreas.length > 0
