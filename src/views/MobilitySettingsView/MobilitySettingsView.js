@@ -63,8 +63,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
     setSpeedLimitSelections,
     speedLimitZones,
     setSpeedLimitZones,
-    showPublicToilets,
-    setShowPublicToilets,
     showScooterNoParking,
     setShowScooterNoParking,
     showScooterParkingAreas,
@@ -73,8 +71,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
     setShowScooterSpeedLimitAreas,
     showScootersRyde,
     setShowScootersRyde,
-    showDisabledParking,
-    setShowDisabledParking,
     mobilityMap,
     setMobilityMap,
   } = useContext(MobilityPlatformContext);
@@ -144,8 +140,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
   };
 
   useEffect(() => {
-    checkVisibilityValues(showPublicToilets, setOpenWalkSettings);
-  }, [showPublicToilets]);
+    checkVisibilityValues(mobilityMap.restRooms, setOpenWalkSettings);
+  }, [mobilityMap]);
 
   useEffect(() => {
     checkVisibilityValues(mobilityMap.bicycleStands, setOpenBicycleSettings);
@@ -180,7 +176,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
     checkVisibilityValues(mobilityMap.parkingSpaces, setOpenCarSettings);
     checkVisibilityValues(mobilityMap.chargingStations, setOpenCarSettings);
     checkVisibilityValues(showSpeedLimitZones, setOpenCarSettings);
-  }, [mobilityMap.rentalCars, mobilityMap.gasFillingStations, mobilityMap.parkingSpaces, mobilityMap.chargingStations, showSpeedLimitZones]);
+    checkVisibilityValues(mobilityMap.disabledParking, setOpenCarSettings);
+  }, [mobilityMap, showSpeedLimitZones]);
 
   useEffect(() => {
     checkVisibilityValues(showParkingChargeZones, setOpenCarSettings);
@@ -352,8 +349,16 @@ const MobilitySettingsView = ({ classes, intl }) => {
     } else setMobilityMap(mobilityMap => ({ ...mobilityMap, guestHarbour: false }));
   };
 
-  const publicToiletsToggle = () => {
-    setShowPublicToilets(current => !current);
+  const publicRestroomsToggle = () => {
+    if (!mobilityMap.restRooms) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, restRooms: true }));
+    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, restRooms: false }));
+  };
+
+  const disabledParkingToggle = () => {
+    if (!mobilityMap.disabledParking) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, disabledParking: true }));
+    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, disabledParking: false }));
   };
 
   const noParkingToggle = () => {
@@ -377,10 +382,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
 
   const scootersRydeToggle = () => {
     setShowScootersRyde(current => !current);
-  };
-
-  const disabledParkingToggle = () => {
-    setShowDisabledParking(current => !current);
   };
 
   const cultureRouteListToggle = () => {
@@ -516,10 +517,10 @@ const MobilitySettingsView = ({ classes, intl }) => {
       onChangeValue: cultureRouteListToggle,
     },
     {
-      type: 'publicToilets',
-      msgId: 'mobilityPlatform.menu.show.publicToilets',
-      checkedValue: showPublicToilets,
-      onChangeValue: publicToiletsToggle,
+      type: 'publicRestrooms',
+      msgId: 'mobilityPlatform.menu.show.publicRestrooms',
+      checkedValue: mobilityMap.restRooms,
+      onChangeValue: publicRestroomsToggle,
     },
   ];
 
@@ -584,7 +585,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
     {
       type: 'disabledParking',
       msgId: 'mobilityPlatform.menu.show.disabledParking',
-      checkedValue: showDisabledParking,
+      checkedValue: mobilityMap.disabledParking,
       onChangeValue: disabledParkingToggle,
     },
     {
@@ -930,7 +931,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
           </FormGroup>
         </FormControl>
       </div>
-      {showPublicToilets ? <InfoTextBox infoText="mobilityPlatform.info.publicToilets" /> : null}
+      {mobilityMap.restRooms ? <InfoTextBox infoText="mobilityPlatform.info.publicRestrooms" /> : null}
       {mobilityMap.bicycleStands ? <InfoTextBox infoText="mobilityPlatform.info.bicycleStands" /> : null}
       {mobilityMap.ecoCounter ? <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" /> : null}
       {mobilityMap.cityBikes ? <CityBikeInfo bikeInfo={bikeInfo} /> : null}
@@ -938,7 +939,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
       {mobilityMap.chargingStations ? <InfoTextBox infoText="mobilityPlatform.info.chargingStations" /> : null}
       {mobilityMap.gasFillingStations ? <InfoTextBox infoText="mobilityPlatform.info.gasFillingStations" /> : null}
       {mobilityMap.parkingSpaces ? <InfoTextBox infoText="mobilityPlatform.info.parkingSpaces" /> : null}
-      {showDisabledParking ? <InfoTextBox infoText="mobilityPlatform.info.disabledParking" /> : null}
+      {mobilityMap.disabledParking ? <InfoTextBox infoText="mobilityPlatform.info.disabledParking" /> : null}
       {openParkingChargeZoneList ? <ExtendedInfo translations={chargeZoneTranslations} /> : null}
       {mobilityMap.marinas ? (
         <InfoTextBox

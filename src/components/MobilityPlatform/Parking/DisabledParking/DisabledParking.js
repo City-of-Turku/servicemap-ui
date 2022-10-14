@@ -12,7 +12,7 @@ import DisabledParkingContent from './components/DisabledParkingContent';
 const DisabledParking = () => {
   const [disabledParkingData, setDisabledParkingData] = useState([]);
 
-  const { openMobilityPlatform, showDisabledParking } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
@@ -31,20 +31,20 @@ const DisabledParking = () => {
   const map = useMap();
 
   useEffect(() => {
-    if (showDisabledParking && disabledParkingData && disabledParkingData.length > 0) {
+    if (mobilityMap.disabledParking && disabledParkingData && disabledParkingData.length > 0) {
       const bounds = [];
       disabledParkingData.forEach((item) => {
         bounds.push(item.geometry_coords);
       });
       map.fitBounds(bounds);
     }
-  }, [showDisabledParking, disabledParkingData, map]);
+  }, [mobilityMap.disabledParking, disabledParkingData, map]);
 
   const getSingleCoordinates = data => data[0][0];
 
   return (
     <>
-      {showDisabledParking
+      {mobilityMap.disabledParking
         && disabledParkingData
         && disabledParkingData.length > 0
         && disabledParkingData.map(item => (

@@ -104,6 +104,8 @@ const mobilityMapInitial = {
   marinas: false,
   boatParking: false,
   guestHarbour: false,
+  restRooms: false,
+  disabledParking: false,
 };
 
 const DefaultLayout = (props) => {
@@ -121,12 +123,10 @@ const DefaultLayout = (props) => {
   const [showSpeedLimitZones, setShowSpeedLimitZones] = useState(false);
   const [speedLimitSelections, setSpeedLimitSelections] = useState([]);
   const [speedLimitZones, setSpeedLimitZones] = useState([]);
-  const [showPublicToilets, setShowPublicToilets] = useState(false);
   const [showScooterNoParking, setShowScooterNoParking] = useState(false);
   const [showScooterParkingAreas, setShowScooterParkingAreas] = useState(false);
   const [showScooterSpeedLimitAreas, setShowScooterSpeedLimitAreas] = useState(false);
   const [showScootersRyde, setShowScootersRyde] = useState(false);
-  const [showDisabledParking, setShowDisabledParking] = useState(false);
   const [mobilityMap, setMobilityMap] = useState(mobilityMapInitial);
 
   const {
@@ -229,8 +229,6 @@ const DefaultLayout = (props) => {
                       setSpeedLimitSelections,
                       speedLimitZones,
                       setSpeedLimitZones,
-                      showPublicToilets,
-                      setShowPublicToilets,
                       showScooterNoParking,
                       setShowScooterNoParking,
                       showScooterParkingAreas,
@@ -239,8 +237,6 @@ const DefaultLayout = (props) => {
                       setShowScooterSpeedLimitAreas,
                       showScootersRyde,
                       setShowScootersRyde,
-                      showDisabledParking,
-                      setShowDisabledParking,
                       mobilityMap,
                       setMobilityMap,
                     }}
@@ -267,12 +263,10 @@ const DefaultLayout = (props) => {
                     showSpeedLimitZones,
                     speedLimitSelections,
                     speedLimitZones,
-                    showPublicToilets,
                     showScooterNoParking,
                     showScooterParkingAreas,
                     showScooterSpeedLimitAreas,
                     showScootersRyde,
-                    showDisabledParking,
                     mobilityMap,
                   }}
                 >

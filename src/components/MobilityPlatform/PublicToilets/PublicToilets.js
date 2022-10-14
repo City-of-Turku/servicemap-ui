@@ -8,7 +8,7 @@ import PublicToiletsContent from './components/PublicToiletsContent';
 const PublicToilets = () => {
   const [publicToiletsData, setPublicToiletsData] = useState([]);
 
-  const { openMobilityPlatform, showPublicToilets } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
@@ -28,19 +28,19 @@ const PublicToilets = () => {
   const map = useMap();
 
   useEffect(() => {
-    if (showPublicToilets && publicToiletsData && publicToiletsData.length > 0) {
+    if (mobilityMap.restRooms && publicToiletsData && publicToiletsData.length > 0) {
       const bounds = [];
       publicToiletsData.forEach((item) => {
         bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
       });
       map.fitBounds(bounds);
     }
-  }, [showPublicToilets, publicToiletsData, map]);
+  }, [mobilityMap.restRooms, publicToiletsData, map]);
 
   return (
     <>
-      {showPublicToilets ? (
-        <div>
+      {mobilityMap.restRooms ? (
+        <>
           {publicToiletsData && publicToiletsData.length > 0
             && publicToiletsData.map(item => (
               <Marker
@@ -53,7 +53,7 @@ const PublicToilets = () => {
                 </Popup>
               </Marker>
             ))}
-        </div>
+        </>
       ) : null}
     </>
   );
