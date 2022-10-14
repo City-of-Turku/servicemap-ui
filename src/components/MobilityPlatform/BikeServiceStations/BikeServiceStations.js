@@ -8,7 +8,7 @@ import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatfo
 const BikeServiceStations = () => {
   const [bikeServiceStations, setBikeServiceStations] = useState([]);
 
-  const { openMobilityPlatform, showBikeServiceStations } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const map = useMap();
 
@@ -27,19 +27,19 @@ const BikeServiceStations = () => {
   }, [openMobilityPlatform, setBikeServiceStations]);
 
   useEffect(() => {
-    if (showBikeServiceStations && bikeServiceStations && bikeServiceStations.length > 0) {
+    if (mobilityMap.bikeServiceStations && bikeServiceStations && bikeServiceStations.length > 0) {
       const bounds = [];
       bikeServiceStations.forEach((item) => {
         bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
       });
       map.fitBounds(bounds);
     }
-  }, [showBikeServiceStations, bikeServiceStations]);
+  }, [mobilityMap.bikeServiceStations, bikeServiceStations]);
 
   return (
     <>
-      {showBikeServiceStations ? (
-        <div>
+      {mobilityMap.bikeServiceStations ? (
+        <>
           {bikeServiceStations && bikeServiceStations.length > 0
             && bikeServiceStations.map(item => (
               <Marker
@@ -56,7 +56,7 @@ const BikeServiceStations = () => {
                 </div>
               </Marker>
             ))}
-        </div>
+        </>
       ) : null}
     </>
   );

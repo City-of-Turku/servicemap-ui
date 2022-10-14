@@ -9,7 +9,7 @@ import { fetchEcoCounterStations } from '../EcoCounterRequests/ecoCounterRequest
 const EcoCounterMarkers = ({ classes }) => {
   const [ecoCounterStations, setEcoCounterStations] = useState([]);
 
-  const { openMobilityPlatform, showEcoCounter } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
@@ -28,36 +28,34 @@ const EcoCounterMarkers = ({ classes }) => {
   const map = useMap();
 
   useEffect(() => {
-    if (showEcoCounter && ecoCounterStations && ecoCounterStations.length > 0) {
+    if (mobilityMap.ecoCounter && ecoCounterStations && ecoCounterStations.length > 0) {
       const bounds = [];
       ecoCounterStations.forEach((item) => {
         bounds.push([item.lat, item.lon]);
       });
       map.fitBounds(bounds);
     }
-  }, [showEcoCounter]);
+  }, [mobilityMap.ecoCounter]);
 
   return (
     <>
-      {showEcoCounter ? (
-        <div>
-          <div>
-            {ecoCounterStations && ecoCounterStations.length > 0 && ecoCounterStations.map(item => (
-              <Marker key={item.id} icon={ecoCounterIcon} position={[item.lat, item.lon]}>
-                <div className={classes.popupWrapper}>
-                  <Popup className="ecocounter-popup">
-                    <div className={classes.popupInner}>
-                      <EcoCounterContent
-                        stationId={item.id}
-                        stationName={item.name}
-                      />
-                    </div>
-                  </Popup>
-                </div>
-              </Marker>
-            ))}
-          </div>
-        </div>
+      {mobilityMap.ecoCounter ? (
+        <>
+          {ecoCounterStations && ecoCounterStations.length > 0 && ecoCounterStations.map(item => (
+            <Marker key={item.id} icon={ecoCounterIcon} position={[item.lat, item.lon]}>
+              <div className={classes.popupWrapper}>
+                <Popup className="ecocounter-popup">
+                  <div className={classes.popupInner}>
+                    <EcoCounterContent
+                      stationId={item.id}
+                      stationName={item.name}
+                    />
+                  </div>
+                </Popup>
+              </div>
+            </Marker>
+          ))}
+        </>
       ) : null}
     </>
   );

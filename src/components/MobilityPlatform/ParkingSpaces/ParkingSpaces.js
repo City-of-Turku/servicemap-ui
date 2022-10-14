@@ -9,7 +9,7 @@ const ParkingSpaces = () => {
   const [parkingSpaces, setParkingSpaces] = useState({});
   const [parkingStatistics, setParkingStatistics] = useState([]);
 
-  const { openMobilityPlatform, showParkingSpaces } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const mapType = useSelector(state => state.settings.mapType);
 
@@ -44,14 +44,14 @@ const ParkingSpaces = () => {
   const map = useMap();
 
   useEffect(() => {
-    if (showParkingSpaces && parkingSpaces && Object.entries(parkingSpaces).length > 0) {
+    if (mobilityMap.parkingSpaces && parkingSpaces && Object.entries(parkingSpaces).length > 0) {
       const bounds = [];
       parkingSpaces.features.forEach((item) => {
         bounds.push(swapCoords(item.geometry.coordinates));
       });
       map.fitBounds(bounds);
     }
-  }, [showParkingSpaces]);
+  }, [mobilityMap.parkingSpaces]);
 
   const renderColor = (itemId, capacity) => {
     const stats = parkingStatistics.results.find(item => item.id === itemId);
@@ -64,10 +64,9 @@ const ParkingSpaces = () => {
 
   return (
     <>
-      {showParkingSpaces ? (
+      {mobilityMap.parkingSpaces ? (
         <>
-          <div>
-            {parkingSpaces
+          {parkingSpaces
               && Object.entries(parkingSpaces).length > 0
               && parkingSpaces.features.map(item => (
                 <Polygon
@@ -80,7 +79,6 @@ const ParkingSpaces = () => {
                   </Popup>
                 </Polygon>
               ))}
-          </div>
         </>
       ) : null}
     </>

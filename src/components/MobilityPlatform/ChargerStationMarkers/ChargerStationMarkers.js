@@ -9,7 +9,7 @@ import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatfo
 const ChargerStationMarkers = ({ classes }) => {
   const [chargerStations, setChargerStations] = useState([]);
 
-  const { openMobilityPlatform, showChargingStations } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const map = useMap();
 
@@ -28,19 +28,19 @@ const ChargerStationMarkers = ({ classes }) => {
   }, [openMobilityPlatform, setChargerStations]);
 
   useEffect(() => {
-    if (showChargingStations && chargerStations && chargerStations.length > 0) {
+    if (mobilityMap.chargingStations && chargerStations && chargerStations.length > 0) {
       const bounds = [];
       chargerStations.forEach((item) => {
         bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
       });
       map.fitBounds(bounds);
     }
-  }, [showChargingStations, chargerStations]);
+  }, [mobilityMap.chargingStations, chargerStations]);
 
   return (
     <>
-      {showChargingStations ? (
-        <div>
+      {mobilityMap.chargingStations ? (
+        <>
           {chargerStations && chargerStations.length > 0
             && chargerStations.map(item => (
               <Marker
@@ -59,7 +59,7 @@ const ChargerStationMarkers = ({ classes }) => {
                 </div>
               </Marker>
             ))}
-        </div>
+        </>
       ) : null}
     </>
   );

@@ -9,7 +9,7 @@ import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatfo
 const GasFillingStationMarkers = ({ classes }) => {
   const [gasFillingStations, setGasFillingStations] = useState([]);
 
-  const { openMobilityPlatform, showGasFillingStations } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
@@ -28,18 +28,18 @@ const GasFillingStationMarkers = ({ classes }) => {
   const map = useMap();
 
   useEffect(() => {
-    if (showGasFillingStations && gasFillingStations && gasFillingStations.length > 0) {
+    if (mobilityMap.gasFillingStations && gasFillingStations && gasFillingStations.length > 0) {
       const bounds = [];
       gasFillingStations.forEach((item) => {
         bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
       });
       map.fitBounds(bounds);
     }
-  }, [showGasFillingStations]);
+  }, [mobilityMap.gasFillingStations]);
 
   return (
     <>
-      {showGasFillingStations ? (
+      {mobilityMap.gasFillingStations ? (
         <div>
           {gasFillingStations && gasFillingStations.length > 0
             && gasFillingStations.map(item => (

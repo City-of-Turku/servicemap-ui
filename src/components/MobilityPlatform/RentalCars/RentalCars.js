@@ -11,7 +11,7 @@ const RentalCars = ({ classes }) => {
   const [rentalCarsData, setRentalCarsData] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, showRentalCars } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
@@ -36,19 +36,19 @@ const RentalCars = ({ classes }) => {
   const map = useMap();
 
   useEffect(() => {
-    if (showRentalCars && rentalCarsData && rentalCarsData.length > 0) {
+    if (mobilityMap.rentalCars && rentalCarsData && rentalCarsData.length > 0) {
       const bounds = [];
       rentalCarsData.forEach((item) => {
         bounds.push([item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]);
       });
       map.fitBounds(bounds);
     }
-  }, [showRentalCars]);
+  }, [mobilityMap.rentalCars]);
 
   return (
     <>
-      {showRentalCars ? (
-        <div>
+      {mobilityMap.rentalCars ? (
+        <>
           {rentalCarsData && rentalCarsData.length > 0
             && rentalCarsData.filter(item => item.availabilityData.available).map(item => (
               <Marker
@@ -67,7 +67,7 @@ const RentalCars = ({ classes }) => {
                 </div>
               </Marker>
             ))}
-        </div>
+        </>
       ) : null}
     </>
   );

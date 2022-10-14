@@ -91,26 +91,30 @@ const createContentStyles = (
 // (showAlert did not use updated showPrintView value)
 const valueStore = {};
 
+// Mobility map visibility values
+const mobilityMapInitial = {
+  ecoCounter: false,
+  bicycleStands: false,
+  chargingStations: false,
+  gasFillingStations: false,
+  rentalCars: false,
+  parkingSpaces: false,
+  bikeServiceStations: false,
+  cityBikes: false,
+};
+
 const DefaultLayout = (props) => {
   const [showPrintView, togglePrintView] = useState(false);
   const [sidebarHidden, toggleSidebarHidden] = useState(false);
   const [error, setError] = useState(false);
   const [openMobilityPlatform, setOpenMobilityPlatform] = useState(false);
-  const [showEcoCounter, setShowEcoCounter] = useState(false);
-  const [showBicycleStands, setShowBicycleStands] = useState(false);
   const [showCultureRoutes, setShowCultureRoutes] = useState(false);
   const [cultureRouteId, setCultureRouteId] = useState();
   const [showBicycleRoutes, setShowBicycleRoutes] = useState(false);
   const [bicycleRouteName, setBicycleRouteName] = useState(null);
-  const [showRentalCars, setShowRentalCars] = useState(false);
-  const [showGasFillingStations, setShowGasFillingStations] = useState(false);
-  const [showChargingStations, setShowChargingStations] = useState(false);
-  const [showParkingSpaces, setShowParkingSpaces] = useState(false);
   const [showParkingChargeZones, setShowParkingChargeZones] = useState(false);
   const [parkingChargeZones, setParkingChargeZones] = useState([]);
   const [parkingChargeZoneId, setParkingChargeZoneId] = useState(null);
-  const [showBikeServiceStations, setShowBikeServiceStations] = useState(false);
-  const [showCityBikes, setShowCityBikes] = useState(false);
   const [showMarinas, setShowMarinas] = useState(false);
   const [showBoatParking, setShowBoatParking] = useState(false);
   const [showGuestHarbour, setShowGuestHarbour] = useState(false);
@@ -123,6 +127,7 @@ const DefaultLayout = (props) => {
   const [showScooterSpeedLimitAreas, setShowScooterSpeedLimitAreas] = useState(false);
   const [showScootersRyde, setShowScootersRyde] = useState(false);
   const [showDisabledParking, setShowDisabledParking] = useState(false);
+  const [mobilityMap, setMobilityMap] = useState(mobilityMapInitial);
 
   const {
     currentPage, fetchErrors, fetchNews, intl, location, settingsToggled,
@@ -204,10 +209,6 @@ const DefaultLayout = (props) => {
                     value={{
                       openMobilityPlatform,
                       setOpenMobilityPlatform,
-                      showEcoCounter,
-                      setShowEcoCounter,
-                      showBicycleStands,
-                      setShowBicycleStands,
                       showCultureRoutes,
                       setShowCultureRoutes,
                       cultureRouteId,
@@ -216,24 +217,12 @@ const DefaultLayout = (props) => {
                       setShowBicycleRoutes,
                       bicycleRouteName,
                       setBicycleRouteName,
-                      showRentalCars,
-                      setShowRentalCars,
-                      showGasFillingStations,
-                      setShowGasFillingStations,
-                      showChargingStations,
-                      setShowChargingStations,
-                      showParkingSpaces,
-                      setShowParkingSpaces,
                       showParkingChargeZones,
                       setShowParkingChargeZones,
                       parkingChargeZones,
                       setParkingChargeZones,
                       parkingChargeZoneId,
                       setParkingChargeZoneId,
-                      showBikeServiceStations,
-                      setShowBikeServiceStations,
-                      showCityBikes,
-                      setShowCityBikes,
                       showMarinas,
                       setShowMarinas,
                       showBoatParking,
@@ -258,6 +247,8 @@ const DefaultLayout = (props) => {
                       setShowScootersRyde,
                       showDisabledParking,
                       setShowDisabledParking,
+                      mobilityMap,
+                      setMobilityMap,
                     }}
                   >
                     <ViewRouter />
@@ -271,22 +262,14 @@ const DefaultLayout = (props) => {
                 <MobilityPlatformProvider
                   value={{
                     openMobilityPlatform,
-                    showEcoCounter,
-                    showBicycleStands,
                     showCultureRoutes,
                     cultureRouteId,
                     showBicycleRoutes,
                     bicycleRouteName,
-                    showRentalCars,
-                    showGasFillingStations,
-                    showChargingStations,
-                    showParkingSpaces,
                     showParkingChargeZones,
                     parkingChargeZones,
                     setParkingChargeZones,
                     parkingChargeZoneId,
-                    showBikeServiceStations,
-                    showCityBikes,
                     showMarinas,
                     showBoatParking,
                     showGuestHarbour,
@@ -299,6 +282,7 @@ const DefaultLayout = (props) => {
                     showScooterSpeedLimitAreas,
                     showScootersRyde,
                     showDisabledParking,
+                    mobilityMap,
                   }}
                 >
                   <MapView

@@ -11,7 +11,7 @@ const BicycleStands = ({ classes }) => {
   const [bicycleStands, setBicycleStands] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, showBicycleStands } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const map = useMap();
 
@@ -37,19 +37,19 @@ const BicycleStands = ({ classes }) => {
   });
 
   useEffect(() => {
-    if (showBicycleStands && bicycleStands && bicycleStands.length > 0) {
+    if (mobilityMap.bicycleStands && bicycleStands && bicycleStands.length > 0) {
       const bounds = [];
       bicycleStands.forEach((item) => {
         bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
       });
       map.fitBounds(bounds);
     }
-  }, [showBicycleStands, bicycleStands]);
+  }, [mobilityMap.bicycleStands, bicycleStands]);
 
   return (
     <>
-      {showBicycleStands ? (
-        <div>
+      {mobilityMap.bicycleStands ? (
+        <>
           {bicycleStands && bicycleStands.length > 0
               && bicycleStands.map(item => (
                 <Marker
@@ -68,7 +68,7 @@ const BicycleStands = ({ classes }) => {
                   </div>
                 </Marker>
               ))}
-        </div>
+        </>
       ) : null}
     </>
   );

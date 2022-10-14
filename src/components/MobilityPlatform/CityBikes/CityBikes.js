@@ -11,7 +11,7 @@ const CityBikes = () => {
   const [cityBikeStatistics, setCityBikeStatistics] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, showCityBikes } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const map = useMap();
 
@@ -42,35 +42,33 @@ const CityBikes = () => {
   }, [openMobilityPlatform, setCityBikeStatistics]);
 
   useEffect(() => {
-    if (showCityBikes && cityBikeStations && cityBikeStations.length > 0) {
+    if (mobilityMap.cityBikes && cityBikeStations && cityBikeStations.length > 0) {
       const bounds = [];
       cityBikeStations.forEach((item) => {
         bounds.push([item.lat, item.lon]);
       });
       map.fitBounds(bounds);
     }
-  }, [showCityBikes, cityBikeStations, map]);
+  }, [mobilityMap.cityBikes, cityBikeStations, map]);
 
   return (
     <>
-      {showCityBikes ? (
-        <div>
-          <div>
-            {cityBikeStations && cityBikeStations.length > 0 ? (
-              cityBikeStations.map(item => (
-                <Marker
-                  key={item.station_id}
-                  icon={customIcon}
-                  position={[item.lat, item.lon]}
-                >
-                  <Popup>
-                    <CityBikesContent bikeStation={item} cityBikeStatistics={cityBikeStatistics} />
-                  </Popup>
-                </Marker>
-              ))
-            ) : null}
-          </div>
-        </div>
+      {mobilityMap.cityBikes ? (
+        <>
+          {cityBikeStations && cityBikeStations.length > 0 ? (
+            cityBikeStations.map(item => (
+              <Marker
+                key={item.station_id}
+                icon={customIcon}
+                position={[item.lat, item.lon]}
+              >
+                <Popup>
+                  <CityBikesContent bikeStation={item} cityBikeStatistics={cityBikeStatistics} />
+                </Popup>
+              </Marker>
+            ))
+          ) : null}
+        </>
       ) : null}
     </>
   );
