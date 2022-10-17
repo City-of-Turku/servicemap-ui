@@ -16,13 +16,22 @@ const ParkingSpaces = () => {
   const { Polygon, Popup } = global.rL;
 
   const blueColor = {
-    fillColor: 'rgba(7, 44, 115, 255)', color: 'rgba(7, 44, 115, 255)', fillOpacity: 0.4, weigth: 5,
+    fillColor: 'rgba(7, 44, 115, 255)',
+    color: 'rgba(7, 44, 115, 255)',
+    fillOpacity: 0.4,
+    weigth: 5,
   };
   const redColor = {
-    fillColor: 'rgba(240, 22, 22, 255)', color: 'rgba(240, 22, 22, 255)', fillOpacity: 0.4, weigth: 5,
+    fillColor: 'rgba(240, 22, 22, 255)',
+    color: 'rgba(240, 22, 22, 255)',
+    fillOpacity: 0.4,
+    weigth: 5,
   };
   const greenColor = {
-    fillColor: 'rgba(4, 212, 91, 255)', color: 'rgba(4, 212, 91, 255)', fillOpacity: 0.6, weigth: 5,
+    fillColor: 'rgba(4, 212, 91, 255)',
+    color: 'rgba(4, 212, 91, 255)',
+    fillOpacity: 0.6,
+    weigth: 5,
   };
 
   const pathOptions = mapType === 'accessible_map' ? greenColor : blueColor;
@@ -43,8 +52,10 @@ const ParkingSpaces = () => {
 
   const map = useMap();
 
+  const renderData = mobilityMap.parkingSpaces && parkingSpaces && Object.entries(parkingSpaces).length > 0;
+
   useEffect(() => {
-    if (mobilityMap.parkingSpaces && parkingSpaces && Object.entries(parkingSpaces).length > 0) {
+    if (renderData) {
       const bounds = [];
       parkingSpaces.features.forEach((item) => {
         bounds.push(swapCoords(item.geometry.coordinates));
@@ -59,28 +70,24 @@ const ParkingSpaces = () => {
     const parkingCount = stats.current_parking_count;
     if (parkingCount >= almostFull) {
       return redColor;
-    } return pathOptions;
+    }
+    return pathOptions;
   };
 
   return (
     <>
-      {mobilityMap.parkingSpaces ? (
-        <>
-          {parkingSpaces
-              && Object.entries(parkingSpaces).length > 0
-              && parkingSpaces.features.map(item => (
-                <Polygon
-                  key={item.id}
-                  pathOptions={renderColor(item.id, item.properties.capacity_estimate)}
-                  positions={swapCoords(item.geometry.coordinates)}
-                >
-                  <Popup>
-                    <ParkingSpacesContent parkingSpace={item} parkingStatistics={parkingStatistics.results} />
-                  </Popup>
-                </Polygon>
-              ))}
-        </>
-      ) : null}
+      {renderData
+        && parkingSpaces.features.map(item => (
+          <Polygon
+            key={item.id}
+            pathOptions={renderColor(item.id, item.properties.capacity_estimate)}
+            positions={swapCoords(item.geometry.coordinates)}
+          >
+            <Popup>
+              <ParkingSpacesContent parkingSpace={item} parkingStatistics={parkingStatistics.results} />
+            </Popup>
+          </Polygon>
+        ))}
     </>
   );
 };

@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
 import { PropTypes } from 'prop-types';
-import { useMapEvents, useMap } from 'react-leaflet';
-import rentalCarIcon from 'servicemap-ui-turku/assets/icons/icons-icon_rental_car.svg';
+import React, { useContext, useEffect, useState } from 'react';
+import { useMap, useMapEvents } from 'react-leaflet';
 import providerIcon from 'servicemap-ui-turku/assets/icons/icons-icon_24rent.svg';
-import RentalCarsContent from './components/RentalCarsContent';
-import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import rentalCarIcon from 'servicemap-ui-turku/assets/icons/icons-icon_rental_car.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../utils/utils';
+import RentalCarsContent from './components/RentalCarsContent';
 
 const RentalCars = ({ classes }) => {
   const [rentalCarsData, setRentalCarsData] = useState([]);
@@ -35,8 +36,10 @@ const RentalCars = ({ classes }) => {
 
   const map = useMap();
 
+  const renderData = isDataValid(mobilityMap.rentalCars, rentalCarsData);
+
   useEffect(() => {
-    if (mobilityMap.rentalCars && rentalCarsData && rentalCarsData.length > 0) {
+    if (renderData) {
       const bounds = [];
       rentalCarsData.forEach((item) => {
         bounds.push([item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]);
@@ -47,28 +50,24 @@ const RentalCars = ({ classes }) => {
 
   return (
     <>
-      {mobilityMap.rentalCars ? (
-        <>
-          {rentalCarsData && rentalCarsData.length > 0
-            && rentalCarsData.filter(item => item.availabilityData.available).map(item => (
-              <Marker
-                key={item.id}
-                icon={customIcon}
-                position={[item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]}
-              >
-                <div className={classes.popupWrapper}>
-                  <Popup className="rental-cars-popup">
-                    <div className={classes.popupInner}>
-                      <RentalCarsContent
-                        car={item}
-                      />
-                    </div>
-                  </Popup>
-                </div>
-              </Marker>
-            ))}
-        </>
-      ) : null}
+      {renderData
+        && rentalCarsData
+          .filter(item => item.availabilityData.available)
+          .map(item => (
+            <Marker
+              key={item.id}
+              icon={customIcon}
+              position={[item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]}
+            >
+              <div className={classes.popupWrapper}>
+                <Popup className="rental-cars-popup">
+                  <div className={classes.popupInner}>
+                    <RentalCarsContent car={item} />
+                  </div>
+                </Popup>
+              </div>
+            </Marker>
+          ))}
     </>
   );
 };

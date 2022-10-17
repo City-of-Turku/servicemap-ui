@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
 import { PropTypes } from 'prop-types';
+import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import chargerIcon from 'servicemap-ui-turku/assets/icons/icons-icon_charging_station.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
-import ChargerStationContent from './components/ChargerStationContent';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../utils/utils';
+import ChargerStationContent from './components/ChargerStationContent';
 
 const ChargerStationMarkers = ({ classes }) => {
   const [chargerStations, setChargerStations] = useState([]);
@@ -27,8 +28,10 @@ const ChargerStationMarkers = ({ classes }) => {
     }
   }, [openMobilityPlatform, setChargerStations]);
 
+  const renderData = isDataValid(mobilityMap.chargingStations, chargerStations);
+
   useEffect(() => {
-    if (mobilityMap.chargingStations && chargerStations && chargerStations.length > 0) {
+    if (renderData) {
       const bounds = [];
       chargerStations.forEach((item) => {
         bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
@@ -39,28 +42,22 @@ const ChargerStationMarkers = ({ classes }) => {
 
   return (
     <>
-      {mobilityMap.chargingStations ? (
-        <>
-          {chargerStations && chargerStations.length > 0
-            && chargerStations.map(item => (
-              <Marker
-                key={item.id}
-                icon={chargerStationIcon}
-                position={[item.geometry_coords.lat, item.geometry_coords.lon]}
-              >
-                <div className={classes.popupWrapper}>
-                  <Popup className="charger-stations-popup">
-                    <div className={classes.popupInner}>
-                      <ChargerStationContent
-                        station={item}
-                      />
-                    </div>
-                  </Popup>
+      {renderData
+        && chargerStations.map(item => (
+          <Marker
+            key={item.id}
+            icon={chargerStationIcon}
+            position={[item.geometry_coords.lat, item.geometry_coords.lon]}
+          >
+            <div className={classes.popupWrapper}>
+              <Popup className="charger-stations-popup">
+                <div className={classes.popupInner}>
+                  <ChargerStationContent station={item} />
                 </div>
-              </Marker>
-            ))}
-        </>
-      ) : null}
+              </Popup>
+            </div>
+          </Marker>
+        ))}
     </>
   );
 };

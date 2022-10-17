@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import publicToiletIcon from 'servicemap-ui-turku/assets/icons/icons-icon_toilet.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../utils/utils';
 import PublicToiletsContent from './components/PublicToiletsContent';
 
 const PublicToilets = () => {
@@ -27,8 +28,10 @@ const PublicToilets = () => {
 
   const map = useMap();
 
+  const renderData = isDataValid(mobilityMap.restRooms, publicToiletsData);
+
   useEffect(() => {
-    if (mobilityMap.restRooms && publicToiletsData && publicToiletsData.length > 0) {
+    if (renderData) {
       const bounds = [];
       publicToiletsData.forEach((item) => {
         bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
@@ -39,22 +42,14 @@ const PublicToilets = () => {
 
   return (
     <>
-      {mobilityMap.restRooms ? (
-        <>
-          {publicToiletsData && publicToiletsData.length > 0
-            && publicToiletsData.map(item => (
-              <Marker
-                key={item.id}
-                icon={customIcon}
-                position={[item.geometry_coords.lat, item.geometry_coords.lon]}
-              >
-                <Popup>
-                  <PublicToiletsContent />
-                </Popup>
-              </Marker>
-            ))}
-        </>
-      ) : null}
+      {renderData
+        && publicToiletsData.map(item => (
+          <Marker key={item.id} icon={customIcon} position={[item.geometry_coords.lat, item.geometry_coords.lon]}>
+            <Popup>
+              <PublicToiletsContent />
+            </Popup>
+          </Marker>
+        ))}
     </>
   );
 };

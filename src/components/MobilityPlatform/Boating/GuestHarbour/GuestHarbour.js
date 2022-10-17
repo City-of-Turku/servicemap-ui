@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
 import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../../utils/utils';
 
 /**
  * Displays quest harbour on the map in polygon format.
@@ -30,8 +31,10 @@ const GuestHarbour = () => {
 
   const map = useMap();
 
+  const renderData = isDataValid(mobilityMap.guestHarbour, guestHarbourData);
+
   useEffect(() => {
-    if (mobilityMap.guestHarbour && guestHarbourData && guestHarbourData.length > 0) {
+    if (renderData) {
       const bounds = [];
       guestHarbourData.forEach((item) => {
         bounds.push(item.geometry_coords);
@@ -42,10 +45,10 @@ const GuestHarbour = () => {
 
   return (
     <>
-      {mobilityMap.guestHarbour
-        && guestHarbourData
-        && guestHarbourData.length > 0
-        && guestHarbourData.map(item => <Polygon key={item.id} pathOptions={pathOptions} positions={item.geometry_coords} />)}
+      {renderData
+        && guestHarbourData.map(item => (
+          <Polygon key={item.id} pathOptions={pathOptions} positions={item.geometry_coords} />
+        ))}
     </>
   );
 };

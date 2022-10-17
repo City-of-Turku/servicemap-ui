@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
 import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../../../utils/utils';
 import TextContent from '../../../TextContent';
 
 /**
@@ -25,8 +26,10 @@ const SpeedLimitAreas = () => {
 
   const map = useMap();
 
+  const renderData = isDataValid(mobilityMap.scooterSpeedLimit, speedLimitAreas);
+
   useEffect(() => {
-    if (mobilityMap.scooterSpeedLimit && speedLimitAreas && speedLimitAreas.length > 0) {
+    if (renderData) {
       const bounds = [];
       speedLimitAreas.forEach((item) => {
         bounds.push(item.geometry_coords);
@@ -37,22 +40,17 @@ const SpeedLimitAreas = () => {
 
   return (
     <>
-      {mobilityMap.scooterSpeedLimit ? (
-        <>
-          {speedLimitAreas
-            && speedLimitAreas.length > 0
-            && speedLimitAreas.map(item => (
-              <Polygon key={item.id} pathOptions={blueOptions} positions={item.geometry_coords}>
-                <Popup>
-                  <TextContent
-                    titleId="mobilityPlatform.content.scooters.speedLimitAreas.title"
-                    translationId="mobilityPlatform.info.scooters.speedLimitAreas"
-                  />
-                </Popup>
-              </Polygon>
-            ))}
-        </>
-      ) : null}
+      {renderData
+        && speedLimitAreas.map(item => (
+          <Polygon key={item.id} pathOptions={blueOptions} positions={item.geometry_coords}>
+            <Popup>
+              <TextContent
+                titleId="mobilityPlatform.content.scooters.speedLimitAreas.title"
+                translationId="mobilityPlatform.info.scooters.speedLimitAreas"
+              />
+            </Popup>
+          </Polygon>
+        ))}
     </>
   );
 };

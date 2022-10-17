@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
 import cityBikeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_city_bike.svg';
 import follariIcon from 'servicemap-ui-turku/assets/icons/icons-icon_follari.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { fetchCityBikesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../utils/utils';
 import CityBikesContent from './components/CityBikesContent';
 
 const CityBikes = () => {
@@ -41,8 +42,10 @@ const CityBikes = () => {
     }
   }, [openMobilityPlatform, setCityBikeStatistics]);
 
+  const renderData = isDataValid(mobilityMap.cityBikes, cityBikeStations);
+
   useEffect(() => {
-    if (mobilityMap.cityBikes && cityBikeStations && cityBikeStations.length > 0) {
+    if (renderData) {
       const bounds = [];
       cityBikeStations.forEach((item) => {
         bounds.push([item.lat, item.lon]);
@@ -53,23 +56,14 @@ const CityBikes = () => {
 
   return (
     <>
-      {mobilityMap.cityBikes ? (
-        <>
-          {cityBikeStations && cityBikeStations.length > 0 ? (
-            cityBikeStations.map(item => (
-              <Marker
-                key={item.station_id}
-                icon={customIcon}
-                position={[item.lat, item.lon]}
-              >
-                <Popup>
-                  <CityBikesContent bikeStation={item} cityBikeStatistics={cityBikeStatistics} />
-                </Popup>
-              </Marker>
-            ))
-          ) : null}
-        </>
-      ) : null}
+      {renderData
+        && cityBikeStations.map(item => (
+          <Marker key={item.station_id} icon={customIcon} position={[item.lat, item.lon]}>
+            <Popup>
+              <CityBikesContent bikeStation={item} cityBikeStatistics={cityBikeStatistics} />
+            </Popup>
+          </Marker>
+        ))}
     </>
   );
 };

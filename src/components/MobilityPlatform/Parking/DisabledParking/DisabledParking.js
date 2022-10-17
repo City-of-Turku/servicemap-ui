@@ -3,6 +3,7 @@ import { useMap } from 'react-leaflet';
 import disabledParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_disabled_parking.svg';
 import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
 import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../../utils/utils';
 import DisabledParkingContent from './components/DisabledParkingContent';
 
 /**
@@ -30,8 +31,10 @@ const DisabledParking = () => {
 
   const map = useMap();
 
+  const renderData = isDataValid(mobilityMap.disabledParking, disabledParkingData);
+
   useEffect(() => {
-    if (mobilityMap.disabledParking && disabledParkingData && disabledParkingData.length > 0) {
+    if (renderData) {
       const bounds = [];
       disabledParkingData.forEach((item) => {
         bounds.push(item.geometry_coords);
@@ -44,9 +47,7 @@ const DisabledParking = () => {
 
   return (
     <>
-      {mobilityMap.disabledParking
-        && disabledParkingData
-        && disabledParkingData.length > 0
+      {renderData
         && disabledParkingData.map(item => (
           <div key={item.id}>
             <Marker icon={customIcon} position={getSingleCoordinates(item.geometry_coords)}>

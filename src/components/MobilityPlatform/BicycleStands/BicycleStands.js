@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
 import { PropTypes } from 'prop-types';
-import { useMapEvents, useMap } from 'react-leaflet';
+import React, { useContext, useEffect, useState } from 'react';
+import { useMap, useMapEvents } from 'react-leaflet';
 import bicycleStandIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle-stand.svg';
 import circleIcon from 'servicemap-ui-turku/assets/icons/icons-icon_circle_border.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
-import BicycleStandContent from './components/BicycleStandContent';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../utils/utils';
+import BicycleStandContent from './components/BicycleStandContent';
 
 const BicycleStands = ({ classes }) => {
   const [bicycleStands, setBicycleStands] = useState([]);
@@ -29,15 +30,16 @@ const BicycleStands = ({ classes }) => {
     }
   }, [openMobilityPlatform, setBicycleStands]);
 
-
   const mapEvent = useMapEvents({
     zoomend() {
       setZoomLevel(mapEvent.getZoom());
     },
   });
 
+  const renderData = isDataValid(mobilityMap.bicycleStands, bicycleStands);
+
   useEffect(() => {
-    if (mobilityMap.bicycleStands && bicycleStands && bicycleStands.length > 0) {
+    if (renderData) {
       const bounds = [];
       bicycleStands.forEach((item) => {
         bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
@@ -48,28 +50,18 @@ const BicycleStands = ({ classes }) => {
 
   return (
     <>
-      {mobilityMap.bicycleStands ? (
-        <>
-          {bicycleStands && bicycleStands.length > 0
-              && bicycleStands.map(item => (
-                <Marker
-                  key={item.id}
-                  icon={customIcon}
-                  position={[item.geometry_coords.lat, item.geometry_coords.lon]}
-                >
-                  <div className={classes.popupWrapper}>
-                    <Popup>
-                      <div className={classes.popupInner}>
-                        <BicycleStandContent
-                          bicycleStand={item}
-                        />
-                      </div>
-                    </Popup>
-                  </div>
-                </Marker>
-              ))}
-        </>
-      ) : null}
+      {renderData
+        && bicycleStands.map(item => (
+          <Marker key={item.id} icon={customIcon} position={[item.geometry_coords.lat, item.geometry_coords.lon]}>
+            <div className={classes.popupWrapper}>
+              <Popup>
+                <div className={classes.popupInner}>
+                  <BicycleStandContent bicycleStand={item} />
+                </div>
+              </Popup>
+            </div>
+          </Marker>
+        ))}
     </>
   );
 };

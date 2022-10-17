@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import bikeServiceIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bike_service_station.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
-import BikeServiceStationContent from './components/BikeServiceStationContent';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../utils/utils';
+import BikeServiceStationContent from './components/BikeServiceStationContent';
 
 const BikeServiceStations = () => {
   const [bikeServiceStations, setBikeServiceStations] = useState([]);
@@ -26,8 +27,10 @@ const BikeServiceStations = () => {
     }
   }, [openMobilityPlatform, setBikeServiceStations]);
 
+  const renderData = isDataValid(mobilityMap.bikeServiceStations, bikeServiceStations);
+
   useEffect(() => {
-    if (mobilityMap.bikeServiceStations && bikeServiceStations && bikeServiceStations.length > 0) {
+    if (renderData) {
       const bounds = [];
       bikeServiceStations.forEach((item) => {
         bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
@@ -38,26 +41,20 @@ const BikeServiceStations = () => {
 
   return (
     <>
-      {mobilityMap.bikeServiceStations ? (
-        <>
-          {bikeServiceStations && bikeServiceStations.length > 0
-            && bikeServiceStations.map(item => (
-              <Marker
-                key={item.id}
-                icon={chargerStationIcon}
-                position={[item.geometry_coords.lat, item.geometry_coords.lon]}
-              >
-                <div>
-                  <Popup className="charger-stations-popup">
-                    <BikeServiceStationContent
-                      station={item}
-                    />
-                  </Popup>
-                </div>
-              </Marker>
-            ))}
-        </>
-      ) : null}
+      {renderData
+        && bikeServiceStations.map(item => (
+          <Marker
+            key={item.id}
+            icon={chargerStationIcon}
+            position={[item.geometry_coords.lat, item.geometry_coords.lon]}
+          >
+            <div>
+              <Popup>
+                <BikeServiceStationContent station={item} />
+              </Popup>
+            </div>
+          </Marker>
+        ))}
     </>
   );
 };

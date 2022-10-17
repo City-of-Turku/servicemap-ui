@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
 import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../../utils/utils';
 
 /**
  * Displays boat parking areas on the map in polygon format.
@@ -30,8 +31,10 @@ const BoatParking = () => {
 
   const map = useMap();
 
+  const renderData = isDataValid(mobilityMap.boatParking, boatParkingData);
+
   useEffect(() => {
-    if (mobilityMap.boatParking && boatParkingData && boatParkingData.length > 0) {
+    if (renderData) {
       const bounds = [];
       boatParkingData.forEach((item) => {
         bounds.push(item.geometry_coords);
@@ -42,10 +45,10 @@ const BoatParking = () => {
 
   return (
     <>
-      {mobilityMap.boatParking
-        && boatParkingData
-        && boatParkingData.length > 0
-        && boatParkingData.map(item => <Polygon key={item.id} pathOptions={pathOptions} positions={item.geometry_coords} />)}
+      {renderData
+        && boatParkingData.map(item => (
+          <Polygon key={item.id} pathOptions={pathOptions} positions={item.geometry_coords} />
+        ))}
     </>
   );
 };

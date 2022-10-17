@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
-import MarinasContent from './components/MarinasContent';
+import { isDataValid } from '../../utils/utils';
 import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import MarinasContent from './components/MarinasContent';
 
 /**
  * Displays marinas on the map in polygon format.
@@ -31,8 +32,10 @@ const Marinas = () => {
 
   const map = useMap();
 
+  const renderData = isDataValid(mobilityMap.marinas, marinasData);
+
   useEffect(() => {
-    if (mobilityMap.marinas && marinasData && marinasData.length > 0) {
+    if (renderData) {
       const bounds = [];
       marinasData.forEach((item) => {
         bounds.push(item.geometry_coords);
@@ -43,9 +46,7 @@ const Marinas = () => {
 
   return (
     <>
-      {mobilityMap.marinas
-        && marinasData
-        && marinasData.length > 0
+      {renderData
         && marinasData.map(item => (
           <Polygon key={item.id} pathOptions={pathOptions} positions={item.geometry_coords}>
             <Popup>

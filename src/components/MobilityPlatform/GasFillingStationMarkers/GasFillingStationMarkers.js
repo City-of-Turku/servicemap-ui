@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
 import { PropTypes } from 'prop-types';
+import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import gasFillingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_gas_station.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
-import GasFillingStationContent from './components/GasFillingStationContent';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../utils/utils';
+import GasFillingStationContent from './components/GasFillingStationContent';
 
 const GasFillingStationMarkers = ({ classes }) => {
   const [gasFillingStations, setGasFillingStations] = useState([]);
@@ -27,8 +28,10 @@ const GasFillingStationMarkers = ({ classes }) => {
 
   const map = useMap();
 
+  const renderData = isDataValid(mobilityMap.gasFillingStations, gasFillingStations);
+
   useEffect(() => {
-    if (mobilityMap.gasFillingStations && gasFillingStations && gasFillingStations.length > 0) {
+    if (renderData) {
       const bounds = [];
       gasFillingStations.forEach((item) => {
         bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
@@ -39,28 +42,18 @@ const GasFillingStationMarkers = ({ classes }) => {
 
   return (
     <>
-      {mobilityMap.gasFillingStations ? (
-        <div>
-          {gasFillingStations && gasFillingStations.length > 0
-            && gasFillingStations.map(item => (
-              <Marker
-                key={item.id}
-                icon={gasStationIcon}
-                position={[item.geometry_coords.lat, item.geometry_coords.lon]}
-              >
-                <div className={classes.popupWrapper}>
-                  <Popup className="charger-stations-popup">
-                    <div className={classes.popupInner}>
-                      <GasFillingStationContent
-                        station={item}
-                      />
-                    </div>
-                  </Popup>
+      {renderData
+        && gasFillingStations.map(item => (
+          <Marker key={item.id} icon={gasStationIcon} position={[item.geometry_coords.lat, item.geometry_coords.lon]}>
+            <div className={classes.popupWrapper}>
+              <Popup className="charger-stations-popup">
+                <div className={classes.popupInner}>
+                  <GasFillingStationContent station={item} />
                 </div>
-              </Marker>
-            ))}
-        </div>
-      ) : null}
+              </Popup>
+            </div>
+          </Marker>
+        ))}
     </>
   );
 };
@@ -68,6 +61,5 @@ const GasFillingStationMarkers = ({ classes }) => {
 GasFillingStationMarkers.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
 };
-
 
 export default GasFillingStationMarkers;

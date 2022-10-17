@@ -6,4 +6,11 @@ const setLocalizedLink = (locale, setLink, linkUrlSv, linkUrlEn, linkUrlFi) => {
   } else setLink(linkUrlFi);
 };
 
-export default setLocalizedLink;
+const isDataValid = (visibilityValue, data) => {
+  return visibilityValue && data && data.length > 0;
+};
+
+export {
+  setLocalizedLink,
+  isDataValid,
+};

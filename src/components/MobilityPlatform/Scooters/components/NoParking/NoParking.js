@@ -3,6 +3,7 @@ import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
 import { fetchMobilityMapData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../../../utils/utils';
 import TextContent from '../../../TextContent';
 
 /**
@@ -38,8 +39,10 @@ const NoParking = () => {
 
   const map = useMap();
 
+  const renderData = isDataValid(mobilityMap.scooterNoParking, noParkingData);
+
   useEffect(() => {
-    if (mobilityMap.scooterNoParking && noParkingData && noParkingData.length > 0) {
+    if (renderData) {
       const bounds = [];
       noParkingData.forEach((item) => {
         bounds.push(swapCoords(item.geometry_coords));
@@ -50,9 +53,7 @@ const NoParking = () => {
 
   return (
     <>
-      {mobilityMap.scooterNoParking
-        && noParkingData
-        && noParkingData.length > 0
+      {renderData
         && noParkingData.map(item => (
           <Polygon key={item.id} pathOptions={pathOptions} positions={swapCoords(item.geometry_coords)}>
             <Popup>

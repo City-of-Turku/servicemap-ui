@@ -2,6 +2,7 @@ import { Typography } from '@material-ui/core';
 import { PropTypes } from 'prop-types';
 import React, { useContext } from 'react';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { isDataValid } from '../utils/utils';
 
 const SpeedLimitZones = ({ classes, intl }) => {
   const { mobilityMap, speedLimitSelections, speedLimitZones } = useContext(MobilityPlatformContext);
@@ -56,46 +57,39 @@ const SpeedLimitZones = ({ classes, intl }) => {
     };
   };
 
+  const renderData = isDataValid(mobilityMap.speedLimitZones, filteredSpeedLimitZones);
+
   return (
     <>
-      {mobilityMap.speedLimitZones ? (
-        <>
-          {filteredSpeedLimitZones
-            && filteredSpeedLimitZones.length > 0
-            && filteredSpeedLimitZones.map(item => (
-              <Polygon
-                key={item.id}
-                pathOptions={getPathOptions(item.extra.speed_limit)}
-                positions={item.geometry_coords}
-              >
-                <div className={classes.popupWrapper}>
-                  <Popup>
-                    <div className={classes.popupInner}>
-                      <div className={classes.subtitle}>
-                        <Typography variant="subtitle1">
-                          {intl.formatMessage({
-                            id: 'mobilityPlatform.content.speedLimitZones.area',
-                          })}
-                        </Typography>
-                      </div>
-                      <Typography>
-                        {intl.formatMessage({
-                          id: 'mobilityPlatform.content.speedLimitZones.limit',
-                        })}
-                        :
-                        {' '}
-                        {intl.formatMessage(
-                          { id: 'mobilityPlatform.content.speedLimitZones.suffix' },
-                          { item: item.extra.speed_limit },
-                        )}
-                      </Typography>
-                    </div>
-                  </Popup>
+      {renderData
+        && filteredSpeedLimitZones.map(item => (
+          <Polygon key={item.id} pathOptions={getPathOptions(item.extra.speed_limit)} positions={item.geometry_coords}>
+            <div className={classes.popupWrapper}>
+              <Popup>
+                <div className={classes.popupInner}>
+                  <div className={classes.subtitle}>
+                    <Typography variant="subtitle1">
+                      {intl.formatMessage({
+                        id: 'mobilityPlatform.content.speedLimitZones.area',
+                      })}
+                    </Typography>
+                  </div>
+                  <Typography>
+                    {intl.formatMessage({
+                      id: 'mobilityPlatform.content.speedLimitZones.limit',
+                    })}
+                    :
+                    {' '}
+                    {intl.formatMessage(
+                      { id: 'mobilityPlatform.content.speedLimitZones.suffix' },
+                      { item: item.extra.speed_limit },
+                    )}
+                  </Typography>
                 </div>
-              </Polygon>
-            ))}
-        </>
-      ) : null}
+              </Popup>
+            </div>
+          </Polygon>
+        ))}
     </>
   );
 };

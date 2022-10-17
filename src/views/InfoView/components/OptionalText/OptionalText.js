@@ -1,7 +1,7 @@
 import { ButtonBase, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import setLocalizedLink from '../../../../components/MobilityPlatform/utils/utils';
+import { setLocalizedLink } from '../../../../components/MobilityPlatform/utils/utils';
 import LinkBasic from '../LinkBasic';
 import List from '../List';
 import OptionalA11yText from '../OptionalA11yText';

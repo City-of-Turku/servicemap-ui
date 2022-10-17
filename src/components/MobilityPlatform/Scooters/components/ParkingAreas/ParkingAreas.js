@@ -3,6 +3,7 @@ import { useMap } from 'react-leaflet';
 import scooterParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_scooter_parking.svg';
 import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
 import { fetchMobilityMapData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../../../utils/utils';
 import TextContent from '../../../TextContent';
 
 const ParkingAreas = () => {
@@ -26,9 +27,10 @@ const ParkingAreas = () => {
     }
   }, [openMobilityPlatform, setParkingAreas]);
 
+  const renderData = isDataValid(mobilityMap.scooterParking, parkingAreas);
 
   useEffect(() => {
-    if (mobilityMap.scooterParking && parkingAreas && parkingAreas.length > 0) {
+    if (renderData) {
       const bounds = [];
       parkingAreas.forEach((item) => {
         bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
@@ -39,25 +41,17 @@ const ParkingAreas = () => {
 
   return (
     <>
-      {mobilityMap.scooterParking ? (
-        <>
-          {parkingAreas && parkingAreas.length > 0
-              && parkingAreas.map(item => (
-                <Marker
-                  key={item.id}
-                  icon={customIcon}
-                  position={[item.geometry_coords.lat, item.geometry_coords.lon]}
-                >
-                  <Popup>
-                    <TextContent
-                      titleId="mobilityPlatform.content.scooters.parkingAreas.title"
-                      translationId="mobilityPlatform.info.scooters.parkingAreas"
-                    />
-                  </Popup>
-                </Marker>
-              ))}
-        </>
-      ) : null}
+      {renderData
+        && parkingAreas.map(item => (
+          <Marker key={item.id} icon={customIcon} position={[item.geometry_coords.lat, item.geometry_coords.lon]}>
+            <Popup>
+              <TextContent
+                titleId="mobilityPlatform.content.scooters.parkingAreas.title"
+                translationId="mobilityPlatform.info.scooters.parkingAreas"
+              />
+            </Popup>
+          </Marker>
+        ))}
     </>
   );
 };

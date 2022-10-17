@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import setLocalizedLink from '../../../../components/MobilityPlatform/utils/utils';
+import { setLocalizedLink } from '../../../../components/MobilityPlatform/utils/utils';
 import Paragraph from '../Paragraph';
 import LinkBasic from '../LinkBasic';
 import List from '../List';
