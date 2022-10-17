@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 
 const SpeedLimitZones = ({ classes, intl }) => {
-  const { showSpeedLimitZones, speedLimitSelections, speedLimitZones } = useContext(MobilityPlatformContext);
+  const { mobilityMap, speedLimitSelections, speedLimitZones } = useContext(MobilityPlatformContext);
 
   const { Polygon, Popup } = global.rL;
 
@@ -58,9 +58,10 @@ const SpeedLimitZones = ({ classes, intl }) => {
 
   return (
     <>
-      {showSpeedLimitZones ? (
-        <div>
-          {filteredSpeedLimitZones && filteredSpeedLimitZones.length > 0
+      {mobilityMap.speedLimitZones ? (
+        <>
+          {filteredSpeedLimitZones
+            && filteredSpeedLimitZones.length > 0
             && filteredSpeedLimitZones.map(item => (
               <Polygon
                 key={item.id}
@@ -83,18 +84,17 @@ const SpeedLimitZones = ({ classes, intl }) => {
                         })}
                         :
                         {' '}
-                        {item.extra.speed_limit}
-                        {' '}
-                        {intl.formatMessage({
-                          id: 'mobilityPlatform.content.speedLimitZones.suffix',
-                        })}
+                        {intl.formatMessage(
+                          { id: 'mobilityPlatform.content.speedLimitZones.suffix' },
+                          { item: item.extra.speed_limit },
+                        )}
                       </Typography>
                     </div>
                   </Popup>
                 </div>
               </Polygon>
             ))}
-        </div>
+        </>
       ) : null}
     </>
   );

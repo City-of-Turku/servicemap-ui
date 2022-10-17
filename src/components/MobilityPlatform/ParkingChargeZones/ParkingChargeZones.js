@@ -6,14 +6,14 @@ import ParkingChargeZoneContent from './components/ParkingChargeZoneContent';
 
 const ParkingChargeZones = () => {
   const {
-    showParkingChargeZones, parkingChargeZones, parkingChargeZoneId,
+    mobilityMap, parkingChargeZones, parkingChargeZoneId,
   } = useContext(MobilityPlatformContext);
 
   const mapType = useSelector(state => state.settings.mapType);
 
   const parkingChargeZone = parkingChargeZones.find(item => item.id === parkingChargeZoneId);
 
-  const renderOneParkingChargeZone = !!(showParkingChargeZones && parkingChargeZone && Object.entries(parkingChargeZone).length > 0);
+  const renderOneParkingChargeZone = !!(mobilityMap.parkingChargeZones && parkingChargeZone && Object.entries(parkingChargeZone).length > 0);
 
   const { Polygon, Popup } = global.rL;
 
@@ -30,11 +30,11 @@ const ParkingChargeZones = () => {
   const map = useMap();
 
   useEffect(() => {
-    if (showParkingChargeZones && parkingChargeZone) {
+    if (mobilityMap.parkingChargeZones && parkingChargeZone) {
       const bounds = parkingChargeZone.geometry_coords;
       map.fitBounds(bounds);
     }
-  }, [showParkingChargeZones, parkingChargeZone]);
+  }, [mobilityMap.parkingChargeZones, parkingChargeZone]);
 
   return (
     <>

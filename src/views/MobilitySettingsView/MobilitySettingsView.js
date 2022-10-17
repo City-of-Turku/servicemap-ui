@@ -55,10 +55,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
     setParkingChargeZones,
     parkingChargeZoneId,
     setParkingChargeZoneId,
-    showParkingChargeZones,
-    setShowParkingChargeZones,
-    showSpeedLimitZones,
-    setShowSpeedLimitZones,
     speedLimitSelections,
     setSpeedLimitSelections,
     speedLimitZones,
@@ -154,8 +150,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
   }, [showCultureRoutes]);
 
   useEffect(() => {
-    checkVisibilityValues(showSpeedLimitZones, setOpenSpeedLimitList);
-  }, [showSpeedLimitZones]);
+    checkVisibilityValues(mobilityMap.speedLimitZones, setOpenSpeedLimitList);
+  }, [mobilityMap]);
 
   useEffect(() => {
     if (mobilityMap.ecoCounter) {
@@ -169,14 +165,14 @@ const MobilitySettingsView = ({ classes, intl }) => {
     checkVisibilityValues(mobilityMap.gasFillingStations, setOpenCarSettings);
     checkVisibilityValues(mobilityMap.parkingSpaces, setOpenCarSettings);
     checkVisibilityValues(mobilityMap.chargingStations, setOpenCarSettings);
-    checkVisibilityValues(showSpeedLimitZones, setOpenCarSettings);
+    checkVisibilityValues(mobilityMap.speedLimitZones, setOpenCarSettings);
     checkVisibilityValues(mobilityMap.disabledParking, setOpenCarSettings);
-  }, [mobilityMap, showSpeedLimitZones]);
+  }, [mobilityMap]);
 
   useEffect(() => {
-    checkVisibilityValues(showParkingChargeZones, setOpenCarSettings);
-    checkVisibilityValues(showParkingChargeZones, setOpenParkingChargeZoneList);
-  }, [showParkingChargeZones]);
+    checkVisibilityValues(mobilityMap.parkingChargeZones, setOpenCarSettings);
+    checkVisibilityValues(mobilityMap.parkingChargeZones, setOpenParkingChargeZoneList);
+  }, [mobilityMap]);
 
   useEffect(() => {
     checkVisibilityValues(mobilityMap.marinas, setOpenBoatingSettings);
@@ -454,7 +450,11 @@ const MobilitySettingsView = ({ classes, intl }) => {
 
   const speedLimitZonesToggle = () => {
     setOpenSpeedLimitList(current => !current);
-    setShowSpeedLimitZones(current => !current);
+
+    if (!mobilityMap.speedLimitZones) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, speedLimitZones: true }));
+    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, speedLimitZones: false }));
+
     if (speedLimitSelections && speedLimitSelections.length > 0) {
       setSpeedLimitSelections([]);
     }
@@ -463,14 +463,14 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const setSpeedLimitState = (limitItem) => {
     if (!speedLimitSelections.includes(limitItem)) {
       setSpeedLimitSelections(speedLimitSelections => [...speedLimitSelections, limitItem]);
-      setShowSpeedLimitZones(true);
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, speedLimitZones: true }));
     } else setSpeedLimitSelections(speedLimitSelections.filter(item => item !== limitItem));
   };
 
   const parkingChargeZonesListToggle = () => {
     setOpenParkingChargeZoneList(current => !current);
-    if (showParkingChargeZones) {
-      setShowParkingChargeZones(false);
+    if (mobilityMap.parkingChargeZones) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, parkingChargeZones: false }));
     }
     if (parkingChargeZoneId) {
       setParkingChargeZoneId(null);
@@ -493,10 +493,10 @@ const MobilitySettingsView = ({ classes, intl }) => {
    */
   const selectParkingChargeZone = (id) => {
     setParkingChargeZoneId(id);
-    setShowParkingChargeZones(true);
+    setMobilityMap(mobilityMap => ({ ...mobilityMap, parkingChargeZones: true }));
     if (id === prevParkingChargeZoneIdRef.current) {
       setParkingChargeZoneId(null);
-      setShowParkingChargeZones(false);
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, parkingChargeZones: false }));
     }
   };
 

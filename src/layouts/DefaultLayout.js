@@ -101,6 +101,8 @@ const mobilityMapInitial = {
   parkingSpaces: false,
   bikeServiceStations: false,
   cityBikes: false,
+  speedLimitZones: false,
+  parkingChargeZones: false,
   marinas: false,
   boatParking: false,
   guestHarbour: false,
@@ -120,10 +122,8 @@ const DefaultLayout = (props) => {
   const [cultureRouteId, setCultureRouteId] = useState();
   const [showBicycleRoutes, setShowBicycleRoutes] = useState(false);
   const [bicycleRouteName, setBicycleRouteName] = useState(null);
-  const [showParkingChargeZones, setShowParkingChargeZones] = useState(false);
   const [parkingChargeZones, setParkingChargeZones] = useState([]);
   const [parkingChargeZoneId, setParkingChargeZoneId] = useState(null);
-  const [showSpeedLimitZones, setShowSpeedLimitZones] = useState(false);
   const [speedLimitSelections, setSpeedLimitSelections] = useState([]);
   const [speedLimitZones, setSpeedLimitZones] = useState([]);
   const [showScootersRyde, setShowScootersRyde] = useState(false);
@@ -217,14 +217,10 @@ const DefaultLayout = (props) => {
                       setShowBicycleRoutes,
                       bicycleRouteName,
                       setBicycleRouteName,
-                      showParkingChargeZones,
-                      setShowParkingChargeZones,
                       parkingChargeZones,
                       setParkingChargeZones,
                       parkingChargeZoneId,
                       setParkingChargeZoneId,
-                      showSpeedLimitZones,
-                      setShowSpeedLimitZones,
                       speedLimitSelections,
                       setSpeedLimitSelections,
                       speedLimitZones,
@@ -250,11 +246,9 @@ const DefaultLayout = (props) => {
                     cultureRouteId,
                     showBicycleRoutes,
                     bicycleRouteName,
-                    showParkingChargeZones,
                     parkingChargeZones,
                     setParkingChargeZones,
                     parkingChargeZoneId,
-                    showSpeedLimitZones,
                     speedLimitSelections,
                     speedLimitZones,
                     showScootersRyde,
