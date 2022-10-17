@@ -43,12 +43,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
 
   const {
     setOpenMobilityPlatform,
-    showCultureRoutes,
-    setShowCultureRoutes,
     cultureRouteId,
     setCultureRouteId,
-    showBicycleRoutes,
-    setShowBicycleRoutes,
     bicycleRouteName,
     setBicycleRouteName,
     parkingChargeZones,
@@ -140,14 +136,14 @@ const MobilitySettingsView = ({ classes, intl }) => {
   }, [mobilityMap]);
 
   useEffect(() => {
-    checkVisibilityValues(showBicycleRoutes, setOpenBicycleSettings);
-    checkVisibilityValues(showBicycleRoutes, setOpenBicycleRouteList);
-  }, [showBicycleRoutes]);
+    checkVisibilityValues(mobilityMap.bicycleRoutes, setOpenBicycleSettings);
+    checkVisibilityValues(mobilityMap.bicycleRoutes, setOpenBicycleRouteList);
+  }, [mobilityMap]);
 
   useEffect(() => {
-    checkVisibilityValues(showCultureRoutes, setOpenWalkSettings);
-    checkVisibilityValues(showCultureRoutes, setOpenCultureRouteList);
-  }, [showCultureRoutes]);
+    checkVisibilityValues(mobilityMap.cultureRoutes, setOpenWalkSettings);
+    checkVisibilityValues(mobilityMap.cultureRoutes, setOpenCultureRouteList);
+  }, [mobilityMap]);
 
   useEffect(() => {
     checkVisibilityValues(mobilityMap.speedLimitZones, setOpenSpeedLimitList);
@@ -385,8 +381,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
     if (cultureRouteId) {
       setCultureRouteId(null);
     }
-    if (showCultureRoutes) {
-      setShowCultureRoutes(false);
+    if (mobilityMap.cultureRoutes) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, cultureRoutes: false }));
     }
   };
 
@@ -395,8 +391,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
     if (bicycleRouteName) {
       setBicycleRouteName(null);
     }
-    if (showBicycleRoutes) {
-      setShowCultureRoutes(false);
+    if (mobilityMap.bicycleRoutes) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, bicycleRoutes: false }));
     }
   };
 
@@ -416,10 +412,10 @@ const MobilitySettingsView = ({ classes, intl }) => {
    */
   const setCultureRouteState = (itemId) => {
     setCultureRouteId(itemId);
-    setShowCultureRoutes(true);
+    setMobilityMap(mobilityMap => ({ ...mobilityMap, cultureRoutes: true }));
     if (itemId === prevCultureRouteIdRef.current) {
       setCultureRouteId(null);
-      setShowCultureRoutes(false);
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, cultureRoutes: false }));
     }
   };
 
@@ -441,10 +437,10 @@ const MobilitySettingsView = ({ classes, intl }) => {
    */
   const setBicycleRouteState = (routeName) => {
     setBicycleRouteName(routeName);
-    setShowBicycleRoutes(true);
+    setMobilityMap(mobilityMap => ({ ...mobilityMap, bicycleRoutes: true }));
     if (routeName === prevBicycleRouteNameRef.current) {
       setBicycleRouteName(null);
-      setShowBicycleRoutes(false);
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, bicycleRoutes: false }));
     }
   };
 

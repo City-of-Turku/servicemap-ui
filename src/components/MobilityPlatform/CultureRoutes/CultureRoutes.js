@@ -1,14 +1,15 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { fetchCultureRoutesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../utils/utils';
 import CultureRouteUnits from './components/CultureRouteUnits';
 
 const CultureRoutes = () => {
   const [cultureRoutesGeometry, setCultureRoutesGeometry] = useState([]);
   const [cultureRouteUnits, setCultureRouteUnits] = useState([]);
 
-  const { openMobilityPlatform, showCultureRoutes, cultureRouteId } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap, cultureRouteId } = useContext(MobilityPlatformContext);
 
   const { Polyline } = global.rL;
 
@@ -38,36 +39,39 @@ const CultureRoutes = () => {
 
   const map = useMap();
 
+  const renderData = isDataValid(mobilityMap.cultureRoutes, activeCultureRoute);
+
   useEffect(() => {
-    if (showCultureRoutes && activeCultureRoute && activeCultureRoute.length > 0) {
+    if (renderData) {
       const bounds = [];
       activeCultureRoute.forEach((item) => {
         bounds.push(swapCoords(item.geometry_coords));
       });
       map.fitBounds([bounds]);
     }
-  }, [showCultureRoutes, activeCultureRoute, map]);
+  }, [mobilityMap.cultureRoutes, activeCultureRoute, map]);
   return (
     <>
-      {showCultureRoutes ? (
-        <>
-          {activeCultureRoute && activeCultureRoute.length > 0
-            && activeCultureRoute.map(item => (
-              <div key={item.id}>
-                <Polyline key={item.geometry} weight={8} pathOptions={blueOptions} positions={swapCoords(item.geometry_coords)} />
-                <Polyline
-                  key={item.geometry_coords}
-                  weight={4}
-                  pathOptions={whiteOptions}
-                  positions={swapCoords(item.geometry_coords)}
-                />
-              </div>
-            ))}
-          <>
-            <CultureRouteUnits cultureRouteUnits={cultureRouteUnits} />
-          </>
-        </>
-      ) : null}
+      {renderData
+        && activeCultureRoute.map(item => (
+          <div key={item.id}>
+            <Polyline
+              key={item.geometry}
+              weight={8}
+              pathOptions={blueOptions}
+              positions={swapCoords(item.geometry_coords)}
+            />
+            <Polyline
+              key={item.geometry_coords}
+              weight={4}
+              pathOptions={whiteOptions}
+              positions={swapCoords(item.geometry_coords)}
+            />
+          </div>
+        ))}
+      <>
+        <CultureRouteUnits cultureRouteUnits={cultureRouteUnits} />
+      </>
     </>
   );
 };

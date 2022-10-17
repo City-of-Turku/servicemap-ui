@@ -111,6 +111,8 @@ const mobilityMapInitial = {
   scooterNoParking: false,
   scooterParking: false,
   scooterSpeedLimit: false,
+  cultureRoutes: false,
+  bicycleRoutes: false,
 };
 
 const DefaultLayout = (props) => {
@@ -118,9 +120,7 @@ const DefaultLayout = (props) => {
   const [sidebarHidden, toggleSidebarHidden] = useState(false);
   const [error, setError] = useState(false);
   const [openMobilityPlatform, setOpenMobilityPlatform] = useState(false);
-  const [showCultureRoutes, setShowCultureRoutes] = useState(false);
   const [cultureRouteId, setCultureRouteId] = useState();
-  const [showBicycleRoutes, setShowBicycleRoutes] = useState(false);
   const [bicycleRouteName, setBicycleRouteName] = useState(null);
   const [parkingChargeZones, setParkingChargeZones] = useState([]);
   const [parkingChargeZoneId, setParkingChargeZoneId] = useState(null);
@@ -209,12 +209,8 @@ const DefaultLayout = (props) => {
                     value={{
                       openMobilityPlatform,
                       setOpenMobilityPlatform,
-                      showCultureRoutes,
-                      setShowCultureRoutes,
                       cultureRouteId,
                       setCultureRouteId,
-                      showBicycleRoutes,
-                      setShowBicycleRoutes,
                       bicycleRouteName,
                       setBicycleRouteName,
                       parkingChargeZones,
@@ -242,9 +238,7 @@ const DefaultLayout = (props) => {
                 <MobilityPlatformProvider
                   value={{
                     openMobilityPlatform,
-                    showCultureRoutes,
                     cultureRouteId,
-                    showBicycleRoutes,
                     bicycleRouteName,
                     parkingChargeZones,
                     setParkingChargeZones,
