@@ -125,26 +125,30 @@ const MobilitySettingsView = ({ classes, intl }) => {
 
   useEffect(() => {
     checkVisibilityValues(mobilityMap.restRooms, setOpenWalkSettings);
-  }, [mobilityMap]);
-
-  useEffect(() => {
+    checkVisibilityValues(mobilityMap.cultureRoutes, setOpenWalkSettings);
+    checkVisibilityValues(mobilityMap.cultureRoutes, setOpenCultureRouteList);
     checkVisibilityValues(mobilityMap.bicycleStands, setOpenBicycleSettings);
     checkVisibilityValues(mobilityMap.bikeServiceStations, setOpenBicycleSettings);
     checkVisibilityValues(mobilityMap.cityBikes, setOpenBicycleSettings);
-  }, [mobilityMap]);
-
-  useEffect(() => {
     checkVisibilityValues(mobilityMap.bicycleRoutes, setOpenBicycleSettings);
     checkVisibilityValues(mobilityMap.bicycleRoutes, setOpenBicycleRouteList);
-  }, [mobilityMap]);
-
-  useEffect(() => {
-    checkVisibilityValues(mobilityMap.cultureRoutes, setOpenWalkSettings);
-    checkVisibilityValues(mobilityMap.cultureRoutes, setOpenCultureRouteList);
-  }, [mobilityMap]);
-
-  useEffect(() => {
     checkVisibilityValues(mobilityMap.speedLimitZones, setOpenSpeedLimitList);
+    checkVisibilityValues(mobilityMap.rentalCars, setOpenCarSettings);
+    checkVisibilityValues(mobilityMap.gasFillingStations, setOpenCarSettings);
+    checkVisibilityValues(mobilityMap.parkingSpaces, setOpenCarSettings);
+    checkVisibilityValues(mobilityMap.chargingStations, setOpenCarSettings);
+    checkVisibilityValues(mobilityMap.speedLimitZones, setOpenCarSettings);
+    checkVisibilityValues(mobilityMap.disabledParking, setOpenCarSettings);
+    checkVisibilityValues(mobilityMap.parkingChargeZones, setOpenCarSettings);
+    checkVisibilityValues(mobilityMap.parkingChargeZones, setOpenParkingChargeZoneList);
+    checkVisibilityValues(mobilityMap.marinas, setOpenBoatingSettings);
+    checkVisibilityValues(mobilityMap.boatParking, setOpenBoatingSettings);
+    checkVisibilityValues(mobilityMap.guestHarbour, setOpenBoatingSettings);
+    checkVisibilityValues(mobilityMap.scooterNoParking, setOpenScooterSettings);
+    checkVisibilityValues(mobilityMap.scooterParking, setOpenScooterSettings);
+    checkVisibilityValues(mobilityMap.scooterSpeedLimit, setOpenScooterSettings);
+    checkVisibilityValues(mobilityMap.scootersRyde, setOpenScooterSettings);
+    checkVisibilityValues(mobilityMap.scootersRyde, setOpenScooterProviderList);
   }, [mobilityMap]);
 
   useEffect(() => {
@@ -153,37 +157,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
       setOpenBicycleSettings(true);
     }
   }, [mobilityMap.ecoCounter]);
-
-  useEffect(() => {
-    checkVisibilityValues(mobilityMap.rentalCars, setOpenCarSettings);
-    checkVisibilityValues(mobilityMap.gasFillingStations, setOpenCarSettings);
-    checkVisibilityValues(mobilityMap.parkingSpaces, setOpenCarSettings);
-    checkVisibilityValues(mobilityMap.chargingStations, setOpenCarSettings);
-    checkVisibilityValues(mobilityMap.speedLimitZones, setOpenCarSettings);
-    checkVisibilityValues(mobilityMap.disabledParking, setOpenCarSettings);
-  }, [mobilityMap]);
-
-  useEffect(() => {
-    checkVisibilityValues(mobilityMap.parkingChargeZones, setOpenCarSettings);
-    checkVisibilityValues(mobilityMap.parkingChargeZones, setOpenParkingChargeZoneList);
-  }, [mobilityMap]);
-
-  useEffect(() => {
-    checkVisibilityValues(mobilityMap.marinas, setOpenBoatingSettings);
-    checkVisibilityValues(mobilityMap.boatParking, setOpenBoatingSettings);
-    checkVisibilityValues(mobilityMap.guestHarbour, setOpenBoatingSettings);
-  }, [mobilityMap]);
-
-  useEffect(() => {
-    checkVisibilityValues(mobilityMap.scooterNoParking, setOpenScooterSettings);
-    checkVisibilityValues(mobilityMap.scooterParking, setOpenScooterSettings);
-    checkVisibilityValues(mobilityMap.scooterSpeedLimit, setOpenScooterSettings);
-  }, [mobilityMap]);
-
-  useEffect(() => {
-    checkVisibilityValues(mobilityMap.scootersRyde, setOpenScooterSettings);
-    checkVisibilityValues(mobilityMap.scootersRyde, setOpenScooterProviderList);
-  }, [mobilityMap.scootersRyde]);
 
   const nameKeys = {
     fi: 'name',
