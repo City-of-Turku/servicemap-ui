@@ -7,8 +7,8 @@ const styles = theme => ({
     textTransform: 'capitalize',
     justifyContent: 'flex-start',
     borderRadius: '0',
-    borderTop: 'none',
-    borderBottom: '1px solid #000000',
+    borderTop: '1px solid rgba(0, 0, 0, 255)',
+    borderBottom: 'none',
     '&:hover': {
       background: 'rgba(230, 230, 230, 255)',
     },
