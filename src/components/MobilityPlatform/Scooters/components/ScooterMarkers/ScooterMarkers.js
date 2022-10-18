@@ -5,13 +5,14 @@ import rydeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ryde.svg';
 import scooterIcon from 'servicemap-ui-turku/assets/icons/icons-icon_scooters_marker.svg';
 import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
 import { fetchIotData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../../../utils/utils';
 import ScooterInfo from './components/ScooterInfo';
 
 const ScooterMarkers = () => {
   const [scooterData, setScooterData] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, showScootersRyde } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
@@ -57,24 +58,18 @@ const ScooterMarkers = () => {
 
   const filteredScooters = scooterData.filter(item => map.getBounds().contains([item.lat, item.lon]));
 
+  const renderData = isDataValid(mobilityMap.scootersRyde, filteredScooters);
+
   return (
     <>
-      {showScootersRyde ? (
-        <div>
-          {filteredScooters && filteredScooters.length > 0
-            && filteredScooters.map(item => (
-              <Marker
-                key={item.bike_id}
-                icon={chargerStationIcon}
-                position={[item.lat, item.lon]}
-              >
-                <Popup>
-                  <ScooterInfo item={item} />
-                </Popup>
-              </Marker>
-            ))}
-        </div>
-      ) : null}
+      {renderData
+        && filteredScooters.map(item => (
+          <Marker key={item.bike_id} icon={chargerStationIcon} position={[item.lat, item.lon]}>
+            <Popup>
+              <ScooterInfo item={item} />
+            </Popup>
+          </Marker>
+        ))}
     </>
   );
 };

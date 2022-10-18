@@ -111,6 +111,7 @@ const mobilityMapInitial = {
   scooterNoParking: false,
   scooterParking: false,
   scooterSpeedLimit: false,
+  scootersRyde: false,
   cultureRoutes: false,
   bicycleRoutes: false,
 };
@@ -126,7 +127,6 @@ const DefaultLayout = (props) => {
   const [parkingChargeZoneId, setParkingChargeZoneId] = useState(null);
   const [speedLimitSelections, setSpeedLimitSelections] = useState([]);
   const [speedLimitZones, setSpeedLimitZones] = useState([]);
-  const [showScootersRyde, setShowScootersRyde] = useState(false);
   const [mobilityMap, setMobilityMap] = useState(mobilityMapInitial);
 
   const {
@@ -221,8 +221,6 @@ const DefaultLayout = (props) => {
                       setSpeedLimitSelections,
                       speedLimitZones,
                       setSpeedLimitZones,
-                      showScootersRyde,
-                      setShowScootersRyde,
                       mobilityMap,
                       setMobilityMap,
                     }}
@@ -245,7 +243,6 @@ const DefaultLayout = (props) => {
                     parkingChargeZoneId,
                     speedLimitSelections,
                     speedLimitZones,
-                    showScootersRyde,
                     mobilityMap,
                   }}
                 >

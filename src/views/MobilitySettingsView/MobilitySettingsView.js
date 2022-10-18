@@ -55,8 +55,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
     setSpeedLimitSelections,
     speedLimitZones,
     setSpeedLimitZones,
-    showScootersRyde,
-    setShowScootersRyde,
     mobilityMap,
     setMobilityMap,
   } = useContext(MobilityPlatformContext);
@@ -183,9 +181,9 @@ const MobilitySettingsView = ({ classes, intl }) => {
   }, [mobilityMap]);
 
   useEffect(() => {
-    checkVisibilityValues(showScootersRyde, setOpenScooterSettings);
-    checkVisibilityValues(showScootersRyde, setOpenScooterProviderList);
-  }, [showScootersRyde]);
+    checkVisibilityValues(mobilityMap.scootersRyde, setOpenScooterSettings);
+    checkVisibilityValues(mobilityMap.scootersRyde, setOpenScooterProviderList);
+  }, [mobilityMap.scootersRyde]);
 
   const nameKeys = {
     fi: 'name',
@@ -367,13 +365,15 @@ const MobilitySettingsView = ({ classes, intl }) => {
 
   const scooterListToggle = () => {
     setOpenScooterProviderList(current => !current);
-    if (showScootersRyde) {
-      setShowScootersRyde(false);
+    if (mobilityMap.scootersRyde) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, scootersRyde: false }));
     }
   };
 
   const scootersRydeToggle = () => {
-    setShowScootersRyde(current => !current);
+    if (!mobilityMap.scootersRyde) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, scootersRyde: true }));
+    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, scootersRyde: false }));
   };
 
   const cultureRouteListToggle = () => {
@@ -650,7 +650,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
     {
       type: 'scootersRyde',
       msgId: 'mobilityPlatform.menu.show.scootersRyde',
-      checkedValue: showScootersRyde,
+      checkedValue: mobilityMap.scootersRyde,
       onChangeValue: scootersRydeToggle,
     },
   ];
