@@ -825,6 +825,60 @@ const MobilitySettingsView = ({ classes, intl }) => {
     </>
   );
 
+  const renderWalkingInfoTexts = () => (
+    <>
+      {mobilityMap.ecoCounter ? <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" /> : null}
+      {mobilityMap.restRooms ? <InfoTextBox infoText="mobilityPlatform.info.publicToilets" /> : null}
+    </>
+  );
+
+  const renderBicycleInfoTexts = () => (
+    <>
+      {mobilityMap.bicycleStands ? <InfoTextBox infoText="mobilityPlatform.info.bicycleStands" /> : null}
+      {mobilityMap.cityBikes ? <CityBikeInfo bikeInfo={bikeInfo} /> : null}
+    </>
+  );
+
+  const renderDrivingInfoTexts = () => (
+    <>
+      {mobilityMap.rentalCars ? <InfoTextBox infoText="mobilityPlatform.info.rentalCars" /> : null}
+      {mobilityMap.chargingStations ? <InfoTextBox infoText="mobilityPlatform.info.chargingStations" /> : null}
+      {mobilityMap.gasFillingStations ? <InfoTextBox infoText="mobilityPlatform.info.gasFillingStations" /> : null}
+      {mobilityMap.parkingSpaces ? <InfoTextBox infoText="mobilityPlatform.info.parkingSpaces" /> : null}
+      {mobilityMap.disabledParking ? <InfoTextBox infoText="mobilityPlatform.info.disabledParking" /> : null}
+      {openParkingChargeZoneList ? <ExtendedInfo translations={chargeZoneTranslations} /> : null}
+    </>
+  );
+
+  const renderScooterInfoTexts = () => (
+    <>
+      {openScooterProviderList ? <InfoTextBox infoText="mobilityPlatform.info.scooters.general" /> : null}
+      {mobilityMap.scooterParking ? <InfoTextBox infoText="mobilityPlatform.info.scooters.noParking" /> : null}
+      {mobilityMap.scooterParking ? <InfoTextBox infoText="mobilityPlatform.info.scooters.parkingAreas" /> : null}
+      {mobilityMap.scooterSpeedLimit ? <InfoTextBox infoText="mobilityPlatform.info.scooters.speedLimitAreas" /> : null}
+    </>
+  );
+
+  const renderBoatingInfoTexts = () => (
+    <>
+      {mobilityMap.marinas ? (
+        <InfoTextBox
+          infoText="mobilityPlatform.info.marinas"
+          linkUrl="https://opaskartta.turku.fi/ePermit/fi/Reservation/"
+          linkText="mobilityPlatform.info.marinas.link"
+        />
+      ) : null}
+      {mobilityMap.boatParking ? <InfoTextBox infoText="mobilityPlatform.info.boatParking" /> : null}
+      {mobilityMap.guestHarbour ? (
+        <InfoTextBox
+          infoText="mobilityPlatform.info.guestHarbour"
+          linkUrl="https://www.turunvierasvenesatama.fi"
+          linkText="mobilityPlatform.info.guestHarbour.link"
+        />
+      ) : null}
+    </>
+  );
+
   return (
     <div className={classes.content}>
       <TitleBar
@@ -853,6 +907,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 ? renderCultureRoutes(localizedCultureRoutes)
                 : null}
               {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
+              {renderWalkingInfoTexts()}
               <div className={classes.buttonContainer}>
                 <ButtonMain
                   onClickFunc={bicycleSettingsToggle}
@@ -866,6 +921,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 {openBicycleRouteList && !bicycleRouteName ? <EmptyRouteList route={bicycleRouteList} /> : null}
               </div>
               {openBicycleRouteList ? renderBicycleRoutes(bicycleRouteList) : null}
+              {renderBicycleInfoTexts()}
               <div className={classes.buttonContainer}>
                 <ButtonMain
                   onClickFunc={carSettingsToggle}
@@ -877,6 +933,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
               {renderSettings(openCarSettings, carControlTypes)}
               {openParkingChargeZoneList ? renderParkingChargeZoneList() : null}
               {openSpeedLimitList ? renderSpeedLimits() : null}
+              {renderDrivingInfoTexts()}
               <div className={classes.buttonContainer}>
                 <ButtonMain
                   onClickFunc={scooterSettingsToggle}
@@ -887,6 +944,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
               </div>
               {renderSettings(openScooterSettings, scooterControlTypes)}
               {openScooterProviderList ? renderScooterProviderList() : null}
+              {renderScooterInfoTexts()}
               <div className={classes.buttonContainer}>
                 <ButtonMain
                   onClickFunc={boatingSettingsToggle}
@@ -896,39 +954,11 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 />
               </div>
               {renderSettings(openBoatingSettings, boatingControlTypes)}
+              {renderBoatingInfoTexts()}
             </>
           </FormGroup>
         </FormControl>
       </div>
-      {mobilityMap.restRooms ? <InfoTextBox infoText="mobilityPlatform.info.publicRestrooms" /> : null}
-      {mobilityMap.bicycleStands ? <InfoTextBox infoText="mobilityPlatform.info.bicycleStands" /> : null}
-      {mobilityMap.ecoCounter ? <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" /> : null}
-      {mobilityMap.cityBikes ? <CityBikeInfo bikeInfo={bikeInfo} /> : null}
-      {mobilityMap.rentalCars ? <InfoTextBox infoText="mobilityPlatform.info.rentalCars" /> : null}
-      {mobilityMap.chargingStations ? <InfoTextBox infoText="mobilityPlatform.info.chargingStations" /> : null}
-      {mobilityMap.gasFillingStations ? <InfoTextBox infoText="mobilityPlatform.info.gasFillingStations" /> : null}
-      {mobilityMap.parkingSpaces ? <InfoTextBox infoText="mobilityPlatform.info.parkingSpaces" /> : null}
-      {mobilityMap.disabledParking ? <InfoTextBox infoText="mobilityPlatform.info.disabledParking" /> : null}
-      {openParkingChargeZoneList ? <ExtendedInfo translations={chargeZoneTranslations} /> : null}
-      {mobilityMap.marinas ? (
-        <InfoTextBox
-          infoText="mobilityPlatform.info.marinas"
-          linkUrl="https://opaskartta.turku.fi/ePermit/fi/Reservation/"
-          linkText="mobilityPlatform.info.marinas.link"
-        />
-      ) : null}
-      {mobilityMap.boatParking ? <InfoTextBox infoText="mobilityPlatform.info.boatParking" /> : null}
-      {mobilityMap.guestHarbour ? (
-        <InfoTextBox
-          infoText="mobilityPlatform.info.guestHarbour"
-          linkUrl="https://www.turunvierasvenesatama.fi"
-          linkText="mobilityPlatform.info.guestHarbour.link"
-        />
-      ) : null}
-      {openScooterProviderList ? <InfoTextBox infoText="mobilityPlatform.info.scooters.general" /> : null}
-      {mobilityMap.scooterNoParking ? <InfoTextBox infoText="mobilityPlatform.info.scooters.noParking" /> : null}
-      {mobilityMap.scooterParking ? <InfoTextBox infoText="mobilityPlatform.info.scooters.parkingAreas" /> : null}
-      {mobilityMap.scooterSpeedLimit ? <InfoTextBox infoText="mobilityPlatform.info.scooters.speedLimitAreas" /> : null}
     </div>
   );
 };
