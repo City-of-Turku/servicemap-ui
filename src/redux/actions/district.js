@@ -131,7 +131,7 @@ export const fetchDistrictGeometry = (type, period) => (
 
 export const fetchAllDistricts = selected => (
   async (dispatch) => {
-    const categories = dataStructure.map(obj => obj.districts).flat().join(',');
+    const categories = dataStructure.map(obj => obj.districts.map(item => item.id)).flat().join(',');
     const options = {
       page: 1,
       page_size: 500,

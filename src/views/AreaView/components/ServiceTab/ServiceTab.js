@@ -1,7 +1,5 @@
 import {
-  Divider, List,
-  ListItem,
-  Typography
+  Divider, List, ListItem, Typography,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
@@ -16,17 +14,12 @@ import DistrictUnitList from '../DistrictUnitList';
 
 const ServiceTab = (props) => {
   const {
-    selectedAddress,
-    districtData,
-    initialOpenItems,
-    classes,
+    selectedAddress, districtData, initialOpenItems, classes,
   } = props;
   const dispatch = useDispatch();
   const districtsFetching = useSelector(state => state.districts.districtsFetching);
   const selectedDistrictType = useSelector(state => state.districts.selectedDistrictType);
-  const selectedCategory = dataStructure.find(
-    data => data.districts.includes(selectedDistrictType),
-  )?.id;
+  const selectedCategory = dataStructure.find(data => data.districts.some(obj => obj.id === selectedDistrictType))?.id;
 
   const handleRadioChange = (district) => {
     if (selectedDistrictType === district.id) {
@@ -38,7 +31,6 @@ const ServiceTab = (props) => {
       dispatch(setSelectedDistrictType(district.id));
     }
   };
-
 
   const renderDistrictItem = district => (
     <DistrictToggleButton
@@ -61,7 +53,6 @@ const ServiceTab = (props) => {
     />
   );
 
-
   const renderDistrictList = (districList) => {
     const listDistrictAreas = ['rescue_area', 'rescue_district', 'rescue_sub_district'].includes(selectedDistrictType);
     const DistrictList = listDistrictAreas ? DistrictAreaList : DistrictUnitList;
@@ -80,10 +71,7 @@ const ServiceTab = (props) => {
             {/* Service list */}
             {selectedDistrictType === district.id && (
               <li>
-                <DistrictList
-                  district={district}
-                  selectedAddress={selectedAddress}
-                />
+                <DistrictList district={district} selectedAddress={selectedAddress} />
               </li>
             )}
           </Fragment>
@@ -92,7 +80,6 @@ const ServiceTab = (props) => {
     );
   };
 
-
   const renderCollapseContent = (item) => {
     if (item.subCategories) {
       return item.subCategories.map((obj) => {
@@ -100,7 +87,9 @@ const ServiceTab = (props) => {
         return (
           <React.Fragment key={obj.titleID}>
             <div className={classes.subtitle}>
-              <Typography><FormattedMessage id={obj.titleID} /></Typography>
+              <Typography>
+                <FormattedMessage id={obj.titleID} />
+              </Typography>
             </div>
             {renderDistrictList(districList)}
           </React.Fragment>
@@ -108,10 +97,9 @@ const ServiceTab = (props) => {
       });
     }
 
-    const districList = districtData.filter(i => item.districts.includes(i.name));
+    const districList = districtData.filter(i => item.districts.some(district => district.id === i.name));
     return renderDistrictList(districList);
   };
-
 
   const renderCategoryItem = (item) => {
     const defaultExpanded = initialOpenItems.includes(item.id) || selectedCategory === item.id;
@@ -121,13 +109,15 @@ const ServiceTab = (props) => {
           className={classes.accodrion}
           onOpen={() => dispatch(handleOpenItems(item.id))}
           defaultOpen={defaultExpanded}
-          titleContent={<Typography id={`${item.id}-content`} className={classes.bold}><FormattedMessage id={item.titleID} /></Typography>}
+          titleContent={(
+            <Typography id={`${item.id}-content`} className={classes.bold}>
+              <FormattedMessage id={item.titleID} />
+            </Typography>
+          )}
           collapseContent={(
             <>
               <Divider aria-hidden />
-              <div className={classes.collapseArea}>
-                {renderCollapseContent(item)}
-              </div>
+              <div className={classes.collapseArea}>{renderCollapseContent(item)}</div>
             </>
           )}
         />
@@ -152,9 +142,7 @@ const ServiceTab = (props) => {
       <Typography variant="srOnly" component="h3">
         <FormattedMessage id="area.list" />
       </Typography>
-      <List>
-        {districtCategoryList.map(item => renderCategoryItem(item))}
-      </List>
+      <List>{districtCategoryList.map(item => renderCategoryItem(item))}</List>
     </div>
   );
 };

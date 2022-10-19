@@ -198,7 +198,7 @@ const AreaView = ({
         fetchAllDistricts(selectedAreaType);
         if (!embed) {
           const category = dataStructure.find(
-            data => data.districts.includes(selectedAreaType),
+            data => data.districts.some(obj => obj.id === selectedAreaType),
           );
           dispatch(handleOpenItems(category.id));
         }
