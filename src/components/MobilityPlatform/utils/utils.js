@@ -6,11 +6,15 @@ const setLocalizedLink = (locale, setLink, linkUrlSv, linkUrlEn, linkUrlFi) => {
   } else setLink(linkUrlFi);
 };
 
-const isDataValid = (visibilityValue, data) => {
-  return visibilityValue && data && data.length > 0;
-};
+const isDataValid = (visibilityValue, data) => visibilityValue && data && data.length > 0;
+
+const createIcon = icon => ({
+  iconUrl: icon,
+  iconSize: [45, 45],
+});
 
 export {
   setLocalizedLink,
   isDataValid,
+  createIcon,
 };

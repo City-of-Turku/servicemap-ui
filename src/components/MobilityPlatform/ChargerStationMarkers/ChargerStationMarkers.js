@@ -4,7 +4,7 @@ import { useMap } from 'react-leaflet';
 import chargerIcon from 'servicemap-ui-turku/assets/icons/icons-icon_charging_station.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../utils/utils';
+import { isDataValid, createIcon } from '../utils/utils';
 import ChargerStationContent from './components/ChargerStationContent';
 
 const ChargerStationMarkers = ({ classes }) => {
@@ -17,10 +17,7 @@ const ChargerStationMarkers = ({ classes }) => {
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
-  const chargerStationIcon = icon({
-    iconUrl: chargerIcon,
-    iconSize: [45, 45],
-  });
+  const chargerStationIcon = icon(createIcon(chargerIcon));
 
   useEffect(() => {
     if (openMobilityPlatform) {

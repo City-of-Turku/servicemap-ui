@@ -1,11 +1,11 @@
 import { PropTypes } from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
-import markerIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ecocounter.svg';
+import ecoCounterIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ecocounter.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
-import { isDataValid } from '../../MobilityPlatform/utils/utils';
-import EcoCounterContent from '../EcoCounterContent';
+import { createIcon, isDataValid } from '../../MobilityPlatform/utils/utils';
 import { fetchEcoCounterStations } from '../EcoCounterRequests/ecoCounterRequests';
+import EcoCounterContent from '../EcoCounterContent';
 
 const EcoCounterMarkers = ({ classes }) => {
   const [ecoCounterStations, setEcoCounterStations] = useState([]);
@@ -15,10 +15,7 @@ const EcoCounterMarkers = ({ classes }) => {
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
-  const ecoCounterIcon = icon({
-    iconUrl: markerIcon,
-    iconSize: [45, 45],
-  });
+  const customIcon = icon(createIcon(ecoCounterIcon));
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -44,7 +41,7 @@ const EcoCounterMarkers = ({ classes }) => {
     <>
       {renderData
         && ecoCounterStations.map(item => (
-          <Marker key={item.id} icon={ecoCounterIcon} position={[item.lat, item.lon]}>
+          <Marker key={item.id} icon={customIcon} position={[item.lat, item.lon]}>
             <div className={classes.popupWrapper}>
               <Popup className="ecocounter-popup">
                 <div className={classes.popupInner}>

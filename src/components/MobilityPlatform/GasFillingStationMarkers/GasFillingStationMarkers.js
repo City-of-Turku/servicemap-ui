@@ -4,7 +4,7 @@ import { useMap } from 'react-leaflet';
 import gasFillingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_gas_station.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../utils/utils';
+import { isDataValid, createIcon } from '../utils/utils';
 import GasFillingStationContent from './components/GasFillingStationContent';
 
 const GasFillingStationMarkers = ({ classes }) => {
@@ -15,10 +15,7 @@ const GasFillingStationMarkers = ({ classes }) => {
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
-  const gasStationIcon = icon({
-    iconUrl: gasFillingIcon,
-    iconSize: [45, 45],
-  });
+  const gasStationIcon = icon(createIcon(gasFillingIcon));
 
   useEffect(() => {
     if (openMobilityPlatform) {

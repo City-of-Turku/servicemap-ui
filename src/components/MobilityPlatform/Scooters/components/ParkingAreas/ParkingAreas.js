@@ -3,7 +3,7 @@ import { useMap } from 'react-leaflet';
 import scooterParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_scooter_parking.svg';
 import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
 import { fetchMobilityMapData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../../../utils/utils';
+import { isDataValid, createIcon } from '../../../utils/utils';
 import TextContent from '../../../TextContent';
 
 const ParkingAreas = () => {
@@ -16,10 +16,7 @@ const ParkingAreas = () => {
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
-  const customIcon = icon({
-    iconUrl: scooterParkingIcon,
-    iconSize: [45, 45],
-  });
+  const customIcon = icon(createIcon(scooterParkingIcon));
 
   useEffect(() => {
     if (openMobilityPlatform) {

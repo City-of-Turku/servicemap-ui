@@ -3,7 +3,7 @@ import { useMap } from 'react-leaflet';
 import publicToiletIcon from 'servicemap-ui-turku/assets/icons/icons-icon_toilet.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../utils/utils';
+import { isDataValid, createIcon } from '../utils/utils';
 import PublicToiletsContent from './components/PublicToiletsContent';
 
 const PublicToilets = () => {
@@ -14,11 +14,7 @@ const PublicToilets = () => {
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
-  // TODO change icon
-  const customIcon = icon({
-    iconUrl: publicToiletIcon,
-    iconSize: [45, 45],
-  });
+  const customIcon = icon(createIcon(publicToiletIcon));
 
   useEffect(() => {
     if (openMobilityPlatform) {
