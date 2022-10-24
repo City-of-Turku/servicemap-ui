@@ -114,6 +114,7 @@ const mobilityMapInitial = {
   scootersRyde: false,
   cultureRoutes: false,
   bicycleRoutes: false,
+  loadingPlaces: false,
 };
 
 const DefaultLayout = (props) => {

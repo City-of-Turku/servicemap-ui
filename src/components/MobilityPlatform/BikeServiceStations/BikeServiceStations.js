@@ -46,7 +46,7 @@ const BikeServiceStations = () => {
             position={[item.geometry_coords.lat, item.geometry_coords.lon]}
           >
             <div>
-              <Popup>
+              <Popup className="popup-w350">
                 <BikeServiceStationContent station={item} />
               </Popup>
             </div>

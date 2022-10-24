@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LoadingPlacesContent /> should match snapshot 1`] = `
+<div>
+  <div
+    class="injectIntl(LoadingPlacesContent)-container-1"
+  >
+    <div
+      class="injectIntl(LoadingPlacesContent)-container-1"
+    >
+      <div
+        class="injectIntl(LoadingPlacesContent)-headerContainer-2"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1"
+        >
+          Testi
+        </h6>
+      </div>
+      <div
+        class="injectIntl(LoadingPlacesContent)-textContainer-3"
+      >
+        <div
+          class="injectIntl(LoadingPlacesContent)-margin-5"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            Osoite: Testikatu
+          </p>
+        </div>
+        <div
+          class="injectIntl(LoadingPlacesContent)-marginTop-6"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            Testi
+          </p>
+        </div>
+        <div
+          class="injectIntl(LoadingPlacesContent)-marginTop-6"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            Testitieto
+          </p>
+        </div>
+        <div
+          class="injectIntl(LoadingPlacesContent)-marginTop-6"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            Testiteksti
+          </p>
+        </div>
+        <div
+          class="injectIntl(LoadingPlacesContent)-marginTop-6"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            Testitieto
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -595,7 +595,7 @@ const translations = {
   'mobilityPlatform.menu.title.car': 'Autoilu',
   'mobilityPlatform.menu.title.boating': 'Veneily',
   'mobilityPlatform.menu.title.scooter': 'Sähköpotkulaudat',
-  'mobilityPlatform.menu.showChargingStations': 'Autojen sähkölatauspisteet',
+  'mobilityPlatform.menu.showChargingStations': 'Sähkölatauspisteet',
   'mobilityPlatform.menu.showGasFillingStations': 'Kaasutankkausasemat',
   'mobilityPlatform.menu.showEcoCounter': 'Laskentapisteet',
   'mobilityPlatform.menu.showBicycleStands': 'Polkupyöräpysäköinti',
@@ -626,6 +626,7 @@ const translations = {
   'mobilityPlatform.menu.show.scootersRyde': 'Ryde -sähköpotkulaudat',
   'mobilityPlatform.menu.scooters.list.info': 'Voit listan avulla näyttää valitun operaattorin vapaat sähköpotkulaudat kartalla.',
   'mobilityPlatform.menu.show.disabledParking': 'Liikkumisesteisen pysäköinti',
+  'mobilityPlatform.menu.loadingPlaces.show': 'Kuormauspaikat',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',
@@ -745,6 +746,7 @@ const translations = {
   'mobilityPlatform.info.scooters.speedLimitAreas': 'Ylin sallittu nopeus alueilla on 15 km/t.',
   'mobilityPlatform.info.scooters.general': 'Palvelukartalla näkyvät operaattorien vapaana olevat sähköpotkulaudat. Liikkumisnäkymään tullaan lisäämään tietoja muidenkin operaattorien sähköpotkulaudoista.',
   'mobilityPlatform.info.disabledParking': 'Kartalla näkyvät liikkumisesteisille tarkoitetut pysäköintipaikat. Niihin pysäköintiä varten tarvitsee liikkumisesteisen pysäköintitunnuksen. Paikkoihin on esteetön pääsy, poislukien ne pysäköintipaikat, joihin pääsee portin kautta.',
+  'mobilityPlatform.info.loadingPlaces': 'Kartalla näkyvät tavaroiden lastaukseen ja purkamiseen tarkoitetut paikat.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',

@@ -140,6 +140,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
     checkVisibilityValues(mobilityMap.speedLimitZones, setOpenCarSettings);
     checkVisibilityValues(mobilityMap.disabledParking, setOpenCarSettings);
     checkVisibilityValues(mobilityMap.parkingChargeZones, setOpenCarSettings);
+    checkVisibilityValues(mobilityMap.loadingPlaces, setOpenCarSettings);
     checkVisibilityValues(mobilityMap.parkingChargeZones, setOpenParkingChargeZoneList);
     checkVisibilityValues(mobilityMap.marinas, setOpenBoatingSettings);
     checkVisibilityValues(mobilityMap.boatParking, setOpenBoatingSettings);
@@ -328,6 +329,12 @@ const MobilitySettingsView = ({ classes, intl }) => {
     if (!mobilityMap.scooterParking) {
       setMobilityMap(mobilityMap => ({ ...mobilityMap, scooterParking: true }));
     } else setMobilityMap(mobilityMap => ({ ...mobilityMap, scooterParking: false }));
+  };
+
+  const loadingPlacesToggle = () => {
+    if (!mobilityMap.loadingPlaces) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, loadingPlaces: true }));
+    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, loadingPlaces: false }));
   };
 
   const scooterSpeedLimitAreasToggle = () => {
@@ -568,6 +575,12 @@ const MobilitySettingsView = ({ classes, intl }) => {
       msgId: 'mobilityPlatform.menu.speedLimitZones.show',
       checkedValue: openSpeedLimitList,
       onChangeValue: speedLimitZonesToggle,
+    },
+    {
+      type: 'loadingPlaces',
+      msgId: 'mobilityPlatform.menu.loadingPlaces.show',
+      checkedValue: mobilityMap.loadingPlaces,
+      onChangeValue: loadingPlacesToggle,
     },
   ];
 
@@ -828,7 +841,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const renderWalkingInfoTexts = () => (
     <>
       {mobilityMap.ecoCounter ? <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" /> : null}
-      {mobilityMap.restRooms ? <InfoTextBox infoText="mobilityPlatform.info.publicToilets" /> : null}
+      {mobilityMap.restRooms ? <InfoTextBox infoText="mobilityPlatform.info.publicRestrooms" /> : null}
     </>
   );
 
@@ -847,6 +860,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
       {mobilityMap.parkingSpaces ? <InfoTextBox infoText="mobilityPlatform.info.parkingSpaces" /> : null}
       {mobilityMap.disabledParking ? <InfoTextBox infoText="mobilityPlatform.info.disabledParking" /> : null}
       {openParkingChargeZoneList ? <ExtendedInfo translations={chargeZoneTranslations} /> : null}
+      {mobilityMap.loadingPlaces ? <InfoTextBox infoText="mobilityPlatform.info.loadingPlaces" /> : null}
     </>
   );
 
