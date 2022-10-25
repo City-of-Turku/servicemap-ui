@@ -1,17 +1,16 @@
 import { ButtonBase, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { setLocalizedLink } from '../../../../components/MobilityPlatform/utils/utils';
+import React, { useState } from 'react';
+import useLocaleText from '../../../../utils/useLocaleText';
 import LinkBasic from '../LinkBasic';
 import List from '../List';
 import OptionalA11yText from '../OptionalA11yText';
 import Paragraph from '../Paragraph';
 
-const OptionalText = ({ classes, intl, locale }) => {
-  const [feedbackLink, setFeedbackLink] = useState(null);
-  const [serviceDirectoryLink, setServiceDirectoryLink] = useState(null);
+const OptionalText = ({ classes, intl }) => {
   const [showA11y, setShowA11y] = useState(false);
 
+  const getLocaleText = useLocaleText();
   const appLink = 'https://github.com/City-of-Turku/servicemap-ui/';
   const apiLink = 'https://github.com/City-of-Turku/smbackend/';
   const guideMapLink = 'https://opaskartta.turku.fi';
@@ -44,22 +43,17 @@ const OptionalText = ({ classes, intl, locale }) => {
     intl.formatMessage({ id: 'info.view.mapSettingsOptions.contrastMap' }),
   ];
 
-  useEffect(() => {
-    setLocalizedLink(
-      locale,
-      setFeedbackLink,
-      'https://www.turku.fi/feedbacktjansten',
-      'https://www.turku.fi/feedback',
-      'https://www.turku.fi/palaute',
-    );
-    setLocalizedLink(
-      locale,
-      setServiceDirectoryLink,
-      'https://www.turku.fi/sv/service-directory',
-      'https://www.turku.fi/en/service-directory',
-      'https://www.turku.fi/palveluhakemisto',
-    );
-  }, [locale]);
+  const serviceDirectoryLinks = {
+    fi: 'https://www.turku.fi/palveluhakemisto',
+    en: 'https://www.turku.fi/en/service-directory',
+    sv: 'https://www.turku.fi/sv/service-directory',
+  };
+
+  const feedbackLinks = {
+    fi: 'https://www.turku.fi/palaute',
+    en: 'https://www.turku.fi/feedback',
+    sv: 'https://www.turku.fi/feedbacktjansten',
+  };
 
   const renderNestedList = () => (
     <ul>
@@ -146,7 +140,7 @@ const OptionalText = ({ classes, intl, locale }) => {
       <List input={mapOptions} />
       <Paragraph isTitle translationId="info.view.feedbackInfoTitle" />
       <Paragraph translationId="info.view.feedbackInfo" />
-      <LinkBasic linkUrl={feedbackLink} translationId="info.view.feedback.link" />
+      <LinkBasic linkUrl={getLocaleText(feedbackLinks)} translationId="info.view.feedback.link" />
       <Paragraph isTitle translationId="info.view.copyrightInfoTitle" />
       <Paragraph translationId="info.view.copyrightInfo" />
       <LinkBasic linkUrl={appLink} translationId="info.view.repository.app" />
@@ -155,7 +149,7 @@ const OptionalText = ({ classes, intl, locale }) => {
       <LinkBasic linkUrl={openStreetMapLink} translationId="info.view.openStreetMap.link" />
       <Paragraph translationId="info.view.usageInfo" />
       <Paragraph translationId="info.view.turkuServicesInfo" />
-      <LinkBasic linkUrl={serviceDirectoryLink} translationId="info.view.turkuServices.link" />
+      <LinkBasic linkUrl={getLocaleText(serviceDirectoryLinks)} translationId="info.view.turkuServices.link" />
       <LinkBasic linkUrl={serviceCatalogApiLink} translationId="info.view.serviceCatalogue.link" />
       <Paragraph translationId="info.view.registryInfo" />
       <LinkBasic linkUrl={dataDescriptionServiceLink} translationId="info.view.dataDescriptionService.link" />
@@ -173,7 +167,7 @@ const OptionalText = ({ classes, intl, locale }) => {
           </Typography>
         </ButtonBase>
       </div>
-      {showA11y ? <OptionalA11yText locale={locale} /> : renderGeneralInfo()}
+      {showA11y ? <OptionalA11yText /> : renderGeneralInfo()}
     </div>
   );
 };
@@ -181,7 +175,6 @@ const OptionalText = ({ classes, intl, locale }) => {
 OptionalText.propTypes = {
   intl: PropTypes.objectOf(PropTypes.any).isRequired,
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  locale: PropTypes.string.isRequired,
 };
 
 export default OptionalText;

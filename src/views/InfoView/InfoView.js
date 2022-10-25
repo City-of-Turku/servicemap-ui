@@ -652,7 +652,7 @@ const InfoView = ({ classes, locale }) => {
         {renderTitlebar()}
         {isExternalTheme ? (
           <div className={classes.textContainer}>
-            <OptionalText locale={locale} />
+            <OptionalText />
           </div>
         ) : null}
         {locale === 'fi' && !isExternalTheme ? (
