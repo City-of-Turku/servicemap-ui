@@ -67,9 +67,11 @@ const translations = {
   'area.geographicalServices.neighborhood': 'Tjänster i stadsdelen ({length})',
   'area.geographicalServices.postcode_area': 'Tjänster i postnummerområdet ({length})',
   'area.geographicalServices.major_district': 'Tjänster i stordistriktet ({length})',
+  'area.geographicalServices.voting_district': 'Services of the voting disctrict ({length})', // TODO translate
   'area.neighborhood.title': 'Välj stadsdel',
   'area.postcode_area.title': 'Välj postnummer',
   'area.major_district.title': 'Välj stordistrikt',
+  'area.voting_district.title': 'Choose voting disctrict', // TODO translate
   'area.noSelection': 'Väl område under fliken Val av område',
   'area.noUnits': 'Det finns inga verksamhetsställen i ditt valda område',
   'area.popupLink': 'Visa uppgifterna för området (ny flik)',
@@ -115,6 +117,7 @@ const translations = {
   'area.list.preschool_education_sv.plural': 'Svenskt småbarnspedagogikområden',
   'area.list.nature_reserve.plural': 'Naturskyddsområden',
   'area.list.resident_parking_zone.plural': 'Invånarparkeringsområden',
+  'area.list.voting_district': 'Voting disctricts', // TODO translate
 
   // Download dialog
   'download.cropping.title': 'Nuvarande filterinställningar',

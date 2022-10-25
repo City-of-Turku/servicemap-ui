@@ -67,9 +67,11 @@ const translations = {
   'area.geographicalServices.neighborhood': 'Kaupunginosan palvelut ({length})',
   'area.geographicalServices.postcode_area': 'Postinumeroalueen palvelut ({length})',
   'area.geographicalServices.major_district': 'Suurpiirin palvelut ({length})',
+  'area.geographicalServices.voting_district': 'Äänestysalueen palvelut ({length})',
   'area.neighborhood.title': 'Valitse kaupunginosa',
   'area.postcode_area.title': 'Valitse postinumero',
   'area.major_district.title': 'Valitse suurpiiri',
+  'area.voting_district.title': 'Valitse äänestysalue',
   'area.noSelection': 'Valitse alue Alueen Valinta -välilehdeltä',
   'area.noUnits': 'Valitsemallasi alueella ei ole toimipisteitä',
   'area.popupLink': 'Näytä alueen tiedot (uusi välilehti)',
@@ -115,6 +117,7 @@ const translations = {
   'area.list.preschool_education_sv.plural': 'Ruotsinkieliset esiopetusalueet',
   'area.list.nature_reserve.plural': 'Luonnonsuojelualueet',
   'area.list.resident_parking_zone.plural': 'Asukaspysäköintialueet',
+  'area.list.voting_district': 'Äänestysalueet',
 
   // Download dialog
   'download.cropping.title': 'Nykyinen rajaus',

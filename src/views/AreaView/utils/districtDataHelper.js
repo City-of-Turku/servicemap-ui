@@ -82,6 +82,7 @@ export const dataStructure = [
       { id: 'neighborhood', searchWords: ['kaupunginosat'] },
       { id: 'postcode_area', searchWords: ['postinumerot'] },
       { id: 'major_district', searchWords: ['suurpiirit'] },
+      { id: 'voting_district', searchWords: ['äänestysalueet'] },
     ],
   },
   /* {

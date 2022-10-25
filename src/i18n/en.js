@@ -67,9 +67,11 @@ const translations = {
   'area.geographicalServices.neighborhood': 'Services of the neighbourhood ({length})',
   'area.geographicalServices.postcode_area': 'Services of the postal code area ({length})',
   'area.geographicalServices.major_district': 'Services of the major district ({length})',
+  'area.geographicalServices.voting_district': 'Services of the voting disctrict ({length})',
   'area.neighborhood.title': 'Choose neighbourhood',
   'area.postcode_area.title': 'Choose postal code',
   'area.major_district.title': 'Choose major district',
+  'area.voting_district.title': 'Choose voting disctrict',
   'area.noSelection': 'Choose area from the Choice of Area tab',
   'area.noUnits': 'There are no service points in your chosen area',
   'area.popupLink': 'Show the details for the area (new tab)',
@@ -115,6 +117,7 @@ const translations = {
   'area.list.preschool_education_sv.plural': 'Swedish preschool education areas',
   'area.list.nature_reserve.plural': 'Nature conservation areass',
   'area.list.resident_parking_zone.plural': 'Residential parking areas',
+  'area.list.voting_district': 'Voting disctricts',
 
   // Download dialog
   'download.cropping.title': 'Current filter values',
