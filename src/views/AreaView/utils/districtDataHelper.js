@@ -5,7 +5,7 @@ import area from '@turf/area';
 
 export const dataStructure = [
   // Categorized district data structure
-  {
+  /* {
     id: 'health',
     titleID: 'area.list.health',
     districts: [
@@ -25,7 +25,7 @@ export const dataStructure = [
       },
       { id: 'maternity_clinic_district', searchWords: ['neuvolat', 'neuvola-alueet', 'omaneuvola', 'oma neuvola'] },
     ],
-  },
+  }, */
   {
     id: 'education',
     titleID: 'area.list.education',
@@ -84,7 +84,7 @@ export const dataStructure = [
       { id: 'major_district', searchWords: ['suurpiirit'] },
     ],
   },
-  {
+  /* {
     id: 'protection',
     titleID: 'area.list.protection',
     searchWords: ['VSS', 'väestönsuojelu'],
@@ -93,20 +93,20 @@ export const dataStructure = [
       { id: 'rescue_district', searchWords: ['suojelulohkot'] },
       { id: 'rescue_sub_district', searchWords: ['suojelualalohkot'] },
     ],
-  },
-  {
+  }, */
+  /* {
     id: 'nature',
     titleID: 'area.list.natureConservation',
     districts: [{ id: 'nature_reserve', searchWords: ['luonnonsuojelualueet', 'luonnonsuojelu'] }],
-  },
-  {
+  }, */
+  /* {
     id: 'parking',
     titleID: 'area.list.parking',
     districts: [
       { id: 'resident_parking_zone', searchWords: ['asukaspysäköinti', 'tunnuksellinen pysäköinti'] },
       { id: 'parking_payzone', searchWords: ['maksuvyöhykkeet'] },
     ],
-  },
+  }, */
 ];
 
 // Get geographical districts
