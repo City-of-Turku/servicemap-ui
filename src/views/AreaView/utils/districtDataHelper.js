@@ -63,7 +63,7 @@ export const dataStructure = [
       },
     ],
   },
-  {
+  /* {
     id: 'preschool',
     titleID: 'area.list.preschool',
     searchWords: ['eskarit', 'esikoulut'],
@@ -74,14 +74,15 @@ export const dataStructure = [
         searchWords: ['esikoulu ruotsi', 'eskari ruotsi', 'eskari ruotsinkielinen', 'esiopetus ruotsi'],
       },
     ],
-  },
+  }, */
   {
     id: 'geographical',
     titleID: 'area.list.geographical',
     districts: [
-      { id: 'neighborhood', searchWords: ['kaupunginosat'] },
+      { id: 'district', searchWords: ['kaupunginosat'] },
       { id: 'postcode_area', searchWords: ['postinumerot'] },
       { id: 'major_district', searchWords: ['suurpiirit'] },
+      { id: 'sub_district', searchWords: ['pienalueet'] },
       { id: 'voting_district', searchWords: ['äänestysalueet'] },
     ],
   },

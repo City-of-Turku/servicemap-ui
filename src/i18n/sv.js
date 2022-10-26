@@ -65,13 +65,17 @@ const translations = {
   'area.localAddress.neighborhood': 'Stadsdel: {area}',
   'area.localAddress.postCode': 'Postnummer: {area}',
   'area.geographicalServices.neighborhood': 'Tjänster i stadsdelen ({length})',
+  'area.geographicalServices.district': 'Tjänster i stadsdelen ({length})',
   'area.geographicalServices.postcode_area': 'Tjänster i postnummerområdet ({length})',
   'area.geographicalServices.major_district': 'Tjänster i stordistriktet ({length})',
-  'area.geographicalServices.voting_district': 'Services of the voting disctrict ({length})', // TODO translate
+  'area.geographicalServices.voting_district': 'Tjänster i röstningonrådet ({length})', // TODO verify
+  'area.geographicalServices.sub_district': 'Tjänster i underdistriktet ({length})', // TODO verify
   'area.neighborhood.title': 'Välj stadsdel',
+  'area.district.title': 'Välj stadsdel',
   'area.postcode_area.title': 'Välj postnummer',
   'area.major_district.title': 'Välj stordistrikt',
-  'area.voting_district.title': 'Choose voting disctrict', // TODO translate
+  'area.voting_district.title': 'Välj röstningonrådet', // TODO verify
+  'area.sub_district.title': 'Välj underdistrikt', // TODO verify
   'area.noSelection': 'Väl område under fliken Val av område',
   'area.noUnits': 'Det finns inga verksamhetsställen i ditt valda område',
   'area.popupLink': 'Visa uppgifterna för området (ny flik)',
@@ -85,6 +89,7 @@ const translations = {
   'area.list.education.swedish': 'Svenska skolområden',
   'area.list.preschool': 'Förskoleundervisning',
   'area.list.neighborhood': 'Stadsdel',
+  'area.list.district': 'Stadsdel',
   'area.list.postcode': 'Postnummer',
   'area.list.postcode_area': 'Postnummerområde',
   'area.list.major_district': 'Stordistrikt',
@@ -102,6 +107,7 @@ const translations = {
   'area.list.nature_reserve': 'Naturskyddsområden',
   'area.list.resident_parking_zone': 'Invånarparkeringsområden',
   'area.list.neighborhood.plural': 'Stadsdelar',
+  'area.list.district.plural': 'Stadsdelar',
   'area.list.postcode_area.plural': 'Postnummerområden',
   'area.list.major_district.plural': 'Stordistrikten',
   'area.list.rescue_area.plural': 'Skyddsdistrikten',
@@ -117,7 +123,10 @@ const translations = {
   'area.list.preschool_education_sv.plural': 'Svenskt småbarnspedagogikområden',
   'area.list.nature_reserve.plural': 'Naturskyddsområden',
   'area.list.resident_parking_zone.plural': 'Invånarparkeringsområden',
-  'area.list.voting_district': 'Voting disctricts', // TODO translate
+  'area.list.voting_district': 'Röstningområd', // TODO verify
+  'area.list.voting_district.plural': 'Röstningområden', // TODO verify
+  'area.list.sub_district': 'Underdistrikt', // TODO verify
+  'area.list.sub_district.plural': 'Underdistrikten', // TODO verify
 
   // Download dialog
   'download.cropping.title': 'Nuvarande filterinställningar',
@@ -302,6 +311,7 @@ const translations = {
   'home.buttons.closeByServices': 'Visa närtjänster',
   'home.buttons.instructions': 'Tips för användning av servicekartan',
   'home.buttons.area': 'Se hälsovårds-, rådgivnings-, elevupptagnings-, förskole-, befolkningsskydds- och naturskyddsområdena samt stadsdelarna',
+  'home.buttons.area.tku': 'Se elevupptagnings-, postnummer- och röstningområdena samt stadsdelarna.', // TODO verify
   'home.example.search': 'Sök med sökord',
   'home.message': 'Hälsningar av servicekartans utvecklare',
   'home.send.feedback': 'Skicka respons',

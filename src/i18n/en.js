@@ -67,11 +67,13 @@ const translations = {
   'area.geographicalServices.neighborhood': 'Services of the neighbourhood ({length})',
   'area.geographicalServices.postcode_area': 'Services of the postal code area ({length})',
   'area.geographicalServices.major_district': 'Services of the major district ({length})',
-  'area.geographicalServices.voting_district': 'Services of the voting disctrict ({length})',
+  'area.geographicalServices.voting_district': 'Services of the voting district ({length})', // TODO verify
+  'area.geographicalServices.sub_district': 'Services of the sub district ({length})', // TODO verify
   'area.neighborhood.title': 'Choose neighbourhood',
   'area.postcode_area.title': 'Choose postal code',
   'area.major_district.title': 'Choose major district',
-  'area.voting_district.title': 'Choose voting disctrict',
+  'area.voting_district.title': 'Choose voting district', // TODO verify
+  'area.sub_district.title': 'Choose sub district', // TODO verify
   'area.noSelection': 'Choose area from the Choice of Area tab',
   'area.noUnits': 'There are no service points in your chosen area',
   'area.popupLink': 'Show the details for the area (new tab)',
@@ -85,6 +87,7 @@ const translations = {
   'area.list.education.swedish': 'Swedish school areas',
   'area.list.preschool': 'Pre-school education',
   'area.list.neighborhood': 'Neighborhood',
+  'area.list.district': 'Neighborhood',
   'area.list.postcode': 'Postcode',
   'area.list.postcode_area': 'Postcode area',
   'area.list.major_district': 'Major district',
@@ -115,9 +118,12 @@ const translations = {
   'area.list.upper_comprehensive_school_district_sv.plural': 'Swedish secondary school areas',
   'area.list.preschool_education_fi.plural': 'Finnish preschool education areas',
   'area.list.preschool_education_sv.plural': 'Swedish preschool education areas',
-  'area.list.nature_reserve.plural': 'Nature conservation areass',
+  'area.list.nature_reserve.plural': 'Nature conservation areas',
   'area.list.resident_parking_zone.plural': 'Residential parking areas',
-  'area.list.voting_district': 'Voting disctricts',
+  'area.list.voting_district': 'Voting district', // TODO verify
+  'area.list.voting_district.plural': 'Voting districts', // TODO verify
+  'area.list.sub_district': 'Sub district', // TODO verify
+  'area.list.sub_district.plural': 'Sub districts', // TODO verify
 
   // Download dialog
   'download.cropping.title': 'Current filter values',
@@ -302,6 +308,7 @@ const translations = {
   'home.buttons.closeByServices': 'Show nearby services',
   'home.buttons.instructions': 'Tips for using the service map',
   'home.buttons.area': 'View the areas for healthcare, education, pre-primary education, civil defence, nature and neighborhoods.',
+  'home.buttons.area.tku': 'View the areas for education, postcode, voting and neighborhoods.', // TODO verify
   'home.example.search': 'Search for',
   'home.message': 'Message from the developers',
   'home.send.feedback': 'Give feedback',
