@@ -84,6 +84,7 @@ export const dataStructure = [
       { id: 'major_district', searchWords: ['suurpiirit'] },
       { id: 'sub_district', searchWords: ['pienalueet'] },
       { id: 'voting_district', searchWords: ['äänestysalueet'] },
+      { id: 'parish', searchWords: ['seurakunnat, seurakunta'] },
     ],
   },
   /* {

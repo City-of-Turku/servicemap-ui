@@ -69,11 +69,13 @@ const translations = {
   'area.geographicalServices.major_district': 'Services of the major district ({length})',
   'area.geographicalServices.voting_district': 'Services of the voting district ({length})', // TODO verify
   'area.geographicalServices.sub_district': 'Services of the sub district ({length})', // TODO verify
+  'area.geographicalServices.parish': 'Services of the parish area ({length})', // TODO verify
   'area.neighborhood.title': 'Choose neighbourhood',
   'area.postcode_area.title': 'Choose postal code',
   'area.major_district.title': 'Choose major district',
   'area.voting_district.title': 'Choose voting district', // TODO verify
   'area.sub_district.title': 'Choose sub district', // TODO verify
+  'area.parish.title': 'Choose a parish', // TODO verify
   'area.noSelection': 'Choose area from the Choice of Area tab',
   'area.noUnits': 'There are no service points in your chosen area',
   'area.popupLink': 'Show the details for the area (new tab)',
@@ -124,6 +126,8 @@ const translations = {
   'area.list.voting_district.plural': 'Voting districts', // TODO verify
   'area.list.sub_district': 'Sub district', // TODO verify
   'area.list.sub_district.plural': 'Sub districts', // TODO verify
+  'area.list.parish': 'Parish', // TODO verify
+  'area.list.parish.plural': 'Parishes', // TODO verify
 
   // Download dialog
   'download.cropping.title': 'Current filter values',

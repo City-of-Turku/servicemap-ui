@@ -70,12 +70,14 @@ const translations = {
   'area.geographicalServices.major_district': 'Suurpiirin palvelut ({length})',
   'area.geographicalServices.voting_district': 'Äänestysalueen palvelut ({length})',
   'area.geographicalServices.sub_district': 'Pienalueen palvelut ({length})',
+  'area.geographicalServices.parish': 'Seurakunnan alueen palvelut ({length})',
   'area.neighborhood.title': 'Valitse kaupunginosa',
   'area.district.title': 'Valitse kaupunginosa',
   'area.postcode_area.title': 'Valitse postinumero',
   'area.major_district.title': 'Valitse suurpiiri',
   'area.voting_district.title': 'Valitse äänestysalue',
   'area.sub_district.title': 'Valitse pienalue',
+  'area.parish.title': 'Valitse seurakunta',
   'area.noSelection': 'Valitse alue Alueen Valinta -välilehdeltä',
   'area.noUnits': 'Valitsemallasi alueella ei ole toimipisteitä',
   'area.popupLink': 'Näytä alueen tiedot (uusi välilehti)',
@@ -127,6 +129,8 @@ const translations = {
   'area.list.voting_district.plural': 'Äänestysalueet',
   'area.list.sub_district': 'Pienalue',
   'area.list.sub_district.plural': 'Pienalueet',
+  'area.list.parish': 'Seurakunta',
+  'area.list.parish.plural': 'Seurakunnat',
 
   // Download dialog
   'download.cropping.title': 'Nykyinen rajaus',
