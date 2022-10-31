@@ -6,6 +6,12 @@ exports[`<CityBikeInfo /> should work 1`] = `
     class="injectIntl(CityBikeInfo)-container-1"
   >
     <p
+      aria-label="Talvikausi alkaa 1. marraskuuta ja päättyy 31. maaliskuuta. Silloin kaupunkipyörät eivät ole käytössä."
+      class="MuiTypography-root injectIntl(CityBikeInfo)-margin-2 MuiTypography-body2"
+    >
+      Talvikausi alkaa 1. marraskuuta ja päättyy 31. maaliskuuta. Silloin kaupunkipyörät eivät ole käytössä.
+    </p>
+    <p
       aria-label="Turun kaupunkipyörät eli tuttavallisemmin föllärit, ovat pyöriä, joita kuka vaan voi vuokrata Donkey Republicin sovelluksella.  Föllärin voi vuokrata kertamaksulla, kuukausimaksulla tai koko kesän kattavalla kausimaksulla."
       class="MuiTypography-root injectIntl(CityBikeInfo)-margin-2 MuiTypography-body2"
     >

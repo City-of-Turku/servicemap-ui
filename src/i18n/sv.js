@@ -747,6 +747,7 @@ const translations = {
   'mobilityPlatform.info.cityBikes.subtitle': 'Läs mer om stadscyklar:',
   'mobilityPlatform.info.cityBikes.link': 'https://www.foli.fi/sv/fölicyklar',
   'mobilityPlatform.info.cityBikes.apiInfo': 'Informationen om cyklarna kommer från Donkey Rebuplic i realtid.',
+  'mobilityPlatform.info.cityBikes.winterSeason': 'Talvikausi alkaa 1. marraskuuta ja päättyy 31. maaliskuuta. Silloin kaupunkipyörät eivät ole käytössä.', // TODO translate
   'mobilityPlatform.info.guestHarbour': 'Turku Gästhamn ligger precis intill centrum, på Västra Strandgatan 57. Mer information t.ex. om bokning av båtplats finns på',
   'mobilityPlatform.info.guestHarbour.link': 'www.turunvierasvenesatama.fi',
   'mobilityPlatform.info.marinas': 'Åbo stad har båtplatser vid Färjstranden, Uittamo och Aura å. Båtplatser kan bokas och betalas via Bokningstjänsten. Båtsäsongen börjar den 1 maj och slutar den 31 oktober. Båtplatser kan bokas från januari 31. Där går det att bläddra bland lediga platser efter hamn och båtens mått. Vid Färjstranden finns det också vinterförvaringsplatser. Båten kan laggas i vinterforvaring mellan september 1 och maj 31.',

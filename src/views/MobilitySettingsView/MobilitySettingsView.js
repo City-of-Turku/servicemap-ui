@@ -1,6 +1,7 @@
 import {
   Checkbox, FormControl, FormControlLabel, FormGroup, Typography,
 } from '@material-ui/core';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, {
   useContext, useEffect, useMemo, useRef, useState,
@@ -10,17 +11,17 @@ import iconBicycle from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle.svg
 import iconBoat from 'servicemap-ui-turku/assets/icons/icons-icon_boating.svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
 import iconScooter from 'servicemap-ui-turku/assets/icons/icons-icon_scooter.svg';
-import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import iconSnowplow from 'servicemap-ui-turku/assets/icons/icons-icon_street_maintenance.svg';
+import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import InfoTextBox from '../../components/MobilityPlatform/InfoTextBox';
 import {
   fetchBicycleRouteNames,
   fetchCultureRouteNames,
   fetchMobilityMapPolygonData,
 } from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
-import useLocaleText from '../../utils/useLocaleText';
 import TitleBar from '../../components/TitleBar';
 import MobilityPlatformContext from '../../context/MobilityPlatformContext';
+import useLocaleText from '../../utils/useLocaleText';
 import ButtonMain from './components/ButtonMain';
 import CityBikeInfo from './components/CityBikeInfo';
 import Description from './components/Description';
@@ -118,12 +119,19 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const locale = useSelector(state => state.user.locale);
   const getLocaleText = useLocaleText();
 
+  const currentDate = moment().clone();
+  const seasonEndDate = '2022-10-31';
+  const seasonStartDate = '2023-04-01';
+  const isWinterSeason = currentDate.isAfter(seasonEndDate) && currentDate.isBefore(seasonStartDate);
+
   const bikeInfo = {
     paragraph1: 'mobilityPlatform.info.cityBikes.paragraph.1',
     paragraph2: 'mobilityPlatform.info.cityBikes.paragraph.2',
     subtitle: 'mobilityPlatform.info.cityBikes.subtitle',
     link: 'mobilityPlatform.info.cityBikes.link',
     apiInfo: 'mobilityPlatform.info.cityBikes.apiInfo',
+    isWinterSeason,
+    seasonInfo: 'mobilityPlatform.info.cityBikes.winterSeason',
     url: {
       fi: 'https://foli.fi/föllärit',
       en: 'https://www.foli.fi/en/f%C3%B6li-bikes',

@@ -1,23 +1,12 @@
 import { Link, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
+import useLocaleText from '../../../../utils/useLocaleText';
 
 const CityBikeInfo = ({
   classes, intl, bikeInfo,
 }) => {
-  const [url, setUrl] = useState(bikeInfo.url.fi);
-
-  const locale = useSelector(state => state.user.locale);
-
-  useEffect(() => {
-    if (locale === 'en') {
-      setUrl(bikeInfo.url.en);
-    }
-    if (locale === 'sv') {
-      setUrl(bikeInfo.url.sv);
-    }
-  }, [locale]);
+  const getLocaleText = useLocaleText();
 
   const text = textValue => (
     <Typography
@@ -35,10 +24,11 @@ const CityBikeInfo = ({
 
   return (
     <div className={classes.container}>
+      {bikeInfo.isWinterSeason ? text(bikeInfo.seasonInfo) : null}
       {text(bikeInfo.paragraph1)}
       {text(bikeInfo.paragraph2)}
       {text(bikeInfo.subtitle)}
-      <Link target="_blank" href={url}>
+      <Link target="_blank" href={getLocaleText(bikeInfo.url)}>
         {text(bikeInfo.link)}
       </Link>
       {text(bikeInfo.apiInfo)}
