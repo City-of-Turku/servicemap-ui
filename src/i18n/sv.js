@@ -70,14 +70,12 @@ const translations = {
   'area.geographicalServices.major_district': 'Tjänster i stordistriktet ({length})',
   'area.geographicalServices.voting_district': 'Tjänster i röstningonrådet ({length})', // TODO verify
   'area.geographicalServices.sub_district': 'Tjänster i underdistriktet ({length})', // TODO verify
-  'area.geographicalServices.parish': 'Tjänster i församlingsområdet ({length})', // TODO verify
   'area.neighborhood.title': 'Välj stadsdel',
   'area.district.title': 'Välj stadsdel',
   'area.postcode_area.title': 'Välj postnummer',
   'area.major_district.title': 'Välj stordistrikt',
   'area.voting_district.title': 'Välj röstningonrådet', // TODO verify
   'area.sub_district.title': 'Välj underdistrikt', // TODO verify
-  'area.parish.title': 'Välj församling', // TODO verify
   'area.noSelection': 'Väl område under fliken Val av område',
   'area.noUnits': 'Det finns inga verksamhetsställen i ditt valda område',
   'area.popupLink': 'Visa uppgifterna för området (ny flik)',
@@ -104,6 +102,7 @@ const translations = {
   'area.list.lower_comprehensive_school_district_sv': 'Svenskt grundskoleområde, lågklasserna',
   'area.list.upper_comprehensive_school_district_fi': 'Finskt grundskoleområde, högklasserna',
   'area.list.upper_comprehensive_school_district_sv': 'Svenskt grundskoleområde, högklasserna',
+  'area.list.school_district_fi': 'Finskt grundskoleområde', // TODO verify
   'area.list.preschool_education_fi': 'Finskt småbarnspedagogikområde',
   'area.list.preschool_education_sv': 'Svenskt småbarnspedagogikområde',
   'area.list.nature_reserve': 'Naturskyddsområden',
@@ -121,6 +120,7 @@ const translations = {
   'area.list.lower_comprehensive_school_district_sv.plural': 'Svenskt grundskoleområden, lågklasserna',
   'area.list.upper_comprehensive_school_district_fi.plural': 'Finskt grundskoleområden, högklasserna',
   'area.list.upper_comprehensive_school_district_sv.plural': 'Svenskt grundskoleområden, högklasserna',
+  'area.list.school_district_fi.plural': 'Finskt grundskoleområden', // TODO verify
   'area.list.preschool_education_fi.plural': 'Finskt småbarnspedagogikområden',
   'area.list.preschool_education_sv.plural': 'Svenskt småbarnspedagogikområden',
   'area.list.nature_reserve.plural': 'Naturskyddsområden',
@@ -129,8 +129,6 @@ const translations = {
   'area.list.voting_district.plural': 'Röstningområden', // TODO verify
   'area.list.sub_district': 'Underdistrikt', // TODO verify
   'area.list.sub_district.plural': 'Underdistrikten', // TODO verify
-  'area.list.parish': 'Församling', // TODO verify
-  'area.list.parish.plural': 'Församlingar', // TODO verify
 
   // Download dialog
   'download.cropping.title': 'Nuvarande filterinställningar',

@@ -42,20 +42,37 @@ export const dataStructure = [
     ],
     districts: [
       {
+        id: 'school_district_fi',
+        searchWords: [
+          'ala-aste',
+          'alakoulu',
+          'ala-aste suomi',
+          'alakoulu suomi',
+          'yläaste',
+          'yläkoulu',
+          'yläaste suomi',
+          'yläkoulu suomi',
+        ],
+      },
+      /* {
         id: 'lower_comprehensive_school_district_fi',
         searchWords: ['ala-aste', 'alakoulu', 'ala-aste suomi', 'alakoulu suomi'],
-      },
+      }, */
       { id: 'lower_comprehensive_school_district_sv', searchWords: ['ala-aste', 'ruotsi', 'alakoulu ruotsi'] },
-      {
+      /* {
         id: 'upper_comprehensive_school_district_fi',
         searchWords: ['yläaste', 'yläkoulu', 'yläaste suomi', 'yläkoulu suomi'],
-      },
+      }, */
       { id: 'upper_comprehensive_school_district_sv', searchWords: ['yläaste ruotsi', 'yläkoulu ruotsi'] },
     ],
     subCategories: [
-      {
+      /* {
         titleID: 'area.list.education.finnish',
         districts: ['lower_comprehensive_school_district_fi', 'upper_comprehensive_school_district_fi'],
+      }, */
+      {
+        titleID: 'area.list.education.finnish',
+        districts: ['school_district_fi'],
       },
       {
         titleID: 'area.list.education.swedish',
@@ -84,7 +101,6 @@ export const dataStructure = [
       { id: 'major_district', searchWords: ['suurpiirit'] },
       { id: 'sub_district', searchWords: ['pienalueet'] },
       { id: 'voting_district', searchWords: ['äänestysalueet'] },
-      { id: 'parish', searchWords: ['seurakunnat, seurakunta'] },
     ],
   },
   /* {
@@ -117,12 +133,13 @@ export const geographicalDistricts = dataStructure.find(obj => obj.id === 'geogr
 // Get category districts by id
 export const getCategoryDistricts = id => dataStructure.find(obj => obj.id === id)?.districts.map(obj => obj.id) || [];
 // Get category by district id
-export const getDistrictCategory = districtId => dataStructure.find(
-  obj => obj.districts.includes(districtId),
-  obj => obj.districts.some(area => area.id === districtId),
-)?.id;
+export const getDistrictCategory = districtId =>
+  dataStructure.find(
+    obj => obj.districts.includes(districtId),
+    obj => obj.districts.some(area => area.id === districtId),
+  )?.id;
 
-export const groupDistrictData = (data) => {
+export const groupDistrictData = data => {
   const groupedData = data.reduce((acc, cur) => {
     // Group data by district type and period
     const { start, end } = cur;
@@ -174,19 +191,19 @@ const compareBoundaries = (a, b) => {
 
   /* Check if a point on the smaller polygon is found within the larger polygon.
   Array.every and Array.some are used because multipolygons can contain several polygons */
-  return b.boundary.coordinates.every((polygon) => {
+  return b.boundary.coordinates.every(polygon => {
     const polygonBPoint = pointOnFeature({ type: 'Polygon', coordinates: polygon });
-    return a.boundary.coordinates.some((polygon) => {
+    return a.boundary.coordinates.some(polygon => {
       const polygonA = { type: 'Polygon', coordinates: polygon };
       return booleanWithin(polygonBPoint, polygonA);
     });
   });
 };
 
-export const parseDistrictGeometry = (results) => {
+export const parseDistrictGeometry = results => {
   const data = results.filter(i => i.boundary && i.boundary.coordinates);
   let filteredData = [];
-  data.forEach((district) => {
+  data.forEach(district => {
     if (!district.boundary) return;
     // Skip if district is already marked as overlapping with another district
     if (filteredData.some(obj => obj.overlapping && obj.overlapping.some(item => item.id === district.id))) {
@@ -200,7 +217,7 @@ export const parseDistrictGeometry = (results) => {
     if (overlappingDistricts.length) {
       returnItem.overlapping = overlappingDistricts;
       // Remove overlapping districts from filtered data if already added
-      overlappingDistricts.forEach((obj) => {
+      overlappingDistricts.forEach(obj => {
         filteredData = filteredData.filter(item => item.id !== obj.id);
       });
     }
