@@ -7,6 +7,9 @@ const styles = theme => ({
   margin: {
     marginBottom: theme.spacing(1),
   },
+  bold: {
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;

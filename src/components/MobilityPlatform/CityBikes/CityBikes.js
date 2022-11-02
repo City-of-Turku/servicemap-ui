@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
+import moment from 'moment';
+import React, { useContext, useEffect, useState } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
 import cityBikeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_city_bike.svg';
 import follariIcon from 'servicemap-ui-turku/assets/icons/icons-icon_follari.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { fetchCityBikesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../utils/utils';
 import CityBikesContent from './components/CityBikesContent';
 
 const CityBikes = () => {
@@ -12,6 +14,11 @@ const CityBikes = () => {
   const [zoomLevel, setZoomLevel] = useState(13);
 
   const { openMobilityPlatform, showCityBikes } = useContext(MobilityPlatformContext);
+
+  const currentDate = moment().clone();
+  const seasonEndDate = '2022-10-31';
+  const seasonStartDate = '2023-04-01';
+  const isWinterSeason = currentDate.isAfter(seasonEndDate) && currentDate.isBefore(seasonStartDate);
 
   const map = useMap();
 
@@ -41,37 +48,28 @@ const CityBikes = () => {
     }
   }, [openMobilityPlatform, setCityBikeStatistics]);
 
+  const renderData = isDataValid(showCityBikes, cityBikeStations);
+
   useEffect(() => {
-    if (showCityBikes && cityBikeStations && cityBikeStations.length > 0) {
+    if (renderData && !isWinterSeason) {
       const bounds = [];
       cityBikeStations.forEach((item) => {
         bounds.push([item.lat, item.lon]);
       });
       map.fitBounds(bounds);
     }
-  }, [showCityBikes, cityBikeStations, map]);
+  }, [showCityBikes, cityBikeStations]);
 
   return (
     <>
-      {showCityBikes ? (
-        <div>
-          <div>
-            {cityBikeStations && cityBikeStations.length > 0 ? (
-              cityBikeStations.map(item => (
-                <Marker
-                  key={item.station_id}
-                  icon={customIcon}
-                  position={[item.lat, item.lon]}
-                >
-                  <Popup>
-                    <CityBikesContent bikeStation={item} cityBikeStatistics={cityBikeStatistics} />
-                  </Popup>
-                </Marker>
-              ))
-            ) : null}
-          </div>
-        </div>
-      ) : null}
+      {renderData && !isWinterSeason
+        && cityBikeStations.map(item => (
+          <Marker key={item.station_id} icon={customIcon} position={[item.lat, item.lon]}>
+            <Popup>
+              <CityBikesContent bikeStation={item} cityBikeStatistics={cityBikeStatistics} />
+            </Popup>
+          </Marker>
+        ))}
     </>
   );
 };

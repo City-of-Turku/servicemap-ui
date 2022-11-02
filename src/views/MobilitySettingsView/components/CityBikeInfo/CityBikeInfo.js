@@ -8,10 +8,10 @@ const CityBikeInfo = ({
 }) => {
   const getLocaleText = useLocaleText();
 
-  const text = textValue => (
+  const text = (textValue, isBold) => (
     <Typography
       variant="body2"
-      className={classes.margin}
+      className={isBold ? `${classes.margin} ${classes.bold}` : classes.margin}
       aria-label={intl.formatMessage({
         id: textValue,
       })}
@@ -24,7 +24,7 @@ const CityBikeInfo = ({
 
   return (
     <div className={classes.container}>
-      {bikeInfo.isWinterSeason ? text(bikeInfo.seasonInfo) : null}
+      {bikeInfo.isWinterSeason ? text(bikeInfo.seasonInfo, true) : null}
       {text(bikeInfo.paragraph1)}
       {text(bikeInfo.paragraph2)}
       {text(bikeInfo.subtitle)}

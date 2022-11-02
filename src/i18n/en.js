@@ -746,7 +746,7 @@ const translations = {
   'mobilityPlatform.info.cityBikes.subtitle': 'Read more:',
   'mobilityPlatform.info.cityBikes.link': 'https://www.foli.fi/en/f%C3%B6li-bikes',
   'mobilityPlatform.info.cityBikes.apiInfo': 'Map data comes from the Donkey Republic interface in real time.',
-  'mobilityPlatform.info.cityBikes.winterSeason': 'Talvikausi alkaa 1. marraskuuta ja päättyy 31. maaliskuuta. Silloin kaupunkipyörät eivät ole käytössä.', // TODO translate
+  'mobilityPlatform.info.cityBikes.winterSeason': 'Winter season begins on November 1st and ends on March 31st. During that time city bikes are not available.', // TODO verify
   'mobilityPlatform.info.guestHarbour': 'Turku Guest harbour is directly next to the city centre, on Läntinen Rantakatu 57. More information about e.g. booking of boat place can be found on',
   'mobilityPlatform.info.guestHarbour.link': 'www.turunvierasvenesatama.fi',
   'mobilityPlatform.info.marinas': 'City of Turku´s marina berths are located in Uittamo, Lauttaranta and Aura River. A berth can be reserved and paid either on the Varauspalvelu reservation service (in Finnish only) or at the customer service of the City of Turku (Puolalankatu 5). Boating season begins 1st of May and ends on 31st of October. Reservations open on January 31. On the Varauspalvelu reservation service you can browse available berths by harbour and by boat size. There are also winter storage places for boats in Lauttaranta. Boats can be stored for winter between September 1st and May 31st.',
