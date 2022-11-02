@@ -31,7 +31,7 @@ const SnowPlows = () => {
   const [streetMaintenanceDeIcing12Hours, setStreetMaintenanceDeIcing12Hours] = useState([]);
 
   const {
-    openMobilityPlatform, streetMaintenancePeriod, showStreetMaintenance, setIsActiveStreetMaintenance,
+    openMobilityPlatform, mobilityMap, streetMaintenancePeriod, setIsActiveStreetMaintenance,
   } = useContext(MobilityPlatformContext);
 
   const { Polyline } = global.rL;
@@ -239,7 +239,7 @@ const SnowPlows = () => {
     return null;
   };
 
-  return <>{showStreetMaintenance ? renderMaintenanceWorks() : null}</>;
+  return <>{mobilityMap.streetMaintenance ? renderMaintenanceWorks() : null}</>;
 };
 
 export default SnowPlows;

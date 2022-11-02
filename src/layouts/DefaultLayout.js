@@ -117,6 +117,7 @@ const mobilityMapInitial = {
   loadingPlaces: false,
   brushSandedRoads: false,
   brushSaltedRoads: false,
+  streetMaintenance: false,
 };
 
 const DefaultLayout = (props) => {
@@ -131,7 +132,6 @@ const DefaultLayout = (props) => {
   const [speedLimitSelections, setSpeedLimitSelections] = useState([]);
   const [speedLimitZones, setSpeedLimitZones] = useState([]);
   const [mobilityMap, setMobilityMap] = useState(mobilityMapInitial);
-  const [showStreetMaintenance, setShowStreetMaintenance] = useState(false);
   const [streetMaintenancePeriod, setStreetMaintenancePeriod] = useState(null);
   const [isActiveStreetMaintenance, setIsActiveStreetMaintenance] = useState(true);
 
@@ -229,8 +229,6 @@ const DefaultLayout = (props) => {
                       setSpeedLimitZones,
                       mobilityMap,
                       setMobilityMap,
-                      showStreetMaintenance,
-                      setShowStreetMaintenance,
                       streetMaintenancePeriod,
                       setStreetMaintenancePeriod,
                       isActiveStreetMaintenance,
@@ -255,7 +253,6 @@ const DefaultLayout = (props) => {
                     speedLimitSelections,
                     speedLimitZones,
                     mobilityMap,
-                    showStreetMaintenance,
                     streetMaintenancePeriod,
                     setIsActiveStreetMaintenance,
                   }}

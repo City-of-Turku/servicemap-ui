@@ -45,11 +45,9 @@ const LoadingPlaces = () => {
           icon={customIcon}
           position={[item.geometry_coords.lat, item.geometry_coords.lon]}
         >
-          <>
-            <Popup>
-              <LoadingPlacesContent item={item} />
-            </Popup>
-          </>
+          <Popup>
+            <LoadingPlacesContent item={item} />
+          </Popup>
         </Marker>
       ))}
     </>

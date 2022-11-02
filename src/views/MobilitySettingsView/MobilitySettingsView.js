@@ -62,8 +62,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
     setSpeedLimitZones,
     mobilityMap,
     setMobilityMap,
-    showStreetMaintenance,
-    setShowStreetMaintenance,
     streetMaintenancePeriod,
     setStreetMaintenancePeriod,
     isActiveStreetMaintenance,
@@ -162,6 +160,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
     checkVisibilityValues(mobilityMap.scootersRyde, setOpenScooterProviderList);
     checkVisibilityValues(mobilityMap.brushSaltedRoads, setOpenStreetMaintenanceSettings);
     checkVisibilityValues(mobilityMap.brushSandedRoads, setOpenStreetMaintenanceSettings);
+    checkVisibilityValues(mobilityMap.streetMaintenance, setOpenStreetMaintenanceSettings);
+    checkVisibilityValues(mobilityMap.streetMaintenance, setOpenStreetMaintenanceSelectionList);
   }, [mobilityMap]);
 
   useEffect(() => {
@@ -170,11 +170,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
       setOpenBicycleSettings(true);
     }
   }, [mobilityMap.ecoCounter]);
-
-  useEffect(() => {
-    checkVisibilityValues(showStreetMaintenance, setOpenStreetMaintenanceSettings);
-    checkVisibilityValues(showStreetMaintenance, setOpenStreetMaintenanceSelectionList);
-  }, [showStreetMaintenance]);
 
   const nameKeys = {
     fi: 'name',
@@ -402,8 +397,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
     if (streetMaintenancePeriod) {
       setStreetMaintenancePeriod(null);
     }
-    if (showStreetMaintenance) {
-      setShowStreetMaintenance(false);
+    if (mobilityMap.streetMaintenance) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, streetMaintenance: false }));
     }
   };
 
@@ -530,10 +525,10 @@ const MobilitySettingsView = ({ classes, intl }) => {
 
   const setStreetMaintenancePeriodSelection = (periodType) => {
     setStreetMaintenancePeriod(periodType);
-    setShowStreetMaintenance(true);
+    setMobilityMap(mobilityMap => ({ ...mobilityMap, streetMaintenance: true }));
     if (periodType === prevStreetMaintenancePeriodRef.current) {
       setStreetMaintenancePeriod(null);
-      setShowStreetMaintenance(false);
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, streetMaintenance: false }));
     }
   };
 
@@ -1075,7 +1070,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
 
   const renderStreetMaintenanceInfoTexts = () => (
     <>
-      {showStreetMaintenance ? (
+      {mobilityMap.streetMaintenance ? (
         <InfoTextBox
           infoText="mobilityPlatform.info.streetMaintenance.general"
           linkUrl="https://www.turku.fi/uutinen/2021-01-12_pelisaannot-selkeita-katujen-talvikunnossapidossa"
