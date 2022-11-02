@@ -67,10 +67,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
     streetMaintenancePeriod,
     setStreetMaintenancePeriod,
     isActiveStreetMaintenance,
-    showBrushSandedRoute,
-    setShowBrushSandedRoute,
-    showBrushSaltedRoute,
-    setShowBrushSaltedRoute,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
@@ -164,6 +160,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
     checkVisibilityValues(mobilityMap.scooterSpeedLimit, setOpenScooterSettings);
     checkVisibilityValues(mobilityMap.scootersRyde, setOpenScooterSettings);
     checkVisibilityValues(mobilityMap.scootersRyde, setOpenScooterProviderList);
+    checkVisibilityValues(mobilityMap.brushSaltedRoads, setOpenStreetMaintenanceSettings);
+    checkVisibilityValues(mobilityMap.brushSandedRoads, setOpenStreetMaintenanceSettings);
   }, [mobilityMap]);
 
   useEffect(() => {
@@ -177,11 +175,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
     checkVisibilityValues(showStreetMaintenance, setOpenStreetMaintenanceSettings);
     checkVisibilityValues(showStreetMaintenance, setOpenStreetMaintenanceSelectionList);
   }, [showStreetMaintenance]);
-
-  useEffect(() => {
-    checkVisibilityValues(showBrushSaltedRoute, setOpenStreetMaintenanceSettings);
-    checkVisibilityValues(showBrushSandedRoute, setOpenStreetMaintenanceSettings);
-  }, [showBrushSaltedRoute, showBrushSandedRoute]);
 
   const nameKeys = {
     fi: 'name',
@@ -415,11 +408,15 @@ const MobilitySettingsView = ({ classes, intl }) => {
   };
 
   const brushSandedRouteToggle = () => {
-    setShowBrushSandedRoute(current => !current);
+    if (!mobilityMap.brushSandedRoads) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, brushSandedRoads: true }));
+    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, brushSandedRoads: false }));
   };
 
   const brushSaltedRouteToggle = () => {
-    setShowBrushSaltedRoute(current => !current);
+    if (!mobilityMap.brushSaltedRoads) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, brushSaltedRoads: true }));
+    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, brushSaltedRoads: false }));
   };
 
   /**
@@ -748,13 +745,13 @@ const MobilitySettingsView = ({ classes, intl }) => {
     {
       type: 'brushSandedRoute',
       msgId: 'mobilityPlatform.menu.show.brushSandedRoute',
-      checkedValue: showBrushSandedRoute,
+      checkedValue: mobilityMap.brushSandedRoads,
       onChangeValue: brushSandedRouteToggle,
     },
     {
       type: 'brushSaltedRoute',
       msgId: 'mobilityPlatform.menu.show.brushSaltedRoute',
-      checkedValue: showBrushSaltedRoute,
+      checkedValue: mobilityMap.brushSaltedRoads,
       onChangeValue: brushSaltedRouteToggle,
     },
   ];
@@ -1085,7 +1082,9 @@ const MobilitySettingsView = ({ classes, intl }) => {
           linkText="mobilityPlatform.info.streetMaintenance.link"
         />
       ) : null}
-      {showBrushSaltedRoute || showBrushSandedRoute ? <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.brushedRoads" /> : null}
+      {mobilityMap.brushSaltedRoads || mobilityMap.brushSandedRoads ? (
+        <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.brushedRoads" />
+      ) : null}
     </>
   );
 
