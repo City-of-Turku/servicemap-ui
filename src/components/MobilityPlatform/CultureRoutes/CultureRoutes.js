@@ -50,6 +50,7 @@ const CultureRoutes = () => {
       map.fitBounds([bounds]);
     }
   }, [mobilityMap.cultureRoutes, activeCultureRoute, map]);
+
   return (
     <>
       {renderData

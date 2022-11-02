@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 const InfoTextBox = ({
-  classes, intl, infoText, linkUrl, linkText,
+  classes, intl, infoText, linkUrl, linkText, reducePadding,
 }) => (
-  <div className={classes.container}>
+  <div className={reducePadding ? classes.paddingSm : classes.container}>
     <Typography
       variant="body2"
       aria-label={intl.formatMessage({
@@ -34,12 +34,14 @@ InfoTextBox.propTypes = {
   infoText: PropTypes.string,
   linkUrl: PropTypes.string,
   linkText: PropTypes.string,
+  reducePadding: PropTypes.bool,
 };
 
 InfoTextBox.defaultProps = {
   infoText: '',
   linkUrl: '',
   linkText: '',
+  reducePadding: false,
 };
 
 export default InfoTextBox;
