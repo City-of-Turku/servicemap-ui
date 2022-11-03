@@ -119,57 +119,69 @@ const MobilitySettingsView = ({ classes, intl }) => {
     fetchMobilityMapPolygonData('PAZ', 10, setParkingChargeZones);
   }, [setParkingChargeZones]);
 
+  const walkingTypes = ['restRooms'];
+  const bicycleTypes = ['bicycleStands', 'bikeServiceStations', 'cityBikes'];
+  const drivingTypes = ['rentalCars', 'chargingStations', 'gasFillingStations', 'parkingSpaces', 'disabledParking', 'loadingPlaces'];
+  const boatingTypes = ['marinas', 'boatParking', 'guestHarbour'];
+  const scooterTypes = ['scooterNoParking', 'scooterParking', 'scooterSpeedLimit'];
+  const streetMaintenanceTypes = ['brushSandedRoads', 'brushSaltedRoads'];
+
   /**
    * Check is visibility boolean values are true
    * This would be so if user has not hid them, but left mobility map before returning
-   * @param {boolean} visibility
-   * @param {('react').SetStateAction}
+   * @param {obj} mobilityMap
    */
-  const checkVisibilityValues = (visibility, setSettings) => {
-    if (visibility) {
-      setSettings(true);
-    }
+  // These open only one view
+  const checkVisibilityValues = (obj) => {
+    Object.entries(obj).forEach(([key, value]) => {
+      if (value && walkingTypes.includes(key)) {
+        setOpenWalkSettings(true);
+      } else if (value && boatingTypes.includes(key)) {
+        setOpenBoatingSettings(true);
+      } else if (value && bicycleTypes.includes(key)) {
+        setOpenBicycleSettings(true);
+      } else if (value && scooterTypes.includes(key)) {
+        setOpenScooterSettings(true);
+      } else if (value && drivingTypes.includes(key)) {
+        setOpenCarSettings(true);
+      } else if (value && streetMaintenanceTypes.includes(key)) {
+        setOpenStreetMaintenanceSettings(true);
+      }
+    });
+  };
+
+  // These open multiple views
+  const checkVisibilityValuesOfList = (obj) => {
+    Object.entries(obj).forEach(([key, value]) => {
+      if (value && key === 'cultureRoutes') {
+        setOpenWalkSettings(true);
+        setOpenCultureRouteList(true);
+      } else if (value && key === 'bicycleRoutes') {
+        setOpenBicycleSettings(true);
+        setOpenBicycleRouteList(true);
+      } else if (value && key === 'speedLimitZones') {
+        setOpenCarSettings(true);
+        setOpenSpeedLimitList(true);
+      } else if (value && key === 'parkingChargeZones') {
+        setOpenCarSettings(true);
+        setOpenParkingChargeZoneList(true);
+      } else if (value && key === 'scootersRyde') {
+        setOpenScooterSettings(true);
+        setOpenScooterProviderList(true);
+      } else if (value && key === 'streetMaintenance') {
+        setOpenStreetMaintenanceSettings(true);
+        setOpenStreetMaintenanceSelectionList(true);
+      } else if (value && key === 'ecoCounter') {
+        setOpenWalkSettings(true);
+        setOpenBicycleSettings(true);
+      }
+    });
   };
 
   useEffect(() => {
-    checkVisibilityValues(mobilityMap.restRooms, setOpenWalkSettings);
-    checkVisibilityValues(mobilityMap.cultureRoutes, setOpenWalkSettings);
-    checkVisibilityValues(mobilityMap.cultureRoutes, setOpenCultureRouteList);
-    checkVisibilityValues(mobilityMap.bicycleStands, setOpenBicycleSettings);
-    checkVisibilityValues(mobilityMap.bikeServiceStations, setOpenBicycleSettings);
-    checkVisibilityValues(mobilityMap.cityBikes, setOpenBicycleSettings);
-    checkVisibilityValues(mobilityMap.bicycleRoutes, setOpenBicycleSettings);
-    checkVisibilityValues(mobilityMap.bicycleRoutes, setOpenBicycleRouteList);
-    checkVisibilityValues(mobilityMap.speedLimitZones, setOpenSpeedLimitList);
-    checkVisibilityValues(mobilityMap.rentalCars, setOpenCarSettings);
-    checkVisibilityValues(mobilityMap.gasFillingStations, setOpenCarSettings);
-    checkVisibilityValues(mobilityMap.parkingSpaces, setOpenCarSettings);
-    checkVisibilityValues(mobilityMap.chargingStations, setOpenCarSettings);
-    checkVisibilityValues(mobilityMap.speedLimitZones, setOpenCarSettings);
-    checkVisibilityValues(mobilityMap.disabledParking, setOpenCarSettings);
-    checkVisibilityValues(mobilityMap.parkingChargeZones, setOpenCarSettings);
-    checkVisibilityValues(mobilityMap.loadingPlaces, setOpenCarSettings);
-    checkVisibilityValues(mobilityMap.parkingChargeZones, setOpenParkingChargeZoneList);
-    checkVisibilityValues(mobilityMap.marinas, setOpenBoatingSettings);
-    checkVisibilityValues(mobilityMap.boatParking, setOpenBoatingSettings);
-    checkVisibilityValues(mobilityMap.guestHarbour, setOpenBoatingSettings);
-    checkVisibilityValues(mobilityMap.scooterNoParking, setOpenScooterSettings);
-    checkVisibilityValues(mobilityMap.scooterParking, setOpenScooterSettings);
-    checkVisibilityValues(mobilityMap.scooterSpeedLimit, setOpenScooterSettings);
-    checkVisibilityValues(mobilityMap.scootersRyde, setOpenScooterSettings);
-    checkVisibilityValues(mobilityMap.scootersRyde, setOpenScooterProviderList);
-    checkVisibilityValues(mobilityMap.brushSaltedRoads, setOpenStreetMaintenanceSettings);
-    checkVisibilityValues(mobilityMap.brushSandedRoads, setOpenStreetMaintenanceSettings);
-    checkVisibilityValues(mobilityMap.streetMaintenance, setOpenStreetMaintenanceSettings);
-    checkVisibilityValues(mobilityMap.streetMaintenance, setOpenStreetMaintenanceSelectionList);
+    checkVisibilityValues(mobilityMap);
+    checkVisibilityValuesOfList(mobilityMap);
   }, [mobilityMap]);
-
-  useEffect(() => {
-    if (mobilityMap.ecoCounter) {
-      setOpenWalkSettings(true);
-      setOpenBicycleSettings(true);
-    }
-  }, [mobilityMap.ecoCounter]);
 
   const nameKeys = {
     fi: 'name',
@@ -1042,7 +1054,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const renderScooterInfoTexts = () => (
     <>
       {openScooterProviderList ? <InfoTextBox infoText="mobilityPlatform.info.scooters.general" /> : null}
-      {mobilityMap.scooterParking ? <InfoTextBox infoText="mobilityPlatform.info.scooters.noParking" /> : null}
+      {mobilityMap.scooterNoParking ? <InfoTextBox infoText="mobilityPlatform.info.scooters.noParking" /> : null}
       {mobilityMap.scooterParking ? <InfoTextBox infoText="mobilityPlatform.info.scooters.parkingAreas" /> : null}
       {mobilityMap.scooterSpeedLimit ? <InfoTextBox infoText="mobilityPlatform.info.scooters.speedLimitAreas" /> : null}
     </>
