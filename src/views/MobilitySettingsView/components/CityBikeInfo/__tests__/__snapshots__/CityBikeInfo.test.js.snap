@@ -7,7 +7,7 @@ exports[`<CityBikeInfo /> should work 1`] = `
   >
     <p
       aria-label="Talvikausi alkaa 1. marraskuuta ja päättyy 31. maaliskuuta. Silloin kaupunkipyörät eivät ole käytössä."
-      class="MuiTypography-root injectIntl(CityBikeInfo)-margin-2 MuiTypography-body2"
+      class="MuiTypography-root injectIntl(CityBikeInfo)-margin-2 injectIntl(CityBikeInfo)-bold-3 MuiTypography-body2"
     >
       Talvikausi alkaa 1. marraskuuta ja päättyy 31. maaliskuuta. Silloin kaupunkipyörät eivät ole käytössä.
     </p>
