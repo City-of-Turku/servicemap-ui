@@ -640,6 +640,7 @@ const translations = {
   'mobilityPlatform.menu.show.brushSandedRoute': 'Sopsandade cykelvägar',
   'mobilityPlatform.menu.show.brushSaltedRoute': 'Sopsaltade cykelvägar',
   'mobilityPlatform.menu.show.paavoTrails': 'Paavos stigar',
+  'mobilityPlatform.menu.markedTrails.length': 'Stiglängd: {value} km',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',

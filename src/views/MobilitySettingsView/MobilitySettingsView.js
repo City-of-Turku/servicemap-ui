@@ -29,6 +29,7 @@ import EmptyRouteList from './components/EmptyRouteList';
 import ExtendedInfo from './components/ExtendedInfo';
 import FormLabel from './components/FormLabel';
 import RouteLength from './components/RouteLength';
+import TrailInfo from './components/TrailInfo';
 
 const MobilitySettingsView = ({ classes, intl }) => {
   const [openWalkSettings, setOpenWalkSettings] = useState(false);
@@ -46,7 +47,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const [openParkingChargeZoneList, setOpenParkingChargeZoneList] = useState(false);
   const [openScooterProviderList, setOpenScooterProviderList] = useState(false);
   const [openStreetMaintenanceSelectionList, setOpenStreetMaintenanceSelectionList] = useState(false);
-  const [openSportsTrailList, setOpenSportsTrailList] = useState(false);
+  const [openMarkedTrailsList, setOpenMarkedTrailsList] = useState(false);
   const [markedTrailsList, setMarkedTrailsList] = useState([]);
 
   const {
@@ -117,7 +118,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
     showBrushSaltedRoute,
     setShowBrushSaltedRoute,
     showMarkedTrails,
-    setShowSportTrails,
+    setShowMarkedTrails,
     markedTrailsObj,
     setMarkedTrailsObj,
   } = useContext(MobilityPlatformContext);
@@ -457,12 +458,12 @@ const MobilitySettingsView = ({ classes, intl }) => {
   };
 
   const markedTrailListToggle = () => {
-    setOpenSportsTrailList(current => !current);
+    setOpenMarkedTrailsList(current => !current);
     if (markedTrailsObj) {
       setMarkedTrailsObj({});
     }
     if (showMarkedTrails) {
-      setShowSportTrails(false);
+      setShowMarkedTrails(false);
     }
   };
 
@@ -535,25 +536,25 @@ const MobilitySettingsView = ({ classes, intl }) => {
   /**
    * Stores previous value
    */
-  const prevSportsTrailObjRef = useRef();
+  const prevMarkedTrailObjRef = useRef();
 
   /**
     * If user clicks same trail again, then reset name and set visiblity to false
     * Otherwise new values are set
     */
   useEffect(() => {
-    prevSportsTrailObjRef.current = markedTrailsObj;
+    prevMarkedTrailObjRef.current = markedTrailsObj;
   }, [markedTrailsObj]);
 
   /**
     * @param {obj}
     */
-  const setSportsTrailState = (obj) => {
+  const setMarkedTrailState = (obj) => {
     setMarkedTrailsObj(obj);
-    setShowSportTrails(true);
-    if (obj === prevSportsTrailObjRef.current) {
+    setShowMarkedTrails(true);
+    if (obj === prevMarkedTrailObjRef.current) {
       setMarkedTrailsObj({});
-      setShowSportTrails(false);
+      setShowMarkedTrails(false);
     }
   };
 
@@ -681,7 +682,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
     {
       type: 'markedTrails',
       msgId: 'mobilityPlatform.menu.show.paavoTrails',
-      checkedValue: openSportsTrailList,
+      checkedValue: openMarkedTrailsList,
       onChangeValue: markedTrailListToggle,
     },
   ];
@@ -928,7 +929,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
    * @param {Array} inputData
    * @returns {JSX Element}
    */
-  const renderSportsTrails = inputData => inputData
+  const renderMarkedTrails = inputData => inputData
   && inputData.length > 0
   && inputData.map(item => (
     <div key={item.id} className={classes.checkBoxContainer}>
@@ -938,7 +939,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
             checked={item.id === markedTrailsObj.id}
             aria-checked={item.id === markedTrailsObj.id}
             className={classes.margin}
-            onChange={() => setSportsTrailState(item)}
+            onChange={() => setMarkedTrailState(item)}
           />
         )}
         label={(
@@ -947,7 +948,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
           </Typography>
         )}
       />
-      {item.id === markedTrailsObj.id ? <Typography key={item.id} variant="body2">{item.extra.reitin_pituus}</Typography> : null}
+      {item.id === markedTrailsObj.id ? <TrailInfo item={item} /> : null}
     </div>
   ));
 
@@ -1246,7 +1247,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 ? renderCultureRoutes(localizedCultureRoutes)
                 : null}
               {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
-              {openSportsTrailList ? renderSportsTrails(paavoTrails) : null}
+              {openMarkedTrailsList ? renderMarkedTrails(paavoTrails) : null}
               {renderWalkingInfoTexts()}
               <div className={classes.buttonContainer}>
                 <ButtonMain

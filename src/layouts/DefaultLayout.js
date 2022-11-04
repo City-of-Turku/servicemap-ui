@@ -129,7 +129,7 @@ const DefaultLayout = (props) => {
   const [isActiveStreetMaintenance, setIsActiveStreetMaintenance] = useState(true);
   const [showBrushSandedRoute, setShowBrushSandedRoute] = useState(false);
   const [showBrushSaltedRoute, setShowBrushSaltedRoute] = useState(false);
-  const [showMarkedTrails, setShowSportTrails] = useState(false);
+  const [showMarkedTrails, setShowMarkedTrails] = useState(false);
   const [markedTrailsObj, setMarkedTrailsObj] = useState({});
 
   const {
@@ -278,7 +278,7 @@ const DefaultLayout = (props) => {
                       showBrushSaltedRoute,
                       setShowBrushSaltedRoute,
                       showMarkedTrails,
-                      setShowSportTrails,
+                      setShowMarkedTrails,
                       markedTrailsObj,
                       setMarkedTrailsObj,
                     }}
