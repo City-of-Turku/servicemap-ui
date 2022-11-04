@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TrailInfo /> should match snapshot 1`] = `
+<div>
+  <div>
+    <div
+      class="injectIntl(TrailInfo)-paragraph-1"
+    >
+      <p
+        aria-label="Reitin pituus: 5,1 km"
+        class="MuiTypography-root MuiTypography-body2"
+      >
+        Reitin pituus: 5,1 km
+      </p>
+    </div>
+  </div>
+</div>
+`;

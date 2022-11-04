@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const TrailInfo = ({ classes, intl, item }) => {
   const formatlength = (inputLength) => {
-    const length = (inputLength / 1000).toFixed(2);
+    const length = (inputLength / 1000).toFixed(1);
     return length.replace(/\./g, ',');
   };
 
