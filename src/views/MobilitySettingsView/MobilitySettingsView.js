@@ -17,6 +17,7 @@ import {
   fetchBicycleRouteNames,
   fetchCultureRouteNames,
   fetchMobilityMapPolygonData,
+  fetchLounaistietoData,
 } from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
 import useLocaleText from '../../utils/useLocaleText';
 import TitleBar from '../../components/TitleBar';
@@ -45,6 +46,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const [openParkingChargeZoneList, setOpenParkingChargeZoneList] = useState(false);
   const [openScooterProviderList, setOpenScooterProviderList] = useState(false);
   const [openStreetMaintenanceSelectionList, setOpenStreetMaintenanceSelectionList] = useState(false);
+  const [openSportsTrailList, setOpenSportsTrailList] = useState(false);
+  const [markedTrailsList, setMarkedTrailsList] = useState([]);
 
   const {
     setOpenMobilityPlatform,
@@ -113,6 +116,10 @@ const MobilitySettingsView = ({ classes, intl }) => {
     setShowBrushSandedRoute,
     showBrushSaltedRoute,
     setShowBrushSaltedRoute,
+    showMarkedTrails,
+    setShowSportTrails,
+    markedTrailsObj,
+    setMarkedTrailsObj,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
@@ -166,6 +173,10 @@ const MobilitySettingsView = ({ classes, intl }) => {
   useEffect(() => {
     fetchMobilityMapPolygonData('PAZ', 10, setParkingChargeZones);
   }, [setParkingChargeZones]);
+
+  useEffect(() => {
+    fetchLounaistietoData('RCR', 500, 'reittiluokk', 'Kuntoreitti', setMarkedTrailsList);
+  }, [setMarkedTrailsList]);
 
   /**
    * Check is visibility boolean values are true
@@ -445,6 +456,16 @@ const MobilitySettingsView = ({ classes, intl }) => {
     }
   };
 
+  const markedTrailListToggle = () => {
+    setOpenSportsTrailList(current => !current);
+    if (markedTrailsObj) {
+      setMarkedTrailsObj({});
+    }
+    if (showMarkedTrails) {
+      setShowSportTrails(false);
+    }
+  };
+
   const streetMaintenanceListToggle = () => {
     setOpenStreetMaintenanceSelectionList(current => !current);
     if (streetMaintenancePeriod) {
@@ -508,6 +529,31 @@ const MobilitySettingsView = ({ classes, intl }) => {
     if (routeName === prevBicycleRouteNameRef.current) {
       setBicycleRouteName(null);
       setShowBicycleRoutes(false);
+    }
+  };
+
+  /**
+   * Stores previous value
+   */
+  const prevSportsTrailObjRef = useRef();
+
+  /**
+    * If user clicks same trail again, then reset name and set visiblity to false
+    * Otherwise new values are set
+    */
+  useEffect(() => {
+    prevSportsTrailObjRef.current = markedTrailsObj;
+  }, [markedTrailsObj]);
+
+  /**
+    * @param {obj}
+    */
+  const setSportsTrailState = (obj) => {
+    setMarkedTrailsObj(obj);
+    setShowSportTrails(true);
+    if (obj === prevSportsTrailObjRef.current) {
+      setMarkedTrailsObj({});
+      setShowSportTrails(false);
     }
   };
 
@@ -631,6 +677,12 @@ const MobilitySettingsView = ({ classes, intl }) => {
       msgId: 'mobilityPlatform.menu.show.publicToilets',
       checkedValue: showPublicToilets,
       onChangeValue: publicToiletsToggle,
+    },
+    {
+      type: 'markedTrails',
+      msgId: 'mobilityPlatform.menu.show.paavoTrails',
+      checkedValue: openSportsTrailList,
+      onChangeValue: markedTrailListToggle,
     },
   ];
 
@@ -858,6 +910,46 @@ const MobilitySettingsView = ({ classes, intl }) => {
         {item.id === cultureRouteId ? <Description key={item.name} route={item} currentLocale={locale} /> : null}
       </div>
     ));
+
+  // Get only routes that are Paavonpolkuja
+  const paavoTrails = markedTrailsList.reduce((acc, curr) => {
+    if (curr.name === 'Paavonpolut') {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
+  const fixRouteName = (routeName) => {
+    const noUnderscore = routeName.replace(/_/gi, ' ');
+    return noUnderscore.replace(/ï¿½/gi, 'ä');
+  };
+
+  /**
+   * @param {Array} inputData
+   * @returns {JSX Element}
+   */
+  const renderSportsTrails = inputData => inputData
+  && inputData.length > 0
+  && inputData.map(item => (
+    <div key={item.id} className={classes.checkBoxContainer}>
+      <FormControlLabel
+        control={(
+          <Checkbox
+            checked={item.id === markedTrailsObj.id}
+            aria-checked={item.id === markedTrailsObj.id}
+            className={classes.margin}
+            onChange={() => setSportsTrailState(item)}
+          />
+        )}
+        label={(
+          <Typography variant="body2" aria-label={fixRouteName(item.extra.reitin_osan_nimi)}>
+            {fixRouteName(item.extra.reitin_osan_nimi)}
+          </Typography>
+        )}
+      />
+      {item.id === markedTrailsObj.id ? <Typography key={item.id} variant="body2">{item.extra.reitin_pituus}</Typography> : null}
+    </div>
+  ));
 
   /**
    * @param {boolean} settingVisibility
@@ -1154,6 +1246,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 ? renderCultureRoutes(localizedCultureRoutes)
                 : null}
               {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
+              {openSportsTrailList ? renderSportsTrails(paavoTrails) : null}
               {renderWalkingInfoTexts()}
               <div className={classes.buttonContainer}>
                 <ButtonMain

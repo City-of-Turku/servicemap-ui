@@ -639,6 +639,7 @@ const translations = {
   'mobilityPlatform.menu.streetMaintenance.info.sanitation': 'Rengöring',
   'mobilityPlatform.menu.show.brushSandedRoute': 'Sopsandade cykelvägar',
   'mobilityPlatform.menu.show.brushSaltedRoute': 'Sopsaltade cykelvägar',
+  'mobilityPlatform.menu.show.paavoTrails': 'Paavos stigar',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',

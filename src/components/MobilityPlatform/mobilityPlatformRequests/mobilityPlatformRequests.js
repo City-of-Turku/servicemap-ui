@@ -75,6 +75,16 @@ const fetchMobilityMapPolygonData = async (type, pageSize, setData) => {
   }
 };
 
+const fetchLounaistietoData = async (type, pageSize, extraKey, extraValue, setData) => {
+  try {
+    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?type_name=${type}&page_size=${pageSize}&srid=4326&latlon=true&extra__${extraKey}=${extraValue}`);
+    const jsonData = await response.json();
+    setData(jsonData.results);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 const fetchCityBikesData = async (sourceName, setData) => {
   try {
     const response = await fetch(`${isApiUrl}/iot?source_name=${sourceName}`);
@@ -103,6 +113,7 @@ export {
   fetchBicycleRoutesGeometry,
   fetchIotData,
   fetchMobilityMapPolygonData,
+  fetchLounaistietoData,
   fetchCityBikesData,
   fetchStreetMaintenanceData,
 };

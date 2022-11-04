@@ -129,6 +129,8 @@ const DefaultLayout = (props) => {
   const [isActiveStreetMaintenance, setIsActiveStreetMaintenance] = useState(true);
   const [showBrushSandedRoute, setShowBrushSandedRoute] = useState(false);
   const [showBrushSaltedRoute, setShowBrushSaltedRoute] = useState(false);
+  const [showMarkedTrails, setShowSportTrails] = useState(false);
+  const [markedTrailsObj, setMarkedTrailsObj] = useState({});
 
   const {
     currentPage, fetchErrors, fetchNews, intl, location, settingsToggled,
@@ -275,6 +277,10 @@ const DefaultLayout = (props) => {
                       setShowBrushSandedRoute,
                       showBrushSaltedRoute,
                       setShowBrushSaltedRoute,
+                      showMarkedTrails,
+                      setShowSportTrails,
+                      markedTrailsObj,
+                      setMarkedTrailsObj,
                     }}
                   >
                     <ViewRouter />
@@ -322,6 +328,8 @@ const DefaultLayout = (props) => {
                     setIsActiveStreetMaintenance,
                     showBrushSandedRoute,
                     showBrushSaltedRoute,
+                    showMarkedTrails,
+                    markedTrailsObj,
                   }}
                 >
                   <MapView

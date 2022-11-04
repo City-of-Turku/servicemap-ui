@@ -638,6 +638,7 @@ const translations = {
   'mobilityPlatform.menu.streetMaintenance.info.sanitation': 'Street cleaning',
   'mobilityPlatform.menu.show.brushSandedRoute': 'Brush sanded bicycle roads',
   'mobilityPlatform.menu.show.brushSaltedRoute': 'Brush salted bicycle roads',
+  'mobilityPlatform.menu.show.paavoTrails': 'Paavo trails',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
