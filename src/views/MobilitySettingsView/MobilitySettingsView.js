@@ -48,7 +48,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const [openScooterProviderList, setOpenScooterProviderList] = useState(false);
   const [openStreetMaintenanceSelectionList, setOpenStreetMaintenanceSelectionList] = useState(false);
   const [openMarkedTrailsList, setOpenMarkedTrailsList] = useState(false);
-  const [markedTrailsList, setMarkedTrailsList] = useState([]);
+  const [trailDataList, setTrailDataList] = useState([]);
 
   const {
     setOpenMobilityPlatform,
@@ -176,8 +176,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
   }, [setParkingChargeZones]);
 
   useEffect(() => {
-    fetchLounaistietoData('RCR', 500, 'reittiluokk', 'Kuntoreitti', setMarkedTrailsList);
-  }, [setMarkedTrailsList]);
+    fetchLounaistietoData('RCR', 500, 'reittiluokk', 'Kuntoreitti', setTrailDataList);
+  }, [setTrailDataList]);
 
   /**
    * Check is visibility boolean values are true
@@ -210,6 +210,11 @@ const MobilitySettingsView = ({ classes, intl }) => {
     checkVisibilityValues(showCultureRoutes, setOpenWalkSettings);
     checkVisibilityValues(showCultureRoutes, setOpenCultureRouteList);
   }, [showCultureRoutes]);
+
+  useEffect(() => {
+    checkVisibilityValues(showMarkedTrails, setOpenWalkSettings);
+    checkVisibilityValues(showMarkedTrails, setOpenMarkedTrailsList);
+  }, [showMarkedTrails]);
 
   useEffect(() => {
     checkVisibilityValues(showSpeedLimitZones, setOpenSpeedLimitList);
@@ -674,16 +679,16 @@ const MobilitySettingsView = ({ classes, intl }) => {
       onChangeValue: cultureRouteListToggle,
     },
     {
-      type: 'publicToilets',
-      msgId: 'mobilityPlatform.menu.show.publicToilets',
-      checkedValue: showPublicToilets,
-      onChangeValue: publicToiletsToggle,
-    },
-    {
       type: 'markedTrails',
       msgId: 'mobilityPlatform.menu.show.paavoTrails',
       checkedValue: openMarkedTrailsList,
       onChangeValue: markedTrailListToggle,
+    },
+    {
+      type: 'publicToilets',
+      msgId: 'mobilityPlatform.menu.show.publicToilets',
+      checkedValue: showPublicToilets,
+      onChangeValue: publicToiletsToggle,
     },
   ];
 
@@ -913,7 +918,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
     ));
 
   // Get only routes that are Paavonpolkuja
-  const paavoTrails = markedTrailsList.reduce((acc, curr) => {
+  const paavoTrails = trailDataList.reduce((acc, curr) => {
     if (curr.name === 'Paavonpolut') {
       acc.push(curr);
     }
