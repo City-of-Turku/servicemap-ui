@@ -6,6 +6,7 @@ import follariIcon from 'servicemap-ui-turku/assets/icons/icons-icon_follari.svg
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { fetchCityBikesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid } from '../utils/utils';
+import config from '../../../../config';
 import CityBikesContent from './components/CityBikesContent';
 
 const CityBikes = () => {
@@ -15,9 +16,9 @@ const CityBikes = () => {
 
   const { openMobilityPlatform, showCityBikes } = useContext(MobilityPlatformContext);
 
-  const currentDate = moment().clone();
-  const seasonEndDate = '2022-10-31';
-  const seasonStartDate = '2023-04-01';
+  const currentDate = moment();
+  const seasonEndDate = config.seasonEnd;
+  const seasonStartDate = config.seasonStart;
   const isWinterSeason = currentDate.isAfter(seasonEndDate) && currentDate.isBefore(seasonStartDate);
 
   const map = useMap();

@@ -19,6 +19,7 @@ import {
   fetchCultureRouteNames,
   fetchMobilityMapPolygonData,
 } from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
+import config from '../../../config';
 import TitleBar from '../../components/TitleBar';
 import MobilityPlatformContext from '../../context/MobilityPlatformContext';
 import useLocaleText from '../../utils/useLocaleText';
@@ -119,9 +120,9 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const locale = useSelector(state => state.user.locale);
   const getLocaleText = useLocaleText();
 
-  const currentDate = moment().clone();
-  const seasonEndDate = '2022-10-31';
-  const seasonStartDate = '2023-04-01';
+  const currentDate = moment();
+  const seasonEndDate = config.seasonEnd;
+  const seasonStartDate = config.seasonStart;
   const isWinterSeason = currentDate.isAfter(seasonEndDate) && currentDate.isBefore(seasonStartDate);
 
   const bikeInfo = {

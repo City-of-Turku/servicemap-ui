@@ -242,6 +242,8 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, locale, hel
         window.nodeEnvSettings.ECOCOUNTER_API = "${process.env.ECOCOUNTER_API}";
         window.nodeEnvSettings.THEME_PKG = "${process.env.THEME_PKG}";
         window.nodeEnvSettings.MOBILITY_PLATFORM_API = "${process.env.MOBILITY_PLATFORM_API}";
+        window.nodeEnvSettings.SEASON_END = "${process.env.SEASON_END}";
+        window.nodeEnvSettings.SEASON_START = "${process.env.SEASON_START}";
 
         window.appVersion = {};
         window.appVersion.tag = "${versionTag}";
