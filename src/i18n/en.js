@@ -746,7 +746,7 @@ const translations = {
   'mobilityPlatform.info.cityBikes.subtitle': 'Read more:',
   'mobilityPlatform.info.cityBikes.link': 'https://www.foli.fi/en/f%C3%B6li-bikes',
   'mobilityPlatform.info.cityBikes.apiInfo': 'Map data comes from the Donkey Republic interface in real time.',
-  'mobilityPlatform.info.cityBikes.winterSeason': 'Winter season begins on November 1st and ends on March 31st. During that time city bikes are not available.', // TODO verify
+  'mobilityPlatform.info.cityBikes.winterSeason': 'Winter season begins on November 1st and ends on March 31st. During that time city bikes are not available.',
   'mobilityPlatform.info.guestHarbour': 'Turku Guest harbour is directly next to the city centre, on Läntinen Rantakatu 57. More information about e.g. booking of boat place can be found on',
   'mobilityPlatform.info.guestHarbour.link': 'www.turunvierasvenesatama.fi',
   'mobilityPlatform.info.marinas': 'City of Turku´s marina berths are located in Uittamo, Lauttaranta and Aura River. A berth can be reserved and paid either on the Varauspalvelu reservation service (in Finnish only) or at the customer service of the City of Turku (Puolalankatu 5). Boating season begins 1st of May and ends on 31st of October. Reservations open on January 31. On the Varauspalvelu reservation service you can browse available berths by harbour and by boat size. There are also winter storage places for boats in Lauttaranta. Boats can be stored for winter between September 1st and May 31st.',
@@ -762,7 +762,7 @@ const translations = {
   'mobilityPlatform.info.streetMaintenance.noActivity': 'There is no street maintenance work in progress during the selected time period.',
   'mobilityPlatform.info.streetMaintenance.general': 'Street maintenance includes ploughing and sanding of streets, cycle paths and structurally indistinguishable footpaths and cycle paths in winter and removing the sand in spring.',
   'mobilityPlatform.info.streetMaintenance.link': 'Winter maintenance rules.',
-  'mobilityPlatform.info.streetMaintenance.brushedRoads': 'Bicycle roads that are shown on the map are part of the intensified winter maintenance. Snow will be removed by brushing and salt solution or sand will be used to prevent slippery conditions.', // TODO verify
+  'mobilityPlatform.info.streetMaintenance.brushedRoads': 'Bicycle roads that are shown on the map are part of the intensified winter maintenance. Snow will be removed by brushing and salt solution or sand will be used to prevent slippery conditions.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',

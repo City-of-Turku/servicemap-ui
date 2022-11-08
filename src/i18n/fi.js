@@ -739,7 +739,7 @@ const translations = {
   'mobilityPlatform.info.cityBikes.subtitle': 'Lue lisää kaupunkipyöristä:',
   'mobilityPlatform.info.cityBikes.link': 'https://foli.fi/föllärit',
   'mobilityPlatform.info.cityBikes.apiInfo': 'Kartan tiedot tulevat Donkey Republicin rajapinnasta reaaliajassa.',
-  'mobilityPlatform.info.cityBikes.winterSeason': 'Talvikausi alkaa 1. marraskuuta ja päättyy 31. maaliskuuta. Silloin kaupunkipyörät eivät ole käytössä.', // TODO verify
+  'mobilityPlatform.info.cityBikes.winterSeason': 'Talvikausi alkaa 1. marraskuuta ja päättyy 31. maaliskuuta. Silloin kaupunkipyörät eivät ole käytössä.',
   'mobilityPlatform.info.guestHarbour': 'Turun vierasvenesatama sijaitsee aivan keskustan kupeessa, osoitteessa Läntinen Rantakatu 57. Lisätietoja liittyen esimerkiksi venepaikan varaamiseen löytyy osoitteesta',
   'mobilityPlatform.info.guestHarbour.link': 'www.turunvierasvenesatama.fi',
   'mobilityPlatform.info.marinas': 'Turun kaupungilla on venepaikkoja Lauttarannassa, Uittamolla ja Aurajoessa.  Venepaikkoja voi varata ja maksaa Varauspalvelussa, jossa vapaita paikkoja voi selata satamittain ja myös veneen mittojen mukaan. Veneilykausi on 1.5 - 31.10. Venepaikkoja voi varata 31.1 alkaen. Lauttarannassa on lisäksi talvisäilytyspaikkoja. Talvisäilytysaika on 1.9 - 31.5.',
