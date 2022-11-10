@@ -11,9 +11,12 @@ import iconBoat from 'servicemap-ui-turku/assets/icons/icons-icon_boating.svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
 import iconScooter from 'servicemap-ui-turku/assets/icons/icons-icon_scooter.svg';
 import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
+import iconSnowplow from 'servicemap-ui-turku/assets/icons/icons-icon_street_maintenance.svg';
 import InfoTextBox from '../../components/MobilityPlatform/InfoTextBox';
 import {
-  fetchBicycleRouteNames, fetchCultureRouteNames, fetchMobilityMapPolygonData,
+  fetchBicycleRouteNames,
+  fetchCultureRouteNames,
+  fetchMobilityMapPolygonData,
 } from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
 import useLocaleText from '../../utils/useLocaleText';
 import TitleBar from '../../components/TitleBar';
@@ -32,6 +35,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const [openCarSettings, setOpenCarSettings] = useState(false);
   const [openBoatingSettings, setOpenBoatingSettings] = useState(false);
   const [openScooterSettings, setOpenScooterSettings] = useState(false);
+  const [openStreetMaintenanceSettings, setOpenStreetMaintenanceSettings] = useState(false);
   const [openCultureRouteList, setOpenCultureRouteList] = useState(false);
   const [cultureRouteList, setCultureRouteList] = useState([]);
   const [localizedCultureRoutes, setLocalizedCultureRoutes] = useState([]);
@@ -40,6 +44,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const [openSpeedLimitList, setOpenSpeedLimitList] = useState(false);
   const [openParkingChargeZoneList, setOpenParkingChargeZoneList] = useState(false);
   const [openScooterProviderList, setOpenScooterProviderList] = useState(false);
+  const [openStreetMaintenanceSelectionList, setOpenStreetMaintenanceSelectionList] = useState(false);
 
   const {
     setOpenMobilityPlatform,
@@ -99,6 +104,15 @@ const MobilitySettingsView = ({ classes, intl }) => {
     setShowDisabledParking,
     showLoadingPlaces,
     setShowLoadingPlaces,
+    showStreetMaintenance,
+    setShowStreetMaintenance,
+    streetMaintenancePeriod,
+    setStreetMaintenancePeriod,
+    isActiveStreetMaintenance,
+    showBrushSandedRoute,
+    setShowBrushSandedRoute,
+    showBrushSaltedRoute,
+    setShowBrushSaltedRoute,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
@@ -204,7 +218,15 @@ const MobilitySettingsView = ({ classes, intl }) => {
     checkVisibilityValues(showSpeedLimitZones, setOpenCarSettings);
     checkVisibilityValues(showDisabledParking, setOpenCarSettings);
     checkVisibilityValues(showLoadingPlaces, setOpenCarSettings);
-  }, [showRentalCars, showGasFillingStations, showParkingSpaces, showChargingStations, showSpeedLimitZones, showDisabledParking, showLoadingPlaces]);
+  }, [
+    showRentalCars,
+    showGasFillingStations,
+    showParkingSpaces,
+    showChargingStations,
+    showSpeedLimitZones,
+    showDisabledParking,
+    showLoadingPlaces,
+  ]);
 
   useEffect(() => {
     checkVisibilityValues(showParkingChargeZones, setOpenCarSettings);
@@ -227,6 +249,16 @@ const MobilitySettingsView = ({ classes, intl }) => {
     checkVisibilityValues(showScootersRyde, setOpenScooterSettings);
     checkVisibilityValues(showScootersRyde, setOpenScooterProviderList);
   }, [showScootersRyde]);
+
+  useEffect(() => {
+    checkVisibilityValues(showStreetMaintenance, setOpenStreetMaintenanceSettings);
+    checkVisibilityValues(showStreetMaintenance, setOpenStreetMaintenanceSelectionList);
+  }, [showStreetMaintenance]);
+
+  useEffect(() => {
+    checkVisibilityValues(showBrushSaltedRoute, setOpenStreetMaintenanceSettings);
+    checkVisibilityValues(showBrushSandedRoute, setOpenStreetMaintenanceSettings);
+  }, [showBrushSaltedRoute, showBrushSandedRoute]);
 
   const nameKeys = {
     fi: 'name',
@@ -303,6 +335,10 @@ const MobilitySettingsView = ({ classes, intl }) => {
 
   const scooterSettingsToggle = () => {
     setOpenScooterSettings(current => !current);
+  };
+
+  const streetMaintenanceSettingsToggle = () => {
+    setOpenStreetMaintenanceSettings(current => !current);
   };
 
   /**
@@ -409,6 +445,24 @@ const MobilitySettingsView = ({ classes, intl }) => {
     }
   };
 
+  const streetMaintenanceListToggle = () => {
+    setOpenStreetMaintenanceSelectionList(current => !current);
+    if (streetMaintenancePeriod) {
+      setStreetMaintenancePeriod(null);
+    }
+    if (showStreetMaintenance) {
+      setShowStreetMaintenance(false);
+    }
+  };
+
+  const brushSandedRouteToggle = () => {
+    setShowBrushSandedRoute(current => !current);
+  };
+
+  const brushSaltedRouteToggle = () => {
+    setShowBrushSaltedRoute(current => !current);
+  };
+
   /**
    * Stores previous value
    */
@@ -504,6 +558,57 @@ const MobilitySettingsView = ({ classes, intl }) => {
       setShowParkingChargeZones(false);
     }
   };
+
+  /**
+   * Stores previous value
+   */
+  const prevStreetMaintenancePeriodRef = useRef();
+
+  useEffect(() => {
+    prevStreetMaintenancePeriodRef.current = streetMaintenancePeriod;
+  }, [streetMaintenancePeriod]);
+
+  const setStreetMaintenancePeriodSelection = (periodType) => {
+    setStreetMaintenancePeriod(periodType);
+    setShowStreetMaintenance(true);
+    if (periodType === prevStreetMaintenancePeriodRef.current) {
+      setStreetMaintenancePeriod(null);
+      setShowStreetMaintenance(false);
+    }
+  };
+
+  const streetMaintenanceSelections = [
+    {
+      type: '1hour',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.1hour',
+      onChangeValue: setStreetMaintenancePeriodSelection,
+    },
+    {
+      type: '3hours',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.3hours',
+      onChangeValue: setStreetMaintenancePeriodSelection,
+    },
+    {
+      type: '6hours',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.6hours',
+      onChangeValue: setStreetMaintenancePeriodSelection,
+    },
+    {
+      type: '12hours',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.12hours',
+      onChangeValue: setStreetMaintenancePeriodSelection,
+    },
+    {
+      type: '1day',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.1day',
+      onChangeValue: setStreetMaintenancePeriodSelection,
+    },
+    {
+      type: '3days',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.3days',
+      onChangeValue: setStreetMaintenancePeriodSelection,
+    },
+  ];
 
   /**
    * Control types for different user types
@@ -670,6 +775,27 @@ const MobilitySettingsView = ({ classes, intl }) => {
     },
   ];
 
+  const streetMaintenanceControlTypes = [
+    {
+      type: 'streetMaintenanceWorks',
+      msgId: 'mobilityPlatform.menu.show.streetMaintenanceWorks',
+      checkedValue: openStreetMaintenanceSelectionList,
+      onChangeValue: streetMaintenanceListToggle,
+    },
+    {
+      type: 'brushSandedRoute',
+      msgId: 'mobilityPlatform.menu.show.brushSandedRoute',
+      checkedValue: showBrushSandedRoute,
+      onChangeValue: brushSandedRouteToggle,
+    },
+    {
+      type: 'brushSaltedRoute',
+      msgId: 'mobilityPlatform.menu.show.brushSaltedRoute',
+      checkedValue: showBrushSaltedRoute,
+      onChangeValue: brushSaltedRouteToggle,
+    },
+  ];
+
   const getRouteName = (name, nameEn, nameSv) => {
     const routeName = {
       fi: name,
@@ -680,9 +806,9 @@ const MobilitySettingsView = ({ classes, intl }) => {
   };
 
   /**
-     * @param {Array} inputData
-     * @returns {JSX Element}
-     */
+   * @param {Array} inputData
+   * @returns {JSX Element}
+   */
   const renderBicycleRoutes = inputData => inputData
     && inputData.length > 0
     && inputData.map(item => (
@@ -695,21 +821,21 @@ const MobilitySettingsView = ({ classes, intl }) => {
               className={classes.margin}
               onChange={() => setBicycleRouteState(item.name_fi)}
             />
-        )}
+          )}
           label={(
             <Typography variant="body2" aria-label={getRouteName(item.name_fi, item.name_en, item.name_sv)}>
               {getRouteName(item.name_fi, item.name_en, item.name_sv)}
             </Typography>
-         )}
+          )}
         />
-        {item.name_fi === bicycleRouteName ? (<RouteLength key={item.id} route={item} />) : null}
+        {item.name_fi === bicycleRouteName ? <RouteLength key={item.id} route={item} /> : null}
       </div>
     ));
 
   /**
-     * @param {Array} inputData
-     * @returns {JSX Element}
-     */
+   * @param {Array} inputData
+   * @returns {JSX Element}
+   */
   const renderCultureRoutes = inputData => inputData
     && inputData.length > 0
     && inputData.map(item => (
@@ -722,28 +848,22 @@ const MobilitySettingsView = ({ classes, intl }) => {
               className={classes.margin}
               onChange={() => setCultureRouteState(item.id)}
             />
-      )}
+          )}
           label={(
             <Typography variant="body2" aria-label={getRouteName(item.name, item.name_en, item.name_sv)}>
               {getRouteName(item.name, item.name_en, item.name_sv)}
             </Typography>
-      )}
+          )}
         />
-        {item.id === cultureRouteId ? (
-          <Description
-            key={item.name}
-            route={item}
-            currentLocale={locale}
-          />
-        ) : null}
+        {item.id === cultureRouteId ? <Description key={item.name} route={item} currentLocale={locale} /> : null}
       </div>
     ));
 
   /**
-     * @param {boolean} settingVisibility
-     * @param {Array} typeVal
-     * @returns {JSX Element}
-     */
+   * @param {boolean} settingVisibility
+   * @param {Array} typeVal
+   * @returns {JSX Element}
+   */
   const renderSettings = (settingVisibility, typeVal) => {
     if (settingVisibility) {
       return typeVal.map(item => (
@@ -759,8 +879,10 @@ const MobilitySettingsView = ({ classes, intl }) => {
   };
 
   // Create array of speed limit values from data and remove duplicates
-  const speedLimitList = useMemo(() => [...new Set(speedLimitZones.map(item => item.extra.speed_limit))],
-    [speedLimitZones]);
+  const speedLimitList = useMemo(
+    () => [...new Set(speedLimitZones.map(item => item.extra.speed_limit))],
+    [speedLimitZones],
+  );
 
   // Sort in ascending order, because entries can be in random order
   // This list will be displayed for users
@@ -769,37 +891,48 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const renderSpeedLimits = () => (
     <>
       <div className={`${classes.paragraph} ${classes.border}`}>
-        <Typography variant="body2" aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.speedLimitZones.select' })}>
+        <Typography
+          variant="body2"
+          aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.speedLimitZones.select' })}
+        >
           {intl.formatMessage({ id: 'mobilityPlatform.menu.speedLimitZones.select' })}
         </Typography>
       </div>
       <div className={classes.buttonList}>
-        {openSpeedLimitList && speedLimitListAsc.length > 0 && speedLimitListAsc.map(item => (
-          <div key={item} className={classes.checkBoxContainer}>
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={speedLimitSelections.includes(item)}
-                  aria-checked={speedLimitSelections.includes(item)}
-                  className={classes.margin}
-                  onChange={() => setSpeedLimitState(item)}
-                />
-            )}
-              label={(
-                <Typography
-                  variant="body2"
-                  aria-label={intl.formatMessage({
-                    id: 'mobilityPlatform.content.speedLimitZones.suffix',
-                  }, { item })}
-                >
-                  {intl.formatMessage({
-                    id: 'mobilityPlatform.content.speedLimitZones.suffix',
-                  }, { item })}
-                </Typography>
-            )}
-            />
-          </div>
-        ))}
+        {openSpeedLimitList
+          && speedLimitListAsc.length > 0
+          && speedLimitListAsc.map(item => (
+            <div key={item} className={classes.checkBoxContainer}>
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={speedLimitSelections.includes(item)}
+                    aria-checked={speedLimitSelections.includes(item)}
+                    className={classes.margin}
+                    onChange={() => setSpeedLimitState(item)}
+                  />
+                )}
+                label={(
+                  <Typography
+                    variant="body2"
+                    aria-label={intl.formatMessage(
+                      {
+                        id: 'mobilityPlatform.content.speedLimitZones.suffix',
+                      },
+                      { item },
+                    )}
+                  >
+                    {intl.formatMessage(
+                      {
+                        id: 'mobilityPlatform.content.speedLimitZones.suffix',
+                      },
+                      { item },
+                    )}
+                  </Typography>
+                )}
+              />
+            </div>
+          ))}
       </div>
     </>
   );
@@ -822,9 +955,15 @@ const MobilitySettingsView = ({ classes, intl }) => {
               label={(
                 <Typography
                   variant="body2"
-                  aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.parkingChargeZones.subtitle' }, { value: item.extra.maksuvyohyke })}
+                  aria-label={intl.formatMessage(
+                    { id: 'mobilityPlatform.menu.parkingChargeZones.subtitle' },
+                    { value: item.extra.maksuvyohyke },
+                  )}
                 >
-                  {intl.formatMessage({ id: 'mobilityPlatform.menu.parkingChargeZones.subtitle' }, { value: item.extra.maksuvyohyke })}
+                  {intl.formatMessage(
+                    { id: 'mobilityPlatform.menu.parkingChargeZones.subtitle' },
+                    { value: item.extra.maksuvyohyke },
+                  )}
                 </Typography>
               )}
             />
@@ -859,6 +998,58 @@ const MobilitySettingsView = ({ classes, intl }) => {
                   aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.show.scootersRyde' })}
                 >
                   {intl.formatMessage({ id: 'mobilityPlatform.menu.show.scootersRyde' })}
+                </Typography>
+              )}
+            />
+          </div>
+        ))}
+    </>
+  );
+
+  const streetMaintenanceInfo = (colorClass, translationId) => (
+    <div className={classes.flexBox}>
+      <div className={`${classes.box} ${colorClass}`} />
+      <div className={classes.marginSm}>
+        <Typography variant="body2">{intl.formatMessage({ id: translationId })}</Typography>
+      </div>
+    </div>
+  );
+
+  const renderMaintenanceSelectionList = () => (
+    <>
+      <div className={`${classes.paragraph} ${classes.border}`}>
+        <Typography
+          variant="body2"
+          aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.streetMaintenance.info' })}
+        >
+          {intl.formatMessage({ id: 'mobilityPlatform.menu.streetMaintenance.info' })}
+        </Typography>
+        <div className={classes.infoText}>
+          {streetMaintenanceInfo(classes.blue, 'mobilityPlatform.menu.streetMaintenance.info.snowplow')}
+          {streetMaintenanceInfo(classes.purple, 'mobilityPlatform.menu.streetMaintenance.info.deicing')}
+          {streetMaintenanceInfo(classes.burgundy, 'mobilityPlatform.menu.streetMaintenance.info.sandRemoval')}
+          {streetMaintenanceInfo(classes.green, 'mobilityPlatform.menu.streetMaintenance.info.sanitation')}
+        </div>
+        {!isActiveStreetMaintenance && streetMaintenancePeriod ? (
+          <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.noActivity" reducePadding />
+        ) : null}
+      </div>
+      {streetMaintenanceSelections
+        && streetMaintenanceSelections.length > 0
+        && streetMaintenanceSelections.map(item => (
+          <div key={item.type} className={classes.checkBoxContainer}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={item.type === streetMaintenancePeriod}
+                  aria-checked={item.type === streetMaintenancePeriod}
+                  className={classes.margin}
+                  onChange={() => item.onChangeValue(item.type)}
+                />
+              )}
+              label={(
+                <Typography variant="body2" aria-label={intl.formatMessage({ id: item.msgId })}>
+                  {intl.formatMessage({ id: item.msgId })}
                 </Typography>
               )}
             />
@@ -919,6 +1110,19 @@ const MobilitySettingsView = ({ classes, intl }) => {
           linkText="mobilityPlatform.info.guestHarbour.link"
         />
       ) : null}
+    </>
+  );
+
+  const renderStreetMaintenanceInfoTexts = () => (
+    <>
+      {showStreetMaintenance ? (
+        <InfoTextBox
+          infoText="mobilityPlatform.info.streetMaintenance.general"
+          linkUrl="https://www.turku.fi/uutinen/2021-01-12_pelisaannot-selkeita-katujen-talvikunnossapidossa"
+          linkText="mobilityPlatform.info.streetMaintenance.link"
+        />
+      ) : null}
+      {showBrushSaltedRoute || showBrushSandedRoute ? <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.brushedRoads" /> : null}
     </>
   );
 
@@ -998,6 +1202,17 @@ const MobilitySettingsView = ({ classes, intl }) => {
               </div>
               {renderSettings(openBoatingSettings, boatingControlTypes)}
               {renderBoatingInfoTexts()}
+              <div className={classes.buttonContainer}>
+                <ButtonMain
+                  onClickFunc={streetMaintenanceSettingsToggle}
+                  settingState={openStreetMaintenanceSettings}
+                  iconName={iconSnowplow}
+                  translationId="mobilityPlatform.menu.title.streetMaintenance"
+                />
+              </div>
+              {renderSettings(openStreetMaintenanceSettings, streetMaintenanceControlTypes)}
+              {openStreetMaintenanceSelectionList ? renderMaintenanceSelectionList() : null}
+              {renderStreetMaintenanceInfoTexts()}
             </>
           </FormGroup>
         </FormControl>

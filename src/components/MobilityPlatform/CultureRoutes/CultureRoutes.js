@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { fetchCultureRoutesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
@@ -47,6 +47,7 @@ const CultureRoutes = () => {
       map.fitBounds([bounds]);
     }
   }, [showCultureRoutes, activeCultureRoute, map]);
+
   return (
     <>
       {showCultureRoutes ? (
