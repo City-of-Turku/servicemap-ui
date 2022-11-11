@@ -7,10 +7,10 @@ exports[`<TrailInfo /> should match snapshot 1`] = `
       class="injectIntl(TrailInfo)-paragraph-1"
     >
       <p
-        aria-label="Reitin pituus: 5,1 km"
+        aria-label="Reitin pituus: 5 km"
         class="MuiTypography-root MuiTypography-body2"
       >
-        Reitin pituus: 5,1 km
+        Reitin pituus: 5 km
       </p>
     </div>
   </div>

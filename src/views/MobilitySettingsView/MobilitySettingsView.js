@@ -17,7 +17,6 @@ import {
   fetchBicycleRouteNames,
   fetchCultureRouteNames,
   fetchMobilityMapPolygonData,
-  fetchLounaistietoData,
 } from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
 import useLocaleText from '../../utils/useLocaleText';
 import TitleBar from '../../components/TitleBar';
@@ -48,7 +47,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const [openScooterProviderList, setOpenScooterProviderList] = useState(false);
   const [openStreetMaintenanceSelectionList, setOpenStreetMaintenanceSelectionList] = useState(false);
   const [openMarkedTrailsList, setOpenMarkedTrailsList] = useState(false);
-  const [trailDataList, setTrailDataList] = useState([]);
+  const [markedTrailsList, setMarkedTrailsList] = useState([]);
 
   const {
     setOpenMobilityPlatform,
@@ -176,8 +175,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
   }, [setParkingChargeZones]);
 
   useEffect(() => {
-    fetchLounaistietoData('RCR', 500, 'reittiluokk', 'Kuntoreitti', setTrailDataList);
-  }, [setTrailDataList]);
+    fetchMobilityMapPolygonData('PPU', 50, setMarkedTrailsList);
+  }, [setMarkedTrailsList]);
 
   /**
    * Check is visibility boolean values are true
@@ -917,17 +916,21 @@ const MobilitySettingsView = ({ classes, intl }) => {
       </div>
     ));
 
-  // Get only routes that are Paavonpolkuja
-  const paavoTrails = trailDataList.reduce((acc, curr) => {
-    if (curr.name === 'Paavonpolut') {
-      acc.push(curr);
+  const fixRouteName = (routeNameFi, routeNameEn, routeNameSv) => {
+    const routes = {
+      fi: routeNameFi,
+      en: routeNameEn,
+      sv: routeNameSv,
+    };
+    const route = getLocaleText(routes);
+    const split = route.split(': ');
+    if (split.length === 2) {
+      return split[1];
     }
-    return acc;
-  }, []);
-
-  const fixRouteName = (routeName) => {
-    const noUnderscore = routeName.replace(/_/gi, ' ');
-    return noUnderscore.replace(/ï¿½/gi, 'ä');
+    if (split.length === 3) {
+      return split[2];
+    }
+    return route;
   };
 
   /**
@@ -948,8 +951,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
           />
         )}
         label={(
-          <Typography variant="body2" aria-label={fixRouteName(item.extra.reitin_osan_nimi)}>
-            {fixRouteName(item.extra.reitin_osan_nimi)}
+          <Typography variant="body2" aria-label={fixRouteName(item.name_fi, item.name_en, item.name_sv)}>
+            {fixRouteName(item.name_fi, item.name_en, item.name_sv)}
           </Typography>
         )}
       />
@@ -1252,7 +1255,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 ? renderCultureRoutes(localizedCultureRoutes)
                 : null}
               {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
-              {openMarkedTrailsList ? renderMarkedTrails(paavoTrails) : null}
+              {openMarkedTrailsList ? renderMarkedTrails(markedTrailsList) : null}
               {renderWalkingInfoTexts()}
               <div className={classes.buttonContainer}>
                 <ButtonMain

@@ -6,7 +6,7 @@ import { getRenderWithProviders } from '../../../../../../jestUtils';
 const mockProps = {
   item: {
     extra: {
-      reitin_pituus: 5100,
+      length_km: 5,
     },
   },
 };
@@ -23,13 +23,13 @@ describe('<TrailInfo />', () => {
     const { container } = renderWithProviders(<TrailInfo {...mockProps} />);
 
     const p = container.querySelectorAll('p');
-    expect(p[0].textContent).toEqual('Reitin pituus: 5,1 km');
+    expect(p[0].textContent).toEqual('Reitin pituus: 5 km');
   });
 
   it('does contain aria-label attribute', () => {
     const { container } = renderWithProviders(<TrailInfo {...mockProps} />);
 
     const p = container.querySelectorAll('p');
-    expect(p[0].getAttribute('aria-label')).toEqual('Reitin pituus: 5,1 km');
+    expect(p[0].getAttribute('aria-label')).toEqual('Reitin pituus: 5 km');
   });
 });

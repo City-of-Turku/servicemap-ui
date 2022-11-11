@@ -3,23 +3,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const TrailInfo = ({ classes, intl, item }) => {
-  const formatlength = (inputLength) => {
-    const length = (inputLength / 1000).toFixed(1);
-    return length.replace(/\./g, ',');
-  };
-
   const renderLength = () => (
     <Typography
       component="p"
       variant="body2"
       aria-label={intl.formatMessage(
         { id: 'mobilityPlatform.menu.markedTrails.length' },
-        { value: formatlength(item.extra.reitin_pituus) },
+        { value: item.extra.length_km },
       )}
     >
       {intl.formatMessage(
         { id: 'mobilityPlatform.menu.markedTrails.length' },
-        { value: formatlength(item.extra.reitin_pituus) },
+        { value: item.extra.length_km },
       )}
     </Typography>
   );

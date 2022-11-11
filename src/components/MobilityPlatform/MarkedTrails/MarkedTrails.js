@@ -10,7 +10,7 @@ const MarkedTrails = () => {
   const { Polyline } = global.rL;
 
   const brownOptions = { color: 'rgba(117, 44, 23, 255)' };
-  const whiteOptions = { color: '#ffff', dashArray: '5, 20', lineCap: 'square' };
+  const whiteOptions = { color: 'rgba(255, 255, 255, 255)', dashArray: '5, 20', lineCap: 'square' };
 
   const renderData = showMarkedTrails && markedTrailsObj && Object.entries(markedTrailsObj).length > 0;
 
