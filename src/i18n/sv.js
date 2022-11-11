@@ -68,14 +68,14 @@ const translations = {
   'area.geographicalServices.district': 'Tjänster i stadsdelen ({length})',
   'area.geographicalServices.postcode_area': 'Tjänster i postnummerområdet ({length})',
   'area.geographicalServices.major_district': 'Tjänster i stordistriktet ({length})',
-  'area.geographicalServices.voting_district': 'Tjänster i röstningonrådet ({length})', // TODO verify
-  'area.geographicalServices.sub_district': 'Tjänster i underdistriktet ({length})', // TODO verify
+  'area.geographicalServices.voting_district': 'Tjänster i röstningonrådet ({length})',
+  'area.geographicalServices.sub_district': 'Tjänster i underdistriktet ({length})',
   'area.neighborhood.title': 'Välj stadsdel',
   'area.district.title': 'Välj stadsdel',
   'area.postcode_area.title': 'Välj postnummer',
   'area.major_district.title': 'Välj stordistrikt',
-  'area.voting_district.title': 'Välj röstningonrådet', // TODO verify
-  'area.sub_district.title': 'Välj underdistrikt', // TODO verify
+  'area.voting_district.title': 'Välj röstningonrådet',
+  'area.sub_district.title': 'Välj underdistrikt',
   'area.noSelection': 'Väl område under fliken Val av område',
   'area.noUnits': 'Det finns inga verksamhetsställen i ditt valda område',
   'area.popupLink': 'Visa uppgifterna för området (ny flik)',
@@ -102,7 +102,7 @@ const translations = {
   'area.list.lower_comprehensive_school_district_sv': 'Svenskt grundskoleområde, lågklasserna',
   'area.list.upper_comprehensive_school_district_fi': 'Finskt grundskoleområde, högklasserna',
   'area.list.upper_comprehensive_school_district_sv': 'Svenskt grundskoleområde, högklasserna',
-  'area.list.school_district_fi': 'Finskt grundskoleområde', // TODO verify
+  'area.list.school_district_fi': 'Finskt grundskoleområde',
   'area.list.preschool_education_fi': 'Finskt småbarnspedagogikområde',
   'area.list.preschool_education_sv': 'Svenskt småbarnspedagogikområde',
   'area.list.nature_reserve': 'Naturskyddsområden',
@@ -120,15 +120,15 @@ const translations = {
   'area.list.lower_comprehensive_school_district_sv.plural': 'Svenskt grundskoleområden, lågklasserna',
   'area.list.upper_comprehensive_school_district_fi.plural': 'Finskt grundskoleområden, högklasserna',
   'area.list.upper_comprehensive_school_district_sv.plural': 'Svenskt grundskoleområden, högklasserna',
-  'area.list.school_district_fi.plural': 'Finskt grundskoleområden', // TODO verify
+  'area.list.school_district_fi.plural': 'Finskt grundskoleområden',
   'area.list.preschool_education_fi.plural': 'Finskt småbarnspedagogikområden',
   'area.list.preschool_education_sv.plural': 'Svenskt småbarnspedagogikområden',
   'area.list.nature_reserve.plural': 'Naturskyddsområden',
   'area.list.resident_parking_zone.plural': 'Invånarparkeringsområden',
-  'area.list.voting_district': 'Röstningområd', // TODO verify
-  'area.list.voting_district.plural': 'Röstningområden', // TODO verify
-  'area.list.sub_district': 'Underdistrikt', // TODO verify
-  'area.list.sub_district.plural': 'Underdistrikten', // TODO verify
+  'area.list.voting_district': 'Röstningområd',
+  'area.list.voting_district.plural': 'Röstningområden',
+  'area.list.sub_district': 'Underdistrikt',
+  'area.list.sub_district.plural': 'Underdistrikten',
 
   // Download dialog
   'download.cropping.title': 'Nuvarande filterinställningar',
@@ -313,7 +313,7 @@ const translations = {
   'home.buttons.closeByServices': 'Visa närtjänster',
   'home.buttons.instructions': 'Tips för användning av servicekartan',
   'home.buttons.area': 'Se hälsovårds-, rådgivnings-, elevupptagnings-, förskole-, befolkningsskydds- och naturskyddsområdena samt stadsdelarna',
-  'home.buttons.area.tku': 'Se elevupptagnings-, postnummer- och röstningområdena samt stadsdelarna.', // TODO verify
+  'home.buttons.area.tku': 'Se elevupptagnings-, postnummer- och röstningområdena samt stadsdelarna.',
   'home.example.search': 'Sök med sökord',
   'home.message': 'Hälsningar av servicekartans utvecklare',
   'home.send.feedback': 'Skicka respons',
@@ -437,7 +437,7 @@ const translations = {
   'search': 'Sök',
   'search.arrowLabel': 'Precisera',
   'search.cancelText': 'Töm sökfältet',
-  'search.removeSuggestion': 'Ta bort', // TODO verify
+  'search.removeSuggestion': 'Ta bort',
   'search.notFoundWith': 'Inga träffar för sökningen "{query}".',
   'search.placeholder': 'Sök tjänst eller verksamhetsställe',
   'search.info': `{count, plural,

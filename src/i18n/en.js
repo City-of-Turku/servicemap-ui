@@ -67,13 +67,13 @@ const translations = {
   'area.geographicalServices.neighborhood': 'Services of the neighbourhood ({length})',
   'area.geographicalServices.postcode_area': 'Services of the postal code area ({length})',
   'area.geographicalServices.major_district': 'Services of the major district ({length})',
-  'area.geographicalServices.voting_district': 'Services of the voting district ({length})', // TODO verify
-  'area.geographicalServices.sub_district': 'Services of the sub district ({length})', // TODO verify
+  'area.geographicalServices.voting_district': 'Services of the voting district ({length})',
+  'area.geographicalServices.sub_district': 'Services of the sub district ({length})',
   'area.neighborhood.title': 'Choose neighbourhood',
   'area.postcode_area.title': 'Choose postal code',
   'area.major_district.title': 'Choose major district',
-  'area.voting_district.title': 'Choose voting district', // TODO verify
-  'area.sub_district.title': 'Choose sub district', // TODO verify
+  'area.voting_district.title': 'Choose voting district',
+  'area.sub_district.title': 'Choose sub district',
   'area.noSelection': 'Choose area from the Choice of Area tab',
   'area.noUnits': 'There are no service points in your chosen area',
   'area.popupLink': 'Show the details for the area (new tab)',
@@ -100,7 +100,7 @@ const translations = {
   'area.list.lower_comprehensive_school_district_sv': 'Swedish primary school area',
   'area.list.upper_comprehensive_school_district_fi': 'Finnish secondary school area',
   'area.list.upper_comprehensive_school_district_sv': 'Swedish secondary school area',
-  'area.list.school_district_fi': 'Finnish elementary school area', // TODO verify
+  'area.list.school_district_fi': 'Finnish comprehensive school area',
   'area.list.preschool_education_fi': 'Finnish preschool education area',
   'area.list.preschool_education_sv': 'Swedish preschool education area',
   'area.list.nature_reserve': 'Nature conservation areas',
@@ -117,15 +117,15 @@ const translations = {
   'area.list.lower_comprehensive_school_district_sv.plural': 'Swedish primary school areas',
   'area.list.upper_comprehensive_school_district_fi.plural': 'Finnish secondary school areas',
   'area.list.upper_comprehensive_school_district_sv.plural': 'Swedish secondary school areas',
-  'area.list.school_district_fi.plural': 'Finnish elementary school areas', // TODO verify
+  'area.list.school_district_fi.plural': 'Finnish comprehensive school areas',
   'area.list.preschool_education_fi.plural': 'Finnish preschool education areas',
   'area.list.preschool_education_sv.plural': 'Swedish preschool education areas',
   'area.list.nature_reserve.plural': 'Nature conservation areas',
   'area.list.resident_parking_zone.plural': 'Residential parking areas',
-  'area.list.voting_district': 'Voting district', // TODO verify
-  'area.list.voting_district.plural': 'Voting districts', // TODO verify
-  'area.list.sub_district': 'Sub district', // TODO verify
-  'area.list.sub_district.plural': 'Sub districts', // TODO verify
+  'area.list.voting_district': 'Voting district',
+  'area.list.voting_district.plural': 'Voting districts',
+  'area.list.sub_district': 'Sub district',
+  'area.list.sub_district.plural': 'Sub districts',
 
   // Download dialog
   'download.cropping.title': 'Current filter values',
@@ -310,7 +310,7 @@ const translations = {
   'home.buttons.closeByServices': 'Show nearby services',
   'home.buttons.instructions': 'Tips for using the service map',
   'home.buttons.area': 'View the areas for healthcare, education, pre-primary education, civil defence, nature and neighborhoods.',
-  'home.buttons.area.tku': 'View the areas for education, postcode, voting and neighborhoods.', // TODO verify
+  'home.buttons.area.tku': 'View the areas for education, postcode, voting and neighborhoods.',
   'home.example.search': 'Search for',
   'home.message': 'Message from the developers',
   'home.send.feedback': 'Give feedback',
@@ -773,7 +773,7 @@ const translations = {
   'mobilityPlatform.info.streetMaintenance.noActivity': 'There is no street maintenance work in progress during the selected time period.',
   'mobilityPlatform.info.streetMaintenance.general': 'Street maintenance includes ploughing and sanding of streets, cycle paths and structurally indistinguishable footpaths and cycle paths in winter and removing the sand in spring.',
   'mobilityPlatform.info.streetMaintenance.link': 'Winter maintenance rules.',
-  'mobilityPlatform.info.streetMaintenance.brushedRoads': 'Bicycle roads that are shown on the map are part of the intensified winter maintenance. Snow will be removed by brushing and salt solution or sand will be used to prevent slippery conditions.', // TODO verify
+  'mobilityPlatform.info.streetMaintenance.brushedRoads': 'Bicycle roads that are shown on the map are part of the intensified winter maintenance. Snow will be removed by brushing and salt solution or sand will be used to prevent slippery conditions.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',
