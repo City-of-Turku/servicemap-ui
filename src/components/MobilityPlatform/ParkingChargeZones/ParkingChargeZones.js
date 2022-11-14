@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
+import { isObjValid } from '../utils/utils';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import ParkingChargeZoneContent from './components/ParkingChargeZoneContent';
 
@@ -13,7 +14,7 @@ const ParkingChargeZones = () => {
 
   const parkingChargeZone = parkingChargeZones.find(item => item.id === parkingChargeZoneId);
 
-  const renderOneParkingChargeZone = !!(showParkingChargeZones && parkingChargeZone && Object.entries(parkingChargeZone).length > 0);
+  const renderOneParkingChargeZone = isObjValid(showParkingChargeZones, parkingChargeZone);
 
   const { Polygon, Popup } = global.rL;
 

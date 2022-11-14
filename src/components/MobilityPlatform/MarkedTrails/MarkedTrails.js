@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { useMap } from 'react-leaflet';
+import { isObjValid } from '../utils/utils';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 
 /* Show marked trails which are part of Paavo trails on the map */
@@ -12,7 +13,7 @@ const MarkedTrails = () => {
   const brownOptions = { color: 'rgba(117, 44, 23, 255)' };
   const whiteOptions = { color: 'rgba(255, 255, 255, 255)', dashArray: '5, 20', lineCap: 'square' };
 
-  const renderData = showMarkedTrails && markedTrailsObj && Object.entries(markedTrailsObj).length > 0;
+  const renderData = isObjValid(showMarkedTrails, markedTrailsObj);
 
   const map = useMap();
 
@@ -26,12 +27,12 @@ const MarkedTrails = () => {
 
   return (
     <>
-      {renderData && (
+      {renderData ? (
         <>
           <Polyline weight={8} pathOptions={brownOptions} positions={markedTrailsObj.geometry_coords} />
           <Polyline weight={4} pathOptions={whiteOptions} positions={markedTrailsObj.geometry_coords} />
         </>
-      )}
+      ) : null}
     </>
   );
 };

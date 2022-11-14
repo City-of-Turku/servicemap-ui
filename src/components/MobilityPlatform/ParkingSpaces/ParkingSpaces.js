@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isObjValid } from '../utils/utils';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import ParkingSpacesContent from './components/ParkingSpacesContent';
 
@@ -43,15 +44,17 @@ const ParkingSpaces = () => {
 
   const map = useMap();
 
+  const renderData = isObjValid(showParkingSpaces, parkingSpaces);
+
   useEffect(() => {
-    if (showParkingSpaces && parkingSpaces && Object.entries(parkingSpaces).length > 0) {
+    if (renderData) {
       const bounds = [];
       parkingSpaces.features.forEach((item) => {
         bounds.push(swapCoords(item.geometry.coordinates));
       });
       map.fitBounds(bounds);
     }
-  }, [showParkingSpaces]);
+  }, [showParkingSpaces, parkingSpaces]);
 
   const renderColor = (itemId, capacity) => {
     const stats = parkingStatistics.results.find(item => item.id === itemId);
@@ -64,24 +67,18 @@ const ParkingSpaces = () => {
 
   return (
     <>
-      {showParkingSpaces ? (
-        <>
-          <div>
-            {parkingSpaces
-              && Object.entries(parkingSpaces).length > 0
-              && parkingSpaces.features.map(item => (
-                <Polygon
-                  key={item.id}
-                  pathOptions={renderColor(item.id, item.properties.capacity_estimate)}
-                  positions={swapCoords(item.geometry.coordinates)}
-                >
-                  <Popup>
-                    <ParkingSpacesContent parkingSpace={item} parkingStatistics={parkingStatistics.results} />
-                  </Popup>
-                </Polygon>
-              ))}
-          </div>
-        </>
+      {renderData ? (
+        parkingSpaces.features.map(item => (
+          <Polygon
+            key={item.id}
+            pathOptions={renderColor(item.id, item.properties.capacity_estimate)}
+            positions={swapCoords(item.geometry.coordinates)}
+          >
+            <Popup>
+              <ParkingSpacesContent parkingSpace={item} parkingStatistics={parkingStatistics.results} />
+            </Popup>
+          </Polygon>
+        ))
       ) : null}
     </>
   );
