@@ -24,6 +24,7 @@ import DisabledParking from '../../components/MobilityPlatform/Parking/DisabledP
 import LoadingPlaces from '../../components/MobilityPlatform/LoadingPlaces';
 import BrushedBicycleRoads from '../../components/MobilityPlatform/SnowPlows/components/BrushedBicycleRoads';
 import MarkedTrails from '../../components/MobilityPlatform/MarkedTrails';
+import NatureTrails from '../../components/MobilityPlatform/NatureTrails';
 
 const MobilityPlatformMapView = () => (
   <>
@@ -52,6 +53,7 @@ const MobilityPlatformMapView = () => (
     <SnowPlows />
     <BrushedBicycleRoads />
     <MarkedTrails />
+    <NatureTrails />
   </>
 );
 

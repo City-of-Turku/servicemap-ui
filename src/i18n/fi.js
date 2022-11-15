@@ -643,6 +643,7 @@ const translations = {
   'mobilityPlatform.menu.show.brushSaltedRoute': 'Harjasuolattavat pyörätiet',
   'mobilityPlatform.menu.show.paavoTrails': 'Paavonpolut',
   'mobilityPlatform.menu.markedTrails.length': 'Reitin pituus: {value} km',
+  'mobilityPlatform.menu.show.natureTrails': 'Luontopolut',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',

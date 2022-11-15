@@ -48,6 +48,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const [openStreetMaintenanceSelectionList, setOpenStreetMaintenanceSelectionList] = useState(false);
   const [openMarkedTrailsList, setOpenMarkedTrailsList] = useState(false);
   const [markedTrailsList, setMarkedTrailsList] = useState([]);
+  const [openNatureTrailsList, setOpenNatureTrailsList] = useState(false);
+  const [natureTrailsList, setNatureTrailsList] = useState([]);
 
   const {
     setOpenMobilityPlatform,
@@ -120,6 +122,10 @@ const MobilitySettingsView = ({ classes, intl }) => {
     setShowMarkedTrails,
     markedTrailsObj,
     setMarkedTrailsObj,
+    showNatureTrails,
+    setShowNatureTrails,
+    natureTrailsObj,
+    setNatureTrailsObj,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
@@ -178,6 +184,10 @@ const MobilitySettingsView = ({ classes, intl }) => {
     fetchMobilityMapPolygonData('PPU', 50, setMarkedTrailsList);
   }, [setMarkedTrailsList]);
 
+  useEffect(() => {
+    fetchMobilityMapPolygonData('NTL', 200, setNatureTrailsList);
+  }, [setNatureTrailsList]);
+
   /**
    * Check is visibility boolean values are true
    * This would be so if user has not hid them, but left mobility map before returning
@@ -214,6 +224,11 @@ const MobilitySettingsView = ({ classes, intl }) => {
     checkVisibilityValues(showMarkedTrails, setOpenWalkSettings);
     checkVisibilityValues(showMarkedTrails, setOpenMarkedTrailsList);
   }, [showMarkedTrails]);
+
+  useEffect(() => {
+    checkVisibilityValues(showNatureTrails, setOpenWalkSettings);
+    checkVisibilityValues(showNatureTrails, setOpenNatureTrailsList);
+  }, [showNatureTrails]);
 
   useEffect(() => {
     checkVisibilityValues(showSpeedLimitZones, setOpenSpeedLimitList);
@@ -314,12 +329,14 @@ const MobilitySettingsView = ({ classes, intl }) => {
    * @function sort
    * @returns {Array}
    */
+
   useEffect(() => {
     const objKeys = {
       fi: 'name_fi',
       en: 'name_en',
       sv: 'name_sv',
     };
+
     if (bicycleRouteList) {
       bicycleRouteList.sort((a, b) => a[objKeys[locale]].localeCompare(b[objKeys[locale]], undefined, {
         numeric: true,
@@ -327,6 +344,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
       }));
     }
   }, [bicycleRouteList, locale]);
+
+  const natureTrailsTku = natureTrailsList.filter(item => item.municipality === 'turku');
 
   /**
    * Toggle functions for main user types
@@ -471,6 +490,16 @@ const MobilitySettingsView = ({ classes, intl }) => {
     }
   };
 
+  const natureTrailListToggle = () => {
+    setOpenNatureTrailsList(current => !current);
+    if (natureTrailsObj) {
+      setMarkedTrailsObj({});
+    }
+    if (showNatureTrails) {
+      setShowNatureTrails(false);
+    }
+  };
+
   const streetMaintenanceListToggle = () => {
     setOpenStreetMaintenanceSelectionList(current => !current);
     if (streetMaintenancePeriod) {
@@ -559,6 +588,28 @@ const MobilitySettingsView = ({ classes, intl }) => {
     if (obj === prevMarkedTrailObjRef.current) {
       setMarkedTrailsObj({});
       setShowMarkedTrails(false);
+    }
+  };
+
+  const prevNatureTrailObjRef = useRef();
+
+  /**
+    * If user clicks same trail again, then reset name and set visiblity to false
+    * Otherwise new values are set
+    */
+  useEffect(() => {
+    prevNatureTrailObjRef.current = natureTrailsObj;
+  }, [natureTrailsObj]);
+
+  /**
+    * @param {obj}
+    */
+  const setNatureTrailState = (obj) => {
+    setNatureTrailsObj(obj);
+    setShowNatureTrails(true);
+    if (obj === prevNatureTrailObjRef.current) {
+      setNatureTrailsObj({});
+      setShowNatureTrails(false);
     }
   };
 
@@ -682,6 +733,12 @@ const MobilitySettingsView = ({ classes, intl }) => {
       msgId: 'mobilityPlatform.menu.show.paavoTrails',
       checkedValue: openMarkedTrailsList,
       onChangeValue: markedTrailListToggle,
+    },
+    {
+      type: 'natureTrails',
+      msgId: 'mobilityPlatform.menu.show.natureTrails',
+      checkedValue: openNatureTrailsList,
+      onChangeValue: natureTrailListToggle,
     },
     {
       type: 'publicToilets',
@@ -959,6 +1016,33 @@ const MobilitySettingsView = ({ classes, intl }) => {
       {item.id === markedTrailsObj.id ? <TrailInfo item={item} /> : null}
     </div>
   ));
+
+  /**
+   * @param {Array} inputData
+   * @returns {JSX Element}
+   */
+  const renderNatureTrails = inputData => inputData
+   && inputData.length > 0
+   && inputData.map(item => (
+     <div key={item.id} className={classes.checkBoxContainer}>
+       <FormControlLabel
+         control={(
+           <Checkbox
+             checked={item.id === natureTrailsObj.id}
+             aria-checked={item.id === natureTrailsObj.id}
+             className={classes.margin}
+             onChange={() => setNatureTrailState(item)}
+           />
+         )}
+         label={(
+           <Typography variant="body2" aria-label={getRouteName(item.name_fi, item.name_en, item.name_sv)}>
+             {getRouteName(item.name_fi, item.name_en, item.name_sv)}
+           </Typography>
+         )}
+       />
+       {item.id === natureTrailsObj.id ? <TrailInfo item={item} /> : null}
+     </div>
+   ));
 
   /**
    * @param {boolean} settingVisibility
@@ -1256,6 +1340,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 : null}
               {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
               {openMarkedTrailsList ? renderMarkedTrails(markedTrailsList) : null}
+              {openNatureTrailsList ? renderNatureTrails(natureTrailsTku) : null}
               {renderWalkingInfoTexts()}
               <div className={classes.buttonContainer}>
                 <ButtonMain

@@ -131,6 +131,8 @@ const DefaultLayout = (props) => {
   const [showBrushSaltedRoute, setShowBrushSaltedRoute] = useState(false);
   const [showMarkedTrails, setShowMarkedTrails] = useState(false);
   const [markedTrailsObj, setMarkedTrailsObj] = useState({});
+  const [showNatureTrails, setShowNatureTrails] = useState(false);
+  const [natureTrailsObj, setNatureTrailsObj] = useState({});
 
   const {
     currentPage, fetchErrors, fetchNews, intl, location, settingsToggled,
@@ -281,6 +283,10 @@ const DefaultLayout = (props) => {
                       setShowMarkedTrails,
                       markedTrailsObj,
                       setMarkedTrailsObj,
+                      showNatureTrails,
+                      setShowNatureTrails,
+                      natureTrailsObj,
+                      setNatureTrailsObj,
                     }}
                   >
                     <ViewRouter />
@@ -330,6 +336,8 @@ const DefaultLayout = (props) => {
                     showBrushSaltedRoute,
                     showMarkedTrails,
                     markedTrailsObj,
+                    showNatureTrails,
+                    natureTrailsObj,
                   }}
                 >
                   <MapView

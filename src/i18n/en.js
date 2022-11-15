@@ -640,6 +640,7 @@ const translations = {
   'mobilityPlatform.menu.show.brushSaltedRoute': 'Brush salted bicycle roads',
   'mobilityPlatform.menu.show.paavoTrails': 'Paavo trails',
   'mobilityPlatform.menu.markedTrails.length': 'Trail length: {value} km',
+  'mobilityPlatform.menu.show.natureTrails': 'Nature trails', // TODO verify
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
