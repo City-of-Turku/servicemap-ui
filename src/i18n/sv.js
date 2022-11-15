@@ -703,7 +703,7 @@ const translations = {
   'mobilityPlatform.content.cityBikes.docks.available': 'Antal lediga cykelställ kvar',
   'mobilityPlatform.content.cityBikes.virtualStation': 'Virtual station',
   'mobilityPlatform.content.speedLimitZones.area': 'Hastighetsbegränsningszon',
-  'mobilityPlatform.content.speedLimitZones.limit': 'Hastighetsbegränsning',
+  'mobilityPlatform.content.speedLimitZones.limit': 'Hastighetsbegränsning: {item} km/h',
   'mobilityPlatform.content.speedLimitZones.suffix': '{item} km/h',
   'mobilityPlatform.content.publicToilets.title': 'Allmänn toalett',
   'mobilityPlatform.content.publicToilets.openNormalTitle': 'Öppningstider:',

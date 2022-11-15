@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import { isObjValid } from '../utils/utils';
+import { useAccessibleMap } from '../../../redux/selectors/settings';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import ParkingChargeZoneContent from './components/ParkingChargeZoneContent';
 
@@ -10,23 +11,24 @@ const ParkingChargeZones = () => {
     showParkingChargeZones, parkingChargeZones, parkingChargeZoneId,
   } = useContext(MobilityPlatformContext);
 
-  const mapType = useSelector(state => state.settings.mapType);
-
   const parkingChargeZone = parkingChargeZones.find(item => item.id === parkingChargeZoneId);
 
   const renderOneParkingChargeZone = isObjValid(showParkingChargeZones, parkingChargeZone);
 
   const { Polygon, Popup } = global.rL;
 
+  const useContrast = useSelector(useAccessibleMap);
+
   const blackOptions = {
-    fillColor: 'rgba(0, 0, 0, 255)',
     color: 'rgba(0, 0, 0, 255)',
-    fillOpacity: 0.3,
+    fillOpacity: 0.2,
     weight: 5,
   };
 
-  const greenOptions = { color: 'rgba(145, 232, 58, 255)', fillOpacity: 0.3, weight: 6 };
-  const pathOptions = mapType === 'accessible_map' ? greenOptions : blackOptions;
+  const whiteOptions = {
+    color: 'rgba(255, 255, 255, 255)', fillOpacity: 0.3, weight: 5, dashArray: '2 10 10 10',
+  };
+  const pathOptions = useContrast ? whiteOptions : blackOptions;
 
   const map = useMap();
 
@@ -40,13 +42,22 @@ const ParkingChargeZones = () => {
   return (
     <>
       {renderOneParkingChargeZone ? (
-        <div>
-          <Polygon pathOptions={pathOptions} positions={parkingChargeZone.geometry_coords}>
-            <Popup>
-              <ParkingChargeZoneContent parkingChargeZone={parkingChargeZone} />
-            </Popup>
-          </Polygon>
-        </div>
+        <Polygon
+          pathOptions={pathOptions}
+          positions={parkingChargeZone.geometry_coords}
+          eventHandlers={{
+            mouseover: (e) => {
+              e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
+            },
+            mouseout: (e) => {
+              e.target.setStyle({ fillOpacity: useContrast ? '0.3' : '0.2' });
+            },
+          }}
+        >
+          <Popup>
+            <ParkingChargeZoneContent parkingChargeZone={parkingChargeZone} />
+          </Popup>
+        </Polygon>
       ) : null}
     </>
   );

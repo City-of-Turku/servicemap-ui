@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isObjValid } from '../utils/utils';
+import { useAccessibleMap } from '../../../redux/selectors/settings';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import ParkingSpacesContent from './components/ParkingSpacesContent';
 
@@ -12,21 +13,26 @@ const ParkingSpaces = () => {
 
   const { openMobilityPlatform, showParkingSpaces } = useContext(MobilityPlatformContext);
 
-  const mapType = useSelector(state => state.settings.mapType);
+  const useContrast = useSelector(useAccessibleMap);
 
   const { Polygon, Popup } = global.rL;
 
   const blueColor = {
-    fillColor: 'rgba(7, 44, 115, 255)', color: 'rgba(7, 44, 115, 255)', fillOpacity: 0.4, weigth: 5,
+    color: 'rgba(7, 44, 115, 255)',
+    fillOpacity: 0.3,
   };
   const redColor = {
-    fillColor: 'rgba(240, 22, 22, 255)', color: 'rgba(240, 22, 22, 255)', fillOpacity: 0.4, weigth: 5,
+    color: 'rgba(240, 22, 22, 255)',
+    fillOpacity: useContrast ? 0.6 : 0.3,
+    dashArray: useContrast ? '2 8 8 8' : null,
   };
-  const greenColor = {
-    fillColor: 'rgba(4, 212, 91, 255)', color: 'rgba(4, 212, 91, 255)', fillOpacity: 0.6, weigth: 5,
+  const whiteColor = {
+    color: 'rgba(255, 255, 255, 255)',
+    fillOpacity: 0.6,
+    dashArray: '10 2 10',
   };
 
-  const pathOptions = mapType === 'accessible_map' ? greenColor : blueColor;
+  const pathOptions = useContrast ? whiteColor : blueColor;
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -62,24 +68,33 @@ const ParkingSpaces = () => {
     const parkingCount = stats.current_parking_count;
     if (parkingCount >= almostFull) {
       return redColor;
-    } return pathOptions;
+    }
+    return pathOptions;
   };
 
   return (
     <>
-      {renderData ? (
-        parkingSpaces.features.map(item => (
+      {renderData
+        ? parkingSpaces.features.map(item => (
           <Polygon
             key={item.id}
             pathOptions={renderColor(item.id, item.properties.capacity_estimate)}
             positions={swapCoords(item.geometry.coordinates)}
+            eventHandlers={{
+              mouseover: (e) => {
+                e.target.setStyle({ fillOpacity: useContrast ? '0.9' : '0.3' });
+              },
+              mouseout: (e) => {
+                e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.3' });
+              },
+            }}
           >
             <Popup>
               <ParkingSpacesContent parkingSpace={item} parkingStatistics={parkingStatistics.results} />
             </Popup>
           </Polygon>
         ))
-      ) : null}
+        : null}
     </>
   );
 };
