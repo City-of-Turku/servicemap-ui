@@ -9,6 +9,7 @@ import circleIcon from 'servicemap-ui-turku/assets/icons/icons-icon_circle_borde
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid, fitToMapBounds } from '../utils/utils';
 import BicycleStandContent from './components/BicycleStandContent';
 
 const BicycleStands = ({ classes }) => {
@@ -38,46 +39,38 @@ const BicycleStands = ({ classes }) => {
     }
   }, [openMobilityPlatform, setBicycleStands]);
 
-
   const mapEvent = useMapEvents({
     zoomend() {
       setZoomLevel(mapEvent.getZoom());
     },
   });
 
+  const renderData = isDataValid(showBicycleStands, bicycleStands);
+
   useEffect(() => {
-    if (showBicycleStands && bicycleStands && bicycleStands.length > 0) {
-      const bounds = [];
-      bicycleStands.forEach((item) => {
-        bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
-      });
-      map.fitBounds(bounds);
-    }
+    fitToMapBounds(renderData, bicycleStands, map);
   }, [showBicycleStands, bicycleStands]);
 
   return (
     <>
-      {showBicycleStands ? (
-        <div>
-          {bicycleStands && bicycleStands.length > 0
-              && bicycleStands.map(item => (
-                <Marker
-                  key={item.id}
-                  icon={customIcon}
-                  position={[item.geometry_coords.lat, item.geometry_coords.lon]}
-                >
-                  <div className={classes.popupWrapper}>
-                    <Popup>
-                      <div className={classes.popupInner}>
-                        <BicycleStandContent
-                          bicycleStand={item}
-                        />
-                      </div>
-                    </Popup>
-                  </div>
-                </Marker>
-              ))}
-        </div>
+      {renderData ? (
+        bicycleStands.map(item => (
+          <Marker
+            key={item.id}
+            icon={customIcon}
+            position={[item.geometry_coords.lat, item.geometry_coords.lon]}
+          >
+            <div className={classes.popupWrapper}>
+              <Popup>
+                <div className={classes.popupInner}>
+                  <BicycleStandContent
+                    bicycleStand={item}
+                  />
+                </div>
+              </Popup>
+            </div>
+          </Marker>
+        ))
       ) : null}
     </>
   );

@@ -6,7 +6,7 @@ import bikeServiceIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bike_se
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { createIcon, isDataValid } from '../utils/utils';
+import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
 import BikeServiceStationContent from './components/BikeServiceStationContent';
 
 const BikeServiceStations = () => {
@@ -32,13 +32,7 @@ const BikeServiceStations = () => {
   const renderData = isDataValid(showBikeServiceStations, bikeServiceStations);
 
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      bikeServiceStations.forEach((item) => {
-        bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
-      });
-      map.fitBounds(bounds);
-    }
+    fitToMapBounds(renderData, bikeServiceStations, map);
   }, [showBikeServiceStations, bikeServiceStations]);
 
   return (

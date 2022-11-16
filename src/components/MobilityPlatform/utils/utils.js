@@ -5,7 +5,14 @@ const createIcon = icon => ({
   iconSize: [45, 45],
 });
 
-export {
-  isDataValid,
-  createIcon,
+const fitToMapBounds = (renderData, data, map) => {
+  if (renderData) {
+    const bounds = [];
+    data.forEach((item) => {
+      bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
+    });
+    map.fitBounds(bounds);
+  }
 };
+
+export { isDataValid, createIcon, fitToMapBounds };

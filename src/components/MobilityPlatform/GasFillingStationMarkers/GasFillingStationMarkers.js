@@ -7,7 +7,7 @@ import gasFillingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-ic
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { createIcon, isDataValid } from '../utils/utils';
+import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
 import GasFillingStationContent from './components/GasFillingStationContent';
 
 const GasFillingStationMarkers = ({ classes }) => {
@@ -33,13 +33,7 @@ const GasFillingStationMarkers = ({ classes }) => {
   const map = useMap();
 
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      gasFillingStations.forEach((item) => {
-        bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
-      });
-      map.fitBounds(bounds);
-    }
+    fitToMapBounds(renderData, gasFillingStations, map);
   }, [showGasFillingStations, gasFillingStations]);
 
   return (
