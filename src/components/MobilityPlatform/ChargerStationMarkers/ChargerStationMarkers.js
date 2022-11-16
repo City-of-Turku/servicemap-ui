@@ -26,7 +26,7 @@ const ChargerStationMarkers = ({ classes }) => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapData('CGS', 500, setChargerStations);
+      fetchMobilityMapData('ChargingStation', 500, setChargerStations);
     }
   }, [openMobilityPlatform, setChargerStations]);
 

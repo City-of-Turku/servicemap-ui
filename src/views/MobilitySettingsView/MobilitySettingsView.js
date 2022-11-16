@@ -160,11 +160,11 @@ const MobilitySettingsView = ({ classes, intl }) => {
   }, [setBicycleRouteList]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('SLZ', 1000, setSpeedLimitZones);
+    fetchMobilityMapPolygonData('SpeedLimitZone', 1000, setSpeedLimitZones);
   }, [setSpeedLimitZones]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('PAZ', 10, setParkingChargeZones);
+    fetchMobilityMapPolygonData('PaymentZone', 10, setParkingChargeZones);
   }, [setParkingChargeZones]);
 
   /**

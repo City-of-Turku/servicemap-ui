@@ -21,7 +21,7 @@ const BoatParking = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('BOK', 50, setBoatParkingData);
+      fetchMobilityMapPolygonData('BoatParking', 50, setBoatParkingData);
     }
   }, [openMobilityPlatform, setBoatParkingData]);
 

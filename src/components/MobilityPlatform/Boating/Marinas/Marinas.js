@@ -22,7 +22,7 @@ const Marinas = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('MAR', 50, setMarinasData);
+      fetchMobilityMapPolygonData('Marina', 50, setMarinasData);
     }
   }, [openMobilityPlatform, setMarinasData]);
 

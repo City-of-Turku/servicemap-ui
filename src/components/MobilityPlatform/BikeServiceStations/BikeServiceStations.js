@@ -25,7 +25,7 @@ const BikeServiceStations = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapData('BSS', 100, setBikeServiceStations);
+      fetchMobilityMapData('BikeServiceStation', 100, setBikeServiceStations);
     }
   }, [openMobilityPlatform, setBikeServiceStations]);
 

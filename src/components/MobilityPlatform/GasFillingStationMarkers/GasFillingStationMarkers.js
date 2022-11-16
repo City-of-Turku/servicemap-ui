@@ -24,7 +24,7 @@ const GasFillingStationMarkers = ({ classes }) => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapData('GFS', 10, setGasFillingStations);
+      fetchMobilityMapData('GasFillingStation', 10, setGasFillingStations);
     }
   }, [openMobilityPlatform, setGasFillingStations]);
 

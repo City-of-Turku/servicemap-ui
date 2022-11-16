@@ -25,7 +25,7 @@ const ParkingAreas = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapData('SPG', 100, setParkingAreas);
+      fetchMobilityMapData('ScooterParkingArea', 100, setParkingAreas);
     }
   }, [openMobilityPlatform, setParkingAreas]);
 

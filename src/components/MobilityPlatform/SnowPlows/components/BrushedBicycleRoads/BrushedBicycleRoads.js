@@ -49,8 +49,8 @@ const BrushedBicycleRoads = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('BND', 100, setBrushSandedRoutes);
-      fetchMobilityMapPolygonData('BLB', 100, setBrushSaltedRoutes);
+      fetchMobilityMapPolygonData('BrushSandedBicycleNetwork', 100, setBrushSandedRoutes);
+      fetchMobilityMapPolygonData('BrushSaltedBicycleNetwork', 100, setBrushSaltedRoutes);
     }
   }, [openMobilityPlatform, setBrushSandedRoutes, setBrushSaltedRoutes]);
 

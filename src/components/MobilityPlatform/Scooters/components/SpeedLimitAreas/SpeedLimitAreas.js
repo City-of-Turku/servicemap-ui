@@ -20,7 +20,7 @@ const SpeedLimitAreas = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('SSL', 100, setSpeedLimitAreas);
+      fetchMobilityMapPolygonData('ScooterSpeedLimitArea', 100, setSpeedLimitAreas);
     }
   }, [openMobilityPlatform, setSpeedLimitAreas]);
 

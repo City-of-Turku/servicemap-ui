@@ -34,7 +34,7 @@ const BicycleStands = ({ classes }) => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapData('BIS', 1000, setBicycleStands);
+      fetchMobilityMapData('BicycleStand', 1000, setBicycleStands);
     }
   }, [openMobilityPlatform, setBicycleStands]);
 

@@ -23,7 +23,7 @@ const PublicToilets = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapData('APT', 100, setPublicToiletsData);
+      fetchMobilityMapData('PublicToilet', 100, setPublicToiletsData);
     }
   }, [openMobilityPlatform, setPublicToiletsData]);
 

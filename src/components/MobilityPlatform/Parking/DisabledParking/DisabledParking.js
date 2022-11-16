@@ -27,7 +27,7 @@ const DisabledParking = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('DSP', 1000, setDisabledParkingData);
+      fetchMobilityMapPolygonData('DisabledParking', 1000, setDisabledParkingData);
     }
   }, [openMobilityPlatform, setDisabledParkingData]);
 

@@ -21,7 +21,7 @@ const GuestHarbour = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('GMA', 50, setGuestHarbourData);
+      fetchMobilityMapPolygonData('GuestMarina', 50, setGuestHarbourData);
     }
   }, [openMobilityPlatform, setGuestHarbourData]);
 

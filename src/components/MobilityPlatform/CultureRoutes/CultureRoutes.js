@@ -23,13 +23,13 @@ const CultureRoutes = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchCultureRoutesData('CRG', 20, setCultureRoutesGeometry);
+      fetchCultureRoutesData('CultureRouteGeometry', 20, setCultureRoutesGeometry);
     }
   }, [openMobilityPlatform, setCultureRoutesGeometry]);
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchCultureRoutesData('CRU', 200, setCultureRouteUnits);
+      fetchCultureRoutesData('CultureRouteUnit', 200, setCultureRouteUnits);
     }
   }, [openMobilityPlatform, setCultureRouteUnits]);
 
