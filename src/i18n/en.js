@@ -600,7 +600,7 @@ const translations = {
   'mobilityPlatform.menu.showCultureRoutes': 'Culture routes',
   'mobilityPlatform.menu.showBicycleRoutes': 'Bicycle routes',
   'mobilityPlatform.menu.routes.info': 'You can select a route from the list below.',
-  'mobilityPlatform.menu.routes.emptyList': 'No routes were found.',
+  'mobilityPlatform.menu.routes.emptyList': 'Routes are loading.',
   'mobilityPlatform.menu.bicycleRoutes.title': 'Info about the route.',
   'mobilityPlatform.menu.bicycleRoutes.length': 'Route length:',
   'mobilityPlatform.menu.routes.name': 'Route name',

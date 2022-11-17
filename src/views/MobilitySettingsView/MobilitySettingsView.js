@@ -500,7 +500,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const natureTrailListToggle = () => {
     setOpenNatureTrailsList(current => !current);
     if (natureTrailsObj) {
-      setMarkedTrailsObj({});
+      setNatureTrailsObj({});
     }
     if (showNatureTrails) {
       setShowNatureTrails(false);
@@ -1318,6 +1318,15 @@ const MobilitySettingsView = ({ classes, intl }) => {
     </>
   );
 
+  const renderSelectTrailText = (visibilityValue, obj, routeList) => {
+    const isObjValid = Object.keys(obj).length > 0;
+    return (
+      <div className={visibilityValue ? classes.border : null}>
+        {visibilityValue && !isObjValid ? <EmptyRouteList route={routeList} /> : null}
+      </div>
+    );
+  };
+
   return (
     <div className={classes.content}>
       <TitleBar
@@ -1346,7 +1355,9 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 ? renderCultureRoutes(localizedCultureRoutes)
                 : null}
               {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
+              {renderSelectTrailText(openMarkedTrailsList, markedTrailsObj, markedTrailsList)}
               {openMarkedTrailsList ? renderMarkedTrails(markedTrailsList) : null}
+              {renderSelectTrailText(openNatureTrailsList, natureTrailsObj, natureTrailsList)}
               {openNatureTrailsList ? renderNatureTrails(natureTrailsTkuSorted) : null}
               {renderWalkingInfoTexts()}
               <div className={classes.buttonContainer}>

@@ -603,7 +603,7 @@ const translations = {
   'mobilityPlatform.menu.showCultureRoutes': 'Kulttuurikuntoilu',
   'mobilityPlatform.menu.showBicycleRoutes': 'Pyöräilyreitit',
   'mobilityPlatform.menu.routes.info': 'Valitse reitti oheisesta listasta.',
-  'mobilityPlatform.menu.routes.emptyList': 'Reittejä ei löytynyt.',
+  'mobilityPlatform.menu.routes.emptyList': 'Reittejä ladataan.',
   'mobilityPlatform.menu.bicycleRoutes.title': 'Tietoja reitistä.',
   'mobilityPlatform.menu.bicycleRoutes.length': 'Reitin pituus:',
   'mobilityPlatform.menu.routes.name': 'Reitti',
