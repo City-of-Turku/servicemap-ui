@@ -1,7 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
+import { useSelector } from 'react-redux';
 import loadingPlaceIcon from 'servicemap-ui-turku/assets/icons/icons-icon_loading_place.svg';
+import loadingPlaceIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_loading_place-bw.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon } from '../utils/utils';
 import LoadingPlacesContent from './components/LoadingPlacesContent';
@@ -13,10 +16,12 @@ const LoadingPlaces = () => {
 
   const map = useMap();
 
+  const useContrast = useSelector(useAccessibleMap);
+
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
-  const customIcon = icon(createIcon(loadingPlaceIcon));
+  const customIcon = icon(createIcon(useContrast ? loadingPlaceIconBw : loadingPlaceIcon));
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -38,20 +43,21 @@ const LoadingPlaces = () => {
 
   return (
     <>
-      {renderData
-      && loadingPlaces.map(item => (
-        <Marker
-          key={item.id}
-          icon={customIcon}
-          position={[item.geometry_coords.lat, item.geometry_coords.lon]}
-        >
-          <>
-            <Popup>
-              <LoadingPlacesContent item={item} />
-            </Popup>
-          </>
-        </Marker>
-      ))}
+      {renderData ? (
+        loadingPlaces.map(item => (
+          <Marker
+            key={item.id}
+            icon={customIcon}
+            position={[item.geometry_coords.lat, item.geometry_coords.lon]}
+          >
+            <>
+              <Popup>
+                <LoadingPlacesContent item={item} />
+              </Popup>
+            </>
+          </Marker>
+        ))
+      ) : null}
     </>
   );
 };

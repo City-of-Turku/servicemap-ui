@@ -712,7 +712,7 @@ const translations = {
   'mobilityPlatform.content.cityBikes.docks.available': 'Number of vacant docks',
   'mobilityPlatform.content.cityBikes.virtualStation': 'Virtual station',
   'mobilityPlatform.content.speedLimitZones.area': 'Speed limit zone',
-  'mobilityPlatform.content.speedLimitZones.limit': 'Speed limit',
+  'mobilityPlatform.content.speedLimitZones.limit': 'Speed limit: {item} km/h',
   'mobilityPlatform.content.speedLimitZones.suffix': '{item} km/h',
   'mobilityPlatform.content.publicToilets.title': 'Public restroom',
   'mobilityPlatform.content.publicToilets.openNormalTitle': 'Opening hours:',

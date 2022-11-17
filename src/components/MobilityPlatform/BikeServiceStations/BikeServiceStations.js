@@ -1,10 +1,13 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
+import { useSelector } from 'react-redux';
+import bikeServiceIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_bike_service_station-bw.svg';
 import bikeServiceIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bike_service_station.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
-import BikeServiceStationContent from './components/BikeServiceStationContent';
-import { createIcon } from '../utils/utils';
+import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { createIcon, isDataValid } from '../utils/utils';
+import BikeServiceStationContent from './components/BikeServiceStationContent';
 
 const BikeServiceStations = () => {
   const [bikeServiceStations, setBikeServiceStations] = useState([]);
@@ -13,10 +16,12 @@ const BikeServiceStations = () => {
 
   const map = useMap();
 
+  const useContrast = useSelector(useAccessibleMap);
+
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
-  const customIcon = icon(createIcon(bikeServiceIcon));
+  const customIcon = icon(createIcon(useContrast ? bikeServiceIconBw : bikeServiceIcon));
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -24,8 +29,10 @@ const BikeServiceStations = () => {
     }
   }, [openMobilityPlatform, setBikeServiceStations]);
 
+  const renderData = isDataValid(showBikeServiceStations, bikeServiceStations);
+
   useEffect(() => {
-    if (showBikeServiceStations && bikeServiceStations && bikeServiceStations.length > 0) {
+    if (renderData) {
       const bounds = [];
       bikeServiceStations.forEach((item) => {
         bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
@@ -36,25 +43,20 @@ const BikeServiceStations = () => {
 
   return (
     <>
-      {showBikeServiceStations ? (
-        <div>
-          {bikeServiceStations && bikeServiceStations.length > 0
-            && bikeServiceStations.map(item => (
-              <Marker
-                key={item.id}
-                icon={customIcon}
-                position={[item.geometry_coords.lat, item.geometry_coords.lon]}
-              >
-                <div>
-                  <Popup className="popup-w350">
-                    <BikeServiceStationContent
-                      station={item}
-                    />
-                  </Popup>
-                </div>
-              </Marker>
-            ))}
-        </div>
+      {renderData ? (
+        bikeServiceStations.map(item => (
+          <Marker
+            key={item.id}
+            icon={customIcon}
+            position={[item.geometry_coords.lat, item.geometry_coords.lon]}
+          >
+            <Popup className="popup-w350">
+              <BikeServiceStationContent
+                station={item}
+              />
+            </Popup>
+          </Marker>
+        ))
       ) : null}
     </>
   );

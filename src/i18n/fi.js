@@ -708,7 +708,7 @@ const translations = {
   'mobilityPlatform.content.cityBikes.docks.available': 'Telineitä vapaana',
   'mobilityPlatform.content.cityBikes.virtualStation': 'Virtuaaliasema',
   'mobilityPlatform.content.speedLimitZones.area': 'Nopeusrajoitusalue',
-  'mobilityPlatform.content.speedLimitZones.limit': 'Nopeusrajoitus',
+  'mobilityPlatform.content.speedLimitZones.limit': 'Nopeusrajoitus: {item} km/t',
   'mobilityPlatform.content.speedLimitZones.suffix': '{item} km/t',
   'mobilityPlatform.content.publicToilets.title': 'Yleinen vessa',
   'mobilityPlatform.content.publicToilets.openNormalTitle': 'Aukioloajat:',

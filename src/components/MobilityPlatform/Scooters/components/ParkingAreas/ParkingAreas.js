@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
+import { useSelector } from 'react-redux';
 import scooterParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_scooter_parking.svg';
+import scooterParkingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_scooter_parking-bw.svg';
 import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
+import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
-import { createIcon } from '../../../utils/utils';
+import { createIcon, isDataValid } from '../../../utils/utils';
 import TextContent from '../../../TextContent';
 
 const ParkingAreas = () => {
@@ -13,10 +16,12 @@ const ParkingAreas = () => {
 
   const map = useMap();
 
+  const useContrast = useSelector(useAccessibleMap);
+
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
-  const customIcon = icon(createIcon(scooterParkingIcon));
+  const customIcon = icon(createIcon(useContrast ? scooterParkingIconBw : scooterParkingIcon));
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -24,9 +29,10 @@ const ParkingAreas = () => {
     }
   }, [openMobilityPlatform, setParkingAreas]);
 
+  const renderData = isDataValid(showScooterParkingAreas, parkingAreas);
 
   useEffect(() => {
-    if (showScooterParkingAreas && parkingAreas && parkingAreas.length > 0) {
+    if (renderData) {
       const bounds = [];
       parkingAreas.forEach((item) => {
         bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
@@ -37,24 +43,21 @@ const ParkingAreas = () => {
 
   return (
     <>
-      {showScooterParkingAreas ? (
-        <>
-          {parkingAreas && parkingAreas.length > 0
-              && parkingAreas.map(item => (
-                <Marker
-                  key={item.id}
-                  icon={customIcon}
-                  position={[item.geometry_coords.lat, item.geometry_coords.lon]}
-                >
-                  <Popup>
-                    <TextContent
-                      titleId="mobilityPlatform.content.scooters.parkingAreas.title"
-                      translationId="mobilityPlatform.info.scooters.parkingAreas"
-                    />
-                  </Popup>
-                </Marker>
-              ))}
-        </>
+      {renderData ? (
+        parkingAreas.map(item => (
+          <Marker
+            key={item.id}
+            icon={customIcon}
+            position={[item.geometry_coords.lat, item.geometry_coords.lon]}
+          >
+            <Popup>
+              <TextContent
+                titleId="mobilityPlatform.content.scooters.parkingAreas.title"
+                translationId="mobilityPlatform.info.scooters.parkingAreas"
+              />
+            </Popup>
+          </Marker>
+        ))
       ) : null}
     </>
   );

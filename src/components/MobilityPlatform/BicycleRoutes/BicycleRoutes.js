@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useMap } from 'react-leaflet';
+import { useSelector } from 'react-redux';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchBicycleRoutesGeometry } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../utils/utils';
 
 const BicycleRoutes = () => {
   const [bicycleRoutes, setBicycleRoutes] = useState([]);
@@ -10,8 +13,11 @@ const BicycleRoutes = () => {
 
   const { Polyline } = global.rL;
 
+  const useContrast = useSelector(useAccessibleMap);
+
   const blueOptions = { color: 'rgba(7, 44, 115, 255)' };
-  const whiteOptions = { color: '#ffff', dashArray: '5, 15', lineCap: 'square' };
+  const whiteOptions = { color: 'rgba(255, 255, 255, 255)', dashArray: !useContrast ? '10' : null };
+  const blackOptions = { color: 'rgba(0, 0, 0, 255)', dashArray: '2 10 10 10' };
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -20,11 +26,12 @@ const BicycleRoutes = () => {
   }, [openMobilityPlatform, setBicycleRoutes]);
 
   const activeBicycleRoute = bicycleRoutes.filter(item => item.bicycle_network_name === bicycleRouteName);
+  const renderData = isDataValid(showBicycleRoutes, activeBicycleRoute);
 
   const map = useMap();
 
   useEffect(() => {
-    if (showBicycleRoutes && activeBicycleRoute && activeBicycleRoute.length > 0) {
+    if (renderData) {
       const bounds = [];
       activeBicycleRoute.forEach((item) => {
         bounds.push(item.geometry_coords);
@@ -35,22 +42,22 @@ const BicycleRoutes = () => {
 
   return (
     <>
-      {showBicycleRoutes && (
-        <div>
-          {activeBicycleRoute && activeBicycleRoute.length > 0
-            && activeBicycleRoute.map(item => (
-              <div key={item.id}>
-                <Polyline key={item.geometry} weight={8} pathOptions={blueOptions} positions={item.geometry_coords} />
-                <Polyline
-                  key={item.geometry_coords}
-                  weight={4}
-                  pathOptions={whiteOptions}
-                  positions={item.geometry_coords}
-                />
-              </div>
-            ))}
-        </div>
-      )}
+      {renderData
+        ? activeBicycleRoute.map(item => (
+          <React.Fragment key={item.id}>
+            <Polyline
+              weight={useContrast ? 10 : 8}
+              pathOptions={useContrast ? whiteOptions : blueOptions}
+              positions={item.geometry_coords}
+            />
+            <Polyline
+              weight={useContrast ? 6 : 4}
+              pathOptions={useContrast ? blackOptions : whiteOptions}
+              positions={item.geometry_coords}
+            />
+          </React.Fragment>
+        ))
+        : null}
     </>
   );
 };

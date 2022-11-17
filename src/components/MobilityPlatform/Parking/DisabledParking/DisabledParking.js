@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
+import { useSelector } from 'react-redux';
 import disabledParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_disabled_parking.svg';
+import disabledParkingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_disabled_parking-bw.svg';
 import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
+import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
-import { createIcon } from '../../utils/utils';
+import { createIcon, isDataValid } from '../../utils/utils';
 import DisabledParkingContent from './components/DisabledParkingContent';
 
 /**
@@ -18,7 +21,9 @@ const DisabledParking = () => {
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
-  const customIcon = icon(createIcon(disabledParkingIcon));
+  const useContrast = useSelector(useAccessibleMap);
+
+  const customIcon = icon(createIcon(useContrast ? disabledParkingIconBw : disabledParkingIcon));
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -28,8 +33,10 @@ const DisabledParking = () => {
 
   const map = useMap();
 
+  const renderData = isDataValid(showDisabledParking, disabledParkingData);
+
   useEffect(() => {
-    if (showDisabledParking && disabledParkingData && disabledParkingData.length > 0) {
+    if (renderData) {
       const bounds = [];
       disabledParkingData.forEach((item) => {
         bounds.push(item.geometry_coords);
@@ -42,10 +49,8 @@ const DisabledParking = () => {
 
   return (
     <>
-      {showDisabledParking
-        && disabledParkingData
-        && disabledParkingData.length > 0
-        && disabledParkingData.map(item => (
+      {renderData ? (
+        disabledParkingData.map(item => (
           <div key={item.id}>
             <Marker icon={customIcon} position={getSingleCoordinates(item.geometry_coords)}>
               <Popup className="disabled-parking-popup">
@@ -53,7 +58,8 @@ const DisabledParking = () => {
               </Popup>
             </Marker>
           </div>
-        ))}
+        ))
+      ) : null}
     </>
   );
 };

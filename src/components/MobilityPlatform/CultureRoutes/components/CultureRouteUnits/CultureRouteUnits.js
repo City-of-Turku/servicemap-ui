@@ -6,7 +6,10 @@ import { useIntl } from 'react-intl';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import routeUnitIcon from 'servicemap-ui-turku/assets/icons/icons-icon_culture_route.svg';
+import routeUnitIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_culture_route-bw.svg';
 import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
+import { useAccessibleMap } from '../../../../../redux/selectors/settings';
+import { createIcon } from '../../../utils/utils';
 import useLocaleText from '../../../../../utils/useLocaleText';
 
 const CultureRouteUnits = ({ classes, cultureRouteUnits }) => {
@@ -21,10 +24,9 @@ const CultureRouteUnits = ({ classes, cultureRouteUnits }) => {
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
-  const customIcon = icon({
-    iconUrl: routeUnitIcon,
-    iconSize: [45, 45],
-  });
+  const useContrast = useSelector(useAccessibleMap);
+
+  const customIcon = icon(createIcon(useContrast ? routeUnitIconBw : routeUnitIcon));
 
   const closePopup = () => {
     if (map) {
@@ -84,10 +86,9 @@ const CultureRouteUnits = ({ classes, cultureRouteUnits }) => {
 
   return (
     <>
-      <div>
-        {activeCultureRouteUnits
-          && activeCultureRouteUnits.length > 0
-          && activeCultureRouteUnits.map(item => (
+      {activeCultureRouteUnits
+          && activeCultureRouteUnits.length > 0 ? (
+          activeCultureRouteUnits.map(item => (
             <Marker key={item.id} icon={customIcon} position={[item.geometry_coords.lat, item.geometry_coords.lon]}>
               <Popup closeButton={false} maxHeight={400} className="culture-route-unit-popup">
                 <div className={classes.popupInner}>
@@ -109,8 +110,8 @@ const CultureRouteUnits = ({ classes, cultureRouteUnits }) => {
                 </div>
               </Popup>
             </Marker>
-          ))}
-      </div>
+          ))
+        ) : null}
     </>
   );
 };
