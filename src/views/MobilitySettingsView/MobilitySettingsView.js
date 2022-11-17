@@ -345,7 +345,14 @@ const MobilitySettingsView = ({ classes, intl }) => {
     }
   }, [bicycleRouteList, locale]);
 
+  const sortTrails = (data) => {
+    if (data && data.length > 0) {
+      return data.sort((a, b) => a.name.localeCompare(b.name));
+    } return null;
+  };
+
   const natureTrailsTku = natureTrailsList.filter(item => item.municipality === 'turku');
+  const natureTrailsTkuSorted = sortTrails(natureTrailsTku);
 
   /**
    * Toggle functions for main user types
@@ -1340,7 +1347,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 : null}
               {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
               {openMarkedTrailsList ? renderMarkedTrails(markedTrailsList) : null}
-              {openNatureTrailsList ? renderNatureTrails(natureTrailsTku) : null}
+              {openNatureTrailsList ? renderNatureTrails(natureTrailsTkuSorted) : null}
               {renderWalkingInfoTexts()}
               <div className={classes.buttonContainer}>
                 <ButtonMain
