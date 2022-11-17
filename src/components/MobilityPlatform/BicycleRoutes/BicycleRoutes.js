@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchBicycleRoutesGeometry } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../utils/utils';
+import { fitPolygonsToBounds, isDataValid } from '../utils/utils';
 
 const BicycleRoutes = () => {
   const [bicycleRoutes, setBicycleRoutes] = useState([]);
@@ -31,13 +31,7 @@ const BicycleRoutes = () => {
   const map = useMap();
 
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      activeBicycleRoute.forEach((item) => {
-        bounds.push(item.geometry_coords);
-      });
-      map.fitBounds([bounds]);
-    }
+    fitPolygonsToBounds(renderData, activeBicycleRoute, map);
   }, [showBicycleRoutes, activeBicycleRoute]);
 
   return (

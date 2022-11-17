@@ -4,7 +4,7 @@ import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../../../utils/utils';
+import { isDataValid, fitPolygonsToBounds } from '../../../utils/utils';
 import TextContent from '../../../TextContent';
 
 /**
@@ -37,13 +37,7 @@ const SpeedLimitAreas = () => {
   const map = useMap();
 
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      speedLimitAreas.forEach((item) => {
-        bounds.push(item.geometry_coords);
-      });
-      map.fitBounds(bounds);
-    }
+    fitPolygonsToBounds(renderData, speedLimitAreas, map);
   }, [showScooterSpeedLimitAreas, speedLimitAreas, map]);
 
   return (

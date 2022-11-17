@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../utils/utils';
+import { isDataValid, fitPolygonsToBounds } from '../utils/utils';
 import LoadingPlacesContent from './components/LoadingPlacesContent';
 
 const LoadingPlaces = () => {
@@ -36,13 +36,7 @@ const LoadingPlaces = () => {
   const renderData = isDataValid(showLoadingPlaces, loadingPlaces);
 
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      loadingPlaces.forEach((item) => {
-        bounds.push(item.geometry_coords);
-      });
-      map.fitBounds(bounds);
-    }
+    fitPolygonsToBounds(renderData, loadingPlaces, map);
   }, [showLoadingPlaces, loadingPlaces]);
 
   return (

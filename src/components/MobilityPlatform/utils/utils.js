@@ -15,4 +15,16 @@ const fitToMapBounds = (renderData, data, map) => {
   }
 };
 
-export { isDataValid, createIcon, fitToMapBounds };
+const fitPolygonsToBounds = (renderData, data, map) => {
+  if (renderData) {
+    const bounds = [];
+    data.forEach((item) => {
+      bounds.push(item.geometry_coords);
+    });
+    map.fitBounds(bounds);
+  }
+};
+
+export {
+  isDataValid, createIcon, fitToMapBounds, fitPolygonsToBounds,
+};
