@@ -310,13 +310,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
 
   const sortMarkedTrails = (data) => {
     if (data && data.length > 0) {
-      if (locale === 'sv') {
-        return data.sort((a, b) => a.name_sv.split(': ').slice(-1)[0].localeCompare(b.name_sv.split(': ').slice(-1)[0]));
-      }
-      if (locale === 'en') {
-        return data.sort((a, b) => a.name_en.split(': ').slice(-1)[0].localeCompare(b.name_en.split(': ').slice(-1)[0]));
-      }
-      return data.sort((a, b) => a.name.split(': ').slice(-1)[0].localeCompare(b.name.split(': ').slice(-1)[0]));
+      return data.sort((a, b) => a[nameKeys[locale]].split(': ').slice(-1)[0].localeCompare(b[nameKeys[locale]].split(': ').slice(-1)[0]));
     }
     return null;
   };
@@ -558,16 +552,16 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const prevMarkedTrailObjRef = useRef();
 
   /**
-    * If user clicks same trail again, then reset name and set visiblity to false
-    * Otherwise new values are set
-    */
+   * If user clicks same trail again, then reset name and set visiblity to false
+   * Otherwise new values are set
+   */
   useEffect(() => {
     prevMarkedTrailObjRef.current = markedTrailsObj;
   }, [markedTrailsObj]);
 
   /**
-    * @param {obj}
-    */
+   * @param {obj}
+   */
   const setMarkedTrailState = (obj) => {
     setMarkedTrailsObj(obj);
     setShowMarkedTrails(true);
@@ -947,27 +941,27 @@ const MobilitySettingsView = ({ classes, intl }) => {
    * @returns {JSX Element}
    */
   const renderMarkedTrails = inputData => inputData
-  && inputData.length > 0
-  && inputData.map(item => (
-    <div key={item.id} className={classes.checkBoxContainer}>
-      <FormControlLabel
-        control={(
-          <Checkbox
-            checked={item.id === markedTrailsObj.id}
-            aria-checked={item.id === markedTrailsObj.id}
-            className={classes.margin}
-            onChange={() => setMarkedTrailState(item)}
-          />
-        )}
-        label={(
-          <Typography variant="body2" aria-label={fixRouteName(item.name_fi, item.name_en, item.name_sv)}>
-            {fixRouteName(item.name_fi, item.name_en, item.name_sv)}
-          </Typography>
-        )}
-      />
-      {item.id === markedTrailsObj.id ? <TrailInfo item={item} /> : null}
-    </div>
-  ));
+    && inputData.length > 0
+    && inputData.map(item => (
+      <div key={item.id} className={classes.checkBoxContainer}>
+        <FormControlLabel
+          control={(
+            <Checkbox
+              checked={item.id === markedTrailsObj.id}
+              aria-checked={item.id === markedTrailsObj.id}
+              className={classes.margin}
+              onChange={() => setMarkedTrailState(item)}
+            />
+          )}
+          label={(
+            <Typography variant="body2" aria-label={fixRouteName(item.name_fi, item.name_en, item.name_sv)}>
+              {fixRouteName(item.name_fi, item.name_en, item.name_sv)}
+            </Typography>
+          )}
+        />
+        {item.id === markedTrailsObj.id ? <TrailInfo item={item} /> : null}
+      </div>
+    ));
 
   /**
    * @param {boolean} settingVisibility
@@ -1232,7 +1226,9 @@ const MobilitySettingsView = ({ classes, intl }) => {
           linkText="mobilityPlatform.info.streetMaintenance.link"
         />
       ) : null}
-      {showBrushSaltedRoute || showBrushSandedRoute ? <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.brushedRoads" /> : null}
+      {showBrushSaltedRoute || showBrushSandedRoute ? (
+        <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.brushedRoads" />
+      ) : null}
     </>
   );
 
