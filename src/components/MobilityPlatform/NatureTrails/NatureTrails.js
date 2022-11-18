@@ -7,9 +7,9 @@ import Trails from '../TrailsComponent';
 const NatureTrails = () => {
   const { showNatureTrails, natureTrailsObj } = useContext(MobilityPlatformContext);
 
-  const brownColor = 'rgba(117, 44, 23, 255)';
+  const blueColor = 'rgba(0, 0, 153, 255)';
 
-  return <Trails showTrail={showNatureTrails} trailsObj={natureTrailsObj} color={brownColor} />;
+  return <Trails showTrail={showNatureTrails} trailsObj={natureTrailsObj} color={blueColor} />;
 };
 
 export default NatureTrails;
