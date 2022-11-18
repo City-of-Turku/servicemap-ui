@@ -1,11 +1,15 @@
 import { PropTypes } from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
+import { useSelector } from 'react-redux';
+import bicycleStandIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_bicycle_stand-bw.svg';
+import circleIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_circle_border-bw.svg';
 import bicycleStandIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle-stand.svg';
 import circleIcon from 'servicemap-ui-turku/assets/icons/icons-icon_circle_border.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
-import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { isDataValid } from '../utils/utils';
+import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import BicycleStandContent from './components/BicycleStandContent';
 
 const BicycleStands = ({ classes }) => {
@@ -14,13 +18,18 @@ const BicycleStands = ({ classes }) => {
 
   const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
+  const useContrast = useSelector(useAccessibleMap);
+
   const map = useMap();
 
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
+  const setBaseIcon = useContrast ? bicycleStandIconBw : bicycleStandIcon;
+  const setCircleIcon = useContrast ? circleIconBw : circleIcon;
+
   const customIcon = icon({
-    iconUrl: zoomLevel < 14 ? circleIcon : bicycleStandIcon,
+    iconUrl: zoomLevel < 14 ? setCircleIcon : setBaseIcon,
     iconSize: zoomLevel < 14 ? [20, 20] : [45, 45],
   });
 

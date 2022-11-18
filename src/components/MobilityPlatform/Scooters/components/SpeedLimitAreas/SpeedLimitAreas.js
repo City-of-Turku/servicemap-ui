@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
+import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid } from '../../../utils/utils';
 import TextContent from '../../../TextContent';
@@ -22,7 +24,13 @@ const SpeedLimitAreas = () => {
     }
   }, [openMobilityPlatform, setSpeedLimitAreas]);
 
+  const useContrast = useSelector(useAccessibleMap);
+
   const blueOptions = { color: 'rgba(7, 44, 115, 255)' };
+  const whiteOptions = {
+    color: 'rgba(255, 255, 255, 255)', fillOpacity: 0.3, dashArray: '10 2 10',
+  };
+  const pathOptions = useContrast ? whiteOptions : blueOptions;
 
   const map = useMap();
 
@@ -36,13 +44,26 @@ const SpeedLimitAreas = () => {
       });
       map.fitBounds(bounds);
     }
-  }, [mobilityMap.scooterSpeedLimit, speedLimitAreas, map]);
+  }, [mobilityMap.scooterSpeedLimit, speedLimitAreas]);
 
   return (
     <>
       {renderData
-        && speedLimitAreas.map(item => (
-          <Polygon key={item.id} pathOptions={blueOptions} positions={item.geometry_coords}>
+        ? speedLimitAreas.map(item => (
+          <Polygon
+            key={item.id}
+            weight={5}
+            pathOptions={pathOptions}
+            positions={item.geometry_coords}
+            eventHandlers={{
+              mouseover: (e) => {
+                e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
+              },
+              mouseout: (e) => {
+                e.target.setStyle({ fillOpacity: useContrast ? '0.3' : '0.2' });
+              },
+            }}
+          >
             <Popup>
               <TextContent
                 titleId="mobilityPlatform.content.scooters.speedLimitAreas.title"
@@ -50,7 +71,8 @@ const SpeedLimitAreas = () => {
               />
             </Popup>
           </Polygon>
-        ))}
+        ))
+        : null}
     </>
   );
 };

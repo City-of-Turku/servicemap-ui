@@ -1,10 +1,13 @@
 import { PropTypes } from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import chargerIcon from 'servicemap-ui-turku/assets/icons/icons-icon_charging_station.svg';
+import chargerIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_charging_station-bw.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid, createIcon } from '../utils/utils';
+import { createIcon, isDataValid } from '../utils/utils';
 import ChargerStationContent from './components/ChargerStationContent';
 
 const ChargerStationMarkers = ({ classes }) => {
@@ -17,7 +20,9 @@ const ChargerStationMarkers = ({ classes }) => {
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
-  const chargerStationIcon = icon(createIcon(chargerIcon));
+  const useContrast = useSelector(useAccessibleMap);
+
+  const chargerStationIcon = icon(createIcon(useContrast ? chargerIconBw : chargerIcon));
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -39,22 +44,25 @@ const ChargerStationMarkers = ({ classes }) => {
 
   return (
     <>
-      {renderData
-        && chargerStations.map(item => (
+      {renderData ? (
+        chargerStations.map(item => (
           <Marker
             key={item.id}
             icon={chargerStationIcon}
             position={[item.geometry_coords.lat, item.geometry_coords.lon]}
           >
             <div className={classes.popupWrapper}>
-              <Popup className="charger-stations-popup">
+              <Popup className="popup-w350">
                 <div className={classes.popupInner}>
-                  <ChargerStationContent station={item} />
+                  <ChargerStationContent
+                    station={item}
+                  />
                 </div>
               </Popup>
             </div>
           </Marker>
-        ))}
+        ))
+      ) : null}
     </>
   );
 };

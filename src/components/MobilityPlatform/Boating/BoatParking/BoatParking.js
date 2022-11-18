@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
-import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { isDataValid } from '../../utils/utils';
+import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
 
 /**
  * Displays boat parking areas on the map in polygon format.
@@ -14,7 +15,7 @@ const BoatParking = () => {
 
   const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
-  const mapType = useSelector(state => state.settings.mapType);
+  const useContrast = useSelector(useAccessibleMap);
 
   const { Polygon } = global.rL;
 
@@ -25,9 +26,13 @@ const BoatParking = () => {
   }, [openMobilityPlatform, setBoatParkingData]);
 
   const blueOptions = { color: 'rgba(7, 44, 115, 255)', weight: 5 };
-
-  const greenOptions = { color: 'rgba(145, 232, 58, 255)', fillOpacity: 0.3, weight: 5 };
-  const pathOptions = mapType === 'accessible_map' ? greenOptions : blueOptions;
+  const whiteOptions = {
+    color: 'rgba(255, 255, 255, 255)',
+    fillOpacity: 0.3,
+    weight: 5,
+    dashArray: '10',
+  };
+  const pathOptions = useContrast ? whiteOptions : blueOptions;
 
   const map = useMap();
 
@@ -41,14 +46,27 @@ const BoatParking = () => {
       });
       map.fitBounds(bounds);
     }
-  }, [mobilityMap.boatParking, boatParkingData, map]);
+  }, [mobilityMap.boatParking, boatParkingData]);
 
   return (
     <>
       {renderData
-        && boatParkingData.map(item => (
-          <Polygon key={item.id} pathOptions={pathOptions} positions={item.geometry_coords} />
-        ))}
+        ? boatParkingData.map(item => (
+          <Polygon
+            key={item.id}
+            pathOptions={pathOptions}
+            positions={item.geometry_coords}
+            eventHandlers={{
+              mouseover: (e) => {
+                e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
+              },
+              mouseout: (e) => {
+                e.target.setStyle({ fillOpacity: useContrast ? '0.3' : '0.2' });
+              },
+            }}
+          />
+        ))
+        : null}
     </>
   );
 };

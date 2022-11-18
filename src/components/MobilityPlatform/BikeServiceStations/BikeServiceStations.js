@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
+import { useSelector } from 'react-redux';
+import bikeServiceIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_bike_service_station-bw.svg';
 import bikeServiceIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bike_service_station.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid, createIcon } from '../utils/utils';
+import { createIcon, isDataValid } from '../utils/utils';
 import BikeServiceStationContent from './components/BikeServiceStationContent';
 
 const BikeServiceStations = () => {
@@ -13,10 +16,12 @@ const BikeServiceStations = () => {
 
   const map = useMap();
 
+  const useContrast = useSelector(useAccessibleMap);
+
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
-  const customIcon = icon(createIcon(bikeServiceIcon));
+  const customIcon = icon(createIcon(useContrast ? bikeServiceIconBw : bikeServiceIcon));
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -38,18 +43,21 @@ const BikeServiceStations = () => {
 
   return (
     <>
-      {renderData
-        && bikeServiceStations.map(item => (
+      {renderData ? (
+        bikeServiceStations.map(item => (
           <Marker
             key={item.id}
             icon={customIcon}
             position={[item.geometry_coords.lat, item.geometry_coords.lon]}
           >
             <Popup className="popup-w350">
-              <BikeServiceStationContent station={item} />
+              <BikeServiceStationContent
+                station={item}
+              />
             </Popup>
           </Marker>
-        ))}
+        ))
+      ) : null}
     </>
   );
 };

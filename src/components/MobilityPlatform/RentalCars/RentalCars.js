@@ -1,9 +1,12 @@
 import { PropTypes } from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
+import { useSelector } from 'react-redux';
+import rentalCarIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_rental_car-bw.svg';
 import providerIcon from 'servicemap-ui-turku/assets/icons/icons-icon_24rent.svg';
 import rentalCarIcon from 'servicemap-ui-turku/assets/icons/icons-icon_rental_car.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid } from '../utils/utils';
 import RentalCarsContent from './components/RentalCarsContent';
@@ -14,6 +17,8 @@ const RentalCars = ({ classes }) => {
 
   const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
 
+  const useContrast = useSelector(useAccessibleMap);
+
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
@@ -23,8 +28,10 @@ const RentalCars = ({ classes }) => {
     },
   });
 
+  const setBaseIcon = useContrast ? rentalCarIconBw : rentalCarIcon;
+
   const customIcon = icon({
-    iconUrl: zoomLevel < 14 ? rentalCarIcon : providerIcon,
+    iconUrl: zoomLevel < 14 ? setBaseIcon : providerIcon,
     iconSize: zoomLevel < 14 ? [45, 45] : [50, 56],
   });
 
@@ -46,28 +53,29 @@ const RentalCars = ({ classes }) => {
       });
       map.fitBounds(bounds);
     }
-  }, [mobilityMap.rentalCars]);
+  }, [mobilityMap.rentalCars, rentalCarsData]);
 
   return (
     <>
-      {renderData
-        && rentalCarsData
-          .filter(item => item.availabilityData.available)
-          .map(item => (
-            <Marker
-              key={item.id}
-              icon={customIcon}
-              position={[item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]}
-            >
-              <div className={classes.popupWrapper}>
-                <Popup className="rental-cars-popup">
-                  <div className={classes.popupInner}>
-                    <RentalCarsContent car={item} />
-                  </div>
-                </Popup>
-              </div>
-            </Marker>
-          ))}
+      {renderData ? (
+        rentalCarsData.filter(item => item.availabilityData.available).map(item => (
+          <Marker
+            key={item.id}
+            icon={customIcon}
+            position={[item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]}
+          >
+            <div className={classes.popupWrapper}>
+              <Popup className="rental-cars-popup">
+                <div className={classes.popupInner}>
+                  <RentalCarsContent
+                    car={item}
+                  />
+                </div>
+              </Popup>
+            </div>
+          </Marker>
+        ))
+      ) : null}
     </>
   );
 };

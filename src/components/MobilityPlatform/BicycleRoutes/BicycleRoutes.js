@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useMap } from 'react-leaflet';
+import { useSelector } from 'react-redux';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchBicycleRoutesGeometry } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid } from '../utils/utils';
 
@@ -11,10 +13,11 @@ const BicycleRoutes = () => {
 
   const { Polyline } = global.rL;
 
-  const blueOptions = { color: 'rgba(7, 44, 115, 255)', weight: 8 };
-  const whiteOptions = {
-    color: '#ffff', dashArray: '5, 15', lineCap: 'square', weight: 4,
-  };
+  const useContrast = useSelector(useAccessibleMap);
+
+  const blueOptions = { color: 'rgba(7, 44, 115, 255)' };
+  const whiteOptions = { color: 'rgba(255, 255, 255, 255)', dashArray: !useContrast ? '10' : null };
+  const blackOptions = { color: 'rgba(0, 0, 0, 255)', dashArray: '2 10 10 10' };
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -41,12 +44,21 @@ const BicycleRoutes = () => {
   return (
     <>
       {renderData
-        && activeBicycleRoute.map(item => (
-          <div key={item.id}>
-            <Polyline pathOptions={blueOptions} positions={item.geometry_coords} />
-            <Polyline pathOptions={whiteOptions} positions={item.geometry_coords} />
-          </div>
-        ))}
+        ? activeBicycleRoute.map(item => (
+          <React.Fragment key={item.id}>
+            <Polyline
+              weight={useContrast ? 10 : 8}
+              pathOptions={useContrast ? whiteOptions : blueOptions}
+              positions={item.geometry_coords}
+            />
+            <Polyline
+              weight={useContrast ? 6 : 4}
+              pathOptions={useContrast ? blackOptions : whiteOptions}
+              positions={item.geometry_coords}
+            />
+          </React.Fragment>
+        ))
+        : null}
     </>
   );
 };
