@@ -310,6 +310,12 @@ const MobilitySettingsView = ({ classes, intl }) => {
 
   const sortMarkedTrails = (data) => {
     if (data && data.length > 0) {
+      if (locale === 'sv') {
+        return data.sort((a, b) => a.name_sv.split(': ').slice(-1)[0].localeCompare(b.name_sv.split(': ').slice(-1)[0]));
+      }
+      if (locale === 'en') {
+        return data.sort((a, b) => a.name_en.split(': ').slice(-1)[0].localeCompare(b.name_en.split(': ').slice(-1)[0]));
+      }
       return data.sort((a, b) => a.name.split(': ').slice(-1)[0].localeCompare(b.name.split(': ').slice(-1)[0]));
     }
     return null;
