@@ -308,6 +308,15 @@ const MobilitySettingsView = ({ classes, intl }) => {
     }
   }, [cultureRouteList, localizedCultureRoutes, locale]);
 
+  const sortMarkedTrails = (data) => {
+    if (data && data.length > 0) {
+      return data.sort((a, b) => a.name.split(': ').slice(-1)[0].localeCompare(b.name.split(': ').slice(-1)[0]));
+    }
+    return null;
+  };
+
+  const markedTrailsSorted = sortMarkedTrails(markedTrailsList);
+
   /**
    * Sort routes in alphapethical order.
    * @param {Array && locale}
@@ -924,13 +933,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
     };
     const route = getLocaleText(routes);
     const split = route.split(': ');
-    if (split.length === 2) {
-      return split[1];
-    }
-    if (split.length === 3) {
-      return split[2];
-    }
-    return route;
+    return split.slice(-1);
   };
 
   /**
@@ -1255,7 +1258,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 ? renderCultureRoutes(localizedCultureRoutes)
                 : null}
               {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
-              {openMarkedTrailsList ? renderMarkedTrails(markedTrailsList) : null}
+              {openMarkedTrailsList ? renderMarkedTrails(markedTrailsSorted) : null}
               {renderWalkingInfoTexts()}
               <div className={classes.buttonContainer}>
                 <ButtonMain
