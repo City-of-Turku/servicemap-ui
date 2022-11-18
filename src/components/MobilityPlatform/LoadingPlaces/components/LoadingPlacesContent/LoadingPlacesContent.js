@@ -44,11 +44,10 @@ const LoadingPlacesContent = ({ classes, intl, item }) => {
         </Typography>
       </div>
       <div className={classes.textContainer}>
-        {renderAddress()}
-        {renderText(item.extra.Lastaus)}
-        {renderText(item.extra.Lisatieto)}
-        {renderText(item.extra.Muutanimi)}
-        {renderText(item.extra.Saavutetta)}
+        {item.address_fi !== '' ? renderAddress() : null}
+        {renderText(item.extra.lastauspiste)}
+        {renderText(item.extra.Saavutettavuus)}
+        {renderText(item.extra.rajoitustyyppi)}
       </div>
     </div>
   );

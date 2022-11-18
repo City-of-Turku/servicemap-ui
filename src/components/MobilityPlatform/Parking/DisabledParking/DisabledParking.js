@@ -43,7 +43,7 @@ const DisabledParking = () => {
       });
       map.fitBounds(bounds);
     }
-  }, [showDisabledParking, disabledParkingData, map]);
+  }, [showDisabledParking, disabledParkingData]);
 
   const getSingleCoordinates = data => data[0][0];
 
