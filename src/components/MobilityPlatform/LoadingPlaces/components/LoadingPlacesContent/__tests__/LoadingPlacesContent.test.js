@@ -13,22 +13,17 @@ const mockProps = {
     address_en: 'Test street',
     address_sv: 'Test gata',
     extra: {
-      Lastaus: {
+      lastauspiste: {
         fi: 'Testi',
         en: 'Test',
         sv: 'Test',
       },
-      Lisatieto: {
+      rajoitustyyppi: {
         fi: 'Testitieto',
         en: 'Test info',
         sv: 'Test info',
       },
-      Muutanimi: {
-        fi: 'Testiteksti',
-        en: 'Test text',
-        sv: 'Test text',
-      },
-      Saavutetta: {
+      Saavutettavuus: {
         fi: 'Testitieto',
         en: 'Test info',
         sv: 'Test info',
@@ -54,9 +49,8 @@ describe('<LoadingPlacesContent />', () => {
     const p = container.querySelectorAll('p');
     expect(h6[0].textContent).toContain(mockProps.item.name_fi);
     expect(p[0].textContent).toContain(`Osoite: ${mockProps.item.address_fi}`);
-    expect(p[1].textContent).toContain(mockProps.item.extra.Lastaus.fi);
-    expect(p[2].textContent).toContain(mockProps.item.extra.Lisatieto.fi);
-    expect(p[3].textContent).toContain(mockProps.item.extra.Muutanimi.fi);
-    expect(p[4].textContent).toContain(mockProps.item.extra.Saavutetta.fi);
+    expect(p[1].textContent).toContain(mockProps.item.extra.lastauspiste.fi);
+    expect(p[2].textContent).toContain(mockProps.item.extra.Saavutettavuus.fi);
+    expect(p[3].textContent).toContain(mockProps.item.extra.rajoitustyyppi.fi);
   });
 });
