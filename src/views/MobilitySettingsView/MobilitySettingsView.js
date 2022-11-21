@@ -1165,6 +1165,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const renderWalkingInfoTexts = () => (
     <>
       {showEcoCounter ? <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" /> : null}
+      {openMarkedTrailsList ? <InfoTextBox infoText="mobilityPlatform.info.markedTrails" /> : null}
       {showPublicToilets ? <InfoTextBox infoText="mobilityPlatform.info.publicToilets" /> : null}
     </>
   );
