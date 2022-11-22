@@ -43,6 +43,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const [localizedCultureRoutes, setLocalizedCultureRoutes] = useState([]);
   const [bicycleRouteList, setBicycleRouteList] = useState([]);
   const [openBicycleRouteList, setOpenBicycleRouteList] = useState(false);
+  const [bicycleRoutesToShow, setBicycleRoutesToShow] = useState(4);
   const [openSpeedLimitList, setOpenSpeedLimitList] = useState(false);
   const [openParkingChargeZoneList, setOpenParkingChargeZoneList] = useState(false);
   const [openScooterProviderList, setOpenScooterProviderList] = useState(false);
@@ -470,6 +471,9 @@ const MobilitySettingsView = ({ classes, intl }) => {
     if (showBicycleRoutes) {
       setShowBicycleRoutes(false);
     }
+    if (bicycleRoutesToShow === bicycleRouteList.length) {
+      setBicycleRoutesToShow(4);
+    }
   };
 
   const markedTrailListToggle = () => {
@@ -479,6 +483,9 @@ const MobilitySettingsView = ({ classes, intl }) => {
     }
     if (showMarkedTrails) {
       setShowMarkedTrails(false);
+    }
+    if (markedTrailsToShow === markedTrailsSorted.length) {
+      setMarkedTrailsToShow(4);
     }
   };
 
@@ -879,7 +886,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
    */
   const renderBicycleRoutes = inputData => inputData
     && inputData.length > 0
-    && inputData.map(item => (
+    && inputData.slice(0, bicycleRoutesToShow).map(item => (
       <div key={item.id} className={classes.checkBoxContainer}>
         <FormControlLabel
           control={(
@@ -1294,6 +1301,12 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 {openBicycleRouteList && !bicycleRouteName ? <EmptyRouteList route={bicycleRouteList} /> : null}
               </div>
               {openBicycleRouteList ? renderBicycleRoutes(bicycleRouteList) : null}
+              <SliceList
+                openList={openBicycleRouteList}
+                itemsToShow={bicycleRoutesToShow}
+                routes={bicycleRouteList}
+                setItemsToShow={setBicycleRoutesToShow}
+              />
               {renderBicycleInfoTexts()}
               <div className={classes.buttonContainer}>
                 <ButtonMain
