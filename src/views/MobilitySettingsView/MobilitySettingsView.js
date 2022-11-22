@@ -10,17 +10,17 @@ import iconBicycle from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle.svg
 import iconBoat from 'servicemap-ui-turku/assets/icons/icons-icon_boating.svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
 import iconScooter from 'servicemap-ui-turku/assets/icons/icons-icon_scooter.svg';
-import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import iconSnowplow from 'servicemap-ui-turku/assets/icons/icons-icon_street_maintenance.svg';
+import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import InfoTextBox from '../../components/MobilityPlatform/InfoTextBox';
 import {
   fetchBicycleRouteNames,
   fetchCultureRouteNames,
   fetchMobilityMapPolygonData,
 } from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
-import useLocaleText from '../../utils/useLocaleText';
 import TitleBar from '../../components/TitleBar';
 import MobilityPlatformContext from '../../context/MobilityPlatformContext';
+import useLocaleText from '../../utils/useLocaleText';
 import ButtonMain from './components/ButtonMain';
 import CityBikeInfo from './components/CityBikeInfo';
 import Description from './components/Description';
@@ -28,6 +28,7 @@ import EmptyRouteList from './components/EmptyRouteList';
 import ExtendedInfo from './components/ExtendedInfo';
 import FormLabel from './components/FormLabel';
 import RouteLength from './components/RouteLength';
+import SliceList from './components/SliceListButton';
 import TrailInfo from './components/TrailInfo';
 
 const MobilitySettingsView = ({ classes, intl }) => {
@@ -48,6 +49,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const [openStreetMaintenanceSelectionList, setOpenStreetMaintenanceSelectionList] = useState(false);
   const [openMarkedTrailsList, setOpenMarkedTrailsList] = useState(false);
   const [markedTrailsList, setMarkedTrailsList] = useState([]);
+  const [markedTrailsToShow, setMarkedTrailsToShow] = useState(4);
 
   const {
     setOpenMobilityPlatform,
@@ -936,13 +938,21 @@ const MobilitySettingsView = ({ classes, intl }) => {
     return split.slice(-1);
   };
 
+  const showMoreTrails = () => {
+    setMarkedTrailsToShow(markedTrailsList.length);
+  };
+
+  const showLessTrails = () => {
+    setMarkedTrailsToShow(5);
+  };
+
   /**
    * @param {Array} inputData
    * @returns {JSX Element}
    */
   const renderMarkedTrails = inputData => inputData
     && inputData.length > 0
-    && inputData.map(item => (
+    && inputData.slice(0, markedTrailsToShow).map(item => (
       <div key={item.id} className={classes.checkBoxContainer}>
         <FormControlLabel
           control={(
@@ -1262,6 +1272,12 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 : null}
               {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
               {openMarkedTrailsList ? renderMarkedTrails(markedTrailsSorted) : null}
+              <SliceList
+                openList={openMarkedTrailsList}
+                itemsToShow={markedTrailsToShow}
+                showMore={showMoreTrails}
+                showLess={showLessTrails}
+              />
               {renderWalkingInfoTexts()}
               <div className={classes.buttonContainer}>
                 <ButtonMain
