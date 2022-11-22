@@ -601,7 +601,7 @@ const translations = {
   'mobilityPlatform.menu.showCultureRoutes': 'Kulturvägar',
   'mobilityPlatform.menu.showBicycleRoutes': 'Cykelvägar',
   'mobilityPlatform.menu.routes.info': 'Du kan välja rutten från nedanstående listan.',
-  'mobilityPlatform.menu.routes.emptyList': 'Inga rutter hittades.',
+  'mobilityPlatform.menu.routes.emptyList': 'Rutter håller på att laddas.',
   'mobilityPlatform.menu.bicycleRoutes.title': 'Information om rutten.',
   'mobilityPlatform.menu.bicycleRoutes.length': 'Ruttlängd:',
   'mobilityPlatform.menu.routes.name': 'Rutt',

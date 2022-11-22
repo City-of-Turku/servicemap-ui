@@ -314,7 +314,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
     if (data && data.length > 0) {
       return data.sort((a, b) => a[nameKeys[locale]].split(': ').slice(-1)[0].localeCompare(b[nameKeys[locale]].split(': ').slice(-1)[0]));
     }
-    return null;
+    return [];
   };
 
   const markedTrailsSorted = sortMarkedTrails(markedTrailsList);
@@ -938,14 +938,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
     return split.slice(-1);
   };
 
-  const showMoreTrails = () => {
-    setMarkedTrailsToShow(markedTrailsList.length);
-  };
-
-  const showLessTrails = () => {
-    setMarkedTrailsToShow(5);
-  };
-
   /**
    * @param {Array} inputData
    * @returns {JSX Element}
@@ -972,6 +964,15 @@ const MobilitySettingsView = ({ classes, intl }) => {
         {item.id === markedTrailsObj.id ? <TrailInfo item={item} /> : null}
       </div>
     ));
+
+  const renderSelectTrailText = (visibilityValue, obj, routeList) => {
+    const isObjValid = Object.keys(obj).length > 0;
+    return (
+      <div className={visibilityValue ? classes.border : null}>
+        {visibilityValue && !isObjValid ? <EmptyRouteList route={routeList} /> : null}
+      </div>
+    );
+  };
 
   /**
    * @param {boolean} settingVisibility
@@ -1271,12 +1272,13 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 ? renderCultureRoutes(localizedCultureRoutes)
                 : null}
               {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
+              {renderSelectTrailText(openMarkedTrailsList, markedTrailsObj, markedTrailsList)}
               {openMarkedTrailsList ? renderMarkedTrails(markedTrailsSorted) : null}
               <SliceList
                 openList={openMarkedTrailsList}
                 itemsToShow={markedTrailsToShow}
-                showMore={showMoreTrails}
-                showLess={showLessTrails}
+                routes={markedTrailsSorted}
+                setItemsToShow={setMarkedTrailsToShow}
               />
               {renderWalkingInfoTexts()}
               <div className={classes.buttonContainer}>

@@ -600,7 +600,7 @@ const translations = {
   'mobilityPlatform.menu.showCultureRoutes': 'Culture routes',
   'mobilityPlatform.menu.showBicycleRoutes': 'Bicycle routes',
   'mobilityPlatform.menu.routes.info': 'You can select a route from the list below.',
-  'mobilityPlatform.menu.routes.emptyList': 'No routes were found.',
+  'mobilityPlatform.menu.routes.emptyList': 'Routes are loading.',
   'mobilityPlatform.menu.bicycleRoutes.title': 'Info about the route.',
   'mobilityPlatform.menu.bicycleRoutes.length': 'Route length:',
   'mobilityPlatform.menu.routes.name': 'Route name',
@@ -640,8 +640,8 @@ const translations = {
   'mobilityPlatform.menu.show.brushSaltedRoute': 'Brush salted bicycle roads',
   'mobilityPlatform.menu.show.paavoTrails': 'Paavo trails',
   'mobilityPlatform.menu.markedTrails.length': 'Trail length: {value} km',
-  'mobilityPlatform.menu.list.showMore': 'Show more',
-  'mobilityPlatform.menu.list.showLess': 'Show less',
+  'mobilityPlatform.menu.list.showMore': 'Show more rotes',
+  'mobilityPlatform.menu.list.showLess': 'Show less routes',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
