@@ -41,6 +41,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const [openCultureRouteList, setOpenCultureRouteList] = useState(false);
   const [cultureRouteList, setCultureRouteList] = useState([]);
   const [localizedCultureRoutes, setLocalizedCultureRoutes] = useState([]);
+  const [cultureRoutesToShow, setCultureRoutesToShow] = useState(4);
   const [bicycleRouteList, setBicycleRouteList] = useState([]);
   const [openBicycleRouteList, setOpenBicycleRouteList] = useState(false);
   const [bicycleRoutesToShow, setBicycleRoutesToShow] = useState(4);
@@ -460,6 +461,9 @@ const MobilitySettingsView = ({ classes, intl }) => {
     }
     if (showCultureRoutes) {
       setShowCultureRoutes(false);
+    }
+    if (cultureRoutesToShow === (cultureRouteList.length || localizedCultureRoutes.length)) {
+      setCultureRoutesToShow(4);
     }
   };
 
@@ -913,7 +917,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
    */
   const renderCultureRoutes = inputData => inputData
     && inputData.length > 0
-    && inputData.map(item => (
+    && inputData.slice(0, cultureRoutesToShow).map(item => (
       <div key={item.id} className={classes.checkBoxContainer}>
         <FormControlLabel
           control={(
@@ -1279,6 +1283,12 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 ? renderCultureRoutes(localizedCultureRoutes)
                 : null}
               {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
+              <SliceList
+                openList={openCultureRouteList}
+                itemsToShow={cultureRoutesToShow}
+                routes={locale === 'fi' ? cultureRouteList : localizedCultureRoutes}
+                setItemsToShow={setCultureRoutesToShow}
+              />
               {renderSelectTrailText(openMarkedTrailsList, markedTrailsObj, markedTrailsList)}
               {openMarkedTrailsList ? renderMarkedTrails(markedTrailsSorted) : null}
               <SliceList
