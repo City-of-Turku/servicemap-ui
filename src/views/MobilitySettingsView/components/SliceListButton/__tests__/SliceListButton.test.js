@@ -22,7 +22,7 @@ const mockProps = {
 
 const renderWithProviders = getRenderWithProviders({});
 
-describe('<Description />', () => {
+describe('<SliceList />', () => {
   it('should match snapshot', () => {
     const { container } = renderWithProviders(<SliceList {...mockProps} />);
     expect(container).toMatchSnapshot();
