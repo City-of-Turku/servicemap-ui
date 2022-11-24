@@ -641,6 +641,8 @@ const translations = {
   'mobilityPlatform.menu.show.paavoTrails': 'Paavo trails',
   'mobilityPlatform.menu.markedTrails.length': 'Trail length: {value} km',
   'mobilityPlatform.menu.show.natureTrails': 'Nature trails', // TODO verify
+  'mobilityPlatform.menu.list.showMore': 'Show more routes',
+  'mobilityPlatform.menu.list.showLess': 'Show less routes',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
@@ -764,7 +766,8 @@ const translations = {
   'mobilityPlatform.info.streetMaintenance.noActivity': 'There is no street maintenance work in progress during the selected time period.',
   'mobilityPlatform.info.streetMaintenance.general': 'Street maintenance includes ploughing and sanding of streets, cycle paths and structurally indistinguishable footpaths and cycle paths in winter and removing the sand in spring.',
   'mobilityPlatform.info.streetMaintenance.link': 'Winter maintenance rules.',
-  'mobilityPlatform.info.streetMaintenance.brushedRoads': 'Bicycle roads that are shown on the map are part of the intensified winter maintenance. Snow will be removed by brushing and salt solution or sand will be used to prevent slippery conditions.', // TODO verify
+  'mobilityPlatform.info.streetMaintenance.brushedRoads': 'Bicycle roads that are shown on the map are part of the intensified winter maintenance. Snow will be removed by brushing and salt solution or sand will be used to prevent slippery conditions.',
+  'mobilityPlatform.info.markedTrails': 'Paavo trails are routes that have been marked on the terrain and introduce walkers to the local nature and urban environments in various places in Turku. In many places the trails merge with other outdoor recreation paths and link them together. Trails have been marked on the terrain with blue runner marks and round markings on trees and rocks. Cross-country biking is allowed in the forest parts of Paavo trails, as per the public right of access.', // TODO verify
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',

@@ -52,14 +52,14 @@ const SnowPlows = () => {
 
   const getOption = (input) => {
     switch (input) {
-      case 'Puhtaanapito':
+      case 'puhtaanapito':
         return options.green;
-      case 'Auraus':
+      case 'auraus':
         return options.blue;
-      case 'Hiekanpoisto':
-        return options.purple;
-      case 'Liukkaudentorjunta':
+      case 'hiekanpoisto':
         return options.burgundy;
+      case 'liukkaudentorjunta':
+        return options.purple;
       default:
         return options.black;
     }
@@ -75,10 +75,10 @@ const SnowPlows = () => {
   };
 
   const maintenanceEvents = {
-    sanitation: 'Puhtaanapito',
-    snowplow: 'Auraus',
-    deIcing: 'Liukkaudentorjunta',
-    sandRemoval: 'Hiekanpoisto',
+    sanitation: 'puhtaanapito',
+    snowplow: 'auraus',
+    deIcing: 'liukkaudentorjunta',
+    sandRemoval: 'hiekanpoisto',
   };
 
   const getEvent = (input) => {
@@ -96,12 +96,12 @@ const SnowPlows = () => {
     }
   };
 
-  const yesterDay = moment().clone().add(-1, 'days').format('YYYY-MM-DD HH:mm:00');
-  const threeDays = moment().clone().add(-3, 'days').format('YYYY-MM-DD HH:mm:00');
-  const oneHour = moment().clone().add(-1, 'hours').format('YYYY-MM-DD HH:mm:00');
-  const threeHours = moment().clone().add(-3, 'hours').format('YYYY-MM-DD HH:mm:00');
-  const sixHours = moment().clone().add(-6, 'hours').format('YYYY-MM-DD HH:mm:00');
-  const twelveHours = moment().clone().add(-12, 'hours').format('YYYY-MM-DD HH:mm:00');
+  const yesterDay = moment().clone().add(-1, 'days').format('YYYY-MM-DD HH:mm:ss');
+  const threeDays = moment().clone().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
+  const oneHour = moment().clone().add(-1, 'hours').format('YYYY-MM-DD HH:mm:ss');
+  const threeHours = moment().clone().add(-3, 'hours').format('YYYY-MM-DD HH:mm:ss');
+  const sixHours = moment().clone().add(-6, 'hours').format('YYYY-MM-DD HH:mm:ss');
+  const twelveHours = moment().clone().add(-12, 'hours').format('YYYY-MM-DD HH:mm:ss');
 
   const createQuery = (type, dateItem) => `get_geometry_history/?event=${getEvent(type)}&start_date_time=${dateItem}`;
 

@@ -8,8 +8,9 @@ const MarkedTrails = () => {
   const { showMarkedTrails, markedTrailsObj } = useContext(MobilityPlatformContext);
 
   const brownColor = 'rgba(117, 44, 23, 255)';
+  const dashPattern = '2 9 9 9';
 
-  return <Trails showTrail={showMarkedTrails} trailsObj={markedTrailsObj} color={brownColor} />;
+  return <Trails showTrail={showMarkedTrails} trailsObj={markedTrailsObj} color={brownColor} pattern={dashPattern} />;
 };
 
 export default MarkedTrails;
