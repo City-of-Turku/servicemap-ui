@@ -15,17 +15,21 @@ const SliceListButton = ({
     setItemsToShow(4);
   };
 
-  return (openList && routes.length > 0 ? (
+  return openList && routes.length > 0 ? (
     <div className={classes.container}>
       <Button className={classes.button} onClick={itemsToShow === 4 ? () => showMore() : () => showLess()}>
         {itemsToShow === 4 ? (
-          <Typography variant="body2">{intl.formatMessage({ id: 'mobilityPlatform.menu.list.showMore' })}</Typography>
+          <Typography variant="body2" aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.list.showMore' })}>
+            {intl.formatMessage({ id: 'mobilityPlatform.menu.list.showMore' })}
+          </Typography>
         ) : (
-          <Typography variant="body2">{intl.formatMessage({ id: 'mobilityPlatform.menu.list.showLess' })}</Typography>
+          <Typography variant="body2" aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.list.showLess' })}>
+            {intl.formatMessage({ id: 'mobilityPlatform.menu.list.showLess' })}
+          </Typography>
         )}
       </Button>
     </div>
-  ) : null);
+  ) : null;
 };
 
 SliceListButton.propTypes = {
