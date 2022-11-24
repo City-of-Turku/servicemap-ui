@@ -32,12 +32,12 @@ const TrailsComponent = ({
 
   return (
     <>
-      {renderData && (
+      {renderData ? (
         <>
           <Polyline weight={8} pathOptions={useContrast ? whiteOptions : pathOptions} positions={trailsObj.geometry_coords} />
           <Polyline weight={4} pathOptions={useContrast ? blackOptions : whiteOptions} positions={trailsObj.geometry_coords} />
         </>
-      )}
+      ) : null}
     </>
   );
 };
