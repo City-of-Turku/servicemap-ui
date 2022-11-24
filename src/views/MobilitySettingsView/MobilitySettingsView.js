@@ -29,7 +29,7 @@ import ExtendedInfo from './components/ExtendedInfo';
 import FormLabel from './components/FormLabel';
 import RouteLength from './components/RouteLength';
 import SliceList from './components/SliceListButton';
-import TrailInfo from './components/TrailInfo';
+import TrailList from './components/TrailList';
 
 const MobilitySettingsView = ({ classes, intl }) => {
   const [openWalkSettings, setOpenWalkSettings] = useState(false);
@@ -938,44 +938,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
       </div>
     ));
 
-  const fixRouteName = (routeNameFi, routeNameEn, routeNameSv) => {
-    const routes = {
-      fi: routeNameFi,
-      en: routeNameEn,
-      sv: routeNameSv,
-    };
-    const route = getLocaleText(routes);
-    const split = route.split(': ');
-    return split.slice(-1);
-  };
-
-  /**
-   * @param {Array} inputData
-   * @returns {JSX Element}
-   */
-  const renderMarkedTrails = inputData => inputData
-    && inputData.length > 0
-    && inputData.slice(0, markedTrailsToShow).map(item => (
-      <div key={item.id} className={classes.checkBoxContainer}>
-        <FormControlLabel
-          control={(
-            <Checkbox
-              checked={item.id === markedTrailsObj.id}
-              aria-checked={item.id === markedTrailsObj.id}
-              className={classes.margin}
-              onChange={() => setMarkedTrailState(item)}
-            />
-          )}
-          label={(
-            <Typography variant="body2" aria-label={fixRouteName(item.name_fi, item.name_en, item.name_sv)}>
-              {fixRouteName(item.name_fi, item.name_en, item.name_sv)}
-            </Typography>
-          )}
-        />
-        {item.id === markedTrailsObj.id ? <TrailInfo item={item} /> : null}
-      </div>
-    ));
-
   const renderSelectTrailText = (visibilityValue, obj, routeList) => {
     const isObjValid = Object.keys(obj).length > 0;
     return (
@@ -1290,7 +1252,13 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 setItemsToShow={setCultureRoutesToShow}
               />
               {renderSelectTrailText(openMarkedTrailsList, markedTrailsObj, markedTrailsList)}
-              {openMarkedTrailsList ? renderMarkedTrails(markedTrailsSorted) : null}
+              <TrailList
+                openList={openMarkedTrailsList}
+                inputData={markedTrailsSorted}
+                itemsToShow={markedTrailsToShow}
+                trailsObj={markedTrailsObj}
+                setTrailState={setMarkedTrailState}
+              />
               <SliceList
                 openList={openMarkedTrailsList}
                 itemsToShow={markedTrailsToShow}
