@@ -1,28 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Description /> should match snapshot 1`] = `
-<div>
-  <div>
-    <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text injectIntl(SliceListButton)-button-1"
-      tabindex="0"
-      type="button"
-    >
-      <span
-        class="MuiButton-label"
-      >
-        <p
-          aria-label="Näytä lisää reittejä"
-          class="MuiTypography-root MuiTypography-body2"
-        >
-          Näytä lisää reittejä
-        </p>
-      </span>
-    </button>
-  </div>
-</div>
-`;
-
 exports[`<SliceList /> should match snapshot 1`] = `
 <div>
   <div>

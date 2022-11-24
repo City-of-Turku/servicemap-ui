@@ -15,7 +15,7 @@ const SliceListButton = ({
     setItemsToShow(4);
   };
 
-  return openList && routes.length > 0 ? (
+  return openList && routes.length >= itemsToShow ? (
     <div className={classes.container}>
       <Button className={classes.button} onClick={itemsToShow === 4 ? () => showMore() : () => showLess()}>
         {itemsToShow === 4 ? (
