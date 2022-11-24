@@ -8,8 +8,9 @@ const NatureTrails = () => {
   const { showNatureTrails, natureTrailsObj } = useContext(MobilityPlatformContext);
 
   const blueColor = 'rgba(0, 0, 153, 255)';
+  const dashPattern = '12 9';
 
-  return <Trails showTrail={showNatureTrails} trailsObj={natureTrailsObj} color={blueColor} />;
+  return <Trails showTrail={showNatureTrails} trailsObj={natureTrailsObj} color={blueColor} pattern={dashPattern} />;
 };
 
 export default NatureTrails;
