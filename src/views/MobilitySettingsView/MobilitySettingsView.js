@@ -18,6 +18,7 @@ import {
   fetchCultureRouteNames,
   fetchMobilityMapPolygonData,
 } from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid } from '../../components/MobilityPlatform/utils/utils';
 import TitleBar from '../../components/TitleBar';
 import MobilityPlatformContext from '../../context/MobilityPlatformContext';
 import useLocaleText from '../../utils/useLocaleText';
@@ -958,28 +959,31 @@ const MobilitySettingsView = ({ classes, intl }) => {
    * @param {Array} inputData
    * @returns {JSX Element}
    */
-  const renderBicycleRoutes = inputData => inputData
-    && inputData.length > 0
-    && inputData.slice(0, bicycleRoutesToShow).map(item => (
-      <div key={item.id} className={classes.checkBoxContainer}>
-        <FormControlLabel
-          control={(
-            <Checkbox
-              checked={item.name_fi === bicycleRouteName}
-              aria-checked={item.name_fi === bicycleRouteName}
-              className={classes.margin}
-              onChange={() => setBicycleRouteState(item.name_fi)}
+  const renderBicycleRoutes = (inputData) => {
+    const renderData = isDataValid(openBicycleRouteList, inputData);
+    return (
+      renderData
+        ? inputData.slice(0, bicycleRoutesToShow).map(item => (
+          <div key={item.id} className={classes.checkBoxContainer}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={item.name_fi === bicycleRouteName}
+                  aria-checked={item.name_fi === bicycleRouteName}
+                  className={classes.margin}
+                  onChange={() => setBicycleRouteState(item.name_fi)}
+                />
+          )}
+              label={(
+                <Typography variant="body2" aria-label={getRouteName(item.name_fi, item.name_en, item.name_sv)}>
+                  {getRouteName(item.name_fi, item.name_en, item.name_sv)}
+                </Typography>
+          )}
             />
-          )}
-          label={(
-            <Typography variant="body2" aria-label={getRouteName(item.name_fi, item.name_en, item.name_sv)}>
-              {getRouteName(item.name_fi, item.name_en, item.name_sv)}
-            </Typography>
-          )}
-        />
-        {item.name_fi === bicycleRouteName ? <RouteLength key={item.id} route={item} /> : null}
-      </div>
-    ));
+            {item.name_fi === bicycleRouteName ? <RouteLength key={item.id} route={item} /> : null}
+          </div>
+        )) : null);
+  };
 
   /**
    * @param {Array} inputData
@@ -1046,7 +1050,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   // This list will be displayed for users
   const speedLimitListAsc = speedLimitList.sort((a, b) => a - b);
 
-  const renderSpeedLimits = () => (
+  const renderSpeedLimits = () => (openSpeedLimitList ? (
     <>
       <div className={`${classes.paragraph} ${classes.border}`}>
         <Typography
@@ -1058,48 +1062,49 @@ const MobilitySettingsView = ({ classes, intl }) => {
       </div>
       <div className={classes.buttonList}>
         {openSpeedLimitList
-          && speedLimitListAsc.length > 0
-          && speedLimitListAsc.map(item => (
-            <div key={item} className={classes.checkBoxContainer}>
-              <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={speedLimitSelections.includes(item)}
-                    aria-checked={speedLimitSelections.includes(item)}
-                    className={classes.margin}
-                    onChange={() => setSpeedLimitState(item)}
-                  />
-                )}
-                label={(
-                  <Typography
-                    variant="body2"
-                    aria-label={intl.formatMessage(
-                      {
-                        id: 'mobilityPlatform.content.speedLimitZones.suffix',
-                      },
-                      { item },
-                    )}
-                  >
-                    {intl.formatMessage(
-                      {
-                        id: 'mobilityPlatform.content.speedLimitZones.suffix',
-                      },
-                      { item },
-                    )}
-                  </Typography>
-                )}
-              />
-            </div>
-          ))}
+            && speedLimitListAsc.length > 0
+            && speedLimitListAsc.map(item => (
+              <div key={item} className={classes.checkBoxContainer}>
+                <FormControlLabel
+                  control={(
+                    <Checkbox
+                      checked={speedLimitSelections.includes(item)}
+                      aria-checked={speedLimitSelections.includes(item)}
+                      className={classes.margin}
+                      onChange={() => setSpeedLimitState(item)}
+                    />
+                  )}
+                  label={(
+                    <Typography
+                      variant="body2"
+                      aria-label={intl.formatMessage(
+                        {
+                          id: 'mobilityPlatform.content.speedLimitZones.suffix',
+                        },
+                        { item },
+                      )}
+                    >
+                      {intl.formatMessage(
+                        {
+                          id: 'mobilityPlatform.content.speedLimitZones.suffix',
+                        },
+                        { item },
+                      )}
+                    </Typography>
+                  )}
+                />
+              </div>
+            ))}
       </div>
     </>
-  );
+  ) : null);
 
-  const renderParkingChargeZoneList = () => (
-    <>
-      {parkingChargeZones
-        && parkingChargeZones.length > 0
-        && parkingChargeZones.map(item => (
+  const renderParkingChargeZoneList = () => {
+    const renderData = isDataValid(openParkingChargeZoneList, parkingChargeZones);
+
+    return (
+      renderData
+        ? parkingChargeZones.map(item => (
           <div key={item.id} className={classes.checkBoxContainer}>
             <FormControlLabel
               control={(
@@ -1126,9 +1131,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
               )}
             />
           </div>
-        ))}
-    </>
-  );
+        )) : null);
+  };
 
   const renderScooterProviderList = () => (
     <>
@@ -1362,7 +1366,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
               <div className={openBicycleRouteList ? classes.border : null}>
                 {openBicycleRouteList && !bicycleRouteName ? <EmptyRouteList route={bicycleRouteList} /> : null}
               </div>
-              {openBicycleRouteList ? renderBicycleRoutes(bicycleRouteList) : null}
+              {renderBicycleRoutes(bicycleRouteList)}
               <SliceList
                 openList={openBicycleRouteList}
                 itemsToShow={bicycleRoutesToShow}
@@ -1379,8 +1383,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 />
               </div>
               {renderSettings(openCarSettings, carControlTypes)}
-              {openParkingChargeZoneList ? renderParkingChargeZoneList() : null}
-              {openSpeedLimitList ? renderSpeedLimits() : null}
+              {renderParkingChargeZoneList()}
+              {renderSpeedLimits()}
               {renderDrivingInfoTexts()}
               <div className={classes.buttonContainer}>
                 <ButtonMain
