@@ -519,7 +519,9 @@ const MobilitySettingsView = ({ classes, intl }) => {
     if (showMarkedTrails) {
       setShowMarkedTrails(false);
     }
-    resetItemsToShow(markedTrailsToShow, markedTrailsSorted, setMarkedTrailsToShow);
+    if (markedTrailsToShow === markedTrailsSorted.length) {
+      setMarkedTrailsToShow(4);
+    }
   };
 
   const natureTrailListToggle = () => {
