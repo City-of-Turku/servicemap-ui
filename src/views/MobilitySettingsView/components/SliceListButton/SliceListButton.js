@@ -7,26 +7,22 @@ import { Button, Typography } from '@material-ui/core';
 const SliceListButton = ({
   classes, intl, openList, itemsToShow, routes, setItemsToShow,
 }) => {
-  const showMore = () => {
-    setItemsToShow(routes.length);
+  const changeItemsToShow = (count = routes.length) => {
+    setItemsToShow(count);
   };
+  const itemsCountDefault = itemsToShow === 4;
 
-  const showLess = () => {
-    setItemsToShow(4);
+  const buttonConfig = {
+    func: itemsCountDefault ? () => changeItemsToShow() : () => changeItemsToShow(4),
+    msgId: itemsCountDefault ? 'mobilityPlatform.menu.list.showMore' : 'mobilityPlatform.menu.list.showLess',
   };
 
   return openList && routes.length >= itemsToShow ? (
     <div className={classes.container}>
-      <Button className={classes.button} onClick={itemsToShow === 4 ? () => showMore() : () => showLess()}>
-        {itemsToShow === 4 ? (
-          <Typography variant="body2" aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.list.showMore' })}>
-            {intl.formatMessage({ id: 'mobilityPlatform.menu.list.showMore' })}
-          </Typography>
-        ) : (
-          <Typography variant="body2" aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.list.showLess' })}>
-            {intl.formatMessage({ id: 'mobilityPlatform.menu.list.showLess' })}
-          </Typography>
-        )}
+      <Button className={classes.button} onClick={() => buttonConfig.func()}>
+        <Typography variant="body2" aria-label={intl.formatMessage({ id: buttonConfig.msgId })}>
+          {intl.formatMessage({ id: buttonConfig.msgId })}
+        </Typography>
       </Button>
     </div>
   ) : null;
