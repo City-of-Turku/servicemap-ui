@@ -363,7 +363,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const sortTrails = (data) => {
     if (data && data.length > 0) {
       return data.sort((a, b) => a.name.localeCompare(b.name));
-    } return [];
+    }
+    return [];
   };
 
   const natureTrailsTku = natureTrailsList.filter(item => item.municipality === 'turku');
@@ -630,16 +631,16 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const prevNatureTrailObjRef = useRef();
 
   /**
-    * If user clicks same trail again, then reset name and set visiblity to false
-    * Otherwise new values are set
-    */
+   * If user clicks same trail again, then reset name and set visiblity to false
+   * Otherwise new values are set
+   */
   useEffect(() => {
     prevNatureTrailObjRef.current = natureTrailsObj;
   }, [natureTrailsObj]);
 
   /**
-    * @param {obj}
-    */
+   * @param {obj}
+   */
   const setNatureTrailState = (obj) => {
     setNatureTrailsObj(obj);
     setShowNatureTrails(true);
@@ -961,28 +962,28 @@ const MobilitySettingsView = ({ classes, intl }) => {
    */
   const renderBicycleRoutes = (inputData) => {
     const renderData = isDataValid(openBicycleRouteList, inputData);
-    return (
-      renderData
-        ? inputData.slice(0, bicycleRoutesToShow).map(item => (
-          <div key={item.id} className={classes.checkBoxContainer}>
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={item.name_fi === bicycleRouteName}
-                  aria-checked={item.name_fi === bicycleRouteName}
-                  className={classes.margin}
-                  onChange={() => setBicycleRouteState(item.name_fi)}
-                />
-          )}
-              label={(
-                <Typography variant="body2" aria-label={getRouteName(item.name_fi, item.name_en, item.name_sv)}>
-                  {getRouteName(item.name_fi, item.name_en, item.name_sv)}
-                </Typography>
-          )}
-            />
-            {item.name_fi === bicycleRouteName ? <RouteLength key={item.id} route={item} /> : null}
-          </div>
-        )) : null);
+    return renderData
+      ? inputData.slice(0, bicycleRoutesToShow).map(item => (
+        <div key={item.id} className={classes.checkBoxContainer}>
+          <FormControlLabel
+            control={(
+              <Checkbox
+                checked={item.name_fi === bicycleRouteName}
+                aria-checked={item.name_fi === bicycleRouteName}
+                className={classes.margin}
+                onChange={() => setBicycleRouteState(item.name_fi)}
+              />
+              )}
+            label={(
+              <Typography variant="body2" aria-label={getRouteName(item.name_fi, item.name_en, item.name_sv)}>
+                {getRouteName(item.name_fi, item.name_en, item.name_sv)}
+              </Typography>
+              )}
+          />
+          {item.name_fi === bicycleRouteName ? <RouteLength key={item.id} route={item} /> : null}
+        </div>
+      ))
+      : null;
   };
 
   /**
@@ -1102,71 +1103,74 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const renderParkingChargeZoneList = () => {
     const renderData = isDataValid(openParkingChargeZoneList, parkingChargeZones);
 
-    return (
-      renderData
-        ? parkingChargeZones.map(item => (
-          <div key={item.id} className={classes.checkBoxContainer}>
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={item.id === parkingChargeZoneId}
-                  aria-checked={item.id === parkingChargeZoneId}
-                  className={classes.margin}
-                  onChange={() => selectParkingChargeZone(item.id)}
-                />
+    return renderData
+      ? parkingChargeZones.map(item => (
+        <div key={item.id} className={classes.checkBoxContainer}>
+          <FormControlLabel
+            control={(
+              <Checkbox
+                checked={item.id === parkingChargeZoneId}
+                aria-checked={item.id === parkingChargeZoneId}
+                className={classes.margin}
+                onChange={() => selectParkingChargeZone(item.id)}
+              />
               )}
-              label={(
-                <Typography
-                  variant="body2"
-                  aria-label={intl.formatMessage(
-                    { id: 'mobilityPlatform.menu.parkingChargeZones.subtitle' },
-                    { value: item.extra.maksuvyohyke },
-                  )}
-                >
-                  {intl.formatMessage(
-                    { id: 'mobilityPlatform.menu.parkingChargeZones.subtitle' },
-                    { value: item.extra.maksuvyohyke },
-                  )}
-                </Typography>
+            label={(
+              <Typography
+                variant="body2"
+                aria-label={intl.formatMessage(
+                  { id: 'mobilityPlatform.menu.parkingChargeZones.subtitle' },
+                  { value: item.extra.maksuvyohyke },
+                )}
+              >
+                {intl.formatMessage(
+                  { id: 'mobilityPlatform.menu.parkingChargeZones.subtitle' },
+                  { value: item.extra.maksuvyohyke },
+                )}
+              </Typography>
               )}
-            />
-          </div>
-        )) : null);
+          />
+        </div>
+      ))
+      : null;
   };
 
-  const renderScooterProviderList = () => (
+  const renderScooterProviderList = () => (openScooterProviderList ? (
     <>
       <div className={`${classes.paragraph} ${classes.border}`}>
-        <Typography variant="body2" aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.scooters.list.info' })}>
+        <Typography
+          variant="body2"
+          aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.scooters.list.info' })}
+        >
           {intl.formatMessage({ id: 'mobilityPlatform.menu.scooters.list.info' })}
         </Typography>
       </div>
       {scooterProviders
-        && scooterProviders.length > 0
-        && scooterProviders.map(item => (
-          <div key={item.type} className={classes.checkBoxContainer}>
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={item.checkedValue}
-                  aria-checked={item.checkedValue}
-                  className={classes.margin}
-                  onChange={() => item.onChangeValue()}
-                />
-              )}
-              label={(
-                <Typography
-                  variant="body2"
-                  aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.show.scootersRyde' })}
-                >
-                  {intl.formatMessage({ id: 'mobilityPlatform.menu.show.scootersRyde' })}
-                </Typography>
-              )}
-            />
-          </div>
-        ))}
+          && scooterProviders.length > 0
+          && scooterProviders.map(item => (
+            <div key={item.type} className={classes.checkBoxContainer}>
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={item.checkedValue}
+                    aria-checked={item.checkedValue}
+                    className={classes.margin}
+                    onChange={() => item.onChangeValue()}
+                  />
+                )}
+                label={(
+                  <Typography
+                    variant="body2"
+                    aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.show.scootersRyde' })}
+                  >
+                    {intl.formatMessage({ id: 'mobilityPlatform.menu.show.scootersRyde' })}
+                  </Typography>
+                )}
+              />
+            </div>
+          ))}
     </>
-  );
+  ) : null);
 
   const streetMaintenanceInfo = (colorClass, translationId) => (
     <div className={classes.flexBox}>
@@ -1177,7 +1181,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
     </div>
   );
 
-  const renderMaintenanceSelectionList = () => (
+  const renderMaintenanceSelectionList = () => (openStreetMaintenanceSelectionList ? (
     <>
       <div className={`${classes.paragraph} ${classes.border}`}>
         <Typography
@@ -1197,28 +1201,28 @@ const MobilitySettingsView = ({ classes, intl }) => {
         ) : null}
       </div>
       {streetMaintenanceSelections
-        && streetMaintenanceSelections.length > 0
-        && streetMaintenanceSelections.map(item => (
-          <div key={item.type} className={classes.checkBoxContainer}>
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={item.type === streetMaintenancePeriod}
-                  aria-checked={item.type === streetMaintenancePeriod}
-                  className={classes.margin}
-                  onChange={() => item.onChangeValue(item.type)}
-                />
-              )}
-              label={(
-                <Typography variant="body2" aria-label={intl.formatMessage({ id: item.msgId })}>
-                  {intl.formatMessage({ id: item.msgId })}
-                </Typography>
-              )}
-            />
-          </div>
-        ))}
+          && streetMaintenanceSelections.length > 0
+          && streetMaintenanceSelections.map(item => (
+            <div key={item.type} className={classes.checkBoxContainer}>
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={item.type === streetMaintenancePeriod}
+                    aria-checked={item.type === streetMaintenancePeriod}
+                    className={classes.margin}
+                    onChange={() => item.onChangeValue(item.type)}
+                  />
+                )}
+                label={(
+                  <Typography variant="body2" aria-label={intl.formatMessage({ id: item.msgId })}>
+                    {intl.formatMessage({ id: item.msgId })}
+                  </Typography>
+                )}
+              />
+            </div>
+          ))}
     </>
-  );
+  ) : null);
 
   const renderWalkingInfoTexts = () => (
     <>
@@ -1395,7 +1399,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 />
               </div>
               {renderSettings(openScooterSettings, scooterControlTypes)}
-              {openScooterProviderList ? renderScooterProviderList() : null}
+              {renderScooterProviderList()}
               {renderScooterInfoTexts()}
               <div className={classes.buttonContainer}>
                 <ButtonMain
@@ -1416,7 +1420,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 />
               </div>
               {renderSettings(openStreetMaintenanceSettings, streetMaintenanceControlTypes)}
-              {openStreetMaintenanceSelectionList ? renderMaintenanceSelectionList() : null}
+              {renderMaintenanceSelectionList()}
               {renderStreetMaintenanceInfoTexts()}
             </>
           </FormGroup>
