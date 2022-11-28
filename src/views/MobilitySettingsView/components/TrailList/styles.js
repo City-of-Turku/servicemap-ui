@@ -1,6 +1,5 @@
 const styles = theme => ({
   checkBoxContainer: {
-    width: '100%',
     borderBottom: '1px solid #6f7276',
     display: 'flex',
     flexDirection: 'column',
