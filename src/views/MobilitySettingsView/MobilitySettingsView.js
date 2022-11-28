@@ -32,6 +32,7 @@ import RouteLength from './components/RouteLength';
 import SliceList from './components/SliceListButton';
 import TrailList from './components/TrailList';
 import ParkingChargeZoneList from './components/ParkingChargeZoneList';
+import ScooterProviderList from './components/ScooterProviderList';
 
 const MobilitySettingsView = ({ classes, intl }) => {
   const [openWalkSettings, setOpenWalkSettings] = useState(false);
@@ -1101,43 +1102,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
     </>
   ) : null);
 
-  const renderScooterProviderList = () => (openScooterProviderList ? (
-    <>
-      <div className={`${classes.paragraph} ${classes.border}`}>
-        <Typography
-          variant="body2"
-          aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.scooters.list.info' })}
-        >
-          {intl.formatMessage({ id: 'mobilityPlatform.menu.scooters.list.info' })}
-        </Typography>
-      </div>
-      {scooterProviders
-          && scooterProviders.length > 0
-          && scooterProviders.map(item => (
-            <div key={item.type} className={classes.checkBoxContainer}>
-              <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={item.checkedValue}
-                    aria-checked={item.checkedValue}
-                    className={classes.margin}
-                    onChange={() => item.onChangeValue()}
-                  />
-                )}
-                label={(
-                  <Typography
-                    variant="body2"
-                    aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.show.scootersRyde' })}
-                  >
-                    {intl.formatMessage({ id: 'mobilityPlatform.menu.show.scootersRyde' })}
-                  </Typography>
-                )}
-              />
-            </div>
-          ))}
-    </>
-  ) : null);
-
   const streetMaintenanceInfo = (colorClass, translationId) => (
     <div className={classes.flexBox}>
       <div className={`${classes.box} ${colorClass}`} />
@@ -1370,7 +1334,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 />
               </div>
               {renderSettings(openScooterSettings, scooterControlTypes)}
-              {renderScooterProviderList()}
+              <ScooterProviderList openList={openScooterProviderList} scooterProviders={scooterProviders} />
               {renderScooterInfoTexts()}
               <div className={classes.buttonContainer}>
                 <ButtonMain
