@@ -761,6 +761,7 @@ const translations = {
   'mobilityPlatform.info.streetMaintenance.link': 'Talvikunnossapidon pelisäännöt.',
   'mobilityPlatform.info.streetMaintenance.brushedRoads': 'Kartalla näkyvät pyörätiet kuuluvat tehostetun talvikunnossapidon piiriin. Lumi poistetaan reitiltä harjaamalla ja liukkautta torjutaan liuossuolalla tai hiekoittamalla.',
   'mobilityPlatform.info.markedTrails': 'Paavonpolut ovat maastoon merkittyjä reittejä, jotka tutustuttavat kulkijoita lähiluontoon ja kaupunkiympäristöön eri puolilla Turkua. Monin paikoin polut yhtyvät muihin ulkoilureitteihin ja kytkevät niitä toisiinsa. Kulkureitit on osoitettu maastossa puihin ja kiviin maalatuilla sinisillä juoksija-merkinnöillä ja pyöreillä merkeillä. Maastopyöräily on sallittu Paavonpolkujen metsäosuuksilla jokamiehenoikeuksien mukaisesti.',
+  'mobilityPlatform.info.natureTrails': 'Luontopolut kulkevat vaihtelevissa maisemissa ja niitä seuraamalla saa edustavan läpileikkauksen Turun monimuotoisesta luonnonympäristöstä. Polut on viitoitettu ja niiden varsilla on paikallisesta luonnosta kertovia opastauluja. Kulkemisen helpottamiseksi polkupohjia on kunnostettu soralla ja rakentamalla pitkospuita kosteikkoihin. Vaikeakulkuisilla rinteillä on portaita ja siltoja.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',
