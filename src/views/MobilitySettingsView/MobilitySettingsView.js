@@ -31,6 +31,7 @@ import FormLabel from './components/FormLabel';
 import RouteLength from './components/RouteLength';
 import SliceList from './components/SliceListButton';
 import TrailList from './components/TrailList';
+import ParkingChargeZoneList from './components/ParkingChargeZoneList';
 
 const MobilitySettingsView = ({ classes, intl }) => {
   const [openWalkSettings, setOpenWalkSettings] = useState(false);
@@ -1100,41 +1101,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
     </>
   ) : null);
 
-  const renderParkingChargeZoneList = () => {
-    const renderData = isDataValid(openParkingChargeZoneList, parkingChargeZones);
-
-    return renderData
-      ? parkingChargeZones.map(item => (
-        <div key={item.id} className={classes.checkBoxContainer}>
-          <FormControlLabel
-            control={(
-              <Checkbox
-                checked={item.id === parkingChargeZoneId}
-                aria-checked={item.id === parkingChargeZoneId}
-                className={classes.margin}
-                onChange={() => selectParkingChargeZone(item.id)}
-              />
-              )}
-            label={(
-              <Typography
-                variant="body2"
-                aria-label={intl.formatMessage(
-                  { id: 'mobilityPlatform.menu.parkingChargeZones.subtitle' },
-                  { value: item.extra.maksuvyohyke },
-                )}
-              >
-                {intl.formatMessage(
-                  { id: 'mobilityPlatform.menu.parkingChargeZones.subtitle' },
-                  { value: item.extra.maksuvyohyke },
-                )}
-              </Typography>
-              )}
-          />
-        </div>
-      ))
-      : null;
-  };
-
   const renderScooterProviderList = () => (openScooterProviderList ? (
     <>
       <div className={`${classes.paragraph} ${classes.border}`}>
@@ -1387,7 +1353,12 @@ const MobilitySettingsView = ({ classes, intl }) => {
                 />
               </div>
               {renderSettings(openCarSettings, carControlTypes)}
-              {renderParkingChargeZoneList()}
+              <ParkingChargeZoneList
+                openZoneList={openParkingChargeZoneList}
+                parkingChargeZones={parkingChargeZones}
+                zoneId={parkingChargeZoneId}
+                selectZone={selectParkingChargeZone}
+              />
               {renderSpeedLimits()}
               {renderDrivingInfoTexts()}
               <div className={classes.buttonContainer}>
