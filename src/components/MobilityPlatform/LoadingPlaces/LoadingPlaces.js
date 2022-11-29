@@ -25,7 +25,7 @@ const LoadingPlaces = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('LUP', 200, setLoadingPlaces);
+      fetchMobilityMapPolygonData('LoadingUnloadingPlace', 300, setLoadingPlaces);
     }
   }, [openMobilityPlatform, setLoadingPlaces]);
 
