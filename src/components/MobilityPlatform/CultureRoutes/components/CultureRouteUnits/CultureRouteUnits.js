@@ -34,7 +34,14 @@ const CultureRouteUnits = ({ classes, cultureRouteUnits }) => {
     }
   };
 
-  const activeCultureRouteUnits = cultureRouteUnits.filter(item => item.mobile_unit_group.id === cultureRouteId);
+  const filterRouteUnits = (data) => {
+    if (data && data.length > 0) {
+      return data.filter(item => item.mobile_unit_group.id === cultureRouteId);
+    }
+    return [];
+  };
+
+  const activeCultureRouteUnits = filterRouteUnits(cultureRouteUnits);
 
   /**
    * Returns description based on locale
