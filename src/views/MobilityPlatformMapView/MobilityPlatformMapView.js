@@ -23,6 +23,8 @@ import SpeedLimitZones from '../../components/MobilityPlatform/SpeedLimitZones';
 import DisabledParking from '../../components/MobilityPlatform/Parking/DisabledParking';
 import LoadingPlaces from '../../components/MobilityPlatform/LoadingPlaces';
 import BrushedBicycleRoads from '../../components/MobilityPlatform/SnowPlows/components/BrushedBicycleRoads';
+import MarkedTrails from '../../components/MobilityPlatform/MarkedTrails';
+import NatureTrails from '../../components/MobilityPlatform/NatureTrails';
 
 const MobilityPlatformMapView = () => (
   <>
@@ -50,6 +52,8 @@ const MobilityPlatformMapView = () => (
     <LoadingPlaces />
     <SnowPlows />
     <BrushedBicycleRoads />
+    <MarkedTrails />
+    <NatureTrails />
   </>
 );
 

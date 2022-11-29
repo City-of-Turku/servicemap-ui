@@ -33,7 +33,14 @@ const CultureRoutes = () => {
     }
   }, [openMobilityPlatform, setCultureRouteUnits]);
 
-  const activeCultureRoute = cultureRoutesGeometry.filter(item => item.mobile_unit_group.id === cultureRouteId);
+  const filterRoutes = (data) => {
+    if (data && data.length > 0) {
+      return data.filter(item => item.mobile_unit_group.id === cultureRouteId);
+    }
+    return [];
+  };
+
+  const activeCultureRoute = filterRoutes(cultureRoutesGeometry);
 
   const swapCoords = (inputData) => {
     if (inputData && inputData.length > 0) {
