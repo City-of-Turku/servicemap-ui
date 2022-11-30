@@ -134,6 +134,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
     setShowNatureTrails,
     natureTrailsObj,
     setNatureTrailsObj,
+    showLamCounter,
+    setShowLamCounter,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
@@ -408,6 +410,10 @@ const MobilitySettingsView = ({ classes, intl }) => {
    */
   const ecoCounterStationsToggle = () => {
     setShowEcoCounter(current => !current);
+  };
+
+  const lamCounterStationsToggle = () => {
+    setShowLamCounter(current => !current);
   };
 
   const bicycleStandsToggle = () => {
@@ -821,6 +827,12 @@ const MobilitySettingsView = ({ classes, intl }) => {
   ];
 
   const carControlTypes = [
+    {
+      type: 'lamCounters',
+      msgId: 'mobilityPlatform.menu.showEcoCounter',
+      checkedValue: showLamCounter,
+      onChangeValue: lamCounterStationsToggle,
+    },
     {
       type: 'rentalCars',
       msgId: 'mobilityPlatform.menu.showRentalCars',

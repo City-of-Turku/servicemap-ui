@@ -8,12 +8,11 @@ import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { createIcon, isDataValid } from '../../MobilityPlatform/utils/utils';
 import { fetchTrafficCounterStations } from '../EcoCounterRequests/ecoCounterRequests';
-import EcoCounterContent from '../EcoCounterContent';
 
-const EcoCounterMarkers = ({ classes }) => {
-  const [ecoCounterStations, setEcoCounterStations] = useState([]);
+const LamCounters = ({ classes }) => {
+  const [lamCounterStations, setLamCounterStations] = useState([]);
 
-  const { openMobilityPlatform, showEcoCounter } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showLamCounter } = useContext(MobilityPlatformContext);
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -24,36 +23,33 @@ const EcoCounterMarkers = ({ classes }) => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchTrafficCounterStations('EC', setEcoCounterStations);
+      fetchTrafficCounterStations('LC', setLamCounterStations);
     }
-  }, [openMobilityPlatform, setEcoCounterStations]);
+  }, [openMobilityPlatform, setLamCounterStations]);
 
   const map = useMap();
 
-  const renderData = isDataValid(showEcoCounter, ecoCounterStations);
+  const renderData = isDataValid(showLamCounter, lamCounterStations);
 
   useEffect(() => {
     if (renderData) {
       const bounds = [];
-      ecoCounterStations.forEach((item) => {
+      lamCounterStations.forEach((item) => {
         bounds.push([item.lat, item.lon]);
       });
       map.fitBounds(bounds);
     }
-  }, [showEcoCounter, ecoCounterStations]);
+  }, [showLamCounter, lamCounterStations]);
 
   return (
     <>
       {renderData ? (
-        ecoCounterStations.map(item => (
+        lamCounterStations.map(item => (
           <Marker key={item.id} icon={customIcon} position={[item.lat, item.lon]}>
             <div className={classes.popupWrapper}>
               <Popup className="ecocounter-popup">
                 <div className={classes.popupInner}>
-                  <EcoCounterContent
-                    stationId={item.id}
-                    stationName={item.name}
-                  />
+                  <p>{item.name}</p>
                 </div>
               </Popup>
             </div>
@@ -64,8 +60,8 @@ const EcoCounterMarkers = ({ classes }) => {
   );
 };
 
-EcoCounterMarkers.propTypes = {
+LamCounters.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-export default EcoCounterMarkers;
+export default LamCounters;

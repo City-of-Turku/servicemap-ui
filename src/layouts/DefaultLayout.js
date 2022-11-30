@@ -133,6 +133,7 @@ const DefaultLayout = (props) => {
   const [markedTrailsObj, setMarkedTrailsObj] = useState({});
   const [showNatureTrails, setShowNatureTrails] = useState(false);
   const [natureTrailsObj, setNatureTrailsObj] = useState({});
+  const [showLamCounter, setShowLamCounter] = useState(false);
 
   const {
     currentPage, fetchErrors, fetchNews, intl, location, settingsToggled,
@@ -287,6 +288,8 @@ const DefaultLayout = (props) => {
                       setShowNatureTrails,
                       natureTrailsObj,
                       setNatureTrailsObj,
+                      showLamCounter,
+                      setShowLamCounter,
                     }}
                   >
                     <ViewRouter />
@@ -338,6 +341,7 @@ const DefaultLayout = (props) => {
                     markedTrailsObj,
                     showNatureTrails,
                     natureTrailsObj,
+                    showLamCounter,
                   }}
                 >
                   <MapView
