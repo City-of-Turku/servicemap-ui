@@ -8,6 +8,7 @@ import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { createIcon, isDataValid } from '../../MobilityPlatform/utils/utils';
 import { fetchTrafficCounterStations } from '../EcoCounterRequests/ecoCounterRequests';
+import LamCountersContent from './components/LamCountersContent';
 
 const LamCounters = ({ classes }) => {
   const [lamCounterStations, setLamCounterStations] = useState([]);
@@ -49,7 +50,10 @@ const LamCounters = ({ classes }) => {
             <div className={classes.popupWrapper}>
               <Popup className="ecocounter-popup">
                 <div className={classes.popupInner}>
-                  <p>{item.name}</p>
+                  <LamCountersContent
+                    stationId={item.id}
+                    stationName={item.name}
+                  />
                 </div>
               </Popup>
             </div>
