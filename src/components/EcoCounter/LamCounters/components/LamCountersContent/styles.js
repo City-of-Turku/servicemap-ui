@@ -64,7 +64,7 @@ const styles = {
     justifyContent: 'flex-end',
     marginBottom: '0.3rem',
   },
-  buttonAndTextContainer: {
+  container: {
     display: 'flex',
     flexDirection: 'column',
     marginRight: '0.7rem',
@@ -73,6 +73,14 @@ const styles = {
   textContainer: {
     width: '40px',
     marginRight: '0.75rem',
+  },
+  iconWrapper: {
+    backgroundColor: 'rgba(7, 44, 115, 255)',
+    color: '#fff',
+    border: '1px solid gray',
+    borderRadius: '5px',
+    marginRight: '0.75rem',
+    padding: '0.3rem',
   },
   userTypeText: {
     fontWeight: 'bold',

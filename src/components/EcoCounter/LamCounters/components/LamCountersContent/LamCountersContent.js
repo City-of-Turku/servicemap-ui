@@ -26,10 +26,8 @@ const LamCountersContent = ({
   const [channel2Counts, setChannel2Counts] = useState([]);
   const [channelTotals, setChannelTotals] = useState([]);
   const [ecoCounterLabels, setEcoCounterLabels] = useState([]);
-  const [currentType, setCurrentType] = useState('driving');
   const [currentTime, setCurrentTime] = useState('hour');
   const [activeStep, setActiveStep] = useState(0);
-  const [activeType, setActiveType] = useState(0);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(moment().clone().add(-1, 'days'));
 
@@ -226,9 +224,7 @@ const LamCountersContent = ({
       setEcoCounterLabels(labelsHour);
       if (ecoCounterHour !== null && ecoCounterHour.station === stationId) {
         const countsArr = [];
-        if (currentType === 'driving') {
-          countsArr.push(ecoCounterHour.values_ak, ecoCounterHour.values_ap, ecoCounterHour.values_at);
-        }
+        countsArr.push(ecoCounterHour.values_ak, ecoCounterHour.values_ap, ecoCounterHour.values_at);
         setChannel1Counts(countsArr[0]);
         setChannel2Counts(countsArr[1]);
         setChannelTotals(countsArr[2]);
@@ -236,7 +232,7 @@ const LamCountersContent = ({
     } else if (currentTime === 'day') {
       ecoCounterDay.forEach((el) => {
         const countsArr = [];
-        if (el.station === stationId && currentType === 'driving') {
+        if (el.station === stationId) {
           countsArr.push(el.value_ak, el.value_ap, el.value_at, el.day_info.date);
         }
         setChannel1Counts(channel1Counts => [...channel1Counts, countsArr[0]]);
@@ -247,7 +243,7 @@ const LamCountersContent = ({
     } else if (currentTime === 'week') {
       ecoCounterWeek.forEach((el) => {
         const countsArr = [];
-        if (el.station === stationId && currentType === 'driving') {
+        if (el.station === stationId) {
           countsArr.push(el.value_ak, el.value_ap, el.value_at, el.week_info.week_number);
         }
         setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
@@ -256,23 +252,13 @@ const LamCountersContent = ({
     } else if (currentTime === 'month') {
       ecoCounterMonth.forEach((el) => {
         const countsArr = [];
-        if (el.station === stationId && currentType === 'driving') {
+        if (el.station === stationId) {
           countsArr.push(el.value_ak, el.value_ap, el.value_at, el.month_info.month_number);
         }
         setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
         setEcoCounterLabels(ecoCounterLabels => [...ecoCounterLabels, formatMonths(countsArr[3])]);
       });
     }
-  };
-
-  // Sets current user type and active button index
-  const setUserTypeState = (index, typeValue) => {
-    setActiveType(index);
-    setCurrentType(typeValue);
-  };
-
-  const setUserTypes = (type, index) => {
-    if (type === 'driving') setUserTypeState(index, 'driving');
   };
 
   // Sets current step and active button index
@@ -336,9 +322,7 @@ const LamCountersContent = ({
   useEffect(() => {
     if (ecoCounterHour !== null && ecoCounterHour.station === stationId) {
       const countsArr = [];
-      if (currentType === 'driving') {
-        countsArr.push(ecoCounterHour.values_ak, ecoCounterHour.values_ap, ecoCounterHour.values_at);
-      }
+      countsArr.push(ecoCounterHour.values_ak, ecoCounterHour.values_ap, ecoCounterHour.values_at);
       setChannel1Counts(countsArr[0]);
       setChannel2Counts(countsArr[1]);
       setChannelTotals(countsArr[2]);
@@ -348,7 +332,7 @@ const LamCountersContent = ({
   // When current user type or step changes, calls function to update the chart data
   useEffect(() => {
     setChannelData();
-  }, [currentType, currentTime]);
+  }, [currentTime]);
 
   return (
     <>
@@ -390,19 +374,14 @@ const LamCountersContent = ({
       <div className={classes.ecocounterContent}>
         <div className={classes.ecocounterUserTypes}>
           {allUsers
-            && allUsers.map((userType, i) => (
-              <div key={userType.type.user} className={classes.buttonAndTextContainer}>
-                <ButtonBase
-                  className={i === activeType ? `${classes.buttonActive}` : `${classes.buttonWhite}`}
-                  onClick={() => setUserTypes(userType.type.user, i)}
-                >
-                  <div>
-                    <ReactSVG
-                      className={i === activeType ? `${classes.iconActive}` : `${classes.icon}`}
-                      src={userType.type.icon}
-                    />
-                  </div>
-                </ButtonBase>
+            && allUsers.map(userType => (
+              <div key={userType.type.user} className={classes.container}>
+                <div className={classes.iconWrapper}>
+                  <ReactSVG
+                    className={classes.iconActive}
+                    src={userType.type.icon}
+                  />
+                </div>
                 <div className={classes.textContainer}>
                   <Typography variant="body2" className={classes.userTypeText}>
                     {userType.type.text}
