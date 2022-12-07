@@ -642,6 +642,7 @@ const translations = {
   'mobilityPlatform.menu.show.paavoTrails': 'Paavos stigar',
   'mobilityPlatform.menu.markedTrails.length': 'Stiglängd: {value} km',
   'mobilityPlatform.menu.show.natureTrails': 'Naturstigar',
+  'mobilityPlatform.menu.show.fitnessTrails': 'Motionsbanor',
   'mobilityPlatform.menu.list.showMore': 'Visa fler rutter',
   'mobilityPlatform.menu.list.showLess': 'Visa färre rutter',
 

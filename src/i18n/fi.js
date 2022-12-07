@@ -644,6 +644,7 @@ const translations = {
   'mobilityPlatform.menu.show.paavoTrails': 'Paavonpolut',
   'mobilityPlatform.menu.markedTrails.length': 'Reitin pituus: {value} km',
   'mobilityPlatform.menu.show.natureTrails': 'Luontopolut',
+  'mobilityPlatform.menu.show.fitnessTrails': 'Kuntopolut',
   'mobilityPlatform.menu.list.showMore': 'Näytä lisää reittejä',
   'mobilityPlatform.menu.list.showLess': 'Näytä vähemmän reittejä',
 
