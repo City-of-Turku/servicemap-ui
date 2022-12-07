@@ -1244,6 +1244,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
       {showEcoCounter ? <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" /> : null}
       {openMarkedTrailsList ? <InfoTextBox infoText="mobilityPlatform.info.markedTrails" /> : null}
       {openNatureTrailsList ? <InfoTextBox infoText="mobilityPlatform.info.natureTrails" /> : null}
+      {openFitnessTrailsList ? <InfoTextBox infoText="mobilityPlatform.info.fitnessTrails" /> : null}
       {showPublicToilets ? <InfoTextBox infoText="mobilityPlatform.info.publicToilets" /> : null}
     </>
   );
