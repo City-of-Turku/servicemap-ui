@@ -25,7 +25,14 @@ const BicycleRoutes = () => {
     }
   }, [openMobilityPlatform, setBicycleRoutes]);
 
-  const activeBicycleRoute = bicycleRoutes.filter(item => item.bicycle_network_name === bicycleRouteName);
+  const getActiveRoutes = (data) => {
+    if (data && data.length > 0) {
+      return data.filter(item => item.bicycle_network_name === bicycleRouteName);
+    }
+    return [];
+  };
+
+  const activeBicycleRoute = getActiveRoutes(bicycleRoutes);
   const renderData = isDataValid(showBicycleRoutes, activeBicycleRoute);
 
   const map = useMap();

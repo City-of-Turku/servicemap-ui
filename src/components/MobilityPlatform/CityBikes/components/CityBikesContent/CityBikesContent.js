@@ -5,7 +5,13 @@ import React from 'react';
 const CityBikesContent = ({
   classes, intl, bikeStation, cityBikeStatistics,
 }) => {
-  const station = cityBikeStatistics.filter(item => item.station_id === bikeStation.station_id);
+  const getStation = (data) => {
+    if (data && data.length > 0) {
+      return data.filter(item => item.station_id === bikeStation.station_id);
+    }
+    return [];
+  };
+  const station = getStation(cityBikeStatistics);
 
   const renderText = (translationId, value) => (
     <div className={classes.paragraph}>
