@@ -53,15 +53,6 @@ exports[`<LoadingPlacesContent /> should match snapshot 1`] = `
           <p
             class="MuiTypography-root MuiTypography-body2"
           >
-            Testiteksti
-          </p>
-        </div>
-        <div
-          class="injectIntl(LoadingPlacesContent)-marginTop-6"
-        >
-          <p
-            class="MuiTypography-root MuiTypography-body2"
-          >
             Testitieto
           </p>
         </div>

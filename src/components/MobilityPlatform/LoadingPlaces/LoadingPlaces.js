@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
+import loadingPlaceIcon from 'servicemap-ui-turku/assets/icons/icons-icon_loading_place.svg';
+import loadingPlaceIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_loading_place-bw.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid, fitPolygonsToBounds } from '../utils/utils';
+import { isDataValid, fitPolygonsToBounds, createIcon } from '../utils/utils';
 import LoadingPlacesContent from './components/LoadingPlacesContent';
 
 const LoadingPlaces = () => {
@@ -16,20 +18,14 @@ const LoadingPlaces = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const { Polygon, Popup } = global.rL;
+  const { Marker, Popup } = global.rL;
+  const { icon } = global.L;
 
-  const blueOptions = { color: 'rgba(7, 44, 115, 255)', weight: 5 };
-  const whiteOptions = {
-    color: 'rgba(255, 255, 255, 255)',
-    fillOpacity: 0.3,
-    weight: 5,
-    dashArray: '12',
-  };
-  const pathOptions = useContrast ? whiteOptions : blueOptions;
+  const customIcon = icon(createIcon(useContrast ? loadingPlaceIconBw : loadingPlaceIcon));
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('LoadingUnloadingPlace', 200, setLoadingPlaces);
+      fetchMobilityMapPolygonData('LoadingUnloadingPlace', 300, setLoadingPlaces);
     }
   }, [openMobilityPlatform, setLoadingPlaces]);
 
@@ -39,29 +35,23 @@ const LoadingPlaces = () => {
     fitPolygonsToBounds(renderData, loadingPlaces, map);
   }, [showLoadingPlaces, loadingPlaces]);
 
+  const getSingleCoordinates = data => data[0][0];
+
   return (
     <>
       {renderData
         ? loadingPlaces.map(item => (
-          <Polygon
+          <Marker
             key={item.id}
-            pathOptions={pathOptions}
-            positions={item.geometry_coords}
-            eventHandlers={{
-              mouseover: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
-              },
-              mouseout: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.3' : '0.2' });
-              },
-            }}
+            icon={customIcon}
+            position={getSingleCoordinates(item.geometry_coords)}
           >
             <>
               <Popup>
                 <LoadingPlacesContent item={item} />
               </Popup>
             </>
-          </Polygon>
+          </Marker>
         ))
         : null}
     </>

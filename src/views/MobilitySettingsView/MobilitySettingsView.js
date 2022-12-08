@@ -189,11 +189,11 @@ const MobilitySettingsView = ({ classes, intl }) => {
   }, [setParkingChargeZones]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('PPU', 50, setMarkedTrailsList);
+    fetchMobilityMapPolygonData('PaavonPolku', 50, setMarkedTrailsList);
   }, [setMarkedTrailsList]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('NTL', 200, setNatureTrailsList);
+    fetchMobilityMapPolygonData('NatureTrail', 200, setNatureTrailsList);
   }, [setNatureTrailsList]);
 
   /**

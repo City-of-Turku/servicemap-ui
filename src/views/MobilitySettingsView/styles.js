@@ -4,6 +4,7 @@ const styles = theme => ({
   },
   container: {
     borderBottom: '1px solid rgba(0, 0, 0, 255)',
+    wordBreak: 'break-word',
   },
   buttonSmall: {
     width: '27%',
