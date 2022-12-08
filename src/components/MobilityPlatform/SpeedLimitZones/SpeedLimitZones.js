@@ -13,7 +13,14 @@ const SpeedLimitZones = ({ classes, intl }) => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const filteredSpeedLimitZones = speedLimitZones.filter(item => speedLimitSelections.includes(item.extra.speed_limit));
+  const filterZones = (data) => {
+    if (data && data.length > 0) {
+      return data.filter(item => speedLimitSelections.includes(item.extra.speed_limit));
+    }
+    return [];
+  };
+
+  const filteredSpeedLimitZones = filterZones(speedLimitZones);
 
   const options = {
     black: {
