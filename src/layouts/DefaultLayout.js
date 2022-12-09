@@ -129,6 +129,12 @@ const DefaultLayout = (props) => {
   const [isActiveStreetMaintenance, setIsActiveStreetMaintenance] = useState(true);
   const [showBrushSandedRoute, setShowBrushSandedRoute] = useState(false);
   const [showBrushSaltedRoute, setShowBrushSaltedRoute] = useState(false);
+  const [showMarkedTrails, setShowMarkedTrails] = useState(false);
+  const [markedTrailsObj, setMarkedTrailsObj] = useState({});
+  const [showNatureTrails, setShowNatureTrails] = useState(false);
+  const [natureTrailsObj, setNatureTrailsObj] = useState({});
+  const [showFitnessTrails, setShowFitnessTrails] = useState(false);
+  const [fitnessTrailsObj, setFitnessTrailsObj] = useState({});
 
   const {
     currentPage, fetchErrors, fetchNews, intl, location, settingsToggled,
@@ -275,6 +281,18 @@ const DefaultLayout = (props) => {
                       setShowBrushSandedRoute,
                       showBrushSaltedRoute,
                       setShowBrushSaltedRoute,
+                      showMarkedTrails,
+                      setShowMarkedTrails,
+                      markedTrailsObj,
+                      setMarkedTrailsObj,
+                      showNatureTrails,
+                      setShowNatureTrails,
+                      natureTrailsObj,
+                      setNatureTrailsObj,
+                      showFitnessTrails,
+                      setShowFitnessTrails,
+                      fitnessTrailsObj,
+                      setFitnessTrailsObj,
                     }}
                   >
                     <ViewRouter />
@@ -322,6 +340,12 @@ const DefaultLayout = (props) => {
                     setIsActiveStreetMaintenance,
                     showBrushSandedRoute,
                     showBrushSaltedRoute,
+                    showMarkedTrails,
+                    markedTrailsObj,
+                    showNatureTrails,
+                    natureTrailsObj,
+                    showFitnessTrails,
+                    fitnessTrailsObj,
                   }}
                 >
                   <MapView

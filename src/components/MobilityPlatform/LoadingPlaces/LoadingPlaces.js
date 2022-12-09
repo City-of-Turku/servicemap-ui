@@ -5,8 +5,8 @@ import loadingPlaceIcon from 'servicemap-ui-turku/assets/icons/icons-icon_loadin
 import loadingPlaceIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_loading_place-bw.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { createIcon } from '../utils/utils';
+import { fetchMobilityMapPolygonData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid, fitPolygonsToBounds, createIcon } from '../utils/utils';
 import LoadingPlacesContent from './components/LoadingPlacesContent';
 
 const LoadingPlaces = () => {
@@ -25,30 +25,26 @@ const LoadingPlaces = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapData('LUP', 100, setLoadingPlaces);
+      fetchMobilityMapPolygonData('LoadingUnloadingPlace', 300, setLoadingPlaces);
     }
   }, [openMobilityPlatform, setLoadingPlaces]);
 
-  const renderData = showLoadingPlaces && loadingPlaces && loadingPlaces.length > 0;
+  const renderData = isDataValid(showLoadingPlaces, loadingPlaces);
 
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      loadingPlaces.forEach((item) => {
-        bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
-      });
-      map.fitBounds(bounds);
-    }
+    fitPolygonsToBounds(renderData, loadingPlaces, map);
   }, [showLoadingPlaces, loadingPlaces]);
+
+  const getSingleCoordinates = data => data[0][0];
 
   return (
     <>
-      {renderData ? (
-        loadingPlaces.map(item => (
+      {renderData
+        ? loadingPlaces.map(item => (
           <Marker
             key={item.id}
             icon={customIcon}
-            position={[item.geometry_coords.lat, item.geometry_coords.lon]}
+            position={getSingleCoordinates(item.geometry_coords)}
           >
             <>
               <Popup>
@@ -57,7 +53,7 @@ const LoadingPlaces = () => {
             </>
           </Marker>
         ))
-      ) : null}
+        : null}
     </>
   );
 };

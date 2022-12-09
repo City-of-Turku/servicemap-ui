@@ -5,7 +5,7 @@ import publicToiletIcon from 'servicemap-ui-turku/assets/icons/icons-icon_toilet
 import publicToiletIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_toilet-bw.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { createIcon, isDataValid } from '../utils/utils';
+import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import PublicToiletsContent from './components/PublicToiletsContent';
 
@@ -23,7 +23,7 @@ const PublicToilets = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapData('APT', 100, setPublicToiletsData);
+      fetchMobilityMapData('PublicToilet', 100, setPublicToiletsData);
     }
   }, [openMobilityPlatform, setPublicToiletsData]);
 
@@ -32,13 +32,7 @@ const PublicToilets = () => {
   const map = useMap();
 
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      publicToiletsData.forEach((item) => {
-        bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
-      });
-      map.fitBounds(bounds);
-    }
+    fitToMapBounds(renderData, publicToiletsData, map);
   }, [showPublicToilets, publicToiletsData]);
 
   return (

@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
+import { useSelector } from 'react-redux';
 import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../../utils/utils';
+import { fitPolygonsToBounds, isDataValid } from '../../utils/utils';
 
 /**
  * Displays quest harbour on the map in polygon format.
@@ -21,7 +21,7 @@ const GuestHarbour = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('GMA', 50, setGuestHarbourData);
+      fetchMobilityMapPolygonData('GuestMarina', 50, setGuestHarbourData);
     }
   }, [openMobilityPlatform, setGuestHarbourData]);
 
@@ -39,13 +39,7 @@ const GuestHarbour = () => {
   const renderData = isDataValid(showGuestHarbour, guestHarbourData);
 
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      guestHarbourData.forEach((item) => {
-        bounds.push(item.geometry_coords);
-      });
-      map.fitBounds(bounds);
-    }
+    fitPolygonsToBounds(renderData, guestHarbourData, map);
   }, [showGuestHarbour, guestHarbourData]);
 
   return (

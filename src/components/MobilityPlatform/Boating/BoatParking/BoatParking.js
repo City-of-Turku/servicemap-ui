@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
-import { isDataValid } from '../../utils/utils';
+import { isDataValid, fitPolygonsToBounds } from '../../utils/utils';
 import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
 
 /**
@@ -21,7 +21,7 @@ const BoatParking = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('BOK', 50, setBoatParkingData);
+      fetchMobilityMapPolygonData('BoatParking', 50, setBoatParkingData);
     }
   }, [openMobilityPlatform, setBoatParkingData]);
 
@@ -39,13 +39,7 @@ const BoatParking = () => {
   const renderData = isDataValid(showBoatParking, boatParkingData);
 
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      boatParkingData.forEach((item) => {
-        bounds.push(item.geometry_coords);
-      });
-      map.fitBounds(bounds);
-    }
+    fitPolygonsToBounds(renderData, boatParkingData, map);
   }, [showBoatParking, boatParkingData]);
 
   return (
