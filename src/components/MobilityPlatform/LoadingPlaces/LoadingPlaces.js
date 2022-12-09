@@ -6,7 +6,7 @@ import loadingPlaceIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { createIcon } from '../utils/utils';
+import { isDataValid, fitPolygonsToBounds, createIcon } from '../utils/utils';
 import LoadingPlacesContent from './components/LoadingPlacesContent';
 
 const LoadingPlaces = () => {
@@ -29,24 +29,18 @@ const LoadingPlaces = () => {
     }
   }, [openMobilityPlatform, setLoadingPlaces]);
 
-  const renderData = showLoadingPlaces && loadingPlaces && loadingPlaces.length > 0;
+  const renderData = isDataValid(showLoadingPlaces, loadingPlaces);
 
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      loadingPlaces.forEach((item) => {
-        bounds.push(item.geometry_coords);
-      });
-      map.fitBounds(bounds);
-    }
+    fitPolygonsToBounds(renderData, loadingPlaces, map);
   }, [showLoadingPlaces, loadingPlaces]);
 
   const getSingleCoordinates = data => data[0][0];
 
   return (
     <>
-      {renderData ? (
-        loadingPlaces.map(item => (
+      {renderData
+        ? loadingPlaces.map(item => (
           <Marker
             key={item.id}
             icon={customIcon}
@@ -59,7 +53,7 @@ const LoadingPlaces = () => {
             </>
           </Marker>
         ))
-      ) : null}
+        : null}
     </>
   );
 };
