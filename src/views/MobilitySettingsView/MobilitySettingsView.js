@@ -59,6 +59,9 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const [openNatureTrailsList, setOpenNatureTrailsList] = useState(false);
   const [natureTrailsList, setNatureTrailsList] = useState([]);
   const [natureTrailsToShow, setNatureTrailsToShow] = useState(4);
+  const [openFitnessTrailsList, setOpenFitnessTrailsList] = useState(false);
+  const [fitnessTrailsList, setFitnessTrailsList] = useState([]);
+  const [fitnessTrailsToShow, setFitnessTrailsToShow] = useState(4);
 
   const {
     setOpenMobilityPlatform,
@@ -135,6 +138,10 @@ const MobilitySettingsView = ({ classes, intl }) => {
     setShowNatureTrails,
     natureTrailsObj,
     setNatureTrailsObj,
+    showFitnessTrails,
+    setShowFitnessTrails,
+    fitnessTrailsObj,
+    setFitnessTrailsObj,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
@@ -182,20 +189,24 @@ const MobilitySettingsView = ({ classes, intl }) => {
   }, [setBicycleRouteList]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('SLZ', 1000, setSpeedLimitZones);
+    fetchMobilityMapPolygonData('SpeedLimitZone', 1000, setSpeedLimitZones);
   }, [setSpeedLimitZones]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('PAZ', 10, setParkingChargeZones);
+    fetchMobilityMapPolygonData('PaymentZone', 10, setParkingChargeZones);
   }, [setParkingChargeZones]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('PPU', 50, setMarkedTrailsList);
+    fetchMobilityMapPolygonData('PaavonPolku', 50, setMarkedTrailsList);
   }, [setMarkedTrailsList]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('NTL', 200, setNatureTrailsList);
+    fetchMobilityMapPolygonData('NatureTrail', 200, setNatureTrailsList);
   }, [setNatureTrailsList]);
+
+  useEffect(() => {
+    fetchMobilityMapPolygonData('FitnessTrail', 200, setFitnessTrailsList);
+  }, [setFitnessTrailsList]);
 
   /**
    * Check is visibility boolean values are true
@@ -242,6 +253,11 @@ const MobilitySettingsView = ({ classes, intl }) => {
     checkVisibilityValues(showNatureTrails, setOpenWalkSettings);
     checkVisibilityValues(showNatureTrails, setOpenNatureTrailsList);
   }, [showNatureTrails]);
+
+  useEffect(() => {
+    checkVisibilityValues(showFitnessTrails, setOpenWalkSettings);
+    checkVisibilityValues(showFitnessTrails, setOpenFitnessTrailsList);
+  }, [showFitnessTrails]);
 
   useEffect(() => {
     checkVisibilityValues(showBrushSaltedRoute, setOpenBicycleSettings);
@@ -367,8 +383,24 @@ const MobilitySettingsView = ({ classes, intl }) => {
     return [];
   };
 
-  const natureTrailsTku = natureTrailsList.filter(item => item.municipality === 'turku');
+  /**
+   * Get trails that are in Turku.
+   * @param {Array} data
+   * @function reduce
+   * @returns {Array}
+   */
+  const getLocalTrails = data => data.reduce((acc, curr) => {
+    if (curr.municipality === 'turku') {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
+  const natureTrailsTku = getLocalTrails(natureTrailsList);
   const natureTrailsTkuSorted = sortTrails(natureTrailsTku);
+
+  const fitnessTrailsTku = getLocalTrails(fitnessTrailsList);
+  const fitnessTrailsTkuSorted = sortTrails(fitnessTrailsTku);
 
   /**
    * Toggle functions for main user types
@@ -537,6 +569,17 @@ const MobilitySettingsView = ({ classes, intl }) => {
     resetItemsToShow(natureTrailsToShow, natureTrailsTkuSorted, setNatureTrailsToShow);
   };
 
+  const fitnessTrailListToggle = () => {
+    setOpenFitnessTrailsList(current => !current);
+    if (fitnessTrailsObj) {
+      setFitnessTrailsObj({});
+    }
+    if (showFitnessTrails) {
+      setShowFitnessTrails(false);
+    }
+    resetItemsToShow(fitnessTrailsToShow, fitnessTrailsTkuSorted, setFitnessTrailsToShow);
+  };
+
   const streetMaintenanceListToggle = () => {
     setOpenStreetMaintenanceSelectionList(current => !current);
     if (streetMaintenancePeriod) {
@@ -647,6 +690,31 @@ const MobilitySettingsView = ({ classes, intl }) => {
     if (obj === prevNatureTrailObjRef.current) {
       setNatureTrailsObj({});
       setShowNatureTrails(false);
+    }
+  };
+
+  /**
+   * Stores previous value
+   */
+  const prevFitnessTrailObjRef = useRef();
+
+  /**
+    * If user clicks same trail again, then reset name and set visiblity to false
+    * Otherwise new values are set
+    */
+  useEffect(() => {
+    prevFitnessTrailObjRef.current = fitnessTrailsObj;
+  }, [fitnessTrailsObj]);
+
+  /**
+    * @param {obj}
+    */
+  const setFitnessTrailState = (obj) => {
+    setFitnessTrailsObj(obj);
+    setShowFitnessTrails(true);
+    if (obj === prevFitnessTrailObjRef.current) {
+      setFitnessTrailsObj({});
+      setShowFitnessTrails(false);
     }
   };
 
@@ -776,6 +844,12 @@ const MobilitySettingsView = ({ classes, intl }) => {
       msgId: 'mobilityPlatform.menu.show.natureTrails',
       checkedValue: openNatureTrailsList,
       onChangeValue: natureTrailListToggle,
+    },
+    {
+      type: 'fitnessTrails',
+      msgId: 'mobilityPlatform.menu.show.fitnessTrails',
+      checkedValue: openFitnessTrailsList,
+      onChangeValue: fitnessTrailListToggle,
     },
     {
       type: 'publicToilets',
@@ -1312,6 +1386,20 @@ const MobilitySettingsView = ({ classes, intl }) => {
         itemsToShow={natureTrailsToShow}
         routes={natureTrailsTkuSorted}
         setItemsToShow={setNatureTrailsToShow}
+      />
+      {renderSelectTrailText(openFitnessTrailsList, fitnessTrailsObj, fitnessTrailsTkuSorted)}
+      <TrailList
+        openList={openFitnessTrailsList}
+        inputData={fitnessTrailsTkuSorted}
+        itemsToShow={fitnessTrailsToShow}
+        trailsObj={fitnessTrailsObj}
+        setTrailState={setFitnessTrailState}
+      />
+      <SliceList
+        openList={openFitnessTrailsList}
+        itemsToShow={fitnessTrailsToShow}
+        routes={fitnessTrailsTkuSorted}
+        setItemsToShow={setFitnessTrailsToShow}
       />
       {renderInfoTexts(infoTextsWalking)}
     </React.Fragment>
