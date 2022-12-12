@@ -214,6 +214,10 @@ const MobilitySettingsView = ({ classes, intl }) => {
   }, [showPublicToilets]);
 
   useEffect(() => {
+    checkVisibilityValues(showEcoCounter, setOpenWalkSettings);
+  }, [showEcoCounter]);
+
+  useEffect(() => {
     checkVisibilityValues(showBicycleStands, setOpenBicycleSettings);
     checkVisibilityValues(showBikeServiceStations, setOpenBicycleSettings);
     checkVisibilityValues(showCityBikes, setOpenBicycleSettings);
@@ -247,13 +251,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
   useEffect(() => {
     checkVisibilityValues(showSpeedLimitZones, setOpenSpeedLimitList);
   }, [showSpeedLimitZones]);
-
-  useEffect(() => {
-    if (showEcoCounter) {
-      setOpenWalkSettings(true);
-      setOpenBicycleSettings(true);
-    }
-  }, [showEcoCounter]);
 
   useEffect(() => {
     checkVisibilityValues(showRentalCars, setOpenCarSettings);
@@ -790,12 +787,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
 
   const bicycleControlTypes = [
     {
-      type: 'ecoCounterStations',
-      msgId: 'mobilityPlatform.menu.showEcoCounter',
-      checkedValue: showEcoCounter,
-      onChangeValue: ecoCounterStationsToggle,
-    },
-    {
       type: 'bicycleRoutes',
       msgId: 'mobilityPlatform.menu.showBicycleRoutes',
       checkedValue: openBicycleRouteList,
@@ -1156,77 +1147,127 @@ const MobilitySettingsView = ({ classes, intl }) => {
     </>
   ) : null);
 
-  const renderWalkingInfoTexts = () => (
-    <>
-      {showEcoCounter ? <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" /> : null}
-      {openMarkedTrailsList ? <InfoTextBox infoText="mobilityPlatform.info.markedTrails" /> : null}
-      {openNatureTrailsList ? <InfoTextBox infoText="mobilityPlatform.info.natureTrails" /> : null}
-      {showPublicToilets ? <InfoTextBox infoText="mobilityPlatform.info.publicToilets" /> : null}
-    </>
-  );
+  const infoTextsWalking = [
+    {
+      visible: showEcoCounter,
+      component: <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" />,
+    },
+    {
+      visible: openMarkedTrailsList,
+      component: <InfoTextBox infoText="mobilityPlatform.info.markedTrails" />,
+    },
+    {
+      visible: openNatureTrailsList,
+      component: <InfoTextBox infoText="mobilityPlatform.info.natureTrails" />,
+    },
+    {
+      visible: showPublicToilets,
+      component: <InfoTextBox infoText="mobilityPlatform.info.publicToilets" />,
+    },
+  ];
 
-  const renderBicycleInfoTexts = () => (
-    <>
-      {showBicycleStands ? <InfoTextBox infoText="mobilityPlatform.info.bicycleStands" /> : null}
-      {showCityBikes ? <CityBikeInfo bikeInfo={bikeInfo} /> : null}
-      {showBrushSaltedRoute || showBrushSandedRoute ? (
-        <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.brushedRoads" />
-      ) : null}
-    </>
-  );
+  const infoTextsCycling = [
+    {
+      visible: showBicycleStands,
+      component: <InfoTextBox infoText="mobilityPlatform.info.bicycleStands" />,
+    },
+    {
+      visible: showCityBikes,
+      component: <CityBikeInfo bikeInfo={bikeInfo} />,
+    },
+    {
+      visible: showBrushSaltedRoute || showBrushSandedRoute,
+      component: <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.brushedRoads" />,
+    },
+  ];
 
-  const renderDrivingInfoTexts = () => (
-    <>
-      {showRentalCars ? <InfoTextBox infoText="mobilityPlatform.info.rentalCars" /> : null}
-      {showChargingStations ? <InfoTextBox infoText="mobilityPlatform.info.chargingStations" /> : null}
-      {showGasFillingStations ? <InfoTextBox infoText="mobilityPlatform.info.gasFillingStations" /> : null}
-      {showParkingSpaces ? <InfoTextBox infoText="mobilityPlatform.info.parkingSpaces" /> : null}
-      {showDisabledParking ? <InfoTextBox infoText="mobilityPlatform.info.disabledParking" /> : null}
-      {openParkingChargeZoneList ? <ExtendedInfo translations={chargeZoneTranslations} /> : null}
-      {showLoadingPlaces ? <InfoTextBox infoText="mobilityPlatform.info.loadingPlaces" /> : null}
-    </>
-  );
+  const infoTextsDriving = [
+    {
+      visible: showRentalCars,
+      component: <InfoTextBox infoText="mobilityPlatform.info.rentalCars" />,
+    },
+    {
+      visible: showChargingStations,
+      component: <InfoTextBox infoText="mobilityPlatform.info.chargingStations" />,
+    },
+    {
+      visible: showGasFillingStations,
+      component: <InfoTextBox infoText="mobilityPlatform.info.gasFillingStations" />,
+    },
+    {
+      visible: showParkingSpaces,
+      component: <InfoTextBox infoText="mobilityPlatform.info.parkingSpaces" />,
+    },
+    {
+      visible: showDisabledParking,
+      component: <InfoTextBox infoText="mobilityPlatform.info.disabledParking" />,
+    },
+    {
+      visible: openParkingChargeZoneList,
+      component: <ExtendedInfo translations={chargeZoneTranslations} />,
+    },
+    {
+      visible: showLoadingPlaces,
+      component: <InfoTextBox infoText="mobilityPlatform.info.loadingPlaces" />,
+    },
+  ];
 
-  const renderScooterInfoTexts = () => (
-    <>
-      {openScooterProviderList ? <InfoTextBox infoText="mobilityPlatform.info.scooters.general" /> : null}
-      {showScooterNoParking ? <InfoTextBox infoText="mobilityPlatform.info.scooters.noParking" /> : null}
-      {showScooterParkingAreas ? <InfoTextBox infoText="mobilityPlatform.info.scooters.parkingAreas" /> : null}
-      {showScooterSpeedLimitAreas ? <InfoTextBox infoText="mobilityPlatform.info.scooters.speedLimitAreas" /> : null}
-    </>
-  );
+  const infoTextsScooter = [
+    {
+      visible: openScooterProviderList,
+      component: <InfoTextBox infoText="mobilityPlatform.info.scooters.general" />,
+    },
+    {
+      visible: showScooterNoParking,
+      component: <InfoTextBox infoText="mobilityPlatform.info.scooters.noParking" />,
+    },
+    {
+      visible: showScooterParkingAreas,
+      component: <InfoTextBox infoText="mobilityPlatform.info.scooters.parkingAreas" />,
+    },
+    {
+      visible: showScooterSpeedLimitAreas,
+      component: <InfoTextBox infoText="mobilityPlatform.info.scooters.speedLimitAreas" />,
+    },
+  ];
 
-  const renderBoatingInfoTexts = () => (
-    <>
-      {showMarinas ? (
-        <InfoTextBox
-          infoText="mobilityPlatform.info.marinas"
-          linkUrl="https://opaskartta.turku.fi/ePermit/fi/Reservation/"
-          linkText="mobilityPlatform.info.marinas.link"
-        />
-      ) : null}
-      {showBoatParking ? <InfoTextBox infoText="mobilityPlatform.info.boatParking" /> : null}
-      {showGuestHarbour ? (
-        <InfoTextBox
-          infoText="mobilityPlatform.info.guestHarbour"
-          linkUrl="https://www.turunvierasvenesatama.fi"
-          linkText="mobilityPlatform.info.guestHarbour.link"
-        />
-      ) : null}
-    </>
-  );
+  const infoTextsBoating = [
+    {
+      visible: showMarinas,
+      component: <InfoTextBox
+        infoText="mobilityPlatform.info.marinas"
+        linkUrl="https://opaskartta.turku.fi/ePermit/fi/Reservation/"
+        linkText="mobilityPlatform.info.marinas.link"
+      />,
+    },
+    {
+      visible: showBoatParking,
+      component: <InfoTextBox infoText="mobilityPlatform.info.boatParking" />,
+    },
+    {
+      visible: showGuestHarbour,
+      component: <InfoTextBox
+        infoText="mobilityPlatform.info.guestHarbour"
+        linkUrl="https://www.turunvierasvenesatama.fi"
+        linkText="mobilityPlatform.info.guestHarbour.link"
+      />,
+    },
+  ];
 
-  const renderStreetMaintenanceInfoTexts = () => (
-    <>
-      {showStreetMaintenance ? (
-        <InfoTextBox
-          infoText="mobilityPlatform.info.streetMaintenance.general"
-          linkUrl="https://www.turku.fi/uutinen/2021-01-12_pelisaannot-selkeita-katujen-talvikunnossapidossa"
-          linkText="mobilityPlatform.info.streetMaintenance.link"
-        />
-      ) : null}
-    </>
-  );
+  const infoTextsSnowplow = [
+    {
+      visible: showMarinas,
+      component: <InfoTextBox
+        infoText="mobilityPlatform.info.streetMaintenance.general"
+        linkUrl="https://www.turku.fi/uutinen/2021-01-12_pelisaannot-selkeita-katujen-talvikunnossapidossa"
+        linkText="mobilityPlatform.info.streetMaintenance.link"
+      />,
+    },
+  ];
+
+  const renderInfoTexts = textData => textData.filter(item => item.visible).map(info => (
+    info.component
+  ));
 
   const renderWalkSettings = () => (
     <React.Fragment>
@@ -1272,7 +1313,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
         routes={natureTrailsTkuSorted}
         setItemsToShow={setNatureTrailsToShow}
       />
-      {renderWalkingInfoTexts()}
+      {renderInfoTexts(infoTextsWalking)}
     </React.Fragment>
   );
 
@@ -1289,7 +1330,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
         routes={bicycleRouteList}
         setItemsToShow={setBicycleRoutesToShow}
       />
-      {renderBicycleInfoTexts()}
+      {renderInfoTexts(infoTextsCycling)}
     </React.Fragment>
   );
 
@@ -1303,7 +1344,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
         selectZone={selectParkingChargeZone}
       />
       {renderSpeedLimits()}
-      {renderDrivingInfoTexts()}
+      {renderInfoTexts(infoTextsDriving)}
     </React.Fragment>
   );
 
@@ -1311,14 +1352,14 @@ const MobilitySettingsView = ({ classes, intl }) => {
     <React.Fragment>
       {renderSettings(openScooterSettings, scooterControlTypes)}
       <ScooterProviderList openList={openScooterProviderList} scooterProviders={scooterProviders} />
-      {renderScooterInfoTexts()}
+      {renderInfoTexts(infoTextsScooter)}
     </React.Fragment>
   );
 
   const renderBoatingSettings = () => (
     <React.Fragment>
       {renderSettings(openBoatingSettings, boatingControlTypes)}
-      {renderBoatingInfoTexts()}
+      {renderInfoTexts(infoTextsBoating)}
     </React.Fragment>
   );
 
@@ -1326,7 +1367,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
     <React.Fragment>
       {renderSettings(openStreetMaintenanceSettings, streetMaintenanceControlTypes)}
       {renderMaintenanceSelectionList()}
-      {renderStreetMaintenanceInfoTexts()}
+      {renderInfoTexts(infoTextsSnowplow)}
     </React.Fragment>
   );
 
