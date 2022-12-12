@@ -87,9 +87,9 @@ const fetchCityBikesData = async (sourceName, setData) => {
 
 const fetchStreetMaintenanceData = async (endpoint, setData) => {
   try {
-    const response = await fetch(`${isApiUrl}/street_maintenance/maintenance_works/${endpoint}`);
+    const response = await fetch(`${isApiUrl}/street_maintenance/${endpoint}`);
     const jsonData = await response.json();
-    setData(jsonData);
+    setData(jsonData.results);
   } catch (err) {
     console.warn(err.message);
   }

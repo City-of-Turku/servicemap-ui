@@ -1,6 +1,5 @@
 import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
-import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { fetchStreetMaintenanceData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 
@@ -103,7 +102,7 @@ const SnowPlows = () => {
   const sixHours = moment().clone().add(-6, 'hours').format('YYYY-MM-DD HH:mm:ss');
   const twelveHours = moment().clone().add(-12, 'hours').format('YYYY-MM-DD HH:mm:ss');
 
-  const createQuery = (type, dateItem) => `get_geometry_history/?event=${getEvent(type)}&start_date_time=${dateItem}`;
+  const createQuery = (type, dateItem) => `geometry_history?page_size=10000&event=${getEvent(type)}&start_date_time=${dateItem}`;
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -134,43 +133,47 @@ const SnowPlows = () => {
     }
   }, [openMobilityPlatform]);
 
-  const streetMaintenance1Day = streetMaintenanceSanitation1Day.concat(
+  const streetMaintenance1Day = [].concat(
+    streetMaintenanceSanitation1Day,
     streetMaintenanceSandRemoval1Day,
     streetMaintenanceSnowplow1Day,
     streetMaintenanceDeIcing1Day,
   );
 
-  const streetMaintenance3Days = streetMaintenanceSanitation3Days.concat(
+  const streetMaintenance3Days = [].concat(
+    streetMaintenanceSanitation3Days,
     streetMaintenanceSandRemoval3Days,
     streetMaintenanceSnowplow3Days,
     streetMaintenanceDeIcing3Days,
   );
 
-  const streetMaintenance1Hour = streetMaintenanceSanitation1Hour.concat(
+  const streetMaintenance1Hour = [].concat(
+    streetMaintenanceSanitation1Hour,
     streetMaintenanceSandRemoval1Hour,
     streetMaintenanceSnowplow1Hour,
     streetMaintenanceDeIcing1Hour,
   );
 
-  const streetMaintenance3Hours = streetMaintenanceSanitation3Hours.concat(
+  const streetMaintenance3Hours = [].concat(
+    streetMaintenanceSanitation3Hours,
     streetMaintenanceSandRemoval3Hours,
     streetMaintenanceSnowplow3Hours,
     streetMaintenanceDeIcing3Hours,
   );
 
-  const streetMaintenance6Hours = streetMaintenanceSanitation6Hours.concat(
+  const streetMaintenance6Hours = [].concat(
+    streetMaintenanceSanitation6Hours,
     streetMaintenanceSandRemoval6Hours,
     streetMaintenanceSnowplow6Hours,
     streetMaintenanceDeIcing6Hours,
   );
 
-  const streetMaintenance12Hours = streetMaintenanceSanitation12Hours.concat(
+  const streetMaintenance12Hours = [].concat(
+    streetMaintenanceSanitation12Hours,
     streetMaintenanceSandRemoval12Hours,
     streetMaintenanceSnowplow12Hours,
     streetMaintenanceDeIcing12Hours,
   );
-
-  const map = useMap();
 
   const validateData = inputData => inputData && inputData.length > 0;
 
@@ -185,16 +188,6 @@ const SnowPlows = () => {
     return coordsData;
   };
 
-  const fitBounds = (data, isValid) => {
-    if (isValid) {
-      const bounds = [];
-      data.forEach((item) => {
-        bounds.push(swapCoords(item.geometry.coordinates));
-      });
-      map.fitBounds(bounds);
-    }
-  };
-
   useEffect(() => {
     if (!isDataValid) {
       setIsActiveStreetMaintenance(false);
@@ -203,22 +196,21 @@ const SnowPlows = () => {
 
   const renderData = (inputData) => {
     const filtered = inputData.reduce((acc, curr) => {
-      if (curr.geometry.name === 'LineString') {
+      if (curr.geometry_type === 'LineString') {
         acc.push(curr);
       }
       return acc;
     }, []);
 
     isDataValid = validateData(filtered);
-    fitBounds(filtered, isDataValid);
     if (isDataValid) {
       return filtered.map(item => (
-        <React.Fragment key={`${item.geometry.event}${item.geometry.coordinates[0]}`}>
+        <React.Fragment key={`${item.id}${item.events[0]}${item.coordinates[0]}`}>
           <Polyline
-            pathOptions={getPathOptions(item.geometry.event)}
-            positions={swapCoords(item.geometry.coordinates)}
+            pathOptions={getPathOptions(item.events[0])}
+            positions={swapCoords(item.coordinates)}
           />
-          <Polyline pathOptions={whiteOption} positions={swapCoords(item.geometry.coordinates)} />
+          <Polyline pathOptions={whiteOption} positions={swapCoords(item.coordinates)} />
         </React.Fragment>
       ));
     }
