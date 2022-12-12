@@ -2,10 +2,6 @@ const styles = theme => ({
   topBarColor: {
     background: theme.palette.background.main,
   },
-  container: {
-    borderBottom: '1px solid rgba(0, 0, 0, 255)',
-    wordBreak: 'break-word',
-  },
   buttonSmall: {
     width: '27%',
     margin: theme.spacing(1),
@@ -33,12 +29,6 @@ const styles = theme => ({
   },
   formGroup: {
     marginTop: '0',
-  },
-  formLabel: {
-    padding: '0.4rem 3.5rem',
-    backgroundColor: 'rgba(70,72,75,255)',
-    margin: '0',
-    color: '#fff',
   },
   subtitle: {
     textTransform: 'none',
@@ -74,12 +64,20 @@ const styles = theme => ({
     flexWrap: 'wrap',
     justifyContent: 'left',
   },
+  listItem: {
+    padding: 0,
+    minHeight: theme.spacing(7),
+  },
   checkBoxContainer: {
     width: '100%',
     borderBottom: '1px solid #6f7276',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'start',
+  },
+  checkBoxItem: {
+    width: '100%',
+    backgroundColor: 'rgb(250, 250, 250)',
   },
   flexBox: {
     display: 'flex',
