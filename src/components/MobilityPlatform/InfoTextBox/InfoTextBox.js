@@ -5,7 +5,7 @@ import React from 'react';
 const InfoTextBox = ({
   classes, intl, infoText, linkUrl, linkText, reducePadding,
 }) => (
-  <div className={reducePadding ? classes.paddingSm : classes.container}>
+  <div className={`${classes.container} ${reducePadding ? classes.paddingSm : classes.padding}`}>
     <Typography
       variant="body2"
       aria-label={intl.formatMessage({

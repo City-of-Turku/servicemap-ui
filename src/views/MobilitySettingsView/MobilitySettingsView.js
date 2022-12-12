@@ -958,7 +958,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
     const renderData = isDataValid(openBicycleRouteList, inputData);
     return renderData
       ? inputData.slice(0, bicycleRoutesToShow).map(item => (
-        <div key={item.id} className={classes.checkBoxContainer}>
+        <div key={item.id} className={classes.checkBoxItem}>
           <FormControlLabel
             control={(
               <Checkbox
@@ -987,7 +987,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const renderCultureRoutes = inputData => inputData
     && inputData.length > 0
     && inputData.slice(0, cultureRoutesToShow).map(item => (
-      <div key={item.id} className={classes.checkBoxContainer}>
+      <div key={item.id} className={classes.checkBoxItem}>
         <FormControlLabel
           control={(
             <Checkbox
@@ -1024,7 +1024,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const renderSettings = (settingVisibility, typeVal) => {
     if (settingVisibility) {
       return typeVal.map(item => (
-        <div key={item.type} className={classes.checkBoxItem}>
+        <div key={item.type} className={classes.checkBoxContainer}>
           <FormLabel
             msgId={item.msgId}
             checkedValue={item.checkedValue}
@@ -1060,7 +1060,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
         {openSpeedLimitList
             && speedLimitListAsc.length > 0
             && speedLimitListAsc.map(item => (
-              <div key={item} className={classes.checkBoxContainer}>
+              <div key={item} className={classes.checkBoxItem}>
                 <FormControlLabel
                   control={(
                     <Checkbox
@@ -1126,7 +1126,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
       {streetMaintenanceSelections
           && streetMaintenanceSelections.length > 0
           && streetMaintenanceSelections.map(item => (
-            <div key={item.type} className={classes.checkBoxContainer}>
+            <div key={item.type} className={classes.checkBoxItem}>
               <FormControlLabel
                 control={(
                   <Checkbox

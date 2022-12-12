@@ -33,12 +33,6 @@ const styles = theme => ({
   subtitle: {
     textTransform: 'none',
   },
-  iconActive: {
-    fill: '#fff',
-    width: '40px',
-    height: '40px',
-    marginRight: theme.spacing(1),
-  },
   icon: {
     fill: '#000',
     width: '40px',
@@ -50,7 +44,7 @@ const styles = theme => ({
     padding: theme.spacing(1.5),
   },
   border: {
-    borderBottom: '1px solid #6f7276',
+    borderBottom: '1px solid rgb(193, 193, 193)',
   },
   margin: {
     marginLeft: theme.spacing(4),
@@ -68,14 +62,14 @@ const styles = theme => ({
     padding: 0,
     minHeight: theme.spacing(7),
   },
-  checkBoxContainer: {
+  checkBoxItem: {
     width: '100%',
-    borderBottom: '1px solid #6f7276',
+    borderBottom: '1px solid rgb(193, 193, 193)',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'start',
   },
-  checkBoxItem: {
+  checkBoxContainer: {
     width: '100%',
     backgroundColor: 'rgb(250, 250, 250)',
   },

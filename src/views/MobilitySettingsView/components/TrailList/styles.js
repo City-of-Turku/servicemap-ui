@@ -1,6 +1,6 @@
 const styles = theme => ({
-  checkBoxContainer: {
-    borderBottom: '1px solid #6f7276',
+  checkBoxItem: {
+    borderBottom: '1px solid rgb(193, 193, 193)',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'start',
