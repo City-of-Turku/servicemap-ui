@@ -1339,10 +1339,17 @@ const MobilitySettingsView = ({ classes, intl }) => {
     },
   ];
 
+  /** Render infotext(s) if visible value is true
+   * @param {Array} textData
+   * @return {Element}
+   */
   const renderInfoTexts = textData => textData.filter(item => item.visible).map(info => (
-    info.component
+    <React.Fragment key={info.component}>
+      {info.component}
+    </React.Fragment>
   ));
 
+  /** render section contents */
   const renderWalkSettings = () => (
     <React.Fragment>
       {renderSettings(openWalkSettings, walkingControlTypes)}
