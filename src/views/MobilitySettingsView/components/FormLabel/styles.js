@@ -1,9 +1,8 @@
 const styles = {
   formLabel: {
-    backgroundColor: 'rgba(70,72,75,255)',
+    padding: '0.4rem 3.5rem',
     margin: '0',
-    color: '#fff',
-    textAlign: 'left',
+    color: 'rgba(0, 0, 0, 255)',
   },
   paddingMd: {
     padding: '0.4rem 3rem',
