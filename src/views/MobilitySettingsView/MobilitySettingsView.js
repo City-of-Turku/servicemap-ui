@@ -1224,18 +1224,22 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const infoTextsWalking = [
     {
       visible: showEcoCounter,
+      type: 'ecoCounterInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" />,
     },
     {
       visible: openMarkedTrailsList,
+      type: 'markedTrailsListInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.markedTrails" />,
     },
     {
       visible: openNatureTrailsList,
+      type: 'natureTrailsList',
       component: <InfoTextBox infoText="mobilityPlatform.info.natureTrails" />,
     },
     {
       visible: showPublicToilets,
+      type: 'publicRestroomsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.publicToilets" />,
     },
   ];
@@ -1243,14 +1247,17 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const infoTextsCycling = [
     {
       visible: showBicycleStands,
+      type: 'bicycleStandsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.bicycleStands" />,
     },
     {
       visible: showCityBikes,
+      type: 'cityBikesInfo',
       component: <CityBikeInfo bikeInfo={bikeInfo} />,
     },
     {
       visible: showBrushSaltedRoute || showBrushSandedRoute,
+      type: 'brushedRoutes',
       component: <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.brushedRoads" />,
     },
   ];
@@ -1258,30 +1265,37 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const infoTextsDriving = [
     {
       visible: showRentalCars,
+      type: 'rentalCarsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.rentalCars" />,
     },
     {
       visible: showChargingStations,
+      type: 'chargingStationsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.chargingStations" />,
     },
     {
       visible: showGasFillingStations,
+      type: 'gasFillingStationsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.gasFillingStations" />,
     },
     {
       visible: showParkingSpaces,
+      type: 'parkingSpacesInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.parkingSpaces" />,
     },
     {
       visible: showDisabledParking,
+      type: 'disabledParking',
       component: <InfoTextBox infoText="mobilityPlatform.info.disabledParking" />,
     },
     {
       visible: openParkingChargeZoneList,
+      type: 'parkingChargeZoneListInfo',
       component: <ExtendedInfo translations={chargeZoneTranslations} />,
     },
     {
       visible: showLoadingPlaces,
+      type: 'loadingPlacesInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.loadingPlaces" />,
     },
   ];
@@ -1289,18 +1303,22 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const infoTextsScooter = [
     {
       visible: openScooterProviderList,
+      type: 'scooterProviderListInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.scooters.general" />,
     },
     {
       visible: showScooterNoParking,
+      type: 'scooterNoParkingInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.scooters.noParking" />,
     },
     {
       visible: showScooterParkingAreas,
+      type: 'scooterParkingInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.scooters.parkingAreas" />,
     },
     {
       visible: showScooterSpeedLimitAreas,
+      type: 'scooterSpeedLimitInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.scooters.speedLimitAreas" />,
     },
   ];
@@ -1308,6 +1326,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const infoTextsBoating = [
     {
       visible: showMarinas,
+      type: 'marinasInfo',
       component: <InfoTextBox
         infoText="mobilityPlatform.info.marinas"
         linkUrl="https://opaskartta.turku.fi/ePermit/fi/Reservation/"
@@ -1316,10 +1335,12 @@ const MobilitySettingsView = ({ classes, intl }) => {
     },
     {
       visible: showBoatParking,
+      type: 'boatParkingInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.boatParking" />,
     },
     {
       visible: showGuestHarbour,
+      type: 'guestHarbourInfo',
       component: <InfoTextBox
         infoText="mobilityPlatform.info.guestHarbour"
         linkUrl="https://www.turunvierasvenesatama.fi"
@@ -1330,7 +1351,8 @@ const MobilitySettingsView = ({ classes, intl }) => {
 
   const infoTextsSnowplow = [
     {
-      visible: showMarinas,
+      visible: showStreetMaintenance,
+      type: 'snowplowsInfo',
       component: <InfoTextBox
         infoText="mobilityPlatform.info.streetMaintenance.general"
         linkUrl="https://www.turku.fi/uutinen/2021-01-12_pelisaannot-selkeita-katujen-talvikunnossapidossa"
@@ -1343,11 +1365,16 @@ const MobilitySettingsView = ({ classes, intl }) => {
    * @param {Array} textData
    * @return {Element}
    */
-  const renderInfoTexts = textData => textData.filter(item => item.visible).map(info => (
-    <React.Fragment key={info.component}>
-      {info.component}
-    </React.Fragment>
-  ));
+  const renderInfoTexts = textData => textData.reduce((acc, curr) => {
+    if (curr.visible) {
+      acc.push(
+        <React.Fragment key={curr.type}>
+          {curr.component}
+        </React.Fragment>,
+      );
+    }
+    return acc;
+  }, []);
 
   /** render section contents */
   const renderWalkSettings = () => (
