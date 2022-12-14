@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SpeedLimitZonesList /> should work 1`] = `
+<div>
+  <div
+    class="injectIntl(SpeedLimitZonesList)-paragraph-1 injectIntl(SpeedLimitZonesList)-border-2"
+  >
+    <p
+      aria-label="Voit valintojen avulla näyttää nopeusrajoitusalueita kartalla."
+      class="MuiTypography-root MuiTypography-body2"
+    >
+      Voit valintojen avulla näyttää nopeusrajoitusalueita kartalla.
+    </p>
+  </div>
+  <div
+    class="injectIntl(SpeedLimitZonesList)-buttonList-4"
+  >
+    <div
+      class="injectIntl(SpeedLimitZonesList)-checkBoxContainer-5"
+    >
+      <label
+        class="MuiFormControlLabel-root"
+      >
+        <span
+          aria-checked="true"
+          aria-disabled="false"
+          class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-6 MuiCheckbox-root MuiCheckbox-colorSecondary injectIntl(SpeedLimitZonesList)-margin-3 PrivateSwitchBase-checked-7 Mui-checked MuiIconButton-colorSecondary"
+        >
+          <span
+            class="MuiIconButton-label"
+          >
+            <input
+              checked=""
+              class="PrivateSwitchBase-input-9"
+              data-indeterminate="false"
+              type="checkbox"
+              value=""
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+              />
+            </svg>
+          </span>
+        </span>
+        <span
+          class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body2"
+        >
+          <p
+            aria-label="30 km/t"
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            30 km/t
+          </p>
+        </span>
+      </label>
+    </div>
+    <div
+      class="injectIntl(SpeedLimitZonesList)-checkBoxContainer-5"
+    >
+      <label
+        class="MuiFormControlLabel-root"
+      >
+        <span
+          aria-checked="false"
+          aria-disabled="false"
+          class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-6 MuiCheckbox-root MuiCheckbox-colorSecondary injectIntl(SpeedLimitZonesList)-margin-3 MuiIconButton-colorSecondary"
+        >
+          <span
+            class="MuiIconButton-label"
+          >
+            <input
+              class="PrivateSwitchBase-input-9"
+              data-indeterminate="false"
+              type="checkbox"
+              value=""
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+              />
+            </svg>
+          </span>
+        </span>
+        <span
+          class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body2"
+        >
+          <p
+            aria-label="40 km/t"
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            40 km/t
+          </p>
+        </span>
+      </label>
+    </div>
+    <div
+      class="injectIntl(SpeedLimitZonesList)-checkBoxContainer-5"
+    >
+      <label
+        class="MuiFormControlLabel-root"
+      >
+        <span
+          aria-checked="false"
+          aria-disabled="false"
+          class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-6 MuiCheckbox-root MuiCheckbox-colorSecondary injectIntl(SpeedLimitZonesList)-margin-3 MuiIconButton-colorSecondary"
+        >
+          <span
+            class="MuiIconButton-label"
+          >
+            <input
+              class="PrivateSwitchBase-input-9"
+              data-indeterminate="false"
+              type="checkbox"
+              value=""
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+              />
+            </svg>
+          </span>
+        </span>
+        <span
+          class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body2"
+        >
+          <p
+            aria-label="50 km/t"
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            50 km/t
+          </p>
+        </span>
+      </label>
+    </div>
+  </div>
+</div>
+`;

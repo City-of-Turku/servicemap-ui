@@ -34,6 +34,7 @@ import TrailList from './components/TrailList';
 import ParkingChargeZoneList from './components/ParkingChargeZoneList';
 import ScooterProviderList from './components/ScooterProviderList';
 import SMAccordion from '../../components/SMAccordion';
+import SpeedLimitZonesList from './components/SpeedLimitZonesList';
 
 const MobilitySettingsView = ({ classes, intl }) => {
   const [openWalkSettings, setOpenWalkSettings] = useState(false);
@@ -699,16 +700,16 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const prevFitnessTrailObjRef = useRef();
 
   /**
-    * If user clicks same trail again, then reset name and set visiblity to false
-    * Otherwise new values are set
-    */
+   * If user clicks same trail again, then reset name and set visiblity to false
+   * Otherwise new values are set
+   */
   useEffect(() => {
     prevFitnessTrailObjRef.current = fitnessTrailsObj;
   }, [fitnessTrailsObj]);
 
   /**
-    * @param {obj}
-    */
+   * @param {obj}
+   */
   const setFitnessTrailState = (obj) => {
     setFitnessTrailsObj(obj);
     setShowFitnessTrails(true);
@@ -1099,11 +1100,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
     if (settingVisibility) {
       return typeVal.map(item => (
         <div key={item.type} className={classes.checkBoxContainer}>
-          <FormLabel
-            msgId={item.msgId}
-            checkedValue={item.checkedValue}
-            onChangeValue={item.onChangeValue}
-          />
+          <FormLabel msgId={item.msgId} checkedValue={item.checkedValue} onChangeValue={item.onChangeValue} />
         </div>
       ));
     }
@@ -1119,55 +1116,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
   // Sort in ascending order, because entries can be in random order
   // This list will be displayed for users
   const speedLimitListAsc = speedLimitList.sort((a, b) => a - b);
-
-  const renderSpeedLimits = () => (openSpeedLimitList ? (
-    <>
-      <div className={`${classes.paragraph} ${classes.border}`}>
-        <Typography
-          variant="body2"
-          aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.speedLimitZones.select' })}
-        >
-          {intl.formatMessage({ id: 'mobilityPlatform.menu.speedLimitZones.select' })}
-        </Typography>
-      </div>
-      <div className={classes.buttonList}>
-        {openSpeedLimitList
-            && speedLimitListAsc.length > 0
-            && speedLimitListAsc.map(item => (
-              <div key={item} className={classes.checkBoxItem}>
-                <FormControlLabel
-                  control={(
-                    <Checkbox
-                      checked={speedLimitSelections.includes(item)}
-                      aria-checked={speedLimitSelections.includes(item)}
-                      className={classes.margin}
-                      onChange={() => setSpeedLimitState(item)}
-                    />
-                  )}
-                  label={(
-                    <Typography
-                      variant="body2"
-                      aria-label={intl.formatMessage(
-                        {
-                          id: 'mobilityPlatform.content.speedLimitZones.suffix',
-                        },
-                        { item },
-                      )}
-                    >
-                      {intl.formatMessage(
-                        {
-                          id: 'mobilityPlatform.content.speedLimitZones.suffix',
-                        },
-                        { item },
-                      )}
-                    </Typography>
-                  )}
-                />
-              </div>
-            ))}
-      </div>
-    </>
-  ) : null);
 
   const streetMaintenanceInfo = (colorClass, translationId) => (
     <div className={classes.flexBox}>
@@ -1327,11 +1275,13 @@ const MobilitySettingsView = ({ classes, intl }) => {
     {
       visible: showMarinas,
       type: 'marinasInfo',
-      component: <InfoTextBox
-        infoText="mobilityPlatform.info.marinas"
-        linkUrl="https://opaskartta.turku.fi/ePermit/fi/Reservation/"
-        linkText="mobilityPlatform.info.marinas.link"
-      />,
+      component: (
+        <InfoTextBox
+          infoText="mobilityPlatform.info.marinas"
+          linkUrl="https://opaskartta.turku.fi/ePermit/fi/Reservation/"
+          linkText="mobilityPlatform.info.marinas.link"
+        />
+      ),
     },
     {
       visible: showBoatParking,
@@ -1341,11 +1291,13 @@ const MobilitySettingsView = ({ classes, intl }) => {
     {
       visible: showGuestHarbour,
       type: 'guestHarbourInfo',
-      component: <InfoTextBox
-        infoText="mobilityPlatform.info.guestHarbour"
-        linkUrl="https://www.turunvierasvenesatama.fi"
-        linkText="mobilityPlatform.info.guestHarbour.link"
-      />,
+      component: (
+        <InfoTextBox
+          infoText="mobilityPlatform.info.guestHarbour"
+          linkUrl="https://www.turunvierasvenesatama.fi"
+          linkText="mobilityPlatform.info.guestHarbour.link"
+        />
+      ),
     },
   ];
 
@@ -1353,11 +1305,13 @@ const MobilitySettingsView = ({ classes, intl }) => {
     {
       visible: showStreetMaintenance,
       type: 'snowplowsInfo',
-      component: <InfoTextBox
-        infoText="mobilityPlatform.info.streetMaintenance.general"
-        linkUrl="https://www.turku.fi/uutinen/2021-01-12_pelisaannot-selkeita-katujen-talvikunnossapidossa"
-        linkText="mobilityPlatform.info.streetMaintenance.link"
-      />,
+      component: (
+        <InfoTextBox
+          infoText="mobilityPlatform.info.streetMaintenance.general"
+          linkUrl="https://www.turku.fi/uutinen/2021-01-12_pelisaannot-selkeita-katujen-talvikunnossapidossa"
+          linkText="mobilityPlatform.info.streetMaintenance.link"
+        />
+      ),
     },
   ];
 
@@ -1367,11 +1321,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
    */
   const renderInfoTexts = textData => textData.reduce((acc, curr) => {
     if (curr.visible) {
-      acc.push(
-        <React.Fragment key={curr.type}>
-          {curr.component}
-        </React.Fragment>,
-      );
+      acc.push(<React.Fragment key={curr.type}>{curr.component}</React.Fragment>);
     }
     return acc;
   }, []);
@@ -1465,7 +1415,12 @@ const MobilitySettingsView = ({ classes, intl }) => {
         zoneId={parkingChargeZoneId}
         selectZone={selectParkingChargeZone}
       />
-      {renderSpeedLimits()}
+      <SpeedLimitZonesList
+        openSpeedLimitList={openSpeedLimitList}
+        speedLimitListAsc={speedLimitListAsc}
+        speedLimitSelections={speedLimitSelections}
+        setState={setSpeedLimitState}
+      />
       {renderInfoTexts(infoTextsDriving)}
     </React.Fragment>
   );
@@ -1551,12 +1506,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
           <div className={classes.formGroup}>
             <List>
               {categories.map(category => (
-                <ListItem
-                  key={category.title}
-                  divider
-                  disableGutters
-                  className={`${classes.listItem}`}
-                >
+                <ListItem key={category.title} divider disableGutters className={`${classes.listItem}`}>
                   <SMAccordion
                     adornment={category.icon}
                     defaultOpen={category.setState}
