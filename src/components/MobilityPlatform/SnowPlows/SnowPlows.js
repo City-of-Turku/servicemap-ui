@@ -74,7 +74,7 @@ const SnowPlows = () => {
       color: `rgba(${rgba})`,
       fillOpacity: 0.3,
       dashArray: pattern,
-      weight: 8,
+      weight: 7,
     };
   };
 
@@ -107,7 +107,7 @@ const SnowPlows = () => {
   const sixHours = moment().clone().add(-6, 'hours').format('YYYY-MM-DD HH:mm:ss');
   const twelveHours = moment().clone().add(-12, 'hours').format('YYYY-MM-DD HH:mm:ss');
 
-  const createQuery = (type, dateItem) => `geometry_history?page_size=50000&event=${getEvent(type)}&start_date_time=${dateItem}`;
+  const createQuery = (type, dateItem) => `geometry_history?page_size=20000&event=${getEvent(type)}&start_date_time=${dateItem}`;
 
   useEffect(() => {
     fetchStreetMaintenanceData(createQuery('sanitation', yesterDay), setStreetMaintenanceSanitation1Day);
@@ -191,11 +191,12 @@ const SnowPlows = () => {
     return coordsData;
   };
 
-  useEffect(() => {
-    if (!isDataValid) {
+  const checkIfEmpty = (isValid) => {
+    if (!isValid) {
       setIsActiveStreetMaintenance(false);
-    } else setIsActiveStreetMaintenance(true);
-  }, [isDataValid, streetMaintenancePeriod, setIsActiveStreetMaintenance]);
+    }
+    setIsActiveStreetMaintenance(true);
+  };
 
   /** To avoid duplicate keys -warning */
   const randomId = () => Math.random();
@@ -209,6 +210,7 @@ const SnowPlows = () => {
     }, []);
 
     isDataValid = validateData(filtered);
+    checkIfEmpty(isDataValid);
     if (isDataValid) {
       return filtered.map(item => (
         <Polyline
