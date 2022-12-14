@@ -35,6 +35,7 @@ import ParkingChargeZoneList from './components/ParkingChargeZoneList';
 import ScooterProviderList from './components/ScooterProviderList';
 import SMAccordion from '../../components/SMAccordion';
 import SpeedLimitZonesList from './components/SpeedLimitZonesList';
+import RouteListItem from './components/RouteListItem';
 
 const MobilitySettingsView = ({ classes, intl }) => {
   const [openWalkSettings, setOpenWalkSettings] = useState(false);
@@ -1027,60 +1028,50 @@ const MobilitySettingsView = ({ classes, intl }) => {
 
   /**
    * @param {Array} inputData
-   * @returns {JSX Element}
+   * @return {JSX Element}
    */
   const renderBicycleRoutes = (inputData) => {
     const renderData = isDataValid(openBicycleRouteList, inputData);
     return renderData
       ? inputData.slice(0, bicycleRoutesToShow).map(item => (
-        <div key={item.id} className={classes.checkBoxItem}>
-          <FormControlLabel
-            control={(
-              <Checkbox
-                checked={item.name_fi === bicycleRouteName}
-                aria-checked={item.name_fi === bicycleRouteName}
-                className={classes.margin}
-                onChange={() => setBicycleRouteState(item.name_fi)}
-              />
-              )}
-            label={(
-              <Typography variant="body2" aria-label={getRouteName(item.name_fi, item.name_en, item.name_sv)}>
-                {getRouteName(item.name_fi, item.name_en, item.name_sv)}
-              </Typography>
-              )}
-          />
-          {item.name_fi === bicycleRouteName ? <RouteLength key={item.id} route={item} /> : null}
-        </div>
+        <RouteListItem
+          key={item.id}
+          item={item}
+          routeAttr={bicycleRouteName}
+          type="BicycleRoute"
+          setRouteState={setBicycleRouteState}
+          getRouteName={getRouteName}
+        >
+          {item.name_fi === bicycleRouteName ? (
+            <RouteLength key={item.id} route={item} />
+          ) : null}
+        </RouteListItem>
       ))
       : null;
   };
 
   /**
    * @param {Array} inputData
-   * @returns {JSX Element}
+   * @return {JSX Element}
    */
-  const renderCultureRoutes = inputData => inputData
-    && inputData.length > 0
-    && inputData.slice(0, cultureRoutesToShow).map(item => (
-      <div key={item.id} className={classes.checkBoxItem}>
-        <FormControlLabel
-          control={(
-            <Checkbox
-              checked={item.id === cultureRouteId}
-              aria-checked={item.id === cultureRouteId}
-              className={classes.margin}
-              onChange={() => setCultureRouteState(item.id)}
-            />
-          )}
-          label={(
-            <Typography variant="body2" aria-label={getRouteName(item.name, item.name_en, item.name_sv)}>
-              {getRouteName(item.name, item.name_en, item.name_sv)}
-            </Typography>
-          )}
-        />
-        {item.id === cultureRouteId ? <Description key={item.name} route={item} currentLocale={locale} /> : null}
-      </div>
-    ));
+  const renderCultureRoutes = (inputData) => {
+    const renderData = isDataValid(openCultureRouteList, inputData);
+    return renderData
+      ? inputData.slice(0, cultureRoutesToShow).map(item => (
+        <RouteListItem
+          key={item.id}
+          item={item}
+          routeAttr={cultureRouteId}
+          type="CultureRoute"
+          setRouteState={setCultureRouteState}
+          getRouteName={getRouteName}
+        >
+          {item.id === cultureRouteId ? (
+            <Description key={item.name} route={item} currentLocale={locale} />
+          ) : null}
+        </RouteListItem>
+      )) : null;
+  };
 
   const renderSelectTrailText = (visibilityValue, obj, routeList) => {
     const isObjValid = Object.keys(obj).length > 0;
