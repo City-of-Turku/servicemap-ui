@@ -36,18 +36,22 @@ const SnowPlows = () => {
   const { Polyline } = global.rL;
 
   const options = {
-    black: [0, 0, 0, 255],
-    blue: [7, 44, 115, 255],
-    brown: [117, 44, 23, 255],
-    burgundy: [128, 0, 32, 255],
-    green: [15, 115, 6, 255],
-    orange: [227, 97, 32, 255],
-    purple: [202, 15, 212, 255],
-    red: [251, 5, 21, 255],
-    teal: [0, 128, 128, 255],
+    black: {
+      rgba: [0, 0, 0, 255], pattern: '10 3',
+    },
+    blue: {
+      rgba: [7, 44, 115, 255], pattern: '2 9 9 9',
+    },
+    burgundy: {
+      rgba: [128, 0, 32, 255], pattern: '11 3 11',
+    },
+    green: {
+      rgba: [15, 115, 6, 255], pattern: '8 3 8',
+    },
+    purple: {
+      rgba: [202, 15, 212, 255], pattern: '14 4 14',
+    },
   };
-
-  const whiteOption = { color: '#ffffff', dashArray: '1, 8', weight: 4 };
 
   const getOption = (input) => {
     switch (input) {
@@ -65,10 +69,11 @@ const SnowPlows = () => {
   };
 
   const getPathOptions = (input) => {
-    const option = getOption(input);
+    const { rgba, pattern } = getOption(input);
     return {
-      color: `rgba(${option})`,
+      color: `rgba(${rgba})`,
       fillOpacity: 0.3,
+      dashArray: pattern,
       weight: 8,
     };
   };
@@ -102,7 +107,7 @@ const SnowPlows = () => {
   const sixHours = moment().clone().add(-6, 'hours').format('YYYY-MM-DD HH:mm:ss');
   const twelveHours = moment().clone().add(-12, 'hours').format('YYYY-MM-DD HH:mm:ss');
 
-  const createQuery = (type, dateItem) => `geometry_history?page_size=1000&event=${getEvent(type)}&start_date_time=${dateItem}`;
+  const createQuery = (type, dateItem) => `geometry_history?page_size=10000&event=${getEvent(type)}&start_date_time=${dateItem}`;
 
   useEffect(() => {
     fetchStreetMaintenanceData(createQuery('sanitation', yesterDay), setStreetMaintenanceSanitation1Day);
@@ -192,6 +197,9 @@ const SnowPlows = () => {
     } else setIsActiveStreetMaintenance(true);
   }, [isDataValid, streetMaintenancePeriod, setIsActiveStreetMaintenance]);
 
+  /** To avoid duplicate keys -warning */
+  const randomId = () => Math.random();
+
   const renderData = (inputData) => {
     const filtered = inputData.reduce((acc, curr) => {
       if (curr.geometry_type === 'LineString') {
@@ -203,13 +211,11 @@ const SnowPlows = () => {
     isDataValid = validateData(filtered);
     if (isDataValid) {
       return filtered.map(item => (
-        <React.Fragment key={`${item.id}${item.events[0]}${item.coordinates[0]}`}>
-          <Polyline
-            pathOptions={getPathOptions(item.events[0])}
-            positions={swapCoords(item.coordinates)}
-          />
-          <Polyline pathOptions={whiteOption} positions={swapCoords(item.coordinates)} />
-        </React.Fragment>
+        <Polyline
+          key={`${item.id}${item.timestamp}${randomId()}`}
+          pathOptions={getPathOptions(item.events[0])}
+          positions={swapCoords(item.coordinates)}
+        />
       ));
     }
     return null;
