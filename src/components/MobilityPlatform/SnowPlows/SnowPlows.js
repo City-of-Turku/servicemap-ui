@@ -30,7 +30,7 @@ const SnowPlows = () => {
   const [streetMaintenanceDeIcing12Hours, setStreetMaintenanceDeIcing12Hours] = useState([]);
 
   const {
-    streetMaintenancePeriod, showStreetMaintenance, setIsActiveStreetMaintenance,
+    streetMaintenancePeriod, showStreetMaintenance, isActiveStreetMaintenance, setIsActiveStreetMaintenance,
   } = useContext(MobilityPlatformContext);
 
   const { Polyline } = global.rL;
@@ -191,12 +191,11 @@ const SnowPlows = () => {
     return coordsData;
   };
 
-  const checkIfEmpty = (isValid) => {
-    if (!isValid) {
+  useEffect(() => {
+    if (!isDataValid) {
       setIsActiveStreetMaintenance(false);
-    }
-    setIsActiveStreetMaintenance(true);
-  };
+    } else setIsActiveStreetMaintenance(true);
+  }, [isDataValid, streetMaintenancePeriod, isActiveStreetMaintenance, setIsActiveStreetMaintenance]);
 
   /** To avoid duplicate keys -warning */
   const randomId = () => Math.random();
@@ -210,7 +209,6 @@ const SnowPlows = () => {
     }, []);
 
     isDataValid = validateData(filtered);
-    checkIfEmpty(isDataValid);
     if (isDataValid) {
       return filtered.map(item => (
         <Polyline
