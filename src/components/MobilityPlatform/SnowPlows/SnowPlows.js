@@ -107,7 +107,7 @@ const SnowPlows = () => {
   const sixHours = moment().clone().add(-6, 'hours').format('YYYY-MM-DD HH:mm:ss');
   const twelveHours = moment().clone().add(-12, 'hours').format('YYYY-MM-DD HH:mm:ss');
 
-  const createQuery = (type, dateItem) => `geometry_history?page_size=10000&event=${getEvent(type)}&start_date_time=${dateItem}`;
+  const createQuery = (type, dateItem) => `geometry_history?page_size=50000&event=${getEvent(type)}&start_date_time=${dateItem}`;
 
   useEffect(() => {
     fetchStreetMaintenanceData(createQuery('sanitation', yesterDay), setStreetMaintenanceSanitation1Day);
