@@ -8,7 +8,7 @@ const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
 
 const fetchTrafficCounterStations = async (type, setStations) => {
   try {
-    const response = await fetch(`${isApiUrl}/eco-counter/stations?page_size=100&counter_type=${type}`);
+    const response = await fetch(`${isApiUrl}/eco-counter/stations?page_size=200&counter_type=${type}`);
     const jsonData = await response.json();
     setStations(jsonData.results);
   } catch (err) {

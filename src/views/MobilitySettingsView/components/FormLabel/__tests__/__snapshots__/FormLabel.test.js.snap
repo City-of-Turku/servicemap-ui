@@ -3,7 +3,7 @@
 exports[`<FormLabel /> should work 1`] = `
 <div>
   <label
-    class="MuiFormControlLabel-root injectIntl(FormLabel)-formLabel-3"
+    class="MuiFormControlLabel-root injectIntl(FormLabel)-formLabel-1 injectIntl(FormLabel)-paddingMd-2"
   >
     <span
       class="MuiSwitch-root"

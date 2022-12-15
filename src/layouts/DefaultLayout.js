@@ -133,6 +133,8 @@ const DefaultLayout = (props) => {
   const [markedTrailsObj, setMarkedTrailsObj] = useState({});
   const [showNatureTrails, setShowNatureTrails] = useState(false);
   const [natureTrailsObj, setNatureTrailsObj] = useState({});
+  const [showFitnessTrails, setShowFitnessTrails] = useState(false);
+  const [fitnessTrailsObj, setFitnessTrailsObj] = useState({});
   const [showLamCounter, setShowLamCounter] = useState(false);
 
   const {
@@ -288,6 +290,10 @@ const DefaultLayout = (props) => {
                       setShowNatureTrails,
                       natureTrailsObj,
                       setNatureTrailsObj,
+                      showFitnessTrails,
+                      setShowFitnessTrails,
+                      fitnessTrailsObj,
+                      setFitnessTrailsObj,
                       showLamCounter,
                       setShowLamCounter,
                     }}
@@ -341,6 +347,8 @@ const DefaultLayout = (props) => {
                     markedTrailsObj,
                     showNatureTrails,
                     natureTrailsObj,
+                    showFitnessTrails,
+                    fitnessTrailsObj,
                     showLamCounter,
                   }}
                 >

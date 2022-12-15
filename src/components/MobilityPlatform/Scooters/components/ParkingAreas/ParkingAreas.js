@@ -6,7 +6,7 @@ import scooterParkingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icon
 import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
-import { createIcon, isDataValid } from '../../../utils/utils';
+import { createIcon, isDataValid, fitToMapBounds } from '../../../utils/utils';
 import TextContent from '../../../TextContent';
 
 const ParkingAreas = () => {
@@ -25,21 +25,15 @@ const ParkingAreas = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapData('SPG', 100, setParkingAreas);
+      fetchMobilityMapData('ScooterParkingArea', 100, setParkingAreas);
     }
   }, [openMobilityPlatform, setParkingAreas]);
 
   const renderData = isDataValid(showScooterParkingAreas, parkingAreas);
 
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      parkingAreas.forEach((item) => {
-        bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
-      });
-      map.fitBounds(bounds);
-    }
-  }, [showScooterParkingAreas, parkingAreas, map]);
+    fitToMapBounds(renderData, parkingAreas, map);
+  }, [showScooterParkingAreas, parkingAreas]);
 
   return (
     <>

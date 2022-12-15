@@ -32,7 +32,7 @@ const TrailList = ({
   return (
     renderData
       ? inputData.slice(0, itemsToShow).map(item => (
-        <div key={item.id} className={classes.checkBoxContainer}>
+        <div key={item.id} className={classes.checkBoxItem}>
           <FormControlLabel
             control={(
               <Checkbox

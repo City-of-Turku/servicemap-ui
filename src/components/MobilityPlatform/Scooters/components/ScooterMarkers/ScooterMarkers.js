@@ -67,7 +67,14 @@ const ScooterMarkers = () => {
     }
   }, [openMobilityPlatform, setScooterData]);
 
-  const filteredScooters = scooterData.filter(item => map.getBounds().contains([item.lat, item.lon]));
+  const filterByBounds = (data) => {
+    if (data && data.length > 0) {
+      return data.filter(item => map.getBounds().contains([item.lat, item.lon]));
+    }
+    return [];
+  };
+
+  const filteredScooters = filterByBounds(scooterData);
 
   const renderData = isDataValid(showScootersRyde, filteredScooters);
 

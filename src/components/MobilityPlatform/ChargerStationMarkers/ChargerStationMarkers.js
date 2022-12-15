@@ -7,7 +7,7 @@ import chargerIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { createIcon, isDataValid } from '../utils/utils';
+import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
 import ChargerStationContent from './components/ChargerStationContent';
 
 const ChargerStationMarkers = ({ classes }) => {
@@ -26,20 +26,14 @@ const ChargerStationMarkers = ({ classes }) => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapData('CGS', 500, setChargerStations);
+      fetchMobilityMapData('ChargingStation', 500, setChargerStations);
     }
   }, [openMobilityPlatform, setChargerStations]);
 
   const renderData = isDataValid(showChargingStations, chargerStations);
 
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      chargerStations.forEach((item) => {
-        bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
-      });
-      map.fitBounds(bounds);
-    }
+    fitToMapBounds(renderData, chargerStations, map);
   }, [showChargingStations, chargerStations]);
 
   return (
