@@ -708,7 +708,7 @@ const translations = {
   'mobilityPlatform.content.cityBikes.virtualStation': 'Virtual station',
   'mobilityPlatform.content.speedLimitZones.area': 'Hastighetsbegränsningszon',
   'mobilityPlatform.content.speedLimitZones.limit': 'Hastighetsbegränsning: {item} km/h',
-  'mobilityPlatform.content.speedLimitZones.suffix': '{item} km/h',
+  'mobilityPlatform.content.speedLimitZones.suffix': '{curr} km/h',
   'mobilityPlatform.content.publicToilets.title': 'Allmänn toalett',
   'mobilityPlatform.content.publicToilets.openNormalTitle': 'Öppningstider:',
   'mobilityPlatform.content.publicToilets.openSummerTitle': 'Specialöppningstider:',
