@@ -22,7 +22,6 @@ import {
 import { isDataValid } from '../../components/MobilityPlatform/utils/utils';
 import TitleBar from '../../components/TitleBar';
 import MobilityPlatformContext from '../../context/MobilityPlatformContext';
-import useLocaleText from '../../utils/useLocaleText';
 import CityBikeInfo from './components/CityBikeInfo';
 import Description from './components/Description';
 import EmptyRouteList from './components/EmptyRouteList';
@@ -147,7 +146,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
-  const getLocaleText = useLocaleText();
 
   const bikeInfo = {
     paragraph1: 'mobilityPlatform.info.cityBikes.paragraph.1',
@@ -1017,15 +1015,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
     },
   ];
 
-  const getRouteName = (name, nameEn, nameSv) => {
-    const routeName = {
-      fi: name,
-      en: nameEn,
-      sv: nameSv,
-    };
-    return getLocaleText(routeName);
-  };
-
   /**
    * @param {Array} inputData
    * @return {JSX Element}
@@ -1040,7 +1029,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
           routeAttr={bicycleRouteName}
           type="BicycleRoute"
           setRouteState={setBicycleRouteState}
-          getRouteName={getRouteName}
         >
           {item.name_fi === bicycleRouteName ? (
             <RouteLength key={item.id} route={item} />
@@ -1064,7 +1052,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
           routeAttr={cultureRouteId}
           type="CultureRoute"
           setRouteState={setCultureRouteState}
-          getRouteName={getRouteName}
         >
           {item.id === cultureRouteId ? (
             <Description key={item.name} route={item} currentLocale={locale} />
