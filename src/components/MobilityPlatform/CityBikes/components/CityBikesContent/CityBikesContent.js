@@ -6,11 +6,14 @@ const CityBikesContent = ({
   classes, intl, bikeStation, cityBikeStatistics,
 }) => {
   const getStation = (data) => {
+    const station = [];
     if (data && data.length > 0) {
-      return data.filter(item => item.station_id === bikeStation.station_id);
+      const correctStation = data.find(item => item.station_id === bikeStation.station_id);
+      if (correctStation) { station.push(correctStation); }
     }
-    return [];
+    return station;
   };
+
   const station = getStation(cityBikeStatistics);
 
   const renderText = (translationId, value) => (

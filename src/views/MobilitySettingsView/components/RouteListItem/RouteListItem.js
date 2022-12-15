@@ -13,14 +13,7 @@ const RouteListItem = ({
 }) => {
   const getLocaleText = useLocaleText();
 
-  const getRouteName = (name, nameEn, nameSv) => {
-    const routeName = {
-      fi: name,
-      en: nameEn,
-      sv: nameSv,
-    };
-    return getLocaleText(routeName);
-  };
+  const getRouteName = (name, nameEn, nameSv) => getLocaleText({ fi: name, en: nameEn, sv: nameSv });
 
   return (
     <div key={item.id} className={classes.checkBoxItem}>

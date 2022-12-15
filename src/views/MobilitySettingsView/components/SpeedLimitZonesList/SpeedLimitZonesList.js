@@ -15,40 +15,41 @@ const SpeedLimitZonesList = ({
       </Typography>
     </div>
     <div className={classes.buttonList}>
-      {openSpeedLimitList
-          && speedLimitListAsc.length > 0
-          && speedLimitListAsc.map(item => (
-            <div key={item} className={classes.checkBoxContainer}>
-              <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={speedLimitSelections.includes(item)}
-                    aria-checked={speedLimitSelections.includes(item)}
-                    className={classes.margin}
-                    onChange={() => setState(item)}
-                  />
-                )}
-                label={(
-                  <Typography
-                    variant="body2"
-                    aria-label={intl.formatMessage(
-                      {
-                        id: 'mobilityPlatform.content.speedLimitZones.suffix',
-                      },
-                      { item },
-                    )}
-                  >
-                    {intl.formatMessage(
-                      {
-                        id: 'mobilityPlatform.content.speedLimitZones.suffix',
-                      },
-                      { item },
-                    )}
-                  </Typography>
-                )}
-              />
-            </div>
-          ))}
+      {openSpeedLimitList && speedLimitListAsc.reduce((acc, curr) => {
+        acc.push(
+          <div key={curr} className={classes.checkBoxContainer}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={speedLimitSelections.includes(curr)}
+                  aria-checked={speedLimitSelections.includes(curr)}
+                  className={classes.margin}
+                  onChange={() => setState(curr)}
+                />
+              )}
+              label={(
+                <Typography
+                  variant="body2"
+                  aria-label={intl.formatMessage(
+                    {
+                      id: 'mobilityPlatform.content.speedLimitZones.suffix',
+                    },
+                    { curr },
+                  )}
+                >
+                  {intl.formatMessage(
+                    {
+                      id: 'mobilityPlatform.content.speedLimitZones.suffix',
+                    },
+                    { curr },
+                  )}
+                </Typography>
+              )}
+            />
+          </div>,
+        );
+        return acc;
+      }, [])}
     </div>
   </>
 ) : null);
