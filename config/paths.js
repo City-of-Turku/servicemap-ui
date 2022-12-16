@@ -58,6 +58,10 @@ const paths = {
     generate: () => `/mobility`,
     regex: /\/[a-zA-Z]{2}\/mobility/
   },
+  mobilityPlatformSection: {
+    generate: type => `/mobility/${type}`,
+    regex: /\/[a-zA-Z]{2}\/mobility\/([a-zäö:0-9]+)/
+  },
 }
 
 export default paths;

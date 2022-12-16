@@ -36,7 +36,7 @@ import SMAccordion from '../../components/SMAccordion';
 import SpeedLimitZonesList from './components/SpeedLimitZonesList';
 import RouteListItem from './components/RouteListItem';
 
-const MobilitySettingsView = ({ classes, intl }) => {
+const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [openWalkSettings, setOpenWalkSettings] = useState(false);
   const [openBicycleSettings, setOpenBicycleSettings] = useState(false);
   const [openCarSettings, setOpenCarSettings] = useState(false);
@@ -409,26 +409,44 @@ const MobilitySettingsView = ({ classes, intl }) => {
    */
   const walkSettingsToggle = () => {
     setOpenWalkSettings(current => !current);
+    if (!openWalkSettings) {
+      navigator.push('mobilityPlatformSection', 'walking');
+    }
   };
 
   const bicycleSettingsToggle = () => {
     setOpenBicycleSettings(current => !current);
+    if (!openBicycleSettings) {
+      navigator.push('mobilityPlatformSection', 'cycling');
+    }
   };
 
   const carSettingsToggle = () => {
     setOpenCarSettings(current => !current);
+    if (!openCarSettings) {
+      navigator.push('mobilityPlatformSection', 'driving');
+    }
   };
 
   const boatingSettingsToggle = () => {
     setOpenBoatingSettings(current => !current);
+    if (!openBoatingSettings) {
+      navigator.push('mobilityPlatformSection', 'boating');
+    }
   };
 
   const scooterSettingsToggle = () => {
     setOpenScooterSettings(current => !current);
+    if (!openScooterSettings) {
+      navigator.push('mobilityPlatformSection', 'scooters');
+    }
   };
 
   const streetMaintenanceSettingsToggle = () => {
     setOpenStreetMaintenanceSettings(current => !current);
+    if (!openStreetMaintenanceSettings) {
+      navigator.push('mobilityPlatformSection', 'snowplows');
+    }
   };
 
   /**
@@ -1511,6 +1529,11 @@ const MobilitySettingsView = ({ classes, intl }) => {
 MobilitySettingsView.propTypes = {
   intl: PropTypes.objectOf(PropTypes.any).isRequired,
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
+  navigator: PropTypes.objectOf(PropTypes.any),
+};
+
+MobilitySettingsView.defaultProps = {
+  navigator: null,
 };
 
 export default MobilitySettingsView;
