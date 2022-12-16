@@ -197,9 +197,6 @@ const SnowPlows = () => {
     } else setIsActiveStreetMaintenance(true);
   }, [isDataValid, streetMaintenancePeriod, isActiveStreetMaintenance, setIsActiveStreetMaintenance]);
 
-  /** To avoid duplicate keys -warning */
-  const randomId = () => Math.random();
-
   const renderData = (inputData) => {
     const filtered = inputData.reduce((acc, curr) => {
       if (curr.geometry_type === 'LineString') {
@@ -210,9 +207,10 @@ const SnowPlows = () => {
 
     isDataValid = validateData(filtered);
     if (isDataValid) {
-      return filtered.map(item => (
+      return filtered.map((item, i) => (
         <Polyline
-          key={`${item.id}${item.timestamp}${randomId()}`}
+          // eslint-disable-next-line react/no-array-index-key
+          key={`${item.id}${item.timestamp}${i}`}
           pathOptions={getPathOptions(item.events[0])}
           positions={swapCoords(item.coordinates)}
         />
