@@ -410,42 +410,42 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const walkSettingsToggle = () => {
     setOpenWalkSettings(current => !current);
     if (!openWalkSettings) {
-      navigator.push('mobilityPlatformSection', 'walking');
+      navigator.push('mobilityPlatform', 'walking');
     }
   };
 
   const bicycleSettingsToggle = () => {
     setOpenBicycleSettings(current => !current);
     if (!openBicycleSettings) {
-      navigator.push('mobilityPlatformSection', 'cycling');
+      navigator.push('mobilityPlatform', 'cycling');
     }
   };
 
   const carSettingsToggle = () => {
     setOpenCarSettings(current => !current);
     if (!openCarSettings) {
-      navigator.push('mobilityPlatformSection', 'driving');
+      navigator.push('mobilityPlatform', 'driving');
     }
   };
 
   const boatingSettingsToggle = () => {
     setOpenBoatingSettings(current => !current);
     if (!openBoatingSettings) {
-      navigator.push('mobilityPlatformSection', 'boating');
+      navigator.push('mobilityPlatform', 'boating');
     }
   };
 
   const scooterSettingsToggle = () => {
     setOpenScooterSettings(current => !current);
     if (!openScooterSettings) {
-      navigator.push('mobilityPlatformSection', 'scooters');
+      navigator.push('mobilityPlatform', 'scooters');
     }
   };
 
   const streetMaintenanceSettingsToggle = () => {
     setOpenStreetMaintenanceSettings(current => !current);
     if (!openStreetMaintenanceSettings) {
-      navigator.push('mobilityPlatformSection', 'snowplows');
+      navigator.push('mobilityPlatform', 'snowplows');
     }
   };
 
@@ -1495,6 +1495,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
         title={intl.formatMessage({ id: 'general.pageTitles.mobilityPlatform.title' })}
         titleComponent="h3"
         backButton
+        backButtonOnClick={() => navigator.push('home')}
         className={classes.topBarColor}
       />
       <div className={classes.container}>
