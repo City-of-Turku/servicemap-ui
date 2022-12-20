@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { ReactSVG } from 'react-svg';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import iconBicycle from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle.svg';
 import iconBoat from 'servicemap-ui-turku/assets/icons/icons-icon_boating.svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
@@ -146,6 +147,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
+  const location = useLocation();
 
   const bikeInfo = {
     paragraph1: 'mobilityPlatform.info.cityBikes.paragraph.1',
@@ -207,6 +209,26 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   useEffect(() => {
     fetchMobilityMapPolygonData('FitnessTrail', 200, setFitnessTrailsList);
   }, [setFitnessTrailsList]);
+
+  /** If direct link is used to navigate, open correct content view
+   * @param {string} pathname
+   * @return {('react').SetStateAction}
+   */
+  useEffect(() => {
+    if (location.pathname.includes('walking')) {
+      setOpenWalkSettings(true);
+    } else if (location.pathname.includes('cycling')) {
+      setOpenBicycleSettings(true);
+    } else if (location.pathname.includes('driving')) {
+      setOpenCarSettings(true);
+    } else if (location.pathname.includes('scooters')) {
+      setOpenScooterSettings(true);
+    } else if (location.pathname.includes('boating')) {
+      setOpenBoatingSettings(true);
+    } else if (location.pathname.includes('snowplows')) {
+      setOpenStreetMaintenanceSettings(true);
+    }
+  }, [location]);
 
   /**
    * Check is visibility boolean values are true
