@@ -7,4 +7,8 @@ export default theme => ({
   margin: {
     marginBottom: theme.spacing(1),
   },
+  list: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
 });
