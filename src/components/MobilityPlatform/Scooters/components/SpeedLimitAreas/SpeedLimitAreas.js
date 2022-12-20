@@ -4,7 +4,7 @@ import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../../../utils/utils';
+import { isDataValid, fitPolygonsToBounds } from '../../../utils/utils';
 import TextContent from '../../../TextContent';
 
 /**
@@ -20,7 +20,7 @@ const SpeedLimitAreas = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('SSL', 100, setSpeedLimitAreas);
+      fetchMobilityMapPolygonData('ScooterSpeedLimitArea', 100, setSpeedLimitAreas);
     }
   }, [openMobilityPlatform, setSpeedLimitAreas]);
 
@@ -34,17 +34,12 @@ const SpeedLimitAreas = () => {
 
   const map = useMap();
 
+  const showScooterSpeedLimitAreas = mobilityMap.scooterSpeedLimit;
   const renderData = isDataValid(mobilityMap.scooterSpeedLimit, speedLimitAreas);
 
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      speedLimitAreas.forEach((item) => {
-        bounds.push(item.geometry_coords);
-      });
-      map.fitBounds(bounds);
-    }
-  }, [mobilityMap.scooterSpeedLimit, speedLimitAreas]);
+    fitPolygonsToBounds(renderData, speedLimitAreas, map);
+  }, [showScooterSpeedLimitAreas, speedLimitAreas]);
 
   return (
     <>

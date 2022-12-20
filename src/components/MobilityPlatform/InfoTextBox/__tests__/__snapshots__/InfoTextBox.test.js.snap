@@ -3,7 +3,7 @@
 exports[`<InfoTextBox /> should work 1`] = `
 <div>
   <div
-    class="injectIntl(InfoTextBox)-container-1"
+    class="injectIntl(InfoTextBox)-container-1 injectIntl(InfoTextBox)-padding-3"
   >
     <p
       aria-label="Turun alueen julkiset autojen sähkölatauspisteet. Latauspistetiedot perustuvat 05/2022 tehtyyn kartoitukseen."

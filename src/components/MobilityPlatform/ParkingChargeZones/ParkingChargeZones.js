@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
+import { isObjValid } from '../utils/utils';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import ParkingChargeZoneContent from './components/ParkingChargeZoneContent';
@@ -12,7 +13,8 @@ const ParkingChargeZones = () => {
 
   const parkingChargeZone = parkingChargeZones.find(item => item.id === parkingChargeZoneId);
 
-  const renderOneParkingChargeZone = !!(mobilityMap.parkingChargeZones && parkingChargeZone && Object.entries(parkingChargeZone).length > 0);
+  const showParkingChargeZones = mobilityMap.parkingChargeZones;
+  const renderOneParkingChargeZone = isObjValid(showParkingChargeZones, parkingChargeZone);
 
   const { Polygon, Popup } = global.rL;
 
@@ -32,11 +34,11 @@ const ParkingChargeZones = () => {
   const map = useMap();
 
   useEffect(() => {
-    if (mobilityMap.parkingChargeZones && parkingChargeZone) {
+    if (renderOneParkingChargeZone) {
       const bounds = parkingChargeZone.geometry_coords;
       map.fitBounds(bounds);
     }
-  }, [mobilityMap.parkingChargeZones, parkingChargeZone]);
+  }, [showParkingChargeZones, parkingChargeZone]);
 
   return (
     <>

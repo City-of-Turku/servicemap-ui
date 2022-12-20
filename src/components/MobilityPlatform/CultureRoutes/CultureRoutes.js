@@ -23,17 +23,24 @@ const CultureRoutes = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchCultureRoutesData('CRG', 20, setCultureRoutesGeometry);
+      fetchCultureRoutesData('CultureRouteGeometry', 20, setCultureRoutesGeometry);
     }
   }, [openMobilityPlatform, setCultureRoutesGeometry]);
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchCultureRoutesData('CRU', 200, setCultureRouteUnits);
+      fetchCultureRoutesData('CultureRouteUnit', 200, setCultureRouteUnits);
     }
   }, [openMobilityPlatform, setCultureRouteUnits]);
 
-  const activeCultureRoute = cultureRoutesGeometry.filter(item => item.mobile_unit_group.id === cultureRouteId);
+  const filterRoutes = (data) => {
+    if (data && data.length > 0) {
+      return data.filter(item => item.mobile_unit_group.id === cultureRouteId);
+    }
+    return [];
+  };
+
+  const activeCultureRoute = filterRoutes(cultureRoutesGeometry);
 
   const swapCoords = (inputData) => {
     if (inputData && inputData.length > 0) {

@@ -1,35 +1,43 @@
 import {
-  Checkbox, FormControl, FormControlLabel, FormGroup, Typography,
+  Checkbox, FormControlLabel, Typography, List, ListItem,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React, {
   useContext, useEffect, useMemo, useRef, useState,
 } from 'react';
+import { ReactSVG } from 'react-svg';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import iconBicycle from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle.svg';
 import iconBoat from 'servicemap-ui-turku/assets/icons/icons-icon_boating.svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
 import iconScooter from 'servicemap-ui-turku/assets/icons/icons-icon_scooter.svg';
-import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import iconSnowplow from 'servicemap-ui-turku/assets/icons/icons-icon_street_maintenance.svg';
+import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import InfoTextBox from '../../components/MobilityPlatform/InfoTextBox';
 import {
   fetchBicycleRouteNames,
   fetchCultureRouteNames,
   fetchMobilityMapPolygonData,
 } from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
-import useLocaleText from '../../utils/useLocaleText';
+import { isDataValid } from '../../components/MobilityPlatform/utils/utils';
 import TitleBar from '../../components/TitleBar';
 import MobilityPlatformContext from '../../context/MobilityPlatformContext';
-import ButtonMain from './components/ButtonMain';
 import CityBikeInfo from './components/CityBikeInfo';
 import Description from './components/Description';
 import EmptyRouteList from './components/EmptyRouteList';
 import ExtendedInfo from './components/ExtendedInfo';
 import FormLabel from './components/FormLabel';
 import RouteLength from './components/RouteLength';
+import SliceList from './components/SliceListButton';
+import TrailList from './components/TrailList';
+import ParkingChargeZoneList from './components/ParkingChargeZoneList';
+import ScooterProviderList from './components/ScooterProviderList';
+import SMAccordion from '../../components/SMAccordion';
+import SpeedLimitZonesList from './components/SpeedLimitZonesList';
+import RouteListItem from './components/RouteListItem';
 
-const MobilitySettingsView = ({ classes, intl }) => {
+const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [openWalkSettings, setOpenWalkSettings] = useState(false);
   const [openBicycleSettings, setOpenBicycleSettings] = useState(false);
   const [openCarSettings, setOpenCarSettings] = useState(false);
@@ -39,12 +47,23 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const [openCultureRouteList, setOpenCultureRouteList] = useState(false);
   const [cultureRouteList, setCultureRouteList] = useState([]);
   const [localizedCultureRoutes, setLocalizedCultureRoutes] = useState([]);
+  const [cultureRoutesToShow, setCultureRoutesToShow] = useState(4);
   const [bicycleRouteList, setBicycleRouteList] = useState([]);
   const [openBicycleRouteList, setOpenBicycleRouteList] = useState(false);
+  const [bicycleRoutesToShow, setBicycleRoutesToShow] = useState(4);
   const [openSpeedLimitList, setOpenSpeedLimitList] = useState(false);
   const [openParkingChargeZoneList, setOpenParkingChargeZoneList] = useState(false);
   const [openScooterProviderList, setOpenScooterProviderList] = useState(false);
   const [openStreetMaintenanceSelectionList, setOpenStreetMaintenanceSelectionList] = useState(false);
+  const [openMarkedTrailsList, setOpenMarkedTrailsList] = useState(false);
+  const [markedTrailsList, setMarkedTrailsList] = useState([]);
+  const [markedTrailsToShow, setMarkedTrailsToShow] = useState(4);
+  const [openNatureTrailsList, setOpenNatureTrailsList] = useState(false);
+  const [natureTrailsList, setNatureTrailsList] = useState([]);
+  const [natureTrailsToShow, setNatureTrailsToShow] = useState(4);
+  const [openFitnessTrailsList, setOpenFitnessTrailsList] = useState(false);
+  const [fitnessTrailsList, setFitnessTrailsList] = useState([]);
+  const [fitnessTrailsToShow, setFitnessTrailsToShow] = useState(4);
 
   const {
     setOpenMobilityPlatform,
@@ -65,10 +84,22 @@ const MobilitySettingsView = ({ classes, intl }) => {
     streetMaintenancePeriod,
     setStreetMaintenancePeriod,
     isActiveStreetMaintenance,
+    showMarkedTrails,
+    setShowMarkedTrails,
+    markedTrailsObj,
+    setMarkedTrailsObj,
+    showNatureTrails,
+    setShowNatureTrails,
+    natureTrailsObj,
+    setNatureTrailsObj,
+    showFitnessTrails,
+    setShowFitnessTrails,
+    fitnessTrailsObj,
+    setFitnessTrailsObj,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
-  const getLocaleText = useLocaleText();
+  const location = useLocation();
 
   const bikeInfo = {
     paragraph1: 'mobilityPlatform.info.cityBikes.paragraph.1',
@@ -112,12 +143,44 @@ const MobilitySettingsView = ({ classes, intl }) => {
   }, [setBicycleRouteList]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('SLZ', 1000, setSpeedLimitZones);
+    fetchMobilityMapPolygonData('SpeedLimitZone', 1000, setSpeedLimitZones);
   }, [setSpeedLimitZones]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('PAZ', 10, setParkingChargeZones);
+    fetchMobilityMapPolygonData('PaymentZone', 10, setParkingChargeZones);
   }, [setParkingChargeZones]);
+
+  useEffect(() => {
+    fetchMobilityMapPolygonData('PaavonPolku', 50, setMarkedTrailsList);
+  }, [setMarkedTrailsList]);
+
+  useEffect(() => {
+    fetchMobilityMapPolygonData('NatureTrail', 200, setNatureTrailsList);
+  }, [setNatureTrailsList]);
+
+  useEffect(() => {
+    fetchMobilityMapPolygonData('FitnessTrail', 200, setFitnessTrailsList);
+  }, [setFitnessTrailsList]);
+
+  /** If direct link is used to navigate, open correct content view
+   * @param {string} pathname
+   * @return {('react').SetStateAction}
+   */
+  useEffect(() => {
+    if (location.pathname.includes('walking')) {
+      setOpenWalkSettings(true);
+    } else if (location.pathname.includes('cycling')) {
+      setOpenBicycleSettings(true);
+    } else if (location.pathname.includes('driving')) {
+      setOpenCarSettings(true);
+    } else if (location.pathname.includes('scooters')) {
+      setOpenScooterSettings(true);
+    } else if (location.pathname.includes('boating')) {
+      setOpenBoatingSettings(true);
+    } else if (location.pathname.includes('snowplows')) {
+      setOpenStreetMaintenanceSettings(true);
+    }
+  }, [location]);
 
   const walkingTypes = ['restRooms'];
   const bicycleTypes = ['bicycleStands', 'bikeServiceStations', 'cityBikes'];
@@ -215,18 +278,29 @@ const MobilitySettingsView = ({ classes, intl }) => {
     }
   }, [cultureRouteList, localizedCultureRoutes, locale]);
 
+  const sortMarkedTrails = (data) => {
+    if (data && data.length > 0) {
+      return data.sort((a, b) => a[nameKeys[locale]].split(': ').slice(-1)[0].localeCompare(b[nameKeys[locale]].split(': ').slice(-1)[0]));
+    }
+    return [];
+  };
+
+  const markedTrailsSorted = sortMarkedTrails(markedTrailsList);
+
   /**
    * Sort routes in alphapethical order.
    * @param {Array && locale}
    * @function sort
    * @returns {Array}
    */
+
   useEffect(() => {
     const objKeys = {
       fi: 'name_fi',
       en: 'name_en',
       sv: 'name_sv',
     };
+
     if (bicycleRouteList) {
       bicycleRouteList.sort((a, b) => a[objKeys[locale]].localeCompare(b[objKeys[locale]], undefined, {
         numeric: true,
@@ -235,6 +309,32 @@ const MobilitySettingsView = ({ classes, intl }) => {
     }
   }, [bicycleRouteList, locale]);
 
+  const sortTrails = (data) => {
+    if (data && data.length > 0) {
+      return data.sort((a, b) => a.name.localeCompare(b.name));
+    }
+    return [];
+  };
+
+  /**
+   * Get trails that are in Turku.
+   * @param {Array} data
+   * @function reduce
+   * @returns {Array}
+   */
+  const getLocalTrails = data => data.reduce((acc, curr) => {
+    if (curr.municipality === 'turku') {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
+  const natureTrailsTku = getLocalTrails(natureTrailsList);
+  const natureTrailsTkuSorted = sortTrails(natureTrailsTku);
+
+  const fitnessTrailsTku = getLocalTrails(fitnessTrailsList);
+  const fitnessTrailsTkuSorted = sortTrails(fitnessTrailsTku);
+
   /**
    * Toggle functions for main user types
    * @var {Boolean}
@@ -242,26 +342,44 @@ const MobilitySettingsView = ({ classes, intl }) => {
    */
   const walkSettingsToggle = () => {
     setOpenWalkSettings(current => !current);
+    if (!openWalkSettings) {
+      navigator.push('mobilityPlatform', 'walking');
+    }
   };
 
   const bicycleSettingsToggle = () => {
     setOpenBicycleSettings(current => !current);
+    if (!openBicycleSettings) {
+      navigator.push('mobilityPlatform', 'cycling');
+    }
   };
 
   const carSettingsToggle = () => {
     setOpenCarSettings(current => !current);
+    if (!openCarSettings) {
+      navigator.push('mobilityPlatform', 'driving');
+    }
   };
 
   const boatingSettingsToggle = () => {
     setOpenBoatingSettings(current => !current);
+    if (!openBoatingSettings) {
+      navigator.push('mobilityPlatform', 'boating');
+    }
   };
 
   const scooterSettingsToggle = () => {
     setOpenScooterSettings(current => !current);
+    if (!openScooterSettings) {
+      navigator.push('mobilityPlatform', 'scooters');
+    }
   };
 
   const streetMaintenanceSettingsToggle = () => {
     setOpenStreetMaintenanceSettings(current => !current);
+    if (!openStreetMaintenanceSettings) {
+      navigator.push('mobilityPlatform', 'snowplows');
+    }
   };
 
   /**
@@ -392,6 +510,15 @@ const MobilitySettingsView = ({ classes, intl }) => {
     if (mobilityMap.cultureRoutes) {
       setMobilityMap(mobilityMap => ({ ...mobilityMap, cultureRoutes: false }));
     }
+    if (cultureRoutesToShow === (cultureRouteList.length || localizedCultureRoutes.length)) {
+      setCultureRoutesToShow(4);
+    }
+  };
+
+  const resetItemsToShow = (itemsToShow, data, setItems) => {
+    if (itemsToShow === data.length) {
+      setItems(4);
+    }
   };
 
   const bicycleRouteListToggle = () => {
@@ -402,6 +529,42 @@ const MobilitySettingsView = ({ classes, intl }) => {
     if (mobilityMap.bicycleRoutes) {
       setMobilityMap(mobilityMap => ({ ...mobilityMap, bicycleRoutes: false }));
     }
+    resetItemsToShow(bicycleRoutesToShow, bicycleRouteList, setBicycleRoutesToShow);
+  };
+
+  const markedTrailListToggle = () => {
+    setOpenMarkedTrailsList(current => !current);
+    if (markedTrailsObj) {
+      setMarkedTrailsObj({});
+    }
+    if (showMarkedTrails) {
+      setShowMarkedTrails(false);
+    }
+    if (markedTrailsToShow === markedTrailsSorted.length) {
+      setMarkedTrailsToShow(4);
+    }
+  };
+
+  const natureTrailListToggle = () => {
+    setOpenNatureTrailsList(current => !current);
+    if (natureTrailsObj) {
+      setNatureTrailsObj({});
+    }
+    if (showNatureTrails) {
+      setShowNatureTrails(false);
+    }
+    resetItemsToShow(natureTrailsToShow, natureTrailsTkuSorted, setNatureTrailsToShow);
+  };
+
+  const fitnessTrailListToggle = () => {
+    setOpenFitnessTrailsList(current => !current);
+    if (fitnessTrailsObj) {
+      setFitnessTrailsObj({});
+    }
+    if (showFitnessTrails) {
+      setShowFitnessTrails(false);
+    }
+    resetItemsToShow(fitnessTrailsToShow, fitnessTrailsTkuSorted, setFitnessTrailsToShow);
   };
 
   const streetMaintenanceListToggle = () => {
@@ -471,6 +634,78 @@ const MobilitySettingsView = ({ classes, intl }) => {
     if (routeName === prevBicycleRouteNameRef.current) {
       setBicycleRouteName(null);
       setMobilityMap(mobilityMap => ({ ...mobilityMap, bicycleRoutes: false }));
+    }
+  };
+
+  /**
+   * Stores previous value
+   */
+  const prevMarkedTrailObjRef = useRef();
+
+  /**
+   * If user clicks same trail again, then reset name and set visiblity to false
+   * Otherwise new values are set
+   */
+  useEffect(() => {
+    prevMarkedTrailObjRef.current = markedTrailsObj;
+  }, [markedTrailsObj]);
+
+  /**
+   * @param {obj}
+   */
+  const setMarkedTrailState = (obj) => {
+    setMarkedTrailsObj(obj);
+    setShowMarkedTrails(true);
+    if (obj === prevMarkedTrailObjRef.current) {
+      setMarkedTrailsObj({});
+      setShowMarkedTrails(false);
+    }
+  };
+
+  const prevNatureTrailObjRef = useRef();
+
+  /**
+   * If user clicks same trail again, then reset name and set visiblity to false
+   * Otherwise new values are set
+   */
+  useEffect(() => {
+    prevNatureTrailObjRef.current = natureTrailsObj;
+  }, [natureTrailsObj]);
+
+  /**
+   * @param {obj}
+   */
+  const setNatureTrailState = (obj) => {
+    setNatureTrailsObj(obj);
+    setShowNatureTrails(true);
+    if (obj === prevNatureTrailObjRef.current) {
+      setNatureTrailsObj({});
+      setShowNatureTrails(false);
+    }
+  };
+
+  /**
+   * Stores previous value
+   */
+  const prevFitnessTrailObjRef = useRef();
+
+  /**
+   * If user clicks same trail again, then reset name and set visiblity to false
+   * Otherwise new values are set
+   */
+  useEffect(() => {
+    prevFitnessTrailObjRef.current = fitnessTrailsObj;
+  }, [fitnessTrailsObj]);
+
+  /**
+   * @param {obj}
+   */
+  const setFitnessTrailState = (obj) => {
+    setFitnessTrailsObj(obj);
+    setShowFitnessTrails(true);
+    if (obj === prevFitnessTrailObjRef.current) {
+      setFitnessTrailsObj({});
+      setShowFitnessTrails(false);
     }
   };
 
@@ -594,6 +829,24 @@ const MobilitySettingsView = ({ classes, intl }) => {
       onChangeValue: cultureRouteListToggle,
     },
     {
+      type: 'markedTrails',
+      msgId: 'mobilityPlatform.menu.show.paavoTrails',
+      checkedValue: openMarkedTrailsList,
+      onChangeValue: markedTrailListToggle,
+    },
+    {
+      type: 'natureTrails',
+      msgId: 'mobilityPlatform.menu.show.natureTrails',
+      checkedValue: openNatureTrailsList,
+      onChangeValue: natureTrailListToggle,
+    },
+    {
+      type: 'fitnessTrails',
+      msgId: 'mobilityPlatform.menu.show.fitnessTrails',
+      checkedValue: openFitnessTrailsList,
+      onChangeValue: fitnessTrailListToggle,
+    },
+    {
       type: 'publicRestrooms',
       msgId: 'mobilityPlatform.menu.show.publicRestrooms',
       checkedValue: mobilityMap.restRooms,
@@ -627,10 +880,16 @@ const MobilitySettingsView = ({ classes, intl }) => {
       onChangeValue: bikeServiceStationsToggle,
     },
     {
-      type: 'ecoCounterStations',
-      msgId: 'mobilityPlatform.menu.showEcoCounter',
-      checkedValue: mobilityMap.ecoCounter,
-      onChangeValue: ecoCounterStationsToggle,
+      type: 'brushSandedRoute',
+      msgId: 'mobilityPlatform.menu.show.brushSandedRoute',
+      checkedValue: mobilityMap.brushSandedRoads,
+      onChangeValue: brushSandedRouteToggle,
+    },
+    {
+      type: 'brushSaltedRoute',
+      msgId: 'mobilityPlatform.menu.show.brushSaltedRoute',
+      checkedValue: mobilityMap.brushSaltedRoads,
+      onChangeValue: brushSaltedRouteToggle,
     },
   ];
 
@@ -749,82 +1008,61 @@ const MobilitySettingsView = ({ classes, intl }) => {
       checkedValue: openStreetMaintenanceSelectionList,
       onChangeValue: streetMaintenanceListToggle,
     },
-    {
-      type: 'brushSandedRoute',
-      msgId: 'mobilityPlatform.menu.show.brushSandedRoute',
-      checkedValue: mobilityMap.brushSandedRoads,
-      onChangeValue: brushSandedRouteToggle,
-    },
-    {
-      type: 'brushSaltedRoute',
-      msgId: 'mobilityPlatform.menu.show.brushSaltedRoute',
-      checkedValue: mobilityMap.brushSaltedRoads,
-      onChangeValue: brushSaltedRouteToggle,
-    },
   ];
 
-  const getRouteName = (name, nameEn, nameSv) => {
-    const routeName = {
-      fi: name,
-      en: nameEn,
-      sv: nameSv,
-    };
-    return getLocaleText(routeName);
+  /**
+   * @param {Array} inputData
+   * @return {JSX Element}
+   */
+  const renderBicycleRoutes = (inputData) => {
+    const renderData = isDataValid(openBicycleRouteList, inputData);
+    return renderData
+      ? inputData.slice(0, bicycleRoutesToShow).map(item => (
+        <RouteListItem
+          key={item.id}
+          item={item}
+          routeAttr={bicycleRouteName}
+          type="BicycleRoute"
+          setRouteState={setBicycleRouteState}
+        >
+          {item.name_fi === bicycleRouteName ? (
+            <RouteLength key={item.id} route={item} />
+          ) : null}
+        </RouteListItem>
+      ))
+      : null;
   };
 
   /**
    * @param {Array} inputData
-   * @returns {JSX Element}
+   * @return {JSX Element}
    */
-  const renderBicycleRoutes = inputData => inputData
-    && inputData.length > 0
-    && inputData.map(item => (
-      <div key={item.id} className={classes.checkBoxContainer}>
-        <FormControlLabel
-          control={(
-            <Checkbox
-              checked={item.name_fi === bicycleRouteName}
-              aria-checked={item.name_fi === bicycleRouteName}
-              className={classes.margin}
-              onChange={() => setBicycleRouteState(item.name_fi)}
-            />
-          )}
-          label={(
-            <Typography variant="body2" aria-label={getRouteName(item.name_fi, item.name_en, item.name_sv)}>
-              {getRouteName(item.name_fi, item.name_en, item.name_sv)}
-            </Typography>
-          )}
-        />
-        {item.name_fi === bicycleRouteName ? <RouteLength key={item.id} route={item} /> : null}
-      </div>
-    ));
+  const renderCultureRoutes = (inputData) => {
+    const renderData = isDataValid(openCultureRouteList, inputData);
+    return renderData
+      ? inputData.slice(0, cultureRoutesToShow).map(item => (
+        <RouteListItem
+          key={item.id}
+          item={item}
+          routeAttr={cultureRouteId}
+          type="CultureRoute"
+          setRouteState={setCultureRouteState}
+        >
+          {item.id === cultureRouteId ? (
+            <Description key={item.name} route={item} currentLocale={locale} />
+          ) : null}
+        </RouteListItem>
+      )) : null;
+  };
 
-  /**
-   * @param {Array} inputData
-   * @returns {JSX Element}
-   */
-  const renderCultureRoutes = inputData => inputData
-    && inputData.length > 0
-    && inputData.map(item => (
-      <div key={item.id} className={classes.checkBoxContainer}>
-        <FormControlLabel
-          control={(
-            <Checkbox
-              checked={item.id === cultureRouteId}
-              aria-checked={item.id === cultureRouteId}
-              className={classes.margin}
-              onChange={() => setCultureRouteState(item.id)}
-            />
-          )}
-          label={(
-            <Typography variant="body2" aria-label={getRouteName(item.name, item.name_en, item.name_sv)}>
-              {getRouteName(item.name, item.name_en, item.name_sv)}
-            </Typography>
-          )}
-        />
-        {item.id === cultureRouteId ? <Description key={item.name} route={item} currentLocale={locale} /> : null}
+  const renderSelectTrailText = (visibilityValue, obj, routeList) => {
+    const isObjValid = Object.keys(obj).length > 0;
+    return (
+      <div className={visibilityValue ? classes.border : null}>
+        {visibilityValue && !isObjValid ? <EmptyRouteList route={routeList} /> : null}
       </div>
-    ));
+    );
+  };
 
   /**
    * @param {boolean} settingVisibility
@@ -834,12 +1072,9 @@ const MobilitySettingsView = ({ classes, intl }) => {
   const renderSettings = (settingVisibility, typeVal) => {
     if (settingVisibility) {
       return typeVal.map(item => (
-        <FormLabel
-          key={item.type}
-          msgId={item.msgId}
-          checkedValue={item.checkedValue}
-          onChangeValue={item.onChangeValue}
-        />
+        <div key={item.type} className={classes.checkBoxContainer}>
+          <FormLabel msgId={item.msgId} checkedValue={item.checkedValue} onChangeValue={item.onChangeValue} />
+        </div>
       ));
     }
     return null;
@@ -855,124 +1090,6 @@ const MobilitySettingsView = ({ classes, intl }) => {
   // This list will be displayed for users
   const speedLimitListAsc = speedLimitList.sort((a, b) => a - b);
 
-  const renderSpeedLimits = () => (
-    <>
-      <div className={`${classes.paragraph} ${classes.border}`}>
-        <Typography
-          variant="body2"
-          aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.speedLimitZones.select' })}
-        >
-          {intl.formatMessage({ id: 'mobilityPlatform.menu.speedLimitZones.select' })}
-        </Typography>
-      </div>
-      <div className={classes.buttonList}>
-        {openSpeedLimitList
-          && speedLimitListAsc.length > 0
-          && speedLimitListAsc.map(item => (
-            <div key={item} className={classes.checkBoxContainer}>
-              <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={speedLimitSelections.includes(item)}
-                    aria-checked={speedLimitSelections.includes(item)}
-                    className={classes.margin}
-                    onChange={() => setSpeedLimitState(item)}
-                  />
-                )}
-                label={(
-                  <Typography
-                    variant="body2"
-                    aria-label={intl.formatMessage(
-                      {
-                        id: 'mobilityPlatform.content.speedLimitZones.suffix',
-                      },
-                      { item },
-                    )}
-                  >
-                    {intl.formatMessage(
-                      {
-                        id: 'mobilityPlatform.content.speedLimitZones.suffix',
-                      },
-                      { item },
-                    )}
-                  </Typography>
-                )}
-              />
-            </div>
-          ))}
-      </div>
-    </>
-  );
-
-  const renderParkingChargeZoneList = () => (
-    <>
-      {parkingChargeZones
-        && parkingChargeZones.length > 0
-        && parkingChargeZones.map(item => (
-          <div key={item.id} className={classes.checkBoxContainer}>
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={item.id === parkingChargeZoneId}
-                  aria-checked={item.id === parkingChargeZoneId}
-                  className={classes.margin}
-                  onChange={() => selectParkingChargeZone(item.id)}
-                />
-              )}
-              label={(
-                <Typography
-                  variant="body2"
-                  aria-label={intl.formatMessage(
-                    { id: 'mobilityPlatform.menu.parkingChargeZones.subtitle' },
-                    { value: item.extra.maksuvyohyke },
-                  )}
-                >
-                  {intl.formatMessage(
-                    { id: 'mobilityPlatform.menu.parkingChargeZones.subtitle' },
-                    { value: item.extra.maksuvyohyke },
-                  )}
-                </Typography>
-              )}
-            />
-          </div>
-        ))}
-    </>
-  );
-
-  const renderScooterProviderList = () => (
-    <>
-      <div className={`${classes.paragraph} ${classes.border}`}>
-        <Typography variant="body2" aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.scooters.list.info' })}>
-          {intl.formatMessage({ id: 'mobilityPlatform.menu.scooters.list.info' })}
-        </Typography>
-      </div>
-      {scooterProviders
-        && scooterProviders.length > 0
-        && scooterProviders.map(item => (
-          <div key={item.type} className={classes.checkBoxContainer}>
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={item.checkedValue}
-                  aria-checked={item.checkedValue}
-                  className={classes.margin}
-                  onChange={() => item.onChangeValue()}
-                />
-              )}
-              label={(
-                <Typography
-                  variant="body2"
-                  aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.show.scootersRyde' })}
-                >
-                  {intl.formatMessage({ id: 'mobilityPlatform.menu.show.scootersRyde' })}
-                </Typography>
-              )}
-            />
-          </div>
-        ))}
-    </>
-  );
-
   const streetMaintenanceInfo = (colorClass, translationId) => (
     <div className={classes.flexBox}>
       <div className={`${classes.box} ${colorClass}`} />
@@ -982,7 +1099,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
     </div>
   );
 
-  const renderMaintenanceSelectionList = () => (
+  const renderMaintenanceSelectionList = () => (openStreetMaintenanceSelectionList ? (
     <>
       <div className={`${classes.paragraph} ${classes.border}`}>
         <Typography
@@ -1002,98 +1119,352 @@ const MobilitySettingsView = ({ classes, intl }) => {
         ) : null}
       </div>
       {streetMaintenanceSelections
-        && streetMaintenanceSelections.length > 0
-        && streetMaintenanceSelections.map(item => (
-          <div key={item.type} className={classes.checkBoxContainer}>
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={item.type === streetMaintenancePeriod}
-                  aria-checked={item.type === streetMaintenancePeriod}
-                  className={classes.margin}
-                  onChange={() => item.onChangeValue(item.type)}
-                />
-              )}
-              label={(
-                <Typography variant="body2" aria-label={intl.formatMessage({ id: item.msgId })}>
-                  {intl.formatMessage({ id: item.msgId })}
-                </Typography>
-              )}
-            />
-          </div>
-        ))}
+          && streetMaintenanceSelections.length > 0
+          && streetMaintenanceSelections.map(item => (
+            <div key={item.type} className={classes.checkBoxItem}>
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={item.type === streetMaintenancePeriod}
+                    aria-checked={item.type === streetMaintenancePeriod}
+                    className={classes.margin}
+                    onChange={() => item.onChangeValue(item.type)}
+                  />
+                )}
+                label={(
+                  <Typography variant="body2" aria-label={intl.formatMessage({ id: item.msgId })}>
+                    {intl.formatMessage({ id: item.msgId })}
+                  </Typography>
+                )}
+              />
+            </div>
+          ))}
     </>
-  );
+  ) : null);
 
-  const renderWalkingInfoTexts = () => (
-    <>
-      {mobilityMap.ecoCounter ? <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" /> : null}
-      {mobilityMap.restRooms ? <InfoTextBox infoText="mobilityPlatform.info.publicRestrooms" /> : null}
-    </>
-  );
+  const infoTextsWalking = [
+    {
+      visible: mobilityMap.ecoCounter,
+      type: 'ecoCounterInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" />,
+    },
+    {
+      visible: openMarkedTrailsList,
+      type: 'markedTrailsListInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.markedTrails" />,
+    },
+    {
+      visible: openNatureTrailsList,
+      type: 'natureTrailsList',
+      component: <InfoTextBox infoText="mobilityPlatform.info.natureTrails" />,
+    },
+    {
+      visible: mobilityMap.restRooms,
+      type: 'publicRestroomsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.publicToilets" />,
+    },
+  ];
 
-  const renderBicycleInfoTexts = () => (
-    <>
-      {mobilityMap.bicycleStands ? <InfoTextBox infoText="mobilityPlatform.info.bicycleStands" /> : null}
-      {mobilityMap.cityBikes ? <CityBikeInfo bikeInfo={bikeInfo} /> : null}
-    </>
-  );
+  const infoTextsCycling = [
+    {
+      visible: mobilityMap.bicycleStands,
+      type: 'bicycleStandsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.bicycleStands" />,
+    },
+    {
+      visible: mobilityMap.cityBikes,
+      type: 'cityBikesInfo',
+      component: <CityBikeInfo bikeInfo={bikeInfo} />,
+    },
+    {
+      visible: mobilityMap.brushSaltedRoads || mobilityMap.brushSandedRoads,
+      type: 'brushedRoutes',
+      component: <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.brushedRoads" />,
+    },
+  ];
 
-  const renderDrivingInfoTexts = () => (
-    <>
-      {mobilityMap.rentalCars ? <InfoTextBox infoText="mobilityPlatform.info.rentalCars" /> : null}
-      {mobilityMap.chargingStations ? <InfoTextBox infoText="mobilityPlatform.info.chargingStations" /> : null}
-      {mobilityMap.gasFillingStations ? <InfoTextBox infoText="mobilityPlatform.info.gasFillingStations" /> : null}
-      {mobilityMap.parkingSpaces ? <InfoTextBox infoText="mobilityPlatform.info.parkingSpaces" /> : null}
-      {mobilityMap.disabledParking ? <InfoTextBox infoText="mobilityPlatform.info.disabledParking" /> : null}
-      {openParkingChargeZoneList ? <ExtendedInfo translations={chargeZoneTranslations} /> : null}
-      {mobilityMap.loadingPlaces ? <InfoTextBox infoText="mobilityPlatform.info.loadingPlaces" /> : null}
-    </>
-  );
+  const infoTextsDriving = [
+    {
+      visible: mobilityMap.rentalCars,
+      type: 'rentalCarsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.rentalCars" />,
+    },
+    {
+      visible: mobilityMap.chargingStations,
+      type: 'chargingStationsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.chargingStations" />,
+    },
+    {
+      visible: mobilityMap.gasFillingStations,
+      type: 'gasFillingStationsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.gasFillingStations" />,
+    },
+    {
+      visible: mobilityMap.parkingSpaces,
+      type: 'parkingSpacesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.parkingSpaces" />,
+    },
+    {
+      visible: mobilityMap.disabledParking,
+      type: 'disabledParking',
+      component: <InfoTextBox infoText="mobilityPlatform.info.disabledParking" />,
+    },
+    {
+      visible: openParkingChargeZoneList,
+      type: 'parkingChargeZoneListInfo',
+      component: <ExtendedInfo translations={chargeZoneTranslations} />,
+    },
+    {
+      visible: mobilityMap.loadingPlaces,
+      type: 'loadingPlacesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.loadingPlaces" />,
+    },
+  ];
 
-  const renderScooterInfoTexts = () => (
-    <>
-      {openScooterProviderList ? <InfoTextBox infoText="mobilityPlatform.info.scooters.general" /> : null}
-      {mobilityMap.scooterNoParking ? <InfoTextBox infoText="mobilityPlatform.info.scooters.noParking" /> : null}
-      {mobilityMap.scooterParking ? <InfoTextBox infoText="mobilityPlatform.info.scooters.parkingAreas" /> : null}
-      {mobilityMap.scooterSpeedLimit ? <InfoTextBox infoText="mobilityPlatform.info.scooters.speedLimitAreas" /> : null}
-    </>
-  );
+  const infoTextsScooter = [
+    {
+      visible: openScooterProviderList,
+      type: 'scooterProviderListInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.scooters.general" />,
+    },
+    {
+      visible: mobilityMap.scooterNoParking,
+      type: 'scooterNoParkingInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.scooters.noParking" />,
+    },
+    {
+      visible: mobilityMap.scooterParking,
+      type: 'scooterParkingInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.scooters.parkingAreas" />,
+    },
+    {
+      visible: mobilityMap.scooterSpeedLimit,
+      type: 'scooterSpeedLimitInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.scooters.speedLimitAreas" />,
+    },
+  ];
 
-  const renderBoatingInfoTexts = () => (
-    <>
-      {mobilityMap.marinas ? (
+  const infoTextsBoating = [
+    {
+      visible: mobilityMap.marinas,
+      type: 'marinasInfo',
+      component: (
         <InfoTextBox
           infoText="mobilityPlatform.info.marinas"
           linkUrl="https://opaskartta.turku.fi/ePermit/fi/Reservation/"
           linkText="mobilityPlatform.info.marinas.link"
         />
-      ) : null}
-      {mobilityMap.boatParking ? <InfoTextBox infoText="mobilityPlatform.info.boatParking" /> : null}
-      {mobilityMap.guestHarbour ? (
+      ),
+    },
+    {
+      visible: mobilityMap.boatParking,
+      type: 'boatParkingInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.boatParking" />,
+    },
+    {
+      visible: mobilityMap.guestHarbour,
+      type: 'guestHarbourInfo',
+      component: (
         <InfoTextBox
           infoText="mobilityPlatform.info.guestHarbour"
           linkUrl="https://www.turunvierasvenesatama.fi"
           linkText="mobilityPlatform.info.guestHarbour.link"
         />
-      ) : null}
-    </>
-  );
+      ),
+    },
+  ];
 
-  const renderStreetMaintenanceInfoTexts = () => (
-    <>
-      {mobilityMap.streetMaintenance ? (
+  const infoTextsSnowplow = [
+    {
+      visible: mobilityMap.streetMaintenance,
+      type: 'snowplowsInfo',
+      component: (
         <InfoTextBox
           infoText="mobilityPlatform.info.streetMaintenance.general"
           linkUrl="https://www.turku.fi/uutinen/2021-01-12_pelisaannot-selkeita-katujen-talvikunnossapidossa"
           linkText="mobilityPlatform.info.streetMaintenance.link"
         />
-      ) : null}
-      {mobilityMap.brushSaltedRoads || mobilityMap.brushSandedRoads ? (
-        <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.brushedRoads" />
-      ) : null}
-    </>
+      ),
+    },
+  ];
+
+  /** Render infotext(s) if visible value is true
+   * @param {Array} textData
+   * @return {Element}
+   */
+  const renderInfoTexts = textData => textData.reduce((acc, curr) => {
+    if (curr.visible) {
+      acc.push(<React.Fragment key={curr.type}>{curr.component}</React.Fragment>);
+    }
+    return acc;
+  }, []);
+
+  /** render section contents */
+  const renderWalkSettings = () => (
+    <React.Fragment>
+      {renderSettings(openWalkSettings, walkingControlTypes)}
+      <div className={openCultureRouteList ? classes.border : null}>
+        {openCultureRouteList && !cultureRouteId ? <EmptyRouteList route={cultureRouteList} /> : null}
+      </div>
+      {openCultureRouteList && (locale === 'en' || locale === 'sv')
+        ? renderCultureRoutes(localizedCultureRoutes)
+        : null}
+      {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
+      <SliceList
+        openList={openCultureRouteList}
+        itemsToShow={cultureRoutesToShow}
+        routes={locale === 'fi' ? cultureRouteList : localizedCultureRoutes}
+        setItemsToShow={setCultureRoutesToShow}
+      />
+      {renderSelectTrailText(openMarkedTrailsList, markedTrailsObj, markedTrailsList)}
+      <TrailList
+        openList={openMarkedTrailsList}
+        inputData={markedTrailsSorted}
+        itemsToShow={markedTrailsToShow}
+        trailsObj={markedTrailsObj}
+        setTrailState={setMarkedTrailState}
+      />
+      <SliceList
+        openList={openMarkedTrailsList}
+        itemsToShow={markedTrailsToShow}
+        routes={markedTrailsSorted}
+        setItemsToShow={setMarkedTrailsToShow}
+      />
+      {renderSelectTrailText(openNatureTrailsList, natureTrailsObj, natureTrailsTkuSorted)}
+      <TrailList
+        openList={openNatureTrailsList}
+        inputData={natureTrailsTkuSorted}
+        itemsToShow={natureTrailsToShow}
+        trailsObj={natureTrailsObj}
+        setTrailState={setNatureTrailState}
+      />
+      <SliceList
+        openList={openNatureTrailsList}
+        itemsToShow={natureTrailsToShow}
+        routes={natureTrailsTkuSorted}
+        setItemsToShow={setNatureTrailsToShow}
+      />
+      {renderSelectTrailText(openFitnessTrailsList, fitnessTrailsObj, fitnessTrailsTkuSorted)}
+      <TrailList
+        openList={openFitnessTrailsList}
+        inputData={fitnessTrailsTkuSorted}
+        itemsToShow={fitnessTrailsToShow}
+        trailsObj={fitnessTrailsObj}
+        setTrailState={setFitnessTrailState}
+      />
+      <SliceList
+        openList={openFitnessTrailsList}
+        itemsToShow={fitnessTrailsToShow}
+        routes={fitnessTrailsTkuSorted}
+        setItemsToShow={setFitnessTrailsToShow}
+      />
+      {renderInfoTexts(infoTextsWalking)}
+    </React.Fragment>
   );
+
+  const renderBicycleSettings = () => (
+    <React.Fragment>
+      {renderSettings(openBicycleSettings, bicycleControlTypes)}
+      <div className={openBicycleRouteList ? classes.border : null}>
+        {openBicycleRouteList && !bicycleRouteName ? <EmptyRouteList route={bicycleRouteList} /> : null}
+      </div>
+      {renderBicycleRoutes(bicycleRouteList)}
+      <SliceList
+        openList={openBicycleRouteList}
+        itemsToShow={bicycleRoutesToShow}
+        routes={bicycleRouteList}
+        setItemsToShow={setBicycleRoutesToShow}
+      />
+      {renderInfoTexts(infoTextsCycling)}
+    </React.Fragment>
+  );
+
+  const renderCarSettings = () => (
+    <React.Fragment>
+      {renderSettings(openCarSettings, carControlTypes)}
+      <ParkingChargeZoneList
+        openZoneList={openParkingChargeZoneList}
+        parkingChargeZones={parkingChargeZones}
+        zoneId={parkingChargeZoneId}
+        selectZone={selectParkingChargeZone}
+      />
+      <SpeedLimitZonesList
+        openSpeedLimitList={openSpeedLimitList}
+        speedLimitListAsc={speedLimitListAsc}
+        speedLimitSelections={speedLimitSelections}
+        setState={setSpeedLimitState}
+      />
+      {renderInfoTexts(infoTextsDriving)}
+    </React.Fragment>
+  );
+
+  const renderScooterSettings = () => (
+    <React.Fragment>
+      {renderSettings(openScooterSettings, scooterControlTypes)}
+      <ScooterProviderList openList={openScooterProviderList} scooterProviders={scooterProviders} />
+      {renderInfoTexts(infoTextsScooter)}
+    </React.Fragment>
+  );
+
+  const renderBoatingSettings = () => (
+    <React.Fragment>
+      {renderSettings(openBoatingSettings, boatingControlTypes)}
+      {renderInfoTexts(infoTextsBoating)}
+    </React.Fragment>
+  );
+
+  const renderStreetMaintenanceSettings = () => (
+    <React.Fragment>
+      {renderSettings(openStreetMaintenanceSettings, streetMaintenanceControlTypes)}
+      {renderMaintenanceSelectionList()}
+      {renderInfoTexts(infoTextsSnowplow)}
+    </React.Fragment>
+  );
+
+  const categories = [
+    {
+      component: renderWalkSettings(),
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.walk' }),
+      icon: <ReactSVG src={iconWalk} className={classes.icon} />,
+      onClick: walkSettingsToggle,
+      setState: openWalkSettings,
+    },
+    {
+      component: renderBicycleSettings(),
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.bicycle' }),
+      icon: <ReactSVG src={iconBicycle} className={classes.icon} />,
+      onClick: bicycleSettingsToggle,
+      setState: openBicycleSettings,
+    },
+    {
+      component: renderCarSettings(),
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.car' }),
+      icon: <ReactSVG src={iconCar} className={classes.icon} />,
+      onClick: carSettingsToggle,
+      setState: openCarSettings,
+    },
+    {
+      component: renderScooterSettings(),
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.scooter' }),
+      icon: <ReactSVG src={iconScooter} className={classes.icon} />,
+      onClick: scooterSettingsToggle,
+      setState: openScooterSettings,
+    },
+    {
+      component: renderBoatingSettings(),
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.boating' }),
+      icon: <ReactSVG src={iconBoat} className={classes.icon} />,
+      onClick: boatingSettingsToggle,
+      setState: openBoatingSettings,
+    },
+    {
+      component: renderStreetMaintenanceSettings(),
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.streetMaintenance' }),
+      icon: <ReactSVG src={iconSnowplow} className={classes.icon} />,
+      onClick: streetMaintenanceSettingsToggle,
+      setState: openStreetMaintenanceSettings,
+    },
+  ];
 
   return (
     <div className={classes.content}>
@@ -1101,90 +1472,33 @@ const MobilitySettingsView = ({ classes, intl }) => {
         title={intl.formatMessage({ id: 'general.pageTitles.mobilityPlatform.title' })}
         titleComponent="h3"
         backButton
+        backButtonOnClick={() => navigator.push('home')}
         className={classes.topBarColor}
       />
       <div className={classes.container}>
-        <FormControl variant="standard" className={classes.formControl}>
-          <FormGroup className={classes.formGroup}>
-            <>
-              <div className={classes.buttonContainer}>
-                <ButtonMain
-                  onClickFunc={walkSettingsToggle}
-                  settingState={openWalkSettings}
-                  iconName={iconWalk}
-                  translationId="mobilityPlatform.menu.title.walk"
-                />
-              </div>
-              {renderSettings(openWalkSettings, walkingControlTypes)}
-              <div className={openCultureRouteList ? classes.border : null}>
-                {openCultureRouteList && !cultureRouteId ? <EmptyRouteList route={cultureRouteList} /> : null}
-              </div>
-              {openCultureRouteList && (locale === 'en' || locale === 'sv')
-                ? renderCultureRoutes(localizedCultureRoutes)
-                : null}
-              {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
-              {renderWalkingInfoTexts()}
-              <div className={classes.buttonContainer}>
-                <ButtonMain
-                  onClickFunc={bicycleSettingsToggle}
-                  settingState={openBicycleSettings}
-                  iconName={iconBicycle}
-                  translationId="mobilityPlatform.menu.title.bicycle"
-                />
-              </div>
-              {renderSettings(openBicycleSettings, bicycleControlTypes)}
-              <div className={openBicycleRouteList ? classes.border : null}>
-                {openBicycleRouteList && !bicycleRouteName ? <EmptyRouteList route={bicycleRouteList} /> : null}
-              </div>
-              {openBicycleRouteList ? renderBicycleRoutes(bicycleRouteList) : null}
-              {renderBicycleInfoTexts()}
-              <div className={classes.buttonContainer}>
-                <ButtonMain
-                  onClickFunc={carSettingsToggle}
-                  settingState={openCarSettings}
-                  iconName={iconCar}
-                  translationId="mobilityPlatform.menu.title.car"
-                />
-              </div>
-              {renderSettings(openCarSettings, carControlTypes)}
-              {openParkingChargeZoneList ? renderParkingChargeZoneList() : null}
-              {openSpeedLimitList ? renderSpeedLimits() : null}
-              {renderDrivingInfoTexts()}
-              <div className={classes.buttonContainer}>
-                <ButtonMain
-                  onClickFunc={scooterSettingsToggle}
-                  settingState={openScooterSettings}
-                  iconName={iconScooter}
-                  translationId="mobilityPlatform.menu.title.scooter"
-                />
-              </div>
-              {renderSettings(openScooterSettings, scooterControlTypes)}
-              {openScooterProviderList ? renderScooterProviderList() : null}
-              {renderScooterInfoTexts()}
-              <div className={classes.buttonContainer}>
-                <ButtonMain
-                  onClickFunc={boatingSettingsToggle}
-                  settingState={openBoatingSettings}
-                  iconName={iconBoat}
-                  translationId="mobilityPlatform.menu.title.boating"
-                />
-              </div>
-              {renderSettings(openBoatingSettings, boatingControlTypes)}
-              {renderBoatingInfoTexts()}
-              <div className={classes.buttonContainer}>
-                <ButtonMain
-                  onClickFunc={streetMaintenanceSettingsToggle}
-                  settingState={openStreetMaintenanceSettings}
-                  iconName={iconSnowplow}
-                  translationId="mobilityPlatform.menu.title.streetMaintenance"
-                />
-              </div>
-              {renderSettings(openStreetMaintenanceSettings, streetMaintenanceControlTypes)}
-              {openStreetMaintenanceSelectionList ? renderMaintenanceSelectionList() : null}
-              {renderStreetMaintenanceInfoTexts()}
-            </>
-          </FormGroup>
-        </FormControl>
+        <div className={classes.formControl}>
+          <div className={classes.formGroup}>
+            <List>
+              {categories.map(category => (
+                <ListItem key={category.title} divider disableGutters className={`${classes.listItem}`}>
+                  <SMAccordion
+                    adornment={category.icon}
+                    defaultOpen={category.setState}
+                    onOpen={() => category.onClick()}
+                    isOpen={category.setState}
+                    elevated={category.setState}
+                    titleContent={(
+                      <Typography component="p" variant="subtitle1">
+                        {category.title}
+                      </Typography>
+                    )}
+                    collapseContent={category.component}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -1193,6 +1507,11 @@ const MobilitySettingsView = ({ classes, intl }) => {
 MobilitySettingsView.propTypes = {
   intl: PropTypes.objectOf(PropTypes.any).isRequired,
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
+  navigator: PropTypes.objectOf(PropTypes.any),
+};
+
+MobilitySettingsView.defaultProps = {
+  navigator: null,
 };
 
 export default MobilitySettingsView;

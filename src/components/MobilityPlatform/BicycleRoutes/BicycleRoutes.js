@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchBicycleRoutesGeometry } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../utils/utils';
+import { fitPolygonsToBounds, isDataValid } from '../utils/utils';
 
 const BicycleRoutes = () => {
   const [bicycleRoutes, setBicycleRoutes] = useState([]);
@@ -25,21 +25,21 @@ const BicycleRoutes = () => {
     }
   }, [openMobilityPlatform, setBicycleRoutes]);
 
-  const activeBicycleRoute = bicycleRoutes.filter(item => item.bicycle_network_name === bicycleRouteName);
+  const getActiveRoutes = (data) => {
+    if (data && data.length > 0) {
+      return data.filter(item => item.bicycle_network_name === bicycleRouteName);
+    }
+    return [];
+  };
+
+  const activeBicycleRoute = getActiveRoutes(bicycleRoutes);
+  const renderData = isDataValid(mobilityMap.bicycleRoutes, activeBicycleRoute);
 
   const map = useMap();
 
-  const renderData = isDataValid(mobilityMap.bicycleRoutes, activeBicycleRoute);
-
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      activeBicycleRoute.forEach((item) => {
-        bounds.push(item.geometry_coords);
-      });
-      map.fitBounds([bounds]);
-    }
-  }, [mobilityMap.bicycleRoutes, activeBicycleRoute]);
+    fitPolygonsToBounds(renderData, activeBicycleRoute, map);
+  }, [mobilityMap, activeBicycleRoute]);
 
   return (
     <>

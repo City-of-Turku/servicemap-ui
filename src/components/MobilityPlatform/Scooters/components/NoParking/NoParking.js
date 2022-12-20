@@ -20,7 +20,7 @@ const NoParking = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapData('SNP', 100, setNoParkingData);
+      fetchMobilityMapData('ScooterNoParkingArea', 100, setNoParkingData);
     }
   }, [openMobilityPlatform, setNoParkingData]);
 

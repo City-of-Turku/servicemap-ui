@@ -6,9 +6,9 @@ import config from '../../../../config';
 const apiUrl = config.mobilityPlatformAPI;
 const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
 
-const fetchEcoCounterStations = async (setStations) => {
+const fetchTrafficCounterStations = async (type, setStations) => {
   try {
-    const response = await fetch(`${isApiUrl}/eco-counter/stations/`);
+    const response = await fetch(`${isApiUrl}/eco-counter/stations?page_size=200&counter_type=${type}`);
     const jsonData = await response.json();
     setStations(jsonData.results);
   } catch (err) {
@@ -63,7 +63,7 @@ const fetchInitialMonthDatas = async (yearNumber, startMonth, endMonth, id, setM
 };
 
 export {
-  fetchEcoCounterStations,
+  fetchTrafficCounterStations,
   fetchInitialHourData,
   fetchInitialDayDatas,
   fetchInitialWeekDatas,

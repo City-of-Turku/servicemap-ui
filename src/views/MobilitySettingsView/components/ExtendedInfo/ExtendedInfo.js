@@ -20,7 +20,7 @@ const ExtendedInfo = ({ classes, intl, translations }) => {
   return (
     <div className={classes.container}>
       {text(translations.message1)}
-      <ul>
+      <ul className={classes.list}>
         {translations.zones.map(item => (
           <li key={item}>
             {text(item)}

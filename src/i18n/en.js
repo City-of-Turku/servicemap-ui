@@ -600,7 +600,7 @@ const translations = {
   'mobilityPlatform.menu.showCultureRoutes': 'Culture routes',
   'mobilityPlatform.menu.showBicycleRoutes': 'Bicycle routes',
   'mobilityPlatform.menu.routes.info': 'You can select a route from the list below.',
-  'mobilityPlatform.menu.routes.emptyList': 'No routes were found.',
+  'mobilityPlatform.menu.routes.emptyList': 'Routes are loading.',
   'mobilityPlatform.menu.bicycleRoutes.title': 'Info about the route.',
   'mobilityPlatform.menu.bicycleRoutes.length': 'Route length:',
   'mobilityPlatform.menu.routes.name': 'Route name',
@@ -638,6 +638,12 @@ const translations = {
   'mobilityPlatform.menu.streetMaintenance.info.sanitation': 'Street cleaning',
   'mobilityPlatform.menu.show.brushSandedRoute': 'Brush sanded bicycle roads',
   'mobilityPlatform.menu.show.brushSaltedRoute': 'Brush salted bicycle roads',
+  'mobilityPlatform.menu.show.paavoTrails': 'Paavo trails',
+  'mobilityPlatform.menu.markedTrails.length': 'Trail length: {value} km',
+  'mobilityPlatform.menu.show.natureTrails': 'Nature trails',
+  'mobilityPlatform.menu.show.fitnessTrails': 'Fitness trails',
+  'mobilityPlatform.menu.list.showMore': 'Show more routes',
+  'mobilityPlatform.menu.list.showLess': 'Show less routes',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
@@ -701,7 +707,7 @@ const translations = {
   'mobilityPlatform.content.cityBikes.virtualStation': 'Virtual station',
   'mobilityPlatform.content.speedLimitZones.area': 'Speed limit zone',
   'mobilityPlatform.content.speedLimitZones.limit': 'Speed limit: {item} km/h',
-  'mobilityPlatform.content.speedLimitZones.suffix': '{item} km/h',
+  'mobilityPlatform.content.speedLimitZones.suffix': '{curr} km/h',
   'mobilityPlatform.content.publicToilets.title': 'Public restroom',
   'mobilityPlatform.content.publicToilets.openNormalTitle': 'Opening hours:',
   'mobilityPlatform.content.publicToilets.openSummerTitle': 'Special opening hours:',
@@ -738,8 +744,8 @@ const translations = {
   'mobilityPlatform.info.parkingChargeZones.paragraph.1': 'There are three different zones with different hourly rates in the City of Turku.',
   'mobilityPlatform.info.parkingChargeZones.paragraph.2': 'Zone 3 applies to the area between the boundaries of Zone 2 and the city limits.',
   'mobilityPlatform.info.parkingChargeZones.paragraph.3': 'However, the charge is always determined by the traffic signs in force and applies to the streets of Turku and the city’s own areas, such as the market hall and the City Hall.',
-  'mobilityPlatform.info.parkingChargeZones.zone.1': 'Zone I (downtown): 3,00 €/hour',
-  'mobilityPlatform.info.parkingChargeZones.zone.2': 'Zone II : 1,50 €/hour',
+  'mobilityPlatform.info.parkingChargeZones.zone.1': 'Zone I (downtown): 3,60 €/hour (from 1.1.2023)',
+  'mobilityPlatform.info.parkingChargeZones.zone.2': 'Zone II : 1,80 €/hour (from 1.1.2023)',
   'mobilityPlatform.info.parkingChargeZones.zone.3': 'Zone III: 0,60€/hour',
   'mobilityPlatform.info.cityBikes.paragraph.1': 'Turku city bikes, also known as Fölläri bikes, are bicycles everyone can rent using the Donkey Republic app. You can rent a fölläri for one time, monthly or seasonal use which covers the whole summertime.',
   'mobilityPlatform.info.cityBikes.paragraph.2': 'If you have a Föli season ticket of at least 30 days, you have the right to use the Fölläri bikes free of charge for an hour at a time. There are 700 bikes to rent and more than 70 stations.',
@@ -761,7 +767,10 @@ const translations = {
   'mobilityPlatform.info.streetMaintenance.noActivity': 'There is no street maintenance work in progress during the selected time period.',
   'mobilityPlatform.info.streetMaintenance.general': 'Street maintenance includes ploughing and sanding of streets, cycle paths and structurally indistinguishable footpaths and cycle paths in winter and removing the sand in spring.',
   'mobilityPlatform.info.streetMaintenance.link': 'Winter maintenance rules.',
-  'mobilityPlatform.info.streetMaintenance.brushedRoads': 'Bicycle roads that are shown on the map are part of the intensified winter maintenance. Snow will be removed by brushing and salt solution or sand will be used to prevent slippery conditions.', // TODO verify
+  'mobilityPlatform.info.streetMaintenance.brushedRoads': 'Bicycle roads that are shown on the map are part of the intensified winter maintenance. Snow will be removed by brushing and salt solution or sand will be used to prevent slippery conditions.',
+  'mobilityPlatform.info.markedTrails': 'Paavo trails are routes that have been marked on the terrain and introduce walkers to the local nature and urban environments in various places in Turku. In many places the trails merge with other outdoor recreation paths and link them together. Trails have been marked on the terrain with blue runner marks and round markings on trees and rocks. Cross-country biking is allowed in the forest parts of Paavo trails, as per the public right of access.',
+  'mobilityPlatform.info.natureTrails': 'The nature trails run through varied landscapes and by following them you get a good look at diverse natural environment of Turku. The paths have signs to improve navigation and guide boards telling about the local nature. Some footpaths have been covered with gravel and duckboards have been built in the wetlands to make walking easier. Stairs and bridges have been built to ease movement on steep slopes.',
+  'mobilityPlatform.info.fitnessTrails': 'City of Turku maintains over 20 fitness trails, located all over the city and these trails allow diverse exercise. Trails are lit between 6:00 and 22:00.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../../utils/utils';
+import { isDataValid, fitPolygonsToBounds } from '../../utils/utils';
 import MarinasContent from './components/MarinasContent';
 
 /**
@@ -22,7 +22,7 @@ const Marinas = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('MAR', 50, setMarinasData);
+      fetchMobilityMapPolygonData('Marina', 50, setMarinasData);
     }
   }, [openMobilityPlatform, setMarinasData]);
 
@@ -36,18 +36,12 @@ const Marinas = () => {
   const pathOptions = useContrast ? whiteOptions : blueOptions;
 
   const map = useMap();
-
-  const renderData = isDataValid(mobilityMap.marinas, marinasData);
+  const showMarinas = mobilityMap.marinas;
+  const renderData = isDataValid(showMarinas, marinasData);
 
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      marinasData.forEach((item) => {
-        bounds.push(item.geometry_coords);
-      });
-      map.fitBounds(bounds);
-    }
-  }, [mobilityMap.marinas, marinasData, map]);
+    fitPolygonsToBounds(renderData, marinasData, map);
+  }, [showMarinas, marinasData]);
 
   return (
     <>

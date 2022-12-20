@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../../../utils/utils';
+import { isDataValid, fitPolygonsToBounds } from '../../../utils/utils';
 
 /* Display brush sanded and brush salted bicycle roads */
 
@@ -49,33 +49,25 @@ const BrushedBicycleRoads = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('BND', 100, setBrushSandedRoutes);
-      fetchMobilityMapPolygonData('BLB', 100, setBrushSaltedRoutes);
+      fetchMobilityMapPolygonData('BrushSandedBicycleNetwork', 100, setBrushSandedRoutes);
+      fetchMobilityMapPolygonData('BrushSaltedBicycleNetwork', 100, setBrushSaltedRoutes);
     }
   }, [openMobilityPlatform, setBrushSandedRoutes, setBrushSaltedRoutes]);
 
   const map = useMap();
 
-  const renderBrushSandedData = isDataValid(mobilityMap.brushSandedRoads, brushSandedRoutes);
-  const renderBrushSaltedData = isDataValid(mobilityMap.brushSaltedRoads, brushSaltedRoutes);
-
-  const fitDataToBounds = (renderData, data) => {
-    if (renderData) {
-      const bounds = [];
-      data.forEach((item) => {
-        bounds.push(item.geometry_coords);
-      });
-      map.fitBounds([bounds]);
-    }
-  };
+  const showBrushSaltedRoute = mobilityMap.brushSaltedRoads;
+  const showBrushSandedRoute = mobilityMap.brushSandedRoads;
+  const renderBrushSandedData = isDataValid(showBrushSandedRoute, brushSandedRoutes);
+  const renderBrushSaltedData = isDataValid(showBrushSaltedRoute, brushSaltedRoutes);
 
   useEffect(() => {
-    fitDataToBounds(renderBrushSandedData, brushSandedRoutes);
-  }, [mobilityMap.brushSandedRoads, brushSandedRoutes]);
+    fitPolygonsToBounds(renderBrushSandedData, brushSandedRoutes, map);
+  }, [showBrushSandedRoute, brushSandedRoutes]);
 
   useEffect(() => {
-    fitDataToBounds(renderBrushSaltedData, brushSaltedRoutes);
-  }, [mobilityMap.brushSaltedRoads, brushSaltedRoutes]);
+    fitPolygonsToBounds(renderBrushSaltedData, brushSaltedRoutes, map);
+  }, [showBrushSaltedRoute, brushSaltedRoutes]);
 
   const renderRoutes = (renderData, data, isBrushSanded) => renderData
     && data.map(item => (

@@ -8,8 +8,8 @@ import bicycleStandIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bicycl
 import circleIcon from 'servicemap-ui-turku/assets/icons/icons-icon_circle_border.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { isDataValid } from '../utils/utils';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid, fitToMapBounds } from '../utils/utils';
 import BicycleStandContent from './components/BicycleStandContent';
 
 const BicycleStands = ({ classes }) => {
@@ -35,7 +35,7 @@ const BicycleStands = ({ classes }) => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapData('BIS', 1000, setBicycleStands);
+      fetchMobilityMapData('BicycleStand', 1000, setBicycleStands);
     }
   }, [openMobilityPlatform, setBicycleStands]);
 
@@ -48,29 +48,30 @@ const BicycleStands = ({ classes }) => {
   const renderData = isDataValid(mobilityMap.bicycleStands, bicycleStands);
 
   useEffect(() => {
-    if (renderData) {
-      const bounds = [];
-      bicycleStands.forEach((item) => {
-        bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
-      });
-      map.fitBounds(bounds);
-    }
+    fitToMapBounds(renderData, bicycleStands, map);
   }, [mobilityMap.bicycleStands, bicycleStands]);
 
   return (
     <>
-      {renderData
-        && bicycleStands.map(item => (
-          <Marker key={item.id} icon={customIcon} position={[item.geometry_coords.lat, item.geometry_coords.lon]}>
+      {renderData ? (
+        bicycleStands.map(item => (
+          <Marker
+            key={item.id}
+            icon={customIcon}
+            position={[item.geometry_coords.lat, item.geometry_coords.lon]}
+          >
             <div className={classes.popupWrapper}>
               <Popup>
                 <div className={classes.popupInner}>
-                  <BicycleStandContent bicycleStand={item} />
+                  <BicycleStandContent
+                    bicycleStand={item}
+                  />
                 </div>
               </Popup>
             </div>
           </Marker>
-        ))}
+        ))
+      ) : null}
     </>
   );
 };

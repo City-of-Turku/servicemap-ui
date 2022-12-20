@@ -55,8 +55,8 @@ const paths = {
     regex: /\/[a-zA-Z]{2}\/area/
   },
   mobilityPlatform: {
-    generate: () => `/mobility`,
-    regex: /\/[a-zA-Z]{2}\/mobility/
+    generate: type => `/mobility/${type ? `${type}` : ''}`,
+    regex: /\/[a-zA-Z]{2}\/mobility\/([a-z]+)/
   },
 }
 

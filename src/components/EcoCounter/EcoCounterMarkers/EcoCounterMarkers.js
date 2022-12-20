@@ -7,7 +7,7 @@ import ecoCounterIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-ic
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { createIcon, isDataValid } from '../../MobilityPlatform/utils/utils';
-import { fetchEcoCounterStations } from '../EcoCounterRequests/ecoCounterRequests';
+import { fetchTrafficCounterStations } from '../EcoCounterRequests/ecoCounterRequests';
 import EcoCounterContent from '../EcoCounterContent';
 
 const EcoCounterMarkers = ({ classes }) => {
@@ -24,7 +24,7 @@ const EcoCounterMarkers = ({ classes }) => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchEcoCounterStations(setEcoCounterStations);
+      fetchTrafficCounterStations('EC', setEcoCounterStations);
     }
   }, [openMobilityPlatform, setEcoCounterStations]);
 
