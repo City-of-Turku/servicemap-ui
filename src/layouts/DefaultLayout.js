@@ -93,31 +93,40 @@ const valueStore = {};
 
 // Mobility map visibility values
 const mobilityMapInitial = {
-  ecoCounter: false,
-  bicycleStands: false,
   chargingStations: false,
   gasFillingStations: false,
   rentalCars: false,
   parkingSpaces: false,
-  bikeServiceStations: false,
-  cityBikes: false,
   speedLimitZones: false,
   parkingChargeZones: false,
   marinas: false,
   boatParking: false,
   guestHarbour: false,
-  restRooms: false,
   disabledParking: false,
   scooterNoParking: false,
   scooterParking: false,
   scooterSpeedLimit: false,
   scootersRyde: false,
-  cultureRoutes: false,
-  bicycleRoutes: false,
   loadingPlaces: false,
+  streetMaintenance: false,
+};
+
+const mobilityMapWalkInitial = {
+  ecoCounter: false,
+  restRooms: false,
+  cultureRoutes: false,
+  markedTrails: false,
+  natureTrails: false,
+  fitnessTrails: false,
+};
+
+const mobilityMapBicycleInitial = {
+  bicycleStands: false,
+  bikeServiceStations: false,
+  cityBikes: false,
+  bicycleRoutes: false,
   brushSandedRoads: false,
   brushSaltedRoads: false,
-  streetMaintenance: false,
 };
 
 const DefaultLayout = (props) => {
@@ -132,6 +141,8 @@ const DefaultLayout = (props) => {
   const [speedLimitSelections, setSpeedLimitSelections] = useState([]);
   const [speedLimitZones, setSpeedLimitZones] = useState([]);
   const [mobilityMap, setMobilityMap] = useState(mobilityMapInitial);
+  const [mobilityMapWalk, setMobilityMapWalk] = useState(mobilityMapWalkInitial);
+  const [mobilityMapBicycle, setMobilityMapBicycle] = useState(mobilityMapBicycleInitial);
   const [streetMaintenancePeriod, setStreetMaintenancePeriod] = useState(null);
   const [isActiveStreetMaintenance, setIsActiveStreetMaintenance] = useState(true);
   const [showMarkedTrails, setShowMarkedTrails] = useState(false);
@@ -235,6 +246,10 @@ const DefaultLayout = (props) => {
                       setSpeedLimitZones,
                       mobilityMap,
                       setMobilityMap,
+                      mobilityMapWalk,
+                      setMobilityMapWalk,
+                      mobilityMapBicycle,
+                      setMobilityMapBicycle,
                       streetMaintenancePeriod,
                       setStreetMaintenancePeriod,
                       isActiveStreetMaintenance,
@@ -271,6 +286,8 @@ const DefaultLayout = (props) => {
                     speedLimitSelections,
                     speedLimitZones,
                     mobilityMap,
+                    mobilityMapWalk,
+                    mobilityMapBicycle,
                     streetMaintenancePeriod,
                     setIsActiveStreetMaintenance,
                     showMarkedTrails,

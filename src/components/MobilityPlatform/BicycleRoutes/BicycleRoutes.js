@@ -9,7 +9,7 @@ import { fitPolygonsToBounds, isDataValid } from '../utils/utils';
 const BicycleRoutes = () => {
   const [bicycleRoutes, setBicycleRoutes] = useState([]);
 
-  const { openMobilityPlatform, mobilityMap, bicycleRouteName } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMapBicycle, bicycleRouteName } = useContext(MobilityPlatformContext);
 
   const { Polyline } = global.rL;
 
@@ -32,14 +32,15 @@ const BicycleRoutes = () => {
     return [];
   };
 
+  const showBicycleRoutes = mobilityMapBicycle.bicycleRoutes;
   const activeBicycleRoute = getActiveRoutes(bicycleRoutes);
-  const renderData = isDataValid(mobilityMap.bicycleRoutes, activeBicycleRoute);
+  const renderData = isDataValid(showBicycleRoutes, activeBicycleRoute);
 
   const map = useMap();
 
   useEffect(() => {
     fitPolygonsToBounds(renderData, activeBicycleRoute, map);
-  }, [mobilityMap, activeBicycleRoute]);
+  }, [showBicycleRoutes, activeBicycleRoute]);
 
   return (
     <>

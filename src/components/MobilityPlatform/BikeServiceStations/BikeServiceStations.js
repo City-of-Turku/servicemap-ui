@@ -12,7 +12,7 @@ import BikeServiceStationContent from './components/BikeServiceStationContent';
 const BikeServiceStations = () => {
   const [bikeServiceStations, setBikeServiceStations] = useState([]);
 
-  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMapBicycle } = useContext(MobilityPlatformContext);
 
   const map = useMap();
 
@@ -29,11 +29,12 @@ const BikeServiceStations = () => {
     }
   }, [openMobilityPlatform, setBikeServiceStations]);
 
-  const renderData = isDataValid(mobilityMap.bikeServiceStations, bikeServiceStations);
+  const showBikeServiceStations = mobilityMapBicycle.bikeServiceStations;
+  const renderData = isDataValid(showBikeServiceStations, bikeServiceStations);
 
   useEffect(() => {
     fitToMapBounds(renderData, bikeServiceStations, map);
-  }, [mobilityMap.bikeServiceStations, bikeServiceStations]);
+  }, [showBikeServiceStations, bikeServiceStations]);
 
   return (
     <>

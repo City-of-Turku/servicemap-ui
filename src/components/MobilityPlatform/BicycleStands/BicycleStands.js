@@ -16,7 +16,7 @@ const BicycleStands = ({ classes }) => {
   const [bicycleStands, setBicycleStands] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMapBicycle } = useContext(MobilityPlatformContext);
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -45,11 +45,12 @@ const BicycleStands = ({ classes }) => {
     },
   });
 
-  const renderData = isDataValid(mobilityMap.bicycleStands, bicycleStands);
+  const showBicycleStands = mobilityMapBicycle.bicycleStands;
+  const renderData = isDataValid(showBicycleStands, bicycleStands);
 
   useEffect(() => {
     fitToMapBounds(renderData, bicycleStands, map);
-  }, [mobilityMap.bicycleStands, bicycleStands]);
+  }, [showBicycleStands, bicycleStands]);
 
   return (
     <>

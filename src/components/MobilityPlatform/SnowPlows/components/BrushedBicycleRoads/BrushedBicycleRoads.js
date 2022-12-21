@@ -12,7 +12,7 @@ const BrushedBicycleRoads = () => {
   const [brushSandedRoutes, setBrushSandedRoutes] = useState([]);
   const [brushSaltedRoutes, setBrushSaltedRoutes] = useState([]);
 
-  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMapBicycle } = useContext(MobilityPlatformContext);
 
   const { Polyline } = global.rL;
 
@@ -56,8 +56,8 @@ const BrushedBicycleRoads = () => {
 
   const map = useMap();
 
-  const showBrushSaltedRoute = mobilityMap.brushSaltedRoads;
-  const showBrushSandedRoute = mobilityMap.brushSandedRoads;
+  const showBrushSaltedRoute = mobilityMapBicycle.brushSaltedRoads;
+  const showBrushSandedRoute = mobilityMapBicycle.brushSandedRoads;
   const renderBrushSandedData = isDataValid(showBrushSandedRoute, brushSandedRoutes);
   const renderBrushSaltedData = isDataValid(showBrushSaltedRoute, brushSaltedRoutes);
 

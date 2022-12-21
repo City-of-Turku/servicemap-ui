@@ -16,7 +16,7 @@ const CityBikes = () => {
   const [cityBikeStatistics, setCityBikeStatistics] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMapBicycle } = useContext(MobilityPlatformContext);
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -51,7 +51,8 @@ const CityBikes = () => {
     }
   }, [openMobilityPlatform, setCityBikeStatistics]);
 
-  const renderData = isDataValid(mobilityMap.cityBikes, cityBikeStations);
+  const showCityBikes = mobilityMapBicycle.cityBikes;
+  const renderData = isDataValid(showCityBikes, cityBikeStations);
 
   useEffect(() => {
     if (renderData) {
@@ -61,7 +62,7 @@ const CityBikes = () => {
       });
       map.fitBounds(bounds);
     }
-  }, [mobilityMap.cityBikes, cityBikeStations]);
+  }, [showCityBikes, cityBikeStations]);
 
   return (
     <>

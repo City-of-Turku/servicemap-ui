@@ -11,7 +11,7 @@ const CultureRoutes = () => {
   const [cultureRoutesGeometry, setCultureRoutesGeometry] = useState([]);
   const [cultureRouteUnits, setCultureRouteUnits] = useState([]);
 
-  const { openMobilityPlatform, mobilityMap, cultureRouteId } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMapWalk, cultureRouteId } = useContext(MobilityPlatformContext);
 
   const { Polyline } = global.rL;
 
@@ -51,7 +51,8 @@ const CultureRoutes = () => {
 
   const map = useMap();
 
-  const renderData = isDataValid(mobilityMap.cultureRoutes, activeCultureRoute);
+  const showCultureRoutes = mobilityMapWalk.cultureRoutes;
+  const renderData = isDataValid(showCultureRoutes, activeCultureRoute);
 
   useEffect(() => {
     if (renderData) {
@@ -61,7 +62,7 @@ const CultureRoutes = () => {
       });
       map.fitBounds([bounds]);
     }
-  }, [mobilityMap.cultureRoutes, activeCultureRoute, map]);
+  }, [showCultureRoutes, activeCultureRoute]);
 
   return (
     <>

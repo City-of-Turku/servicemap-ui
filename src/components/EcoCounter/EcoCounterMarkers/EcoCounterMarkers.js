@@ -13,7 +13,7 @@ import EcoCounterContent from '../EcoCounterContent';
 const EcoCounterMarkers = ({ classes }) => {
   const [ecoCounterStations, setEcoCounterStations] = useState([]);
 
-  const { openMobilityPlatform, mobilityMap } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, mobilityMapWalk } = useContext(MobilityPlatformContext);
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -30,7 +30,8 @@ const EcoCounterMarkers = ({ classes }) => {
 
   const map = useMap();
 
-  const renderData = isDataValid(mobilityMap.ecoCounter, ecoCounterStations);
+  const showEcoCounter = mobilityMapWalk.ecoCounter;
+  const renderData = isDataValid(showEcoCounter, ecoCounterStations);
 
   useEffect(() => {
     if (renderData) {
@@ -40,7 +41,7 @@ const EcoCounterMarkers = ({ classes }) => {
       });
       map.fitBounds(bounds);
     }
-  }, [mobilityMap.ecoCounter]);
+  }, [showEcoCounter, ecoCounterStations]);
 
   return (
     <>

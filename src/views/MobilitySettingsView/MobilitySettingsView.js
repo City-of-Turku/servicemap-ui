@@ -81,25 +81,37 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setSpeedLimitZones,
     mobilityMap,
     setMobilityMap,
+    mobilityMapWalk,
+    setMobilityMapWalk,
+    mobilityMapBicycle,
+    setMobilityMapBicycle,
     streetMaintenancePeriod,
     setStreetMaintenancePeriod,
     isActiveStreetMaintenance,
-    showMarkedTrails,
-    setShowMarkedTrails,
     markedTrailsObj,
     setMarkedTrailsObj,
-    showNatureTrails,
-    setShowNatureTrails,
     natureTrailsObj,
     setNatureTrailsObj,
-    showFitnessTrails,
-    setShowFitnessTrails,
     fitnessTrailsObj,
     setFitnessTrailsObj,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
   const location = useLocation();
+
+  const showEcoCounter = mobilityMapWalk.ecoCounter;
+  const showRestRooms = mobilityMapWalk.restRooms;
+  const showCultureRoutes = mobilityMapWalk.cultureRoutes;
+  const showMarkedTrails = mobilityMapWalk.markedTrails;
+  const showNatureTrails = mobilityMapWalk.natureTrails;
+  const showFitnessTrails = mobilityMapWalk.fitnessTrails;
+
+  const showBicycleStands = mobilityMapBicycle.bicycleStands;
+  const showCityBikes = mobilityMapBicycle.cityBikes;
+  const showBikeServiceStations = mobilityMapBicycle.bikeServiceStations;
+  const showBicycleRoutes = mobilityMapBicycle.bicycleRoutes;
+  const showBrushSandedRoads = mobilityMapBicycle.brushSandedRoads;
+  const showBrushSaltedRoads = mobilityMapBicycle.brushSaltedRoads;
 
   const bikeInfo = {
     paragraph1: 'mobilityPlatform.info.cityBikes.paragraph.1',
@@ -388,21 +400,45 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    * @returns {boolean}
    */
   const ecoCounterStationsToggle = () => {
-    if (!mobilityMap.ecoCounter) {
-      setMobilityMap(mobilityMap => ({ ...mobilityMap, ecoCounter: true }));
-    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, ecoCounter: false }));
+    if (!showEcoCounter) {
+      setMobilityMapWalk(mobilityMapWalk => ({ ...mobilityMapWalk, ecoCounter: true }));
+    } else setMobilityMapWalk(mobilityMapWalk => ({ ...mobilityMapWalk, ecoCounter: false }));
+  };
+
+  const publicRestroomsToggle = () => {
+    if (!showRestRooms) {
+      setMobilityMapWalk(mobilityMapWalk => ({ ...mobilityMapWalk, restRooms: true }));
+    } else setMobilityMapWalk(mobilityMapWalk => ({ ...mobilityMapWalk, restRooms: false }));
   };
 
   const bicycleStandsToggle = () => {
-    if (!mobilityMap.bicycleStands) {
-      setMobilityMap(mobilityMap => ({ ...mobilityMap, bicycleStands: true }));
-    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, bicycleStands: false }));
+    if (!showBicycleStands) {
+      setMobilityMapBicycle(mobilityMapBicycle => ({ ...mobilityMapBicycle, bicycleStands: true }));
+    } else setMobilityMapBicycle(mobilityMapBicycle => ({ ...mobilityMapBicycle, bicycleStands: false }));
   };
 
-  const parkingSpacesToggle = () => {
-    if (!mobilityMap.parkingSpaces) {
-      setMobilityMap(mobilityMap => ({ ...mobilityMap, parkingSpaces: true }));
-    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, parkingSpaces: false }));
+  const bikeServiceStationsToggle = () => {
+    if (!showBikeServiceStations) {
+      setMobilityMapBicycle(mobilityMapBicycle => ({ ...mobilityMapBicycle, bikeServiceStations: true }));
+    } else setMobilityMapBicycle(mobilityMapBicycle => ({ ...mobilityMapBicycle, bikeServiceStations: false }));
+  };
+
+  const cityBikesToggle = () => {
+    if (!showCityBikes) {
+      setMobilityMapBicycle(mobilityMapBicycle => ({ ...mobilityMapBicycle, cityBikes: true }));
+    } else setMobilityMapBicycle(mobilityMapBicycle => ({ ...mobilityMapBicycle, cityBikes: false }));
+  };
+
+  const brushSandedRouteToggle = () => {
+    if (!showBrushSandedRoads) {
+      setMobilityMapBicycle(mobilityMapBicycle => ({ ...mobilityMapBicycle, brushSandedRoads: true }));
+    } else setMobilityMapBicycle(mobilityMapBicycle => ({ ...mobilityMapBicycle, brushSandedRoads: false }));
+  };
+
+  const brushSaltedRouteToggle = () => {
+    if (!showBrushSaltedRoads) {
+      setMobilityMapBicycle(mobilityMapBicycle => ({ ...mobilityMapBicycle, brushSaltedRoads: true }));
+    } else setMobilityMapBicycle(mobilityMapBicycle => ({ ...mobilityMapBicycle, brushSaltedRoads: false }));
   };
 
   const rentalCarsToggle = () => {
@@ -423,16 +459,22 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     } else setMobilityMap(mobilityMap => ({ ...mobilityMap, chargingStations: false }));
   };
 
-  const bikeServiceStationsToggle = () => {
-    if (!mobilityMap.bikeServiceStations) {
-      setMobilityMap(mobilityMap => ({ ...mobilityMap, bikeServiceStations: true }));
-    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, bikeServiceStations: false }));
+  const parkingSpacesToggle = () => {
+    if (!mobilityMap.parkingSpaces) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, parkingSpaces: true }));
+    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, parkingSpaces: false }));
   };
 
-  const cityBikesToggle = () => {
-    if (!mobilityMap.cityBikes) {
-      setMobilityMap(mobilityMap => ({ ...mobilityMap, cityBikes: true }));
-    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, cityBikes: false }));
+  const disabledParkingToggle = () => {
+    if (!mobilityMap.disabledParking) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, disabledParking: true }));
+    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, disabledParking: false }));
+  };
+
+  const loadingPlacesToggle = () => {
+    if (!mobilityMap.loadingPlaces) {
+      setMobilityMap(mobilityMap => ({ ...mobilityMap, loadingPlaces: true }));
+    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, loadingPlaces: false }));
   };
 
   const marinasToggle = () => {
@@ -453,18 +495,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     } else setMobilityMap(mobilityMap => ({ ...mobilityMap, guestHarbour: false }));
   };
 
-  const publicRestroomsToggle = () => {
-    if (!mobilityMap.restRooms) {
-      setMobilityMap(mobilityMap => ({ ...mobilityMap, restRooms: true }));
-    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, restRooms: false }));
-  };
-
-  const disabledParkingToggle = () => {
-    if (!mobilityMap.disabledParking) {
-      setMobilityMap(mobilityMap => ({ ...mobilityMap, disabledParking: true }));
-    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, disabledParking: false }));
-  };
-
   const scooterNoParkingToggle = () => {
     if (!mobilityMap.scooterNoParking) {
       setMobilityMap(mobilityMap => ({ ...mobilityMap, scooterNoParking: true }));
@@ -475,12 +505,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     if (!mobilityMap.scooterParking) {
       setMobilityMap(mobilityMap => ({ ...mobilityMap, scooterParking: true }));
     } else setMobilityMap(mobilityMap => ({ ...mobilityMap, scooterParking: false }));
-  };
-
-  const loadingPlacesToggle = () => {
-    if (!mobilityMap.loadingPlaces) {
-      setMobilityMap(mobilityMap => ({ ...mobilityMap, loadingPlaces: true }));
-    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, loadingPlaces: false }));
   };
 
   const scooterSpeedLimitAreasToggle = () => {
@@ -507,8 +531,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     if (cultureRouteId) {
       setCultureRouteId(null);
     }
-    if (mobilityMap.cultureRoutes) {
-      setMobilityMap(mobilityMap => ({ ...mobilityMap, cultureRoutes: false }));
+    if (showCultureRoutes) {
+      setMobilityMapWalk(mobilityMapWalk => ({ ...mobilityMapWalk, cultureRoutes: false }));
     }
     if (cultureRoutesToShow === (cultureRouteList.length || localizedCultureRoutes.length)) {
       setCultureRoutesToShow(4);
@@ -521,24 +545,13 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     }
   };
 
-  const bicycleRouteListToggle = () => {
-    setOpenBicycleRouteList(current => !current);
-    if (bicycleRouteName) {
-      setBicycleRouteName(null);
-    }
-    if (mobilityMap.bicycleRoutes) {
-      setMobilityMap(mobilityMap => ({ ...mobilityMap, bicycleRoutes: false }));
-    }
-    resetItemsToShow(bicycleRoutesToShow, bicycleRouteList, setBicycleRoutesToShow);
-  };
-
   const markedTrailListToggle = () => {
     setOpenMarkedTrailsList(current => !current);
     if (markedTrailsObj) {
       setMarkedTrailsObj({});
     }
     if (showMarkedTrails) {
-      setShowMarkedTrails(false);
+      setMobilityMapWalk(mobilityMapWalk => ({ ...mobilityMapWalk, markedTrails: false }));
     }
     if (markedTrailsToShow === markedTrailsSorted.length) {
       setMarkedTrailsToShow(4);
@@ -551,7 +564,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       setNatureTrailsObj({});
     }
     if (showNatureTrails) {
-      setShowNatureTrails(false);
+      setMobilityMapWalk(mobilityMapWalk => ({ ...mobilityMapWalk, natureTrails: false }));
     }
     resetItemsToShow(natureTrailsToShow, natureTrailsTkuSorted, setNatureTrailsToShow);
   };
@@ -562,9 +575,20 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       setFitnessTrailsObj({});
     }
     if (showFitnessTrails) {
-      setShowFitnessTrails(false);
+      setMobilityMapWalk(mobilityMapWalk => ({ ...mobilityMapWalk, fitnessTrails: false }));
     }
     resetItemsToShow(fitnessTrailsToShow, fitnessTrailsTkuSorted, setFitnessTrailsToShow);
+  };
+
+  const bicycleRouteListToggle = () => {
+    setOpenBicycleRouteList(current => !current);
+    if (bicycleRouteName) {
+      setBicycleRouteName(null);
+    }
+    if (showBicycleRoutes) {
+      setMobilityMapBicycle(mobilityMapBicycle => ({ ...mobilityMapBicycle, bicycleRoutes: false }));
+    }
+    resetItemsToShow(bicycleRoutesToShow, bicycleRouteList, setBicycleRoutesToShow);
   };
 
   const streetMaintenanceListToggle = () => {
@@ -575,18 +599,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     if (mobilityMap.streetMaintenance) {
       setMobilityMap(mobilityMap => ({ ...mobilityMap, streetMaintenance: false }));
     }
-  };
-
-  const brushSandedRouteToggle = () => {
-    if (!mobilityMap.brushSandedRoads) {
-      setMobilityMap(mobilityMap => ({ ...mobilityMap, brushSandedRoads: true }));
-    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, brushSandedRoads: false }));
-  };
-
-  const brushSaltedRouteToggle = () => {
-    if (!mobilityMap.brushSaltedRoads) {
-      setMobilityMap(mobilityMap => ({ ...mobilityMap, brushSaltedRoads: true }));
-    } else setMobilityMap(mobilityMap => ({ ...mobilityMap, brushSaltedRoads: false }));
   };
 
   /**
@@ -630,10 +642,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    */
   const setBicycleRouteState = (routeName) => {
     setBicycleRouteName(routeName);
-    setMobilityMap(mobilityMap => ({ ...mobilityMap, bicycleRoutes: true }));
+    setMobilityMapBicycle(mobilityMapBicycle => ({ ...mobilityMapBicycle, bicycleRoutes: true }));
     if (routeName === prevBicycleRouteNameRef.current) {
       setBicycleRouteName(null);
-      setMobilityMap(mobilityMap => ({ ...mobilityMap, bicycleRoutes: false }));
+      setMobilityMapBicycle(mobilityMapBicycle => ({ ...mobilityMapBicycle, bicycleRoutes: false }));
     }
   };
 
@@ -655,10 +667,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    */
   const setMarkedTrailState = (obj) => {
     setMarkedTrailsObj(obj);
-    setShowMarkedTrails(true);
+    setMobilityMapWalk(mobilityMapWalk => ({ ...mobilityMapWalk, markedTrails: true }));
     if (obj === prevMarkedTrailObjRef.current) {
       setMarkedTrailsObj({});
-      setShowMarkedTrails(false);
+      setMobilityMapWalk(mobilityMapWalk => ({ ...mobilityMapWalk, markedTrails: false }));
     }
   };
 
@@ -677,10 +689,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    */
   const setNatureTrailState = (obj) => {
     setNatureTrailsObj(obj);
-    setShowNatureTrails(true);
+    setMobilityMapWalk(mobilityMapWalk => ({ ...mobilityMapWalk, natureTrails: true }));
     if (obj === prevNatureTrailObjRef.current) {
       setNatureTrailsObj({});
-      setShowNatureTrails(false);
+      setMobilityMapWalk(mobilityMapWalk => ({ ...mobilityMapWalk, natureTrails: false }));
     }
   };
 
@@ -702,10 +714,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    */
   const setFitnessTrailState = (obj) => {
     setFitnessTrailsObj(obj);
-    setShowFitnessTrails(true);
+    setMobilityMapWalk(mobilityMapWalk => ({ ...mobilityMapWalk, fitnessTrails: true }));
     if (obj === prevFitnessTrailObjRef.current) {
       setFitnessTrailsObj({});
-      setShowFitnessTrails(false);
+      setMobilityMapWalk(mobilityMapWalk => ({ ...mobilityMapWalk, fitnessTrails: false }));
     }
   };
 
@@ -819,7 +831,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     {
       type: 'ecoCounterStations',
       msgId: 'mobilityPlatform.menu.showEcoCounter',
-      checkedValue: mobilityMap.ecoCounter,
+      checkedValue: showEcoCounter,
       onChangeValue: ecoCounterStationsToggle,
     },
     {
@@ -849,7 +861,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     {
       type: 'publicRestrooms',
       msgId: 'mobilityPlatform.menu.show.publicRestrooms',
-      checkedValue: mobilityMap.restRooms,
+      checkedValue: showRestRooms,
       onChangeValue: publicRestroomsToggle,
     },
   ];
@@ -864,31 +876,31 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     {
       type: 'bicycleStands',
       msgId: 'mobilityPlatform.menu.showBicycleStands',
-      checkedValue: mobilityMap.bicycleStands,
+      checkedValue: showBicycleStands,
       onChangeValue: bicycleStandsToggle,
     },
     {
       type: 'cityBikes',
       msgId: 'mobilityPlatform.menu.showCityBikes',
-      checkedValue: mobilityMap.cityBikes,
+      checkedValue: showCityBikes,
       onChangeValue: cityBikesToggle,
     },
     {
       type: 'bikeServiceStations',
       msgId: 'mobilityPlatform.menu.showBikeServiceStations',
-      checkedValue: mobilityMap.bikeServiceStations,
+      checkedValue: showBikeServiceStations,
       onChangeValue: bikeServiceStationsToggle,
     },
     {
       type: 'brushSandedRoute',
       msgId: 'mobilityPlatform.menu.show.brushSandedRoute',
-      checkedValue: mobilityMap.brushSandedRoads,
+      checkedValue: showBrushSandedRoads,
       onChangeValue: brushSandedRouteToggle,
     },
     {
       type: 'brushSaltedRoute',
       msgId: 'mobilityPlatform.menu.show.brushSaltedRoute',
-      checkedValue: mobilityMap.brushSaltedRoads,
+      checkedValue: showBrushSaltedRoads,
       onChangeValue: brushSaltedRouteToggle,
     },
   ];
@@ -1144,7 +1156,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const infoTextsWalking = [
     {
-      visible: mobilityMap.ecoCounter,
+      visible: showEcoCounter,
       type: 'ecoCounterInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" />,
     },
@@ -1159,25 +1171,25 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       component: <InfoTextBox infoText="mobilityPlatform.info.natureTrails" />,
     },
     {
-      visible: mobilityMap.restRooms,
+      visible: showRestRooms,
       type: 'publicRestroomsInfo',
-      component: <InfoTextBox infoText="mobilityPlatform.info.publicToilets" />,
+      component: <InfoTextBox infoText="mobilityPlatform.info.publicRestrooms" />,
     },
   ];
 
   const infoTextsCycling = [
     {
-      visible: mobilityMap.bicycleStands,
+      visible: showBicycleStands,
       type: 'bicycleStandsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.bicycleStands" />,
     },
     {
-      visible: mobilityMap.cityBikes,
+      visible: showCityBikes,
       type: 'cityBikesInfo',
       component: <CityBikeInfo bikeInfo={bikeInfo} />,
     },
     {
-      visible: mobilityMap.brushSaltedRoads || mobilityMap.brushSandedRoads,
+      visible: showBrushSaltedRoads || showBrushSandedRoads,
       type: 'brushedRoutes',
       component: <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.brushedRoads" />,
     },
