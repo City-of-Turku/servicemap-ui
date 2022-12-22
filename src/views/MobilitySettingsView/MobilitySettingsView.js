@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React, {
   useContext, useEffect, useMemo, useRef, useState,
 } from 'react';
+import { Helmet } from 'react-helmet';
 import { ReactSVG } from 'react-svg';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -38,6 +39,7 @@ import SpeedLimitZonesList from './components/SpeedLimitZonesList';
 import RouteListItem from './components/RouteListItem';
 
 const MobilitySettingsView = ({ classes, intl, navigator }) => {
+  const [pageTitle, setPageTitle] = useState(null);
   const [openWalkSettings, setOpenWalkSettings] = useState(false);
   const [openBicycleSettings, setOpenBicycleSettings] = useState(false);
   const [openCarSettings, setOpenCarSettings] = useState(false);
@@ -433,6 +435,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setOpenWalkSettings(current => !current);
     if (!openWalkSettings) {
       navigator.push('mobilityPlatform', 'walking');
+      setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.walk' }));
     }
   };
 
@@ -440,6 +443,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setOpenBicycleSettings(current => !current);
     if (!openBicycleSettings) {
       navigator.push('mobilityPlatform', 'cycling');
+      setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.bicycle' }));
     }
   };
 
@@ -447,6 +451,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setOpenCarSettings(current => !current);
     if (!openCarSettings) {
       navigator.push('mobilityPlatform', 'driving');
+      setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.car' }));
     }
   };
 
@@ -454,6 +459,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setOpenBoatingSettings(current => !current);
     if (!openBoatingSettings) {
       navigator.push('mobilityPlatform', 'boating');
+      setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.boating' }));
     }
   };
 
@@ -461,6 +467,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setOpenScooterSettings(current => !current);
     if (!openScooterSettings) {
       navigator.push('mobilityPlatform', 'scooters');
+      setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.scooter' }));
     }
   };
 
@@ -468,6 +475,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setOpenStreetMaintenanceSettings(current => !current);
     if (!openStreetMaintenanceSettings) {
       navigator.push('mobilityPlatform', 'snowplows');
+      setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.streetMaintenance' }));
     }
   };
 
@@ -1344,6 +1352,19 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     return acc;
   }, []);
 
+  /** Render header */
+  const renderHead = () => {
+    const title = intl.formatMessage({ id: 'general.pageTitles.mobilityPlatform.title' });
+    const appTitle = intl.formatMessage({ id: 'app.title' });
+    return (
+      <Helmet>
+        <title>
+          {pageTitle ? `${title} - ${pageTitle} | ${appTitle}` : `${title} | ${appTitle}`}
+        </title>
+      </Helmet>
+    );
+  };
+
   /** render section contents */
   const renderWalkSettings = () => (
     <React.Fragment>
@@ -1513,6 +1534,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   return (
     <div className={classes.content}>
+      {renderHead()}
       <TitleBar
         title={intl.formatMessage({ id: 'general.pageTitles.mobilityPlatform.title' })}
         titleComponent="h3"
