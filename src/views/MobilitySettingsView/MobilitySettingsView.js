@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { ReactSVG } from 'react-svg';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import iconBicycle from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle.svg';
 import iconBoat from 'servicemap-ui-turku/assets/icons/icons-icon_boating.svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
@@ -36,7 +37,7 @@ import SMAccordion from '../../components/SMAccordion';
 import SpeedLimitZonesList from './components/SpeedLimitZonesList';
 import RouteListItem from './components/RouteListItem';
 
-const MobilitySettingsView = ({ classes, intl }) => {
+const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [openWalkSettings, setOpenWalkSettings] = useState(false);
   const [openBicycleSettings, setOpenBicycleSettings] = useState(false);
   const [openCarSettings, setOpenCarSettings] = useState(false);
@@ -148,6 +149,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
+  const location = useLocation();
 
   const bikeInfo = {
     paragraph1: 'mobilityPlatform.info.cityBikes.paragraph.1',
@@ -209,6 +211,26 @@ const MobilitySettingsView = ({ classes, intl }) => {
   useEffect(() => {
     fetchMobilityMapPolygonData('FitnessTrail', 200, setFitnessTrailsList);
   }, [setFitnessTrailsList]);
+
+  /** If direct link is used to navigate, open correct content view
+   * @param {string} pathname
+   * @return {('react').SetStateAction}
+   */
+  useEffect(() => {
+    if (location.pathname.includes('walking')) {
+      setOpenWalkSettings(true);
+    } else if (location.pathname.includes('cycling')) {
+      setOpenBicycleSettings(true);
+    } else if (location.pathname.includes('driving')) {
+      setOpenCarSettings(true);
+    } else if (location.pathname.includes('scooters')) {
+      setOpenScooterSettings(true);
+    } else if (location.pathname.includes('boating')) {
+      setOpenBoatingSettings(true);
+    } else if (location.pathname.includes('snowplows')) {
+      setOpenStreetMaintenanceSettings(true);
+    }
+  }, [location]);
 
   /**
    * Check is visibility boolean values are true
@@ -411,26 +433,44 @@ const MobilitySettingsView = ({ classes, intl }) => {
    */
   const walkSettingsToggle = () => {
     setOpenWalkSettings(current => !current);
+    if (!openWalkSettings) {
+      navigator.push('mobilityPlatform', 'walking');
+    }
   };
 
   const bicycleSettingsToggle = () => {
     setOpenBicycleSettings(current => !current);
+    if (!openBicycleSettings) {
+      navigator.push('mobilityPlatform', 'cycling');
+    }
   };
 
   const carSettingsToggle = () => {
     setOpenCarSettings(current => !current);
+    if (!openCarSettings) {
+      navigator.push('mobilityPlatform', 'driving');
+    }
   };
 
   const boatingSettingsToggle = () => {
     setOpenBoatingSettings(current => !current);
+    if (!openBoatingSettings) {
+      navigator.push('mobilityPlatform', 'boating');
+    }
   };
 
   const scooterSettingsToggle = () => {
     setOpenScooterSettings(current => !current);
+    if (!openScooterSettings) {
+      navigator.push('mobilityPlatform', 'scooters');
+    }
   };
 
   const streetMaintenanceSettingsToggle = () => {
     setOpenStreetMaintenanceSettings(current => !current);
+    if (!openStreetMaintenanceSettings) {
+      navigator.push('mobilityPlatform', 'snowplows');
+    }
   };
 
   /**
@@ -1489,6 +1529,7 @@ const MobilitySettingsView = ({ classes, intl }) => {
         title={intl.formatMessage({ id: 'general.pageTitles.mobilityPlatform.title' })}
         titleComponent="h3"
         backButton
+        backButtonOnClick={() => navigator.push('home')}
         className={classes.topBarColor}
       />
       <div className={classes.container}>
@@ -1523,6 +1564,11 @@ const MobilitySettingsView = ({ classes, intl }) => {
 MobilitySettingsView.propTypes = {
   intl: PropTypes.objectOf(PropTypes.any).isRequired,
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
+  navigator: PropTypes.objectOf(PropTypes.any),
+};
+
+MobilitySettingsView.defaultProps = {
+  navigator: null,
 };
 
 export default MobilitySettingsView;
