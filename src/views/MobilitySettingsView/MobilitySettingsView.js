@@ -493,6 +493,29 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     }
   };
 
+  /** Reset page title if opened sections have been closed and page title is not initial value */
+  useEffect(() => {
+    if (
+      !openWalkSettings
+      && !openBicycleSettings
+      && !openCarSettings
+      && !openBoatingSettings
+      && !openScooterSettings
+      && !openStreetMaintenanceSettings
+      && pageTitle
+    ) {
+      setPageTitle(null);
+    }
+  }, [
+    openWalkSettings,
+    openBicycleSettings,
+    openCarSettings,
+    openBoatingSettings,
+    openScooterSettings,
+    openStreetMaintenanceSettings,
+    pageTitle,
+  ]);
+
   /**
    * Toggle functions for content types
    * @var {boolean}
@@ -1092,9 +1115,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
           type="BicycleRoute"
           setRouteState={setBicycleRouteState}
         >
-          {item.name_fi === bicycleRouteName ? (
-            <RouteLength key={item.id} route={item} />
-          ) : null}
+          {item.name_fi === bicycleRouteName ? <RouteLength key={item.id} route={item} /> : null}
         </RouteListItem>
       ))
       : null;
@@ -1115,11 +1136,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
           type="CultureRoute"
           setRouteState={setCultureRouteState}
         >
-          {item.id === cultureRouteId ? (
-            <Description key={item.name} route={item} currentLocale={locale} />
-          ) : null}
+          {item.id === cultureRouteId ? <Description key={item.name} route={item} currentLocale={locale} /> : null}
         </RouteListItem>
-      )) : null;
+      ))
+      : null;
   };
 
   const renderSelectTrailText = (visibilityValue, obj, routeList) => {
@@ -1372,9 +1392,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     const appTitle = intl.formatMessage({ id: 'app.title' });
     return (
       <Helmet>
-        <title>
-          {pageTitle ? `${title} - ${pageTitle} | ${appTitle}` : `${title} | ${appTitle}`}
-        </title>
+        <title>{pageTitle ? `${title} - ${pageTitle} | ${appTitle}` : `${title} | ${appTitle}`}</title>
       </Helmet>
     );
   };
