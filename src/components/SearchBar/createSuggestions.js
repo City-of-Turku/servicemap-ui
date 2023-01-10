@@ -5,6 +5,7 @@ const createSuggestions = (
   abortController,
   getLocaleText,
   citySettings,
+  locale,
 ) => async () => {
   const smAPI = new ServiceMapAPI();
   smAPI.setAbortController(abortController);
@@ -23,6 +24,7 @@ const createSuggestions = (
     address_limit: addressLimit,
     servicenode_limit: servicenodeLimit,
     municipality: citySettings.join(','),
+    language: locale,
   };
 
   const results = await smAPI.searchSuggestions(query, additionalOptions);

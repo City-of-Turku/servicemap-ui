@@ -6,10 +6,10 @@ exports[`<CityBikeInfo /> should work 1`] = `
     class="injectIntl(EmptyRouteList)-paragraph-1"
   >
     <p
-      aria-label="Reittejä ei löytynyt."
+      aria-label="Reittejä ladataan."
       class="MuiTypography-root MuiTypography-subtitle2"
     >
-      Reittejä ei löytynyt.
+      Reittejä ladataan.
     </p>
   </div>
 </div>

@@ -41,8 +41,15 @@ export const getPreviousSearches = () => {
   const jsonHistory = toJson(history);
 
   if (jsonHistory) {
+    // Remove possible duplicates
+    const filteredHistory = jsonHistory.filter((obj, index, array) => (
+      index === array.findIndex(item => (
+        item.object_type === obj.object_type
+        && item.searchText?.toLowerCase() === obj.searchText?.toLowerCase()))
+    ));
+
     // Sort history
-    const sortedHistory = jsonHistory.sort((a, b) => b.weightedLastSearch - a.weightedLastSearch);
+    const sortedHistory = filteredHistory.sort((a, b) => b.weightedLastSearch - a.weightedLastSearch);
     return sortedHistory.slice(0, historyCount);
   }
   return null;
@@ -53,8 +60,8 @@ export const getFullHistory = () => {
   return toJson(history);
 };
 
-export const saveSearchToHistory = (searchWord, searchItem) => {
-  if (!searchWord || searchWord === '' || !searchItem) return;
+export const saveSearchToHistory = (searchText, searchItem) => {
+  if (!searchText || searchText === '' || !searchItem) return;
   const today = new Date();
 
   const data = LocalStorageUtility.getItem(key);
@@ -64,14 +71,14 @@ export const saveSearchToHistory = (searchWord, searchItem) => {
   }
 
   const current = jsonData.find(item => (
-    item.searchText.toLowerCase() === searchWord.toLowerCase()
+    item.searchText?.toLowerCase() === searchText.toLowerCase()
     && item.object_type === searchItem.object_type
   ));
 
   if (!current) {
     // Add new item to search history
     jsonData.push({
-      searchText: searchWord,
+      searchText,
       ...searchItem,
       weight: 1,
       weightedLastSearch: today.getTime(),

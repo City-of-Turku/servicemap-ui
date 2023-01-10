@@ -12,6 +12,7 @@ import config from '../../../../../config';
 import { keyboardHandler, uppercaseFirst } from '../../../../utils';
 import { useNavigationParams } from '../../../../utils/address';
 import useLocaleText from '../../../../utils/useLocaleText';
+import { getLocale } from '../../../../redux/selectors/locale';
 import SuggestionItem from '../../../ListItems/SuggestionItem';
 import { getIcon } from '../../../SMIcon';
 import UnitIcon from '../../../SMIcon/UnitIcon';
@@ -43,6 +44,7 @@ const SuggestionBox = (props) => {
   const [suggestionQuery, setSuggestionQuery] = useState(null);
 
   const dispatch = useDispatch();
+  const locale = useSelector(getLocale);
   const getLocaleText = useLocaleText();
   const getAddressNavigatorParams = useNavigationParams();
   const listRef = useRef(null);
@@ -97,6 +99,7 @@ const SuggestionBox = (props) => {
         fetchController.current,
         getLocaleText,
         citySettings,
+        locale,
       ))
         .then((data) => {
           if (data === 'error') {

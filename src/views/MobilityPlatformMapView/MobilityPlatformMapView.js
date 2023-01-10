@@ -18,7 +18,14 @@ import NoParking from '../../components/MobilityPlatform/Scooters/components/NoP
 import ParkingAreas from '../../components/MobilityPlatform/Scooters/components/ParkingAreas';
 import ScooterMarkers from '../../components/MobilityPlatform/Scooters/components/ScooterMarkers';
 import SpeedLimitAreas from '../../components/MobilityPlatform/Scooters/components/SpeedLimitAreas';
+import SnowPlows from '../../components/MobilityPlatform/SnowPlows';
 import SpeedLimitZones from '../../components/MobilityPlatform/SpeedLimitZones';
+import DisabledParking from '../../components/MobilityPlatform/Parking/DisabledParking';
+import LoadingPlaces from '../../components/MobilityPlatform/LoadingPlaces';
+import BrushedBicycleRoads from '../../components/MobilityPlatform/SnowPlows/components/BrushedBicycleRoads';
+import MarkedTrails from '../../components/MobilityPlatform/MarkedTrails';
+import NatureTrails from '../../components/MobilityPlatform/NatureTrails';
+import FitnessTrails from '../../components/MobilityPlatform/FitnessTrails';
 
 const MobilityPlatformMapView = () => (
   <>
@@ -42,6 +49,13 @@ const MobilityPlatformMapView = () => (
     <ParkingAreas />
     <SpeedLimitAreas />
     <ScooterMarkers />
+    <DisabledParking />
+    <LoadingPlaces />
+    <SnowPlows />
+    <BrushedBicycleRoads />
+    <MarkedTrails />
+    <NatureTrails />
+    <FitnessTrails />
   </>
 );
 

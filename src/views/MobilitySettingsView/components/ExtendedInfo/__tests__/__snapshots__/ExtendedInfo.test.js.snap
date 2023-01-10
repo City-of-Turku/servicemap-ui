@@ -11,21 +11,23 @@ exports[`<ExtendedInfo /> should work 1`] = `
     >
       Turussa on käytössä kolme eri vyöhykettä, joilla on eri tuntimaksut.
     </p>
-    <ul>
+    <ul
+      class="injectIntl(ExtendedInfo)-list-3"
+    >
       <li>
         <p
-          aria-label="Ensimmäinen vyöhyke (ydinkeskusta-alue): 3,00 €/tunti"
+          aria-label="Ensimmäinen vyöhyke (ydinkeskusta-alue): 3,60 €/tunti (1.1.2023 alkaen)"
           class="MuiTypography-root MuiTypography-body2"
         >
-          Ensimmäinen vyöhyke (ydinkeskusta-alue): 3,00 €/tunti
+          Ensimmäinen vyöhyke (ydinkeskusta-alue): 3,60 €/tunti (1.1.2023 alkaen)
         </p>
       </li>
       <li>
         <p
-          aria-label="Toinen vyöhyke : 1,50 €/tunti"
+          aria-label="Toinen vyöhyke : 1,80 €/tunti (1.1.2023 alkaen)"
           class="MuiTypography-root MuiTypography-body2"
         >
-          Toinen vyöhyke : 1,50 €/tunti
+          Toinen vyöhyke : 1,80 €/tunti (1.1.2023 alkaen)
         </p>
       </li>
       <li>

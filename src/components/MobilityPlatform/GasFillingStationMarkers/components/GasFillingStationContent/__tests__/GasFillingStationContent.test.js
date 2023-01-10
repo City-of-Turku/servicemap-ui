@@ -1,7 +1,6 @@
 // Link.react.test.js
 import React from 'react';
 import GasFillingStationContent from '../index';
-import finnishTranslations from '../../../../../../i18n/fi';
 import { getRenderWithProviders } from '../../../../../../../jestUtils';
 
 const mockProps = {
@@ -18,7 +17,7 @@ const mockProps = {
 const renderWithProviders = getRenderWithProviders({});
 
 describe('<GasFillingStationContent />', () => {
-  it('should work', () => {
+  it('should match snapshot', () => {
     const { container } = renderWithProviders(<GasFillingStationContent {...mockProps} />);
     expect(container).toMatchSnapshot();
   });
@@ -29,8 +28,8 @@ describe('<GasFillingStationContent />', () => {
     const p = container.querySelectorAll('p');
     const h6 = container.querySelector('h6');
     expect(h6.textContent).toContain(mockProps.station.name);
-    expect(p[0].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.address']}: ${mockProps.station.address}`);
-    expect(p[1].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.gfsType']}: ${mockProps.station.extra.lng_cng}`);
-    expect(p[2].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.operator']}: ${mockProps.station.extra.operator}`);
+    expect(p[0].textContent).toContain(`Osoite: ${mockProps.station.address}`);
+    expect(p[1].textContent).toContain(`Kaasuaseman tyyppi: ${mockProps.station.extra.lng_cng}`);
+    expect(p[2].textContent).toContain(`Operaattori: ${mockProps.station.extra.operator}`);
   });
 });

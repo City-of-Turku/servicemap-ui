@@ -1,5 +1,9 @@
-import { ButtonBase, Checkbox, Collapse, Divider, List, ListItem, NoSsr, Typography } from '@material-ui/core';
-import { ArrowDropDown, ArrowDropUp, Cancel, Search } from '@material-ui/icons';
+import {
+  ButtonBase, Checkbox, Collapse, Divider, List, ListItem, NoSsr, Typography,
+} from '@material-ui/core';
+import {
+  ArrowDropDown, ArrowDropUp, Cancel, Search,
+} from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -445,6 +449,7 @@ const ServiceTreeView = (props) => {
         {renderSelectionList(selectedList)}
       </div>
       <div className={classes.mainContent}>
+        <Typography className={classes.guidanceInfoText} variant="body2">{intl.formatMessage({ id: 'services.info' })}</Typography>
         {renderSearchButton(selectedList)}
         {renderServiceNodeList()}
       </div>

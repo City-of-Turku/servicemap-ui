@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<BikeServiceStationContent /> should work 1`] = `
+exports[`<BikeServiceStationContent /> should match snapshot 1`] = `
 <div>
   <div
     class="injectIntl(BikeServiceStationContent)-container-1"
@@ -26,12 +26,7 @@ exports[`<BikeServiceStationContent /> should work 1`] = `
           <p
             class="MuiTypography-root MuiTypography-body2"
           >
-            <strong>
-              Osoite
-              :
-            </strong>
-             
-            osoite
+            Osoite: osoite
           </p>
         </div>
         <p

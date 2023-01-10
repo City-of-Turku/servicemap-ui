@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ChargerStationContent /> should match snapshot 1`] = `
+<div>
+  <div
+    class="injectIntl(ChargerStationContent)-container-1"
+  >
+    <div
+      class="injectIntl(ChargerStationContent)-headerContainer-2"
+    >
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle1"
+      >
+        Testinimi
+      </h6>
+    </div>
+    <div
+      class="injectIntl(ChargerStationContent)-textContainer-3"
+    >
+      <div
+        class="injectIntl(ChargerStationContent)-margin-5"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          Osoite: osoite
+        </p>
+      </div>
+      <div
+        class="injectIntl(ChargerStationContent)-margin-5"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          Ylläpitäjä: Testiylläpitäjä
+        </p>
+      </div>
+      <div
+        class="injectIntl(ChargerStationContent)-margin-5"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          Maksullinen
+        </p>
+      </div>
+      <div
+        class="injectIntl(ChargerStationContent)-margin-5"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle2"
+        >
+          Latausasemat
+          :
+        </h6>
+      </div>
+      <div
+        class="injectIntl(ChargerStationContent)-contentInner-4"
+      >
+        <div>
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            Sähkölatausaseman tyyppi: CCS
+          </p>
+        </div>
+        <div>
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            Määrä: 4
+          </p>
+        </div>
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          Teho: 50 kW
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

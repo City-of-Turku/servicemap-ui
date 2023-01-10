@@ -1,10 +1,10 @@
 import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import useLocaleText from '../../../../../utils/useLocaleText';
 
 const ChargerStationContent = ({ classes, intl, station }) => {
-  const locale = useSelector(state => state.user.locale);
+  const getLocaleText = useLocaleText();
 
   const titleTypo = (messageId, props = {}) => (
     <div {...props}>
@@ -20,49 +20,33 @@ const ChargerStationContent = ({ classes, intl, station }) => {
   const singleValTypo = (messageId, value, props = {}) => (
     <div {...props}>
       <Typography variant="body2">
-        <strong>
-          {intl.formatMessage({
-            id: messageId,
-          })}
-          :
-        </strong>
-        {' '}
-        {value}
+        {intl.formatMessage({ id: messageId }, { value })}
       </Typography>
     </div>
   );
 
-  const renderStationName = (nameFi, nameEn, nameSv) => {
-    switch (locale) {
-      case 'en':
-        return nameEn;
-      case 'sv':
-        return nameSv;
-      default:
-        return nameFi;
-    }
+  const stationName = {
+    fi: station.name,
+    en: station.name_en,
+    sv: station.name_sv,
   };
 
-  const renderAddress = () => {
-    switch (locale) {
-      case 'en':
-        return singleValTypo('mobilityPlatform.content.address', station.address_en, { className: classes.margin });
-      case 'sv':
-        return singleValTypo('mobilityPlatform.content.address', station.address_sv, { className: classes.margin });
-      default:
-        return singleValTypo('mobilityPlatform.content.address', station.address_fi, { className: classes.margin });
-    }
+  const stationAddress = {
+    fi: station.address_fi,
+    en: station.address_en,
+    sv: station.address_sv,
   };
+
+  const renderAddress = () => singleValTypo('mobilityPlatform.content.address', getLocaleText(stationAddress), { className: classes.margin });
 
   const renderAdministrator = (item) => {
-    switch (locale) {
-      case 'en':
-        return singleValTypo('mobilityPlatform.chargerStations.content.admin', item.en, { className: classes.margin });
-      case 'sv':
-        return singleValTypo('mobilityPlatform.chargerStations.content.admin', item.sv, { className: classes.margin });
-      default:
-        return singleValTypo('mobilityPlatform.chargerStations.content.admin', item.fi, { className: classes.margin });
-    }
+    const stationAdmin = {
+      fi: item.fi,
+      en: item.en,
+      sv: item.sv,
+    };
+
+    return singleValTypo('mobilityPlatform.chargerStations.content.admin', getLocaleText(stationAdmin), { className: classes.margin });
   };
 
   const renderPayment = (paymentType, props = {}) => {
@@ -94,16 +78,7 @@ const ChargerStationContent = ({ classes, intl, station }) => {
             {singleValTypo('mobilityPlatform.content.cgsType', charger.plug)}
             {singleValTypo('mobilityPlatform.content.count', charger.number)}
             <Typography variant="body2">
-              <strong>
-                {intl.formatMessage({
-                  id: 'mobilityPlatform.content.power',
-                })}
-                :
-              </strong>
-              {' '}
-              {charger.power}
-              {' '}
-              kW
+              {intl.formatMessage({ id: 'mobilityPlatform.content.power' }, { value: charger.power })}
             </Typography>
           </div>
         ))
@@ -115,7 +90,7 @@ const ChargerStationContent = ({ classes, intl, station }) => {
     <div className={classes.container}>
       <div className={classes.headerContainer}>
         <Typography variant="subtitle1">
-          {renderStationName(station.name, station.name_en, station.name_sv)}
+          {getLocaleText(stationName)}
         </Typography>
       </div>
       <div className={classes.textContainer}>

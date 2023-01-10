@@ -64,6 +64,10 @@ export default theme => ({
   checkboxFocus: {
     boxShadow: `inset 0 0 0 4px ${theme.palette.primary.main} !important`,
   },
+  guidanceInfoText: {
+    margin: `${theme.spacing(2)}px ${theme.spacing(3)}px`,
+    marginBottom: 0,
+  },
   outerLines: {
     height: '100%',
     width: 26,

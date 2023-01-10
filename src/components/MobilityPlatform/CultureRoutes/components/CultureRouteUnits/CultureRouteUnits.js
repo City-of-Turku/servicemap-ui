@@ -6,8 +6,11 @@ import { useIntl } from 'react-intl';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import routeUnitIcon from 'servicemap-ui-turku/assets/icons/icons-icon_culture_route.svg';
+import routeUnitIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_culture_route-bw.svg';
 import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
-import { selectRouteName } from '../../../utils/utils';
+import { useAccessibleMap } from '../../../../../redux/selectors/settings';
+import { createIcon } from '../../../utils/utils';
+import useLocaleText from '../../../../../utils/useLocaleText';
 
 const CultureRouteUnits = ({ classes, cultureRouteUnits }) => {
   const { cultureRouteId } = useContext(MobilityPlatformContext);
@@ -15,15 +18,15 @@ const CultureRouteUnits = ({ classes, cultureRouteUnits }) => {
   const intl = useIntl();
 
   const locale = useSelector(state => state.user.locale);
+  const getLocaleText = useLocaleText();
   const map = useMap();
 
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
-  const customIcon = icon({
-    iconUrl: routeUnitIcon,
-    iconSize: [45, 45],
-  });
+  const useContrast = useSelector(useAccessibleMap);
+
+  const customIcon = icon(createIcon(useContrast ? routeUnitIconBw : routeUnitIcon));
 
   const closePopup = () => {
     if (map) {
@@ -31,7 +34,14 @@ const CultureRouteUnits = ({ classes, cultureRouteUnits }) => {
     }
   };
 
-  const activeCultureRouteUnits = cultureRouteUnits.filter(item => item.mobile_unit_group.id === cultureRouteId);
+  const filterRouteUnits = (data) => {
+    if (data && data.length > 0) {
+      return data.filter(item => item.mobile_unit_group.id === cultureRouteId);
+    }
+    return [];
+  };
+
+  const activeCultureRouteUnits = filterRouteUnits(cultureRouteUnits);
 
   /**
    * Returns description based on locale
@@ -67,6 +77,15 @@ const CultureRouteUnits = ({ classes, cultureRouteUnits }) => {
     );
   };
 
+  const getRouteUnitName = (name, nameEn, nameSv) => {
+    const routeUnitName = {
+      fi: name,
+      en: nameEn,
+      sv: nameSv,
+    };
+    return getLocaleText(routeUnitName);
+  };
+
   /**
    * Default close button is set to false, because it would overlap with the scrollbar
    * It is easier to make a custom close button than to edit the default close button
@@ -74,16 +93,15 @@ const CultureRouteUnits = ({ classes, cultureRouteUnits }) => {
 
   return (
     <>
-      <div>
-        {activeCultureRouteUnits
-          && activeCultureRouteUnits.length > 0
-          && activeCultureRouteUnits.map(item => (
+      {activeCultureRouteUnits
+          && activeCultureRouteUnits.length > 0 ? (
+          activeCultureRouteUnits.map(item => (
             <Marker key={item.id} icon={customIcon} position={[item.geometry_coords.lat, item.geometry_coords.lon]}>
               <Popup closeButton={false} maxHeight={400} className="culture-route-unit-popup">
                 <div className={classes.popupInner}>
                   <div className={classes.header}>
                     <Typography variant="subtitle1">
-                      {selectRouteName(locale, item.name, item.name_en, item.name_sv)}
+                      {getRouteUnitName(item.name, item.name_en, item.name_sv)}
                     </Typography>
                     <ButtonBase onClick={() => closePopup()} className={classes.popupCloseButton}>
                       <Close className={classes.closeIcon} />
@@ -99,8 +117,8 @@ const CultureRouteUnits = ({ classes, cultureRouteUnits }) => {
                 </div>
               </Popup>
             </Marker>
-          ))}
-      </div>
+          ))
+        ) : null}
     </>
   );
 };

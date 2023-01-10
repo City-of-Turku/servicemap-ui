@@ -2,32 +2,6 @@ const styles = theme => ({
   topBarColor: {
     background: theme.palette.background.main,
   },
-  button: {
-    color: 'black',
-    width: '100%',
-    height: '3.125rem',
-    background: 'rgba(245, 245, 245, 255)',
-    textTransform: 'capitalize',
-    justifyContent: 'flex-start',
-    borderRadius: '0',
-    borderTop: 'none',
-    borderBottom: '1px solid #000000',
-    '&:hover': {
-      background: 'rgba(230, 230, 230, 255)',
-    },
-  },
-  active: {
-    borderBottom: '1px solid #6f7276',
-    borderTop: '1px solid #6f7276',
-    background: 'rgba(70, 72, 75, 255)',
-    color: '#fff',
-    '&:hover': {
-      color: '#fff',
-      background: '#3e3f42',
-      borderBottom: '1px solid #6f7276',
-      borderTop: '1px solid #6f7276',
-    },
-  },
   buttonSmall: {
     width: '27%',
     margin: theme.spacing(1),
@@ -56,20 +30,8 @@ const styles = theme => ({
   formGroup: {
     marginTop: '0',
   },
-  formLabel: {
-    padding: '0.4rem 3.5rem',
-    backgroundColor: 'rgba(70,72,75,255)',
-    margin: '0',
-    color: '#fff',
-  },
   subtitle: {
     textTransform: 'none',
-  },
-  iconActive: {
-    fill: '#fff',
-    width: '40px',
-    height: '40px',
-    marginRight: theme.spacing(1),
   },
   icon: {
     fill: '#000',
@@ -82,10 +44,13 @@ const styles = theme => ({
     padding: theme.spacing(1.5),
   },
   border: {
-    borderBottom: '1px solid #6f7276',
+    borderBottom: '1px solid rgb(193, 193, 193)',
   },
   margin: {
     marginLeft: theme.spacing(4),
+  },
+  marginSm: {
+    marginLeft: theme.spacing(0.7),
   },
   buttonList: {
     display: 'flex',
@@ -93,12 +58,53 @@ const styles = theme => ({
     flexWrap: 'wrap',
     justifyContent: 'left',
   },
-  checkBoxContainer: {
+  listItem: {
+    padding: 0,
+    minHeight: theme.spacing(7),
+  },
+  checkBoxItem: {
     width: '100%',
-    borderBottom: '1px solid #6f7276',
+    borderBottom: '1px solid rgb(193, 193, 193)',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'start',
+  },
+  checkBoxContainer: {
+    width: '100%',
+    backgroundColor: 'rgb(250, 250, 250)',
+  },
+  flexBox: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: theme.spacing(1),
+  },
+  box: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '1.5rem',
+    height: '1.5rem',
+  },
+  black: {
+    backgroundColor: 'rgba(0, 0, 0,255)',
+  },
+  green: {
+    backgroundColor: 'rgba(15, 115, 6, 255)',
+  },
+  blue: {
+    backgroundColor: 'rgba(7, 44, 115, 255)',
+  },
+  purple: {
+    backgroundColor: 'rgba(202, 15, 212, 255)',
+  },
+  burgundy: {
+    backgroundColor: 'rgba(128, 0, 32, 255)',
+  },
+  white: {
+    width: '50%',
+    height: '50%',
+    borderRadius: '50%',
+    backgroundColor: 'rgba(255, 255, 255, 255)',
   },
 });
 

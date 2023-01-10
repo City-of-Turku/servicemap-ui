@@ -85,6 +85,16 @@ const fetchCityBikesData = async (sourceName, setData) => {
   }
 };
 
+const fetchStreetMaintenanceData = async (endpoint, setData) => {
+  try {
+    const response = await fetch(`${isApiUrl}/street_maintenance/${endpoint}`);
+    const jsonData = await response.json();
+    setData(jsonData.results);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 export {
   fetchMobilityMapData,
   fetchCultureRouteNames,
@@ -94,4 +104,5 @@ export {
   fetchIotData,
   fetchMobilityMapPolygonData,
   fetchCityBikesData,
+  fetchStreetMaintenanceData,
 };

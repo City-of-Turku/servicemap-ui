@@ -122,6 +122,19 @@ const DefaultLayout = (props) => {
   const [showScooterParkingAreas, setShowScooterParkingAreas] = useState(false);
   const [showScooterSpeedLimitAreas, setShowScooterSpeedLimitAreas] = useState(false);
   const [showScootersRyde, setShowScootersRyde] = useState(false);
+  const [showDisabledParking, setShowDisabledParking] = useState(false);
+  const [showLoadingPlaces, setShowLoadingPlaces] = useState(false);
+  const [showStreetMaintenance, setShowStreetMaintenance] = useState(false);
+  const [streetMaintenancePeriod, setStreetMaintenancePeriod] = useState(null);
+  const [isActiveStreetMaintenance, setIsActiveStreetMaintenance] = useState(true);
+  const [showBrushSandedRoute, setShowBrushSandedRoute] = useState(false);
+  const [showBrushSaltedRoute, setShowBrushSaltedRoute] = useState(false);
+  const [showMarkedTrails, setShowMarkedTrails] = useState(false);
+  const [markedTrailsObj, setMarkedTrailsObj] = useState({});
+  const [showNatureTrails, setShowNatureTrails] = useState(false);
+  const [natureTrailsObj, setNatureTrailsObj] = useState({});
+  const [showFitnessTrails, setShowFitnessTrails] = useState(false);
+  const [fitnessTrailsObj, setFitnessTrailsObj] = useState({});
 
   const {
     currentPage, fetchErrors, fetchNews, intl, location, settingsToggled,
@@ -255,6 +268,31 @@ const DefaultLayout = (props) => {
                       setShowScooterSpeedLimitAreas,
                       showScootersRyde,
                       setShowScootersRyde,
+                      showDisabledParking,
+                      setShowDisabledParking,
+                      showLoadingPlaces,
+                      setShowLoadingPlaces,
+                      showStreetMaintenance,
+                      setShowStreetMaintenance,
+                      streetMaintenancePeriod,
+                      setStreetMaintenancePeriod,
+                      isActiveStreetMaintenance,
+                      showBrushSandedRoute,
+                      setShowBrushSandedRoute,
+                      showBrushSaltedRoute,
+                      setShowBrushSaltedRoute,
+                      showMarkedTrails,
+                      setShowMarkedTrails,
+                      markedTrailsObj,
+                      setMarkedTrailsObj,
+                      showNatureTrails,
+                      setShowNatureTrails,
+                      natureTrailsObj,
+                      setNatureTrailsObj,
+                      showFitnessTrails,
+                      setShowFitnessTrails,
+                      fitnessTrailsObj,
+                      setFitnessTrailsObj,
                     }}
                   >
                     <ViewRouter />
@@ -295,6 +333,19 @@ const DefaultLayout = (props) => {
                     showScooterParkingAreas,
                     showScooterSpeedLimitAreas,
                     showScootersRyde,
+                    showDisabledParking,
+                    showLoadingPlaces,
+                    showStreetMaintenance,
+                    streetMaintenancePeriod,
+                    setIsActiveStreetMaintenance,
+                    showBrushSandedRoute,
+                    showBrushSaltedRoute,
+                    showMarkedTrails,
+                    markedTrailsObj,
+                    showNatureTrails,
+                    natureTrailsObj,
+                    showFitnessTrails,
+                    fitnessTrailsObj,
                   }}
                 >
                   <MapView
