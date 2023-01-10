@@ -45,9 +45,9 @@ const EcoCounterMarkers = ({ classes }) => {
   }, []);
 
   const stationsWithPedestrians = filterStations(ecoCounterStations);
-  /** All stations contain numbers about cyclist */
+  /** All stations contain data about cyclists */
   const renderAllStations = isDataValid(showEcoCounter.cycling, ecoCounterStations);
-  /** 4 stations contain numbrs about pedestrians as well */
+  /** 4 stations contain data about pedestrians as well */
   const renderFilteredStations = isDataValid(showEcoCounter.walking, stationsWithPedestrians);
 
   /**
