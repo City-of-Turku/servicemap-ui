@@ -67,11 +67,11 @@ const EcoCounterMarkers = ({ classes }) => {
 
   useEffect(() => {
     fitToMapBounds(showEcoCounter.walking, stationsWithPedestrians);
-  }, [showEcoCounter, stationsWithPedestrians]);
+  }, [showEcoCounter.walking, ecoCounterStations]);
 
   useEffect(() => {
     fitToMapBounds(showEcoCounter.cycling, ecoCounterStations);
-  }, [showEcoCounter, ecoCounterStations]);
+  }, [showEcoCounter.cycling, ecoCounterStations]);
 
   /**
    * Render markers on the map
