@@ -30,36 +30,77 @@ const EcoCounterMarkers = ({ classes }) => {
 
   const map = useMap();
 
-  const renderData = isDataValid(showEcoCounter, ecoCounterStations);
+  const stationNames = ['Teatterisilta', 'Auransilta', 'Kirjastosilta', 'Teatteri ranta'];
 
-  useEffect(() => {
-    if (renderData) {
+  /**
+   * Filter out stations that only show data about cycling
+   * @param {array} data
+   * @returns array
+   */
+  const filterStations = data => data.reduce((acc, curr) => {
+    if (stationNames.includes(curr.name)) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
+  const stationsWithPedestrians = filterStations(ecoCounterStations);
+  /** All stations contain numbers about cyclist */
+  const renderAllStations = isDataValid(showEcoCounter.cycling, ecoCounterStations);
+  /** 4 stations contain numbrs about pedestrians as well */
+  const renderFilteredStations = isDataValid(showEcoCounter.walking, stationsWithPedestrians);
+
+  /**
+   * Fit markers to map bounds
+   * @param {boolean} isValid
+   * @param {array} data
+   */
+  const fitToMapBounds = (isValid, data) => {
+    if (isValid) {
       const bounds = [];
-      ecoCounterStations.forEach((item) => {
+      data.forEach((item) => {
         bounds.push([item.lat, item.lon]);
       });
       map.fitBounds(bounds);
     }
+  };
+
+  useEffect(() => {
+    fitToMapBounds(showEcoCounter.walking, stationsWithPedestrians);
+  }, [showEcoCounter, stationsWithPedestrians]);
+
+  useEffect(() => {
+    fitToMapBounds(showEcoCounter.cycling, ecoCounterStations);
   }, [showEcoCounter, ecoCounterStations]);
+
+  /**
+   * Render markers on the map
+   * @param {boolean} isValid
+   * @param {array} data
+   * @returns {JSX element}
+   */
+  const renderStations = (isValid, data) => (isValid ? (
+    data.map(item => (
+      <Marker key={item.id} icon={customIcon} position={[item.lat, item.lon]}>
+        <div className={classes.popupWrapper}>
+          <Popup className="ecocounter-popup">
+            <div className={classes.popupInner}>
+              <EcoCounterContent
+                stationId={item.id}
+                stationName={item.name}
+              />
+            </div>
+          </Popup>
+        </div>
+      </Marker>
+    ))
+  ) : null
+  );
 
   return (
     <>
-      {renderData ? (
-        ecoCounterStations.map(item => (
-          <Marker key={item.id} icon={customIcon} position={[item.lat, item.lon]}>
-            <div className={classes.popupWrapper}>
-              <Popup className="ecocounter-popup">
-                <div className={classes.popupInner}>
-                  <EcoCounterContent
-                    stationId={item.id}
-                    stationName={item.name}
-                  />
-                </div>
-              </Popup>
-            </div>
-          </Marker>
-        ))
-      ) : null}
+      {renderStations(renderAllStations, ecoCounterStations)}
+      {renderStations(renderFilteredStations, stationsWithPedestrians)}
     </>
   );
 };
