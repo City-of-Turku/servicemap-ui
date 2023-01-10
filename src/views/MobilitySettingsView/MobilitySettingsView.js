@@ -521,9 +521,9 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   ]);
 
   /**
-   * Toggle functions for content types
-   * @var {boolean}
-   * @returns {boolean}
+   * Toggle function for EcoCounter stations that contain data about pedestrians
+   * @var {Object} showEcoCounter
+   * @returns {Object} showEcoCounter
    */
   const ecoCounterStationsToggle = () => {
     if (!showEcoCounter.walking) {
@@ -531,12 +531,22 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     } else setShowEcoCounter(showEcoCounter => ({ ...showEcoCounter, walking: false }));
   };
 
+  /**
+   * Toggle function for EcoCounter stations that contain data about cyclists
+   * @var {Object} showEcoCounter
+   * @returns {Object} showEcoCounter
+   */
   const ecoCounterStationsToggleCycling = () => {
     if (!showEcoCounter.cycling) {
       setShowEcoCounter(showEcoCounter => ({ ...showEcoCounter, cycling: true }));
     } else setShowEcoCounter(showEcoCounter => ({ ...showEcoCounter, cycling: false }));
   };
 
+  /**
+   * Toggle functions for content types
+   * @var {boolean}
+   * @returns {boolean}
+   */
   const bicycleStandsToggle = () => {
     setShowBicycleStands(current => !current);
   };
