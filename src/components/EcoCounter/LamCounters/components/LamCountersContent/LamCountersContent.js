@@ -61,7 +61,7 @@ const LamCountersContent = ({
     },
   ];
 
-  const allUsers = [
+  const userTypes = [
     {
       type: {
         user: 'driving',
@@ -87,7 +87,8 @@ const LamCountersContent = ({
   // momentjs
   // Initial values that are used to fetch data
   const currentDate = moment();
-  const yesterDay = moment().clone().add(-1, 'days');
+  const lastMonth = currentDate.clone().subtract(1, 'months').endOf('month');
+  const yesterDay = lastMonth.clone().add(-1, 'days');
   const yesterDayFormat = yesterDay.clone().format('YYYY-MM-DD');
   const initialDateStart = yesterDay.clone().startOf('week').format('YYYY-MM-DD');
   const initialDateEnd = yesterDay.clone().endOf('week').format('YYYY-MM-DD');
@@ -122,7 +123,7 @@ const LamCountersContent = ({
 
   // Reset selectedDate value when the new popup is opened.
   useEffect(() => {
-    setSelectedDate(moment().clone().add(-1, 'days'));
+    setSelectedDate(moment().clone().subtract(1, 'months').endOf('month'));
   }, [stationId]);
 
   useEffect(() => {
@@ -373,8 +374,8 @@ const LamCountersContent = ({
       </div>
       <div className={classes.ecocounterContent}>
         <div className={classes.ecocounterUserTypes}>
-          {allUsers
-            && allUsers.map(userType => (
+          {userTypes
+            && userTypes.map(userType => (
               <div key={userType.type.user} className={classes.container}>
                 <div className={classes.iconWrapper}>
                   <ReactSVG
