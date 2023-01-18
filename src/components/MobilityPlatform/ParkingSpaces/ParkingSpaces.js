@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
-import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchParkingAreaGeometries, fetchParkingAreaStats } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isObjValid } from '../utils/utils';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
@@ -36,8 +36,8 @@ const ParkingSpaces = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchIotData('TPH', setParkingSpaces);
-      fetchIotData('PAS', setParkingStatistics);
+      fetchParkingAreaGeometries(setParkingSpaces);
+      fetchParkingAreaStats(setParkingStatistics);
     }
   }, [openMobilityPlatform, setParkingSpaces, setParkingStatistics]);
 
@@ -55,7 +55,7 @@ const ParkingSpaces = () => {
   useEffect(() => {
     if (renderData) {
       const bounds = [];
-      parkingSpaces.features.forEach((item) => {
+      parkingSpaces.forEach((item) => {
         bounds.push(swapCoords(item.geometry.coordinates));
       });
       map.fitBounds(bounds);
@@ -63,7 +63,7 @@ const ParkingSpaces = () => {
   }, [showParkingSpaces, parkingSpaces]);
 
   const renderColor = (itemId, capacity) => {
-    const stats = parkingStatistics.results.find(item => item.id === itemId);
+    const stats = parkingStatistics.find(item => item.id === itemId);
     const almostFull = capacity * 0.85;
     const parkingCount = stats.current_parking_count;
     if (parkingCount >= almostFull) {
@@ -75,7 +75,7 @@ const ParkingSpaces = () => {
   return (
     <>
       {renderData
-        ? parkingSpaces.features.map(item => (
+        ? parkingSpaces.map(item => (
           <Polygon
             key={item.id}
             pathOptions={renderColor(item.id, item.properties.capacity_estimate)}
@@ -90,7 +90,7 @@ const ParkingSpaces = () => {
             }}
           >
             <Popup>
-              <ParkingSpacesContent parkingSpace={item} parkingStatistics={parkingStatistics.results} />
+              <ParkingSpacesContent parkingSpace={item} parkingStatistics={parkingStatistics} />
             </Popup>
           </Polygon>
         ))

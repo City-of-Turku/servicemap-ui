@@ -95,6 +95,26 @@ const fetchStreetMaintenanceData = async (endpoint, setData) => {
   }
 };
 
+const fetchParkingAreaGeometries = async (setData) => {
+  try {
+    const response = await fetch('https://parkkiopas.turku.fi/public/v1/parking_area/');
+    const jsonData = await response.json();
+    setData(jsonData.features);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
+const fetchParkingAreaStats = async (setData) => {
+  try {
+    const response = await fetch('https://parkkiopas.turku.fi/public/v1/parking_area_statistics/');
+    const jsonData = await response.json();
+    setData(jsonData.results);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 export {
   fetchMobilityMapData,
   fetchCultureRouteNames,
@@ -105,4 +125,6 @@ export {
   fetchMobilityMapPolygonData,
   fetchCityBikesData,
   fetchStreetMaintenanceData,
+  fetchParkingAreaGeometries,
+  fetchParkingAreaStats,
 };
