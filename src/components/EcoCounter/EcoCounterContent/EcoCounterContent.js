@@ -12,7 +12,7 @@ import iconBicycle from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle.svg
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
 import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import {
-  fetchInitialDayDatas, fetchInitialHourData, fetchInitialMonthDatas, fetchInitialWeekDatas
+  fetchInitialDayDatas, fetchInitialHourData, fetchInitialMonthDatas, fetchInitialWeekDatas,
 } from '../EcoCounterRequests/ecoCounterRequests';
 import LineChart from '../LineChart';
 
@@ -129,6 +129,17 @@ const EcoCounterContent = ({
     } else moment.locale('fi');
   }, [intl.locale]);
 
+  // API returns empty data if start_week_number parameter is higher number than end_week_number.
+  // This will set it to 1 so that weekly graph in January won't be empty.
+  const checkWeekNumber = (dateValue) => {
+    const start = dateValue.clone().startOf('month').week();
+    const end = dateValue.clone().endOf('month').week();
+    if (start > end) {
+      return 1;
+    }
+    return start;
+  };
+
   // momentjs
   // Initial values that are used to fetch data
   const currentDate = moment();
@@ -136,7 +147,7 @@ const EcoCounterContent = ({
   const yesterDayFormat = yesterDay.clone().format('YYYY-MM-DD');
   const initialDateStart = yesterDay.clone().startOf('week').format('YYYY-MM-DD');
   const initialDateEnd = yesterDay.clone().endOf('week').format('YYYY-MM-DD');
-  const initialWeekStart = yesterDay.clone().startOf('month').week();
+  const initialWeekStart = checkWeekNumber(yesterDay);
   const initialWeekEnd = yesterDay.clone().endOf('month').week();
   const initialMonth = yesterDay.clone().month() + 1;
   const initialYear = yesterDay.clone().year();
@@ -145,7 +156,7 @@ const EcoCounterContent = ({
   const selectedDateFormat = selectedDate.clone().format('YYYY-MM-DD');
   const selectedDateStart = selectedDate.clone().startOf('week').format('YYYY-MM-DD');
   const selectedDateEnd = selectedDate.clone().endOf('week').format('YYYY-MM-DD');
-  let selectedWeekStart = selectedDate.clone().startOf('month').week();
+  const selectedWeekStart = checkWeekNumber(selectedDate);
   const selectedWeekEnd = selectedDate.clone().endOf('month').week();
   let selectedMonth = currentDate.clone().month() + 1;
   const selectedYear = selectedDate.clone().year();
@@ -154,14 +165,6 @@ const EcoCounterContent = ({
   const checkYear = () => {
     if (selectedDate.clone().year() < moment().year()) {
       selectedMonth = 12;
-    }
-  };
-
-  // API returns empty data if start_week_number parameter is higher number than end_week_number.
-  // This will set it to 1 so that weekly graph in January won't be empty.
-  const checkWeekNumber = () => {
-    if (selectedWeekStart > selectedWeekEnd) {
-      selectedWeekStart = 1;
     }
   };
 
@@ -174,9 +177,9 @@ const EcoCounterContent = ({
     checkYear();
   }, [selectedDate]);
 
-  useEffect(() => {
+  /*  useEffect(() => {
     checkWeekNumber();
-  }, [selectedWeekStart]);
+  }, [selectedWeekStart, initialWeekStart]); */
 
   const labelsHour = [
     '1:00',
