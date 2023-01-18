@@ -10,6 +10,7 @@ import ParkingSpacesContent from './components/ParkingSpacesContent';
 const ParkingSpaces = () => {
   const [parkingSpaces, setParkingSpaces] = useState({});
   const [parkingStatistics, setParkingStatistics] = useState([]);
+  const [fetchError, setFetchError] = useState(false);
 
   const { openMobilityPlatform, showParkingSpaces } = useContext(MobilityPlatformContext);
 
@@ -36,8 +37,8 @@ const ParkingSpaces = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchParkingAreaGeometries(setParkingSpaces);
-      fetchParkingAreaStats(setParkingStatistics);
+      fetchParkingAreaGeometries(setParkingSpaces, setFetchError);
+      fetchParkingAreaStats(setParkingStatistics, setFetchError);
     }
   }, [openMobilityPlatform, setParkingSpaces, setParkingStatistics]);
 
@@ -53,14 +54,14 @@ const ParkingSpaces = () => {
   const renderData = isObjValid(showParkingSpaces, parkingSpaces);
 
   useEffect(() => {
-    if (renderData) {
+    if (!fetchError && renderData) {
       const bounds = [];
       parkingSpaces.forEach((item) => {
         bounds.push(swapCoords(item.geometry.coordinates));
       });
       map.fitBounds(bounds);
     }
-  }, [showParkingSpaces, parkingSpaces]);
+  }, [showParkingSpaces, parkingSpaces, fetchError]);
 
   const renderColor = (itemId, capacity) => {
     const stats = parkingStatistics.find(item => item.id === itemId);
@@ -74,7 +75,7 @@ const ParkingSpaces = () => {
 
   return (
     <>
-      {renderData
+      {!fetchError && renderData
         ? parkingSpaces.map(item => (
           <Polygon
             key={item.id}
