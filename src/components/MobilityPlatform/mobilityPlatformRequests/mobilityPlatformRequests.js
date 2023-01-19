@@ -95,6 +95,28 @@ const fetchStreetMaintenanceData = async (endpoint, setData) => {
   }
 };
 
+const fetchParkingAreaGeometries = async (endpoint, setData, setError) => {
+  try {
+    const response = await fetch(endpoint);
+    const jsonData = await response.json();
+    setData(jsonData.features);
+  } catch (err) {
+    setError(true);
+    console.warn(err.message);
+  }
+};
+
+const fetchParkingAreaStats = async (endpoint, setData, setError) => {
+  try {
+    const response = await fetch(endpoint);
+    const jsonData = await response.json();
+    setData(jsonData.results);
+  } catch (err) {
+    setError(true);
+    console.warn(err.message);
+  }
+};
+
 export {
   fetchMobilityMapData,
   fetchCultureRouteNames,
@@ -105,4 +127,6 @@ export {
   fetchMobilityMapPolygonData,
   fetchCityBikesData,
   fetchStreetMaintenanceData,
+  fetchParkingAreaGeometries,
+  fetchParkingAreaStats,
 };
