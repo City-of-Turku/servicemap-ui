@@ -95,9 +95,9 @@ const fetchStreetMaintenanceData = async (endpoint, setData) => {
   }
 };
 
-const fetchParkingAreaGeometries = async (setData, setError) => {
+const fetchParkingAreaGeometries = async (endpoint, setData, setError) => {
   try {
-    const response = await fetch('https://parkkiopas.turku.fi/public/v1/parking_area/');
+    const response = await fetch(endpoint);
     const jsonData = await response.json();
     setData(jsonData.features);
   } catch (err) {
@@ -106,9 +106,9 @@ const fetchParkingAreaGeometries = async (setData, setError) => {
   }
 };
 
-const fetchParkingAreaStats = async (setData, setError) => {
+const fetchParkingAreaStats = async (endpoint, setData, setError) => {
   try {
-    const response = await fetch('https://parkkiopas.turku.fi/public/v1/parking_area_statistics/');
+    const response = await fetch(endpoint);
     const jsonData = await response.json();
     setData(jsonData.results);
   } catch (err) {

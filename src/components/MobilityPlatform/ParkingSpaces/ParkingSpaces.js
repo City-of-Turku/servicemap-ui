@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import { fetchParkingAreaGeometries, fetchParkingAreaStats } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isObjValid } from '../utils/utils';
+import config from '../../../../config';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import ParkingSpacesContent from './components/ParkingSpacesContent';
@@ -35,10 +36,16 @@ const ParkingSpaces = () => {
 
   const pathOptions = useContrast ? whiteColor : blueColor;
 
+  const parkingSpacesUrl = config.parkingSpacesURL;
+  const isParkingSpacesUrl = !parkingSpacesUrl || parkingSpacesUrl === 'undefined' ? null : parkingSpacesUrl;
+
+  const parkingStatisticsUrl = config.parkingStatisticsURL;
+  const isParkingStatisticsUrl = !parkingStatisticsUrl || parkingStatisticsUrl === 'undefined' ? null : parkingStatisticsUrl;
+
   useEffect(() => {
-    if (openMobilityPlatform) {
-      fetchParkingAreaGeometries(setParkingSpaces, setFetchError);
-      fetchParkingAreaStats(setParkingStatistics, setFetchError);
+    if (openMobilityPlatform && isParkingSpacesUrl && isParkingStatisticsUrl) {
+      fetchParkingAreaGeometries(isParkingSpacesUrl, setParkingSpaces, setFetchError);
+      fetchParkingAreaStats(isParkingStatisticsUrl, setParkingStatistics, setFetchError);
     }
   }, [openMobilityPlatform, setParkingSpaces, setParkingStatistics]);
 
