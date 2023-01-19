@@ -177,10 +177,6 @@ const EcoCounterContent = ({
     checkYear();
   }, [selectedDate]);
 
-  /*  useEffect(() => {
-    checkWeekNumber();
-  }, [selectedWeekStart, initialWeekStart]); */
-
   const labelsHour = [
     '1:00',
     '2:00',
