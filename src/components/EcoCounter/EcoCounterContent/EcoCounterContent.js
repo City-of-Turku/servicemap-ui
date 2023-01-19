@@ -130,7 +130,7 @@ const EcoCounterContent = ({
   }, [intl.locale]);
 
   // API returns empty data if start_week_number parameter is higher number than end_week_number.
-  // This will set it to 1 so that weekly graph in January won't be empty.
+  // This will set it to 1 so that weekly graph in January won't be empty in case week number of 1.1 is 52 or 53.
   const checkWeekNumber = (dateValue) => {
     const start = dateValue.clone().startOf('month').week();
     const end = dateValue.clone().endOf('month').week();
