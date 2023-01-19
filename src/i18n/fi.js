@@ -682,7 +682,7 @@ const translations = {
   'mobilityPlatform.content.rentalCars.link': 'https://www.24rent.fi',
   'mobilityPlatform.content.parkingSpaces.title': 'Pysäköintialue',
   'mobilityPlatform.content.parkingSpaces.capacity': 'Parkkipaikkojen määrä',
-  'mobilityPlatform.content.parkingSpaces.parkingCount': 'Vapaana olevat parkkipaikat',
+  'mobilityPlatform.content.parkingSpaces.parkingCount': 'Vapaana olevat parkkipaikat: {value} / {capacity}',
   'mobilityPlatform.content.parkingSpaces.type': 'Maksutyyppi',
   'mobilityPlatform.content.parkingSpaces.paid': 'Maksullinen',
   'mobilityPlatform.content.parkingSpaces.empty': 'Ei vapaita paikkoja jäljellä',

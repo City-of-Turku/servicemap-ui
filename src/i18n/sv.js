@@ -693,7 +693,7 @@ const translations = {
   'mobilityPlatform.content.parkingSpaces.parkingCount': 'Antal lediga parkeringsplatser',
   'mobilityPlatform.content.parkingSpaces.type': 'Typ av betalning',
   'mobilityPlatform.content.parkingSpaces.paid': 'Avgiftsbelagd',
-  'mobilityPlatform.content.parkingSpaces.empty': 'Inga lediga platser kvar',
+  'mobilityPlatform.content.parkingSpaces.empty': 'Inga lediga platser kvar: {value} / {capacity}',
   'mobilityPlatform.content.parkingChargeZones.zone': 'Zon',
   'mobilityPlatform.content.parkingChargeZones.price': 'Avgift',
   'mobilityPlatform.content.parkingChargeZones.price.weekDays': 'Avgiftsbelagd vardagar',
