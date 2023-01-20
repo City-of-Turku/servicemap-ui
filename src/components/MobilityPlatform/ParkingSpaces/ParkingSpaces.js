@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
-import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchParkingAreaGeometries, fetchParkingAreaStats } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isObjValid } from '../utils/utils';
+import config from '../../../../config';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import ParkingSpacesContent from './components/ParkingSpacesContent';
@@ -10,6 +11,7 @@ import ParkingSpacesContent from './components/ParkingSpacesContent';
 const ParkingSpaces = () => {
   const [parkingSpaces, setParkingSpaces] = useState({});
   const [parkingStatistics, setParkingStatistics] = useState([]);
+  const [fetchError, setFetchError] = useState(false);
 
   const { openMobilityPlatform, showParkingSpaces } = useContext(MobilityPlatformContext);
 
@@ -34,10 +36,16 @@ const ParkingSpaces = () => {
 
   const pathOptions = useContrast ? whiteColor : blueColor;
 
+  const parkingSpacesUrl = config.parkingSpacesURL;
+  const isParkingSpacesUrl = !parkingSpacesUrl || parkingSpacesUrl === 'undefined' ? null : parkingSpacesUrl;
+
+  const parkingStatisticsUrl = config.parkingStatisticsURL;
+  const isParkingStatisticsUrl = !parkingStatisticsUrl || parkingStatisticsUrl === 'undefined' ? null : parkingStatisticsUrl;
+
   useEffect(() => {
-    if (openMobilityPlatform) {
-      fetchIotData('TPH', setParkingSpaces);
-      fetchIotData('PAS', setParkingStatistics);
+    if (openMobilityPlatform && isParkingSpacesUrl && isParkingStatisticsUrl) {
+      fetchParkingAreaGeometries(isParkingSpacesUrl, setParkingSpaces, setFetchError);
+      fetchParkingAreaStats(isParkingStatisticsUrl, setParkingStatistics, setFetchError);
     }
   }, [openMobilityPlatform, setParkingSpaces, setParkingStatistics]);
 
@@ -53,17 +61,17 @@ const ParkingSpaces = () => {
   const renderData = isObjValid(showParkingSpaces, parkingSpaces);
 
   useEffect(() => {
-    if (renderData) {
+    if (!fetchError && renderData) {
       const bounds = [];
-      parkingSpaces.features.forEach((item) => {
+      parkingSpaces.forEach((item) => {
         bounds.push(swapCoords(item.geometry.coordinates));
       });
       map.fitBounds(bounds);
     }
-  }, [showParkingSpaces, parkingSpaces]);
+  }, [showParkingSpaces, parkingSpaces, fetchError]);
 
   const renderColor = (itemId, capacity) => {
-    const stats = parkingStatistics.results.find(item => item.id === itemId);
+    const stats = parkingStatistics.find(item => item.id === itemId);
     const almostFull = capacity * 0.85;
     const parkingCount = stats.current_parking_count;
     if (parkingCount >= almostFull) {
@@ -74,8 +82,8 @@ const ParkingSpaces = () => {
 
   return (
     <>
-      {renderData
-        ? parkingSpaces.features.map(item => (
+      {!fetchError && renderData
+        ? parkingSpaces.map(item => (
           <Polygon
             key={item.id}
             pathOptions={renderColor(item.id, item.properties.capacity_estimate)}
@@ -90,7 +98,7 @@ const ParkingSpaces = () => {
             }}
           >
             <Popup>
-              <ParkingSpacesContent parkingSpace={item} parkingStatistics={parkingStatistics.results} />
+              <ParkingSpacesContent parkingSpace={item} parkingStatistics={parkingStatistics} />
             </Popup>
           </Polygon>
         ))
