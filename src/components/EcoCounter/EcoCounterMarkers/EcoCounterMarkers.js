@@ -31,7 +31,20 @@ const EcoCounterMarkers = ({ classes }) => {
 
   const map = useMap();
 
-  const stationNames = ['Teatterisilta', 'Auransilta', 'Kirjastosilta', 'Teatteri ranta'];
+  const stationNames = (name) => {
+    switch (name) {
+      case 'Teatterisilta':
+        return true;
+      case 'Auransilta':
+        return true;
+      case 'Kirjastosilta':
+        return true;
+      case 'Teatteri ranta':
+        return true;
+      default:
+        return false;
+    }
+  };
 
   /**
    * Filter out stations that only show data about cycling
@@ -39,7 +52,7 @@ const EcoCounterMarkers = ({ classes }) => {
    * @returns array
    */
   const filterStations = data => data.reduce((acc, curr) => {
-    if (stationNames.includes(curr.name)) {
+    if (stationNames(curr.name)) {
       acc.push(curr);
     }
     return acc;
