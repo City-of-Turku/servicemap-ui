@@ -31,6 +31,10 @@ const EcoCounterMarkers = ({ classes }) => {
 
   const map = useMap();
 
+  /** These stations contains data about pedestrians as well
+   * @param {string} name -name value is used to check if it matches or not
+   * @returns {boolean} -true or false value
+   */
   const stationNames = (name) => {
     switch (name) {
       case 'Teatterisilta':
@@ -48,8 +52,8 @@ const EcoCounterMarkers = ({ classes }) => {
 
   /**
    * Filter out stations that only show data about cycling
-   * @param {array} data
-   * @returns array
+   * @param {array} data -EcoCounter stations
+   * @returns {array} -Filtered data with only items that matched criteria
    */
   const filterStations = data => data.reduce((acc, curr) => {
     if (stationNames(curr.name)) {
@@ -66,8 +70,8 @@ const EcoCounterMarkers = ({ classes }) => {
 
   /**
    * Fit markers to map bounds
-   * @param {boolean} isValid
-   * @param {array} data
+   * @param {boolean} isValid -true if data is valid, otherwise false
+   * @param {array} data -EcoCounter stations
    */
   const fitToMapBounds = (isValid, data) => {
     if (isValid) {
@@ -89,8 +93,8 @@ const EcoCounterMarkers = ({ classes }) => {
 
   /**
    * Render markers on the map
-   * @param {boolean} isValid
-   * @param {array} data
+   * @param {boolean} isValid -true if data is valid, otherwise false
+   * @param {array} data -EcoCounter stations
    * @returns {JSX element}
    */
   const renderStations = (isValid, data) => (isValid ? (
