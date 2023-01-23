@@ -743,7 +743,7 @@ const translations = {
   'mobilityPlatform.info.cityBikes.paragraph.1': 'Turun kaupunkipyörät eli tuttavallisemmin föllärit, ovat pyöriä, joita kuka vaan voi vuokrata Donkey Republicin sovelluksella.  Föllärin voi vuokrata kertamaksulla, kuukausimaksulla tai koko kesän kattavalla kausimaksulla.',
   'mobilityPlatform.info.cityBikes.paragraph.2': 'Jos sinulla on käytössä Fölin kausikortti, jonka kausi on vähintään 30 päivää, sisältää oikeuden käyttää fölläreitä tunnin ajan kerrallaan maksutta. Vuokrattavia pyöriä on 700 ja asemia yli 70 kappaletta.',
   'mobilityPlatform.info.cityBikes.subtitle': 'Lue lisää kaupunkipyöristä:',
-  'mobilityPlatform.info.cityBikes.link': 'https://foli.fi/föllärit',
+  'mobilityPlatform.info.cityBikes.link': 'https://www.foli.fi/fi/aikataulut-ja-reitit/fölifillarit',
   'mobilityPlatform.info.cityBikes.apiInfo': 'Kartan tiedot tulevat Donkey Republicin rajapinnasta reaaliajassa.',
   'mobilityPlatform.info.guestHarbour': 'Turun vierasvenesatama sijaitsee aivan keskustan kupeessa, osoitteessa Läntinen Rantakatu 57. Lisätietoja liittyen esimerkiksi venepaikan varaamiseen löytyy osoitteesta',
   'mobilityPlatform.info.guestHarbour.link': 'www.turunvierasvenesatama.fi',

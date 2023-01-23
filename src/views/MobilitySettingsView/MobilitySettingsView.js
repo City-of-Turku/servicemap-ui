@@ -160,7 +160,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     link: 'mobilityPlatform.info.cityBikes.link',
     apiInfo: 'mobilityPlatform.info.cityBikes.apiInfo',
     url: {
-      fi: 'https://foli.fi/föllärit',
+      fi: 'https://www.foli.fi/fi/aikataulut-ja-reitit/f%C3%B6lifillarit',
       en: 'https://www.foli.fi/en/f%C3%B6li-bikes',
       sv: 'https://www.foli.fi/sv/fölicyklar',
     },
