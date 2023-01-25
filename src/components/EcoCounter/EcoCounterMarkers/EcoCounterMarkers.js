@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
@@ -19,30 +20,88 @@ const EcoCounterMarkers = () => {
 
   const map = useMap();
 
-  const renderData = isDataValid(showEcoCounter, ecoCounterStations);
+  /** These stations contains data about pedestrians as well
+   * @param {string} name -name value is used to check if it matches or not
+   * @returns {boolean} -true or false value
+   */
+  const stationNames = (name) => {
+    switch (name) {
+      case 'Teatterisilta':
+        return true;
+      case 'Auransilta':
+        return true;
+      case 'Kirjastosilta':
+        return true;
+      case 'Teatteri ranta':
+        return true;
+      default:
+        return false;
+    }
+  };
 
-  useEffect(() => {
-    if (renderData) {
+  /**
+   * Filter out stations that only show data about cycling
+   * @param {array} data -EcoCounter stations
+   * @returns {array} -Filtered data with only items that matched criteria
+   */
+  const filterStations = data => data.reduce((acc, curr) => {
+    if (stationNames(curr.name)) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
+  const stationsWithPedestrians = filterStations(ecoCounterStations);
+  /** All stations contain data about cyclists */
+  const renderAllStations = isDataValid(showEcoCounter.cycling, ecoCounterStations);
+  /** 4 stations contain data about pedestrians as well */
+  const renderFilteredStations = isDataValid(showEcoCounter.walking, stationsWithPedestrians);
+
+  /**
+   * Fit markers to map bounds
+   * @param {boolean} isValid -true if data is valid, otherwise false
+   * @param {array} data -EcoCounter stations
+   */
+  const fitToMapBounds = (isValid, data) => {
+    if (isValid) {
       const bounds = [];
-      ecoCounterStations.forEach((item) => {
+      data.forEach((item) => {
         bounds.push([item.lat, item.lon]);
       });
       map.fitBounds(bounds);
     }
-  }, [showEcoCounter, ecoCounterStations]);
+  };
+
+  useEffect(() => {
+    fitToMapBounds(showEcoCounter.walking, stationsWithPedestrians);
+  }, [showEcoCounter.walking, ecoCounterStations]);
+
+  useEffect(() => {
+    fitToMapBounds(showEcoCounter.cycling, ecoCounterStations);
+  }, [showEcoCounter.cycling, ecoCounterStations]);
+
+  /**
+   * Render markers on the map
+   * @param {boolean} isValid -true if data is valid, otherwise false
+   * @param {array} data -EcoCounter stations
+   * @returns {JSX element}
+   */
+  const renderStations = (isValid, data) => (isValid ? (
+    data.map(item => (
+      <CounterMarkers key={item.id} counterStation={item}>
+        <EcoCounterContent
+          stationId={item.id}
+          stationName={item.name}
+        />
+      </CounterMarkers>
+    ))
+  ) : null
+  );
 
   return (
     <>
-      {renderData ? (
-        ecoCounterStations.map(item => (
-          <CounterMarkers key={item.id} counterStation={item}>
-            <EcoCounterContent
-              stationId={item.id}
-              stationName={item.name}
-            />
-          </CounterMarkers>
-        ))
-      ) : null}
+      {renderStations(renderAllStations, ecoCounterStations)}
+      {renderStations(renderFilteredStations, stationsWithPedestrians)}
     </>
   );
 };

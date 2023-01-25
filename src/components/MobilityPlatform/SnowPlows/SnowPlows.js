@@ -74,7 +74,7 @@ const SnowPlows = () => {
       color: `rgba(${rgba})`,
       fillOpacity: 0.3,
       dashArray: pattern,
-      weight: 7,
+      weight: 5,
     };
   };
 

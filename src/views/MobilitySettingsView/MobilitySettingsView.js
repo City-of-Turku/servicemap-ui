@@ -162,7 +162,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     link: 'mobilityPlatform.info.cityBikes.link',
     apiInfo: 'mobilityPlatform.info.cityBikes.apiInfo',
     url: {
-      fi: 'https://foli.fi/föllärit',
+      fi: 'https://www.foli.fi/fi/aikataulut-ja-reitit/f%C3%B6lifillarit',
       en: 'https://www.foli.fi/en/f%C3%B6li-bikes',
       sv: 'https://www.foli.fi/sv/fölicyklar',
     },
@@ -265,7 +265,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   }, [showPublicToilets]);
 
   useEffect(() => {
-    checkVisibilityValues(showEcoCounter, setOpenWalkSettings);
+    checkVisibilityValues(showEcoCounter.walking, setOpenWalkSettings);
+  }, [showEcoCounter]);
+
+  useEffect(() => {
+    checkVisibilityValues(showEcoCounter.cycling, setOpenBicycleSettings);
   }, [showEcoCounter]);
 
   useEffect(() => {
@@ -519,20 +523,38 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   ]);
 
   /**
+   * Toggle function for EcoCounter stations that contain data about pedestrians
+   * @var {Object} showEcoCounter
+   * @returns {Object} showEcoCounter
+   */
+  const ecoCounterStationsToggle = () => {
+    if (!showEcoCounter.walking) {
+      setShowEcoCounter(showEcoCounter => ({ ...showEcoCounter, walking: true }));
+    } else setShowEcoCounter(showEcoCounter => ({ ...showEcoCounter, walking: false }));
+  };
+
+  /**
+   * Toggle function for EcoCounter stations that contain data about cyclists
+   * @var {Object} showEcoCounter
+   * @returns {Object} showEcoCounter
+   */
+  const ecoCounterStationsToggleCycling = () => {
+    if (!showEcoCounter.cycling) {
+      setShowEcoCounter(showEcoCounter => ({ ...showEcoCounter, cycling: true }));
+    } else setShowEcoCounter(showEcoCounter => ({ ...showEcoCounter, cycling: false }));
+  };
+
+  /**
    * Toggle functions for content types
    * @var {boolean}
    * @returns {boolean}
    */
-  const ecoCounterStationsToggle = () => {
-    setShowEcoCounter(current => !current);
+  const bicycleStandsToggle = () => {
+    setShowBicycleStands(current => !current);
   };
 
   const lamCounterStationsToggle = () => {
     setShowLamCounter(current => !current);
-  };
-
-  const bicycleStandsToggle = () => {
-    setShowBicycleStands(current => !current);
   };
 
   const parkingSpacesToggle = () => {
@@ -915,7 +937,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     {
       type: 'ecoCounterStations',
       msgId: 'mobilityPlatform.menu.showEcoCounter',
-      checkedValue: showEcoCounter,
+      checkedValue: showEcoCounter.walking,
       onChangeValue: ecoCounterStationsToggle,
     },
     {
@@ -951,6 +973,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   ];
 
   const bicycleControlTypes = [
+    {
+      type: 'ecoCounterStations',
+      msgId: 'mobilityPlatform.menu.showEcoCounter',
+      checkedValue: showEcoCounter.cycling,
+      onChangeValue: ecoCounterStationsToggleCycling,
+    },
     {
       type: 'bicycleRoutes',
       msgId: 'mobilityPlatform.menu.showBicycleRoutes',
@@ -1243,7 +1271,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const infoTextsWalking = [
     {
-      visible: showEcoCounter,
+      visible: showEcoCounter.walking,
       type: 'ecoCounterInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" />,
     },
@@ -1265,6 +1293,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   ];
 
   const infoTextsCycling = [
+    {
+      visible: showEcoCounter.cycling,
+      type: 'ecoCounterInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" />,
+    },
     {
       visible: showBicycleStands,
       type: 'bicycleStandsInfo',
