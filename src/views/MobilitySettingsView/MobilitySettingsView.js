@@ -1317,6 +1317,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const infoTextsDriving = [
     {
+      visible: showLamCounter,
+      type: 'lamCountersInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.lamCounters" />,
+    },
+    {
       visible: showRentalCars,
       type: 'rentalCarsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.rentalCars" />,

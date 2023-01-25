@@ -764,6 +764,7 @@ const translations = {
   'mobilityPlatform.info.markedTrails': 'Paavonpolut ovat maastoon merkittyjä reittejä, jotka tutustuttavat kulkijoita lähiluontoon ja kaupunkiympäristöön eri puolilla Turkua. Monin paikoin polut yhtyvät muihin ulkoilureitteihin ja kytkevät niitä toisiinsa. Kulkureitit on osoitettu maastossa puihin ja kiviin maalatuilla sinisillä juoksija-merkinnöillä ja pyöreillä merkeillä. Maastopyöräily on sallittu Paavonpolkujen metsäosuuksilla jokamiehenoikeuksien mukaisesti.',
   'mobilityPlatform.info.natureTrails': 'Luontopolut kulkevat vaihtelevissa maisemissa ja niitä seuraamalla saa edustavan läpileikkauksen Turun monimuotoisesta luonnonympäristöstä. Polut on viitoitettu ja niiden varsilla on paikallisesta luonnosta kertovia opastauluja. Kulkemisen helpottamiseksi polkupohjia on kunnostettu soralla ja rakentamalla pitkospuita kosteikkoihin. Vaikeakulkuisilla rinteillä on portaita ja siltoja.',
   'mobilityPlatform.info.fitnessTrails': 'Turun kaupunki ylläpitää yli 20 kuntoreittiä eri puolilla Turkua ja ne tarjoavat mahdollisuuden monipuoliseen liikuntaan. Reitit on valaistu kello 6 - 22 välillä.',
+  'mobilityPlatform.info.lamCounters': 'Laskentapisteet keräävät tietoa liikenteestä mittaamalla autoilijoiden määriä valituissa kohteissa. Tiedot on avoimena datana toimittanut Digitraffic -palvelu.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',
