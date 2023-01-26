@@ -644,6 +644,7 @@ const translations = {
   'mobilityPlatform.menu.show.fitnessTrails': 'Fitness trails',
   'mobilityPlatform.menu.list.showMore': 'Show more routes',
   'mobilityPlatform.menu.list.showLess': 'Show less routes',
+  'mobilityPlatform.menu.show.outdoorGymDevices': 'Outdoor gym devices', // TODO verify
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',

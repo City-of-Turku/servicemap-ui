@@ -647,6 +647,7 @@ const translations = {
   'mobilityPlatform.menu.show.fitnessTrails': 'Kuntopolut',
   'mobilityPlatform.menu.list.showMore': 'Näytä lisää reittejä',
   'mobilityPlatform.menu.list.showLess': 'Näytä vähemmän reittejä',
+  'mobilityPlatform.menu.show.outdoorGymDevices': 'Ulkokuntoilulaitteet',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',

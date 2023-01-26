@@ -26,6 +26,7 @@ import BrushedBicycleRoads from '../../components/MobilityPlatform/SnowPlows/com
 import MarkedTrails from '../../components/MobilityPlatform/MarkedTrails';
 import NatureTrails from '../../components/MobilityPlatform/NatureTrails';
 import FitnessTrails from '../../components/MobilityPlatform/FitnessTrails';
+import OutdoorGymDevices from '../../components/MobilityPlatform/OutdoorGymDevices';
 
 const MobilityPlatformMapView = () => (
   <>
@@ -56,6 +57,7 @@ const MobilityPlatformMapView = () => (
     <MarkedTrails />
     <NatureTrails />
     <FitnessTrails />
+    <OutdoorGymDevices />
   </>
 );
 

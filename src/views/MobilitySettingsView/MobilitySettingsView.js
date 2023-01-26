@@ -147,6 +147,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowFitnessTrails,
     fitnessTrailsObj,
     setFitnessTrailsObj,
+    showOutdoorGymDevices,
+    setShowOutdoorGymDevices,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
@@ -260,7 +262,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   useEffect(() => {
     checkVisibilityValues(showPublicToilets, setOpenWalkSettings);
-  }, [showPublicToilets]);
+    checkVisibilityValues(showOutdoorGymDevices, setOpenWalkSettings);
+  }, [showPublicToilets, showOutdoorGymDevices]);
 
   useEffect(() => {
     checkVisibilityValues(showEcoCounter.walking, setOpenWalkSettings);
@@ -601,6 +604,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const loadingPlacesToggle = () => {
     setShowLoadingPlaces(current => !current);
+  };
+
+  const outdoorGymDevicesToggle = () => {
+    setShowOutdoorGymDevices(current => !current);
   };
 
   const scooterSpeedLimitAreasToggle = () => {
@@ -963,6 +970,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.show.publicToilets',
       checkedValue: showPublicToilets,
       onChangeValue: publicToiletsToggle,
+    },
+    {
+      type: 'outdoorGymDevices',
+      msgId: 'mobilityPlatform.menu.show.outdoorGymDevices',
+      checkedValue: showOutdoorGymDevices,
+      onChangeValue: outdoorGymDevicesToggle,
     },
   ];
 

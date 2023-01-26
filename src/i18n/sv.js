@@ -645,6 +645,7 @@ const translations = {
   'mobilityPlatform.menu.show.fitnessTrails': 'Motionsbanor',
   'mobilityPlatform.menu.list.showMore': 'Visa fler rutter',
   'mobilityPlatform.menu.list.showLess': 'Visa färre rutter',
+  'mobilityPlatform.menu.show.outdoorGymDevices': 'Träningsredskap utomhus', // TODO verify
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
