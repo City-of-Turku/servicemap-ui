@@ -18,10 +18,10 @@ import LineChart from '../../../LineChart';
 const LamCountersContent = ({
   classes, intl, stationId, stationName,
 }) => {
-  const [lamCounterHour, setLamCounterHour] = useState(null);
-  const [lamCounterDay, setLamCounterDay] = useState(null);
-  const [lamCounterWeek, setLamCounterWeek] = useState(null);
-  const [lamCounterMonth, setLamCounterMonth] = useState(null);
+  const [lamCounterHour, setLamCounterHour] = useState([]);
+  const [lamCounterDay, setLamCounterDay] = useState([]);
+  const [lamCounterWeek, setLamCounterWeek] = useState([]);
+  const [lamCounterMonth, setLamCounterMonth] = useState([]);
   const [channel1Counts, setChannel1Counts] = useState([]);
   const [channel2Counts, setChannel2Counts] = useState([]);
   const [channelTotals, setChannelTotals] = useState([]);
