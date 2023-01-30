@@ -18,14 +18,14 @@ import LineChart from '../../../LineChart';
 const LamCountersContent = ({
   classes, intl, stationId, stationName,
 }) => {
-  const [ecoCounterHour, setEcoCounterHour] = useState(null);
-  const [ecoCounterDay, setEcoCounterDay] = useState(null);
-  const [ecoCounterWeek, setEcoCounterWeek] = useState(null);
-  const [ecoCounterMonth, setEcoCounterMonth] = useState(null);
+  const [lamCounterHour, setLamCounterHour] = useState(null);
+  const [lamCounterDay, setLamCounterDay] = useState(null);
+  const [lamCounterWeek, setLamCounterWeek] = useState(null);
+  const [lamCounterMonth, setLamCounterMonth] = useState(null);
   const [channel1Counts, setChannel1Counts] = useState([]);
   const [channel2Counts, setChannel2Counts] = useState([]);
   const [channelTotals, setChannelTotals] = useState([]);
-  const [ecoCounterLabels, setEcoCounterLabels] = useState([]);
+  const [lamCounterLabels, setLamCounterLabels] = useState([]);
   const [currentTime, setCurrentTime] = useState('hour');
   const [activeStep, setActiveStep] = useState(0);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
@@ -207,7 +207,7 @@ const LamCountersContent = ({
     setChannel1Counts([]);
     setChannel2Counts([]);
     setChannelTotals([]);
-    setEcoCounterLabels([]);
+    setLamCounterLabels([]);
   };
 
   // Channel data is set inside this function to avoid duplicate code
@@ -222,16 +222,16 @@ const LamCountersContent = ({
   const setChannelData = () => {
     resetChannelData();
     if (currentTime === 'hour') {
-      setEcoCounterLabels(labelsHour);
-      if (ecoCounterHour !== null && ecoCounterHour.station === stationId) {
+      setLamCounterLabels(labelsHour);
+      if (lamCounterHour !== null && lamCounterHour.station === stationId) {
         const countsArr = [];
-        countsArr.push(ecoCounterHour.values_ak, ecoCounterHour.values_ap, ecoCounterHour.values_at);
+        countsArr.push(lamCounterHour.values_ak, lamCounterHour.values_ap, lamCounterHour.values_at);
         setChannel1Counts(countsArr[0]);
         setChannel2Counts(countsArr[1]);
         setChannelTotals(countsArr[2]);
       }
     } else if (currentTime === 'day') {
-      ecoCounterDay.forEach((el) => {
+      lamCounterDay.forEach((el) => {
         const countsArr = [];
         if (el.station === stationId) {
           countsArr.push(el.value_ak, el.value_ap, el.value_at, el.day_info.date);
@@ -239,25 +239,25 @@ const LamCountersContent = ({
         setChannel1Counts(channel1Counts => [...channel1Counts, countsArr[0]]);
         setChannel2Counts(channel2Counts => [...channel2Counts, countsArr[1]]);
         setChannelTotals(channelTotals => [...channelTotals, countsArr[2]]);
-        setEcoCounterLabels(ecoCounterLabels => [...ecoCounterLabels, formatDates(countsArr[3])]);
+        setLamCounterLabels(lamCounterLabels => [...lamCounterLabels, formatDates(countsArr[3])]);
       });
     } else if (currentTime === 'week') {
-      ecoCounterWeek.forEach((el) => {
+      lamCounterWeek.forEach((el) => {
         const countsArr = [];
         if (el.station === stationId) {
           countsArr.push(el.value_ak, el.value_ap, el.value_at, el.week_info.week_number);
         }
         setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
-        setEcoCounterLabels(ecoCounterLabels => [...ecoCounterLabels, formatWeeks(countsArr[3])]);
+        setLamCounterLabels(lamCounterLabels => [...lamCounterLabels, formatWeeks(countsArr[3])]);
       });
     } else if (currentTime === 'month') {
-      ecoCounterMonth.forEach((el) => {
+      lamCounterMonth.forEach((el) => {
         const countsArr = [];
         if (el.station === stationId) {
           countsArr.push(el.value_ak, el.value_ap, el.value_at, el.month_info.month_number);
         }
         setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
-        setEcoCounterLabels(ecoCounterLabels => [...ecoCounterLabels, formatMonths(countsArr[3])]);
+        setLamCounterLabels(lamCounterLabels => [...lamCounterLabels, formatMonths(countsArr[3])]);
       });
     }
   };
@@ -283,52 +283,52 @@ const LamCountersContent = ({
 
   // Fetch initial data based on the default date
   useEffect(() => {
-    setEcoCounterLabels(labelsHour);
-    fetchInitialHourData(yesterDayFormat, stationId, setEcoCounterHour);
-  }, [stationId, setEcoCounterHour]);
+    setLamCounterLabels(labelsHour);
+    fetchInitialHourData(yesterDayFormat, stationId, setLamCounterHour);
+  }, [stationId, setLamCounterHour]);
 
   useEffect(() => {
-    fetchInitialDayDatas(initialDateStart, initialDateEnd, stationId, setEcoCounterDay);
-  }, [stationId, setEcoCounterDay]);
+    fetchInitialDayDatas(initialDateStart, initialDateEnd, stationId, setLamCounterDay);
+  }, [stationId, setLamCounterDay]);
 
   useEffect(() => {
-    fetchInitialWeekDatas(initialYear, initialWeekStart, initialWeekEnd, stationId, setEcoCounterWeek);
-  }, [stationId, setEcoCounterWeek]);
+    fetchInitialWeekDatas(initialYear, initialWeekStart, initialWeekEnd, stationId, setLamCounterWeek);
+  }, [stationId, setLamCounterWeek]);
 
   useEffect(() => {
-    fetchInitialMonthDatas(initialYear, '1', initialMonth, stationId, setEcoCounterMonth);
-  }, [stationId, setEcoCounterMonth]);
+    fetchInitialMonthDatas(initialYear, '1', initialMonth, stationId, setLamCounterMonth);
+  }, [stationId, setLamCounterMonth]);
 
   // Fetch updated data when selected date is changed in datepicker.
   useEffect(() => {
-    setEcoCounterLabels(labelsHour);
-    fetchInitialHourData(selectedDateFormat, stationId, setEcoCounterHour);
+    setLamCounterLabels(labelsHour);
+    fetchInitialHourData(selectedDateFormat, stationId, setLamCounterHour);
     setActiveStep(0);
     setCurrentTime('hour');
   }, [selectedDate, stationId]);
 
   useEffect(() => {
-    fetchInitialDayDatas(selectedDateStart, selectedDateEnd, stationId, setEcoCounterDay);
+    fetchInitialDayDatas(selectedDateStart, selectedDateEnd, stationId, setLamCounterDay);
   }, [selectedDate, stationId]);
 
   useEffect(() => {
-    fetchInitialWeekDatas(selectedYear, selectedWeekStart, selectedWeekEnd, stationId, setEcoCounterWeek);
+    fetchInitialWeekDatas(selectedYear, selectedWeekStart, selectedWeekEnd, stationId, setLamCounterWeek);
   }, [selectedDate, stationId]);
 
   useEffect(() => {
-    fetchInitialMonthDatas(selectedYear, '1', selectedMonth, stationId, setEcoCounterMonth);
+    fetchInitialMonthDatas(selectedYear, '1', selectedMonth, stationId, setLamCounterMonth);
   }, [selectedDate, stationId]);
 
   // useEffect is used to fill the chart with default data (default step is 'hourly')
   useEffect(() => {
-    if (ecoCounterHour !== null && ecoCounterHour.station === stationId) {
+    if (lamCounterHour !== null && lamCounterHour.station === stationId) {
       const countsArr = [];
-      countsArr.push(ecoCounterHour.values_ak, ecoCounterHour.values_ap, ecoCounterHour.values_at);
+      countsArr.push(lamCounterHour.values_ak, lamCounterHour.values_ap, lamCounterHour.values_at);
       setChannel1Counts(countsArr[0]);
       setChannel2Counts(countsArr[1]);
       setChannelTotals(countsArr[2]);
     }
-  }, [ecoCounterHour, stationId]);
+  }, [lamCounterHour, stationId]);
 
   // When current user type or step changes, calls function to update the chart data
   useEffect(() => {
@@ -393,7 +393,7 @@ const LamCountersContent = ({
         </div>
         <div className={classes.ecocounterChart}>
           <LineChart
-            labels={ecoCounterLabels}
+            labels={lamCounterLabels}
             labelChannel1={intl.formatMessage({
               id: 'ecocounter.chart.labelTo',
             })}
