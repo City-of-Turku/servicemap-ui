@@ -337,7 +337,7 @@ const LamCountersContent = ({
 
   return (
     <>
-      <div className={classes.ecoCounterHeader}>
+      <div className={classes.lamCounterHeader}>
         <Typography component="h4" className={classes.headerSubtitle}>
           {stationName}
         </Typography>
@@ -360,7 +360,7 @@ const LamCountersContent = ({
           )}
         </div>
         {isDatePickerOpen ? (
-          <div className={classes.ecocounterDatePicker}>
+          <div className={classes.lamCounterDatePicker}>
             <DayPickerSingleDateController
               date={selectedDate}
               onDateChange={(newDate) => {
@@ -372,8 +372,8 @@ const LamCountersContent = ({
           </div>
         ) : null}
       </div>
-      <div className={classes.ecocounterContent}>
-        <div className={classes.ecocounterUserTypes}>
+      <div className={classes.lamCounterContent}>
+        <div className={classes.lamCounterUserTypes}>
           {userTypes
             && userTypes.map(userType => (
               <div key={userType.type.user} className={classes.container}>
@@ -391,7 +391,7 @@ const LamCountersContent = ({
               </div>
             ))}
         </div>
-        <div className={classes.ecocounterChart}>
+        <div className={classes.lamCounterChart}>
           <LineChart
             labels={lamCounterLabels}
             labelChannel1={intl.formatMessage({
@@ -408,7 +408,7 @@ const LamCountersContent = ({
             channel2Data={channel2Counts}
           />
         </div>
-        <div className={classes.ecocounterSteps}>
+        <div className={classes.lamCounterSteps}>
           <>
             {buttonSteps.map((timing, i) => (
               <ButtonBase

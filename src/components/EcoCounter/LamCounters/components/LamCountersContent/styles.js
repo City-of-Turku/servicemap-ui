@@ -32,7 +32,7 @@ const styles = {
     marginRight: '0.75rem',
     padding: '0.3rem',
   },
-  ecoCounterHeader: {
+  lamCounterHeader: {
     display: 'flex',
     flexDirection: 'row',
     marginTop: '0.35rem',
@@ -52,14 +52,14 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  ecocounterDatePicker: {
+  lamCounterDatePicker: {
     position: 'absolute',
     top: '10%',
     left: '20%',
     backgroundColor: '#fff',
     zIndex: 1000,
   },
-  ecocounterUserTypes: {
+  lamCounterUserTypes: {
     display: 'flex',
     justifyContent: 'flex-end',
     marginBottom: '0.3rem',
@@ -101,14 +101,14 @@ const styles = {
     width: '40px',
     height: '40px',
   },
-  ecocounterSteps: {
+  lamCounterSteps: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
     padding: '1rem 0',
   },
-  ecocounterChart: {
+  lamCounterChart: {
     margin: 0,
   },
   iconContainer: {
