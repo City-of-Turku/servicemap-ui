@@ -320,6 +320,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showSpeedLimitZones, setOpenCarSettings);
     checkVisibilityValues(showDisabledParking, setOpenCarSettings);
     checkVisibilityValues(showLoadingPlaces, setOpenCarSettings);
+    checkVisibilityValues(showLamCounter, setOpenCarSettings);
   }, [
     showRentalCars,
     showGasFillingStations,
@@ -328,6 +329,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     showSpeedLimitZones,
     showDisabledParking,
     showLoadingPlaces,
+    showLamCounter,
   ]);
 
   useEffect(() => {
