@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
+<div>
+  <div
+    class="injectIntl(ParkingMachinesContent)-container-1"
+  >
+    <div
+      class="injectIntl(ParkingMachinesContent)-container-1"
+    >
+      <div
+        class="injectIntl(ParkingMachinesContent)-headerContainer-2"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1"
+        >
+          Pysäköintiautomaatti
+        </h6>
+      </div>
+      <div
+        class="injectIntl(ParkingMachinesContent)-textContainer-3"
+      >
+        <div
+          class="injectIntl(ParkingMachinesContent)-margin-5"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            Osoite: Testikatu
+          </p>
+        </div>
+        <div
+          class="injectIntl(ParkingMachinesContent)-margin-5"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            Sijainti: Katuosa
+          </p>
+        </div>
+        <div
+          class="injectIntl(ParkingMachinesContent)-margin-5"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            Maksu: 1.8 €/t
+          </p>
+        </div>
+        <div
+          class="injectIntl(ParkingMachinesContent)-margin-5"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            Maksutavat: Kortti, käteinen
+          </p>
+        </div>
+        <div
+          class="injectIntl(ParkingMachinesContent)-margin-5"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2"
+          >
+            Muuta: Testiteksti
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
