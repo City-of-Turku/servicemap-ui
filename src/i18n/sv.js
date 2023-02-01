@@ -645,6 +645,7 @@ const translations = {
   'mobilityPlatform.menu.show.fitnessTrails': 'Motionsbanor',
   'mobilityPlatform.menu.list.showMore': 'Visa fler rutter',
   'mobilityPlatform.menu.list.showLess': 'Visa färre rutter',
+  'mobilityPlatform.menu.show.parkingMachines': 'Parking machines', // TODO translate
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
@@ -733,6 +734,11 @@ const translations = {
   'mobilityPlatform.content.disabledParking.amount': 'Antal inva-parkeringsplatser: {value}',
   'mobilityPlatform.content.publicParking.access': 'Tillgänglig ingång',
   'mobilityPlatform.content.publicParking.access.gate': 'Ingång via port',
+  'mobilityPlatform.content.parkingMachine.title': 'Parking machine', // TODO translate
+  'mobilityPlatform.content.parkingMachine.location': 'Location: {value}', // TODO translate
+  'mobilityPlatform.content.parkingMachine.payment': 'Charge: {value} €/t', // TODO translate
+  'mobilityPlatform.content.parkingMachine.paymentTypes': 'Payment types: {value}', // TODO translate
+  'mobilityPlatform.content.parkingMachine.otherInfo': 'Additional info: {value}', // TODO translate
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',

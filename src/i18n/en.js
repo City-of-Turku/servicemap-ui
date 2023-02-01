@@ -644,6 +644,7 @@ const translations = {
   'mobilityPlatform.menu.show.fitnessTrails': 'Fitness trails',
   'mobilityPlatform.menu.list.showMore': 'Show more routes',
   'mobilityPlatform.menu.list.showLess': 'Show less routes',
+  'mobilityPlatform.menu.show.parkingMachines': 'Parking machines', // TODO verify
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
@@ -732,6 +733,11 @@ const translations = {
   'mobilityPlatform.content.disabledParking.amount': 'Number of parking spaces: {value}',
   'mobilityPlatform.content.publicParking.access': 'Accessible access',
   'mobilityPlatform.content.publicParking.access.gate': 'Accessible through a gate',
+  'mobilityPlatform.content.parkingMachine.title': 'Parking machine', // TODO verify
+  'mobilityPlatform.content.parkingMachine.location': 'Location: {value}',
+  'mobilityPlatform.content.parkingMachine.payment': 'Charge: {value} €/t',
+  'mobilityPlatform.content.parkingMachine.paymentTypes': 'Payment types: {value}',
+  'mobilityPlatform.content.parkingMachine.otherInfo': 'Additional info: {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Route description',

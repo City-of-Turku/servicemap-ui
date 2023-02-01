@@ -149,6 +149,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setFitnessTrailsObj,
     showLamCounter,
     setShowLamCounter,
+    showParkingMachines,
+    setShowParkingMachines,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
@@ -607,6 +609,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowScooterParkingAreas(current => !current);
   };
 
+  const parkingMachinesToggle = () => {
+    setShowParkingMachines(current => !current);
+  };
+
   const loadingPlacesToggle = () => {
     setShowLoadingPlaces(current => !current);
   };
@@ -1049,6 +1055,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.showParkingSpaces',
       checkedValue: showParkingSpaces,
       onChangeValue: parkingSpacesToggle,
+    },
+    {
+      type: 'parkingMachines',
+      msgId: 'mobilityPlatform.menu.show.parkingMachines',
+      checkedValue: showParkingMachines,
+      onChangeValue: parkingMachinesToggle,
     },
     {
       type: 'disabledParking',
