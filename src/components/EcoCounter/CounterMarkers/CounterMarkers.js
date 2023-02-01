@@ -17,7 +17,7 @@ const CounterMarkers = ({
   const customIcon = icon(createIcon(useContrast ? ecoCounterIconBw : ecoCounterIcon));
 
   return (
-    <Marker key={counterStation.id} icon={customIcon} position={[counterStation.lat, counterStation.lon]}>
+    <Marker icon={customIcon} position={[counterStation.lat, counterStation.lon]}>
       <div className={classes.popupWrapper}>
         <Popup className="ecocounter-popup">
           <div className={classes.popupInner}>
