@@ -84,6 +84,17 @@ const LamCountersContent = ({
     } else moment.locale('fi');
   }, [locale]);
 
+  // API returns empty data if start_week_number parameter is higher number than end_week_number.
+  // This will set it to 1 so that weekly graph in January won't be empty in case week number of 1.1 is 52 or 53.
+  const checkWeekNumber = (dateValue) => {
+    const start = dateValue.clone().startOf('month').week();
+    const end = dateValue.clone().endOf('month').week();
+    if (start > end) {
+      return 1;
+    }
+    return start;
+  };
+
   // momentjs
   // Initial values that are used to fetch data
   const currentDate = moment();
@@ -92,7 +103,7 @@ const LamCountersContent = ({
   const yesterDayFormat = yesterDay.clone().format('YYYY-MM-DD');
   const initialDateStart = yesterDay.clone().startOf('week').format('YYYY-MM-DD');
   const initialDateEnd = yesterDay.clone().endOf('week').format('YYYY-MM-DD');
-  const initialWeekStart = yesterDay.clone().startOf('month').week();
+  const initialWeekStart = checkWeekNumber(yesterDay);
   const initialWeekEnd = yesterDay.clone().endOf('month').week();
   const initialMonth = yesterDay.clone().month() + 1;
   const initialYear = yesterDay.clone().year();
@@ -101,7 +112,7 @@ const LamCountersContent = ({
   const selectedDateFormat = selectedDate.clone().format('YYYY-MM-DD');
   const selectedDateStart = selectedDate.clone().startOf('week').format('YYYY-MM-DD');
   const selectedDateEnd = selectedDate.clone().endOf('week').format('YYYY-MM-DD');
-  let selectedWeekStart = selectedDate.clone().startOf('month').week();
+  const selectedWeekStart = checkWeekNumber(selectedDate);
   const selectedWeekEnd = selectedDate.clone().endOf('month').week();
   let selectedMonth = currentDate.clone().month() + 1;
   const selectedYear = selectedDate.clone().year();
@@ -113,14 +124,6 @@ const LamCountersContent = ({
     }
   };
 
-  // API returns empty data if start_week_number parameter is higher number than end_week_number.
-  // This will set it to 1 so that weekly graph in January won't be empty.
-  const checkWeekNumber = () => {
-    if (selectedWeekStart > selectedWeekEnd) {
-      selectedWeekStart = 1;
-    }
-  };
-
   // Reset selectedDate value when the new popup is opened.
   useEffect(() => {
     setSelectedDate(moment().clone().subtract(1, 'months').endOf('month'));
@@ -129,10 +132,6 @@ const LamCountersContent = ({
   useEffect(() => {
     checkYear();
   }, [selectedDate]);
-
-  useEffect(() => {
-    checkWeekNumber();
-  }, [selectedWeekStart]);
 
   const labelsHour = [
     '1:00',
