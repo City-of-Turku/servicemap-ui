@@ -37,19 +37,13 @@ const ChargerStationMarkers = () => {
 
   return (
     <>
-      {renderData ? (
-        chargerStations.map(item => (
-          <MarkerComponent
-            key={item.id}
-            item={item}
-            icon={chargerStationIcon}
-          >
-            <ChargerStationContent
-              station={item}
-            />
+      {renderData
+        ? chargerStations.map(item => (
+          <MarkerComponent key={item.id} item={item} icon={chargerStationIcon}>
+            <ChargerStationContent station={item} />
           </MarkerComponent>
         ))
-      ) : null}
+        : null}
     </>
   );
 };

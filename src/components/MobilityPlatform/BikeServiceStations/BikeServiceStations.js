@@ -7,6 +7,7 @@ import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
+import MarkerComponent from '../MarkerComponent';
 import BikeServiceStationContent from './components/BikeServiceStationContent';
 
 const BikeServiceStations = () => {
@@ -18,7 +19,6 @@ const BikeServiceStations = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
   const customIcon = icon(createIcon(useContrast ? bikeServiceIconBw : bikeServiceIcon));
@@ -37,21 +37,13 @@ const BikeServiceStations = () => {
 
   return (
     <>
-      {renderData ? (
-        bikeServiceStations.map(item => (
-          <Marker
-            key={item.id}
-            icon={customIcon}
-            position={[item.geometry_coords.lat, item.geometry_coords.lon]}
-          >
-            <Popup className="popup-w350">
-              <BikeServiceStationContent
-                station={item}
-              />
-            </Popup>
-          </Marker>
+      {renderData
+        ? bikeServiceStations.map(item => (
+          <MarkerComponent key={item.id} item={item} icon={customIcon}>
+            <BikeServiceStationContent station={item} />
+          </MarkerComponent>
         ))
-      ) : null}
+        : null}
     </>
   );
 };

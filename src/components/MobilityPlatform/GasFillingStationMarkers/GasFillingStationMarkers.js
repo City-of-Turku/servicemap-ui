@@ -1,4 +1,3 @@
-import { PropTypes } from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
@@ -8,14 +7,14 @@ import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
+import MarkerComponent from '../MarkerComponent';
 import GasFillingStationContent from './components/GasFillingStationContent';
 
-const GasFillingStationMarkers = ({ classes }) => {
+const GasFillingStationMarkers = () => {
   const [gasFillingStations, setGasFillingStations] = useState([]);
 
   const { openMobilityPlatform, showGasFillingStations } = useContext(MobilityPlatformContext);
 
-  const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
@@ -38,32 +37,15 @@ const GasFillingStationMarkers = ({ classes }) => {
 
   return (
     <>
-      {renderData ? (
-        gasFillingStations.map(item => (
-          <Marker
-            key={item.id}
-            icon={gasStationIcon}
-            position={[item.geometry_coords.lat, item.geometry_coords.lon]}
-          >
-            <div className={classes.popupWrapper}>
-              <Popup className="popup-w350">
-                <div className={classes.popupInner}>
-                  <GasFillingStationContent
-                    station={item}
-                  />
-                </div>
-              </Popup>
-            </div>
-          </Marker>
+      {renderData
+        ? gasFillingStations.map(item => (
+          <MarkerComponent key={item.id} item={item} icon={gasStationIcon}>
+            <GasFillingStationContent station={item} />
+          </MarkerComponent>
         ))
-      ) : null}
+        : null}
     </>
   );
 };
-
-GasFillingStationMarkers.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-};
-
 
 export default GasFillingStationMarkers;
