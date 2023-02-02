@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
-import chargerIcon from 'servicemap-ui-turku/assets/icons/icons-icon_charging_station.svg';
-import chargerIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_charging_station-bw.svg';
+import parkingMachineIcon from 'servicemap-ui-turku/assets/icons/icons-icon_parking_machine.svg';
+import parkingMachineIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_parking_machine-bw.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
@@ -21,8 +21,7 @@ const ParkingMachines = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  // TODO change icon
-  const chargerStationIcon = icon(createIcon(useContrast ? chargerIconBw : chargerIcon));
+  const customIcon = icon(createIcon(useContrast ? parkingMachineIconContrast : parkingMachineIcon));
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -43,7 +42,7 @@ const ParkingMachines = () => {
           <MarkerComponent
             key={item.id}
             item={item}
-            icon={chargerStationIcon}
+            icon={customIcon}
           >
             <ParkingMachinesContent item={item} />
           </MarkerComponent>

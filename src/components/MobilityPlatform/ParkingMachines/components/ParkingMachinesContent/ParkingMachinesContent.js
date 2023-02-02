@@ -11,7 +11,7 @@ const ParkingMachinesContent = ({ classes, intl, item }) => {
     </div>
   );
 
-  const renderAddress = () => singleValText('mobilityPlatform.content.address', item.address_fi);
+  const formatPrice = price => price.toString().replace('.', ',');
 
   const parkingMachineInfo = (
     <div className={classes.container}>
@@ -21,9 +21,9 @@ const ParkingMachinesContent = ({ classes, intl, item }) => {
         </Typography>
       </div>
       <div className={classes.textContainer}>
-        {item.address_fi !== '' ? renderAddress() : null}
+        {item.address_fi !== '' ? singleValText('mobilityPlatform.content.address', item.address_fi) : null}
         {singleValText('mobilityPlatform.content.parkingMachine.location', item.extra.Sijainti)}
-        {singleValText('mobilityPlatform.content.parkingMachine.payment', item.extra['Taksa/h'])}
+        {singleValText('mobilityPlatform.content.parkingMachine.payment', formatPrice(item.extra['Taksa/h']))}
         {singleValText('mobilityPlatform.content.parkingMachine.paymentTypes', item.extra.Maksutapa)}
         {item.extra.Muuta ? singleValText('mobilityPlatform.content.parkingMachine.otherInfo', item.extra.Muuta) : null}
       </div>

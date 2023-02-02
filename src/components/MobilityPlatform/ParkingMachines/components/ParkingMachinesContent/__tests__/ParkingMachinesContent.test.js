@@ -35,8 +35,8 @@ describe('<ParkingMachinesContent />', () => {
     expect(h6[0].textContent).toContain(finnishTranslations['mobilityPlatform.content.parkingMachine.title']);
     expect(p[0].textContent).toContain(`Osoite: ${mockProps.item.address_fi}`);
     expect(p[1].textContent).toContain(`Sijainti: ${mockProps.item.extra.Sijainti}`);
-    expect(p[2].textContent).toContain(`Maksu: ${mockProps.item.extra['Taksa/h']}`);
+    expect(p[2].textContent).toContain('Maksu: 1,8 €/t');
     expect(p[3].textContent).toContain(`Maksutavat: ${mockProps.item.extra.Maksutapa}`);
-    expect(p[4].textContent).toContain(`Muuta: ${mockProps.item.extra.Muuta}`);
+    expect(p[4].textContent).toContain(`Lisätietoja: ${mockProps.item.extra.Muuta}`);
   });
 });

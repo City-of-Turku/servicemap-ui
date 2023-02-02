@@ -730,7 +730,7 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.location': 'Sijainti: {value}',
   'mobilityPlatform.content.parkingMachine.payment': 'Maksu: {value} €/t',
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Maksutavat: {value}',
-  'mobilityPlatform.content.parkingMachine.otherInfo': 'Muuta: {value}',
+  'mobilityPlatform.content.parkingMachine.otherInfo': 'Lisätietoja: {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',

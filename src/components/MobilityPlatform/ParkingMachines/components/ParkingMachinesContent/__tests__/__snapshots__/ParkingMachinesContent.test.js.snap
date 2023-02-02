@@ -44,7 +44,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           <p
             class="MuiTypography-root MuiTypography-body2"
           >
-            Maksu: 1.8 €/t
+            Maksu: 1,8 €/t
           </p>
         </div>
         <div
@@ -62,7 +62,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           <p
             class="MuiTypography-root MuiTypography-body2"
           >
-            Muuta: Testiteksti
+            Lisätietoja: Testiteksti
           </p>
         </div>
       </div>

@@ -735,7 +735,7 @@ const translations = {
   'mobilityPlatform.content.publicParking.access.gate': 'Accessible through a gate',
   'mobilityPlatform.content.parkingMachine.title': 'Parking machine', // TODO verify
   'mobilityPlatform.content.parkingMachine.location': 'Location: {value}',
-  'mobilityPlatform.content.parkingMachine.payment': 'Charge: {value} €/t',
+  'mobilityPlatform.content.parkingMachine.payment': 'Charge: {value} €/h',
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Payment types: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Additional info: {value}',
 
