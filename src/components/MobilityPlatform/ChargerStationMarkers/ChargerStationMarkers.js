@@ -1,4 +1,3 @@
-import { PropTypes } from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
@@ -8,16 +7,16 @@ import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
+import MarkerComponent from '../MarkerComponent';
 import ChargerStationContent from './components/ChargerStationContent';
 
-const ChargerStationMarkers = ({ classes }) => {
+const ChargerStationMarkers = () => {
   const [chargerStations, setChargerStations] = useState([]);
 
   const { openMobilityPlatform, showChargingStations } = useContext(MobilityPlatformContext);
 
   const map = useMap();
 
-  const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
@@ -40,29 +39,19 @@ const ChargerStationMarkers = ({ classes }) => {
     <>
       {renderData ? (
         chargerStations.map(item => (
-          <Marker
+          <MarkerComponent
             key={item.id}
+            item={item}
             icon={chargerStationIcon}
-            position={[item.geometry_coords.lat, item.geometry_coords.lon]}
           >
-            <div className={classes.popupWrapper}>
-              <Popup className="popup-w350">
-                <div className={classes.popupInner}>
-                  <ChargerStationContent
-                    station={item}
-                  />
-                </div>
-              </Popup>
-            </div>
-          </Marker>
+            <ChargerStationContent
+              station={item}
+            />
+          </MarkerComponent>
         ))
       ) : null}
     </>
   );
-};
-
-ChargerStationMarkers.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default ChargerStationMarkers;

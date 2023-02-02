@@ -7,6 +7,7 @@ import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import MarkerComponent from '../MarkerComponent';
 import PublicToiletsContent from './components/PublicToiletsContent';
 
 const PublicToilets = () => {
@@ -14,7 +15,6 @@ const PublicToilets = () => {
 
   const { openMobilityPlatform, showPublicToilets } = useContext(MobilityPlatformContext);
 
-  const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
@@ -37,19 +37,13 @@ const PublicToilets = () => {
 
   return (
     <>
-      {renderData ? (
-        publicToiletsData.map(item => (
-          <Marker
-            key={item.id}
-            icon={customIcon}
-            position={[item.geometry_coords.lat, item.geometry_coords.lon]}
-          >
-            <Popup>
-              <PublicToiletsContent />
-            </Popup>
-          </Marker>
+      {renderData
+        ? publicToiletsData.map(item => (
+          <MarkerComponent key={item.id} item={item} icon={customIcon}>
+            <PublicToiletsContent />
+          </MarkerComponent>
         ))
-      ) : null}
+        : null}
     </>
   );
 };
