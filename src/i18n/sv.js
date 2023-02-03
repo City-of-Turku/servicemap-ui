@@ -779,6 +779,7 @@ const translations = {
   'mobilityPlatform.info.natureTrails': 'Naturstigar korsar varierande landskap, så genom att följa dem får man en bra överblick över Åbos mångfaldiga naturomgivning. Stigarna är skyltade och längs med dem finns informationsplakat om det aktuella området. För att underlätta framkomligheten har vissa stigar belagts med grus eller byggts träspång över våtmarker. De brantaste platserna är försedda med trappor och broar.',
   'mobilityPlatform.info.fitnessTrails': 'Åbo stad har över 20 motionsbanor, som ligger över hela staden och dessa leder tillåter mångsidig träning. Leder är upplysta mellan 6 och 22.',
   'mobilityPlatform.info.lamCounters': 'Beräkningspunkterna samlar information om mängden bilister på utvalda ställen. Informationen är öppen data som levererats av Digitraffic tjänsten.',
+  'mobilityPlatform.info.parkingMachines': 'Kartalla näkyvät Turun kaupungin omistamat pysäköintiautomaatit. Valtaosassa on kosketusnäyttö ja kaikissa maksutapoina toimivat pankkikortti ja lähimaksu.', // TODO translate
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',
