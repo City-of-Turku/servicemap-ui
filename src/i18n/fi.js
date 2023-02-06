@@ -697,7 +697,7 @@ const translations = {
   'mobilityPlatform.content.rentalCars.link': 'https://www.24rent.fi',
   'mobilityPlatform.content.parkingSpaces.title': 'Pysäköintialue',
   'mobilityPlatform.content.parkingSpaces.capacity': 'Parkkipaikkojen määrä',
-  'mobilityPlatform.content.parkingSpaces.parkingCount': 'Vapaana olevat parkkipaikat',
+  'mobilityPlatform.content.parkingSpaces.parkingCount': 'Vapaana olevat parkkipaikat: {value} / {capacity}',
   'mobilityPlatform.content.parkingSpaces.type': 'Maksutyyppi',
   'mobilityPlatform.content.parkingSpaces.paid': 'Maksullinen',
   'mobilityPlatform.content.parkingSpaces.empty': 'Ei vapaita paikkoja jäljellä',
@@ -758,7 +758,7 @@ const translations = {
   'mobilityPlatform.info.cityBikes.paragraph.1': 'Turun kaupunkipyörät eli tuttavallisemmin föllärit, ovat pyöriä, joita kuka vaan voi vuokrata Donkey Republicin sovelluksella.  Föllärin voi vuokrata kertamaksulla, kuukausimaksulla tai koko kesän kattavalla kausimaksulla.',
   'mobilityPlatform.info.cityBikes.paragraph.2': 'Jos sinulla on käytössä Fölin kausikortti, jonka kausi on vähintään 30 päivää, sisältää oikeuden käyttää fölläreitä tunnin ajan kerrallaan maksutta. Vuokrattavia pyöriä on 700 ja asemia yli 70 kappaletta.',
   'mobilityPlatform.info.cityBikes.subtitle': 'Lue lisää kaupunkipyöristä:',
-  'mobilityPlatform.info.cityBikes.link': 'https://foli.fi/föllärit',
+  'mobilityPlatform.info.cityBikes.link': 'https://www.foli.fi/fi/aikataulut-ja-reitit/fölifillarit',
   'mobilityPlatform.info.cityBikes.apiInfo': 'Kartan tiedot tulevat Donkey Republicin rajapinnasta reaaliajassa.',
   'mobilityPlatform.info.guestHarbour': 'Turun vierasvenesatama sijaitsee aivan keskustan kupeessa, osoitteessa Läntinen Rantakatu 57. Lisätietoja liittyen esimerkiksi venepaikan varaamiseen löytyy osoitteesta',
   'mobilityPlatform.info.guestHarbour.link': 'www.turunvierasvenesatama.fi',
@@ -779,6 +779,7 @@ const translations = {
   'mobilityPlatform.info.markedTrails': 'Paavonpolut ovat maastoon merkittyjä reittejä, jotka tutustuttavat kulkijoita lähiluontoon ja kaupunkiympäristöön eri puolilla Turkua. Monin paikoin polut yhtyvät muihin ulkoilureitteihin ja kytkevät niitä toisiinsa. Kulkureitit on osoitettu maastossa puihin ja kiviin maalatuilla sinisillä juoksija-merkinnöillä ja pyöreillä merkeillä. Maastopyöräily on sallittu Paavonpolkujen metsäosuuksilla jokamiehenoikeuksien mukaisesti.',
   'mobilityPlatform.info.natureTrails': 'Luontopolut kulkevat vaihtelevissa maisemissa ja niitä seuraamalla saa edustavan läpileikkauksen Turun monimuotoisesta luonnonympäristöstä. Polut on viitoitettu ja niiden varsilla on paikallisesta luonnosta kertovia opastauluja. Kulkemisen helpottamiseksi polkupohjia on kunnostettu soralla ja rakentamalla pitkospuita kosteikkoihin. Vaikeakulkuisilla rinteillä on portaita ja siltoja.',
   'mobilityPlatform.info.fitnessTrails': 'Turun kaupunki ylläpitää yli 20 kuntoreittiä eri puolilla Turkua ja ne tarjoavat mahdollisuuden monipuoliseen liikuntaan. Reitit on valaistu kello 6 - 22 välillä.',
+  'mobilityPlatform.info.lamCounters': 'Laskentapisteet keräävät tietoa liikenteestä mittaamalla autoilijoiden määriä valituissa kohteissa. Tiedot on avoimena datana toimittanut Digitraffic -palvelu.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',

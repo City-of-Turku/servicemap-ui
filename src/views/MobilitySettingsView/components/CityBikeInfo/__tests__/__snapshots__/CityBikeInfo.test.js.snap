@@ -29,10 +29,10 @@ exports[`<CityBikeInfo /> should work 1`] = `
       target="_blank"
     >
       <p
-        aria-label="https://foli.fi/föllärit"
+        aria-label="https://www.foli.fi/fi/aikataulut-ja-reitit/fölifillarit"
         class="MuiTypography-root injectIntl(CityBikeInfo)-margin-2 MuiTypography-body2"
       >
-        https://foli.fi/föllärit
+        https://www.foli.fi/fi/aikataulut-ja-reitit/fölifillarit
       </p>
     </a>
     <p

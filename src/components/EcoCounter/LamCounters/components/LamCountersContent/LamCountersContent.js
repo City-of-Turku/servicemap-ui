@@ -1,39 +1,37 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-nested-ternary */
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { ButtonBase, Typography } from '@material-ui/core';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
 import { DayPickerSingleDateController } from 'react-dates';
 import 'react-dates/initialize';
 import { ReactSVG } from 'react-svg';
-import iconBicycle from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle.svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
-import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import {
   fetchInitialDayDatas, fetchInitialHourData, fetchInitialMonthDatas, fetchInitialWeekDatas,
-} from '../EcoCounterRequests/ecoCounterRequests';
-import LineChart from '../LineChart';
+} from '../../../EcoCounterRequests/ecoCounterRequests';
+import LineChart from '../../../LineChart';
 
-const EcoCounterContent = ({
+const LamCountersContent = ({
   classes, intl, stationId, stationName,
 }) => {
-  const [ecoCounterHour, setEcoCounterHour] = useState(null);
-  const [ecoCounterDay, setEcoCounterDay] = useState(null);
-  const [ecoCounterWeek, setEcoCounterWeek] = useState(null);
-  const [ecoCounterMonth, setEcoCounterMonth] = useState(null);
+  const [lamCounterHour, setLamCounterHour] = useState([]);
+  const [lamCounterDay, setLamCounterDay] = useState([]);
+  const [lamCounterWeek, setLamCounterWeek] = useState([]);
+  const [lamCounterMonth, setLamCounterMonth] = useState([]);
   const [channel1Counts, setChannel1Counts] = useState([]);
   const [channel2Counts, setChannel2Counts] = useState([]);
   const [channelTotals, setChannelTotals] = useState([]);
-  const [ecoCounterLabels, setEcoCounterLabels] = useState([]);
-  const [currentType, setCurrentType] = useState('bicycle');
+  const [lamCounterLabels, setLamCounterLabels] = useState([]);
   const [currentTime, setCurrentTime] = useState('hour');
   const [activeStep, setActiveStep] = useState(0);
-  const [activeType, setActiveType] = useState(0);
-  const [userTypesList, setUserTypesList] = useState(null);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(moment().clone().add(-1, 'days'));
+
+  const locale = useSelector(state => state.user.locale);
 
   // steps that determine which data is shown on the chart
   const buttonSteps = [
@@ -63,55 +61,12 @@ const EcoCounterContent = ({
     },
   ];
 
-  // User types that include cars
-  const allUsers = [
-    {
-      type: {
-        user: 'bicycle',
-        text: intl.formatMessage({ id: 'ecocounter.bicycle' }),
-        icon: iconBicycle,
-      },
-    },
-    {
-      type: {
-        user: 'walking',
-        text: intl.formatMessage({ id: 'ecocounter.walk' }),
-        icon: iconWalk,
-      },
-    },
+  const userTypes = [
     {
       type: {
         user: 'driving',
         text: intl.formatMessage({ id: 'ecocounter.car' }),
         icon: iconCar,
-      },
-    },
-  ];
-
-  // User types that doesn't include cars, because most stations do not include counts for cars
-  const pedestrianAndBicycle = [
-    {
-      type: {
-        user: 'bicycle',
-        text: intl.formatMessage({ id: 'ecocounter.bicycle' }),
-        icon: iconBicycle,
-      },
-    },
-    {
-      type: {
-        user: 'walking',
-        text: intl.formatMessage({ id: 'ecocounter.walk' }),
-        icon: iconWalk,
-      },
-    },
-  ];
-
-  const bicycleOnly = [
-    {
-      type: {
-        user: 'bicycle',
-        text: intl.formatMessage({ id: 'ecocounter.bicycle' }),
-        icon: iconBicycle,
       },
     },
   ];
@@ -122,12 +77,12 @@ const EcoCounterContent = ({
 
   // Set datepicker language
   useEffect(() => {
-    if (intl.locale === 'en') {
+    if (locale === 'en') {
       moment.locale('en');
-    } else if (intl.locale === 'sv') {
+    } else if (locale === 'sv') {
       moment.locale('sv');
     } else moment.locale('fi');
-  }, [intl.locale]);
+  }, [locale]);
 
   // API returns empty data if start_week_number parameter is higher number than end_week_number.
   // This will set it to 1 so that weekly graph in January won't be empty in case week number of 1.1 is 52 or 53.
@@ -143,7 +98,8 @@ const EcoCounterContent = ({
   // momentjs
   // Initial values that are used to fetch data
   const currentDate = moment();
-  const yesterDay = moment().clone().add(-1, 'days');
+  const lastMonth = currentDate.clone().subtract(1, 'months').endOf('month');
+  const yesterDay = lastMonth.clone().add(-1, 'days');
   const yesterDayFormat = yesterDay.clone().format('YYYY-MM-DD');
   const initialDateStart = yesterDay.clone().startOf('week').format('YYYY-MM-DD');
   const initialDateEnd = yesterDay.clone().endOf('week').format('YYYY-MM-DD');
@@ -170,7 +126,7 @@ const EcoCounterContent = ({
 
   // Reset selectedDate value when the new popup is opened.
   useEffect(() => {
-    setSelectedDate(moment().clone().add(-1, 'days'));
+    setSelectedDate(moment().clone().subtract(1, 'months').endOf('month'));
   }, [stationId]);
 
   useEffect(() => {
@@ -250,7 +206,7 @@ const EcoCounterContent = ({
     setChannel1Counts([]);
     setChannel2Counts([]);
     setChannelTotals([]);
-    setEcoCounterLabels([]);
+    setLamCounterLabels([]);
   };
 
   // Channel data is set inside this function to avoid duplicate code
@@ -265,74 +221,44 @@ const EcoCounterContent = ({
   const setChannelData = () => {
     resetChannelData();
     if (currentTime === 'hour') {
-      setEcoCounterLabels(labelsHour);
-      if (ecoCounterHour !== null && ecoCounterHour.station === stationId) {
+      setLamCounterLabels(labelsHour);
+      if (lamCounterHour !== null && lamCounterHour.station === stationId) {
         const countsArr = [];
-        if (currentType === 'walking') {
-          countsArr.push(ecoCounterHour.values_jk, ecoCounterHour.values_jp, ecoCounterHour.values_jt);
-        } else if (currentType === 'bicycle') {
-          countsArr.push(ecoCounterHour.values_pk, ecoCounterHour.values_pp, ecoCounterHour.values_pt);
-        } else if (currentType === 'driving') {
-          countsArr.push(ecoCounterHour.values_ak, ecoCounterHour.values_ap, ecoCounterHour.values_at);
-        }
+        countsArr.push(lamCounterHour.values_ak, lamCounterHour.values_ap, lamCounterHour.values_at);
         setChannel1Counts(countsArr[0]);
         setChannel2Counts(countsArr[1]);
         setChannelTotals(countsArr[2]);
       }
     } else if (currentTime === 'day') {
-      ecoCounterDay.forEach((el) => {
+      lamCounterDay.forEach((el) => {
         const countsArr = [];
-        if (el.station === stationId && currentType === 'walking') {
-          countsArr.push(el.value_jk, el.value_jp, el.value_jt, el.day_info.date);
-        } else if (el.station === stationId && currentType === 'bicycle') {
-          countsArr.push(el.value_pk, el.value_pp, el.value_pt, el.day_info.date);
-        } else if (el.station === stationId && currentType === 'driving') {
+        if (el.station === stationId) {
           countsArr.push(el.value_ak, el.value_ap, el.value_at, el.day_info.date);
         }
         setChannel1Counts(channel1Counts => [...channel1Counts, countsArr[0]]);
         setChannel2Counts(channel2Counts => [...channel2Counts, countsArr[1]]);
         setChannelTotals(channelTotals => [...channelTotals, countsArr[2]]);
-        setEcoCounterLabels(ecoCounterLabels => [...ecoCounterLabels, formatDates(countsArr[3])]);
+        setLamCounterLabels(lamCounterLabels => [...lamCounterLabels, formatDates(countsArr[3])]);
       });
     } else if (currentTime === 'week') {
-      ecoCounterWeek.forEach((el) => {
+      lamCounterWeek.forEach((el) => {
         const countsArr = [];
-        if (el.station === stationId && currentType === 'walking') {
-          countsArr.push(el.value_jk, el.value_jp, el.value_jt, el.week_info.week_number);
-        } else if (el.station === stationId && currentType === 'bicycle') {
-          countsArr.push(el.value_pk, el.value_pp, el.value_pt, el.week_info.week_number);
-        } else if (el.station === stationId && currentType === 'driving') {
+        if (el.station === stationId) {
           countsArr.push(el.value_ak, el.value_ap, el.value_at, el.week_info.week_number);
         }
         setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
-        setEcoCounterLabels(ecoCounterLabels => [...ecoCounterLabels, formatWeeks(countsArr[3])]);
+        setLamCounterLabels(lamCounterLabels => [...lamCounterLabels, formatWeeks(countsArr[3])]);
       });
     } else if (currentTime === 'month') {
-      ecoCounterMonth.forEach((el) => {
+      lamCounterMonth.forEach((el) => {
         const countsArr = [];
-        if (el.station === stationId && currentType === 'walking') {
-          countsArr.push(el.value_jk, el.value_jp, el.value_jt, el.month_info.month_number);
-        } else if (el.station === stationId && currentType === 'bicycle') {
-          countsArr.push(el.value_pk, el.value_pp, el.value_pt, el.month_info.month_number);
-        } else if (el.station === stationId && currentType === 'driving') {
+        if (el.station === stationId) {
           countsArr.push(el.value_ak, el.value_ap, el.value_at, el.month_info.month_number);
         }
         setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
-        setEcoCounterLabels(ecoCounterLabels => [...ecoCounterLabels, formatMonths(countsArr[3])]);
+        setLamCounterLabels(lamCounterLabels => [...lamCounterLabels, formatMonths(countsArr[3])]);
       });
     }
-  };
-
-  // Sets current user type and active button index
-  const setUserTypeState = (index, typeValue) => {
-    setActiveType(index);
-    setCurrentType(typeValue);
-  };
-
-  const setUserTypes = (type, index) => {
-    if (type === 'walking') setUserTypeState(index, 'walking');
-    else if (type === 'bicycle') setUserTypeState(index, 'bicycle');
-    else if (type === 'driving') setUserTypeState(index, 'driving');
   };
 
   // Sets current step and active button index
@@ -356,86 +282,63 @@ const EcoCounterContent = ({
 
   // Fetch initial data based on the default date
   useEffect(() => {
-    setEcoCounterLabels(labelsHour);
-    fetchInitialHourData(yesterDayFormat, stationId, setEcoCounterHour);
-  }, [stationId, setEcoCounterHour]);
+    setLamCounterLabels(labelsHour);
+    fetchInitialHourData(yesterDayFormat, stationId, setLamCounterHour);
+  }, [stationId, setLamCounterHour]);
 
   useEffect(() => {
-    fetchInitialDayDatas(initialDateStart, initialDateEnd, stationId, setEcoCounterDay);
-  }, [stationId, setEcoCounterDay]);
+    fetchInitialDayDatas(initialDateStart, initialDateEnd, stationId, setLamCounterDay);
+  }, [stationId, setLamCounterDay]);
 
   useEffect(() => {
-    fetchInitialWeekDatas(initialYear, initialWeekStart, initialWeekEnd, stationId, setEcoCounterWeek);
-  }, [stationId, setEcoCounterWeek]);
+    fetchInitialWeekDatas(initialYear, initialWeekStart, initialWeekEnd, stationId, setLamCounterWeek);
+  }, [stationId, setLamCounterWeek]);
 
   useEffect(() => {
-    fetchInitialMonthDatas(initialYear, '1', initialMonth, stationId, setEcoCounterMonth);
-  }, [stationId, setEcoCounterMonth]);
+    fetchInitialMonthDatas(initialYear, '1', initialMonth, stationId, setLamCounterMonth);
+  }, [stationId, setLamCounterMonth]);
 
   // Fetch updated data when selected date is changed in datepicker.
   useEffect(() => {
-    setEcoCounterLabels(labelsHour);
-    fetchInitialHourData(selectedDateFormat, stationId, setEcoCounterHour);
+    setLamCounterLabels(labelsHour);
+    fetchInitialHourData(selectedDateFormat, stationId, setLamCounterHour);
     setActiveStep(0);
     setCurrentTime('hour');
   }, [selectedDate, stationId]);
 
   useEffect(() => {
-    fetchInitialDayDatas(selectedDateStart, selectedDateEnd, stationId, setEcoCounterDay);
+    fetchInitialDayDatas(selectedDateStart, selectedDateEnd, stationId, setLamCounterDay);
   }, [selectedDate, stationId]);
 
   useEffect(() => {
-    fetchInitialWeekDatas(selectedYear, selectedWeekStart, selectedWeekEnd, stationId, setEcoCounterWeek);
+    fetchInitialWeekDatas(selectedYear, selectedWeekStart, selectedWeekEnd, stationId, setLamCounterWeek);
   }, [selectedDate, stationId]);
 
   useEffect(() => {
-    fetchInitialMonthDatas(selectedYear, '1', selectedMonth, stationId, setEcoCounterMonth);
+    fetchInitialMonthDatas(selectedYear, '1', selectedMonth, stationId, setLamCounterMonth);
   }, [selectedDate, stationId]);
 
   // useEffect is used to fill the chart with default data (default step is 'hourly')
   useEffect(() => {
-    if (ecoCounterHour !== null && ecoCounterHour.station === stationId) {
+    if (lamCounterHour !== null && lamCounterHour.station === stationId) {
       const countsArr = [];
-      if (currentType === 'walking') {
-        countsArr.push(ecoCounterHour.values_jk, ecoCounterHour.values_jp, ecoCounterHour.values_jt);
-      } else if (currentType === 'bicycle') {
-        countsArr.push(ecoCounterHour.values_pk, ecoCounterHour.values_pp, ecoCounterHour.values_pt);
-      } else if (currentType === 'driving') {
-        countsArr.push(ecoCounterHour.values_ak, ecoCounterHour.values_ap, ecoCounterHour.values_at);
-      }
+      countsArr.push(lamCounterHour.values_ak, lamCounterHour.values_ap, lamCounterHour.values_at);
       setChannel1Counts(countsArr[0]);
       setChannel2Counts(countsArr[1]);
       setChannelTotals(countsArr[2]);
     }
-  }, [ecoCounterHour, stationId]);
+  }, [lamCounterHour, stationId]);
 
   // When current user type or step changes, calls function to update the chart data
   useEffect(() => {
     setChannelData();
-  }, [currentType, currentTime]);
-
-  // Only one station includes data about all user types (inluding cars) and some include only data about cycling.
-  // Sets user types based on station name.
-  // Initially used id, but it can change, so it's not always reliable.
-  useEffect(() => {
-    if (stationName === 'Auransilta') {
-      setUserTypesList(allUsers);
-    } else if (stationName === 'Kirjastosilta' || stationName === 'Teatteri ranta' || stationName === 'Teatterisilta') {
-      setUserTypesList(pedestrianAndBicycle);
-    } else setUserTypesList(bicycleOnly);
-  }, [stationId]);
-
-  const renderStationName = (input) => {
-    if (input === 'Teatteri ranta') {
-      return 'Teatteriranta';
-    } return input;
-  };
+  }, [currentTime]);
 
   return (
     <>
-      <div className={classes.ecoCounterHeader}>
+      <div className={classes.lamCounterHeader}>
         <Typography component="h4" className={classes.headerSubtitle}>
-          {renderStationName(stationName)}
+          {stationName}
         </Typography>
         <div className={classes.headerDate}>
           <div className={classes.iconContainer}>
@@ -456,7 +359,7 @@ const EcoCounterContent = ({
           )}
         </div>
         {isDatePickerOpen ? (
-          <div className={classes.ecocounterDatePicker}>
+          <div className={classes.lamCounterDatePicker}>
             <DayPickerSingleDateController
               date={selectedDate}
               onDateChange={(newDate) => {
@@ -468,22 +371,17 @@ const EcoCounterContent = ({
           </div>
         ) : null}
       </div>
-      <div className={classes.ecocounterContent}>
-        <div className={classes.ecocounterUserTypes}>
-          {userTypesList
-            && userTypesList.map((userType, i) => (
-              <div key={userType.type.user} className={classes.buttonAndTextContainer}>
-                <ButtonBase
-                  className={i === activeType ? `${classes.buttonActive}` : `${classes.buttonWhite}`}
-                  onClick={() => setUserTypes(userType.type.user, i)}
-                >
-                  <div>
-                    <ReactSVG
-                      className={i === activeType ? `${classes.iconActive}` : `${classes.icon}`}
-                      src={userType.type.icon}
-                    />
-                  </div>
-                </ButtonBase>
+      <div className={classes.lamCounterContent}>
+        <div className={classes.lamCounterUserTypes}>
+          {userTypes
+            && userTypes.map(userType => (
+              <div key={userType.type.user} className={classes.container}>
+                <div className={classes.iconWrapper}>
+                  <ReactSVG
+                    className={classes.iconActive}
+                    src={userType.type.icon}
+                  />
+                </div>
                 <div className={classes.textContainer}>
                   <Typography variant="body2" className={classes.userTypeText}>
                     {userType.type.text}
@@ -492,9 +390,9 @@ const EcoCounterContent = ({
               </div>
             ))}
         </div>
-        <div className={classes.ecocounterChart}>
+        <div className={classes.lamCounterChart}>
           <LineChart
-            labels={ecoCounterLabels}
+            labels={lamCounterLabels}
             labelChannel1={intl.formatMessage({
               id: 'ecocounter.chart.labelTo',
             })}
@@ -509,7 +407,7 @@ const EcoCounterContent = ({
             channel2Data={channel2Counts}
           />
         </div>
-        <div className={classes.ecocounterSteps}>
+        <div className={classes.lamCounterSteps}>
           <>
             {buttonSteps.map((timing, i) => (
               <ButtonBase
@@ -530,16 +428,16 @@ const EcoCounterContent = ({
   );
 };
 
-EcoCounterContent.propTypes = {
+LamCountersContent.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
   intl: PropTypes.objectOf(PropTypes.any).isRequired,
   stationId: PropTypes.number,
   stationName: PropTypes.string,
 };
 
-EcoCounterContent.defaultProps = {
+LamCountersContent.defaultProps = {
   stationId: 0,
   stationName: '',
 };
 
-export default EcoCounterContent;
+export default LamCountersContent;

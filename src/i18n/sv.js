@@ -708,7 +708,7 @@ const translations = {
   'mobilityPlatform.content.parkingSpaces.parkingCount': 'Antal lediga parkeringsplatser',
   'mobilityPlatform.content.parkingSpaces.type': 'Typ av betalning',
   'mobilityPlatform.content.parkingSpaces.paid': 'Avgiftsbelagd',
-  'mobilityPlatform.content.parkingSpaces.empty': 'Inga lediga platser kvar',
+  'mobilityPlatform.content.parkingSpaces.empty': 'Inga lediga platser kvar: {value} / {capacity}',
   'mobilityPlatform.content.parkingChargeZones.zone': 'Zon',
   'mobilityPlatform.content.parkingChargeZones.price': 'Avgift',
   'mobilityPlatform.content.parkingChargeZones.price.weekDays': 'Avgiftsbelagd vardagar',
@@ -787,6 +787,7 @@ const translations = {
   'mobilityPlatform.info.markedTrails': 'Paavos stigar är rutter som märkts ut i terrängen. Längs rutterna får vandrare bekanta sig med den lokala naturen och närmiljön på olika håll i Åbo. På flera ställen möter stigarna andra friluftsleder och kopplar dem ihop med varandra. Gångrutterna längs stigar har märkts ut i terrängen med blåmålade löpare och runda märken på träd och stenar. Längs skogsavsnitten är det tillåtet att åka terrängcykel enligt allemansrätten.',
   'mobilityPlatform.info.natureTrails': 'Naturstigar korsar varierande landskap, så genom att följa dem får man en bra överblick över Åbos mångfaldiga naturomgivning. Stigarna är skyltade och längs med dem finns informationsplakat om det aktuella området. För att underlätta framkomligheten har vissa stigar belagts med grus eller byggts träspång över våtmarker. De brantaste platserna är försedda med trappor och broar.',
   'mobilityPlatform.info.fitnessTrails': 'Åbo stad har över 20 motionsbanor, som ligger över hela staden och dessa leder tillåter mångsidig träning. Leder är upplysta mellan 6 och 22.',
+  'mobilityPlatform.info.lamCounters': 'Beräkningspunkterna samlar information om mängden bilister på utvalda ställen. Informationen är öppen data som levererats av Digitraffic tjänsten.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',

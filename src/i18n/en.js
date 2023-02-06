@@ -701,7 +701,7 @@ const translations = {
   'mobilityPlatform.content.rentalCars.link': 'https://www.24rent.fi',
   'mobilityPlatform.content.parkingSpaces.title': 'Parking space',
   'mobilityPlatform.content.parkingSpaces.capacity': 'Capacity',
-  'mobilityPlatform.content.parkingSpaces.parkingCount': 'Number of vacant spaces',
+  'mobilityPlatform.content.parkingSpaces.parkingCount': 'Number of vacant spaces: {value} / {capacity}',
   'mobilityPlatform.content.parkingSpaces.type': 'Payment type',
   'mobilityPlatform.content.parkingSpaces.paid': 'Toll parking',
   'mobilityPlatform.content.parkingSpaces.empty': 'No vacant spaces left',
@@ -783,6 +783,7 @@ const translations = {
   'mobilityPlatform.info.markedTrails': 'Paavo trails are routes that have been marked on the terrain and introduce walkers to the local nature and urban environments in various places in Turku. In many places the trails merge with other outdoor recreation paths and link them together. Trails have been marked on the terrain with blue runner marks and round markings on trees and rocks. Cross-country biking is allowed in the forest parts of Paavo trails, as per the public right of access.',
   'mobilityPlatform.info.natureTrails': 'The nature trails run through varied landscapes and by following them you get a good look at diverse natural environment of Turku. The paths have signs to improve navigation and guide boards telling about the local nature. Some footpaths have been covered with gravel and duckboards have been built in the wetlands to make walking easier. Stairs and bridges have been built to ease movement on steep slopes.',
   'mobilityPlatform.info.fitnessTrails': 'City of Turku maintains over 20 fitness trails, located all over the city and these trails allow diverse exercise. Trails are lit between 6:00 and 22:00.',
+  'mobilityPlatform.info.lamCounters': 'Measurement points collect traffic information by measuring the number of cars at selected destinations. The information is open data and has been provided by the Digitraffic -service.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',

@@ -87,6 +87,11 @@ const createContentStyles = (
   return styles;
 };
 
+const ecoCounterStationsInitial = {
+  walking: false,
+  cycling: false,
+};
+
 // Shitty hack to get alert showing when not using print view
 // (showAlert did not use updated showPrintView value)
 const valueStore = {};
@@ -96,7 +101,7 @@ const DefaultLayout = (props) => {
   const [sidebarHidden, toggleSidebarHidden] = useState(false);
   const [error, setError] = useState(false);
   const [openMobilityPlatform, setOpenMobilityPlatform] = useState(false);
-  const [showEcoCounter, setShowEcoCounter] = useState(false);
+  const [showEcoCounter, setShowEcoCounter] = useState(ecoCounterStationsInitial);
   const [showBicycleStands, setShowBicycleStands] = useState(false);
   const [showCultureRoutes, setShowCultureRoutes] = useState(false);
   const [cultureRouteId, setCultureRouteId] = useState();
@@ -135,6 +140,7 @@ const DefaultLayout = (props) => {
   const [natureTrailsObj, setNatureTrailsObj] = useState({});
   const [showFitnessTrails, setShowFitnessTrails] = useState(false);
   const [fitnessTrailsObj, setFitnessTrailsObj] = useState({});
+  const [showLamCounter, setShowLamCounter] = useState(false);
 
   const {
     currentPage, fetchErrors, fetchNews, intl, location, settingsToggled,
@@ -293,6 +299,8 @@ const DefaultLayout = (props) => {
                       setShowFitnessTrails,
                       fitnessTrailsObj,
                       setFitnessTrailsObj,
+                      showLamCounter,
+                      setShowLamCounter,
                     }}
                   >
                     <ViewRouter />
@@ -346,6 +354,7 @@ const DefaultLayout = (props) => {
                     natureTrailsObj,
                     showFitnessTrails,
                     fitnessTrailsObj,
+                    showLamCounter,
                   }}
                 >
                   <MapView

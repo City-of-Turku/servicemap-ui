@@ -1,5 +1,6 @@
 import React from 'react';
 import EcoCounterMarkers from '../../components/EcoCounter/EcoCounterMarkers';
+import LamCounters from '../../components/EcoCounter/LamCounters';
 import BicycleRoutes from '../../components/MobilityPlatform/BicycleRoutes';
 import BicycleStands from '../../components/MobilityPlatform/BicycleStands';
 import BikeServiceStations from '../../components/MobilityPlatform/BikeServiceStations';
@@ -30,6 +31,7 @@ import FitnessTrails from '../../components/MobilityPlatform/FitnessTrails';
 const MobilityPlatformMapView = () => (
   <>
     <EcoCounterMarkers />
+    <LamCounters />
     <BicycleStands />
     <BicycleRoutes />
     <CultureRoutes />

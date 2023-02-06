@@ -17,21 +17,42 @@ exports[`<DisabledParkingContent /> does match snapshot 1`] = `
     <div
       class="injectIntl(DisabledParkingContent)-textContainer-3"
     >
-      <p
-        class="MuiTypography-root MuiTypography-body2"
+      <div
+        class="injectIntl(DisabledParkingContent)-margin-4"
       >
-        Parkkipaikkojen määrä: 5
-      </p>
-      <p
-        class="MuiTypography-root MuiTypography-body2"
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          Osoite: Testikatu 1
+        </p>
+      </div>
+      <div
+        class="injectIntl(DisabledParkingContent)-margin-4"
       >
-        Erityisalue
-      </p>
-      <p
-        class="MuiTypography-root MuiTypography-body2"
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          Parkkipaikkojen määrä: 5
+        </p>
+      </div>
+      <div
+        class="injectIntl(DisabledParkingContent)-margin-4"
       >
-        Esteetön pääsy
-      </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          Erityisalue
+        </p>
+      </div>
+      <div
+        class="injectIntl(DisabledParkingContent)-margin-4"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          Esteetön pääsy
+        </p>
+      </div>
     </div>
   </div>
 </div>

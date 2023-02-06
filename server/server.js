@@ -242,6 +242,8 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, locale, hel
         window.nodeEnvSettings.ECOCOUNTER_API = "${process.env.ECOCOUNTER_API}";
         window.nodeEnvSettings.THEME_PKG = "${process.env.THEME_PKG}";
         window.nodeEnvSettings.MOBILITY_PLATFORM_API = "${process.env.MOBILITY_PLATFORM_API}";
+        window.nodeEnvSettings.PARKING_SPACES_URL = "${process.env.PARKING_SPACES_URL}";
+        window.nodeEnvSettings.PARKING_STATISTICS_URL = "${process.env.PARKING_STATISTICS_URL}";
 
         window.appVersion = {};
         window.appVersion.tag = "${versionTag}";
