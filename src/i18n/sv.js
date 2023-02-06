@@ -645,7 +645,7 @@ const translations = {
   'mobilityPlatform.menu.show.fitnessTrails': 'Motionsbanor',
   'mobilityPlatform.menu.list.showMore': 'Visa fler rutter',
   'mobilityPlatform.menu.list.showLess': 'Visa färre rutter',
-  'mobilityPlatform.menu.show.parkingMachines': 'Parkeringsautomater', // TODO verify
+  'mobilityPlatform.menu.show.parkingMachines': 'Parkeringsautomater',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
@@ -734,11 +734,11 @@ const translations = {
   'mobilityPlatform.content.disabledParking.amount': 'Antal inva-parkeringsplatser: {value}',
   'mobilityPlatform.content.publicParking.access': 'Tillgänglig ingång',
   'mobilityPlatform.content.publicParking.access.gate': 'Ingång via port',
-  'mobilityPlatform.content.parkingMachine.title': 'Parkeringsautomat', // TODO verify
-  'mobilityPlatform.content.parkingMachine.location': 'Plats: {value}', // TODO verify
-  'mobilityPlatform.content.parkingMachine.payment': 'För en avgift: {value} €/h', // TODO verify
-  'mobilityPlatform.content.parkingMachine.paymentTypes': 'Betalningstyper: {value}', // TODO verify
-  'mobilityPlatform.content.parkingMachine.otherInfo': 'Ytterligare info: {value}', // TODO verify
+  'mobilityPlatform.content.parkingMachine.title': 'Parkeringsautomat',
+  'mobilityPlatform.content.parkingMachine.location': 'Plats: {value}',
+  'mobilityPlatform.content.parkingMachine.payment': 'För en avgift: {value} €/h',
+  'mobilityPlatform.content.parkingMachine.paymentTypes': 'Betalningstyper: {value}',
+  'mobilityPlatform.content.parkingMachine.otherInfo': 'Ytterligare info: {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',
@@ -779,7 +779,7 @@ const translations = {
   'mobilityPlatform.info.natureTrails': 'Naturstigar korsar varierande landskap, så genom att följa dem får man en bra överblick över Åbos mångfaldiga naturomgivning. Stigarna är skyltade och längs med dem finns informationsplakat om det aktuella området. För att underlätta framkomligheten har vissa stigar belagts med grus eller byggts träspång över våtmarker. De brantaste platserna är försedda med trappor och broar.',
   'mobilityPlatform.info.fitnessTrails': 'Åbo stad har över 20 motionsbanor, som ligger över hela staden och dessa leder tillåter mångsidig träning. Leder är upplysta mellan 6 och 22.',
   'mobilityPlatform.info.lamCounters': 'Beräkningspunkterna samlar information om mängden bilister på utvalda ställen. Informationen är öppen data som levererats av Digitraffic tjänsten.',
-  'mobilityPlatform.info.parkingMachines': 'Kartalla näkyvät Turun kaupungin omistamat pysäköintiautomaatit. Valtaosassa on kosketusnäyttö ja kaikissa maksutapoina toimivat pankkikortti ja lähimaksu.', // TODO translate
+  'mobilityPlatform.info.parkingMachines': 'Kartan visar de parkeringsautomater som ägs av Åbo stad. Bankkort och kontaktlös betalning används som betalningsmetoder i alla automater. Du kan se mer information om maskinen genom att trycka på ikonen på kartan.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',
