@@ -1,12 +1,9 @@
-import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
-import useLocaleText from '../../../../../utils/useLocaleText';
 import AddressText from '../../../AddressText';
+import TextComponent from '../../../TextComponent';
 
 const LoadingPlacesContent = ({ classes, item }) => {
-  const getLocaleText = useLocaleText();
-
   const loadingPlaceName = {
     fi: item.name_fi,
     en: item.name_en,
@@ -19,26 +16,16 @@ const LoadingPlacesContent = ({ classes, item }) => {
     sv: item.address_sv,
   };
 
-  const renderText = textObj => (
-    <div className={classes.marginTop}>
-      <Typography component="p" variant="body2">
-        {getLocaleText(textObj)}
-      </Typography>
-    </div>
-  );
-
   const loadingPlaceInfo = (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
-        <Typography variant="subtitle1">
-          {getLocaleText(loadingPlaceName)}
-        </Typography>
+        <TextComponent textObj={loadingPlaceName} isTitle />
       </div>
       <div className={classes.textContainer}>
         {item.address_fi !== '' ? <AddressText addressObj={loadingPlaceAddress} /> : null}
-        {renderText(item.extra.lastauspiste)}
-        {renderText(item.extra.Saavutettavuus)}
-        {renderText(item.extra.rajoitustyyppi)}
+        <TextComponent textObj={item.extra.lastauspiste} />
+        <TextComponent textObj={item.extra.Saavutettavuus} />
+        <TextComponent textObj={item.extra.rajoitustyyppi} />
       </div>
     </div>
   );

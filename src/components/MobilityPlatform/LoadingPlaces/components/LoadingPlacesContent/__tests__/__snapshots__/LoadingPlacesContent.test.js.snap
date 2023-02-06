@@ -11,17 +11,21 @@ exports[`<LoadingPlacesContent /> should match snapshot 1`] = `
       <div
         class="LoadingPlacesContent-headerContainer-2"
       >
-        <h6
-          class="MuiTypography-root MuiTypography-subtitle1"
+        <div
+          class="TextComponent-margin-7"
         >
-          Testi
-        </h6>
+          <p
+            class="MuiTypography-root MuiTypography-subtitle1"
+          >
+            Testi
+          </p>
+        </div>
       </div>
       <div
         class="LoadingPlacesContent-textContainer-3"
       >
         <div
-          class="injectIntl(AddressText)-margin-7"
+          class="injectIntl(AddressText)-margin-8"
         >
           <p
             class="MuiTypography-root MuiTypography-body2"
@@ -30,7 +34,7 @@ exports[`<LoadingPlacesContent /> should match snapshot 1`] = `
           </p>
         </div>
         <div
-          class="LoadingPlacesContent-marginTop-6"
+          class="TextComponent-margin-7"
         >
           <p
             class="MuiTypography-root MuiTypography-body2"
@@ -39,7 +43,7 @@ exports[`<LoadingPlacesContent /> should match snapshot 1`] = `
           </p>
         </div>
         <div
-          class="LoadingPlacesContent-marginTop-6"
+          class="TextComponent-margin-7"
         >
           <p
             class="MuiTypography-root MuiTypography-body2"
@@ -48,7 +52,7 @@ exports[`<LoadingPlacesContent /> should match snapshot 1`] = `
           </p>
         </div>
         <div
-          class="LoadingPlacesContent-marginTop-6"
+          class="TextComponent-margin-7"
         >
           <p
             class="MuiTypography-root MuiTypography-body2"

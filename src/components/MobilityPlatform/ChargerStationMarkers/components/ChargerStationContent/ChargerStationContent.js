@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import useLocaleText from '../../../../../utils/useLocaleText';
 import AddressText from '../../../AddressText';
+import TextComponent from '../../../TextComponent';
 
 const ChargerStationContent = ({ classes, intl, station }) => {
   const getLocaleText = useLocaleText();
@@ -88,9 +89,7 @@ const ChargerStationContent = ({ classes, intl, station }) => {
   return (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
-        <Typography variant="subtitle1">
-          {getLocaleText(stationName)}
-        </Typography>
+        <TextComponent textObj={stationName} isTitle />
       </div>
       <div className={classes.textContainer}>
         {chargerStationInfo}

@@ -1,12 +1,9 @@
-import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
-import useLocaleText from '../../../../../utils/useLocaleText';
 import AddressText from '../../../AddressText';
+import TextComponent from '../../../TextComponent';
 
 const BikeServiceStationContent = ({ classes, station }) => {
-  const getLocaleText = useLocaleText();
-
   const stationName = {
     fi: station.name,
     en: station.name_en,
@@ -28,23 +25,19 @@ const BikeServiceStationContent = ({ classes, station }) => {
   const bikeServiceStationInfo = (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
-        <Typography variant="subtitle1">
-          {getLocaleText(stationName)}
-        </Typography>
+        <TextComponent textObj={stationName} isTitle />
       </div>
       <div className={classes.textContainer}>
         {station.address ? <AddressText addressObj={stationAddress} /> : null}
-        <Typography component="p" variant="body2">
-          {getLocaleText(stationDesc)}
-        </Typography>
+        <TextComponent textObj={stationDesc} />
       </div>
     </div>
   );
 
   return (
-    <div className={classes.container}>
+    <>
       {bikeServiceStationInfo}
-    </div>
+    </>
   );
 };
 
