@@ -2,17 +2,10 @@ import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
 import useLocaleText from '../../../../../utils/useLocaleText';
+import AddressText from '../../../AddressText';
 
-const LoadingPlacesContent = ({ classes, intl, item }) => {
+const LoadingPlacesContent = ({ classes, item }) => {
   const getLocaleText = useLocaleText();
-
-  const singleValText = (messageId, value, props = {}) => (
-    <div {...props}>
-      <Typography component="p" variant="body2">
-        {intl.formatMessage({ id: messageId }, { value })}
-      </Typography>
-    </div>
-  );
 
   const loadingPlaceName = {
     fi: item.name_fi,
@@ -34,8 +27,6 @@ const LoadingPlacesContent = ({ classes, intl, item }) => {
     </div>
   );
 
-  const renderAddress = () => singleValText('mobilityPlatform.content.address', getLocaleText(loadingPlaceAddress), { className: classes.margin });
-
   const loadingPlaceInfo = (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
@@ -44,7 +35,7 @@ const LoadingPlacesContent = ({ classes, intl, item }) => {
         </Typography>
       </div>
       <div className={classes.textContainer}>
-        {item.address_fi !== '' ? renderAddress() : null}
+        {item.address_fi !== '' ? <AddressText addressObj={loadingPlaceAddress} /> : null}
         {renderText(item.extra.lastauspiste)}
         {renderText(item.extra.Saavutettavuus)}
         {renderText(item.extra.rajoitustyyppi)}
@@ -61,7 +52,6 @@ const LoadingPlacesContent = ({ classes, intl, item }) => {
 
 LoadingPlacesContent.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
   item: PropTypes.objectOf(PropTypes.any),
 };
 
