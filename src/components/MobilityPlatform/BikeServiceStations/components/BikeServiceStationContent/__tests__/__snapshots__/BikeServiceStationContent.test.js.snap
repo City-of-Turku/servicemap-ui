@@ -3,13 +3,13 @@
 exports[`<BikeServiceStationContent /> should match snapshot 1`] = `
 <div>
   <div
-    class="injectIntl(BikeServiceStationContent)-container-1"
+    class="BikeServiceStationContent-container-1"
   >
     <div
-      class="injectIntl(BikeServiceStationContent)-container-1"
+      class="BikeServiceStationContent-container-1"
     >
       <div
-        class="injectIntl(BikeServiceStationContent)-headerContainer-2"
+        class="BikeServiceStationContent-headerContainer-2"
       >
         <h6
           class="MuiTypography-root MuiTypography-subtitle1"
@@ -18,10 +18,10 @@ exports[`<BikeServiceStationContent /> should match snapshot 1`] = `
         </h6>
       </div>
       <div
-        class="injectIntl(BikeServiceStationContent)-textContainer-3"
+        class="BikeServiceStationContent-textContainer-3"
       >
         <div
-          class="injectIntl(BikeServiceStationContent)-margin-5"
+          class="injectIntl(AddressText)-margin-6"
         >
           <p
             class="MuiTypography-root MuiTypography-body2"

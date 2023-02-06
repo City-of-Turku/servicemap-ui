@@ -2,6 +2,7 @@ import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
 import useLocaleText from '../../../../../utils/useLocaleText';
+import AddressText from '../../../AddressText';
 
 const ChargerStationContent = ({ classes, intl, station }) => {
   const getLocaleText = useLocaleText();
@@ -37,8 +38,6 @@ const ChargerStationContent = ({ classes, intl, station }) => {
     sv: station.address_sv,
   };
 
-  const renderAddress = () => singleValTypo('mobilityPlatform.content.address', getLocaleText(stationAddress), { className: classes.margin });
-
   const renderAdministrator = (item) => {
     const stationAdmin = {
       fi: item.fi,
@@ -68,7 +67,7 @@ const ChargerStationContent = ({ classes, intl, station }) => {
   // key property on .map() is long but it's only way to prevent all duplicate keys -warnings.
   const chargerStationInfo = (
     <>
-      {station.address ? renderAddress() : null}
+      {station.address ? <AddressText addressObj={stationAddress} /> : null}
       {station.extra.administrator.fi !== '' ? renderAdministrator(station.extra.administrator) : null}
       {renderPayment(station.extra.payment, { className: classes.margin })}
       {titleTypo('mobilityPlatform.content.chargersTitle', { className: classes.margin })}

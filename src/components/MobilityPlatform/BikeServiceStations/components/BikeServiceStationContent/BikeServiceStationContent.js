@@ -2,17 +2,10 @@ import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
 import useLocaleText from '../../../../../utils/useLocaleText';
+import AddressText from '../../../AddressText';
 
-const BikeServiceStationContent = ({ classes, intl, station }) => {
+const BikeServiceStationContent = ({ classes, station }) => {
   const getLocaleText = useLocaleText();
-
-  const singleValTypo = (messageId, value, props = {}) => (
-    <div {...props}>
-      <Typography component="p" variant="body2">
-        {intl.formatMessage({ id: messageId }, { value })}
-      </Typography>
-    </div>
-  );
 
   const stationName = {
     fi: station.name,
@@ -32,8 +25,6 @@ const BikeServiceStationContent = ({ classes, intl, station }) => {
     sv: station.description_sv,
   };
 
-  const renderAddress = () => singleValTypo('mobilityPlatform.content.address', getLocaleText(stationAddress), { className: classes.margin });
-
   const bikeServiceStationInfo = (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
@@ -42,7 +33,7 @@ const BikeServiceStationContent = ({ classes, intl, station }) => {
         </Typography>
       </div>
       <div className={classes.textContainer}>
-        {station.address ? renderAddress() : null}
+        {station.address ? <AddressText addressObj={stationAddress} /> : null}
         <Typography component="p" variant="body2">
           {getLocaleText(stationDesc)}
         </Typography>
@@ -59,7 +50,6 @@ const BikeServiceStationContent = ({ classes, intl, station }) => {
 
 BikeServiceStationContent.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
   station: PropTypes.objectOf(PropTypes.any),
 };
 

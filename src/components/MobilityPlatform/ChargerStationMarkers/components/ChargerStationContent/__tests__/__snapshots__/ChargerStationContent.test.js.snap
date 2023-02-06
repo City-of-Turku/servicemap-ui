@@ -18,7 +18,7 @@ exports[`<ChargerStationContent /> should match snapshot 1`] = `
       class="injectIntl(ChargerStationContent)-textContainer-3"
     >
       <div
-        class="injectIntl(ChargerStationContent)-margin-5"
+        class="injectIntl(AddressText)-margin-6"
       >
         <p
           class="MuiTypography-root MuiTypography-body2"
