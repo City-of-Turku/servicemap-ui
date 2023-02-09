@@ -142,6 +142,7 @@ const DefaultLayout = (props) => {
   const [fitnessTrailsObj, setFitnessTrailsObj] = useState({});
   const [showLamCounter, setShowLamCounter] = useState(false);
   const [showParkingMachines, setShowParkingMachines] = useState(false);
+  const [showPublicParking, setShowPublicParking] = useState(false);
 
   const {
     currentPage, fetchErrors, fetchNews, intl, location, settingsToggled,
@@ -304,6 +305,8 @@ const DefaultLayout = (props) => {
                       setShowLamCounter,
                       showParkingMachines,
                       setShowParkingMachines,
+                      showPublicParking,
+                      setShowPublicParking,
                     }}
                   >
                     <ViewRouter />
@@ -359,6 +362,7 @@ const DefaultLayout = (props) => {
                     fitnessTrailsObj,
                     showLamCounter,
                     showParkingMachines,
+                    showPublicParking,
                   }}
                 >
                   <MapView

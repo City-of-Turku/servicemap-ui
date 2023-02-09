@@ -648,6 +648,7 @@ const translations = {
   'mobilityPlatform.menu.list.showMore': 'Näytä lisää reittejä',
   'mobilityPlatform.menu.list.showLess': 'Näytä vähemmän reittejä',
   'mobilityPlatform.menu.show.parkingMachines': 'Pysäköintiautomaatit',
+  'mobilityPlatform.menu.show.publicParking': 'Yleiset pysäköintialueet',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',

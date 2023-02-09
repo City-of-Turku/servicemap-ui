@@ -151,6 +151,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowLamCounter,
     showParkingMachines,
     setShowParkingMachines,
+    showPublicParking,
+    setShowPublicParking,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
@@ -324,6 +326,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showLoadingPlaces, setOpenCarSettings);
     checkVisibilityValues(showLamCounter, setOpenCarSettings);
     checkVisibilityValues(showParkingMachines, setOpenCarSettings);
+    checkVisibilityValues(showPublicParking, setOpenCarSettings);
   }, [
     showRentalCars,
     showGasFillingStations,
@@ -334,6 +337,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     showLoadingPlaces,
     showLamCounter,
     showParkingMachines,
+    showPublicParking,
   ]);
 
   useEffect(() => {
@@ -636,6 +640,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const disabledParkingToggle = () => {
     setShowDisabledParking(current => !current);
+  };
+
+  const publicParkingToggle = () => {
+    setShowPublicParking(current => !current);
   };
 
   const cultureRouteListToggle = () => {
@@ -1057,6 +1065,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.showParkingSpaces',
       checkedValue: showParkingSpaces,
       onChangeValue: parkingSpacesToggle,
+    },
+    {
+      type: 'publicParking',
+      msgId: 'mobilityPlatform.menu.show.publicParking',
+      checkedValue: showPublicParking,
+      onChangeValue: publicParkingToggle,
     },
     {
       type: 'parkingMachines',

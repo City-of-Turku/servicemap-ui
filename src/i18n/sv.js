@@ -646,6 +646,7 @@ const translations = {
   'mobilityPlatform.menu.list.showMore': 'Visa fler rutter',
   'mobilityPlatform.menu.list.showLess': 'Visa färre rutter',
   'mobilityPlatform.menu.show.parkingMachines': 'Parkeringsautomater',
+  'mobilityPlatform.menu.show.publicParking': 'Public parking spaces', // TODO translate
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
