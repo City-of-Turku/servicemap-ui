@@ -25,7 +25,7 @@ exports[`<LoadingPlacesContent /> should match snapshot 1`] = `
         class="LoadingPlacesContent-textContainer-3"
       >
         <div
-          class="injectIntl(AddressText)-margin-8"
+          class="injectIntl(SingleValueText)-margin-8"
         >
           <p
             class="MuiTypography-root MuiTypography-body2"

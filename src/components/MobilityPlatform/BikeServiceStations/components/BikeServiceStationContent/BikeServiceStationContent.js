@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import AddressText from '../../../AddressText';
+import SingleValueText from '../../../SingleValueText';
 import TextComponent from '../../../TextComponent';
 
 const BikeServiceStationContent = ({ classes, station }) => {
@@ -28,7 +28,7 @@ const BikeServiceStationContent = ({ classes, station }) => {
         <TextComponent textObj={stationName} isTitle />
       </div>
       <div className={classes.textContainer}>
-        {station.address ? <AddressText addressObj={stationAddress} /> : null}
+        {station.address ? <SingleValueText messageId="mobilityPlatform.content.address" textObj={stationAddress} /> : null}
         <TextComponent textObj={stationDesc} />
       </div>
     </div>

@@ -1,11 +1,12 @@
 // Link.react.test.js
 import React from 'react';
-import AddressText from '../index';
+import SingleValueText from '../index';
 import { initialState } from '../../../../redux/reducers/user';
 import { getRenderWithProviders } from '../../../../../jestUtils';
 
 const mockProps = {
-  addressObj: {
+  messageId: 'mobilityPlatform.content.address',
+  textObj: {
     address_fi: 'Testikatu',
     address_en: 'Test street',
     address_sv: 'Test gata',
@@ -16,16 +17,16 @@ const renderWithProviders = getRenderWithProviders({
   user: initialState,
 });
 
-describe('<AddressText />', () => {
+describe('<SingleValueText />', () => {
   it('should match snapshot', () => {
-    const { container } = renderWithProviders(<AddressText {...mockProps} />);
+    const { container } = renderWithProviders(<SingleValueText {...mockProps} />);
     expect(container).toMatchSnapshot();
   });
 
   it('does show text correctly', () => {
-    const { container } = renderWithProviders(<AddressText {...mockProps} />);
+    const { container } = renderWithProviders(<SingleValueText {...mockProps} />);
 
     const p = container.querySelectorAll('p');
-    expect(p[0].textContent).toContain(`Osoite: ${mockProps.addressObj.address_fi}`);
+    expect(p[0].textContent).toContain(`Osoite: ${mockProps.textObj.address_fi}`);
   });
 });

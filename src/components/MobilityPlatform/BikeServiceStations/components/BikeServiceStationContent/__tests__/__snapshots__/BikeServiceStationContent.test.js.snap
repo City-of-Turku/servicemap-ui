@@ -22,7 +22,7 @@ exports[`<BikeServiceStationContent /> should match snapshot 1`] = `
       class="BikeServiceStationContent-textContainer-3"
     >
       <div
-        class="injectIntl(AddressText)-margin-7"
+        class="injectIntl(SingleValueText)-margin-7"
       >
         <p
           class="MuiTypography-root MuiTypography-body2"

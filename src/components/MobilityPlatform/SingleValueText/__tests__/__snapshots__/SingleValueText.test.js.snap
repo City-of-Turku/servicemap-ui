@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<AddressText /> should match snapshot 1`] = `
+exports[`<SingleValueText /> should match snapshot 1`] = `
 <div>
   <div
-    class="injectIntl(AddressText)-margin-1"
+    class="injectIntl(SingleValueText)-margin-1"
   >
     <p
       class="MuiTypography-root MuiTypography-body2"
