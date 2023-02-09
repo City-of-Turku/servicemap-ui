@@ -735,6 +735,8 @@ const translations = {
   'mobilityPlatform.content.disabledParking.amount': 'Antal inva-parkeringsplatser: {value}',
   'mobilityPlatform.content.publicParking.access': 'Tillgänglig ingång',
   'mobilityPlatform.content.publicParking.access.gate': 'Ingång via port',
+  'mobilityPlatform.content.publicParking.access.barrier': 'Accessible by raising a barrier', // TODO translate
+  'mobilityPlatform.content.publicParking.totalTime': 'Pysäköinnin enimmäisaika: {value} tuntia', // TODO translate
   'mobilityPlatform.content.parkingMachine.title': 'Parkeringsautomat',
   'mobilityPlatform.content.parkingMachine.location': 'Plats: {value}',
   'mobilityPlatform.content.parkingMachine.payment': 'För en avgift: {value} €/h',

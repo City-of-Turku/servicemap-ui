@@ -727,6 +727,8 @@ const translations = {
   'mobilityPlatform.content.disabledParking.amount': 'Parkkipaikkojen määrä: {value}',
   'mobilityPlatform.content.publicParking.access': 'Esteetön pääsy',
   'mobilityPlatform.content.publicParking.access.gate': 'Pääsy portin kautta',
+  'mobilityPlatform.content.publicParking.access.barrier': 'Pääsy vain nostamalla puomi', // TODO verify
+  'mobilityPlatform.content.publicParking.totalTime': 'Pysäköinnin enimmäisaika: {value} tuntia',
   'mobilityPlatform.content.parkingMachine.title': 'Pysäköintiautomaatti',
   'mobilityPlatform.content.parkingMachine.location': 'Sijainti: {value}',
   'mobilityPlatform.content.parkingMachine.payment': 'Maksu: {value} €/t',
