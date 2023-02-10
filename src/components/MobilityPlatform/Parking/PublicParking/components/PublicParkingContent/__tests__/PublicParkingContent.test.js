@@ -9,6 +9,7 @@ import PublicParkingContent from '../index';
 const mockProps = {
   item: {
     name_fi: 'Parkkipaikka',
+    address_fi: 'Testikatu 1',
     extra: {
       paikkoja_y: 25,
       max_aika_h: 3.0,
@@ -39,12 +40,12 @@ describe('<PublicParkingContent />', () => {
     const { container } = renderWithProviders(<PublicParkingContent {...mockProps} />);
 
     const p = container.querySelectorAll('p');
-    const h6 = container.querySelector('h6');
-    expect(h6.textContent).toContain(mockProps.item.name_fi);
-    expect(p[0].textContent).toContain(`Parkkipaikkojen määrä: ${mockProps.item.extra.paikkoja_y}`);
-    expect(p[1].textContent).toContain(`Pysäköinnin enimmäisaika: ${mockProps.item.extra.max_aika_h}`);
-    expect(p[2].textContent).toContain(mockProps.item.extra.rajoitustyyppi.fi);
-    expect(p[3].textContent).toContain(mockProps.item.extra.rajoit_lisat.fi);
-    expect(p[4].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicParking.access']);
+    expect(p[0].textContent).toContain(mockProps.item.name_fi);
+    expect(p[1].textContent).toContain(`Osoite: ${mockProps.item.address_fi}`);
+    expect(p[2].textContent).toContain(`Parkkipaikkojen määrä: ${mockProps.item.extra.paikkoja_y}`);
+    expect(p[3].textContent).toContain(`Pysäköinnin enimmäisaika: ${mockProps.item.extra.max_aika_h}`);
+    expect(p[4].textContent).toContain(mockProps.item.extra.rajoitustyyppi.fi);
+    expect(p[5].textContent).toContain(mockProps.item.extra.rajoit_lisat.fi);
+    expect(p[6].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicParking.access']);
   });
 });

@@ -10,4 +10,7 @@ export default theme => ({
   textContainer: {
     marginTop: theme.spacing(0.5),
   },
+  margin: {
+    margin: theme.spacing(0.4),
+  },
 });

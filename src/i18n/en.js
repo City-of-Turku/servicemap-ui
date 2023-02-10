@@ -734,8 +734,8 @@ const translations = {
   'mobilityPlatform.content.disabledParking.amount': 'Number of parking spaces: {value}',
   'mobilityPlatform.content.publicParking.access': 'Accessible access',
   'mobilityPlatform.content.publicParking.access.gate': 'Accessible through a gate',
-  'mobilityPlatform.content.publicParking.access.barrier': 'Accessible by raising a barrier', // TODO verify
-  'mobilityPlatform.content.publicParking.totalTime': 'Pysäköinnin enimmäisaika: {value} tuntia', // TODO translate
+  'mobilityPlatform.content.publicParking.access.barrier': 'Entry by raising a barrier', // TODO verify
+  'mobilityPlatform.content.publicParking.totalTime': 'Parking time limit: {value} hours', // TODO verify
   'mobilityPlatform.content.parkingMachine.title': 'Parking machine',
   'mobilityPlatform.content.parkingMachine.location': 'Location: {value}',
   'mobilityPlatform.content.parkingMachine.payment': 'Charge: {value} €/h',

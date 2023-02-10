@@ -646,7 +646,7 @@ const translations = {
   'mobilityPlatform.menu.list.showMore': 'Visa fler rutter',
   'mobilityPlatform.menu.list.showLess': 'Visa färre rutter',
   'mobilityPlatform.menu.show.parkingMachines': 'Parkeringsautomater',
-  'mobilityPlatform.menu.show.publicParking': 'Public parking spaces', // TODO translate
+  'mobilityPlatform.menu.show.publicParking': 'Allmänna parkeringsplatser', // TODO verify
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
@@ -735,8 +735,8 @@ const translations = {
   'mobilityPlatform.content.disabledParking.amount': 'Antal inva-parkeringsplatser: {value}',
   'mobilityPlatform.content.publicParking.access': 'Tillgänglig ingång',
   'mobilityPlatform.content.publicParking.access.gate': 'Ingång via port',
-  'mobilityPlatform.content.publicParking.access.barrier': 'Accessible by raising a barrier', // TODO translate
-  'mobilityPlatform.content.publicParking.totalTime': 'Pysäköinnin enimmäisaika: {value} tuntia', // TODO translate
+  'mobilityPlatform.content.publicParking.access.barrier': 'Ingång genom att höja en barriär', // TODO verify
+  'mobilityPlatform.content.publicParking.totalTime': 'Parkeringstidsgräns: {value} timmar', // TODO verify
   'mobilityPlatform.content.parkingMachine.title': 'Parkeringsautomat',
   'mobilityPlatform.content.parkingMachine.location': 'Plats: {value}',
   'mobilityPlatform.content.parkingMachine.payment': 'För en avgift: {value} €/h',
