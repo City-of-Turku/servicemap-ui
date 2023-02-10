@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import SingleValueText from '../../../SingleValueText';
 import TextComponent from '../../../TextComponent';
 
 const LoadingPlacesContent = ({ classes, item }) => {
@@ -22,7 +21,7 @@ const LoadingPlacesContent = ({ classes, item }) => {
         <TextComponent textObj={loadingPlaceName} isTitle />
       </div>
       <div className={classes.textContainer}>
-        {item.address_fi !== '' ? <SingleValueText messageId="mobilityPlatform.content.address" textObj={loadingPlaceAddress} /> : null}
+        {item.address_fi !== '' ? <TextComponent messageId="mobilityPlatform.content.address" textObj={loadingPlaceAddress} /> : null}
         <TextComponent textObj={item.extra.lastauspiste} />
         <TextComponent textObj={item.extra.Saavutettavuus} />
         <TextComponent textObj={item.extra.rajoitustyyppi} />

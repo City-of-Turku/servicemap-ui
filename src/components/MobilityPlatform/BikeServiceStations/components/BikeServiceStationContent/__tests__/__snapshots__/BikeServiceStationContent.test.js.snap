@@ -9,7 +9,7 @@ exports[`<BikeServiceStationContent /> should match snapshot 1`] = `
       class="BikeServiceStationContent-headerContainer-2"
     >
       <div
-        class="TextComponent-margin-6"
+        class="injectIntl(TextComponent)-margin-6"
       >
         <p
           class="MuiTypography-root MuiTypography-subtitle1"
@@ -22,7 +22,7 @@ exports[`<BikeServiceStationContent /> should match snapshot 1`] = `
       class="BikeServiceStationContent-textContainer-3"
     >
       <div
-        class="injectIntl(SingleValueText)-margin-7"
+        class="injectIntl(TextComponent)-margin-6"
       >
         <p
           class="MuiTypography-root MuiTypography-body2"
@@ -31,7 +31,7 @@ exports[`<BikeServiceStationContent /> should match snapshot 1`] = `
         </p>
       </div>
       <div
-        class="TextComponent-margin-6"
+        class="injectIntl(TextComponent)-margin-6"
       >
         <p
           class="MuiTypography-root MuiTypography-body2"

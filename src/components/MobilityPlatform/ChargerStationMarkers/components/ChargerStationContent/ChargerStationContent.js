@@ -1,7 +1,6 @@
 import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
-import SingleValueText from '../../../SingleValueText';
 import TextComponent from '../../../TextComponent';
 
 const ChargerStationContent = ({ classes, intl, station }) => {
@@ -43,7 +42,7 @@ const ChargerStationContent = ({ classes, intl, station }) => {
       sv: item.sv,
     };
 
-    return <SingleValueText messageId="mobilityPlatform.chargerStations.content.admin" textObj={stationAdmin} />;
+    return <TextComponent messageId="mobilityPlatform.chargerStations.content.admin" textObj={stationAdmin} />;
   };
 
   const renderPayment = (paymentType, props = {}) => {
@@ -65,7 +64,7 @@ const ChargerStationContent = ({ classes, intl, station }) => {
   // key property on .map() is long but it's only way to prevent all duplicate keys -warnings.
   const chargerStationInfo = (
     <>
-      {station.address ? <SingleValueText messageId="mobilityPlatform.content.address" textObj={stationAddress} /> : null}
+      {station.address ? <TextComponent messageId="mobilityPlatform.content.address" textObj={stationAddress} /> : null}
       {station.extra.administrator.fi !== '' ? renderAdministrator(station.extra.administrator) : null}
       {renderPayment(station.extra.payment, { className: classes.margin })}
       {titleTypo('mobilityPlatform.content.chargersTitle', { className: classes.margin })}
