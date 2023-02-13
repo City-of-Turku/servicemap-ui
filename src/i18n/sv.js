@@ -646,7 +646,7 @@ const translations = {
   'mobilityPlatform.menu.list.showMore': 'Visa fler rutter',
   'mobilityPlatform.menu.list.showLess': 'Visa färre rutter',
   'mobilityPlatform.menu.show.parkingMachines': 'Parkeringsautomater',
-  'mobilityPlatform.menu.show.publicParking': 'Allmänna parkeringsplatser', // TODO verify
+  'mobilityPlatform.menu.show.publicParking': 'Allmänna parkeringsplatser',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
@@ -735,8 +735,8 @@ const translations = {
   'mobilityPlatform.content.disabledParking.amount': 'Antal inva-parkeringsplatser: {value}',
   'mobilityPlatform.content.publicParking.access': 'Tillgänglig ingång',
   'mobilityPlatform.content.publicParking.access.gate': 'Ingång via port',
-  'mobilityPlatform.content.publicParking.access.barrier': 'Ingång genom att höja en barriär', // TODO verify
-  'mobilityPlatform.content.publicParking.totalTime': 'Parkeringstidsgräns: {value} timmar', // TODO verify
+  'mobilityPlatform.content.publicParking.access.barrier': 'Ingång genom att höja en barriär',
+  'mobilityPlatform.content.publicParking.totalTime': 'Parkeringstidsgräns: {value} timmar',
   'mobilityPlatform.content.parkingMachine.title': 'Parkeringsautomat',
   'mobilityPlatform.content.parkingMachine.location': 'Plats: {value}',
   'mobilityPlatform.content.parkingMachine.payment': 'För en avgift: {value} €/h',
@@ -783,6 +783,7 @@ const translations = {
   'mobilityPlatform.info.fitnessTrails': 'Åbo stad har över 20 motionsbanor, som ligger över hela staden och dessa leder tillåter mångsidig träning. Leder är upplysta mellan 6 och 22.',
   'mobilityPlatform.info.lamCounters': 'Beräkningspunkterna samlar information om mängden bilister på utvalda ställen. Informationen är öppen data som levererats av Digitraffic tjänsten.',
   'mobilityPlatform.info.parkingMachines': 'Kartan visar de parkeringsautomater som ägs av Åbo stad. Bankkort och kontaktlös betalning används som betalningsmetoder i alla automater. Du kan se mer information om maskinen genom att trycka på ikonen på kartan.',
+  'mobilityPlatform.info.publicParkingSpaces': 'Allmänna parkeringsplatser visas på kartan. Det finns dock ingen information om deras utnyttjandegrad. Mer detaljerad information om det valda parkeringsområdet kan läsas genom att trycka på området på kartan.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',

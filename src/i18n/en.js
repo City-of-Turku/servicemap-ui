@@ -645,7 +645,7 @@ const translations = {
   'mobilityPlatform.menu.list.showMore': 'Show more routes',
   'mobilityPlatform.menu.list.showLess': 'Show less routes',
   'mobilityPlatform.menu.show.parkingMachines': 'Parking machines',
-  'mobilityPlatform.menu.show.publicParking': 'Public parking spaces', // TODO verify
+  'mobilityPlatform.menu.show.publicParking': 'Public parking spaces',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
@@ -734,8 +734,8 @@ const translations = {
   'mobilityPlatform.content.disabledParking.amount': 'Number of parking spaces: {value}',
   'mobilityPlatform.content.publicParking.access': 'Accessible access',
   'mobilityPlatform.content.publicParking.access.gate': 'Accessible through a gate',
-  'mobilityPlatform.content.publicParking.access.barrier': 'Entry by raising a barrier', // TODO verify
-  'mobilityPlatform.content.publicParking.totalTime': 'Parking time limit: {value} hours', // TODO verify
+  'mobilityPlatform.content.publicParking.access.barrier': 'Entry by raising a barrier',
+  'mobilityPlatform.content.publicParking.totalTime': 'Parking time limit: {value} hours',
   'mobilityPlatform.content.parkingMachine.title': 'Parking machine',
   'mobilityPlatform.content.parkingMachine.location': 'Location: {value}',
   'mobilityPlatform.content.parkingMachine.payment': 'Charge: {value} €/h',
@@ -782,6 +782,7 @@ const translations = {
   'mobilityPlatform.info.fitnessTrails': 'City of Turku maintains over 20 fitness trails, located all over the city and these trails allow diverse exercise. Trails are lit between 6:00 and 22:00.',
   'mobilityPlatform.info.lamCounters': 'Measurement points collect traffic information by measuring the number of cars at selected destinations. The information is open data and has been provided by the Digitraffic -service.',
   'mobilityPlatform.info.parkingMachines': 'The map shows parking machines that are owned by City of Turku. All machines accept either card or contacless payment method. More information can be read by pressing an icon on the map.',
+  'mobilityPlatform.info.publicParkingSpaces': 'The map shows public parking spaces that are available for general public. Information about occupancy is not available however. Additional information can be read by selecting an area from the map.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',
