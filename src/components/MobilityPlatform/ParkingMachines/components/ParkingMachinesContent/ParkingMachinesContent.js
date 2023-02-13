@@ -1,8 +1,10 @@
 import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
+import TextComponent from '../../../TextComponent';
 
 const ParkingMachinesContent = ({ classes, intl, item }) => {
+  /** For values that are not objects and do not contain localized strings */
   const singleValText = (messageId, value) => (
     <div className={classes.margin}>
       <Typography component="p" variant="body2">
@@ -10,6 +12,12 @@ const ParkingMachinesContent = ({ classes, intl, item }) => {
       </Typography>
     </div>
   );
+
+  const machineAddress = {
+    fi: item.address_fi,
+    en: item.address_en,
+    sv: item.address_sv,
+  };
 
   const formatPrice = price => price.toString().replace('.', ',');
 
@@ -21,10 +29,10 @@ const ParkingMachinesContent = ({ classes, intl, item }) => {
         </Typography>
       </div>
       <div className={classes.textContainer}>
-        {item.address_fi !== '' ? singleValText('mobilityPlatform.content.address', item.address_fi) : null}
-        {singleValText('mobilityPlatform.content.parkingMachine.location', item.extra.Sijainti)}
+        {item.address_fi ? <TextComponent messageId="mobilityPlatform.content.address" textObj={machineAddress} /> : null}
+        <TextComponent messageId="mobilityPlatform.content.parkingMachine.location" textObj={item.extra.Sijainti} />
         {singleValText('mobilityPlatform.content.parkingMachine.payment', formatPrice(item.extra['Taksa/h']))}
-        {singleValText('mobilityPlatform.content.parkingMachine.paymentTypes', item.extra.Maksutapa)}
+        <TextComponent messageId="mobilityPlatform.content.parkingMachine.paymentTypes" textObj={item.extra.Maksutapa} />
         {item.extra.Muuta ? singleValText('mobilityPlatform.content.parkingMachine.otherInfo', item.extra.Muuta) : null}
       </div>
     </div>
