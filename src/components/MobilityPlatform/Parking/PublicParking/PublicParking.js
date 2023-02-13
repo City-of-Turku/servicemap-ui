@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
@@ -44,7 +45,19 @@ const PublicParking = () => {
     <>
       {renderData
         && publicParkingData.map(item => (
-          <Polygon key={item.id} pathOptions={pathOptions} positions={item.geometry_coords}>
+          <Polygon
+            key={item.id}
+            pathOptions={pathOptions}
+            positions={item.geometry_coords}
+            eventHandlers={{
+              mouseover: (e) => {
+                e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
+              },
+              mouseout: (e) => {
+                e.target.setStyle({ fillOpacity: useContrast ? '0.3' : '0.2' });
+              },
+            }}
+          >
             <Popup>
               <PublicParkingContent item={item} />
             </Popup>
