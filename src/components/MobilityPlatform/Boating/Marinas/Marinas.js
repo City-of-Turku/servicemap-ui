@@ -1,10 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid, fitPolygonsToBounds } from '../../utils/utils';
+import {
+  isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase,
+} from '../../utils/utils';
+import PolygonComponent from '../../PolygonComponent';
 import MarinasContent from './components/MarinasContent';
 
 /**
@@ -18,21 +22,18 @@ const Marinas = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const { Polygon, Popup } = global.rL;
-
   useEffect(() => {
     if (openMobilityPlatform) {
       fetchMobilityMapPolygonData('Marina', 50, setMarinasData);
     }
   }, [openMobilityPlatform, setMarinasData]);
 
-  const blueOptions = { color: 'rgba(7, 44, 115, 255)', weight: 5 };
-  const whiteOptions = {
-    color: 'rgba(255, 255, 255, 255)',
+  const blueOptions = blueOptionsBase({ weight: 5 });
+  const whiteOptions = whiteOptionsBase({
     fillOpacity: 0.3,
     weight: 5,
     dashArray: '12',
-  };
+  });
   const pathOptions = useContrast ? whiteOptions : blueOptions;
 
   const map = useMap();
@@ -47,23 +48,14 @@ const Marinas = () => {
     <>
       {renderData
         ? marinasData.map(item => (
-          <Polygon
+          <PolygonComponent
             key={item.id}
+            item={item}
+            useContrast={useContrast}
             pathOptions={pathOptions}
-            positions={item.geometry_coords}
-            eventHandlers={{
-              mouseover: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
-              },
-              mouseout: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.3' : '0.2' });
-              },
-            }}
           >
-            <Popup>
-              <MarinasContent name={item.name} berths={item.extra.berths} />
-            </Popup>
-          </Polygon>
+            <MarinasContent name={item.name} berths={item.extra.berths} />
+          </PolygonComponent>
         ))
         : null}
     </>
