@@ -22,6 +22,7 @@ const createIcon = icon => ({
 const whiteOptionsBase = (attrs = {}) => ({ color: 'rgba(255, 255, 255, 255)', ...attrs });
 const blackOptionsBase = (attrs = {}) => ({ color: 'rgba(0, 0, 0, 255)', ...attrs });
 const blueOptionsBase = (attrs = {}) => ({ color: 'rgba(7, 44, 115, 255)', ...attrs });
+const redOptionsBase = (attrs = {}) => ({ color: 'rgba(251, 5, 21, 255)', ...attrs });
 
 /**
  * Return arrays of coordinates that fit markers inside map bounds
@@ -64,6 +65,7 @@ export {
   whiteOptionsBase,
   blackOptionsBase,
   blueOptionsBase,
+  redOptionsBase,
   fitToMapBounds,
   fitPolygonsToBounds,
 };

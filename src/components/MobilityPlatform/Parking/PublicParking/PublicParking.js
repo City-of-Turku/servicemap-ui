@@ -8,6 +8,7 @@ import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobi
 import {
   isDataValid, blueOptionsBase, whiteOptionsBase, fitPolygonsToBounds,
 } from '../../utils/utils';
+import PolygonComponent from '../../PolygonComponent';
 import PublicParkingContent from './components/PublicParkingContent';
 
 /**
@@ -20,8 +21,6 @@ const PublicParking = () => {
   const { openMobilityPlatform, showPublicParking } = useContext(MobilityPlatformContext);
 
   const useContrast = useSelector(useAccessibleMap);
-
-  const { Polygon, Popup } = global.rL;
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -45,23 +44,14 @@ const PublicParking = () => {
     <>
       {renderData
         && publicParkingData.map(item => (
-          <Polygon
+          <PolygonComponent
             key={item.id}
+            item={item}
+            useContrast={useContrast}
             pathOptions={pathOptions}
-            positions={item.geometry_coords}
-            eventHandlers={{
-              mouseover: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
-              },
-              mouseout: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.3' : '0.2' });
-              },
-            }}
           >
-            <Popup>
-              <PublicParkingContent item={item} />
-            </Popup>
-          </Polygon>
+            <PublicParkingContent item={item} />
+          </PolygonComponent>
         ))}
     </>
   );
