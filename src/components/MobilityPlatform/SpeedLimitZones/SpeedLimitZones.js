@@ -1,12 +1,12 @@
-import { Typography } from '@material-ui/core';
 import { PropTypes } from 'prop-types';
 import { useSelector } from 'react-redux';
 import React, { useContext } from 'react';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { isDataValid } from '../utils/utils';
+import { isDataValid, whiteOptionsBase } from '../utils/utils';
+import SpeedLimitZonesContent from './components/SpeedLimitZonesContent';
 
-const SpeedLimitZones = ({ classes, intl }) => {
+const SpeedLimitZones = ({ classes }) => {
   const { showSpeedLimitZones, speedLimitSelections, speedLimitZones } = useContext(MobilityPlatformContext);
 
   const { Polygon, Popup } = global.rL;
@@ -19,6 +19,8 @@ const SpeedLimitZones = ({ classes, intl }) => {
     }
     return [];
   };
+
+  const whiteOptions = whiteOptionsBase();
 
   const filteredSpeedLimitZones = filterZones(speedLimitZones);
 
@@ -83,7 +85,7 @@ const SpeedLimitZones = ({ classes, intl }) => {
   const getPathOptions = (input) => {
     const { rgba, pattern } = getOption(input);
     return {
-      color: useContrast ? 'rgba(255, 255, 255, 255)' : `rgba(${rgba})`,
+      color: useContrast ? whiteOptions : `rgba(${rgba})`,
       fillOpacity: 0.3,
       weight: 5,
       dashArray: useContrast ? pattern : null,
@@ -112,18 +114,7 @@ const SpeedLimitZones = ({ classes, intl }) => {
             <div className={classes.popupWrapper}>
               <Popup>
                 <div className={classes.popupInner}>
-                  <div className={classes.subtitle}>
-                    <Typography variant="subtitle1">
-                      {intl.formatMessage({
-                        id: 'mobilityPlatform.content.speedLimitZones.area',
-                      })}
-                    </Typography>
-                  </div>
-                  <Typography>
-                    {intl.formatMessage({
-                      id: 'mobilityPlatform.content.speedLimitZones.limit',
-                    }, { item: item.extra.speed_limit })}
-                  </Typography>
+                  <SpeedLimitZonesContent item={item} />
                 </div>
               </Popup>
             </div>
@@ -136,7 +127,6 @@ const SpeedLimitZones = ({ classes, intl }) => {
 
 SpeedLimitZones.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default SpeedLimitZones;
