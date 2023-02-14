@@ -1,4 +1,7 @@
 export default theme => ({
+  padding: {
+    padding: theme.spacing(1),
+  },
   subtitle: {
     marginBottom: theme.spacing(1),
     paddingBottom: theme.spacing(0.5),

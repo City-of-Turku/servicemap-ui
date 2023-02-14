@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { Typography } from '@material-ui/core';
 
 const SpeedLimitZonesContent = ({ classes, intl, item }) => (
-  <>
+  <div className={classes.padding}>
     <div className={classes.subtitle}>
       <Typography variant="subtitle1">
         {intl.formatMessage({
@@ -16,7 +16,7 @@ const SpeedLimitZonesContent = ({ classes, intl, item }) => (
         id: 'mobilityPlatform.content.speedLimitZones.limit',
       }, { item: item.extra.speed_limit })}
     </Typography>
-  </>
+  </div>
 );
 
 SpeedLimitZonesContent.propTypes = {

@@ -1,15 +1,13 @@
-import { PropTypes } from 'prop-types';
 import { useSelector } from 'react-redux';
 import React, { useContext } from 'react';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { isDataValid, whiteOptionsBase } from '../utils/utils';
+import PolygonComponent from '../PolygonComponent';
 import SpeedLimitZonesContent from './components/SpeedLimitZonesContent';
 
-const SpeedLimitZones = ({ classes }) => {
+const SpeedLimitZones = () => {
   const { showSpeedLimitZones, speedLimitSelections, speedLimitZones } = useContext(MobilityPlatformContext);
-
-  const { Polygon, Popup } = global.rL;
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -98,35 +96,18 @@ const SpeedLimitZones = ({ classes }) => {
     <>
       {renderData ? (
         filteredSpeedLimitZones.map(item => (
-          <Polygon
+          <PolygonComponent
             key={item.id}
+            item={item}
+            useContrast={useContrast}
             pathOptions={getPathOptions(item.extra.speed_limit)}
-            positions={item.geometry_coords}
-            eventHandlers={{
-              mouseover: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.3' });
-              },
-              mouseout: (e) => {
-                e.target.setStyle({ fillOpacity: '0.3' });
-              },
-            }}
           >
-            <div className={classes.popupWrapper}>
-              <Popup>
-                <div className={classes.popupInner}>
-                  <SpeedLimitZonesContent item={item} />
-                </div>
-              </Popup>
-            </div>
-          </Polygon>
+            <SpeedLimitZonesContent item={item} />
+          </PolygonComponent>
         ))
       ) : null}
     </>
   );
-};
-
-SpeedLimitZones.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default SpeedLimitZones;
