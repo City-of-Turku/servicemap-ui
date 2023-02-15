@@ -1,10 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchCultureRoutesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../utils/utils';
+import {
+  isDataValid, blueOptionsBase, whiteOptionsBase, blackOptionsBase,
+} from '../utils/utils';
 import CultureRouteUnits from './components/CultureRouteUnits';
 
 const CultureRoutes = () => {
@@ -17,9 +20,9 @@ const CultureRoutes = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const blueOptions = { color: 'rgba(7, 44, 115, 255)' };
-  const whiteOptions = { color: 'rgba(255, 255, 255, 255)', dashArray: !useContrast ? '1, 8' : null };
-  const blackOptions = { color: 'rgba(0, 0, 0, 255)', dashArray: '2 10 10 10' };
+  const blueOptions = blueOptionsBase();
+  const whiteOptions = whiteOptionsBase({ dashArray: !useContrast ? '1, 8' : null });
+  const blackOptions = blackOptionsBase({ dashArray: '2 10 10 10' });
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -61,7 +64,7 @@ const CultureRoutes = () => {
       });
       map.fitBounds([bounds]);
     }
-  }, [showCultureRoutes, activeCultureRoute, map]);
+  }, [showCultureRoutes, activeCultureRoute]);
 
   return (
     <>

@@ -1,9 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
-import { isDataValid, fitPolygonsToBounds } from '../../utils/utils';
+import {
+  isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase,
+} from '../../utils/utils';
 import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
 
 /**
@@ -25,13 +28,12 @@ const BoatParking = () => {
     }
   }, [openMobilityPlatform, setBoatParkingData]);
 
-  const blueOptions = { color: 'rgba(7, 44, 115, 255)', weight: 5 };
-  const whiteOptions = {
-    color: 'rgba(255, 255, 255, 255)',
+  const blueOptions = blueOptionsBase({ weight: 5 });
+  const whiteOptions = whiteOptionsBase({
     fillOpacity: 0.3,
     weight: 5,
     dashArray: '10',
-  };
+  });
   const pathOptions = useContrast ? whiteOptions : blueOptions;
 
   const map = useMap();
