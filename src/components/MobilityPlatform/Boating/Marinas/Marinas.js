@@ -54,7 +54,7 @@ const Marinas = () => {
             useContrast={useContrast}
             pathOptions={pathOptions}
           >
-            <MarinasContent name={item.name} berths={item.extra.berths} />
+            <MarinasContent name={item.name} berthItem={item} />
           </PolygonComponent>
         ))
         : null}
