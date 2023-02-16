@@ -34,12 +34,12 @@ describe('<MarinasContent />', () => {
     const h6 = container.querySelectorAll('h6');
     const p = container.querySelectorAll('p');
     expect(h6[0].textContent).toContain(mockProps.berthItem.name);
-    expect(p[0].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.marinas.berthsCount']}: 1`);
+    expect(p[0].textContent).toContain('Venepaikkojen määrä: 1');
     expect(p[1].textContent).toContain(finnishTranslations['mobilityPlatform.content.marinas.typeTitle']);
     expect(p[2].textContent).toContain(
-      `${finnishTranslations['mobilityPlatform.content.marinas.type']}: ${mockProps.berthItem.extra.berths[0].Kohdetyyppi}`,
+      `Tyyppi: ${mockProps.berthItem.extra.berths[0].Kohdetyyppi}`,
     );
-    expect(p[3].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.marinas.price']}: 124 €`);
+    expect(p[3].textContent).toContain('Hinta: 124 €');
     expect(p[4].textContent).toContain(finnishTranslations['mobilityPlatform.content.marinas.reservationInfo']);
     expect(p[5].textContent).toContain(finnishTranslations['mobilityPlatform.info.marinas.link']);
     expect(p[6].textContent).toContain(finnishTranslations['mobilityPlatform.content.marinas.infoLink']);

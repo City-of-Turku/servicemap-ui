@@ -7,10 +7,7 @@ const MarinasContent = ({
 }) => {
   const renderText = (translationId, value) => (
     <Typography variant="body2" className={classes.margin}>
-      {intl.formatMessage({ id: translationId })}
-      :
-      {' '}
-      {value}
+      {intl.formatMessage({ id: translationId }, { value })}
     </Typography>
   );
 
@@ -25,14 +22,7 @@ const MarinasContent = ({
           </strong>
         </Typography>
         {renderText('mobilityPlatform.content.marinas.type', berthType)}
-        <Typography variant="body2" className={classes.margin}>
-          {intl.formatMessage({ id: 'mobilityPlatform.content.marinas.price' })}
-          :
-          {' '}
-          {Math.round(fullPrice)}
-          {' '}
-          €
-        </Typography>
+        {renderText('mobilityPlatform.content.marinas.price', Math.round(fullPrice))}
       </>
     );
   };
