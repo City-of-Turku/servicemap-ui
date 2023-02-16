@@ -8,6 +8,8 @@ import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobi
 import {
   fitPolygonsToBounds, isDataValid, blueOptionsBase, whiteOptionsBase,
 } from '../../utils/utils';
+import PolygonComponent from '../../PolygonComponent';
+import TextContent from '../../TextContent';
 
 /**
  * Displays quest harbour on the map in polygon format.
@@ -19,8 +21,6 @@ const GuestHarbour = () => {
   const { openMobilityPlatform, showGuestHarbour } = useContext(MobilityPlatformContext);
 
   const useContrast = useSelector(useAccessibleMap);
-
-  const { Polygon } = global.rL;
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -48,19 +48,17 @@ const GuestHarbour = () => {
     <>
       {renderData
         ? guestHarbourData.map(item => (
-          <Polygon
+          <PolygonComponent
             key={item.id}
+            item={item}
+            useContrast={useContrast}
             pathOptions={pathOptions}
-            positions={item.geometry_coords}
-            eventHandlers={{
-              mouseover: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
-              },
-              mouseout: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.3' : '0.2' });
-              },
-            }}
-          />
+          >
+            <TextContent
+              titleId="mobilityPlatform.content.guestHarbour.title"
+              translationId="mobilityPlatform.content.guestHarbour.info"
+            />
+          </PolygonComponent>
         ))
         : null}
     </>

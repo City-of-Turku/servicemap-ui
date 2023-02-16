@@ -8,6 +8,8 @@ import {
   isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase,
 } from '../../utils/utils';
 import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import PolygonComponent from '../../PolygonComponent';
+import TextContent from '../../TextContent';
 
 /**
  * Displays boat parking areas on the map in polygon format.
@@ -19,8 +21,6 @@ const BoatParking = () => {
   const { openMobilityPlatform, showBoatParking } = useContext(MobilityPlatformContext);
 
   const useContrast = useSelector(useAccessibleMap);
-
-  const { Polygon } = global.rL;
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -48,19 +48,17 @@ const BoatParking = () => {
     <>
       {renderData
         ? boatParkingData.map(item => (
-          <Polygon
+          <PolygonComponent
             key={item.id}
+            item={item}
+            useContrast={useContrast}
             pathOptions={pathOptions}
-            positions={item.geometry_coords}
-            eventHandlers={{
-              mouseover: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
-              },
-              mouseout: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.3' : '0.2' });
-              },
-            }}
-          />
+          >
+            <TextContent
+              titleId="mobilityPlatform.content.boatParking.title"
+              translationId="mobilityPlatform.info.boatParking"
+            />
+          </PolygonComponent>
         ))
         : null}
     </>
