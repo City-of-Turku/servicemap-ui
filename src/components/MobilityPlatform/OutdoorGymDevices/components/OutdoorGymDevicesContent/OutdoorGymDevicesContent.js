@@ -21,7 +21,7 @@ const OutdoorGymDevicesContent = ({ classes, item }) => {
     sv: item.description_sv,
   };
 
-  const deviceInfo = (
+  return (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
         <TextComponent textObj={deviceName} isTitle />
@@ -30,12 +30,6 @@ const OutdoorGymDevicesContent = ({ classes, item }) => {
         {item.address_fi !== '' ? <TextComponent messageId="mobilityPlatform.content.address" textObj={deviceAddress} /> : null}
         <TextComponent textObj={deviceDescription} />
       </div>
-    </div>
-  );
-
-  return (
-    <div className={classes.container}>
-      {deviceInfo}
     </div>
   );
 };

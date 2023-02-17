@@ -1,4 +1,4 @@
-import { PropTypes } from 'prop-types';
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
@@ -8,9 +8,10 @@ import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, fitToMapBounds, createIcon } from '../utils/utils';
+import MarkerComponent from '../MarkerComponent';
 import OutdoorGymDevicesContent from './components/OutdoorGymDevicesContent';
 
-const OutdoorGymDevices = ({ classes }) => {
+const OutdoorGymDevices = () => {
   const [outdoorGymDevices, setOutdoorGymDevices] = useState([]);
 
   const { openMobilityPlatform, showOutdoorGymDevices } = useContext(MobilityPlatformContext);
@@ -19,7 +20,6 @@ const OutdoorGymDevices = ({ classes }) => {
 
   const map = useMap();
 
-  const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
   const customIcon = icon(createIcon(useContrast ? bicycleStandIconBw : sportIcon));
@@ -40,27 +40,18 @@ const OutdoorGymDevices = ({ classes }) => {
     <>
       {renderData ? (
         outdoorGymDevices.map(item => (
-          <Marker
+          <MarkerComponent
             key={item.id}
+            item={item}
             icon={customIcon}
-            position={[item.geometry_coords.lat, item.geometry_coords.lon]}
           >
-            <div className={classes.popupWrapper}>
-              <Popup className="popup-w350">
-                <div className={classes.popupInner}>
-                  <OutdoorGymDevicesContent item={item} />
-                </div>
-              </Popup>
-            </div>
-          </Marker>
+            <OutdoorGymDevicesContent item={item} />
+          </MarkerComponent>
         ))
       ) : null}
     </>
   );
 };
 
-OutdoorGymDevices.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-};
 
 export default OutdoorGymDevices;
