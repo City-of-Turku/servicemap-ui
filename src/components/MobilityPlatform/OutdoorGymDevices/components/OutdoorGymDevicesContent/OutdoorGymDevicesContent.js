@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import TextComponent from '../../../TextComponent';
-import AddressText from '../../../AddressText';
 
 const OutdoorGymDevicesContent = ({ classes, item }) => {
   const deviceName = {
@@ -28,7 +27,7 @@ const OutdoorGymDevicesContent = ({ classes, item }) => {
         <TextComponent textObj={deviceName} isTitle />
       </div>
       <div className={classes.textContainer}>
-        {item.address_fi !== '' ? <AddressText addressObj={deviceAddress} /> : null}
+        {item.address_fi !== '' ? <TextComponent messageId="mobilityPlatform.content.address" textObj={deviceAddress} /> : null}
         <TextComponent textObj={deviceDescription} />
       </div>
     </div>
