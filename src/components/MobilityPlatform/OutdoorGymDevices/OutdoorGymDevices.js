@@ -22,6 +22,7 @@ const OutdoorGymDevices = () => {
 
   const { icon } = global.L;
 
+  // TODO update icon
   const customIcon = icon(createIcon(useContrast ? bicycleStandIconBw : sportIcon));
 
   useEffect(() => {
@@ -52,6 +53,5 @@ const OutdoorGymDevices = () => {
     </>
   );
 };
-
 
 export default OutdoorGymDevices;
