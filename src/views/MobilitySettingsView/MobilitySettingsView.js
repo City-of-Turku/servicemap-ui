@@ -147,6 +147,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowFitnessTrails,
     fitnessTrailsObj,
     setFitnessTrailsObj,
+    showLamCounter,
+    setShowLamCounter,
+    showParkingMachines,
+    setShowParkingMachines,
+    showPublicParking,
+    setShowPublicParking,
     showOutdoorGymDevices,
     setShowOutdoorGymDevices,
   } = useContext(MobilityPlatformContext);
@@ -321,6 +327,9 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showSpeedLimitZones, setOpenCarSettings);
     checkVisibilityValues(showDisabledParking, setOpenCarSettings);
     checkVisibilityValues(showLoadingPlaces, setOpenCarSettings);
+    checkVisibilityValues(showLamCounter, setOpenCarSettings);
+    checkVisibilityValues(showParkingMachines, setOpenCarSettings);
+    checkVisibilityValues(showPublicParking, setOpenCarSettings);
   }, [
     showRentalCars,
     showGasFillingStations,
@@ -329,6 +338,9 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     showSpeedLimitZones,
     showDisabledParking,
     showLoadingPlaces,
+    showLamCounter,
+    showParkingMachines,
+    showPublicParking,
   ]);
 
   useEffect(() => {
@@ -554,6 +566,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowBicycleStands(current => !current);
   };
 
+  const lamCounterStationsToggle = () => {
+    setShowLamCounter(current => !current);
+  };
+
   const parkingSpacesToggle = () => {
     setShowParkingSpaces(current => !current);
   };
@@ -602,6 +618,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowScooterParkingAreas(current => !current);
   };
 
+  const parkingMachinesToggle = () => {
+    setShowParkingMachines(current => !current);
+  };
+
   const loadingPlacesToggle = () => {
     setShowLoadingPlaces(current => !current);
   };
@@ -627,6 +647,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const disabledParkingToggle = () => {
     setShowDisabledParking(current => !current);
+  };
+
+  const publicParkingToggle = () => {
+    setShowPublicParking(current => !current);
   };
 
   const cultureRouteListToggle = () => {
@@ -1026,6 +1050,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const carControlTypes = [
     {
+      type: 'lamCounters',
+      msgId: 'mobilityPlatform.menu.showEcoCounter',
+      checkedValue: showLamCounter,
+      onChangeValue: lamCounterStationsToggle,
+    },
+    {
       type: 'rentalCars',
       msgId: 'mobilityPlatform.menu.showRentalCars',
       checkedValue: showRentalCars,
@@ -1048,6 +1078,18 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.showParkingSpaces',
       checkedValue: showParkingSpaces,
       onChangeValue: parkingSpacesToggle,
+    },
+    {
+      type: 'publicParking',
+      msgId: 'mobilityPlatform.menu.show.publicParking',
+      checkedValue: showPublicParking,
+      onChangeValue: publicParkingToggle,
+    },
+    {
+      type: 'parkingMachines',
+      msgId: 'mobilityPlatform.menu.show.parkingMachines',
+      checkedValue: showParkingMachines,
+      onChangeValue: parkingMachinesToggle,
     },
     {
       type: 'disabledParking',
@@ -1318,6 +1360,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const infoTextsDriving = [
     {
+      visible: showLamCounter,
+      type: 'lamCountersInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.lamCounters" />,
+    },
+    {
       visible: showRentalCars,
       type: 'rentalCarsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.rentalCars" />,
@@ -1336,6 +1383,16 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       visible: showParkingSpaces,
       type: 'parkingSpacesInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.parkingSpaces" />,
+    },
+    {
+      visible: showPublicParking,
+      type: 'publicParkingSpacesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.publicParkingSpaces" />,
+    },
+    {
+      visible: showParkingMachines,
+      type: 'parkingMachinesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.parkingMachines" />,
     },
     {
       visible: showDisabledParking,

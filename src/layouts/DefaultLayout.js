@@ -140,6 +140,9 @@ const DefaultLayout = (props) => {
   const [natureTrailsObj, setNatureTrailsObj] = useState({});
   const [showFitnessTrails, setShowFitnessTrails] = useState(false);
   const [fitnessTrailsObj, setFitnessTrailsObj] = useState({});
+  const [showLamCounter, setShowLamCounter] = useState(false);
+  const [showParkingMachines, setShowParkingMachines] = useState(false);
+  const [showPublicParking, setShowPublicParking] = useState(false);
   const [showOutdoorGymDevices, setShowOutdoorGymDevices] = useState(false);
 
   const {
@@ -299,6 +302,12 @@ const DefaultLayout = (props) => {
                       setShowFitnessTrails,
                       fitnessTrailsObj,
                       setFitnessTrailsObj,
+                      showLamCounter,
+                      setShowLamCounter,
+                      showParkingMachines,
+                      setShowParkingMachines,
+                      showPublicParking,
+                      setShowPublicParking,
                       showOutdoorGymDevices,
                       setShowOutdoorGymDevices,
                     }}
@@ -354,6 +363,9 @@ const DefaultLayout = (props) => {
                     natureTrailsObj,
                     showFitnessTrails,
                     fitnessTrailsObj,
+                    showLamCounter,
+                    showParkingMachines,
+                    showPublicParking,
                     showOutdoorGymDevices,
                   }}
                 >

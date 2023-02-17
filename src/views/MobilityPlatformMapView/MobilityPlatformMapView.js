@@ -1,5 +1,6 @@
 import React from 'react';
 import EcoCounterMarkers from '../../components/EcoCounter/EcoCounterMarkers';
+import LamCounters from '../../components/EcoCounter/LamCounters';
 import BicycleRoutes from '../../components/MobilityPlatform/BicycleRoutes';
 import BicycleStands from '../../components/MobilityPlatform/BicycleStands';
 import BikeServiceStations from '../../components/MobilityPlatform/BikeServiceStations';
@@ -26,11 +27,14 @@ import BrushedBicycleRoads from '../../components/MobilityPlatform/SnowPlows/com
 import MarkedTrails from '../../components/MobilityPlatform/MarkedTrails';
 import NatureTrails from '../../components/MobilityPlatform/NatureTrails';
 import FitnessTrails from '../../components/MobilityPlatform/FitnessTrails';
+import ParkingMachines from '../../components/MobilityPlatform/ParkingMachines';
+import PublicParking from '../../components/MobilityPlatform/Parking/PublicParking';
 import OutdoorGymDevices from '../../components/MobilityPlatform/OutdoorGymDevices';
 
 const MobilityPlatformMapView = () => (
   <>
     <EcoCounterMarkers />
+    <LamCounters />
     <BicycleStands />
     <BicycleRoutes />
     <CultureRoutes />
@@ -57,6 +61,8 @@ const MobilityPlatformMapView = () => (
     <MarkedTrails />
     <NatureTrails />
     <FitnessTrails />
+    <ParkingMachines />
+    <PublicParking />
     <OutdoorGymDevices />
   </>
 );

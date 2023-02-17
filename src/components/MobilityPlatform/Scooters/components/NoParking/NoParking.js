@@ -1,10 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
-import { fetchMobilityMapData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../../../utils/utils';
+import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { isDataValid, whiteOptionsBase, redOptionsBase } from '../../../utils/utils';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
+import PolygonComponent from '../../../PolygonComponent';
 import TextContent from '../../../TextContent';
 
 /**
@@ -16,31 +18,21 @@ const NoParking = () => {
 
   const { openMobilityPlatform, showScooterNoParking } = useContext(MobilityPlatformContext);
 
-  const { Polygon, Popup } = global.rL;
-
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapData('ScooterNoParkingArea', 100, setNoParkingData);
+      fetchMobilityMapPolygonData('ScooterNoParkingArea', 100, setNoParkingData);
     }
   }, [openMobilityPlatform, setNoParkingData]);
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const redOptions = { color: 'rgba(251, 5, 21, 255)', weight: 5 };
-  const whiteOptions = {
-    color: 'rgba(255, 255, 255, 255)',
+  const redOptions = redOptionsBase({ weight: 5 });
+  const whiteOptions = whiteOptionsBase({
     fillOpacity: 0.3,
     weight: 5,
     dashArray: '11 2 11',
-  };
+  });
   const pathOptions = useContrast ? whiteOptions : redOptions;
-
-  const swapCoords = (inputData) => {
-    if (inputData.length > 0) {
-      return inputData.map(item => item.map(v => [v[1], v[0]]));
-    }
-    return inputData;
-  };
 
   const renderData = isDataValid(showScooterNoParking, noParkingData);
 
@@ -50,7 +42,7 @@ const NoParking = () => {
     if (renderData) {
       const bounds = [];
       noParkingData.forEach((item) => {
-        bounds.push(swapCoords(item.geometry_coords));
+        bounds.push(item.geometry_coords);
       });
       map.fitBounds(bounds);
     }
@@ -60,26 +52,17 @@ const NoParking = () => {
     <>
       {renderData
         ? noParkingData.map(item => (
-          <Polygon
+          <PolygonComponent
             key={item.id}
+            item={item}
+            useContrast={useContrast}
             pathOptions={pathOptions}
-            positions={swapCoords(item.geometry_coords)}
-            eventHandlers={{
-              mouseover: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
-              },
-              mouseout: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.3' : '0.2' });
-              },
-            }}
           >
-            <Popup>
-              <TextContent
-                titleId="mobilityPlatform.content.scooters.noParkingAreas.title"
-                translationId="mobilityPlatform.info.scooters.noParking"
-              />
-            </Popup>
-          </Polygon>
+            <TextContent
+              titleId="mobilityPlatform.content.scooters.noParkingAreas.title"
+              translationId="mobilityPlatform.info.scooters.noParking"
+            />
+          </PolygonComponent>
         ))
         : null}
     </>

@@ -6,9 +6,9 @@ import { getRenderWithProviders } from '../../../../../jestUtils';
 
 const mockProps = {
   textObj: {
-    description_fi: 'Testikuvaus.',
-    description_en: 'Test description.',
-    description_sv: 'Test skrivning',
+    desc_fi: 'Testiteksti',
+    desc_en: 'Test text',
+    desc_sv: 'Test skrivning',
   },
 };
 
@@ -26,6 +26,6 @@ describe('<TextComponent />', () => {
     const { container } = renderWithProviders(<TextComponent {...mockProps} />);
 
     const p = container.querySelectorAll('p');
-    expect(p[0].textContent).toContain(mockProps.textObj.description_fi);
+    expect(p[0].textContent).toContain(mockProps.textObj.desc_fi);
   });
 });

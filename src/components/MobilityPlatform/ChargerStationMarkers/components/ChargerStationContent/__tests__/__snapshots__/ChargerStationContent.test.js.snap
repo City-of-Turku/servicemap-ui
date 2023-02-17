@@ -8,17 +8,21 @@ exports[`<ChargerStationContent /> should match snapshot 1`] = `
     <div
       class="injectIntl(ChargerStationContent)-headerContainer-2"
     >
-      <h6
-        class="MuiTypography-root MuiTypography-subtitle1"
+      <div
+        class="injectIntl(TextComponent)-margin-6"
       >
-        Testinimi
-      </h6>
+        <p
+          class="MuiTypography-root MuiTypography-subtitle1"
+        >
+          Testinimi
+        </p>
+      </div>
     </div>
     <div
       class="injectIntl(ChargerStationContent)-textContainer-3"
     >
       <div
-        class="injectIntl(ChargerStationContent)-margin-5"
+        class="injectIntl(TextComponent)-margin-6"
       >
         <p
           class="MuiTypography-root MuiTypography-body2"
@@ -27,7 +31,7 @@ exports[`<ChargerStationContent /> should match snapshot 1`] = `
         </p>
       </div>
       <div
-        class="injectIntl(ChargerStationContent)-margin-5"
+        class="injectIntl(TextComponent)-margin-6"
       >
         <p
           class="MuiTypography-root MuiTypography-body2"
