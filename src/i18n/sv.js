@@ -613,6 +613,7 @@ const translations = {
   'mobilityPlatform.menu.showGasFillingStations': 'Tankstationer med gas',
   'mobilityPlatform.menu.showEcoCounter': 'Beräkningspunkter',
   'mobilityPlatform.menu.showBicycleStands': 'Cykelparkering',
+  'mobilityPlatform.menu.show.hullLockableStands': 'Runkolukittava pyöräpysäköinti', // TODO translate
   'mobilityPlatform.menu.showCultureRoutes': 'Kulturvägar',
   'mobilityPlatform.menu.showBicycleRoutes': 'Cykelvägar',
   'mobilityPlatform.menu.routes.info': 'Du kan välja rutten från nedanstående listan.',

@@ -15,6 +15,16 @@ const fetchMobilityMapData = async (type, pageSize, setData) => {
   }
 };
 
+const fetchMobilityMapDataExtra = async (type, pageSize, extraQuery, setData) => {
+  try {
+    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?type_name=${type}&extra__${extraQuery}&page_size=${pageSize}&srid=4326`);
+    const jsonData = await response.json();
+    setData(jsonData.results);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 const fetchCultureRouteNames = async (setData) => {
   try {
     const response = await fetch(`${isApiUrl}/mobility_data/mobile_unit_groups/`);
@@ -119,6 +129,7 @@ const fetchParkingAreaStats = async (endpoint, setData, setError) => {
 
 export {
   fetchMobilityMapData,
+  fetchMobilityMapDataExtra,
   fetchCultureRouteNames,
   fetchCultureRoutesData,
   fetchBicycleRouteNames,

@@ -615,6 +615,7 @@ const translations = {
   'mobilityPlatform.menu.showGasFillingStations': 'Kaasutankkausasemat',
   'mobilityPlatform.menu.showEcoCounter': 'Laskentapisteet',
   'mobilityPlatform.menu.showBicycleStands': 'Polkupyöräpysäköinti',
+  'mobilityPlatform.menu.show.hullLockableStands': 'Runkolukittava pyöräpysäköinti',
   'mobilityPlatform.menu.showCultureRoutes': 'Kulttuurikuntoilu',
   'mobilityPlatform.menu.showBicycleRoutes': 'Pyöräilyreitit',
   'mobilityPlatform.menu.routes.info': 'Valitse reitti oheisesta listasta.',

@@ -609,6 +609,7 @@ const translations = {
   'mobilityPlatform.menu.showGasFillingStations': 'Gas filling stations',
   'mobilityPlatform.menu.showEcoCounter': 'Measurement point',
   'mobilityPlatform.menu.showBicycleStands': 'Bicycle parking',
+  'mobilityPlatform.menu.show.hullLockableStands': 'Runkolukittava pyöräpysäköinti', // TODO translate
   'mobilityPlatform.menu.showCultureRoutes': 'Culture routes',
   'mobilityPlatform.menu.showBicycleRoutes': 'Bicycle routes',
   'mobilityPlatform.menu.routes.info': 'You can select a route from the list below.',

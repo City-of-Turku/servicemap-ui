@@ -74,6 +74,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowEcoCounter,
     showBicycleStands,
     setShowBicycleStands,
+    showHullLockableStands,
+    setShowHullLockableStands,
     showCultureRoutes,
     setShowCultureRoutes,
     cultureRouteId,
@@ -563,6 +565,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowBicycleStands(current => !current);
   };
 
+  const hullLockableStandsToggle = () => {
+    setShowHullLockableStands(current => !current);
+  };
+
   const lamCounterStationsToggle = () => {
     setShowLamCounter(current => !current);
   };
@@ -1008,6 +1014,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.showBicycleStands',
       checkedValue: showBicycleStands,
       onChangeValue: bicycleStandsToggle,
+    },
+    {
+      type: 'hullLockableStands',
+      msgId: 'mobilityPlatform.menu.show.hullLockableStands',
+      checkedValue: showHullLockableStands,
+      onChangeValue: hullLockableStandsToggle,
     },
     {
       type: 'cityBikes',

@@ -103,6 +103,7 @@ const DefaultLayout = (props) => {
   const [openMobilityPlatform, setOpenMobilityPlatform] = useState(false);
   const [showEcoCounter, setShowEcoCounter] = useState(ecoCounterStationsInitial);
   const [showBicycleStands, setShowBicycleStands] = useState(false);
+  const [showHullLockableStands, setShowHullLockableStands] = useState(false);
   const [showCultureRoutes, setShowCultureRoutes] = useState(false);
   const [cultureRouteId, setCultureRouteId] = useState();
   const [showBicycleRoutes, setShowBicycleRoutes] = useState(false);
@@ -228,6 +229,8 @@ const DefaultLayout = (props) => {
                       setShowEcoCounter,
                       showBicycleStands,
                       setShowBicycleStands,
+                      showHullLockableStands,
+                      setShowHullLockableStands,
                       showCultureRoutes,
                       setShowCultureRoutes,
                       cultureRouteId,
@@ -322,6 +325,7 @@ const DefaultLayout = (props) => {
                     openMobilityPlatform,
                     showEcoCounter,
                     showBicycleStands,
+                    showHullLockableStands,
                     showCultureRoutes,
                     cultureRouteId,
                     showBicycleRoutes,
