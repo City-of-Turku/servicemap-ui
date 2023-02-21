@@ -73,11 +73,11 @@ const EcoCounterMarkers = () => {
   };
 
   useEffect(() => {
-    fitToMapBounds(showEcoCounter.walking, stationsWithPedestrians);
+    fitToMapBounds(isDataValid(showEcoCounter.walking, stationsWithPedestrians), stationsWithPedestrians);
   }, [showEcoCounter.walking, ecoCounterStations]);
 
   useEffect(() => {
-    fitToMapBounds(showEcoCounter.cycling, ecoCounterStations);
+    fitToMapBounds(isDataValid(showEcoCounter.cycling, ecoCounterStations), ecoCounterStations);
   }, [showEcoCounter.cycling, ecoCounterStations]);
 
   /**

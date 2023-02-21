@@ -17,7 +17,7 @@ const ParkingChargeZoneContent = ({ classes, intl, parkingChargeZone }) => {
   );
 
   return (
-    <div className={classes.popupInner}>
+    <div className={classes.padding}>
       {renderText('mobilityPlatform.content.parkingChargeZones.zone', parkingChargeZone.extra.maksuvyohyke, true)}
       {renderText('mobilityPlatform.content.parkingChargeZones.price.weekDays', parkingChargeZone.extra.maksullisuus_arki, false)}
       {renderText('mobilityPlatform.content.parkingChargeZones.price.saturday', parkingChargeZone.extra.maksullisuus_lauantai, false)}

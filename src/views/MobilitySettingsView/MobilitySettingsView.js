@@ -149,6 +149,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setFitnessTrailsObj,
     showLamCounter,
     setShowLamCounter,
+    showParkingMachines,
+    setShowParkingMachines,
+    showPublicParking,
+    setShowPublicParking,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
@@ -321,6 +325,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showDisabledParking, setOpenCarSettings);
     checkVisibilityValues(showLoadingPlaces, setOpenCarSettings);
     checkVisibilityValues(showLamCounter, setOpenCarSettings);
+    checkVisibilityValues(showParkingMachines, setOpenCarSettings);
+    checkVisibilityValues(showPublicParking, setOpenCarSettings);
   }, [
     showRentalCars,
     showGasFillingStations,
@@ -330,6 +336,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     showDisabledParking,
     showLoadingPlaces,
     showLamCounter,
+    showParkingMachines,
+    showPublicParking,
   ]);
 
   useEffect(() => {
@@ -607,6 +615,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowScooterParkingAreas(current => !current);
   };
 
+  const parkingMachinesToggle = () => {
+    setShowParkingMachines(current => !current);
+  };
+
   const loadingPlacesToggle = () => {
     setShowLoadingPlaces(current => !current);
   };
@@ -628,6 +640,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const disabledParkingToggle = () => {
     setShowDisabledParking(current => !current);
+  };
+
+  const publicParkingToggle = () => {
+    setShowPublicParking(current => !current);
   };
 
   const cultureRouteListToggle = () => {
@@ -1051,6 +1067,18 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       onChangeValue: parkingSpacesToggle,
     },
     {
+      type: 'publicParking',
+      msgId: 'mobilityPlatform.menu.show.publicParking',
+      checkedValue: showPublicParking,
+      onChangeValue: publicParkingToggle,
+    },
+    {
+      type: 'parkingMachines',
+      msgId: 'mobilityPlatform.menu.show.parkingMachines',
+      checkedValue: showParkingMachines,
+      onChangeValue: parkingMachinesToggle,
+    },
+    {
       type: 'disabledParking',
       msgId: 'mobilityPlatform.menu.show.disabledParking',
       checkedValue: showDisabledParking,
@@ -1342,6 +1370,16 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       visible: showParkingSpaces,
       type: 'parkingSpacesInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.parkingSpaces" />,
+    },
+    {
+      visible: showPublicParking,
+      type: 'publicParkingSpacesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.publicParkingSpaces" />,
+    },
+    {
+      visible: showParkingMachines,
+      type: 'parkingMachinesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.parkingMachines" />,
     },
     {
       visible: showDisabledParking,

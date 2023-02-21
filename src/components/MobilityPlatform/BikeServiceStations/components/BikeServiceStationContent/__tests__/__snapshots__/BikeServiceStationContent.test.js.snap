@@ -3,32 +3,36 @@
 exports[`<BikeServiceStationContent /> should match snapshot 1`] = `
 <div>
   <div
-    class="injectIntl(BikeServiceStationContent)-container-1"
+    class="BikeServiceStationContent-container-1"
   >
     <div
-      class="injectIntl(BikeServiceStationContent)-container-1"
+      class="BikeServiceStationContent-headerContainer-2"
     >
       <div
-        class="injectIntl(BikeServiceStationContent)-headerContainer-2"
+        class="injectIntl(TextComponent)-margin-6"
       >
-        <h6
+        <p
           class="MuiTypography-root MuiTypography-subtitle1"
         >
           Testi
-        </h6>
+        </p>
+      </div>
+    </div>
+    <div
+      class="BikeServiceStationContent-textContainer-3"
+    >
+      <div
+        class="injectIntl(TextComponent)-margin-6"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          Osoite: osoite
+        </p>
       </div>
       <div
-        class="injectIntl(BikeServiceStationContent)-textContainer-3"
+        class="injectIntl(TextComponent)-margin-6"
       >
-        <div
-          class="injectIntl(BikeServiceStationContent)-margin-5"
-        >
-          <p
-            class="MuiTypography-root MuiTypography-body2"
-          >
-            Osoite: osoite
-          </p>
-        </div>
         <p
           class="MuiTypography-root MuiTypography-body2"
         >

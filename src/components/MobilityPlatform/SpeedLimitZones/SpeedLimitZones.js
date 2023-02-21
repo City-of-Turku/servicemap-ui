@@ -1,15 +1,13 @@
-import { Typography } from '@material-ui/core';
-import { PropTypes } from 'prop-types';
 import { useSelector } from 'react-redux';
 import React, { useContext } from 'react';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { isDataValid } from '../utils/utils';
+import { isDataValid, whiteOptionsBase } from '../utils/utils';
+import PolygonComponent from '../PolygonComponent';
+import SpeedLimitZonesContent from './components/SpeedLimitZonesContent';
 
-const SpeedLimitZones = ({ classes, intl }) => {
+const SpeedLimitZones = () => {
   const { showSpeedLimitZones, speedLimitSelections, speedLimitZones } = useContext(MobilityPlatformContext);
-
-  const { Polygon, Popup } = global.rL;
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -19,6 +17,8 @@ const SpeedLimitZones = ({ classes, intl }) => {
     }
     return [];
   };
+
+  const whiteOptions = whiteOptionsBase();
 
   const filteredSpeedLimitZones = filterZones(speedLimitZones);
 
@@ -83,7 +83,7 @@ const SpeedLimitZones = ({ classes, intl }) => {
   const getPathOptions = (input) => {
     const { rgba, pattern } = getOption(input);
     return {
-      color: useContrast ? 'rgba(255, 255, 255, 255)' : `rgba(${rgba})`,
+      color: useContrast ? whiteOptions : `rgba(${rgba})`,
       fillOpacity: 0.3,
       weight: 5,
       dashArray: useContrast ? pattern : null,
@@ -96,47 +96,18 @@ const SpeedLimitZones = ({ classes, intl }) => {
     <>
       {renderData ? (
         filteredSpeedLimitZones.map(item => (
-          <Polygon
+          <PolygonComponent
             key={item.id}
+            item={item}
+            useContrast={useContrast}
             pathOptions={getPathOptions(item.extra.speed_limit)}
-            positions={item.geometry_coords}
-            eventHandlers={{
-              mouseover: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.3' });
-              },
-              mouseout: (e) => {
-                e.target.setStyle({ fillOpacity: '0.3' });
-              },
-            }}
           >
-            <div className={classes.popupWrapper}>
-              <Popup>
-                <div className={classes.popupInner}>
-                  <div className={classes.subtitle}>
-                    <Typography variant="subtitle1">
-                      {intl.formatMessage({
-                        id: 'mobilityPlatform.content.speedLimitZones.area',
-                      })}
-                    </Typography>
-                  </div>
-                  <Typography>
-                    {intl.formatMessage({
-                      id: 'mobilityPlatform.content.speedLimitZones.limit',
-                    }, { item: item.extra.speed_limit })}
-                  </Typography>
-                </div>
-              </Popup>
-            </div>
-          </Polygon>
+            <SpeedLimitZonesContent item={item} />
+          </PolygonComponent>
         ))
       ) : null}
     </>
   );
-};
-
-SpeedLimitZones.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default SpeedLimitZones;

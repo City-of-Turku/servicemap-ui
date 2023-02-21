@@ -3,14 +3,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 const MarinasContent = ({
-  classes, intl, name, berths,
+  classes, intl, berthItem,
 }) => {
   const renderText = (translationId, value) => (
     <Typography variant="body2" className={classes.margin}>
-      {intl.formatMessage({ id: translationId })}
-      :
-      {' '}
-      {value}
+      {intl.formatMessage({ id: translationId }, { value })}
     </Typography>
   );
 
@@ -25,14 +22,7 @@ const MarinasContent = ({
           </strong>
         </Typography>
         {renderText('mobilityPlatform.content.marinas.type', berthType)}
-        <Typography variant="body2" className={classes.margin}>
-          {intl.formatMessage({ id: 'mobilityPlatform.content.marinas.price' })}
-          :
-          {' '}
-          {Math.round(fullPrice)}
-          {' '}
-          €
-        </Typography>
+        {renderText('mobilityPlatform.content.marinas.price', Math.round(fullPrice))}
       </>
     );
   };
@@ -75,13 +65,13 @@ const MarinasContent = ({
     <div className={classes.container}>
       <div className={classes.headerContainer}>
         <Typography variant="subtitle1">
-          {name}
+          {berthItem.name}
         </Typography>
       </div>
       <div className={classes.textContainer}>
-        {countBerths(berths)}
-        {name === 'Satama: Lauttaranta' ? countWinterStorage(berths) : null}
-        {renderTypePrice(berths[0].HintaAlv0, berths[0].Kohdetyyppi)}
+        {countBerths(berthItem.extra.berths)}
+        {berthItem.name === 'Satama: Lauttaranta' ? countWinterStorage(berthItem.extra.berths) : null}
+        {renderTypePrice(berthItem.extra.berths[0].HintaAlv0, berthItem.extra.berths[0].Kohdetyyppi)}
         <Typography variant="body2" className={classes.margin}>
           {intl.formatMessage({ id: 'mobilityPlatform.content.marinas.reservationInfo' })}
         </Typography>
@@ -95,13 +85,7 @@ const MarinasContent = ({
 MarinasContent.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
   intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  name: PropTypes.string,
-  berths: PropTypes.arrayOf(PropTypes.any),
-};
-
-MarinasContent.defaultProps = {
-  name: '',
-  berths: [],
+  berthItem: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default MarinasContent;
