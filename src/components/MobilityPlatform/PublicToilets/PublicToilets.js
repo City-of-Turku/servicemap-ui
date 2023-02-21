@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useContext } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
