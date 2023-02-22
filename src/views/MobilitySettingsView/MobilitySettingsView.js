@@ -990,16 +990,16 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       onChangeValue: fitnessTrailListToggle,
     },
     {
-      type: 'publicToilets',
-      msgId: 'mobilityPlatform.menu.show.publicToilets',
-      checkedValue: showPublicToilets,
-      onChangeValue: publicToiletsToggle,
-    },
-    {
       type: 'outdoorGymDevices',
       msgId: 'mobilityPlatform.menu.show.outdoorGymDevices',
       checkedValue: showOutdoorGymDevices,
       onChangeValue: outdoorGymDevicesToggle,
+    },
+    {
+      type: 'publicToilets',
+      msgId: 'mobilityPlatform.menu.show.publicToilets',
+      checkedValue: showPublicToilets,
+      onChangeValue: publicToiletsToggle,
     },
   ];
 
@@ -1327,6 +1327,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       visible: openNatureTrailsList,
       type: 'natureTrailsList',
       component: <InfoTextBox infoText="mobilityPlatform.info.natureTrails" />,
+    },
+    {
+      visible: showOutdoorGymDevices,
+      type: 'outdoorGymsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.outdoorGymDevices" />,
     },
     {
       visible: showPublicToilets,
