@@ -6,42 +6,38 @@ exports[`<OutdoorGymDevicesContent /> should match snapshot 1`] = `
     class="OutdoorGymDevicesContent-container-1"
   >
     <div
-      class="OutdoorGymDevicesContent-container-1"
+      class="OutdoorGymDevicesContent-headerContainer-2"
     >
       <div
-        class="OutdoorGymDevicesContent-headerContainer-2"
+        class="injectIntl(TextComponent)-margin-7"
       >
-        <div
-          class="injectIntl(TextComponent)-margin-7"
+        <p
+          class="MuiTypography-root MuiTypography-subtitle1"
         >
-          <p
-            class="MuiTypography-root MuiTypography-subtitle1"
-          >
-            Testi
-          </p>
-        </div>
+          Testi
+        </p>
+      </div>
+    </div>
+    <div
+      class="OutdoorGymDevicesContent-textContainer-3"
+    >
+      <div
+        class="injectIntl(TextComponent)-margin-7"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          Osoite: Testikatu
+        </p>
       </div>
       <div
-        class="OutdoorGymDevicesContent-textContainer-3"
+        class="injectIntl(TextComponent)-margin-7"
       >
-        <div
-          class="injectIntl(TextComponent)-margin-7"
+        <p
+          class="MuiTypography-root MuiTypography-body2"
         >
-          <p
-            class="MuiTypography-root MuiTypography-body2"
-          >
-            Osoite: Testikatu
-          </p>
-        </div>
-        <div
-          class="injectIntl(TextComponent)-margin-7"
-        >
-          <p
-            class="MuiTypography-root MuiTypography-body2"
-          >
-            Testikuvaus
-          </p>
-        </div>
+          Testikuvaus
+        </p>
       </div>
     </div>
   </div>
