@@ -23,8 +23,10 @@ const TrailList = ({
     return split.slice(-1);
   };
 
+  const checkContentType = data => data.forEach(item => item.name === 'PaavonPolku');
+
   const renderName = (item) => {
-    if (item.content_type.name === 'PaavonPolku') {
+    if (checkContentType(item.content_types)) {
       return fixRouteName(item.name_fi, item.name_en, item.name_sv);
     } return item.name;
   };
