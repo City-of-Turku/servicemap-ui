@@ -2,8 +2,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
-import bicycleStandIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_bicycle_stand-bw.svg';
-import sportIcon from 'servicemap-ui-turku/assets/icons/icons-icon_sport.svg';
+import sportIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_outdoor_gym-bw.svg';
+import sportIcon from 'servicemap-ui-turku/assets/icons/icons-icon_outdoor_gym.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
@@ -22,8 +22,7 @@ const OutdoorGymDevices = () => {
 
   const { icon } = global.L;
 
-  // TODO update icon
-  const customIcon = icon(createIcon(useContrast ? bicycleStandIconBw : sportIcon));
+  const customIcon = icon(createIcon(useContrast ? sportIconContrast : sportIcon));
 
   useEffect(() => {
     if (openMobilityPlatform) {
