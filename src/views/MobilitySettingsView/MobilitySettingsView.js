@@ -153,6 +153,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowParkingMachines,
     showPublicParking,
     setShowPublicParking,
+    showOutdoorGymDevices,
+    setShowOutdoorGymDevices,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
@@ -266,7 +268,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   useEffect(() => {
     checkVisibilityValues(showPublicToilets, setOpenWalkSettings);
-  }, [showPublicToilets]);
+    checkVisibilityValues(showOutdoorGymDevices, setOpenWalkSettings);
+  }, [showPublicToilets, showOutdoorGymDevices]);
 
   useEffect(() => {
     checkVisibilityValues(showEcoCounter.walking, setOpenWalkSettings);
@@ -621,6 +624,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const loadingPlacesToggle = () => {
     setShowLoadingPlaces(current => !current);
+  };
+
+  const outdoorGymDevicesToggle = () => {
+    setShowOutdoorGymDevices(current => !current);
   };
 
   const scooterSpeedLimitAreasToggle = () => {
@@ -983,6 +990,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       onChangeValue: fitnessTrailListToggle,
     },
     {
+      type: 'outdoorGymDevices',
+      msgId: 'mobilityPlatform.menu.show.outdoorGymDevices',
+      checkedValue: showOutdoorGymDevices,
+      onChangeValue: outdoorGymDevicesToggle,
+    },
+    {
       type: 'publicToilets',
       msgId: 'mobilityPlatform.menu.show.publicToilets',
       checkedValue: showPublicToilets,
@@ -1314,6 +1327,16 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       visible: openNatureTrailsList,
       type: 'natureTrailsList',
       component: <InfoTextBox infoText="mobilityPlatform.info.natureTrails" />,
+    },
+    {
+      visible: openFitnessTrailsList,
+      type: 'fitnessTrailsList',
+      component: <InfoTextBox infoText="mobilityPlatform.info.fitnessTrails" />,
+    },
+    {
+      visible: showOutdoorGymDevices,
+      type: 'outdoorGymsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.outdoorGymDevices" />,
     },
     {
       visible: showPublicToilets,
