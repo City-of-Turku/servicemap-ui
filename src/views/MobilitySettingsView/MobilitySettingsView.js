@@ -155,6 +155,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowPublicParking,
     showOutdoorGymDevices,
     setShowOutdoorGymDevices,
+    showCrossWalks,
+    setShowCrossWalks,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
@@ -630,6 +632,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowOutdoorGymDevices(current => !current);
   };
 
+  const crossWalksToggle = () => {
+    setShowCrossWalks(current => !current);
+  };
+
   const scooterSpeedLimitAreasToggle = () => {
     setShowScooterSpeedLimitAreas(current => !current);
   };
@@ -994,6 +1000,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.show.outdoorGymDevices',
       checkedValue: showOutdoorGymDevices,
       onChangeValue: outdoorGymDevicesToggle,
+    },
+    {
+      type: 'crossWalks',
+      msgId: 'mobilityPlatform.menu.show.crossWalks',
+      checkedValue: showCrossWalks,
+      onChangeValue: crossWalksToggle,
     },
     {
       type: 'publicToilets',

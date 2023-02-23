@@ -144,6 +144,7 @@ const DefaultLayout = (props) => {
   const [showParkingMachines, setShowParkingMachines] = useState(false);
   const [showPublicParking, setShowPublicParking] = useState(false);
   const [showOutdoorGymDevices, setShowOutdoorGymDevices] = useState(false);
+  const [showCrossWalks, setShowCrossWalks] = useState(false);
 
   const {
     currentPage, fetchErrors, fetchNews, intl, location, settingsToggled,
@@ -310,6 +311,8 @@ const DefaultLayout = (props) => {
                       setShowPublicParking,
                       showOutdoorGymDevices,
                       setShowOutdoorGymDevices,
+                      showCrossWalks,
+                      setShowCrossWalks,
                     }}
                   >
                     <ViewRouter />
@@ -367,6 +370,7 @@ const DefaultLayout = (props) => {
                     showParkingMachines,
                     showPublicParking,
                     showOutdoorGymDevices,
+                    showCrossWalks,
                   }}
                 >
                   <MapView
