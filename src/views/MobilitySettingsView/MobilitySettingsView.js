@@ -1329,6 +1329,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       component: <InfoTextBox infoText="mobilityPlatform.info.natureTrails" />,
     },
     {
+      visible: openFitnessTrailsList,
+      type: 'fitnessTrailsList',
+      component: <InfoTextBox infoText="mobilityPlatform.info.fitnessTrails" />,
+    },
+    {
       visible: showOutdoorGymDevices,
       type: 'outdoorGymsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.outdoorGymDevices" />,
