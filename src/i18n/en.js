@@ -658,7 +658,7 @@ const translations = {
   'mobilityPlatform.menu.list.showLess': 'Show less routes',
   'mobilityPlatform.menu.show.parkingMachines': 'Parking machines',
   'mobilityPlatform.menu.show.publicParking': 'Public parking spaces',
-  'mobilityPlatform.menu.show.outdoorGymDevices': 'Outdoor gym devices', // TODO verify
+  'mobilityPlatform.menu.show.outdoorGymDevices': 'Outdoor gym devices',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',

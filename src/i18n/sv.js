@@ -662,7 +662,7 @@ const translations = {
   'mobilityPlatform.menu.list.showLess': 'Visa färre rutter',
   'mobilityPlatform.menu.show.parkingMachines': 'Parkeringsautomater',
   'mobilityPlatform.menu.show.publicParking': 'Allmänna parkeringsplatser',
-  'mobilityPlatform.menu.show.outdoorGymDevices': 'Träningsredskap utomhus', // TODO verify
+  'mobilityPlatform.menu.show.outdoorGymDevices': 'Träningsredskap utomhus',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
