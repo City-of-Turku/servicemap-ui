@@ -28,7 +28,7 @@ const HomeView = (props) => {
 
     if (config.showAreaSelection) {
       areaSelection = (
-        <PaperButton messageID="home.buttons.area" icon={<Map />} link onClick={() => navigator.push('area')} />
+        <PaperButton messageID="home.buttons.area.tku" icon={<Map />} link onClick={() => navigator.push('area')} />
       );
     }
 
@@ -83,22 +83,6 @@ const HomeView = (props) => {
                 navigator.push('info', null, 'home-paper-info-button');
               }}
             />
-            {/* Old map of Turku does not exist anymore. */}
-            {/* <PaperButton
-              messageID="home.old.link"
-              newTab
-              icon={<Map />}
-              link
-              onClick={() => {
-                window.open(
-                  getLocaleText({
-                    fi: config.oldMapFi,
-                    sv: config.oldMapSv,
-                    en: config.oldMapEn,
-                  }),
-                );
-              }}
-            /> */}
           </nav>
           <NewsInfo showCount={2} />
         </div>

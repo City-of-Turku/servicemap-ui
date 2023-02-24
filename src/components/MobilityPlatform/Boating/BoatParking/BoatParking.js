@@ -1,10 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
-import { isDataValid, fitPolygonsToBounds } from '../../utils/utils';
+import {
+  isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase,
+} from '../../utils/utils';
 import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import PolygonComponent from '../../PolygonComponent';
+import TextContent from '../../TextContent';
 
 /**
  * Displays boat parking areas on the map in polygon format.
@@ -17,21 +22,18 @@ const BoatParking = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const { Polygon } = global.rL;
-
   useEffect(() => {
     if (openMobilityPlatform) {
       fetchMobilityMapPolygonData('BoatParking', 50, setBoatParkingData);
     }
   }, [openMobilityPlatform, setBoatParkingData]);
 
-  const blueOptions = { color: 'rgba(7, 44, 115, 255)', weight: 5 };
-  const whiteOptions = {
-    color: 'rgba(255, 255, 255, 255)',
+  const blueOptions = blueOptionsBase({ weight: 5 });
+  const whiteOptions = whiteOptionsBase({
     fillOpacity: 0.3,
     weight: 5,
     dashArray: '10',
-  };
+  });
   const pathOptions = useContrast ? whiteOptions : blueOptions;
 
   const map = useMap();
@@ -46,19 +48,17 @@ const BoatParking = () => {
     <>
       {renderData
         ? boatParkingData.map(item => (
-          <Polygon
+          <PolygonComponent
             key={item.id}
+            item={item}
+            useContrast={useContrast}
             pathOptions={pathOptions}
-            positions={item.geometry_coords}
-            eventHandlers={{
-              mouseover: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
-              },
-              mouseout: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.3' : '0.2' });
-              },
-            }}
-          />
+          >
+            <TextContent
+              titleId="mobilityPlatform.content.boatParking.title"
+              translationId="mobilityPlatform.info.boatParking"
+            />
+          </PolygonComponent>
         ))
         : null}
     </>

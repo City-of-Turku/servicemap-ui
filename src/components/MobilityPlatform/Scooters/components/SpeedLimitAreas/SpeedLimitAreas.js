@@ -1,10 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid, fitPolygonsToBounds } from '../../../utils/utils';
+import {
+  isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase,
+} from '../../../utils/utils';
+import PolygonComponent from '../../../PolygonComponent';
 import TextContent from '../../../TextContent';
 
 /**
@@ -16,8 +20,6 @@ const SpeedLimitAreas = () => {
 
   const { openMobilityPlatform, showScooterSpeedLimitAreas } = useContext(MobilityPlatformContext);
 
-  const { Polygon, Popup } = global.rL;
-
   useEffect(() => {
     if (openMobilityPlatform) {
       fetchMobilityMapPolygonData('ScooterSpeedLimitArea', 100, setSpeedLimitAreas);
@@ -26,10 +28,8 @@ const SpeedLimitAreas = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const blueOptions = { color: 'rgba(7, 44, 115, 255)' };
-  const whiteOptions = {
-    color: 'rgba(255, 255, 255, 255)', fillOpacity: 0.3, dashArray: '10 2 10',
-  };
+  const blueOptions = blueOptionsBase();
+  const whiteOptions = whiteOptionsBase({ fillOpacity: 0.3, dashArray: '10 2 10' });
   const pathOptions = useContrast ? whiteOptions : blueOptions;
 
   const renderData = isDataValid(showScooterSpeedLimitAreas, speedLimitAreas);
@@ -38,33 +38,23 @@ const SpeedLimitAreas = () => {
 
   useEffect(() => {
     fitPolygonsToBounds(renderData, speedLimitAreas, map);
-  }, [showScooterSpeedLimitAreas, speedLimitAreas, map]);
+  }, [showScooterSpeedLimitAreas, speedLimitAreas]);
 
   return (
     <>
       {renderData
         ? speedLimitAreas.map(item => (
-          <Polygon
+          <PolygonComponent
             key={item.id}
-            weight={5}
+            item={item}
+            useContrast={useContrast}
             pathOptions={pathOptions}
-            positions={item.geometry_coords}
-            eventHandlers={{
-              mouseover: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
-              },
-              mouseout: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.3' : '0.2' });
-              },
-            }}
           >
-            <Popup>
-              <TextContent
-                titleId="mobilityPlatform.content.scooters.speedLimitAreas.title"
-                translationId="mobilityPlatform.info.scooters.speedLimitAreas"
-              />
-            </Popup>
-          </Polygon>
+            <TextContent
+              titleId="mobilityPlatform.content.scooters.speedLimitAreas.title"
+              translationId="mobilityPlatform.info.scooters.speedLimitAreas"
+            />
+          </PolygonComponent>
         ))
         : null}
     </>

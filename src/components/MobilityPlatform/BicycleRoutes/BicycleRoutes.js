@@ -1,10 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchBicycleRoutesGeometry } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { fitPolygonsToBounds, isDataValid } from '../utils/utils';
+import {
+  fitPolygonsToBounds, isDataValid, blueOptionsBase, whiteOptionsBase, blackOptionsBase,
+} from '../utils/utils';
 
 const BicycleRoutes = () => {
   const [bicycleRoutes, setBicycleRoutes] = useState([]);
@@ -15,9 +18,9 @@ const BicycleRoutes = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const blueOptions = { color: 'rgba(7, 44, 115, 255)' };
-  const whiteOptions = { color: 'rgba(255, 255, 255, 255)', dashArray: !useContrast ? '10' : null };
-  const blackOptions = { color: 'rgba(0, 0, 0, 255)', dashArray: '2 10 10 10' };
+  const blueOptions = blueOptionsBase();
+  const whiteOptions = whiteOptionsBase({ dashArray: !useContrast ? '10' : null });
+  const blackOptions = blackOptionsBase({ dashArray: '2 10 10 10' });
 
   useEffect(() => {
     if (openMobilityPlatform) {

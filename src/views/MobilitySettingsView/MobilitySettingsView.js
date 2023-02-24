@@ -151,6 +151,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowLamCounter,
     showParkingMachines,
     setShowParkingMachines,
+    showPublicParking,
+    setShowPublicParking,
+    showOutdoorGymDevices,
+    setShowOutdoorGymDevices,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
@@ -264,7 +268,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   useEffect(() => {
     checkVisibilityValues(showPublicToilets, setOpenWalkSettings);
-  }, [showPublicToilets]);
+    checkVisibilityValues(showOutdoorGymDevices, setOpenWalkSettings);
+  }, [showPublicToilets, showOutdoorGymDevices]);
 
   useEffect(() => {
     checkVisibilityValues(showEcoCounter.walking, setOpenWalkSettings);
@@ -324,6 +329,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showLoadingPlaces, setOpenCarSettings);
     checkVisibilityValues(showLamCounter, setOpenCarSettings);
     checkVisibilityValues(showParkingMachines, setOpenCarSettings);
+    checkVisibilityValues(showPublicParking, setOpenCarSettings);
   }, [
     showRentalCars,
     showGasFillingStations,
@@ -334,6 +340,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     showLoadingPlaces,
     showLamCounter,
     showParkingMachines,
+    showPublicParking,
   ]);
 
   useEffect(() => {
@@ -619,6 +626,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowLoadingPlaces(current => !current);
   };
 
+  const outdoorGymDevicesToggle = () => {
+    setShowOutdoorGymDevices(current => !current);
+  };
+
   const scooterSpeedLimitAreasToggle = () => {
     setShowScooterSpeedLimitAreas(current => !current);
   };
@@ -636,6 +647,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const disabledParkingToggle = () => {
     setShowDisabledParking(current => !current);
+  };
+
+  const publicParkingToggle = () => {
+    setShowPublicParking(current => !current);
   };
 
   const cultureRouteListToggle = () => {
@@ -975,6 +990,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       onChangeValue: fitnessTrailListToggle,
     },
     {
+      type: 'outdoorGymDevices',
+      msgId: 'mobilityPlatform.menu.show.outdoorGymDevices',
+      checkedValue: showOutdoorGymDevices,
+      onChangeValue: outdoorGymDevicesToggle,
+    },
+    {
       type: 'publicToilets',
       msgId: 'mobilityPlatform.menu.show.publicToilets',
       checkedValue: showPublicToilets,
@@ -1057,6 +1078,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.showParkingSpaces',
       checkedValue: showParkingSpaces,
       onChangeValue: parkingSpacesToggle,
+    },
+    {
+      type: 'publicParking',
+      msgId: 'mobilityPlatform.menu.show.publicParking',
+      checkedValue: showPublicParking,
+      onChangeValue: publicParkingToggle,
     },
     {
       type: 'parkingMachines',
@@ -1302,6 +1329,16 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       component: <InfoTextBox infoText="mobilityPlatform.info.natureTrails" />,
     },
     {
+      visible: openFitnessTrailsList,
+      type: 'fitnessTrailsList',
+      component: <InfoTextBox infoText="mobilityPlatform.info.fitnessTrails" />,
+    },
+    {
+      visible: showOutdoorGymDevices,
+      type: 'outdoorGymsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.outdoorGymDevices" />,
+    },
+    {
       visible: showPublicToilets,
       type: 'publicRestroomsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.publicToilets" />,
@@ -1356,6 +1393,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       visible: showParkingSpaces,
       type: 'parkingSpacesInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.parkingSpaces" />,
+    },
+    {
+      visible: showPublicParking,
+      type: 'publicParkingSpacesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.publicParkingSpaces" />,
     },
     {
       visible: showParkingMachines,
