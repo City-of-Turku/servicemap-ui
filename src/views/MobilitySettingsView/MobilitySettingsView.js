@@ -966,6 +966,18 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       onChangeValue: ecoCounterStationsToggle,
     },
     {
+      type: 'outdoorGymDevices',
+      msgId: 'mobilityPlatform.menu.show.outdoorGymDevices',
+      checkedValue: showOutdoorGymDevices,
+      onChangeValue: outdoorGymDevicesToggle,
+    },
+    {
+      type: 'publicToilets',
+      msgId: 'mobilityPlatform.menu.show.publicToilets',
+      checkedValue: showPublicToilets,
+      onChangeValue: publicToiletsToggle,
+    },
+    {
       type: 'cultureRoutes',
       msgId: 'mobilityPlatform.menu.showCultureRoutes',
       checkedValue: openCultureRouteList,
@@ -989,18 +1001,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       checkedValue: openFitnessTrailsList,
       onChangeValue: fitnessTrailListToggle,
     },
-    {
-      type: 'outdoorGymDevices',
-      msgId: 'mobilityPlatform.menu.show.outdoorGymDevices',
-      checkedValue: showOutdoorGymDevices,
-      onChangeValue: outdoorGymDevicesToggle,
-    },
-    {
-      type: 'publicToilets',
-      msgId: 'mobilityPlatform.menu.show.publicToilets',
-      checkedValue: showPublicToilets,
-      onChangeValue: publicToiletsToggle,
-    },
   ];
 
   const bicycleControlTypes = [
@@ -1009,12 +1009,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.showEcoCounter',
       checkedValue: showEcoCounter.cycling,
       onChangeValue: ecoCounterStationsToggleCycling,
-    },
-    {
-      type: 'bicycleRoutes',
-      msgId: 'mobilityPlatform.menu.showBicycleRoutes',
-      checkedValue: openBicycleRouteList,
-      onChangeValue: bicycleRouteListToggle,
     },
     {
       type: 'bicycleStands',
@@ -1045,6 +1039,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.show.brushSaltedRoute',
       checkedValue: showBrushSaltedRoute,
       onChangeValue: brushSaltedRouteToggle,
+    },
+    {
+      type: 'bicycleRoutes',
+      msgId: 'mobilityPlatform.menu.showBicycleRoutes',
+      checkedValue: openBicycleRouteList,
+      onChangeValue: bicycleRouteListToggle,
     },
   ];
 
@@ -1086,16 +1086,22 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       onChangeValue: publicParkingToggle,
     },
     {
+      type: 'disabledParking',
+      msgId: 'mobilityPlatform.menu.show.disabledParking',
+      checkedValue: showDisabledParking,
+      onChangeValue: disabledParkingToggle,
+    },
+    {
       type: 'parkingMachines',
       msgId: 'mobilityPlatform.menu.show.parkingMachines',
       checkedValue: showParkingMachines,
       onChangeValue: parkingMachinesToggle,
     },
     {
-      type: 'disabledParking',
-      msgId: 'mobilityPlatform.menu.show.disabledParking',
-      checkedValue: showDisabledParking,
-      onChangeValue: disabledParkingToggle,
+      type: 'loadingPlaces',
+      msgId: 'mobilityPlatform.menu.loadingPlaces.show',
+      checkedValue: showLoadingPlaces,
+      onChangeValue: loadingPlacesToggle,
     },
     {
       type: 'parkingChargeZones',
@@ -1108,12 +1114,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.speedLimitZones.show',
       checkedValue: openSpeedLimitList,
       onChangeValue: speedLimitZonesToggle,
-    },
-    {
-      type: 'loadingPlaces',
-      msgId: 'mobilityPlatform.menu.loadingPlaces.show',
-      checkedValue: showLoadingPlaces,
-      onChangeValue: loadingPlacesToggle,
     },
   ];
 
@@ -1319,6 +1319,16 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       component: <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" />,
     },
     {
+      visible: showOutdoorGymDevices,
+      type: 'outdoorGymsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.outdoorGymDevices" />,
+    },
+    {
+      visible: showPublicToilets,
+      type: 'publicRestroomsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.publicToilets" />,
+    },
+    {
       visible: openMarkedTrailsList,
       type: 'markedTrailsListInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.markedTrails" />,
@@ -1332,16 +1342,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       visible: openFitnessTrailsList,
       type: 'fitnessTrailsList',
       component: <InfoTextBox infoText="mobilityPlatform.info.fitnessTrails" />,
-    },
-    {
-      visible: showOutdoorGymDevices,
-      type: 'outdoorGymsInfo',
-      component: <InfoTextBox infoText="mobilityPlatform.info.outdoorGymDevices" />,
-    },
-    {
-      visible: showPublicToilets,
-      type: 'publicRestroomsInfo',
-      component: <InfoTextBox infoText="mobilityPlatform.info.publicToilets" />,
     },
   ];
 
@@ -1400,24 +1400,24 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       component: <InfoTextBox infoText="mobilityPlatform.info.publicParkingSpaces" />,
     },
     {
-      visible: showParkingMachines,
-      type: 'parkingMachinesInfo',
-      component: <InfoTextBox infoText="mobilityPlatform.info.parkingMachines" />,
-    },
-    {
       visible: showDisabledParking,
       type: 'disabledParking',
       component: <InfoTextBox infoText="mobilityPlatform.info.disabledParking" />,
     },
     {
-      visible: openParkingChargeZoneList,
-      type: 'parkingChargeZoneListInfo',
-      component: <ExtendedInfo translations={chargeZoneTranslations} />,
+      visible: showParkingMachines,
+      type: 'parkingMachinesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.parkingMachines" />,
     },
     {
       visible: showLoadingPlaces,
       type: 'loadingPlacesInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.loadingPlaces" />,
+    },
+    {
+      visible: openParkingChargeZoneList,
+      type: 'parkingChargeZoneListInfo',
+      component: <ExtendedInfo translations={chargeZoneTranslations} />,
     },
   ];
 
