@@ -39,7 +39,7 @@ const ParkingMachinesContent = ({ classes, intl, item }) => {
   );
 
   return (
-    <div className={classes.container}>
+    <div className={classes.padding}>
       {parkingMachineInfo}
     </div>
   );

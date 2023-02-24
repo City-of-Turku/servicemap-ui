@@ -3,11 +3,9 @@
 exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
 <div>
   <div
-    class="injectIntl(ParkingMachinesContent)-container-1"
+    class="injectIntl(ParkingMachinesContent)-padding-1"
   >
-    <div
-      class="injectIntl(ParkingMachinesContent)-container-1"
-    >
+    <div>
       <div
         class="injectIntl(ParkingMachinesContent)-headerContainer-2"
       >
@@ -21,7 +19,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
         class="injectIntl(ParkingMachinesContent)-textContainer-3"
       >
         <div
-          class="injectIntl(TextComponent)-margin-7"
+          class="injectIntl(TextComponent)-margin-5"
         >
           <p
             class="MuiTypography-root MuiTypography-body2"
@@ -30,7 +28,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           </p>
         </div>
         <div
-          class="injectIntl(TextComponent)-margin-7"
+          class="injectIntl(TextComponent)-margin-5"
         >
           <p
             class="MuiTypography-root MuiTypography-body2"
@@ -39,7 +37,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           </p>
         </div>
         <div
-          class="injectIntl(ParkingMachinesContent)-margin-5"
+          class="injectIntl(ParkingMachinesContent)-margin-4"
         >
           <p
             class="MuiTypography-root MuiTypography-body2"
@@ -48,7 +46,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           </p>
         </div>
         <div
-          class="injectIntl(TextComponent)-margin-7"
+          class="injectIntl(TextComponent)-margin-5"
         >
           <p
             class="MuiTypography-root MuiTypography-body2"
@@ -57,7 +55,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           </p>
         </div>
         <div
-          class="injectIntl(ParkingMachinesContent)-margin-5"
+          class="injectIntl(ParkingMachinesContent)-margin-4"
         >
           <p
             class="MuiTypography-root MuiTypography-body2"
