@@ -1,4 +1,4 @@
-import { PropTypes } from 'prop-types';
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
 import { useSelector } from 'react-redux';
@@ -8,21 +8,22 @@ import bicycleStandIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bicycl
 import circleIcon from 'servicemap-ui-turku/assets/icons/icons-icon_circle_border.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapDataExtra } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, fitToMapBounds } from '../utils/utils';
+import MarkerComponent from '../MarkerComponent';
 import BicycleStandContent from './components/BicycleStandContent';
 
-const BicycleStands = ({ classes }) => {
+const BicycleStands = () => {
   const [bicycleStands, setBicycleStands] = useState([]);
+  const [hullLockableStands, setHullLockableStands] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, showBicycleStands } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showBicycleStands, showHullLockableStands } = useContext(MobilityPlatformContext);
 
   const useContrast = useSelector(useAccessibleMap);
 
   const map = useMap();
 
-  const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
   const setBaseIcon = useContrast ? bicycleStandIconBw : bicycleStandIcon;
@@ -35,9 +36,15 @@ const BicycleStands = ({ classes }) => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapData('BicycleStand', 1000, setBicycleStands);
+      fetchMobilityMapDataExtra('BicycleStand', 500, 'hull_lockable=false', setBicycleStands);
     }
   }, [openMobilityPlatform, setBicycleStands]);
+
+  useEffect(() => {
+    if (openMobilityPlatform) {
+      fetchMobilityMapDataExtra('BicycleStand', 500, 'hull_lockable=true', setHullLockableStands);
+    }
+  }, [openMobilityPlatform, setHullLockableStands]);
 
   const mapEvent = useMapEvents({
     zoomend() {
@@ -45,39 +52,35 @@ const BicycleStands = ({ classes }) => {
     },
   });
 
-  const renderData = isDataValid(showBicycleStands, bicycleStands);
+  const validBicycleStands = isDataValid(showBicycleStands, bicycleStands);
+  const validHulllockableStands = isDataValid(showHullLockableStands, hullLockableStands);
 
   useEffect(() => {
-    fitToMapBounds(renderData, bicycleStands, map);
+    fitToMapBounds(validBicycleStands, bicycleStands, map);
   }, [showBicycleStands, bicycleStands]);
+
+  useEffect(() => {
+    fitToMapBounds(validHulllockableStands, hullLockableStands, map);
+  }, [showHullLockableStands, hullLockableStands]);
+
+  const renderBicycleStands = (isValid, data) => (isValid ? (
+    data.map(item => (
+      <MarkerComponent
+        key={item.id}
+        item={item}
+        icon={customIcon}
+      >
+        <BicycleStandContent bicycleStand={item} />
+      </MarkerComponent>
+    ))
+  ) : null);
 
   return (
     <>
-      {renderData ? (
-        bicycleStands.map(item => (
-          <Marker
-            key={item.id}
-            icon={customIcon}
-            position={[item.geometry_coords.lat, item.geometry_coords.lon]}
-          >
-            <div className={classes.popupWrapper}>
-              <Popup>
-                <div className={classes.popupInner}>
-                  <BicycleStandContent
-                    bicycleStand={item}
-                  />
-                </div>
-              </Popup>
-            </div>
-          </Marker>
-        ))
-      ) : null}
+      {renderBicycleStands(validBicycleStands, bicycleStands)}
+      {renderBicycleStands(validHulllockableStands, hullLockableStands)}
     </>
   );
-};
-
-BicycleStands.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default BicycleStands;
