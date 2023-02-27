@@ -1364,7 +1364,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       component: <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" />,
     },
     {
-      visible: showBicycleStands,
+      visible: showBicycleStands || showHullLockableStands,
       type: 'bicycleStandsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.bicycleStands" />,
     },

@@ -608,8 +608,8 @@ const translations = {
   'mobilityPlatform.menu.showChargingStations': 'Car e-charging points',
   'mobilityPlatform.menu.showGasFillingStations': 'Gas filling stations',
   'mobilityPlatform.menu.showEcoCounter': 'Measurement point',
-  'mobilityPlatform.menu.showBicycleStands': 'Bicycle parking',
-  'mobilityPlatform.menu.show.hullLockableStands': 'Runkolukittava pyöräpysäköinti', // TODO translate
+  'mobilityPlatform.menu.showBicycleStands': 'Bicycle parking (non-frame-lockable)',
+  'mobilityPlatform.menu.show.hullLockableStands': 'Bicycle parking (frame lockable)',
   'mobilityPlatform.menu.showCultureRoutes': 'Culture routes',
   'mobilityPlatform.menu.showBicycleRoutes': 'Bicycle routes',
   'mobilityPlatform.menu.routes.info': 'You can select a route from the list below.',
