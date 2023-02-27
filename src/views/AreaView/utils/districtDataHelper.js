@@ -58,12 +58,12 @@ export const dataStructure = [
         id: 'lower_comprehensive_school_district_fi',
         searchWords: ['ala-aste', 'alakoulu', 'ala-aste suomi', 'alakoulu suomi'],
       }, */
-      /* { id: 'lower_comprehensive_school_district_sv', searchWords: ['ala-aste', 'ruotsi', 'alakoulu ruotsi'] }, */
+      { id: 'lower_comprehensive_school_district_sv', searchWords: ['ala-aste', 'ruotsi', 'alakoulu ruotsi'] },
       /* {
         id: 'upper_comprehensive_school_district_fi',
         searchWords: ['yläaste', 'yläkoulu', 'yläaste suomi', 'yläkoulu suomi'],
       }, */
-      /* { id: 'upper_comprehensive_school_district_sv', searchWords: ['yläaste ruotsi', 'yläkoulu ruotsi'] }, */
+      { id: 'upper_comprehensive_school_district_sv', searchWords: ['yläaste ruotsi', 'yläkoulu ruotsi'] },
     ],
     subCategories: [
       /* {
@@ -74,10 +74,10 @@ export const dataStructure = [
         titleID: 'area.list.education.finnish',
         districts: ['school_district_fi'],
       },
-      /* {
+      {
         titleID: 'area.list.education.swedish',
         districts: ['lower_comprehensive_school_district_sv', 'upper_comprehensive_school_district_sv'],
-      }, */
+      },
     ],
   },
   /* {
