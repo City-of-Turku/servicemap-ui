@@ -3,8 +3,8 @@ import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useMap, useMapEvents } from 'react-leaflet';
-import parkingMachineIcon from 'servicemap-ui-turku/assets/icons/icons-icon_parking_machine.svg';
-import parkingMachineIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_parking_machine-bw.svg';
+import pedestrianIcon from 'servicemap-ui-turku/assets/icons/icons-icon_pedestrian.svg';
+import pedestrianIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_pedestrian-bw.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapDataBbox } from '../mobilityPlatformRequests/mobilityPlatformRequests';
@@ -29,8 +29,8 @@ const CrossWalks = ({ mapObject }) => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  // TODO use different icons
-  const customIcon = icon(createIcon(useContrast ? parkingMachineIconContrast : parkingMachineIcon));
+  // TODO verify icons
+  const customIcon = icon(createIcon(useContrast ? pedestrianIconContrast : pedestrianIcon));
 
   const fetchBounds = map.getBounds();
   const cornerBottom = fetchBounds.getSouthWest();
@@ -49,7 +49,7 @@ const CrossWalks = ({ mapObject }) => {
 
   const wideBounds = L.latLngBounds(cornerTop, cornerBottom);
 
-  // Bounds used in subway entrance fetch
+  // Bounds used in fetch
   const fetchBox = MapUtility.getBboxFromBounds(wideBounds, true);
 
   const mapEvent = useMapEvents({
@@ -65,6 +65,7 @@ const CrossWalks = ({ mapObject }) => {
 
   const renderData = zoomLevel >= mapObject.options.detailZoom && isDataValid(showCrossWalks, crossWalksData);
 
+  // TODO update content
   return (
     <>
       {renderData ? (
