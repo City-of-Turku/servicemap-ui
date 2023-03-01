@@ -1,6 +1,6 @@
 export default theme => ({
-  container: {
-    margin: theme.spacing(1),
+  padding: {
+    padding: theme.spacing(0.7),
   },
   headerContainer: {
     width: '85%',
@@ -10,14 +10,7 @@ export default theme => ({
   textContainer: {
     marginTop: theme.spacing(0.5),
   },
-  contentInner: {
-    marginLeft: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
   margin: {
     margin: theme.spacing(0.4),
-  },
-  marginTop: {
-    marginTop: theme.spacing(0.4),
   },
 });
