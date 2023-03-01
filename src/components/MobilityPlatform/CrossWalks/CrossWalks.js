@@ -1,20 +1,29 @@
-import React, { useContext, useEffect, useState } from 'react';
+/* eslint-disable global-require */
+import React, { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { useMap, useMapEvents } from 'react-leaflet';
 import parkingMachineIcon from 'servicemap-ui-turku/assets/icons/icons-icon_parking_machine.svg';
 import parkingMachineIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_parking_machine-bw.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapDataBbox } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid } from '../utils/utils';
+import MapUtility from '../../../utils/mapUtility';
 import MarkerComponent from '../MarkerComponent';
 
 /** Shows crosswalks on the map in marker form */
 
-const CrossWalks = () => {
+const CrossWalks = ({ mapObject }) => {
   const [crossWalksData, setCrossWalksData] = useState([]);
 
-  // TODO optimize performance
   const { openMobilityPlatform, showCrossWalks } = useContext(MobilityPlatformContext);
+
+  const map = useMap();
+  const currentZoom = map.getZoom();
+  const [zoomLevel, setZoomLevel] = useState(currentZoom);
+
+  const L = require('leaflet');
 
   const { icon } = global.L;
 
@@ -23,13 +32,38 @@ const CrossWalks = () => {
   // TODO use different icons
   const customIcon = icon(createIcon(useContrast ? parkingMachineIconContrast : parkingMachineIcon));
 
-  useEffect(() => {
-    if (openMobilityPlatform) {
-      fetchMobilityMapData('CrossWalkSign', 5000, setCrossWalksData);
-    }
-  }, [openMobilityPlatform, setCrossWalksData]);
+  const fetchBounds = map.getBounds();
+  const cornerBottom = fetchBounds.getSouthWest();
+  const cornerTop = fetchBounds.getNorthEast();
 
-  const renderData = isDataValid(showCrossWalks, crossWalksData);
+  const viewSize = {
+    width: Math.abs(cornerBottom.lng - cornerTop.lng),
+    height: Math.abs(cornerBottom.lat - cornerTop.lat),
+  };
+
+  // Increase the search area by the amount of current view size
+  cornerBottom.lat -= viewSize.height;
+  cornerBottom.lng -= viewSize.width;
+  cornerTop.lat += viewSize.height;
+  cornerTop.lng += viewSize.width;
+
+  const wideBounds = L.latLngBounds(cornerTop, cornerBottom);
+
+  // Bounds used in subway entrance fetch
+  const fetchBox = MapUtility.getBboxFromBounds(wideBounds, true);
+
+  const mapEvent = useMapEvents({
+    zoomend() {
+      setZoomLevel(mapEvent.getZoom());
+    },
+    moveend() {
+      if (openMobilityPlatform && zoomLevel >= mapObject.options.detailZoom) {
+        fetchMobilityMapDataBbox('CrossWalkSign', 3000, fetchBox, setCrossWalksData);
+      }
+    },
+  });
+
+  const renderData = zoomLevel >= mapObject.options.detailZoom && isDataValid(showCrossWalks, crossWalksData);
 
   return (
     <>
@@ -46,6 +80,10 @@ const CrossWalks = () => {
       ) : null}
     </>
   );
+};
+
+CrossWalks.propTypes = {
+  mapObject: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default CrossWalks;

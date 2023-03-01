@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import EcoCounterMarkers from '../../components/EcoCounter/EcoCounterMarkers';
 import LamCounters from '../../components/EcoCounter/LamCounters';
 import BicycleRoutes from '../../components/MobilityPlatform/BicycleRoutes';
@@ -32,7 +33,7 @@ import PublicParking from '../../components/MobilityPlatform/Parking/PublicParki
 import OutdoorGymDevices from '../../components/MobilityPlatform/OutdoorGymDevices';
 import CrossWalks from '../../components/MobilityPlatform/CrossWalks';
 
-const MobilityPlatformMapView = () => (
+const MobilityPlatformMapView = ({ mapObject }) => (
   <>
     <EcoCounterMarkers />
     <LamCounters />
@@ -65,8 +66,12 @@ const MobilityPlatformMapView = () => (
     <ParkingMachines />
     <PublicParking />
     <OutdoorGymDevices />
-    <CrossWalks />
+    <CrossWalks mapObject={mapObject} />
   </>
 );
+
+MobilityPlatformMapView.propTypes = {
+  mapObject: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 
 export default MobilityPlatformMapView;

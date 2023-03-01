@@ -15,6 +15,16 @@ const fetchMobilityMapData = async (type, pageSize, setData) => {
   }
 };
 
+const fetchMobilityMapDataBbox = async (type, pageSize, bbox, setData) => {
+  try {
+    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?type_name=${type}&page_size=${pageSize}&bbox=${bbox}&srid=4326`);
+    const jsonData = await response.json();
+    setData(jsonData.results);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 const fetchMobilityMapDataExtra = async (type, pageSize, extraQuery, setData) => {
   try {
     const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?type_name=${type}&extra__${extraQuery}&page_size=${pageSize}&srid=4326`);
@@ -129,6 +139,7 @@ const fetchParkingAreaStats = async (endpoint, setData, setError) => {
 
 export {
   fetchMobilityMapData,
+  fetchMobilityMapDataBbox,
   fetchMobilityMapDataExtra,
   fetchCultureRouteNames,
   fetchCultureRoutesData,
