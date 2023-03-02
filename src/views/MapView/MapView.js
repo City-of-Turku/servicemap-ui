@@ -292,12 +292,14 @@ const MapView = (props) => {
     );
   };
 
+  const unitHasLocationAndGeometry = un => un?.location && un?.geometry;
+
   const renderUnitGeometry = () => {
     if (highlightedDistrict) return null;
     if (currentPage !== 'unit') {
       return unitData.map(unit => (unit.geometry ? <UnitGeometry key={unit.id} data={unit} /> : null));
     }
-    if (highlightedUnit) {
+    if (unitHasLocationAndGeometry(highlightedUnit)) {
       return <UnitGeometry data={highlightedUnit} />;
     }
     return null;
@@ -388,7 +390,8 @@ const MapView = (props) => {
 
           {currentPage === 'address' && <AddressMarker embedded={embedded} />}
 
-          {currentPage === 'unit' && highlightedUnit?.entrances?.length && <EntranceMarker />}
+          {currentPage === 'unit' && highlightedUnit?.entrances?.length && unitHasLocationAndGeometry(highlightedUnit) && (
+            <EntranceMarker />)}
 
           {!hideUserMarker && userLocation && (
             <UserMarker
