@@ -11,6 +11,7 @@ import { fetchMobilityMapDataBbox } from '../mobilityPlatformRequests/mobilityPl
 import { createIcon, isDataValid } from '../utils/utils';
 import MapUtility from '../../../utils/mapUtility';
 import MarkerComponent from '../MarkerComponent';
+import TextContent from '../TextContent';
 
 /** Shows crosswalks on the map in marker form */
 
@@ -65,7 +66,7 @@ const CrossWalks = ({ mapObject }) => {
 
   const renderData = zoomLevel >= mapObject.options.detailZoom && isDataValid(showCrossWalks, crossWalksData);
 
-  // TODO update content
+  // TODO verify text content
   return (
     <>
       {renderData ? (
@@ -75,7 +76,10 @@ const CrossWalks = ({ mapObject }) => {
             item={item}
             icon={customIcon}
           >
-            <p>temp</p>
+            <TextContent
+              titleId="mobilityPlatform.content.crosswalks.title"
+              translationId="mobilityPlatform.info.short.crosswalks"
+            />
           </MarkerComponent>
         ))
       ) : null}
