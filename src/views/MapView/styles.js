@@ -437,6 +437,9 @@ const styles = theme => ({
   ferryIconColor: {
     color: '#00B9E4',
   },
+  busIconColorDark: {
+    color: 'rgba(7, 44, 115, 255)',
+  },
 });
 
 export default styles;

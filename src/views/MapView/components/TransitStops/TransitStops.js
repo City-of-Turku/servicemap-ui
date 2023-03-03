@@ -6,6 +6,7 @@ import { useMapEvents } from 'react-leaflet';
 import TransitStopInfo from './TransitStopInfo';
 import { fetchStops } from '../../utils/transitFetch';
 import { transitIconSize } from '../../config/mapConfig';
+import config from '../../../../../config';
 import { isEmbed } from '../../../../utils/path';
 import useMobileStatus from '../../../../utils/isMobile';
 
@@ -14,6 +15,10 @@ const TransitStops = ({ mapObject, classes }) => {
   const { Marker, Popup } = global.rL;
 
   const [transitStops, setTransitStops] = useState([]);
+
+  // If external theme (by Turku) is true, then can be used to select which components to render
+  const externalTheme = config.themePKG;
+  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
 
   const map = useMapEvents({
     moveend() {
@@ -76,7 +81,14 @@ const TransitStops = ({ mapObject, classes }) => {
         icon = <spanz aria-hidden className={`${classes.transitIconMap} ${classes.ferryIconColor} icon-icon-hsl-ferry`} />;
         break;
       default:
-        icon = <span aria-hidden className={`${classes.transitIconMap} ${classes.busIconColor} icon-icon-hsl-bus`} />;
+        icon = (
+          <span
+            aria-hidden
+            className={`${classes.transitIconMap} ${
+              isExternalTheme ? classes.busIconColorDark : classes.busIconColor
+            } icon-icon-hsl-bus`}
+          />
+        );
         break;
     }
 

@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import { useMapEvents } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import config from '../../../config';
 import Loading from '../../components/Loading';
 import HomeLogo from '../../components/Logos/HomeLogo';
 import { getSelectedUnitEvents } from '../../redux/selectors/selectedUnit';
@@ -100,10 +99,6 @@ const MapView = (props) => {
 
   // This unassigned selector is used to trigger re-render after events are fetched
   useSelector(state => getSelectedUnitEvents(state));
-
-  // If external theme (by Turku) is true, then can be used to select which components to render
-  const externalTheme = config.themePKG;
-  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
 
   const getMapUnits = () => {
     let mapUnits = [];
@@ -379,7 +374,7 @@ const MapView = (props) => {
           ) : null}
           <Districts mapOptions={mapOptions} embedded={embedded} />
           {/* Turku does not yet have data to render this */}
-          {!isExternalTheme ? <TransitStops mapObject={mapObject} /> : null}
+          <TransitStops mapObject={mapObject} />
 
           {!embedded && !measuringMode && (
             // Draw address popoup on mapclick to map
