@@ -609,6 +609,7 @@ const translations = {
   'mobilityPlatform.menu.title.boating': 'Båtliv',
   'mobilityPlatform.menu.title.scooter': 'Elsparkcyklar',
   'mobilityPlatform.menu.title.streetMaintenance': 'Gatuunderhåll',
+  'mobilityPlatform.menu.title.public.transport': 'Kollektivtrafik', // TODO verify
   'mobilityPlatform.menu.showChargingStations': 'Elladdningsstationer för bilar',
   'mobilityPlatform.menu.showGasFillingStations': 'Tankstationer med gas',
   'mobilityPlatform.menu.showEcoCounter': 'Beräkningspunkter',

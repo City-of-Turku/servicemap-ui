@@ -47,6 +47,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [openBoatingSettings, setOpenBoatingSettings] = useState(false);
   const [openScooterSettings, setOpenScooterSettings] = useState(false);
   const [openStreetMaintenanceSettings, setOpenStreetMaintenanceSettings] = useState(false);
+  const [openPublicTransportSettings, setOpenPublicTransportSettings] = useState(false);
   const [openCultureRouteList, setOpenCultureRouteList] = useState(false);
   const [cultureRouteList, setCultureRouteList] = useState([]);
   const [localizedCultureRoutes, setLocalizedCultureRoutes] = useState([]);
@@ -489,6 +490,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     if (!openCarSettings) {
       navigator.push('mobilityPlatform', 'driving');
       setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.car' }));
+    }
+  };
+
+  const publicTransportSettingsToggle = () => {
+    setOpenPublicTransportSettings(current => !current);
+    if (!openPublicTransportSettings) {
+      navigator.push('mobilityPlatform', 'publicTransport');
+      setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.public.transport' }));
     }
   };
 
@@ -978,12 +987,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       onChangeValue: ecoCounterStationsToggle,
     },
     {
-      type: 'busStops',
-      msgId: 'mobilityPlatform.menu.show.busStops',
-      checkedValue: showBusStops,
-      onChangeValue: busStopsToggle,
-    },
-    {
       type: 'outdoorGymDevices',
       msgId: 'mobilityPlatform.menu.show.outdoorGymDevices',
       checkedValue: showOutdoorGymDevices,
@@ -1138,6 +1141,15 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.speedLimitZones.show',
       checkedValue: openSpeedLimitList,
       onChangeValue: speedLimitZonesToggle,
+    },
+  ];
+
+  const publicTransportControlTypes = [
+    {
+      type: 'busStops',
+      msgId: 'mobilityPlatform.menu.show.busStops',
+      checkedValue: showBusStops,
+      onChangeValue: busStopsToggle,
     },
   ];
 
@@ -1656,6 +1668,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     </React.Fragment>
   );
 
+  const renderPublicTransportSettings = () => (
+    <React.Fragment>
+      {renderSettings(openPublicTransportSettings, publicTransportControlTypes)}
+    </React.Fragment>
+  );
+
   const categories = [
     {
       component: renderWalkSettings(),
@@ -1677,6 +1695,13 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       icon: <ReactSVG src={iconCar} className={classes.icon} />,
       onClick: carSettingsToggle,
       setState: openCarSettings,
+    },
+    {
+      component: renderPublicTransportSettings(),
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.public.transport' }),
+      icon: <ReactSVG src={iconCar} className={classes.icon} />,
+      onClick: publicTransportSettingsToggle,
+      setState: openPublicTransportSettings,
     },
     {
       component: renderScooterSettings(),

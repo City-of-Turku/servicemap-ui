@@ -611,6 +611,7 @@ const translations = {
   'mobilityPlatform.menu.title.boating': 'Veneily',
   'mobilityPlatform.menu.title.scooter': 'Sähköpotkulaudat',
   'mobilityPlatform.menu.title.streetMaintenance': 'Katujen kunnossapito',
+  'mobilityPlatform.menu.title.public.transport': 'Joukkoliikenne',
   'mobilityPlatform.menu.showChargingStations': 'Sähkölatauspisteet',
   'mobilityPlatform.menu.showGasFillingStations': 'Kaasutankkausasemat',
   'mobilityPlatform.menu.showEcoCounter': 'Laskentapisteet',
