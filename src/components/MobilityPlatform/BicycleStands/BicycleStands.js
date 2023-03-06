@@ -8,14 +8,13 @@ import bicycleStandIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bicycl
 import circleIcon from 'servicemap-ui-turku/assets/icons/icons-icon_circle_border.svg';
 import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchMobilityMapDataExtra } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, fitToMapBounds } from '../utils/utils';
 import MarkerComponent from '../MarkerComponent';
 import BicycleStandContent from './components/BicycleStandContent';
 
 const BicycleStands = () => {
   const [bicycleStands, setBicycleStands] = useState([]);
-  const [hullLockableStands, setHullLockableStands] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
   const { openMobilityPlatform, showBicycleStands, showHullLockableStands } = useContext(MobilityPlatformContext);
@@ -36,15 +35,9 @@ const BicycleStands = () => {
 
   useEffect(() => {
     if (openMobilityPlatform) {
-      fetchMobilityMapDataExtra('BicycleStand', 500, 'hull_lockable=false', setBicycleStands);
+      fetchMobilityMapData('BicycleStand', 500, setBicycleStands);
     }
   }, [openMobilityPlatform, setBicycleStands]);
-
-  useEffect(() => {
-    if (openMobilityPlatform) {
-      fetchMobilityMapDataExtra('BicycleStand', 500, 'hull_lockable=true', setHullLockableStands);
-    }
-  }, [openMobilityPlatform, setHullLockableStands]);
 
   const mapEvent = useMapEvents({
     zoomend() {
@@ -52,16 +45,19 @@ const BicycleStands = () => {
     },
   });
 
-  const validBicycleStands = isDataValid(showBicycleStands, bicycleStands);
-  const validHulllockableStands = isDataValid(showHullLockableStands, hullLockableStands);
+  const hullLockableBicycleStands = bicycleStands.filter(item => item.extra.hull_lockable);
+  const otherBicycleStands = bicycleStands.filter(item => !item.extra.hull_lockable);
+
+  const validBicycleStands = isDataValid(showBicycleStands, otherBicycleStands);
+  const validHulllockableStands = isDataValid(showHullLockableStands, hullLockableBicycleStands);
 
   useEffect(() => {
-    fitToMapBounds(validBicycleStands, bicycleStands, map);
-  }, [showBicycleStands, bicycleStands]);
+    fitToMapBounds(validBicycleStands, otherBicycleStands, map);
+  }, [showBicycleStands]);
 
   useEffect(() => {
-    fitToMapBounds(validHulllockableStands, hullLockableStands, map);
-  }, [showHullLockableStands, hullLockableStands]);
+    fitToMapBounds(validHulllockableStands, hullLockableBicycleStands, map);
+  }, [showHullLockableStands]);
 
   const renderBicycleStands = (isValid, data) => (isValid ? (
     data.map(item => (
@@ -77,8 +73,8 @@ const BicycleStands = () => {
 
   return (
     <>
-      {renderBicycleStands(validBicycleStands, bicycleStands)}
-      {renderBicycleStands(validHulllockableStands, hullLockableStands)}
+      {renderBicycleStands(validBicycleStands, otherBicycleStands)}
+      {renderBicycleStands(validHulllockableStands, hullLockableBicycleStands)}
     </>
   );
 };
