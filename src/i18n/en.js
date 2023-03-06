@@ -660,6 +660,7 @@ const translations = {
   'mobilityPlatform.menu.show.parkingMachines': 'Parking machines',
   'mobilityPlatform.menu.show.publicParking': 'Public parking spaces',
   'mobilityPlatform.menu.show.outdoorGymDevices': 'Outdoor gym devices',
+  'mobilityPlatform.menu.show.busStops': 'Bus stops', // TODO verify
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',

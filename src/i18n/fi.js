@@ -666,6 +666,7 @@ const translations = {
   'mobilityPlatform.menu.show.parkingMachines': 'Pysäköintiautomaatit',
   'mobilityPlatform.menu.show.publicParking': 'Yleiset pysäköintialueet',
   'mobilityPlatform.menu.show.outdoorGymDevices': 'Ulkokuntoilulaitteet',
+  'mobilityPlatform.menu.show.busStops': 'Linja-autopysäkit',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',

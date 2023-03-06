@@ -1,5 +1,5 @@
 /* eslint-disable global-require, no-use-before-define */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useMapEvents } from 'react-leaflet';
@@ -9,12 +9,15 @@ import { transitIconSize } from '../../config/mapConfig';
 import config from '../../../../../config';
 import { isEmbed } from '../../../../utils/path';
 import useMobileStatus from '../../../../utils/isMobile';
+import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
 
 const TransitStops = ({ mapObject, classes }) => {
   const isMobile = useMobileStatus();
   const { Marker, Popup } = global.rL;
 
   const [transitStops, setTransitStops] = useState([]);
+
+  const { showBusStops } = useContext(MobilityPlatformContext);
 
   // If external theme (by Turku) is true, then can be used to select which components to render
   const externalTheme = config.themePKG;
@@ -109,26 +112,27 @@ const TransitStops = ({ mapObject, classes }) => {
   };
 
   return (
-    transitStops.map((stop) => {
-      const icon = getTransitIcon(stop.vehicleType);
-      return (
-        <Marker
-          icon={icon}
-          key={stop.name.fi + stop.gtfsId}
-          position={[stop.lat, stop.lon]}
-          keyboard={false}
-        >
-          <div aria-hidden>
-            <Popup closeButton={false} className="popup" autoPan={false}>
-              <TransitStopInfo
-                stop={stop}
-                onCloseClick={() => closePopup()}
-              />
-            </Popup>
-          </div>
-        </Marker>
-      );
-    })
+    showBusStops ? (
+      transitStops.map((stop) => {
+        const icon = getTransitIcon(stop.vehicleType);
+        return (
+          <Marker
+            icon={icon}
+            key={stop.name.fi + stop.gtfsId}
+            position={[stop.lat, stop.lon]}
+            keyboard={false}
+          >
+            <div aria-hidden>
+              <Popup closeButton={false} className="popup" autoPan={false}>
+                <TransitStopInfo
+                  stop={stop}
+                  onCloseClick={() => closePopup()}
+                />
+              </Popup>
+            </div>
+          </Marker>
+        );
+      })) : null
   );
 };
 

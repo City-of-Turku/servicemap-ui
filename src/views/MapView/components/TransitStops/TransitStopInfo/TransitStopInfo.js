@@ -93,7 +93,7 @@ const TransitStopInfo = ({ stop, onCloseClick, classes }) => {
 
 
   return (
-    <div aria-hidden className={classes.tranistInfoContainer}>
+    <div aria-hidden className={classes.transitInfoContainer}>
       <ButtonBase onClick={() => onCloseClick()} className={classes.closeButton}>
         <Typography className={classes.closeText}><FormattedMessage id="general.close" /></Typography>
         <Close className={classes.infoIcon} />

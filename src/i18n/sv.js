@@ -664,6 +664,7 @@ const translations = {
   'mobilityPlatform.menu.show.parkingMachines': 'Parkeringsautomater',
   'mobilityPlatform.menu.show.publicParking': 'Allmänna parkeringsplatser',
   'mobilityPlatform.menu.show.outdoorGymDevices': 'Träningsredskap utomhus',
+  'mobilityPlatform.menu.show.busStops': 'Linja-autopysäkit', // TODO translate
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',

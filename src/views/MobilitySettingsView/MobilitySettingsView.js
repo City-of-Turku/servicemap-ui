@@ -157,6 +157,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowPublicParking,
     showOutdoorGymDevices,
     setShowOutdoorGymDevices,
+    showBusStops,
+    setShowBusStops,
   } = useContext(MobilityPlatformContext);
 
   const locale = useSelector(state => state.user.locale);
@@ -659,6 +661,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowPublicParking(current => !current);
   };
 
+  const busStopsToggle = () => {
+    setShowBusStops(current => !current);
+  };
+
   const cultureRouteListToggle = () => {
     setOpenCultureRouteList(current => !current);
     if (cultureRouteId) {
@@ -970,6 +976,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.showEcoCounter',
       checkedValue: showEcoCounter.walking,
       onChangeValue: ecoCounterStationsToggle,
+    },
+    {
+      type: 'busStops',
+      msgId: 'mobilityPlatform.menu.show.busStops',
+      checkedValue: showBusStops,
+      onChangeValue: busStopsToggle,
     },
     {
       type: 'outdoorGymDevices',
