@@ -15,6 +15,7 @@ import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
 import iconScooter from 'servicemap-ui-turku/assets/icons/icons-icon_scooter.svg';
 import iconSnowplow from 'servicemap-ui-turku/assets/icons/icons-icon_street_maintenance.svg';
 import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
+import iconPublicTransport from 'servicemap-ui-turku/assets/icons/icons-icon_public_transport.svg';
 import InfoTextBox from '../../components/MobilityPlatform/InfoTextBox';
 import {
   fetchBicycleRouteNames,
@@ -374,6 +375,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showStreetMaintenance, setOpenStreetMaintenanceSettings);
     checkVisibilityValues(showStreetMaintenance, setOpenStreetMaintenanceSelectionList);
   }, [showStreetMaintenance]);
+
+  useEffect(() => {
+    checkVisibilityValues(showBusStops, setOpenPublicTransportSettings);
+  }, [showBusStops]);
 
   const nameKeys = {
     fi: 'name',
@@ -1699,7 +1704,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     {
       component: renderPublicTransportSettings(),
       title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.public.transport' }),
-      icon: <ReactSVG src={iconCar} className={classes.icon} />,
+      icon: <ReactSVG src={iconPublicTransport} className={classes.icon} />,
       onClick: publicTransportSettingsToggle,
       setState: openPublicTransportSettings,
     },

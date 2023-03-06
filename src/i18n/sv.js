@@ -595,7 +595,6 @@ const translations = {
 
   'alert.close': 'Stäng meddelande',
 
-  // TODO update translations
   // Mobility Platform of Turku
   'mobilityPlatform.info.title': 'Mobilitetsplatform',
   'mobilityPlatform.info.statement': 'Mobilitetsdataplattformen från servicekartan har utvecklats som en del av SCALE-UP-projekt, finansierat av Europeiska unionens Horizon 2020-program (bidragsavtal nr 955332).',
