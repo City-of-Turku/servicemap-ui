@@ -5,6 +5,7 @@ import Accessible from '@material-ui/icons/Accessible';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import config from '../../../../../../config';
 import { getIcon } from '../../../../../components/SMIcon';
 import useLocaleText from '../../../../../utils/useLocaleText';
 import { fetchStopData } from '../../../utils/transitFetch';
@@ -13,10 +14,15 @@ const TransitStopInfo = ({ stop, onCloseClick, classes }) => {
   const getLocaleText = useLocaleText();
   const [stopData, setStopData] = useState({ departureTimes: null, wheelchair: null });
 
+  // If external theme (by Turku) is true, then can be used to select which color to render
+  const externalTheme = config.themePKG;
+  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
   const getAccessibilityIcon = (value) => {
     if (value === 'POSSIBLE') {
       return <Accessible className={classes.infoIcon} />;
-    } if (value === 'NOT_POSSIBLE') {
+    }
+    if (value === 'NOT_POSSIBLE') {
       return getIcon('noWheelchair', { className: classes.infoIcon });
     }
     return null;
@@ -59,7 +65,7 @@ const TransitStopInfo = ({ stop, onCloseClick, classes }) => {
         icon = <span className={`${classes.infoIcon} ${classes.ferryIconColor} icon-icon-hsl-ferry`} />;
         break;
       default:
-        icon = <span className={`${classes.infoIcon} ${classes.busIconColor} icon-icon-hsl-bus`} />;
+        icon = <span className={`${classes.infoIcon} ${isExternalTheme ? classes.busIconColorDark : classes.busIconColor} icon-icon-hsl-bus`} />;
         break;
     }
 

@@ -19,7 +19,7 @@ const TransitStops = ({ mapObject, classes }) => {
 
   const { showBusStops } = useContext(MobilityPlatformContext);
 
-  // If external theme (by Turku) is true, then can be used to select which components to render
+  // If external theme (by Turku) is true, then can be used to select which color to render
   const externalTheme = config.themePKG;
   const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
 
