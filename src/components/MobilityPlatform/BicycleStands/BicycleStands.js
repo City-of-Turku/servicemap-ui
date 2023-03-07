@@ -45,8 +45,21 @@ const BicycleStands = () => {
     },
   });
 
-  const hullLockableBicycleStands = bicycleStands.filter(item => item.extra.hull_lockable);
-  const otherBicycleStands = bicycleStands.filter(item => !item.extra.hull_lockable);
+  /** Return only those bicycle stands that are frame/hull lockable */
+  const hullLockableBicycleStands = bicycleStands.reduce((acc, curr) => {
+    if (curr.extra.hull_lockable) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
+  /** Return remaining bicycle stands, that are not frame/hull lockable */
+  const otherBicycleStands = bicycleStands.reduce((acc, curr) => {
+    if (!curr.extra.hull_lockable) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
 
   const validBicycleStands = isDataValid(showBicycleStands, otherBicycleStands);
   const validHulllockableStands = isDataValid(showHullLockableStands, hullLockableBicycleStands);
