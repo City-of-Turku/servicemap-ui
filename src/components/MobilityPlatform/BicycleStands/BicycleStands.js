@@ -45,18 +45,14 @@ const BicycleStands = () => {
     },
   });
 
-  /** Return only those bicycle stands that are frame/hull lockable */
+  const otherBicycleStands = [];
+
+  /** Separate bicycle stands that are frame/hull lockable from those that are not */
   const hullLockableBicycleStands = bicycleStands.reduce((acc, curr) => {
     if (curr.extra.hull_lockable) {
       acc.push(curr);
-    }
-    return acc;
-  }, []);
-
-  /** Return remaining bicycle stands, that are not frame/hull lockable */
-  const otherBicycleStands = bicycleStands.reduce((acc, curr) => {
-    if (!curr.extra.hull_lockable) {
-      acc.push(curr);
+    } else {
+      otherBicycleStands.push(curr);
     }
     return acc;
   }, []);
