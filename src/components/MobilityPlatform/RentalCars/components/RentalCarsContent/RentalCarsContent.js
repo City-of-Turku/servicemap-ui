@@ -1,8 +1,11 @@
 import { Link, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 const RentalCarsContent = ({ classes, intl, car }) => {
+  const locale = useSelector(state => state.user.locale);
+
   const titleText = (messageId, props = {}) => (
     <div className={classes.title}>
       <Typography variant="subtitle1" {...props}>
@@ -38,12 +41,19 @@ const RentalCarsContent = ({ classes, intl, car }) => {
 
   const serviceProvider = '24Rent';
 
+  const getLink = (address) => {
+    if (locale === 'en') {
+      return `https://www.24rent.fi/en/#/?city=${address}`;
+    }
+    return `https://www.24rent.fi/#/?city=${address}`;
+  };
+
   return (
     <div className={classes.container}>
       {titleText('mobilityPlatform.content.rentalCars.title')}
       {contentText('mobilityPlatform.content.general.provider', serviceProvider)}
       <div className={classes.linkContainer}>
-        <Link target="_blank" href={`https://www.24rent.fi/#/?city=${car.homeLocationData.fullAddress}`}>
+        <Link target="_blank" href={getLink(car.homeLocationData.fullAddress)}>
           <Typography className={classes.link} variant="body2">
             {intl.formatMessage({
               id: 'mobilityPlatform.content.rentalCars.link',
