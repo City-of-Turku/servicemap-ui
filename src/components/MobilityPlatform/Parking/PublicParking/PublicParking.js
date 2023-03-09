@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
-import { MobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
   isDataValid, blueOptionsBase, whiteOptionsBase, fitPolygonsToBounds,
@@ -18,7 +18,7 @@ import PublicParkingContent from './components/PublicParkingContent';
 const PublicParking = () => {
   const [publicParkingData, setPublicParkingData] = useState([]);
 
-  const { openMobilityPlatform, showPublicParking } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showPublicParking } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 

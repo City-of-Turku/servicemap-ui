@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import parkingMachineIcon from 'servicemap-ui-turku/assets/icons/icons-icon_parking_machine.svg';
 import parkingMachineIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_parking_machine-bw.svg';
-import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
@@ -14,7 +14,7 @@ import ParkingMachinesContent from './components/ParkingMachinesContent';
 const ParkingMachines = () => {
   const [parkingMachinesData, setParkingMachinesData] = useState([]);
 
-  const { openMobilityPlatform, showParkingMachines } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showParkingMachines } = useMobilityPlatformContext();
 
   const map = useMap();
 

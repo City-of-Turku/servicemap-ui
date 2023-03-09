@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import publicToiletIcon from 'servicemap-ui-turku/assets/icons/icons-icon_toilet.svg';
 import publicToiletIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_toilet-bw.svg';
-import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
@@ -14,7 +14,7 @@ import PublicToiletsContent from './components/PublicToiletsContent';
 const PublicToilets = () => {
   const [publicToiletsData, setPublicToiletsData] = useState([]);
 
-  const { openMobilityPlatform, showPublicToilets } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showPublicToilets } = useMobilityPlatformContext();
 
   const { icon } = global.L;
 

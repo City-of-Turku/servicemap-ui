@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
-import { MobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
@@ -18,7 +18,7 @@ import MarinasContent from './components/MarinasContent';
 const Marinas = () => {
   const [marinasData, setMarinasData] = useState([]);
 
-  const { openMobilityPlatform, showMarinas } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showMarinas } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 

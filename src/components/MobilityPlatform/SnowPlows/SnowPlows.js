@@ -1,6 +1,6 @@
 import moment from 'moment';
-import React, { useContext, useEffect, useState } from 'react';
-import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
+import React, { useEffect, useState } from 'react';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { fetchStreetMaintenanceData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 
 const SnowPlows = () => {
@@ -31,7 +31,7 @@ const SnowPlows = () => {
 
   const {
     streetMaintenancePeriod, showStreetMaintenance, isActiveStreetMaintenance, setIsActiveStreetMaintenance,
-  } = useContext(MobilityPlatformContext);
+  } = useMobilityPlatformContext();
 
   const { Polyline } = global.rL;
 

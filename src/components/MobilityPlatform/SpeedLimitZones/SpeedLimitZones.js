@@ -1,13 +1,13 @@
 import { useSelector } from 'react-redux';
-import React, { useContext } from 'react';
-import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
+import React from 'react';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { isDataValid, whiteOptionsBase } from '../utils/utils';
 import PolygonComponent from '../PolygonComponent';
 import SpeedLimitZonesContent from './components/SpeedLimitZonesContent';
 
 const SpeedLimitZones = () => {
-  const { showSpeedLimitZones, speedLimitSelections, speedLimitZones } = useContext(MobilityPlatformContext);
+  const { showSpeedLimitZones, speedLimitSelections, speedLimitZones } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 

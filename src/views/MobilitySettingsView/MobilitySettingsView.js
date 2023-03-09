@@ -3,7 +3,7 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React, {
-  useContext, useEffect, useMemo, useRef, useState,
+  useEffect, useMemo, useRef, useState,
 } from 'react';
 import { Helmet } from 'react-helmet';
 import { ReactSVG } from 'react-svg';
@@ -24,7 +24,7 @@ import {
 import { isDataValid } from '../../components/MobilityPlatform/utils/utils';
 import useLocaleText from '../../utils/useLocaleText';
 import TitleBar from '../../components/TitleBar';
-import { MobilityPlatformContext } from '../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../context/MobilityPlatformContext';
 import CityBikeInfo from './components/CityBikeInfo';
 import Description from './components/Description';
 import EmptyRouteList from './components/EmptyRouteList';
@@ -157,7 +157,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowPublicParking,
     showOutdoorGymDevices,
     setShowOutdoorGymDevices,
-  } = useContext(MobilityPlatformContext);
+  } = useMobilityPlatformContext();
 
   const locale = useSelector(state => state.user.locale);
   const location = useLocation();

@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import { fetchParkingAreaGeometries, fetchParkingAreaStats } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isObjValid } from '../utils/utils';
 import config from '../../../../config';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import ParkingSpacesContent from './components/ParkingSpacesContent';
 
 const ParkingSpaces = () => {
@@ -13,7 +14,7 @@ const ParkingSpaces = () => {
   const [parkingStatistics, setParkingStatistics] = useState([]);
   const [fetchError, setFetchError] = useState(false);
 
-  const { openMobilityPlatform, showParkingSpaces } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showParkingSpaces } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 

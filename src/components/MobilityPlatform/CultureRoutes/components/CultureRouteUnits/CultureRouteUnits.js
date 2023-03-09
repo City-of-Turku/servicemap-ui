@@ -1,19 +1,19 @@
 import { ButtonBase, Typography } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import routeUnitIcon from 'servicemap-ui-turku/assets/icons/icons-icon_culture_route.svg';
 import routeUnitIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_culture_route-bw.svg';
-import { MobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { createIcon } from '../../../utils/utils';
 import useLocaleText from '../../../../../utils/useLocaleText';
 
 const CultureRouteUnits = ({ classes, cultureRouteUnits }) => {
-  const { cultureRouteId } = useContext(MobilityPlatformContext);
+  const { cultureRouteId } = useMobilityPlatformContext();
 
   const intl = useIntl();
 

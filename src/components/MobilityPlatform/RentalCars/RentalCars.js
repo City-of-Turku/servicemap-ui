@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { PropTypes } from 'prop-types';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import rentalCarIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_rental_car-bw.svg';
 import providerIcon from 'servicemap-ui-turku/assets/icons/icons-icon_24rent.svg';
 import rentalCarIcon from 'servicemap-ui-turku/assets/icons/icons-icon_rental_car.svg';
-import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid } from '../utils/utils';
@@ -15,7 +16,7 @@ const RentalCars = ({ classes }) => {
   const [rentalCarsData, setRentalCarsData] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, showRentalCars } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showRentalCars } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 

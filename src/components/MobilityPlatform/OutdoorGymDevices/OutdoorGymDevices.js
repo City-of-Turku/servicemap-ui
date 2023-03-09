@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import sportIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_outdoor_gym-bw.svg';
 import sportIcon from 'servicemap-ui-turku/assets/icons/icons-icon_outdoor_gym.svg';
-import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, fitToMapBounds, createIcon } from '../utils/utils';
@@ -14,7 +14,7 @@ import OutdoorGymDevicesContent from './components/OutdoorGymDevicesContent';
 const OutdoorGymDevices = () => {
   const [outdoorGymDevices, setOutdoorGymDevices] = useState([]);
 
-  const { openMobilityPlatform, showOutdoorGymDevices } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showOutdoorGymDevices } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 

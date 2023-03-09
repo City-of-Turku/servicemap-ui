@@ -1,7 +1,20 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { PropTypes } from 'prop-types';
 
 const MobilityPlatformContext = createContext();
+
+/** context consumer hook */
+const useMobilityPlatformContext = () => {
+  // get the context
+  const context = useContext(MobilityPlatformContext);
+
+  // if `undefined`, throw an error
+  if (context === undefined) {
+    throw new Error('useMobilityPlatformContext was used outside of its Provider');
+  }
+
+  return context;
+};
 
 const ecoCounterStationsInitial = {
   walking: false,
@@ -162,4 +175,4 @@ MobilityPlatformContextProvider.defaultProps = {
   children: null,
 };
 
-export { MobilityPlatformContext, MobilityPlatformContextProvider };
+export { MobilityPlatformContext, MobilityPlatformContextProvider, useMobilityPlatformContext };

@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
-import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchCultureRoutesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
@@ -14,7 +14,7 @@ const CultureRoutes = () => {
   const [cultureRoutesGeometry, setCultureRoutesGeometry] = useState([]);
   const [cultureRouteUnits, setCultureRouteUnits] = useState([]);
 
-  const { openMobilityPlatform, showCultureRoutes, cultureRouteId } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showCultureRoutes, cultureRouteId } = useMobilityPlatformContext();
 
   const { Polyline } = global.rL;
 

@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import { isObjValid, blackOptionsBase, whiteOptionsBase } from '../utils/utils';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import ParkingChargeZoneContent from './components/ParkingChargeZoneContent';
 import PolygonComponent from '../PolygonComponent';
 
 const ParkingChargeZones = () => {
-  const { showParkingChargeZones, parkingChargeZones, parkingChargeZoneId } = useContext(MobilityPlatformContext);
+  const { showParkingChargeZones, parkingChargeZones, parkingChargeZoneId } = useMobilityPlatformContext();
 
   const parkingChargeZone = parkingChargeZones.find(item => item.id === parkingChargeZoneId);
 

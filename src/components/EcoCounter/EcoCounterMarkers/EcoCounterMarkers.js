@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
-import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { isDataValid } from '../../MobilityPlatform/utils/utils';
 import { fetchTrafficCounterStations } from '../EcoCounterRequests/ecoCounterRequests';
 import CounterMarkers from '../CounterMarkers';
@@ -10,7 +10,7 @@ import EcoCounterContent from '../EcoCounterContent';
 const EcoCounterMarkers = () => {
   const [ecoCounterStations, setEcoCounterStations] = useState([]);
 
-  const { openMobilityPlatform, showEcoCounter } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showEcoCounter } = useMobilityPlatformContext();
 
   useEffect(() => {
     if (openMobilityPlatform) {

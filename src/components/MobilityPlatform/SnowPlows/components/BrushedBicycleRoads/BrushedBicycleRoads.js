@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
-import { MobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, fitPolygonsToBounds } from '../../../utils/utils';
@@ -12,7 +13,7 @@ const BrushedBicycleRoads = () => {
   const [brushSandedRoutes, setBrushSandedRoutes] = useState([]);
   const [brushSaltedRoutes, setBrushSaltedRoutes] = useState([]);
 
-  const { openMobilityPlatform, showBrushSandedRoute, showBrushSaltedRoute } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showBrushSandedRoute, showBrushSaltedRoute } = useMobilityPlatformContext();
 
   const { Polyline } = global.rL;
 

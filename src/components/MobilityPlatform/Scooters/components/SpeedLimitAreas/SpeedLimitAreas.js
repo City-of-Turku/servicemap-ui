@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
-import { MobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
@@ -18,7 +18,7 @@ import TextContent from '../../../TextContent';
 const SpeedLimitAreas = () => {
   const [speedLimitAreas, setSpeedLimitAreas] = useState([]);
 
-  const { openMobilityPlatform, showScooterSpeedLimitAreas } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showScooterSpeedLimitAreas } = useMobilityPlatformContext();
 
   useEffect(() => {
     if (openMobilityPlatform) {

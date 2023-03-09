@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
-import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { isDataValid } from '../../MobilityPlatform/utils/utils';
 import { fetchTrafficCounterStations } from '../EcoCounterRequests/ecoCounterRequests';
 import CounterMarkers from '../CounterMarkers';
@@ -10,7 +10,7 @@ import LamCountersContent from './components/LamCountersContent';
 const LamCounters = () => {
   const [lamCounterStations, setLamCounterStations] = useState([]);
 
-  const { openMobilityPlatform, showLamCounter } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showLamCounter } = useMobilityPlatformContext();
 
   useEffect(() => {
     if (openMobilityPlatform) {
