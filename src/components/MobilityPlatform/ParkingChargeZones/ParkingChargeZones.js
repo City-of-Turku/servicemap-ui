@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import { isObjValid, blackOptionsBase, whiteOptionsBase } from '../utils/utils';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import ParkingChargeZoneContent from './components/ParkingChargeZoneContent';
 import PolygonComponent from '../PolygonComponent';
 

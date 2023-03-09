@@ -4,7 +4,7 @@ import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import sportIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_outdoor_gym-bw.svg';
 import sportIcon from 'servicemap-ui-turku/assets/icons/icons-icon_outdoor_gym.svg';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, fitToMapBounds, createIcon } from '../utils/utils';

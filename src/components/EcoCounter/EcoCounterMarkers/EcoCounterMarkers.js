@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { isDataValid } from '../../MobilityPlatform/utils/utils';
 import { fetchTrafficCounterStations } from '../EcoCounterRequests/ecoCounterRequests';
 import CounterMarkers from '../CounterMarkers';

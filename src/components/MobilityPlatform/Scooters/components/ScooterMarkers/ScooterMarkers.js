@@ -7,7 +7,7 @@ import rydeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ryde.svg';
 import rydeIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ryde-bw.svg';
 import scooterIcon from 'servicemap-ui-turku/assets/icons/icons-icon_scooters_marker.svg';
 import scooterIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_scooters_marker-bw.svg';
-import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
+import { MobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchIotData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import ScooterInfo from './components/ScooterInfo';

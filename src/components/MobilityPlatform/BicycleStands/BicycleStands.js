@@ -6,7 +6,7 @@ import bicycleStandIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-
 import circleIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_circle_border-bw.svg';
 import bicycleStandIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle-stand.svg';
 import circleIcon from 'servicemap-ui-turku/assets/icons/icons-icon_circle_border.svg';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, fitToMapBounds } from '../utils/utils';

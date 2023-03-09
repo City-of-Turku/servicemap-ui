@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import gasFillingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_gas_station.svg';
 import gasFillingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_gas_station-bw.svg';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';

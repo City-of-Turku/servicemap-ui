@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import Trails from '../TrailsComponent';
 
 /* Show selected fitness trail on the map */

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import rentalCarIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_rental_car-bw.svg';
 import providerIcon from 'servicemap-ui-turku/assets/icons/icons-icon_24rent.svg';
 import rentalCarIcon from 'servicemap-ui-turku/assets/icons/icons-icon_rental_car.svg';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid } from '../utils/utils';

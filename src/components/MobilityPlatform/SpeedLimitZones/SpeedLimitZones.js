@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import React, { useContext } from 'react';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { isDataValid, whiteOptionsBase } from '../utils/utils';
 import PolygonComponent from '../PolygonComponent';

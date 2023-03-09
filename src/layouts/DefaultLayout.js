@@ -12,7 +12,6 @@ import FocusableSRLinks from '../components/FocusableSRLinks';
 import Settings from '../components/Settings';
 import TopBar from '../components/TopBar';
 import { ErrorProvider } from '../context/ErrorContext';
-import { MobilityPlatformProvider } from '../context/MobilityPlatformContext';
 import { PrintProvider } from '../context/PrintContext';
 import { viewTitleID } from '../utils/accessibility';
 import useMobileStatus from '../utils/isMobile';
@@ -87,11 +86,6 @@ const createContentStyles = (
   return styles;
 };
 
-const ecoCounterStationsInitial = {
-  walking: false,
-  cycling: false,
-};
-
 // Shitty hack to get alert showing when not using print view
 // (showAlert did not use updated showPrintView value)
 const valueStore = {};
@@ -100,51 +94,6 @@ const DefaultLayout = (props) => {
   const [showPrintView, togglePrintView] = useState(false);
   const [sidebarHidden, toggleSidebarHidden] = useState(false);
   const [error, setError] = useState(false);
-  const [openMobilityPlatform, setOpenMobilityPlatform] = useState(false);
-  const [showEcoCounter, setShowEcoCounter] = useState(ecoCounterStationsInitial);
-  const [showBicycleStands, setShowBicycleStands] = useState(false);
-  const [showHullLockableStands, setShowHullLockableStands] = useState(false);
-  const [showCultureRoutes, setShowCultureRoutes] = useState(false);
-  const [cultureRouteId, setCultureRouteId] = useState();
-  const [showBicycleRoutes, setShowBicycleRoutes] = useState(false);
-  const [bicycleRouteName, setBicycleRouteName] = useState(null);
-  const [showRentalCars, setShowRentalCars] = useState(false);
-  const [showGasFillingStations, setShowGasFillingStations] = useState(false);
-  const [showChargingStations, setShowChargingStations] = useState(false);
-  const [showParkingSpaces, setShowParkingSpaces] = useState(false);
-  const [showParkingChargeZones, setShowParkingChargeZones] = useState(false);
-  const [parkingChargeZones, setParkingChargeZones] = useState([]);
-  const [parkingChargeZoneId, setParkingChargeZoneId] = useState(null);
-  const [showBikeServiceStations, setShowBikeServiceStations] = useState(false);
-  const [showCityBikes, setShowCityBikes] = useState(false);
-  const [showMarinas, setShowMarinas] = useState(false);
-  const [showBoatParking, setShowBoatParking] = useState(false);
-  const [showGuestHarbour, setShowGuestHarbour] = useState(false);
-  const [showSpeedLimitZones, setShowSpeedLimitZones] = useState(false);
-  const [speedLimitSelections, setSpeedLimitSelections] = useState([]);
-  const [speedLimitZones, setSpeedLimitZones] = useState([]);
-  const [showPublicToilets, setShowPublicToilets] = useState(false);
-  const [showScooterNoParking, setShowScooterNoParking] = useState(false);
-  const [showScooterParkingAreas, setShowScooterParkingAreas] = useState(false);
-  const [showScooterSpeedLimitAreas, setShowScooterSpeedLimitAreas] = useState(false);
-  const [showScootersRyde, setShowScootersRyde] = useState(false);
-  const [showDisabledParking, setShowDisabledParking] = useState(false);
-  const [showLoadingPlaces, setShowLoadingPlaces] = useState(false);
-  const [showStreetMaintenance, setShowStreetMaintenance] = useState(false);
-  const [streetMaintenancePeriod, setStreetMaintenancePeriod] = useState(null);
-  const [isActiveStreetMaintenance, setIsActiveStreetMaintenance] = useState(true);
-  const [showBrushSandedRoute, setShowBrushSandedRoute] = useState(false);
-  const [showBrushSaltedRoute, setShowBrushSaltedRoute] = useState(false);
-  const [showMarkedTrails, setShowMarkedTrails] = useState(false);
-  const [markedTrailsObj, setMarkedTrailsObj] = useState({});
-  const [showNatureTrails, setShowNatureTrails] = useState(false);
-  const [natureTrailsObj, setNatureTrailsObj] = useState({});
-  const [showFitnessTrails, setShowFitnessTrails] = useState(false);
-  const [fitnessTrailsObj, setFitnessTrailsObj] = useState({});
-  const [showLamCounter, setShowLamCounter] = useState(false);
-  const [showParkingMachines, setShowParkingMachines] = useState(false);
-  const [showPublicParking, setShowPublicParking] = useState(false);
-  const [showOutdoorGymDevices, setShowOutdoorGymDevices] = useState(false);
 
   const {
     currentPage, fetchErrors, fetchNews, intl, location, settingsToggled,
@@ -222,164 +171,19 @@ const DefaultLayout = (props) => {
                 <AlertBox />
                 {settingsToggled && <Settings key={settingsToggled} isMobile={!!isMobile} />}
                 <div style={styles.sidebarContent} aria-hidden={!!settingsToggled}>
-                  <MobilityPlatformProvider
-                    value={{
-                      openMobilityPlatform,
-                      setOpenMobilityPlatform,
-                      showEcoCounter,
-                      setShowEcoCounter,
-                      showBicycleStands,
-                      setShowBicycleStands,
-                      showHullLockableStands,
-                      setShowHullLockableStands,
-                      showCultureRoutes,
-                      setShowCultureRoutes,
-                      cultureRouteId,
-                      setCultureRouteId,
-                      showBicycleRoutes,
-                      setShowBicycleRoutes,
-                      bicycleRouteName,
-                      setBicycleRouteName,
-                      showRentalCars,
-                      setShowRentalCars,
-                      showGasFillingStations,
-                      setShowGasFillingStations,
-                      showChargingStations,
-                      setShowChargingStations,
-                      showParkingSpaces,
-                      setShowParkingSpaces,
-                      showParkingChargeZones,
-                      setShowParkingChargeZones,
-                      parkingChargeZones,
-                      setParkingChargeZones,
-                      parkingChargeZoneId,
-                      setParkingChargeZoneId,
-                      showBikeServiceStations,
-                      setShowBikeServiceStations,
-                      showCityBikes,
-                      setShowCityBikes,
-                      showMarinas,
-                      setShowMarinas,
-                      showBoatParking,
-                      setShowBoatParking,
-                      showGuestHarbour,
-                      setShowGuestHarbour,
-                      showSpeedLimitZones,
-                      setShowSpeedLimitZones,
-                      speedLimitSelections,
-                      setSpeedLimitSelections,
-                      speedLimitZones,
-                      setSpeedLimitZones,
-                      showPublicToilets,
-                      setShowPublicToilets,
-                      showScooterNoParking,
-                      setShowScooterNoParking,
-                      showScooterParkingAreas,
-                      setShowScooterParkingAreas,
-                      showScooterSpeedLimitAreas,
-                      setShowScooterSpeedLimitAreas,
-                      showScootersRyde,
-                      setShowScootersRyde,
-                      showDisabledParking,
-                      setShowDisabledParking,
-                      showLoadingPlaces,
-                      setShowLoadingPlaces,
-                      showStreetMaintenance,
-                      setShowStreetMaintenance,
-                      streetMaintenancePeriod,
-                      setStreetMaintenancePeriod,
-                      isActiveStreetMaintenance,
-                      showBrushSandedRoute,
-                      setShowBrushSandedRoute,
-                      showBrushSaltedRoute,
-                      setShowBrushSaltedRoute,
-                      showMarkedTrails,
-                      setShowMarkedTrails,
-                      markedTrailsObj,
-                      setMarkedTrailsObj,
-                      showNatureTrails,
-                      setShowNatureTrails,
-                      natureTrailsObj,
-                      setNatureTrailsObj,
-                      showFitnessTrails,
-                      setShowFitnessTrails,
-                      fitnessTrailsObj,
-                      setFitnessTrailsObj,
-                      showLamCounter,
-                      setShowLamCounter,
-                      showParkingMachines,
-                      setShowParkingMachines,
-                      showPublicParking,
-                      setShowPublicParking,
-                      showOutdoorGymDevices,
-                      setShowOutdoorGymDevices,
-                    }}
-                  >
-                    <ViewRouter />
-                  </MobilityPlatformProvider>
+                  <ViewRouter />
                 </div>
               </main>
               <Typography variant="srOnly">
                 {intl.formatMessage({ id: 'map.ariaLabel' })}
               </Typography>
               <div aria-hidden tabIndex={-1} style={styles.map}>
-                <MobilityPlatformProvider
-                  value={{
-                    openMobilityPlatform,
-                    showEcoCounter,
-                    showBicycleStands,
-                    showHullLockableStands,
-                    showCultureRoutes,
-                    cultureRouteId,
-                    showBicycleRoutes,
-                    bicycleRouteName,
-                    showRentalCars,
-                    showGasFillingStations,
-                    showChargingStations,
-                    showParkingSpaces,
-                    showParkingChargeZones,
-                    parkingChargeZones,
-                    setParkingChargeZones,
-                    parkingChargeZoneId,
-                    showBikeServiceStations,
-                    showCityBikes,
-                    showMarinas,
-                    showBoatParking,
-                    showGuestHarbour,
-                    showSpeedLimitZones,
-                    speedLimitSelections,
-                    speedLimitZones,
-                    showPublicToilets,
-                    showScooterNoParking,
-                    showScooterParkingAreas,
-                    showScooterSpeedLimitAreas,
-                    showScootersRyde,
-                    showDisabledParking,
-                    showLoadingPlaces,
-                    showStreetMaintenance,
-                    streetMaintenancePeriod,
-                    setIsActiveStreetMaintenance,
-                    showBrushSandedRoute,
-                    showBrushSaltedRoute,
-                    showMarkedTrails,
-                    markedTrailsObj,
-                    showNatureTrails,
-                    natureTrailsObj,
-                    showFitnessTrails,
-                    fitnessTrailsObj,
-                    showLamCounter,
-                    showParkingMachines,
-                    showPublicParking,
-                    showOutdoorGymDevices,
-                  }}
-                >
-                  <MapView
-                    sidebarHidden={sidebarHidden}
-                    toggleSidebar={toggleSidebar}
-                    isMobile={!!isMobile}
-                    showMobilityPlatform
-                  />
-                </MobilityPlatformProvider>
+                <MapView
+                  sidebarHidden={sidebarHidden}
+                  toggleSidebar={toggleSidebar}
+                  isMobile={!!isMobile}
+                  showMobilityPlatform
+                />
               </div>
             </div>
 

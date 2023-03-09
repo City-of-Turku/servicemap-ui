@@ -3,7 +3,7 @@ import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import disabledParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_disabled_parking.svg';
 import disabledParkingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_disabled_parking-bw.svg';
-import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
+import { MobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitPolygonsToBounds } from '../../utils/utils';

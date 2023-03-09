@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
-import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
+import { MobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, fitPolygonsToBounds } from '../../../utils/utils';

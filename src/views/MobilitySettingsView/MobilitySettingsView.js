@@ -24,7 +24,7 @@ import {
 import { isDataValid } from '../../components/MobilityPlatform/utils/utils';
 import useLocaleText from '../../utils/useLocaleText';
 import TitleBar from '../../components/TitleBar';
-import MobilityPlatformContext from '../../context/MobilityPlatformContext';
+import { MobilityPlatformContext } from '../../context/MobilityPlatformContext';
 import CityBikeInfo from './components/CityBikeInfo';
 import Description from './components/Description';
 import EmptyRouteList from './components/EmptyRouteList';

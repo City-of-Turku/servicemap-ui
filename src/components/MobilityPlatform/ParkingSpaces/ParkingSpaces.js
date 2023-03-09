@@ -5,7 +5,7 @@ import { fetchParkingAreaGeometries, fetchParkingAreaStats } from '../mobilityPl
 import { isObjValid } from '../utils/utils';
 import config from '../../../../config';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import ParkingSpacesContent from './components/ParkingSpacesContent';
 
 const ParkingSpaces = () => {

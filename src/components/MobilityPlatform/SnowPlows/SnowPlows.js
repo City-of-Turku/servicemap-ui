@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { fetchStreetMaintenanceData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 
 const SnowPlows = () => {

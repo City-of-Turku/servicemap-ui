@@ -4,7 +4,7 @@ import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import publicToiletIcon from 'servicemap-ui-turku/assets/icons/icons-icon_toilet.svg';
 import publicToiletIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_toilet-bw.svg';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { MobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
