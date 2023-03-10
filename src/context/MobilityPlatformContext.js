@@ -22,14 +22,26 @@ const ecoCounterStationsInitial = {
 };
 
 const MobilityPlatformContextProvider = ({ children }) => {
+  // Check if mobility platform is open or not
   const [openMobilityPlatform, setOpenMobilityPlatform] = useState(false);
+
+  // measurement points
   const [showEcoCounter, setShowEcoCounter] = useState(ecoCounterStationsInitial);
+  const [showLamCounter, setShowLamCounter] = useState(false);
+
+  // cycling
   const [showBicycleStands, setShowBicycleStands] = useState(false);
   const [showHullLockableStands, setShowHullLockableStands] = useState(false);
-  const [showCultureRoutes, setShowCultureRoutes] = useState(false);
-  const [cultureRouteId, setCultureRouteId] = useState();
   const [showBicycleRoutes, setShowBicycleRoutes] = useState(false);
   const [bicycleRouteName, setBicycleRouteName] = useState(null);
+  const [showBikeServiceStations, setShowBikeServiceStations] = useState(false);
+  const [showCityBikes, setShowCityBikes] = useState(false);
+
+  // culture routes
+  const [showCultureRoutes, setShowCultureRoutes] = useState(false);
+  const [cultureRouteId, setCultureRouteId] = useState();
+
+  // cars and parking
   const [showRentalCars, setShowRentalCars] = useState(false);
   const [showGasFillingStations, setShowGasFillingStations] = useState(false);
   const [showChargingStations, setShowChargingStations] = useState(false);
@@ -37,129 +49,163 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showParkingChargeZones, setShowParkingChargeZones] = useState(false);
   const [parkingChargeZones, setParkingChargeZones] = useState([]);
   const [parkingChargeZoneId, setParkingChargeZoneId] = useState(null);
-  const [showBikeServiceStations, setShowBikeServiceStations] = useState(false);
-  const [showCityBikes, setShowCityBikes] = useState(false);
+  const [showDisabledParking, setShowDisabledParking] = useState(false);
+  const [showParkingMachines, setShowParkingMachines] = useState(false);
+  const [showPublicParking, setShowPublicParking] = useState(false);
+
+  // boating
   const [showMarinas, setShowMarinas] = useState(false);
   const [showBoatParking, setShowBoatParking] = useState(false);
   const [showGuestHarbour, setShowGuestHarbour] = useState(false);
+
+  // speed limit zones
   const [showSpeedLimitZones, setShowSpeedLimitZones] = useState(false);
   const [speedLimitSelections, setSpeedLimitSelections] = useState([]);
   const [speedLimitZones, setSpeedLimitZones] = useState([]);
-  const [showPublicToilets, setShowPublicToilets] = useState(false);
+
+  // scooters
   const [showScooterNoParking, setShowScooterNoParking] = useState(false);
   const [showScooterParkingAreas, setShowScooterParkingAreas] = useState(false);
   const [showScooterSpeedLimitAreas, setShowScooterSpeedLimitAreas] = useState(false);
   const [showScootersRyde, setShowScootersRyde] = useState(false);
-  const [showDisabledParking, setShowDisabledParking] = useState(false);
-  const [showLoadingPlaces, setShowLoadingPlaces] = useState(false);
+
+  // street maintenance
   const [showStreetMaintenance, setShowStreetMaintenance] = useState(false);
   const [streetMaintenancePeriod, setStreetMaintenancePeriod] = useState(null);
   const [isActiveStreetMaintenance, setIsActiveStreetMaintenance] = useState(true);
   const [showBrushSandedRoute, setShowBrushSandedRoute] = useState(false);
   const [showBrushSaltedRoute, setShowBrushSaltedRoute] = useState(false);
+
+  // trails (nature & fitness)
   const [showMarkedTrails, setShowMarkedTrails] = useState(false);
   const [markedTrailsObj, setMarkedTrailsObj] = useState({});
   const [showNatureTrails, setShowNatureTrails] = useState(false);
   const [natureTrailsObj, setNatureTrailsObj] = useState({});
   const [showFitnessTrails, setShowFitnessTrails] = useState(false);
   const [fitnessTrailsObj, setFitnessTrailsObj] = useState({});
-  const [showLamCounter, setShowLamCounter] = useState(false);
-  const [showParkingMachines, setShowParkingMachines] = useState(false);
-  const [showPublicParking, setShowPublicParking] = useState(false);
-  const [showOutdoorGymDevices, setShowOutdoorGymDevices] = useState(false);
 
-  const contextValues = {
+  // other
+  const [showOutdoorGymDevices, setShowOutdoorGymDevices] = useState(false);
+  const [showLoadingPlaces, setShowLoadingPlaces] = useState(false);
+  const [showPublicToilets, setShowPublicToilets] = useState(false);
+
+  const getters = {
     openMobilityPlatform,
-    setOpenMobilityPlatform,
+    // measurement points
     showEcoCounter,
-    setShowEcoCounter,
-    showBicycleStands,
-    setShowBicycleStands,
-    showHullLockableStands,
-    setShowHullLockableStands,
-    showCultureRoutes,
-    setShowCultureRoutes,
-    cultureRouteId,
-    setCultureRouteId,
-    showBicycleRoutes,
-    setShowBicycleRoutes,
-    bicycleRouteName,
-    setBicycleRouteName,
-    showRentalCars,
-    setShowRentalCars,
-    showGasFillingStations,
-    setShowGasFillingStations,
-    showChargingStations,
-    setShowChargingStations,
-    showParkingSpaces,
-    setShowParkingSpaces,
-    showParkingChargeZones,
-    setShowParkingChargeZones,
-    parkingChargeZones,
-    setParkingChargeZones,
-    parkingChargeZoneId,
-    setParkingChargeZoneId,
-    showBikeServiceStations,
-    setShowBikeServiceStations,
-    showCityBikes,
-    setShowCityBikes,
-    showMarinas,
-    setShowMarinas,
-    showBoatParking,
-    setShowBoatParking,
-    showGuestHarbour,
-    setShowGuestHarbour,
-    showSpeedLimitZones,
-    setShowSpeedLimitZones,
-    speedLimitSelections,
-    setSpeedLimitSelections,
-    speedLimitZones,
-    setSpeedLimitZones,
-    showPublicToilets,
-    setShowPublicToilets,
-    showScooterNoParking,
-    setShowScooterNoParking,
-    showScooterParkingAreas,
-    setShowScooterParkingAreas,
-    showScooterSpeedLimitAreas,
-    setShowScooterSpeedLimitAreas,
-    showScootersRyde,
-    setShowScootersRyde,
-    showDisabledParking,
-    setShowDisabledParking,
-    showLoadingPlaces,
-    setShowLoadingPlaces,
-    showStreetMaintenance,
-    setShowStreetMaintenance,
-    streetMaintenancePeriod,
-    setStreetMaintenancePeriod,
-    isActiveStreetMaintenance,
-    setIsActiveStreetMaintenance,
-    showBrushSandedRoute,
-    setShowBrushSandedRoute,
-    showBrushSaltedRoute,
-    setShowBrushSaltedRoute,
-    showMarkedTrails,
-    setShowMarkedTrails,
-    markedTrailsObj,
-    setMarkedTrailsObj,
-    showNatureTrails,
-    setShowNatureTrails,
-    natureTrailsObj,
-    setNatureTrailsObj,
-    showFitnessTrails,
-    setShowFitnessTrails,
-    fitnessTrailsObj,
-    setFitnessTrailsObj,
     showLamCounter,
-    setShowLamCounter,
+    // cycling
+    showBicycleRoutes,
+    bicycleRouteName,
+    showBicycleStands,
+    showHullLockableStands,
+    showBikeServiceStations,
+    showCityBikes,
+    // culture routes
+    showCultureRoutes,
+    cultureRouteId,
+    // cars and parking
+    showRentalCars,
+    showGasFillingStations,
+    showChargingStations,
+    showParkingSpaces,
+    showParkingChargeZones,
     showParkingMachines,
-    setShowParkingMachines,
     showPublicParking,
-    setShowPublicParking,
+    parkingChargeZones,
+    parkingChargeZoneId,
+    showDisabledParking,
+    // boating
+    showMarinas,
+    showBoatParking,
+    showGuestHarbour,
+    // speed limit zones
+    showSpeedLimitZones,
+    speedLimitSelections,
+    speedLimitZones,
+    // scooters
+    showScooterNoParking,
+    showScooterParkingAreas,
+    showScooterSpeedLimitAreas,
+    showScootersRyde,
+    // street maintenance
+    showStreetMaintenance,
+    streetMaintenancePeriod,
+    isActiveStreetMaintenance,
+    showBrushSandedRoute,
+    showBrushSaltedRoute,
+    // trails (nature, fitness)
+    showMarkedTrails,
+    markedTrailsObj,
+    showNatureTrails,
+    natureTrailsObj,
+    showFitnessTrails,
+    fitnessTrailsObj,
+    // other
     showOutdoorGymDevices,
-    setShowOutdoorGymDevices,
+    showPublicToilets,
+    showLoadingPlaces,
   };
+
+  const setters = {
+    setOpenMobilityPlatform,
+    // measurement points
+    setShowEcoCounter,
+    setShowLamCounter,
+    // cycling
+    setShowBicycleRoutes,
+    setBicycleRouteName,
+    setShowBicycleStands,
+    setShowHullLockableStands,
+    setShowBikeServiceStations,
+    setShowCityBikes,
+    // culture routes
+    setShowCultureRoutes,
+    setCultureRouteId,
+    // cars and parking
+    setShowRentalCars,
+    setShowGasFillingStations,
+    setShowChargingStations,
+    setShowParkingSpaces,
+    setShowParkingChargeZones,
+    setShowParkingMachines,
+    setShowPublicParking,
+    setParkingChargeZones,
+    setParkingChargeZoneId,
+    setShowDisabledParking,
+    // boating
+    setShowMarinas,
+    setShowBoatParking,
+    setShowGuestHarbour,
+    // speed limits
+    setShowSpeedLimitZones,
+    setSpeedLimitSelections,
+    setSpeedLimitZones,
+    // scooters
+    setShowScooterNoParking,
+    setShowScooterParkingAreas,
+    setShowScooterSpeedLimitAreas,
+    setShowScootersRyde,
+    // street maintenance
+    setShowStreetMaintenance,
+    setStreetMaintenancePeriod,
+    setIsActiveStreetMaintenance,
+    setShowBrushSandedRoute,
+    setShowBrushSaltedRoute,
+    // trails (nature, fitness)
+    setShowMarkedTrails,
+    setMarkedTrailsObj,
+    setShowNatureTrails,
+    setNatureTrailsObj,
+    setShowFitnessTrails,
+    setFitnessTrailsObj,
+    // other
+    setShowOutdoorGymDevices,
+    setShowPublicToilets,
+    setShowLoadingPlaces,
+  };
+
+  const contextValues = { ...getters, ...setters };
 
   return (
     <MobilityPlatformContext.Provider value={contextValues}>
