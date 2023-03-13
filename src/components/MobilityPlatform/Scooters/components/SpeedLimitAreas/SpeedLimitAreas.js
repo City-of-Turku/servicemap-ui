@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
-import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
   isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase,
 } from '../../../utils/utils';
@@ -21,8 +21,14 @@ const SpeedLimitAreas = () => {
   const { openMobilityPlatform, showScooterSpeedLimitAreas } = useMobilityPlatformContext();
 
   useEffect(() => {
+    const options = {
+      type_name: 'ScooterSpeedLimitArea',
+      page_size: 100,
+      srid: 4326,
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('ScooterSpeedLimitArea', 100, setSpeedLimitAreas);
+      fetchMobilityMapData(options, setSpeedLimitAreas);
     }
   }, [openMobilityPlatform, setSpeedLimitAreas]);
 

@@ -6,7 +6,7 @@ import disabledParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_dis
 import disabledParkingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_disabled_parking-bw.svg';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
-import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitPolygonsToBounds } from '../../utils/utils';
 import DisabledParkingContent from './components/DisabledParkingContent';
 
@@ -27,8 +27,14 @@ const DisabledParking = () => {
   const customIcon = icon(createIcon(useContrast ? disabledParkingIconBw : disabledParkingIcon));
 
   useEffect(() => {
+    const options = {
+      type_name: 'DisabledParking',
+      page_size: 1000,
+      srid: 4326,
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('DisabledParking', 1000, setDisabledParkingData);
+      fetchMobilityMapData(options, setDisabledParkingData);
     }
   }, [openMobilityPlatform, setDisabledParkingData]);
 

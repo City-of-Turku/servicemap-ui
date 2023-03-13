@@ -4,7 +4,7 @@ import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
-import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
   isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase,
 } from '../../utils/utils';
@@ -23,8 +23,14 @@ const Marinas = () => {
   const useContrast = useSelector(useAccessibleMap);
 
   useEffect(() => {
+    const options = {
+      type_name: 'Marina',
+      page_size: 100,
+      srid: 4326,
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('Marina', 50, setMarinasData);
+      fetchMobilityMapData(options, setMarinasData);
     }
   }, [openMobilityPlatform, setMarinasData]);
 

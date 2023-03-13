@@ -4,7 +4,7 @@ import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
-import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
   isDataValid, blueOptionsBase, whiteOptionsBase, fitPolygonsToBounds,
 } from '../../utils/utils';
@@ -23,8 +23,14 @@ const PublicParking = () => {
   const useContrast = useSelector(useAccessibleMap);
 
   useEffect(() => {
+    const options = {
+      type_name: 'NoStaffParking',
+      page_size: 1000,
+      srid: 4326,
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('NoStaffParking', 1000, setPublicParkingData);
+      fetchMobilityMapData(options, setPublicParkingData);
     }
   }, [openMobilityPlatform, setPublicParkingData]);
 

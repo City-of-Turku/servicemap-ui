@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
-import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, whiteOptionsBase, redOptionsBase } from '../../../utils/utils';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import PolygonComponent from '../../../PolygonComponent';
@@ -19,8 +19,14 @@ const NoParking = () => {
   const { openMobilityPlatform, showScooterNoParking } = useMobilityPlatformContext();
 
   useEffect(() => {
+    const options = {
+      type_name: 'ScooterNoParkingArea',
+      page_size: 100,
+      srid: 4326,
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('ScooterNoParkingArea', 100, setNoParkingData);
+      fetchMobilityMapData(options, setNoParkingData);
     }
   }, [openMobilityPlatform, setNoParkingData]);
 

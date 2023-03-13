@@ -6,7 +6,7 @@ import loadingPlaceIcon from 'servicemap-ui-turku/assets/icons/icons-icon_loadin
 import loadingPlaceIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_loading_place-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchMobilityMapPolygonData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, fitPolygonsToBounds, createIcon } from '../utils/utils';
 import LoadingPlacesContent from './components/LoadingPlacesContent';
 
@@ -25,8 +25,14 @@ const LoadingPlaces = () => {
   const customIcon = icon(createIcon(useContrast ? loadingPlaceIconBw : loadingPlaceIcon));
 
   useEffect(() => {
+    const options = {
+      type_name: 'LoadingUnloadingPlace',
+      page_size: 300,
+      srid: 4326,
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('LoadingUnloadingPlace', 300, setLoadingPlaces);
+      fetchMobilityMapData(options, setLoadingPlaces);
     }
   }, [openMobilityPlatform, setLoadingPlaces]);
 

@@ -7,7 +7,7 @@ import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import {
   isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase,
 } from '../../utils/utils';
-import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
 import PolygonComponent from '../../PolygonComponent';
 import TextContent from '../../TextContent';
 
@@ -23,8 +23,14 @@ const BoatParking = () => {
   const useContrast = useSelector(useAccessibleMap);
 
   useEffect(() => {
+    const options = {
+      type_name: 'BoatParking',
+      page_size: 100,
+      srid: 4326,
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('BoatParking', 50, setBoatParkingData);
+      fetchMobilityMapData(options, setBoatParkingData);
     }
   }, [openMobilityPlatform, setBoatParkingData]);
 
