@@ -39,7 +39,9 @@ import SMAccordion from '../../components/SMAccordion';
 import SpeedLimitZonesList from './components/SpeedLimitZonesList';
 import RouteListItem from './components/RouteListItem';
 
-const MobilitySettingsView = ({ classes, intl, navigator }) => {
+const MobilitySettingsView = ({
+  classes, intl, navigator, embed,
+}) => {
   const [pageTitle, setPageTitle] = useState(null);
   const [openWalkSettings, setOpenWalkSettings] = useState(false);
   const [openBicycleSettings, setOpenBicycleSettings] = useState(false);
@@ -1325,6 +1327,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     </>
   ) : null);
 
+  if (embed) {
+    return null;
+  }
+
   const infoTextsWalking = [
     {
       visible: showEcoCounter.walking,
@@ -1733,10 +1739,12 @@ MobilitySettingsView.propTypes = {
   intl: PropTypes.objectOf(PropTypes.any).isRequired,
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
   navigator: PropTypes.objectOf(PropTypes.any),
+  embed: PropTypes.bool,
 };
 
 MobilitySettingsView.defaultProps = {
   navigator: null,
+  embed: false,
 };
 
 export default MobilitySettingsView;

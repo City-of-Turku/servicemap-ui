@@ -9,6 +9,7 @@ import AreaView from '../views/AreaView';
 import DivisionView from '../views/DivisionView';
 import EventDetailView from '../views/EventDetailView';
 import MapView from '../views/MapView';
+import MobilitySettingsView from '../views/MobilitySettingsView/MobilitySettingsView';
 import SearchView from '../views/SearchView';
 import ServiceView from '../views/ServiceView';
 import UnitView from '../views/UnitView';
@@ -119,6 +120,15 @@ const EmbedLayout = ({ intl }) => {
                 <>
                   <PageHandler embed page="area" />
                   <AreaView embed />
+                </>
+              )}
+            />
+            <Route
+              path="*/embed/mobility/*"
+              render={() => (
+                <>
+                  <PageHandler embed page="mobility" />
+                  <MobilitySettingsView embed />
                 </>
               )}
             />
