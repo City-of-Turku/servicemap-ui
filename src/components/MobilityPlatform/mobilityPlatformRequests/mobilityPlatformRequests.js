@@ -5,19 +5,22 @@ import config from '../../../../config';
 const apiUrl = config.mobilityPlatformAPI;
 const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
 
-const fetchMobilityMapData = async (type, pageSize, setData) => {
-  try {
-    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?type_name=${type}&page_size=${pageSize}&srid=4326`);
-    const jsonData = await response.json();
-    setData(jsonData.results);
-  } catch (err) {
-    console.warn(err.message);
-  }
+const optionsToParams = (options) => {
+  const params = new URLSearchParams();
+  Object.keys(options).forEach((key) => {
+    if (Object.prototype.hasOwnProperty.call(options, key)) {
+      const value = options[key];
+      params.set(key, value);
+    }
+  });
+
+  return params.toString();
 };
 
-const fetchMobilityMapDataExtra = async (type, pageSize, extraQuery, setData) => {
+const fetchMobilityMapData = async (options, setData) => {
+  const params = optionsToParams(options);
   try {
-    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?type_name=${type}&extra__${extraQuery}&page_size=${pageSize}&srid=4326`);
+    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?${params}`);
     const jsonData = await response.json();
     setData(jsonData.results);
   } catch (err) {
@@ -129,7 +132,6 @@ const fetchParkingAreaStats = async (endpoint, setData, setError) => {
 
 export {
   fetchMobilityMapData,
-  fetchMobilityMapDataExtra,
   fetchCultureRouteNames,
   fetchCultureRoutesData,
   fetchBicycleRouteNames,

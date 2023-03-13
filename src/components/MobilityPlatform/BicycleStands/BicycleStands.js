@@ -34,8 +34,13 @@ const BicycleStands = () => {
   });
 
   useEffect(() => {
+    const options = {
+      type_name: 'BicycleStand',
+      page_size: 500,
+      srid: 4326,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapData('BicycleStand', 500, setBicycleStands);
+      fetchMobilityMapData(options, setBicycleStands);
     }
   }, [openMobilityPlatform, setBicycleStands]);
 

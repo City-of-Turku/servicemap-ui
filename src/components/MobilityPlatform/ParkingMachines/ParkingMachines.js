@@ -25,8 +25,13 @@ const ParkingMachines = () => {
   const customIcon = icon(createIcon(useContrast ? parkingMachineIconContrast : parkingMachineIcon));
 
   useEffect(() => {
+    const options = {
+      type_name: 'ParkingMachine',
+      page_size: 500,
+      srid: 4326,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapData('ParkingMachine', 500, setParkingMachinesData);
+      fetchMobilityMapData(options, setParkingMachinesData);
     }
   }, [openMobilityPlatform, setParkingMachinesData]);
 

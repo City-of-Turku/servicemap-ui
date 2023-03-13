@@ -25,8 +25,13 @@ const ParkingAreas = () => {
   const customIcon = icon(createIcon(useContrast ? scooterParkingIconBw : scooterParkingIcon));
 
   useEffect(() => {
+    const options = {
+      type_name: 'ScooterParkingArea',
+      page_size: 100,
+      srid: 4326,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapData('ScooterParkingArea', 100, setParkingAreas);
+      fetchMobilityMapData(options, setParkingAreas);
     }
   }, [openMobilityPlatform, setParkingAreas]);
 

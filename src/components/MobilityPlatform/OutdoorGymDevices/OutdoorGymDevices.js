@@ -25,8 +25,13 @@ const OutdoorGymDevices = () => {
   const customIcon = icon(createIcon(useContrast ? sportIconContrast : sportIcon));
 
   useEffect(() => {
+    const options = {
+      type_name: 'OutdoorGymDevice',
+      page_size: 100,
+      srid: 4326,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapData('OutdoorGymDevice', 100, setOutdoorGymDevices);
+      fetchMobilityMapData(options, setOutdoorGymDevices);
     }
   }, [openMobilityPlatform, setOutdoorGymDevices]);
 
