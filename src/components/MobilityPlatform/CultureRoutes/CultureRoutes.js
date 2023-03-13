@@ -4,7 +4,7 @@ import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchCultureRoutesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
   isDataValid, blueOptionsBase, whiteOptionsBase, blackOptionsBase,
 } from '../utils/utils';
@@ -25,14 +25,24 @@ const CultureRoutes = () => {
   const blackOptions = blackOptionsBase({ dashArray: '2 10 10 10' });
 
   useEffect(() => {
+    const options = {
+      type_name: 'CultureRouteGeometry',
+      page_size: 50,
+      srid: 4326,
+    };
     if (openMobilityPlatform) {
-      fetchCultureRoutesData('CultureRouteGeometry', 20, setCultureRoutesGeometry);
+      fetchMobilityMapData(options, setCultureRoutesGeometry);
     }
   }, [openMobilityPlatform, setCultureRoutesGeometry]);
 
   useEffect(() => {
+    const options = {
+      type_name: 'CultureRouteUnit',
+      page_size: 200,
+      srid: 4326,
+    };
     if (openMobilityPlatform) {
-      fetchCultureRoutesData('CultureRouteUnit', 200, setCultureRouteUnits);
+      fetchMobilityMapData(options, setCultureRouteUnits);
     }
   }, [openMobilityPlatform, setCultureRouteUnits]);
 

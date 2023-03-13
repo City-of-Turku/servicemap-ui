@@ -38,16 +38,6 @@ const fetchCultureRouteNames = async (setData) => {
   }
 };
 
-const fetchCultureRoutesData = async (type, size, setData) => {
-  try {
-    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?type_name=${type}&page_size=${size}&srid=4326`);
-    const jsonData = await response.json();
-    setData(jsonData.results);
-  } catch (err) {
-    console.warn(err.message);
-  }
-};
-
 const fetchBicycleRouteNames = async (setData) => {
   try {
     const response = await fetch(`${isApiUrl}/bicycle_network/bicycle_networks/`);
@@ -123,7 +113,6 @@ const fetchParkingAreaStats = async (endpoint, setData, setError) => {
 export {
   fetchMobilityMapData,
   fetchCultureRouteNames,
-  fetchCultureRoutesData,
   fetchBicycleRouteNames,
   fetchBicycleRoutesGeometry,
   fetchIotData,
