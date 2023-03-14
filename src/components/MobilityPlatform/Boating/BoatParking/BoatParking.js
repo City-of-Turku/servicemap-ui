@@ -23,6 +23,8 @@ const BoatParking = () => {
   const useContrast = useSelector(useAccessibleMap);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const options = {
       type_name: 'BoatParking',
       page_size: 100,
@@ -30,8 +32,9 @@ const BoatParking = () => {
       latlon: true,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setBoatParkingData);
+      fetchMobilityMapData(options, signal, setBoatParkingData);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setBoatParkingData]);
 
   const blueOptions = blueOptionsBase({ weight: 5 });

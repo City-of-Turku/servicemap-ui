@@ -25,25 +25,31 @@ const CultureRoutes = () => {
   const blackOptions = blackOptionsBase({ dashArray: '2 10 10 10' });
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const options = {
       type_name: 'CultureRouteGeometry',
       page_size: 50,
       srid: 4326,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setCultureRoutesGeometry);
+      fetchMobilityMapData(options, signal, setCultureRoutesGeometry);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setCultureRoutesGeometry]);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const options = {
       type_name: 'CultureRouteUnit',
       page_size: 200,
       srid: 4326,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setCultureRouteUnits);
+      fetchMobilityMapData(options, signal, setCultureRouteUnits);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setCultureRouteUnits]);
 
   const filterRoutes = (data) => {

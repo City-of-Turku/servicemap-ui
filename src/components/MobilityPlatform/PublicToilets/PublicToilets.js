@@ -23,14 +23,17 @@ const PublicToilets = () => {
   const customIcon = icon(createIcon(useContrast ? publicToiletIconBw : publicToiletIcon));
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const options = {
       type_name: 'PublicToilet',
       page_size: 50,
       srid: 4326,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setPublicToiletsData);
+      fetchMobilityMapData(options, signal, setPublicToiletsData);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setPublicToiletsData]);
 
   const renderData = isDataValid(showPublicToilets, publicToiletsData);

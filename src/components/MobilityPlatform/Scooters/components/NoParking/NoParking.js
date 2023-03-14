@@ -19,6 +19,8 @@ const NoParking = () => {
   const { openMobilityPlatform, showScooterNoParking } = useMobilityPlatformContext();
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const options = {
       type_name: 'ScooterNoParkingArea',
       page_size: 100,
@@ -26,8 +28,9 @@ const NoParking = () => {
       latlon: true,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setNoParkingData);
+      fetchMobilityMapData(options, signal, setNoParkingData);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setNoParkingData]);
 
   const useContrast = useSelector(useAccessibleMap);

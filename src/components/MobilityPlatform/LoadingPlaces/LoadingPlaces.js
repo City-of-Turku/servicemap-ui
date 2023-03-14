@@ -25,6 +25,8 @@ const LoadingPlaces = () => {
   const customIcon = icon(createIcon(useContrast ? loadingPlaceIconBw : loadingPlaceIcon));
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const options = {
       type_name: 'LoadingUnloadingPlace',
       page_size: 300,
@@ -32,8 +34,9 @@ const LoadingPlaces = () => {
       latlon: true,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setLoadingPlaces);
+      fetchMobilityMapData(options, signal, setLoadingPlaces);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setLoadingPlaces]);
 
   const renderData = isDataValid(showLoadingPlaces, loadingPlaces);

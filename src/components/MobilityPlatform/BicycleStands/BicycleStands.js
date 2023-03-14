@@ -34,14 +34,17 @@ const BicycleStands = () => {
   });
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const options = {
       type_name: 'BicycleStand',
       page_size: 500,
       srid: 4326,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setBicycleStands);
+      fetchMobilityMapData(options, signal, setBicycleStands);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setBicycleStands]);
 
   const mapEvent = useMapEvents({

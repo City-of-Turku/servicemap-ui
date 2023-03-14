@@ -23,6 +23,8 @@ const GuestHarbour = () => {
   const useContrast = useSelector(useAccessibleMap);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const options = {
       type_name: 'GuestMarina',
       page_size: 100,
@@ -30,8 +32,9 @@ const GuestHarbour = () => {
       latlon: true,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setGuestHarbourData);
+      fetchMobilityMapData(options, signal, setGuestHarbourData);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setGuestHarbourData]);
 
   const blueOptions = blueOptionsBase({ weight: 5 });

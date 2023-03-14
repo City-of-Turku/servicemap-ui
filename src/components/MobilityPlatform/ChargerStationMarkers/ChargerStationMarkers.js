@@ -25,14 +25,17 @@ const ChargerStationMarkers = () => {
   const chargerStationIcon = icon(createIcon(useContrast ? chargerIconBw : chargerIcon));
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const options = {
       type_name: 'ChargingStation',
       page_size: 200,
       srid: 4326,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setChargerStations);
+      fetchMobilityMapData(options, signal, setChargerStations);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setChargerStations]);
 
   const renderData = isDataValid(showChargingStations, chargerStations);

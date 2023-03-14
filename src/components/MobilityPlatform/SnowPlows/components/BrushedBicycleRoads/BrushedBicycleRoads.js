@@ -48,6 +48,9 @@ const BrushedBicycleRoads = () => {
     weight: 4,
   };
 
+  const controller = new AbortController();
+  const { signal } = controller;
+
   useEffect(() => {
     const options = {
       type_name: 'BrushSandedBicycleNetwork',
@@ -56,8 +59,9 @@ const BrushedBicycleRoads = () => {
       latlon: true,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setBrushSandedRoutes);
+      fetchMobilityMapData(options, signal, setBrushSandedRoutes);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setBrushSandedRoutes]);
 
   useEffect(() => {
@@ -68,8 +72,9 @@ const BrushedBicycleRoads = () => {
       latlon: true,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setBrushSaltedRoutes);
+      fetchMobilityMapData(options, signal, setBrushSaltedRoutes);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setBrushSaltedRoutes]);
 
   const map = useMap();

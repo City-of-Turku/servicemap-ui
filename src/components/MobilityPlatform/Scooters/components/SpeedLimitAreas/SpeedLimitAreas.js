@@ -21,6 +21,8 @@ const SpeedLimitAreas = () => {
   const { openMobilityPlatform, showScooterSpeedLimitAreas } = useMobilityPlatformContext();
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const options = {
       type_name: 'ScooterSpeedLimitArea',
       page_size: 100,
@@ -28,8 +30,9 @@ const SpeedLimitAreas = () => {
       latlon: true,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setSpeedLimitAreas);
+      fetchMobilityMapData(options, signal, setSpeedLimitAreas);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setSpeedLimitAreas]);
 
   const useContrast = useSelector(useAccessibleMap);

@@ -23,14 +23,17 @@ const GasFillingStationMarkers = () => {
   const gasStationIcon = icon(createIcon(useContrast ? gasFillingIconBw : gasFillingIcon));
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const options = {
       type_name: 'GasFillingStation',
       page_size: 100,
       srid: 4326,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setGasFillingStations);
+      fetchMobilityMapData(options, signal, setGasFillingStations);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setGasFillingStations]);
 
   const renderData = isDataValid(showGasFillingStations, gasFillingStations);

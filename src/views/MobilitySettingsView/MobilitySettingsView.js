@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Checkbox, FormControlLabel, Typography, List, ListItem,
 } from '@material-ui/core';
@@ -216,6 +217,9 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     fetchBicycleRouteNames(setBicycleRouteList);
   }, [setBicycleRouteList]);
 
+  const controller = new AbortController();
+  const { signal } = controller;
+
   useEffect(() => {
     const options = {
       type_name: 'SpeedLimitZone',
@@ -223,7 +227,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       srid: 4326,
       latlon: true,
     };
-    fetchMobilityMapData(options, setSpeedLimitZones);
+    fetchMobilityMapData(options, signal, setSpeedLimitZones);
+    return () => controller.abort();
   }, [setSpeedLimitZones]);
 
   useEffect(() => {
@@ -233,7 +238,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       srid: 4326,
       latlon: true,
     };
-    fetchMobilityMapData(options, setParkingChargeZones);
+    fetchMobilityMapData(options, signal, setParkingChargeZones);
+    return () => controller.abort();
   }, [setParkingChargeZones]);
 
   useEffect(() => {
@@ -243,7 +249,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       srid: 4326,
       latlon: true,
     };
-    fetchMobilityMapData(options, setMarkedTrailsList);
+    fetchMobilityMapData(options, signal, setMarkedTrailsList);
+    return () => controller.abort();
   }, [setMarkedTrailsList]);
 
   useEffect(() => {
@@ -253,7 +260,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       srid: 4326,
       latlon: true,
     };
-    fetchMobilityMapData(options, setNatureTrailsList);
+    fetchMobilityMapData(options, signal, setNatureTrailsList);
+    return () => controller.abort();
   }, [setNatureTrailsList]);
 
   useEffect(() => {
@@ -263,7 +271,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       srid: 4326,
       latlon: true,
     };
-    fetchMobilityMapData(options, setFitnessTrailsList);
+    fetchMobilityMapData(options, signal, setFitnessTrailsList);
+    return () => controller.abort();
   }, [setFitnessTrailsList]);
 
   /** If direct link is used to navigate, open correct content view

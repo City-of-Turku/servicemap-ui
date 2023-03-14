@@ -23,6 +23,8 @@ const PublicParking = () => {
   const useContrast = useSelector(useAccessibleMap);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const options = {
       type_name: 'NoStaffParking',
       page_size: 1000,
@@ -30,8 +32,9 @@ const PublicParking = () => {
       latlon: true,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setPublicParkingData);
+      fetchMobilityMapData(options, signal, setPublicParkingData);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setPublicParkingData]);
 
   const blueOptions = blueOptionsBase({ weight: 5 });

@@ -23,6 +23,8 @@ const Marinas = () => {
   const useContrast = useSelector(useAccessibleMap);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const options = {
       type_name: 'Marina',
       page_size: 100,
@@ -30,8 +32,9 @@ const Marinas = () => {
       latlon: true,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setMarinasData);
+      fetchMobilityMapData(options, signal, setMarinasData);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setMarinasData]);
 
   const blueOptions = blueOptionsBase({ weight: 5 });

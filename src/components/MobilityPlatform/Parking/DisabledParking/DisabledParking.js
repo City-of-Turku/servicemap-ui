@@ -27,6 +27,8 @@ const DisabledParking = () => {
   const customIcon = icon(createIcon(useContrast ? disabledParkingIconBw : disabledParkingIcon));
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     const options = {
       type_name: 'DisabledParking',
       page_size: 1000,
@@ -34,8 +36,9 @@ const DisabledParking = () => {
       latlon: true,
     };
     if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setDisabledParkingData);
+      fetchMobilityMapData(options, signal, setDisabledParkingData);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setDisabledParkingData]);
 
   const map = useMap();
