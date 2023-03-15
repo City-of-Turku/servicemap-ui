@@ -25,8 +25,11 @@ const BikeServiceStations = () => {
   const customIcon = icon(createIcon(useContrast ? bikeServiceIconBw : bikeServiceIcon));
 
   useEffect(() => {
+    const options = {
+      type_name: 'BikeServiceStation',
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapData('BikeServiceStation', 100, setBikeServiceStations);
+      fetchMobilityMapData(options, setBikeServiceStations);
     }
   }, [openMobilityPlatform, setBikeServiceStations]);
 

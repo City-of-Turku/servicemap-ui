@@ -19,7 +19,7 @@ import InfoTextBox from '../../components/MobilityPlatform/InfoTextBox';
 import {
   fetchBicycleRouteNames,
   fetchCultureRouteNames,
-  fetchMobilityMapPolygonData,
+  fetchMobilityMapData,
 } from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid } from '../../components/MobilityPlatform/utils/utils';
 import useLocaleText from '../../utils/useLocaleText';
@@ -219,23 +219,47 @@ const MobilitySettingsView = ({
   }, [setBicycleRouteList]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('SpeedLimitZone', 1000, setSpeedLimitZones);
+    const options = {
+      type_name: 'SpeedLimitZone',
+      page_size: 1000,
+      latlon: true,
+    };
+    fetchMobilityMapData(options, setSpeedLimitZones);
   }, [setSpeedLimitZones]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('PaymentZone', 10, setParkingChargeZones);
+    const options = {
+      type_name: 'PaymentZone',
+      page_size: 10,
+      latlon: true,
+    };
+    fetchMobilityMapData(options, setParkingChargeZones);
   }, [setParkingChargeZones]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('PaavonPolku', 50, setMarkedTrailsList);
+    const options = {
+      type_name: 'PaavonPolku',
+      latlon: true,
+    };
+    fetchMobilityMapData(options, setMarkedTrailsList);
   }, [setMarkedTrailsList]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('NatureTrail', 200, setNatureTrailsList);
+    const options = {
+      type_name: 'NatureTrail',
+      page_size: 200,
+      latlon: true,
+    };
+    fetchMobilityMapData(options, setNatureTrailsList);
   }, [setNatureTrailsList]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('FitnessTrail', 200, setFitnessTrailsList);
+    const options = {
+      type_name: 'FitnessTrail',
+      page_size: 200,
+      latlon: true,
+    };
+    fetchMobilityMapData(options, setFitnessTrailsList);
   }, [setFitnessTrailsList]);
 
   /** If direct link is used to navigate, open correct content view

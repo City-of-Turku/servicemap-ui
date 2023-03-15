@@ -25,8 +25,12 @@ const ChargerStationMarkers = () => {
   const chargerStationIcon = icon(createIcon(useContrast ? chargerIconBw : chargerIcon));
 
   useEffect(() => {
+    const options = {
+      type_name: 'ChargingStation',
+      page_size: 200,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapData('ChargingStation', 500, setChargerStations);
+      fetchMobilityMapData(options, setChargerStations);
     }
   }, [openMobilityPlatform, setChargerStations]);
 

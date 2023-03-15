@@ -23,8 +23,11 @@ const GasFillingStationMarkers = () => {
   const gasStationIcon = icon(createIcon(useContrast ? gasFillingIconBw : gasFillingIcon));
 
   useEffect(() => {
+    const options = {
+      type_name: 'GasFillingStation',
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapData('GasFillingStation', 10, setGasFillingStations);
+      fetchMobilityMapData(options, setGasFillingStations);
     }
   }, [openMobilityPlatform, setGasFillingStations]);
 

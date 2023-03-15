@@ -4,7 +4,7 @@ import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
-import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, fitPolygonsToBounds } from '../../../utils/utils';
 
 /* Display brush sanded and brush salted bicycle roads */
@@ -49,11 +49,24 @@ const BrushedBicycleRoads = () => {
   };
 
   useEffect(() => {
+    const options = {
+      type_name: 'BrushSandedBicycleNetwork',
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('BrushSandedBicycleNetwork', 100, setBrushSandedRoutes);
-      fetchMobilityMapPolygonData('BrushSaltedBicycleNetwork', 100, setBrushSaltedRoutes);
+      fetchMobilityMapData(options, setBrushSandedRoutes);
     }
-  }, [openMobilityPlatform, setBrushSandedRoutes, setBrushSaltedRoutes]);
+  }, [openMobilityPlatform, setBrushSandedRoutes]);
+
+  useEffect(() => {
+    const options = {
+      type_name: 'BrushSaltedBicycleNetwork',
+      latlon: true,
+    };
+    if (openMobilityPlatform) {
+      fetchMobilityMapData(options, setBrushSaltedRoutes);
+    }
+  }, [openMobilityPlatform, setBrushSaltedRoutes]);
 
   const map = useMap();
 

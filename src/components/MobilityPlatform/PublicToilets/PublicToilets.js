@@ -23,8 +23,12 @@ const PublicToilets = () => {
   const customIcon = icon(createIcon(useContrast ? publicToiletIconBw : publicToiletIcon));
 
   useEffect(() => {
+    const options = {
+      type_name: 'PublicToilet',
+      page_size: 50,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapData('PublicToilet', 100, setPublicToiletsData);
+      fetchMobilityMapData(options, setPublicToiletsData);
     }
   }, [openMobilityPlatform, setPublicToiletsData]);
 
