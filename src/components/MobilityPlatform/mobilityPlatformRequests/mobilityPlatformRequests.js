@@ -7,13 +7,9 @@ const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
 
 const optionsToParams = (options) => {
   const params = new URLSearchParams();
-  Object.keys(options).forEach((key) => {
-    if (Object.prototype.hasOwnProperty.call(options, key)) {
-      const value = options[key];
-      params.set(key, value);
-    }
+  Object.entries(options).forEach(([key, value]) => {
+    params.set(key, value);
   });
-
   return params.toString();
 };
 
