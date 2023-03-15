@@ -5,9 +5,20 @@ import config from '../../../../config';
 const apiUrl = config.mobilityPlatformAPI;
 const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
 
+/**
+ * Returns query options as a search params for URLs
+ * @param {Object} options
+ * @param {*} options.key
+ * @returns {string}
+ */
+
 const optionsToParams = (options) => {
+  const defaultOptions = {
+    page_size: 100,
+    srid: 4326,
+  };
   const params = new URLSearchParams();
-  Object.entries(options).forEach(([key, value]) => {
+  Object.entries({ ...defaultOptions, ...options }).forEach(([key, value]) => {
     params.set(key, value);
   });
   return params.toString();
