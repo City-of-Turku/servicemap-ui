@@ -37,7 +37,6 @@ const BicycleStands = () => {
     const options = {
       type_name: 'BicycleStand',
       page_size: 500,
-      srid: 4326,
     };
     if (openMobilityPlatform) {
       fetchMobilityMapData(options, setBicycleStands);

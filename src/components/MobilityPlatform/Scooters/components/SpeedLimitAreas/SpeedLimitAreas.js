@@ -24,7 +24,6 @@ const SpeedLimitAreas = () => {
     const options = {
       type_name: 'ScooterSpeedLimitArea',
       page_size: 100,
-      srid: 4326,
       latlon: true,
     };
     if (openMobilityPlatform) {

@@ -28,7 +28,6 @@ const ParkingMachines = () => {
     const options = {
       type_name: 'ParkingMachine',
       page_size: 500,
-      srid: 4326,
     };
     if (openMobilityPlatform) {
       fetchMobilityMapData(options, setParkingMachinesData);

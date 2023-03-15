@@ -30,7 +30,6 @@ const DisabledParking = () => {
     const options = {
       type_name: 'DisabledParking',
       page_size: 1000,
-      srid: 4326,
       latlon: true,
     };
     if (openMobilityPlatform) {

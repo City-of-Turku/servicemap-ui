@@ -27,8 +27,6 @@ const ParkingAreas = () => {
   useEffect(() => {
     const options = {
       type_name: 'ScooterParkingArea',
-      page_size: 100,
-      srid: 4326,
     };
     if (openMobilityPlatform) {
       fetchMobilityMapData(options, setParkingAreas);

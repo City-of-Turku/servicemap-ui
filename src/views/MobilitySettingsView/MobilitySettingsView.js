@@ -220,7 +220,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     const options = {
       type_name: 'SpeedLimitZone',
       page_size: 1000,
-      srid: 4326,
       latlon: true,
     };
     fetchMobilityMapData(options, setSpeedLimitZones);
@@ -230,7 +229,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     const options = {
       type_name: 'PaymentZone',
       page_size: 10,
-      srid: 4326,
       latlon: true,
     };
     fetchMobilityMapData(options, setParkingChargeZones);
@@ -239,8 +237,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   useEffect(() => {
     const options = {
       type_name: 'PaavonPolku',
-      page_size: 100,
-      srid: 4326,
       latlon: true,
     };
     fetchMobilityMapData(options, setMarkedTrailsList);
@@ -250,7 +246,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     const options = {
       type_name: 'NatureTrail',
       page_size: 200,
-      srid: 4326,
       latlon: true,
     };
     fetchMobilityMapData(options, setNatureTrailsList);
@@ -260,7 +255,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     const options = {
       type_name: 'FitnessTrail',
       page_size: 200,
-      srid: 4326,
       latlon: true,
     };
     fetchMobilityMapData(options, setFitnessTrailsList);

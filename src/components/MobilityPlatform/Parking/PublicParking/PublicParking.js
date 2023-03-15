@@ -26,7 +26,6 @@ const PublicParking = () => {
     const options = {
       type_name: 'NoStaffParking',
       page_size: 1000,
-      srid: 4326,
       latlon: true,
     };
     if (openMobilityPlatform) {

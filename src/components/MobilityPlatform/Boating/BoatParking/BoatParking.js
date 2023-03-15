@@ -25,8 +25,6 @@ const BoatParking = () => {
   useEffect(() => {
     const options = {
       type_name: 'BoatParking',
-      page_size: 100,
-      srid: 4326,
       latlon: true,
     };
     if (openMobilityPlatform) {

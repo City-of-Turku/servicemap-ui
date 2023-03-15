@@ -28,7 +28,6 @@ const CultureRoutes = () => {
     const options = {
       type_name: 'CultureRouteGeometry',
       page_size: 50,
-      srid: 4326,
     };
     if (openMobilityPlatform) {
       fetchMobilityMapData(options, setCultureRoutesGeometry);
@@ -39,7 +38,6 @@ const CultureRoutes = () => {
     const options = {
       type_name: 'CultureRouteUnit',
       page_size: 200,
-      srid: 4326,
     };
     if (openMobilityPlatform) {
       fetchMobilityMapData(options, setCultureRouteUnits);

@@ -27,8 +27,6 @@ const OutdoorGymDevices = () => {
   useEffect(() => {
     const options = {
       type_name: 'OutdoorGymDevice',
-      page_size: 100,
-      srid: 4326,
     };
     if (openMobilityPlatform) {
       fetchMobilityMapData(options, setOutdoorGymDevices);

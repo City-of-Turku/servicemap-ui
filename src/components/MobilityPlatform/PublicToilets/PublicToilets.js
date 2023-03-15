@@ -26,7 +26,6 @@ const PublicToilets = () => {
     const options = {
       type_name: 'PublicToilet',
       page_size: 50,
-      srid: 4326,
     };
     if (openMobilityPlatform) {
       fetchMobilityMapData(options, setPublicToiletsData);

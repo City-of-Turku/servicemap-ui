@@ -28,7 +28,6 @@ const ChargerStationMarkers = () => {
     const options = {
       type_name: 'ChargingStation',
       page_size: 200,
-      srid: 4326,
     };
     if (openMobilityPlatform) {
       fetchMobilityMapData(options, setChargerStations);

@@ -25,8 +25,6 @@ const GasFillingStationMarkers = () => {
   useEffect(() => {
     const options = {
       type_name: 'GasFillingStation',
-      page_size: 100,
-      srid: 4326,
     };
     if (openMobilityPlatform) {
       fetchMobilityMapData(options, setGasFillingStations);

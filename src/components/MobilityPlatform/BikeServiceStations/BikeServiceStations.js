@@ -27,8 +27,6 @@ const BikeServiceStations = () => {
   useEffect(() => {
     const options = {
       type_name: 'BikeServiceStation',
-      page_size: 100,
-      srid: 4326,
     };
     if (openMobilityPlatform) {
       fetchMobilityMapData(options, setBikeServiceStations);

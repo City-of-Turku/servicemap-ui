@@ -51,8 +51,6 @@ const BrushedBicycleRoads = () => {
   useEffect(() => {
     const options = {
       type_name: 'BrushSandedBicycleNetwork',
-      page_size: 100,
-      srid: 4326,
       latlon: true,
     };
     if (openMobilityPlatform) {
@@ -63,8 +61,6 @@ const BrushedBicycleRoads = () => {
   useEffect(() => {
     const options = {
       type_name: 'BrushSaltedBicycleNetwork',
-      page_size: 100,
-      srid: 4326,
       latlon: true,
     };
     if (openMobilityPlatform) {

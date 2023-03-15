@@ -21,8 +21,6 @@ const NoParking = () => {
   useEffect(() => {
     const options = {
       type_name: 'ScooterNoParkingArea',
-      page_size: 100,
-      srid: 4326,
       latlon: true,
     };
     if (openMobilityPlatform) {

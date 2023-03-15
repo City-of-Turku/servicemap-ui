@@ -28,7 +28,6 @@ const LoadingPlaces = () => {
     const options = {
       type_name: 'LoadingUnloadingPlace',
       page_size: 300,
-      srid: 4326,
       latlon: true,
     };
     if (openMobilityPlatform) {
