@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import gasFillingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_gas_station.svg';
 import gasFillingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_gas_station-bw.svg';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
@@ -14,7 +14,7 @@ import GasFillingStationContent from './components/GasFillingStationContent';
 const GasFillingStationMarkers = () => {
   const [gasFillingStations, setGasFillingStations] = useState([]);
 
-  const { openMobilityPlatform, showGasFillingStations } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showGasFillingStations } = useMobilityPlatformContext();
 
   const { icon } = global.L;
 
@@ -23,8 +23,11 @@ const GasFillingStationMarkers = () => {
   const gasStationIcon = icon(createIcon(useContrast ? gasFillingIconBw : gasFillingIcon));
 
   useEffect(() => {
+    const options = {
+      type_name: 'GasFillingStation',
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapData('GasFillingStation', 10, setGasFillingStations);
+      fetchMobilityMapData(options, setGasFillingStations);
     }
   }, [openMobilityPlatform, setGasFillingStations]);
 

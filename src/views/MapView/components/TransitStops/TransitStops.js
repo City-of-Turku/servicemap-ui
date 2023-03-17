@@ -1,5 +1,5 @@
 /* eslint-disable global-require, no-use-before-define */
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useMapEvents } from 'react-leaflet';
@@ -9,15 +9,14 @@ import { transitIconSize } from '../../config/mapConfig';
 import config from '../../../../../config';
 import { isEmbed } from '../../../../utils/path';
 import useMobileStatus from '../../../../utils/isMobile';
-import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 
 const TransitStops = ({ mapObject, classes }) => {
   const isMobile = useMobileStatus();
   const { Marker, Popup } = global.rL;
 
   const [transitStops, setTransitStops] = useState([]);
-
-  const { showBusStops } = useContext(MobilityPlatformContext);
+  const { showBusStops } = useMobilityPlatformContext();
 
   // If external theme (by Turku) is true, then can be used to select which color to render
   const externalTheme = config.themePKG;

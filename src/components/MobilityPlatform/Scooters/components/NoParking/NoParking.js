@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
-import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
-import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
+import { fetchMobilityMapData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, whiteOptionsBase, redOptionsBase } from '../../../utils/utils';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import PolygonComponent from '../../../PolygonComponent';
@@ -16,11 +16,15 @@ import TextContent from '../../../TextContent';
 const NoParking = () => {
   const [noParkingData, setNoParkingData] = useState([]);
 
-  const { openMobilityPlatform, showScooterNoParking } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showScooterNoParking } = useMobilityPlatformContext();
 
   useEffect(() => {
+    const options = {
+      type_name: 'ScooterNoParkingArea',
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('ScooterNoParkingArea', 100, setNoParkingData);
+      fetchMobilityMapData(options, setNoParkingData);
     }
   }, [openMobilityPlatform, setNoParkingData]);
 

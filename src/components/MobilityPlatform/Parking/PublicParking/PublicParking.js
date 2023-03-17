@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
-import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
-import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
+import { fetchMobilityMapData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
   isDataValid, blueOptionsBase, whiteOptionsBase, fitPolygonsToBounds,
 } from '../../utils/utils';
@@ -18,13 +18,18 @@ import PublicParkingContent from './components/PublicParkingContent';
 const PublicParking = () => {
   const [publicParkingData, setPublicParkingData] = useState([]);
 
-  const { openMobilityPlatform, showPublicParking } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showPublicParking } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
   useEffect(() => {
+    const options = {
+      type_name: 'NoStaffParking',
+      page_size: 1000,
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('NoStaffParking', 1000, setPublicParkingData);
+      fetchMobilityMapData(options, setPublicParkingData);
     }
   }, [openMobilityPlatform, setPublicParkingData]);
 
