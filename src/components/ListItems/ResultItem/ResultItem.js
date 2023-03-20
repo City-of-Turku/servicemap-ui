@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
+import React, { useEffect } from 'react';
 import {
   Divider, ListItem, ListItemIcon, Typography,
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/styles';
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import { keyboardHandler } from '../../../utils';
 import locationIcon from '../../../assets/icons/LocationDefault.svg';
 import locationIconContrast from '../../../assets/icons/LocationDefaultContrast.svg';
 import locationIconHover from '../../../assets/icons/LocationHover.svg';
@@ -89,6 +90,7 @@ const ResultItem = ({
         component="li"
         tabIndex={0}
         onClick={onClick}
+        onKeyDown={keyboardHandler(onClick, ['enter', 'space'])}
         onFocus={unitId ? onMouseEnter : null}
         onBlur={unitId ? onMouseLeave : null}
         onMouseEnter={unitId ? onMouseEnter : null}
