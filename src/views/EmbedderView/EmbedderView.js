@@ -1,6 +1,8 @@
-import { Checkbox, FormControlLabel, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -18,6 +20,7 @@ import IFramePreview from './components/IFramePreview';
 import embedderConfig from './embedderConfig';
 import * as smurl from './utils/url';
 import { getEmbedURL, getLanguage } from './utils/utils';
+import config from '../../../config';
 
 const hideCitiesIn = [paths.unit.regex, paths.address.regex];
 
@@ -54,6 +57,10 @@ const EmbedderView = ({
   const cityOption = (search?.city !== '' && search?.city?.split(',')) || citySettings;
   const citiesToReduce = cityOption.length > 0 ? cityOption : embedderConfig.CITIES.filter(v => v);
 
+  // If external theme (by Turku) is true, then can be used to select which controls to render
+  const externalTheme = config.themePKG;
+  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
   // Defaults
   const initialRatio = ratio || 52;
   const defaultMap = search.map || mapType || embedderConfig.BACKGROUND_MAPS[0];
@@ -85,6 +92,7 @@ const EmbedderView = ({
   const [heightMode, setHeightMode] = useState('ratio');
   const [transit, setTransit] = useState(false);
   const [showUnits, setShowUnits] = useState(true);
+  const [showList, setShowList] = useState(false);
   const [restrictBounds, setRestrictBounds] = useState(true);
 
   const boundsRef = useRef([]);
@@ -99,6 +107,7 @@ const EmbedderView = ({
     defaultLanguage,
     transit,
     showUnits,
+    showList,
     bbox: selectedBbox,
   });
 
@@ -425,56 +434,45 @@ const EmbedderView = ({
     );
   };
 
-  const renderBoundsControl = useCallback(() => (
-    <FormControlLabel
-      control={(
-        <Checkbox
-          color="primary"
-          checked={!!restrictBounds}
-          value="bounds"
-          onChange={() => setRestrictBounds(!restrictBounds)}
-        />
-        )}
-      label={(<FormattedMessage id="embedder.options.label.bbox" />)}
-    />
-  ), [restrictBounds]);
+  const filterControls = controlsArr => controlsArr.filter(item => item.key !== 'transit');
 
   const renderMapOptionsControl = () => {
-    let controls = [];
-    if (window.nodeEnvSettings.THEME_PKG) {
-      controls = [
-        {
-          key: 'units',
-          value: showUnits,
-          onChange: v => setShowUnits(v),
-          icon: null,
-          labelId: 'embedder.options.label.units',
-        },
-      ];
-    } else {
-      controls = [
-        {
-          key: 'transit',
-          value: transit,
-          onChange: v => setTransit(v),
-          icon: null,
-          labelId: 'embedder.options.label.transit',
-        },
-        {
-          key: 'units',
-          value: showUnits,
-          onChange: v => setShowUnits(v),
-          icon: null,
-          labelId: 'embedder.options.label.units',
-        },
-      ];
-    }
+    const controls = [
+      {
+        key: 'bounds',
+        value: restrictBounds,
+        onChange: v => setRestrictBounds(v),
+        icon: null,
+        labelId: 'embedder.options.label.bbox',
+      },
+      {
+        key: 'list',
+        value: showList,
+        onChange: v => setShowList(v),
+        icon: null,
+        labelId: 'embedder.options.label.list',
+      },
+      {
+        key: 'transit',
+        value: transit,
+        onChange: v => setTransit(v),
+        icon: null,
+        labelId: 'embedder.options.label.transit',
+      },
+      {
+        key: 'units',
+        value: showUnits,
+        onChange: v => setShowUnits(v),
+        icon: null,
+        labelId: 'embedder.options.label.units',
+      },
+    ];
 
     return (
       <EmbedController
         titleID="embedder.options.title"
         titleComponent="h2"
-        checkboxControls={controls}
+        checkboxControls={isExternalTheme ? filterControls(controls) : controls}
         checkboxLabelledBy="embedder.options.title"
       />
     );
@@ -541,7 +539,6 @@ const EmbedderView = ({
               title={iframeTitle}
               titleComponent="h2"
               widthMode={widthMode}
-              renderBoundsControl={renderBoundsControl}
             />
 
             {renderMapOptionsControl()}
