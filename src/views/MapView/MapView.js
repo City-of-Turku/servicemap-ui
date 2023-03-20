@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-import { ButtonBase, Tooltip as MUITooltip } from '@material-ui/core';
+import { ButtonBase } from '@material-ui/core';
 import { LocationDisabled, MyLocation } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import config from '../../../config';
 import Loading from '../../components/Loading';
-import HomeLogo from '../../components/Logos/HomeLogo';
 import { getSelectedUnitEvents } from '../../redux/selectors/selectedUnit';
 import { parseSearchParams } from '../../utils';
 import { useNavigationParams } from '../../utils/address';
@@ -203,24 +202,6 @@ const MapView = (props) => {
   }, [measuringMode]);
 
   // Render
-
-  const renderEmbedOverlay = () => {
-    if (!embedded) {
-      return null;
-    }
-    const openApp = () => {
-      const url = window.location.href;
-      window.open(url.replace('/embed', ''));
-    };
-    return (
-      <ButtonBase onClick={openApp}>
-        <MUITooltip title={intl.formatMessage({ id: 'embed.click_prompt_move' })}>
-          <HomeLogo aria-hidden className={classes.embedLogo} />
-        </MUITooltip>
-      </ButtonBase>
-    );
-  };
-
   const renderUnitGeometry = () => {
     if (highlightedDistrict) return null;
     if (currentPage !== 'unit') {
@@ -256,7 +237,6 @@ const MapView = (props) => {
 
     return (
       <>
-        {renderEmbedOverlay()}
         <MapContainer
           tap={false} // This should fix leaflet safari double click bug
           preferCanvas
