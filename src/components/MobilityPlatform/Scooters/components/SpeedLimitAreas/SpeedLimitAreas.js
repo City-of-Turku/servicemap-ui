@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
-import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
-import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
   isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase,
 } from '../../../utils/utils';
@@ -18,11 +18,16 @@ import TextContent from '../../../TextContent';
 const SpeedLimitAreas = () => {
   const [speedLimitAreas, setSpeedLimitAreas] = useState([]);
 
-  const { openMobilityPlatform, showScooterSpeedLimitAreas } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showScooterSpeedLimitAreas } = useMobilityPlatformContext();
 
   useEffect(() => {
+    const options = {
+      type_name: 'ScooterSpeedLimitArea',
+      page_size: 100,
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('ScooterSpeedLimitArea', 100, setSpeedLimitAreas);
+      fetchMobilityMapData(options, setSpeedLimitAreas);
     }
   }, [openMobilityPlatform, setSpeedLimitAreas]);
 

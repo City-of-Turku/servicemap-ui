@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
-import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
-import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
   fitPolygonsToBounds, isDataValid, blueOptionsBase, whiteOptionsBase,
 } from '../../utils/utils';
@@ -18,13 +18,17 @@ import TextContent from '../../TextContent';
 const GuestHarbour = () => {
   const [guestHarbourData, setGuestHarbourData] = useState([]);
 
-  const { openMobilityPlatform, showGuestHarbour } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showGuestHarbour } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
   useEffect(() => {
+    const options = {
+      type_name: 'GuestMarina',
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('GuestMarina', 50, setGuestHarbourData);
+      fetchMobilityMapData(options, setGuestHarbourData);
     }
   }, [openMobilityPlatform, setGuestHarbourData]);
 

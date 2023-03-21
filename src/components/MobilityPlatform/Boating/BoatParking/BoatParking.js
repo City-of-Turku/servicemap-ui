@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
-import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import {
   isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase,
 } from '../../utils/utils';
-import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
 import PolygonComponent from '../../PolygonComponent';
 import TextContent from '../../TextContent';
 
@@ -18,13 +18,17 @@ import TextContent from '../../TextContent';
 const BoatParking = () => {
   const [boatParkingData, setBoatParkingData] = useState([]);
 
-  const { openMobilityPlatform, showBoatParking } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showBoatParking } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
   useEffect(() => {
+    const options = {
+      type_name: 'BoatParking',
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('BoatParking', 50, setBoatParkingData);
+      fetchMobilityMapData(options, setBoatParkingData);
     }
   }, [openMobilityPlatform, setBoatParkingData]);
 

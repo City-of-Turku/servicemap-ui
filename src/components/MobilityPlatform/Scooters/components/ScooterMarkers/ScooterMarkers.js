@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap, useMapEvents } from 'react-leaflet';
 import circleIcon from 'servicemap-ui-turku/assets/icons/icons-icon_circle_border.svg';
@@ -7,7 +7,7 @@ import rydeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ryde.svg';
 import rydeIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ryde-bw.svg';
 import scooterIcon from 'servicemap-ui-turku/assets/icons/icons-icon_scooters_marker.svg';
 import scooterIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_scooters_marker-bw.svg';
-import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchIotData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import ScooterInfo from './components/ScooterInfo';
@@ -17,7 +17,7 @@ const ScooterMarkers = () => {
   const [scooterData, setScooterData] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, showScootersRyde } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showScootersRyde } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
