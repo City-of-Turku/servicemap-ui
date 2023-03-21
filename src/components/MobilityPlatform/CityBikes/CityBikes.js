@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap, useMapEvents } from 'react-leaflet';
 import cityBikeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_city_bike.svg';
 import cityBikeIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_city_bike-bw.svg';
 import follariIcon from 'servicemap-ui-turku/assets/icons/icons-icon_follari.svg';
 import follariIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_follari-bw.svg';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchCityBikesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid } from '../utils/utils';
@@ -16,7 +17,7 @@ const CityBikes = () => {
   const [cityBikeStatistics, setCityBikeStatistics] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, showCityBikes } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showCityBikes } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 

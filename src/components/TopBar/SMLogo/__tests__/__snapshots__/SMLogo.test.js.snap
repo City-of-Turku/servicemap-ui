@@ -16,7 +16,7 @@ exports[`<SMLogo /> should work 1`] = `
     >
       <img
         alt=""
-        class="HomeLogo-icon-26"
+        class="ForwardRef-icon-26"
         src="test-file-stub"
       />
     </div>

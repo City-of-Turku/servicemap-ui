@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import scooterParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_scooter_parking.svg';
 import scooterParkingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_scooter_parking-bw.svg';
-import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitToMapBounds } from '../../../utils/utils';
@@ -12,7 +13,7 @@ import TextContent from '../../../TextContent';
 const ParkingAreas = () => {
   const [parkingAreas, setParkingAreas] = useState([]);
 
-  const { openMobilityPlatform, showScooterParkingAreas } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showScooterParkingAreas } = useMobilityPlatformContext();
 
   const map = useMap();
 
@@ -24,8 +25,11 @@ const ParkingAreas = () => {
   const customIcon = icon(createIcon(useContrast ? scooterParkingIconBw : scooterParkingIcon));
 
   useEffect(() => {
+    const options = {
+      type_name: 'ScooterParkingArea',
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapData('ScooterParkingArea', 100, setParkingAreas);
+      fetchMobilityMapData(options, setParkingAreas);
     }
   }, [openMobilityPlatform, setParkingAreas]);
 
