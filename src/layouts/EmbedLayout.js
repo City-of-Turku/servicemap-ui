@@ -18,7 +18,7 @@ import HomeLogo from '../components/Logos/HomeLogo';
 import PaginatedList from '../components/Lists/PaginatedList';
 import useMapUnits from '../views/MapView/utils/useMapUnits';
 
-const createContentStyles = (theme) => {
+const createContentStyles = (theme, bottomList) => {
   const width = 450;
   return {
     activeRoot: {
@@ -27,7 +27,7 @@ const createContentStyles = (theme) => {
       display: 'flex',
       flexWrap: 'nowrap',
       height: '100vh',
-      flexDirection: 'row',
+      flexDirection: bottomList ? 'column-reverse' : 'row',
     },
     map: {
       bottom: 0,
@@ -57,13 +57,18 @@ const createContentStyles = (theme) => {
       zIndex: 1000,
       margin: theme.spacing(1.5),
     },
-    embedSidebarContainer: {
-      minWidth: 220,
-      maxWidth: 'min(40%, 300px)',
-      flexGrow: 1,
-    },
+    embedSidebarContainer: bottomList
+      ? {
+        height: 300,
+        maxHeight: '35%',
+        minHeight: '25%',
+      } : {
+        minWidth: 220,
+        maxWidth: 'min(40%, 300px)',
+        flexGrow: 1,
+      },
     unitList: {
-      paddingTop: 36,
+      paddingTop: bottomList ? 0 : 36,
       maxHeight: '100%',
       overflowY: 'scroll',
       boxSizing: 'border-box',
@@ -75,12 +80,14 @@ const createContentStyles = (theme) => {
 
 const EmbedLayout = ({ intl }) => {
   const theme = useTheme();
-  const styles = createContentStyles(theme);
   const location = useLocation();
   const units = useMapUnits();
   const searchParams = parseSearchParams(location.search);
 
   const showList = searchParams?.show_list;
+  const bottomUnitList = showList && showList === 'bottom';
+
+  const styles = createContentStyles(theme, bottomUnitList);
 
   const renderEmbedOverlay = () => {
     const openApp = () => {
@@ -105,13 +112,13 @@ const EmbedLayout = ({ intl }) => {
     <>
       {renderEmbedOverlay()}
       <div style={styles.activeRoot}>
-        <div aria-hidden={!showList} style={styles.embedSidebarContainer} className={!showList ? 'sr-only' : ''}>
+        <div aria-hidden={!showList} style={styles.embedSidebarContainer} className={!showList ? 'sr-only' : ''} id="unitListContainer">
           <div style={styles.unitList}>
             <PaginatedList
               id="embeddedResults"
               data={units}
               titleComponent="h3"
-              embeddedList
+              embeddedList={showList}
             />
           </div>
           <Switch>
