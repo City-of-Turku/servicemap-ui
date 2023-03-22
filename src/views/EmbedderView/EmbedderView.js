@@ -460,32 +460,8 @@ const EmbedderView = ({
         )}
         label={(<FormattedMessage id="embedder.options.label.bbox" />)}
       />
-      {/* Side list */}
-      <FormControlLabel
-        control={(
-          <Checkbox
-            color="primary"
-            checked={!!showListSide}
-            value="listSide"
-            onChange={() => setShowListSide(!showListSide)}
-          />
-      )}
-        label={(<FormattedMessage id="embedder.options.label.list.side" />)}
-      />
-      {/* Bottom list */}
-      <FormControlLabel
-        control={(
-          <Checkbox
-            color="primary"
-            checked={!!showListBottom}
-            value="listBottom"
-            onChange={() => setShowListBottom(!showListBottom)}
-          />
-        )}
-        label={(<FormattedMessage id="embedder.options.label.list.bottom" />)}
-      />
     </div>
-  ), [showListSide, showListBottom, restrictBounds]);
+  ), [restrictBounds]);
 
   const filterControls = controlsArr => controlsArr.filter(item => item.key !== 'transit');
 
@@ -504,6 +480,20 @@ const EmbedderView = ({
         onChange: v => setShowUnits(v),
         icon: null,
         labelId: 'embedder.options.label.units',
+      },
+      {
+        key: 'listSide',
+        value: showListSide,
+        onChange: v => setShowListSide(v),
+        icon: null,
+        labelId: 'embedder.options.label.list.side',
+      },
+      {
+        key: 'listBottom',
+        value: showListBottom,
+        onChange: v => setShowListBottom(v),
+        icon: null,
+        labelId: 'embedder.options.label.list.bottom',
       },
     ];
 

@@ -2,7 +2,7 @@ import config from '../../../config';
 
 export default (theme) => {
   const { topBarHeight } = config;
-  const formPaperHorizontalPadding = theme.spacing(3);
+
   return {
     appBar: {
       position: 'relative',
@@ -65,7 +65,7 @@ export default (theme) => {
       boxSizing: 'border-box',
       display: 'inline-block',
       margin: `${theme.spacing(3)}px 0`,
-      padding: `${theme.spacing(2)}px ${formPaperHorizontalPadding}px`,
+      padding: `${theme.spacing(2)}px ${theme.spacing(3)}px`,
       textAlign: 'left',
       '& label': {
         margin: `${theme.spacing(1)}px 0`,
