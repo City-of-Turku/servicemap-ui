@@ -43,7 +43,7 @@ export default (theme) => {
       marginTop: 0,
       width: '45%',
       height: '100%',
-      overflow: 'scroll',
+      overflow: 'auto',
       paddingLeft: '9.5vw',
       paddingRight: theme.spacing(3),
     },
