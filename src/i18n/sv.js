@@ -173,6 +173,8 @@ const translations = {
   'embedder.map.aria.label': 'Välj bakgrundskarta',
   'embedder.options.title': 'Visa på kartan',
   'embedder.options.label.units': 'Visa verksamhetsställen',
+  'embedder.options.list.title': 'Toimipistelista', // TODO: translate
+  'embedder.options.label.list.none': 'Piilota toimipistelista', // TODO: translate
   'embedder.options.label.list.side': 'Visa verksamhetsställen som en lista (intill kartan)',
   'embedder.options.label.list.bottom': 'Visa verksamhetsställen som en lista (nedanför kartan)',
   'embedder.options.label.transit': 'Visa kollektivtrafikens hållplatser (Zooma in kartan för att se hållplatserna)',
