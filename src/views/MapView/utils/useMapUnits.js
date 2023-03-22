@@ -8,7 +8,7 @@ import { getSelectedUnit } from '../../../redux/selectors/selectedUnit';
 import { getServiceUnits } from '../../../redux/selectors/service';
 import { useEmbedStatus } from '../../../utils/path';
 
-const handleAdrressUnits = (addressToRender, adminDistricts, addressUnits) => {
+const handleAddressUnits = (addressToRender, adminDistricts, addressUnits) => {
   let mapUnits = [];
   switch (addressToRender) {
     case 'adminDistricts':
@@ -112,7 +112,7 @@ const useMapUnits = () => {
         return [];
 
       case 'address':
-        return handleAdrressUnits(addressToRender, adminDistricts, addressUnits);
+        return handleAddressUnits(addressToRender, adminDistricts, addressUnits);
 
       case 'service':
         if (serviceUnits && !unitsLoading) return serviceUnits;
