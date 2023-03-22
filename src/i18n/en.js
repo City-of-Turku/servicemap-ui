@@ -181,7 +181,9 @@ const translations = {
   'embedder.service.common': 'The city resident\'s most common everyday service points are shown on the map: schools, daycares and health stations.',
   'embedder.service.all': 'All service points are shown on the map. Too extensive area borders slow down the embedding and decreases its clarity.',
   'embedder.title': 'Embedding tool',
-  'embedder.title.info': 'If you want to make an embedding from a search result, start by making the search.',
+  'embedder.title.info': 'Palvelukartan upotustyökalulla voit upottaa Palvelukartan yksittäisiä näkymiä osaksi mitä tahansa verkkosivua.', // TODO: translate
+  'embedder.info.title': 'Ohjeet upotustyökalun käyttöön', // TODO: translate
+  'embedder.info.description': 'Valitse alla olevasta valikoimasta karttanäkymään haluamasi toiminnallisuudet. Kopioi kartanalta URL-linkki tai html-koodi käyttöösi.', // TODO: translate
   'embedder.url.title': 'Copy the address',
   'embedder.width.title': 'Width of the embedding',
   'embedder.width.aria.label': 'Choose width of the embedding',
@@ -330,6 +332,15 @@ const translations = {
   'search.loading.units': 'Searching service points {count} / {max}',
   'search.loading.units.srInfo': 'Searching {count} service point(s)',
   'search.loading.units.simple': 'Searching service points',
+
+  'link.settings.dialog.title': 'Share the link to the location',
+  'link.settings.dialog.tooltip': 'Copied to the clipboard',
+  'link.settings.dialog.radio.label': 'Link contents',
+  'link.settings.dialog.tooltip.aria': 'Copy the site link to the clipboard',
+  'link.settings.dialog.tooltip.aria.a11y': 'Copy the site link with accessibility settings to the clipboard',
+  'link.settings.dialog.subtitle': 'Share the link with accessibility settings',
+  'link.settings.dialog.description': 'The accessibility settings affect the accessibility data of the location shown and the appearance of the map.',
+  'link.settings.dialog.buttons.action': 'Copy to clipboard',
 
   // Map
   'map': 'Map',

@@ -184,7 +184,9 @@ const translations = {
   'embedder.service.common': 'På kartan visas de vanligaste verksamhetsställena i stadsbons vardag: skolor, daghem och hälsostationer.',
   'embedder.service.all': 'Alla verksamhetsställen visas på kartan. För omfattande områdesgränser gör inbäddningen långsammare och otydligare.',
   'embedder.title': 'Inbäddningsverktyg',
-  'embedder.title.info': 'Om du vill göra en inbäddning enligt sökresultat, börja med att göra sökningen.',
+  'embedder.title.info': 'Palvelukartan upotustyökalulla voit upottaa Palvelukartan yksittäisiä näkymiä osaksi mitä tahansa verkkosivua.', // TODO: translate
+  'embedder.info.title': 'Ohjeet upotustyökalun käyttöön', // TODO: translate
+  'embedder.info.description': 'Valitse alla olevasta valikoimasta karttanäkymään haluamasi toiminnallisuudet. Kopioi kartanalta URL-linkki tai html-koodi käyttöösi.', // TODO: translate
   'embedder.url.title': 'Kopiera adressen',
   'embedder.width.title': 'Inbäddningens bredd',
   'embedder.width.aria.label': 'Välj inbäddningens bredd',
@@ -333,6 +335,15 @@ const translations = {
   'search.loading.units': 'Söker verksamhetsställen {count} / {max}',
   'search.loading.units.srInfo': 'Söker {count} verksamhetsställe(n)',
   'search.loading.units.simple': 'Söker verksamhetsställen',
+
+  'link.settings.dialog.title': 'Dela länken till verksamhetsstället',
+  'link.settings.dialog.tooltip': 'Kopierades till klippbordet',
+  'link.settings.dialog.radio.label': 'Länkens innehåll',
+  'link.settings.dialog.tooltip.aria': 'Kopiera sidans länk till klippbordet',
+  'link.settings.dialog.tooltip.aria.a11y': 'Kopiera sidans länk med tillgänglighetsinställningar till klippbordet',
+  'link.settings.dialog.subtitle': 'Dela länken med tillgänglighetsinställningar',
+  'link.settings.dialog.description': 'Tillgänglighetsinställningarna påverkar det visade verksamhetsställets tillgänglighetsuppgifter och kartans utseende.',
+  'link.settings.dialog.buttons.action': 'Kopiera till klippbordet',
 
   // Map
   'map': 'Karta',

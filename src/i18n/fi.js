@@ -184,7 +184,9 @@ const translations = {
   'embedder.service.common': 'Kartalla näytetään yleisimmät kaupunkilaisen arkeen liittyvät toimipisteet: koulut, päiväkodit ja terveyskeskukset.',
   'embedder.service.all': 'Kartalla näytetään kaikki toimipisteet. Jos aluerajaus on liian laaja, upotuksen näyttäminen hidastuu ja sen havainnollisuus vähenee.',
   'embedder.title': 'Upotustyökalu',
-  'embedder.title.info': 'Mikäli haluat tehdä upotuksen hakutuloksen mukaan tee haku ensin.',
+  'embedder.title.info': 'Palvelukartan upotustyökalulla voit upottaa Palvelukartan yksittäisiä näkymiä osaksi mitä tahansa verkkosivua.',
+  'embedder.info.title': 'Ohjeet upotustyökalun käyttöön',
+  'embedder.info.description': 'Valitse alla olevasta valikoimasta karttanäkymään haluamasi toiminnallisuudet. Kopioi kartanalta URL-linkki tai html-koodi käyttöösi.',
   'embedder.url.title': 'Kopioi osoite',
   'embedder.width.title': 'Upotuksen leveys',
   'embedder.width.aria.label': 'Valitse upotuksen leveys',
@@ -333,6 +335,15 @@ const translations = {
   'search.loading.units': 'Haetaan toimipisteitä {count} / {max}',
   'search.loading.units.srInfo': 'Haetaan {count} toimipistettä',
   'search.loading.units.simple': 'Haetaan toimipisteitä',
+
+  'link.settings.dialog.title': 'Jaa linkki toimipisteeseen',
+  'link.settings.dialog.tooltip': 'Kopioitu leikepöydälle',
+  'link.settings.dialog.radio.label': 'Linkin sisältö',
+  'link.settings.dialog.tooltip.aria': 'Kopioi sivun linkki leikepöydälle',
+  'link.settings.dialog.tooltip.aria.a11y': 'Kopioi esteettömyyasetukset sisältävä sivun linkki leikepöydälle',
+  'link.settings.dialog.subtitle': 'Jaa linkki esteettömyysasetusten kanssa',
+  'link.settings.dialog.description': 'Esteettömyysasetukset vaikuttavat näytettäviin toimipisteen esteettömyystietoihin ja kartan ulkoasuun.',
+  'link.settings.dialog.buttons.action': 'Kopioi leikepöydälle',
 
   // Map
   'map': 'Kartta',

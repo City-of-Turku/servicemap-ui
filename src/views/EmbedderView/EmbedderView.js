@@ -1,8 +1,11 @@
-import { Typography } from '@material-ui/core';
-import PropTypes from 'prop-types';
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   useCallback, useEffect, useRef, useState,
 } from 'react';
+import {
+  Divider, Typography, Checkbox, FormControlLabel,
+} from '@material-ui/core';
+import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -194,9 +197,8 @@ const EmbedderView = ({
     }
     if (heightMode === 'ratio') {
       if (widthMode === 'auto') {
-        html = `<div style="${renderWrapperStyle()}">
-          <iframe title="${iframeTitle}" style="position: absolute; top: 0; left: 0; border: none; width: 100%; height: 100%;"
-          src="${url}"></iframe></div>`;
+        html = `<div style="${renderWrapperStyle()}"><iframe title="${iframeTitle}" style="position: absolute; top: 0; left: 0; border: none; 
+        width: 100%; height: 100%;" src="${url}"></iframe></div>`;
       } else {
         height = parseInt(
           parseInt(customWidth, 10) * (parseInt(ratioHeight, 10) / 100.0),
@@ -444,37 +446,51 @@ const EmbedderView = ({
     );
   };
 
+  const renderMapControls = useCallback(() => (
+    <div className={classes.mapControlContainer}>
+      {/* Map bounds */}
+      <FormControlLabel
+        control={(
+          <Checkbox
+            color="primary"
+            checked={!!restrictBounds}
+            value="bounds"
+            onChange={() => setRestrictBounds(!restrictBounds)}
+          />
+        )}
+        label={(<FormattedMessage id="embedder.options.label.bbox" />)}
+      />
+      {/* Side list */}
+      <FormControlLabel
+        control={(
+          <Checkbox
+            color="primary"
+            checked={!!showListSide}
+            value="listSide"
+            onChange={() => setShowListSide(!showListSide)}
+          />
+      )}
+        label={(<FormattedMessage id="embedder.options.label.list.side" />)}
+      />
+      {/* Bottom list */}
+      <FormControlLabel
+        control={(
+          <Checkbox
+            color="primary"
+            checked={!!showListBottom}
+            value="listBottom"
+            onChange={() => setShowListBottom(!showListBottom)}
+          />
+        )}
+        label={(<FormattedMessage id="embedder.options.label.list.bottom" />)}
+      />
+    </div>
+  ), [showListSide, showListBottom, restrictBounds]);
+
   const filterControls = controlsArr => controlsArr.filter(item => item.key !== 'transit');
 
-  const renderMapOptionsControl = () => {
+  const renderMarkerOptionsControl = () => {
     const controls = [
-      {
-        key: 'bounds',
-        value: restrictBounds,
-        onChange: v => setRestrictBounds(v),
-        icon: null,
-        labelId: 'embedder.options.label.bbox',
-      },
-      {
-        key: 'listSide',
-        value: showListSide,
-        onChange: (v) => {
-          setShowListSide(v);
-          setShowListBottom(false);
-        },
-        icon: null,
-        labelId: 'embedder.options.label.list.side',
-      },
-      {
-        key: 'listBottom',
-        value: showListBottom,
-        onChange: (v) => {
-          setShowListBottom(v);
-          setShowListSide(false);
-        },
-        icon: null,
-        labelId: 'embedder.options.label.list.bottom',
-      },
       {
         key: 'transit',
         value: transit,
@@ -516,76 +532,102 @@ const EmbedderView = ({
   }
 
   return (
-    <div ref={dialogRef}>
-      {renderHeadInfo()}
-      <div className={classes.appBar} />
-      <div className={classes.container}>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            position: 'relative',
-          }}
-        >
-          <CloseButton
-            aria-label={intl.formatMessage({ id: 'embedder.close' })}
-            className={classes.closeButton}
-            onClick={closeView}
-            role="link"
-            textID="embedder.close"
-          />
+    <>
+      <div ref={dialogRef}>
+        {
+          renderHeadInfo()
+        }
+        <div className={classes.container}>
           <div className={classes.titleContainer}>
+            <CloseButton
+              aria-label={intl.formatMessage({ id: 'embedder.close' })}
+              className={classes.closeButton}
+              onClick={closeView}
+              role="link"
+              textID="embedder.close"
+            />
             <Typography align="left" className={classes.title} variant="h1">
               <FormattedMessage id="embedder.title" />
             </Typography>
-            <Typography align="left" variant="body2">
-              <FormattedMessage id="embedder.title.info" />
-            </Typography>
           </div>
-          <div className={classes.pusher} />
-        </div>
-        <div className={classes.formContainer}>
-          <form>
-            {renderLanguageControl()}
-            {renderServiceControl()}
-            {renderMapTypeControl()}
-            {renderCityControl()}
-            {renderWidthControl()}
-            {renderHeightControl()}
-            <IFramePreview
-              classes={classes}
-              customWidth={customWidth}
-              embedUrl={embedUrl}
-              fixedHeight={fixedHeight}
-              heightMode={heightMode}
-              ratioHeight={ratioHeight}
-              title={iframeTitle}
-              titleComponent="h2"
-              widthMode={widthMode}
-              bottomList={showListBottom}
-              minHeightWithBottomList={minHeightWithBottomList}
-            />
+          <div className={classes.scrollContainer}>
+            <div className={classes.formContainer}>
+              <Typography className={classes.infoText} align="left" variant="body2">
+                <FormattedMessage id="embedder.title.info" />
+              </Typography>
+              <br />
+              <Typography className={classes.infoTitle} variant="h6" component="h2" align="left">
+                <FormattedMessage id="embedder.info.title" />
+              </Typography>
+              <Typography className={classes.infoText} align="left">
+                <FormattedMessage id="embedder.info.description" />
+              </Typography>
+              <br />
+              <form>
+                {
+                renderLanguageControl()
+              }
+                {
+                renderServiceControl()
+              }
+                {
+                renderMapTypeControl()
+              }
+                {
+                renderCityControl()
+              }
+                {
+                renderWidthControl()
+              }
+                {
+                renderHeightControl()
+              }
+                {
+                renderMarkerOptionsControl()
+              }
+              </form>
+            </div>
 
-            {renderMapOptionsControl()}
-          </form>
-          <EmbedHTML
-            classes={classes}
-            url={embedUrl}
-            createEmbedHTML={createEmbedHTML}
-            setBoundsRef={setBoundsRef}
-            restrictBounds={restrictBounds}
-          />
-          <SMButton
-            aria-label={intl.formatMessage({ id: 'embedder.close' })}
-            className={classes.button}
-            small
-            role="link"
-            onClick={closeView}
-            messageID="embedder.close"
-          />
+            <div>
+              <Divider className={classes.divider} orientation="vertical" aria-hidden />
+            </div>
+
+            <div className={classes.previewContainer}>
+              <IFramePreview
+                classes={classes}
+                customWidth={customWidth}
+                embedUrl={embedUrl}
+                fixedHeight={fixedHeight}
+                heightMode={heightMode}
+                ratioHeight={ratioHeight}
+                title={iframeTitle}
+                titleComponent="h2"
+                widthMode={widthMode}
+                renderMapControls={renderMapControls}
+                bottomList={showListBottom}
+                minHeightWithBottomList={minHeightWithBottomList}
+              />
+
+              <EmbedHTML
+                classes={classes}
+                url={embedUrl}
+                createEmbedHTML={createEmbedHTML}
+                setBoundsRef={setBoundsRef}
+                restrictBounds={restrictBounds}
+              />
+              <SMButton
+                aria-label={intl.formatMessage({ id: 'embedder.close' })}
+                className={classes.button}
+                small
+                role="link"
+                onClick={closeView}
+                messageID="embedder.close"
+              />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -604,6 +646,12 @@ EmbedderView.propTypes = {
     textField: PropTypes.string,
     title: PropTypes.string,
     titleContainer: PropTypes.string,
+    scrollContainer: PropTypes.string,
+    previewContainer: PropTypes.string,
+    divider: PropTypes.string,
+    infoTitle: PropTypes.string,
+    infoText: PropTypes.string,
+    mapControlContainer: PropTypes.string,
   }).isRequired,
   location: PropTypes.shape({
     hash: PropTypes.string,

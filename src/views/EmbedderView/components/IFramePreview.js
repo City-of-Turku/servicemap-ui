@@ -14,6 +14,7 @@ const IFramePreview = ({
   title,
   titleComponent,
   widthMode,
+  renderMapControls,
   bottomList,
   minHeightWithBottomList,
 }) => {
@@ -86,6 +87,7 @@ const IFramePreview = ({
       >
         <FormattedMessage id="embedder.preview.title" />
       </Typography>
+      {renderMapControls()}
       <div className={classes.iframeContainer} style={{ width: '100%' }}>
         {
           element
@@ -110,6 +112,7 @@ IFramePreview.propTypes = {
   titleComponent: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']).isRequired,
   ratioHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   widthMode: PropTypes.string.isRequired,
+  renderMapControls: PropTypes.func.isRequired,
   bottomList: PropTypes.bool,
   minHeightWithBottomList: PropTypes.string.isRequired,
 };
