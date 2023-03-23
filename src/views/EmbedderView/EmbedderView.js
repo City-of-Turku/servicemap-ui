@@ -1,6 +1,8 @@
-import { Checkbox, FormControlLabel, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -18,6 +20,7 @@ import IFramePreview from './components/IFramePreview';
 import embedderConfig from './embedderConfig';
 import * as smurl from './utils/url';
 import { getEmbedURL, getLanguage } from './utils/utils';
+import config from '../../../config';
 
 const hideCitiesIn = [paths.unit.regex, paths.address.regex];
 
@@ -54,6 +57,10 @@ const EmbedderView = ({
   const cityOption = (search?.city !== '' && search?.city?.split(',')) || citySettings;
   const citiesToReduce = cityOption.length > 0 ? cityOption : embedderConfig.CITIES.filter(v => v);
 
+  // If external theme (by Turku) is true, then can be used to select which controls to render
+  const externalTheme = config.themePKG;
+  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
   // Defaults
   const initialRatio = ratio || 52;
   const defaultMap = search.map || mapType || embedderConfig.BACKGROUND_MAPS[0];
@@ -85,12 +92,17 @@ const EmbedderView = ({
   const [heightMode, setHeightMode] = useState('ratio');
   const [transit, setTransit] = useState(false);
   const [showUnits, setShowUnits] = useState(true);
+  const [showListSide, setShowListSide] = useState(false);
+  const [showListBottom, setShowListBottom] = useState(false);
   const [restrictBounds, setRestrictBounds] = useState(true);
 
   const boundsRef = useRef([]);
   const dialogRef = useRef();
 
   const selectedBbox = restrictBounds && boundsRef.current;
+
+  const minHeightWithBottomList = '478px';
+
   const embedUrl = getEmbedURL(url, {
     language,
     map,
@@ -99,6 +111,8 @@ const EmbedderView = ({
     defaultLanguage,
     transit,
     showUnits,
+    showListSide,
+    showListBottom,
     bbox: selectedBbox,
   });
 
@@ -169,7 +183,10 @@ const EmbedderView = ({
     if (!url) {
       return '';
     }
-    const renderWrapperStyle = () => `position: relative; width:100%; padding-bottom:${ratioHeight}%;`;
+    const renderWrapperStyle = () => (showListBottom
+      ? `position: relative; width:100%; padding-bottom: max(${ratioHeight}%, ${minHeightWithBottomList});`
+      : `position: relative; width:100%; padding-bottom:${ratioHeight}%;`
+    );
     let height;
     let html;
     if (heightMode === 'fixed') {
@@ -195,7 +212,8 @@ const EmbedderView = ({
             && iframeConfig.style.width
         : customWidth;
       const widthUnit = width !== '100%' ? 'px' : '';
-      html = `<iframe title="${iframeTitle}" style="border: none; width: ${width}${widthUnit}; height: ${height}px;"
+      const heightValue = showListBottom ? `height: max(${height}px, ${minHeightWithBottomList})` : `height: ${height}px`;
+      html = `<iframe title="${iframeTitle}" style="border: none; width: ${width}${widthUnit}; ${heightValue};"
                   src="${url}"></iframe>`;
     }
     return html;
@@ -207,6 +225,7 @@ const EmbedderView = ({
     widthMode,
     ratioHeight,
     iframeConfig.style,
+    showListBottom,
   ]);
 
   const showCities = (embedUrl) => {
@@ -425,56 +444,58 @@ const EmbedderView = ({
     );
   };
 
-  const renderBoundsControl = useCallback(() => (
-    <FormControlLabel
-      control={(
-        <Checkbox
-          color="primary"
-          checked={!!restrictBounds}
-          value="bounds"
-          onChange={() => setRestrictBounds(!restrictBounds)}
-        />
-        )}
-      label={(<FormattedMessage id="embedder.options.label.bbox" />)}
-    />
-  ), [restrictBounds]);
+  const filterControls = controlsArr => controlsArr.filter(item => item.key !== 'transit');
 
   const renderMapOptionsControl = () => {
-    let controls = [];
-    if (window.nodeEnvSettings.THEME_PKG) {
-      controls = [
-        {
-          key: 'units',
-          value: showUnits,
-          onChange: v => setShowUnits(v),
-          icon: null,
-          labelId: 'embedder.options.label.units',
+    const controls = [
+      {
+        key: 'bounds',
+        value: restrictBounds,
+        onChange: v => setRestrictBounds(v),
+        icon: null,
+        labelId: 'embedder.options.label.bbox',
+      },
+      {
+        key: 'listSide',
+        value: showListSide,
+        onChange: (v) => {
+          setShowListSide(v);
+          setShowListBottom(false);
         },
-      ];
-    } else {
-      controls = [
-        {
-          key: 'transit',
-          value: transit,
-          onChange: v => setTransit(v),
-          icon: null,
-          labelId: 'embedder.options.label.transit',
+        icon: null,
+        labelId: 'embedder.options.label.list.side',
+      },
+      {
+        key: 'listBottom',
+        value: showListBottom,
+        onChange: (v) => {
+          setShowListBottom(v);
+          setShowListSide(false);
         },
-        {
-          key: 'units',
-          value: showUnits,
-          onChange: v => setShowUnits(v),
-          icon: null,
-          labelId: 'embedder.options.label.units',
-        },
-      ];
-    }
+        icon: null,
+        labelId: 'embedder.options.label.list.bottom',
+      },
+      {
+        key: 'transit',
+        value: transit,
+        onChange: v => setTransit(v),
+        icon: null,
+        labelId: 'embedder.options.label.transit',
+      },
+      {
+        key: 'units',
+        value: showUnits,
+        onChange: v => setShowUnits(v),
+        icon: null,
+        labelId: 'embedder.options.label.units',
+      },
+    ];
 
     return (
       <EmbedController
         titleID="embedder.options.title"
         titleComponent="h2"
-        checkboxControls={controls}
+        checkboxControls={isExternalTheme ? filterControls(controls) : controls}
         checkboxLabelledBy="embedder.options.title"
       />
     );
@@ -541,7 +562,8 @@ const EmbedderView = ({
               title={iframeTitle}
               titleComponent="h2"
               widthMode={widthMode}
-              renderBoundsControl={renderBoundsControl}
+              bottomList={showListBottom}
+              minHeightWithBottomList={minHeightWithBottomList}
             />
 
             {renderMapOptionsControl()}

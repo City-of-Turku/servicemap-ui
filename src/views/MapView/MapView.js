@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-import { ButtonBase, Tooltip as MUITooltip } from '@material-ui/core';
+import { ButtonBase } from '@material-ui/core';
 import { LocationDisabled, MyLocation } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import config from '../../../config';
 import Loading from '../../components/Loading';
-import HomeLogo from '../../components/Logos/HomeLogo';
 import { getSelectedUnitEvents } from '../../redux/selectors/selectedUnit';
 import { parseSearchParams } from '../../utils';
 import { useNavigationParams } from '../../utils/address';
@@ -34,6 +33,7 @@ import CreateMap from './utils/createMap';
 import fetchAddress from './utils/fetchAddress';
 import { focusToPosition, getBoundsFromBbox } from './utils/mapActions';
 import MapUtility from './utils/mapUtility';
+import useMapUnits from './utils/useMapUnits';
 
 if (global.window) {
   require('leaflet');
@@ -57,18 +57,12 @@ const EmbeddedActions = () => {
 
 const MapView = (props) => {
   const {
-    addressToRender,
-    addressUnits,
-    adminDistricts,
     classes,
     currentPage,
     intl,
     location,
     settings,
-    unitList,
     unitsLoading,
-    serviceUnits,
-    districtUnits,
     districtViewFetching,
     hideUserMarker,
     highlightedUnit,
@@ -89,7 +83,6 @@ const MapView = (props) => {
   const [mapObject, setMapObject] = useState(null);
   const [mapElement, setMapElement] = useState(null);
   const [prevMap, setPrevMap] = useState(null);
-  const [unitData, setUnitData] = useState(null);
   const [mapUtility, setMapUtility] = useState(null);
   const [measuringMarkers, setMeasuringMarkers] = useState([]);
   const [measuringLine, setMeasuringLine] = useState([]);
@@ -98,66 +91,14 @@ const MapView = (props) => {
   const getAddressNavigatorParams = useNavigationParams();
   const districtUnitsFetch = useSelector(state => state.districts.unitFetch);
 
+  const unitData = useMapUnits();
+
   // This unassigned selector is used to trigger re-render after events are fetched
   useSelector(state => getSelectedUnitEvents(state));
 
   // If external theme (by Turku) is true, then can be used to select which components to render
   const externalTheme = config.themePKG;
   const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
-
-  const getMapUnits = () => {
-    let mapUnits = [];
-
-    if (embedded && parseSearchParams(location.search).units === 'none') {
-      return [];
-    }
-    if (currentPage === 'home' && embedded) {
-      mapUnits = unitList;
-    }
-    if (
-      currentPage === 'search'
-      || currentPage === 'division'
-      || (currentPage === 'unit' && unitList.length)
-    ) {
-      mapUnits = unitList;
-    } else if (currentPage === 'address') {
-      switch (addressToRender) {
-        case 'adminDistricts':
-          mapUnits = adminDistricts
-            ? adminDistricts
-              .filter(d => d.unit)
-              .reduce((unique, o) => {
-                // Ignore districts without unit
-                if (!o.unit) {
-                  return unique;
-                }
-                // Add only unique units
-                if (!unique.some(obj => obj.id === o.unit.id)) {
-                  unique.push(o.unit);
-                }
-                return unique;
-              }, [])
-            : [];
-          break;
-        case 'units':
-          mapUnits = addressUnits;
-          break;
-        default:
-          mapUnits = [];
-      }
-    } else if (currentPage === 'service' && serviceUnits && !unitsLoading) {
-      mapUnits = serviceUnits;
-    } else if (currentPage === 'area' && districtUnits) {
-      mapUnits = districtUnits;
-    } else if (
-      (currentPage === 'unit' || currentPage === 'fullList' || currentPage === 'event')
-      && highlightedUnit
-    ) {
-      mapUnits = [highlightedUnit];
-    }
-
-    return mapUnits;
-  };
 
   const initializeMap = () => {
     if (mapElement) {
@@ -253,19 +194,6 @@ const MapView = (props) => {
     }
   }, [mapElement]);
 
-  // Attempt to render unit markers on page change or unitList change
-  useEffect(() => {
-    setUnitData(getMapUnits());
-  }, [
-    unitList,
-    highlightedUnit,
-    addressUnits,
-    serviceUnits,
-    districtUnits,
-    highlightedDistrict,
-    currentPage,
-  ]);
-
   useEffect(() => {
     if (!measuringMode) {
       setMeasuringMarkers([]);
@@ -274,24 +202,6 @@ const MapView = (props) => {
   }, [measuringMode]);
 
   // Render
-
-  const renderEmbedOverlay = () => {
-    if (!embedded) {
-      return null;
-    }
-    const openApp = () => {
-      const url = window.location.href;
-      window.open(url.replace('/embed', ''));
-    };
-    return (
-      <ButtonBase onClick={openApp}>
-        <MUITooltip title={intl.formatMessage({ id: 'embed.click_prompt_move' })}>
-          <HomeLogo aria-hidden className={classes.embedLogo} />
-        </MUITooltip>
-      </ButtonBase>
-    );
-  };
-
   const renderUnitGeometry = () => {
     if (highlightedDistrict) return null;
     if (currentPage !== 'unit') {
@@ -333,7 +243,6 @@ const MapView = (props) => {
 
     return (
       <>
-        {renderEmbedOverlay()}
         <MapContainer
           tap={false} // This should fix leaflet safari double click bug
           preferCanvas
@@ -459,14 +368,6 @@ export default withRouter(MapView);
 
 // Typechecking
 MapView.propTypes = {
-  addressToRender: PropTypes.string,
-  addressUnits: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)),
-  adminDistricts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      ocd_id: PropTypes.string,
-    }),
-  ),
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
   currentPage: PropTypes.string.isRequired,
   hideUserMarker: PropTypes.bool,
@@ -476,13 +377,10 @@ MapView.propTypes = {
   isMobile: PropTypes.bool,
   location: PropTypes.objectOf(PropTypes.any).isRequired,
   navigator: PropTypes.objectOf(PropTypes.any),
-  serviceUnits: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)),
-  districtUnits: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)),
   districtViewFetching: PropTypes.bool.isRequired,
   findUserLocation: PropTypes.func.isRequired,
   setMapRef: PropTypes.func.isRequired,
   settings: PropTypes.objectOf(PropTypes.any).isRequired,
-  unitList: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)),
   unitsLoading: PropTypes.bool,
   userLocation: PropTypes.objectOf(PropTypes.any),
   locale: PropTypes.string.isRequired,
@@ -493,17 +391,11 @@ MapView.propTypes = {
 };
 
 MapView.defaultProps = {
-  addressToRender: null,
-  addressUnits: null,
-  adminDistricts: null,
   hideUserMarker: false,
   highlightedDistrict: null,
   highlightedUnit: null,
   isMobile: false,
   navigator: null,
-  serviceUnits: null,
-  districtUnits: null,
-  unitList: null,
   unitsLoading: false,
   toggleSidebar: null,
   sidebarHidden: false,
