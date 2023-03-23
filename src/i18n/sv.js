@@ -173,8 +173,8 @@ const translations = {
   'embedder.map.aria.label': 'Välj bakgrundskarta',
   'embedder.options.title': 'Visa på kartan',
   'embedder.options.label.units': 'Visa verksamhetsställen',
-  'embedder.options.list.title': 'Toimipistelista', // TODO: translate
-  'embedder.options.label.list.none': 'Piilota toimipistelista', // TODO: translate
+  'embedder.options.list.title': 'List med verksamhetsställen',
+  'embedder.options.label.list.none': 'Ta bort listan med verksamhetsställen',
   'embedder.options.label.list.side': 'Visa verksamhetsställen som en lista (intill kartan)',
   'embedder.options.label.list.bottom': 'Visa verksamhetsställen som en lista (nedanför kartan)',
   'embedder.options.label.transit': 'Visa kollektivtrafikens hållplatser (Zooma in kartan för att se hållplatserna)',
@@ -186,9 +186,9 @@ const translations = {
   'embedder.service.common': 'På kartan visas de vanligaste verksamhetsställena i stadsbons vardag: skolor, daghem och hälsostationer.',
   'embedder.service.all': 'Alla verksamhetsställen visas på kartan. För omfattande områdesgränser gör inbäddningen långsammare och otydligare.',
   'embedder.title': 'Inbäddningsverktyg',
-  'embedder.title.info': 'Palvelukartan upotustyökalulla voit upottaa Palvelukartan yksittäisiä näkymiä osaksi mitä tahansa verkkosivua.', // TODO: translate
-  'embedder.info.title': 'Ohjeet upotustyökalun käyttöön', // TODO: translate
-  'embedder.info.description': 'Valitse alla olevasta valikoimasta karttanäkymään haluamasi toiminnallisuudet. Kopioi kartanalta URL-linkki tai html-koodi käyttöösi.', // TODO: translate
+  'embedder.title.info': 'Med inbäddningsverktyget kan du bädda in individuella vyer av Servicemap på vilken webbsida som helst.',
+  'embedder.info.title': 'Instruktioner för användning av inbäddningsverktyget',
+  'embedder.info.description': 'Välj funktioner som du vill ha för kartvyn från valen nedan. Kopiera länken eller html-koden från kartan för din användning.',
   'embedder.url.title': 'Kopiera adressen',
   'embedder.width.title': 'Inbäddningens bredd',
   'embedder.width.aria.label': 'Välj inbäddningens bredd',

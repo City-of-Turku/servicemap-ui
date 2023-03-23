@@ -171,8 +171,8 @@ const translations = {
   'embedder.preview.title': 'Map preview',
   'embedder.options.title': 'Show on the map',
   'embedder.options.label.units': 'Show service points',
-  'embedder.options.list.title': 'Toimipistelista', // TODO: translate
-  'embedder.options.label.list.none': 'Piilota toimipistelista', // TODO: translate
+  'embedder.options.list.title': 'List of service points',
+  'embedder.options.label.list.none': 'Hide list of service points',
   'embedder.options.label.list.side': 'Show service points as a list (next to the map)',
   'embedder.options.label.list.bottom': 'Show service points as a list (under the map)',
   'embedder.options.label.transit': 'Show public transport stops (Zoom in the map to see the stops)',
@@ -183,9 +183,9 @@ const translations = {
   'embedder.service.common': 'The city resident\'s most common everyday service points are shown on the map: schools, daycares and health stations.',
   'embedder.service.all': 'All service points are shown on the map. Too extensive area borders slow down the embedding and decreases its clarity.',
   'embedder.title': 'Embedding tool',
-  'embedder.title.info': 'Palvelukartan upotustyökalulla voit upottaa Palvelukartan yksittäisiä näkymiä osaksi mitä tahansa verkkosivua.', // TODO: translate
-  'embedder.info.title': 'Ohjeet upotustyökalun käyttöön', // TODO: translate
-  'embedder.info.description': 'Valitse alla olevasta valikoimasta karttanäkymään haluamasi toiminnallisuudet. Kopioi kartanalta URL-linkki tai html-koodi käyttöösi.', // TODO: translate
+  'embedder.title.info': 'With the embedding tool, you can embed individual views of the Servicemap into any webpage.',
+  'embedder.info.title': 'Instructions on how to use embedding tool',
+  'embedder.info.description': 'Select functionalities that you want for the map view from the selections below. Copy the link or the html code for your use.',
   'embedder.url.title': 'Copy the address',
   'embedder.width.title': 'Width of the embedding',
   'embedder.width.aria.label': 'Choose width of the embedding',

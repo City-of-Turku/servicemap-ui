@@ -47,15 +47,17 @@ const EmbedHTML = ({
           title={intl.formatMessage({ id: 'link.settings.dialog.tooltip' })}
           placement="top"
         >
-          <SMButton
-            icon={<FileCopy className={classes.copyIcon} />}
-            className={classes.copyButton}
-            color="primary"
-            role="button"
-            onClick={() => copyToClipboard(text, id)}
-          >
-            <Typography variant="button">{title}</Typography>
-          </SMButton>
+          <>
+            <SMButton
+              icon={<FileCopy className={classes.copyIcon} />}
+              className={classes.copyButton}
+              color="primary"
+              role="button"
+              onClick={() => copyToClipboard(text, id)}
+            >
+              <Typography variant="button">{title}</Typography>
+            </SMButton>
+          </>
         </Tooltip>
       </div>
     </ClickAwayListener>
