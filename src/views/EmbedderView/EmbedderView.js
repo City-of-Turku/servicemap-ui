@@ -196,8 +196,7 @@ const EmbedderView = ({
     }
     if (heightMode === 'ratio') {
       if (widthMode === 'auto') {
-        html = `<div style="${renderWrapperStyle()}"><iframe title="${iframeTitle}" style="position: absolute; top: 0; left: 0; border: none; 
-        width: 100%; height: 100%;" src="${url}"></iframe></div>`;
+        html = `<div style="${renderWrapperStyle()}"><iframe title="${iframeTitle}" style="position: absolute; top: 0; left: 0; border: none; width: 100%; height: 100%;" src="${url}"></iframe></div>`;
       } else {
         height = parseInt(
           parseInt(customWidth, 10) * (parseInt(ratioHeight, 10) / 100.0),
