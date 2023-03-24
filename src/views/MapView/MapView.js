@@ -201,31 +201,39 @@ const MapView = (props) => {
     }
   }, [measuringMode]);
 
+  const unitHasLocationAndGeometry = un => un?.location && un?.geometry;
+
   // Render
   const renderUnitGeometry = () => {
     if (highlightedDistrict) return null;
     if (currentPage !== 'unit') {
       return unitData.map(unit => (unit.geometry ? <UnitGeometry key={unit.id} data={unit} /> : null));
     }
-    if (highlightedUnit) {
+    if (unitHasLocationAndGeometry(highlightedUnit)) {
       return <UnitGeometry data={highlightedUnit} />;
     }
     return null;
+  };
+
+  const llMapHasMapPane = (leafLetMap) => {
+    // `getCenter()` call requires existence of mapPane (what ever that means). So check for that before calling it. Just another null check.
+    const panes = leafLetMap.getPanes();
+    return !!panes && !!panes.mapPane;
   };
 
   if (global.rL && mapObject) {
     const { MapContainer, TileLayer, WMSTileLayer } = global.rL || {};
     let center = mapOptions.initialPosition;
     let zoom = isMobile ? mapObject.options.mobileZoom : mapObject.options.zoom;
-    if (prevMap) {
+    if (prevMap && llMapHasMapPane(prevMap)) {
       // If changing map type, use viewport values of previuous map
-      center = prevMap.getCenter() || prevMap.props.center;
+      center = prevMap.getCenter() || prevMap.options.center;
       /* Different map types have different zoom levels
       Use the zoom difference to calculate the new zoom level */
       const zoomDifference = mapObject.options.zoom - prevMap.defaultZoom;
       zoom = prevMap.getZoom()
         ? prevMap.getZoom() + zoomDifference
-        : prevMap.props.zoom + zoomDifference;
+        : prevMap.options.zoom + zoomDifference;
     }
 
     const showLoadingScreen = districtViewFetching || (embedded && unitsLoading);
@@ -297,7 +305,8 @@ const MapView = (props) => {
 
           {currentPage === 'address' && <AddressMarker embedded={embedded} />}
 
-          {currentPage === 'unit' && highlightedUnit?.entrances?.length && <EntranceMarker />}
+          {currentPage === 'unit' && highlightedUnit?.entrances?.length && unitHasLocationAndGeometry(highlightedUnit) && (
+            <EntranceMarker />)}
 
           {!hideUserMarker && userLocation && (
             <UserMarker
