@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useMap, useMapEvents } from 'react-leaflet';
-import pedestrianIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle-stand.svg';
-import pedestrianIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_bicycle_stand-bw.svg';
+import crossWalkIcon from 'servicemap-ui-turku/assets/icons/icons-icon_crosswalk.svg';
+import crossWalkIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_crosswalk-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
@@ -30,8 +30,7 @@ const CrossWalks = ({ mapObject }) => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  // TODO verify icons
-  const customIcon = icon(createIcon(useContrast ? pedestrianIconContrast : pedestrianIcon));
+  const customIcon = icon(createIcon(useContrast ? crossWalkIconContrast : crossWalkIcon));
 
   const fetchBounds = map.getBounds();
   const cornerBottom = fetchBounds.getSouthWest();
