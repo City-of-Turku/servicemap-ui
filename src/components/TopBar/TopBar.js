@@ -1,5 +1,5 @@
 import {
-  AppBar, Button, ButtonBase, Toolbar, Typography
+  AppBar, Button, ButtonBase, Toolbar, Typography,
 } from '@material-ui/core';
 import { Map } from '@material-ui/icons';
 import PropTypes from 'prop-types';
@@ -27,6 +27,7 @@ const TopBar = (props) => {
   const getAddressNavigatorParams = useNavigationParams();
 
   const {
+    hideButtons,
     settingsOpen,
     classes,
     toggleSettings,
@@ -158,6 +159,7 @@ const TopBar = (props) => {
   };
 
   const handleNavigation = (target, data) => {
+    const isHomePage = paths.home.regex.test(window.location.href);
     // Hide settings and map if open
     toggleSettings();
     if (location.search.indexOf('showMap=true') > -1) {
@@ -166,7 +168,7 @@ const TopBar = (props) => {
 
     switch (target) {
       case 'home':
-        if (currentPage !== 'home') {
+        if (!isHomePage) {
           navigator.push('home');
         } else {
           setTimeout(() => {
@@ -278,35 +280,39 @@ const TopBar = (props) => {
             }
           >
             <SMLogo onClick={() => handleNavigation('home')} />
-            <MobileComponent>
-              <div className={classes.mobileButtonContainer}>
-                {renderMapButton()}
-                {renderMenuButton(pageType)}
-              </div>
-              {renderDrawerMenu(pageType)}
-            </MobileComponent>
-            <DesktopComponent>
-              <nav aria-label={intl.formatMessage({ id: 'app.navigation.settings' })} className={classes.settingsButtonsContainer}>
-                {!smallScreen ? (
-                  <>
-                    <div className={classes.settingsButtonsContainer}>
-                      <Typography component="h2" variant="srOnly">
-                        <FormattedMessage id="settings" />
-                      </Typography>
-                      {renderSettingsButtons()}
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className={classes.mobileButtonContainer}>
-                      {renderMenuButton()}
-                    </div>
-                    {renderDrawerMenu(pageType)}
-                  </>
-                )}
-              </nav>
-              {!smallScreen && <ToolMenu />}
-            </DesktopComponent>
+            {hideButtons ? null : (
+              <>
+                <MobileComponent>
+                  <div className={classes.mobileButtonContainer}>
+                    {renderMapButton()}
+                    {renderMenuButton(pageType)}
+                  </div>
+                  {renderDrawerMenu(pageType)}
+                </MobileComponent>
+                <DesktopComponent>
+                  <nav aria-label={intl.formatMessage({ id: 'app.navigation.settings' })} className={classes.settingsButtonsContainer}>
+                    {!smallScreen ? (
+                      <>
+                        <div className={classes.settingsButtonsContainer}>
+                          <Typography component="h2" variant="srOnly">
+                            <FormattedMessage id="settings" />
+                          </Typography>
+                          {renderSettingsButtons()}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className={classes.mobileButtonContainer}>
+                          {renderMenuButton()}
+                        </div>
+                        {renderDrawerMenu(pageType)}
+                      </>
+                    )}
+                  </nav>
+                  {!smallScreen && <ToolMenu />}
+                </DesktopComponent>
+              </>
+            )}
           </Toolbar>
         </AppBar>
         {/* This empty toolbar fixes the issue where App bar hides the top page content */}
@@ -342,11 +348,13 @@ TopBar.propTypes = {
   smallScreen: PropTypes.bool.isRequired,
   theme: PropTypes.string.isRequired,
   toggleSettings: PropTypes.func.isRequired,
+  hideButtons: PropTypes.bool,
 };
 
 TopBar.defaultProps = {
   navigator: null,
   settingsOpen: null,
+  hideButtons: false,
 };
 
 export default TopBar;

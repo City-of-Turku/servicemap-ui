@@ -3,7 +3,7 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React, {
-  useContext, useEffect, useMemo, useRef, useState,
+  useEffect, useMemo, useRef, useState,
 } from 'react';
 import { Helmet } from 'react-helmet';
 import { ReactSVG } from 'react-svg';
@@ -19,12 +19,12 @@ import InfoTextBox from '../../components/MobilityPlatform/InfoTextBox';
 import {
   fetchBicycleRouteNames,
   fetchCultureRouteNames,
-  fetchMobilityMapPolygonData,
+  fetchMobilityMapData,
 } from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid } from '../../components/MobilityPlatform/utils/utils';
 import useLocaleText from '../../utils/useLocaleText';
 import TitleBar from '../../components/TitleBar';
-import MobilityPlatformContext from '../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../context/MobilityPlatformContext';
 import CityBikeInfo from './components/CityBikeInfo';
 import Description from './components/Description';
 import EmptyRouteList from './components/EmptyRouteList';
@@ -159,7 +159,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowOutdoorGymDevices,
     showCrossWalks,
     setShowCrossWalks,
-  } = useContext(MobilityPlatformContext);
+  } = useMobilityPlatformContext();
 
   const locale = useSelector(state => state.user.locale);
   const location = useLocation();
@@ -219,23 +219,47 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   }, [setBicycleRouteList]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('SpeedLimitZone', 1000, setSpeedLimitZones);
+    const options = {
+      type_name: 'SpeedLimitZone',
+      page_size: 1000,
+      latlon: true,
+    };
+    fetchMobilityMapData(options, setSpeedLimitZones);
   }, [setSpeedLimitZones]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('PaymentZone', 10, setParkingChargeZones);
+    const options = {
+      type_name: 'PaymentZone',
+      page_size: 10,
+      latlon: true,
+    };
+    fetchMobilityMapData(options, setParkingChargeZones);
   }, [setParkingChargeZones]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('PaavonPolku', 50, setMarkedTrailsList);
+    const options = {
+      type_name: 'PaavonPolku',
+      latlon: true,
+    };
+    fetchMobilityMapData(options, setMarkedTrailsList);
   }, [setMarkedTrailsList]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('NatureTrail', 200, setNatureTrailsList);
+    const options = {
+      type_name: 'NatureTrail',
+      page_size: 200,
+      latlon: true,
+    };
+    fetchMobilityMapData(options, setNatureTrailsList);
   }, [setNatureTrailsList]);
 
   useEffect(() => {
-    fetchMobilityMapPolygonData('FitnessTrail', 200, setFitnessTrailsList);
+    const options = {
+      type_name: 'FitnessTrail',
+      page_size: 200,
+      latlon: true,
+    };
+    fetchMobilityMapData(options, setFitnessTrailsList);
   }, [setFitnessTrailsList]);
 
   /** If direct link is used to navigate, open correct content view
@@ -285,9 +309,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   useEffect(() => {
     checkVisibilityValues(showBicycleStands, setOpenBicycleSettings);
+    checkVisibilityValues(showHullLockableStands, setOpenBicycleSettings);
     checkVisibilityValues(showBikeServiceStations, setOpenBicycleSettings);
     checkVisibilityValues(showCityBikes, setOpenBicycleSettings);
-  }, [showBicycleStands, showBikeServiceStations, showCityBikes]);
+  }, [showBicycleStands, showHullLockableStands, showBikeServiceStations, showCityBikes]);
 
   useEffect(() => {
     checkVisibilityValues(showBicycleRoutes, setOpenBicycleSettings);

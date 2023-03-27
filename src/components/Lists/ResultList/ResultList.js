@@ -17,7 +17,15 @@ class ResultList extends React.Component {
 
   render() {
     const {
-      beforeList, classes, data, customComponent, listId, resultCount, title, titleComponent,
+      beforeList,
+      classes,
+      data,
+      customComponent,
+      listId,
+      resultCount,
+      title,
+      titleComponent,
+      embeddedList,
     } = this.props;
 
     return (
@@ -51,18 +59,17 @@ class ResultList extends React.Component {
             </div>
           )
         }
-        <Divider aria-hidden="true" />
+        {!embeddedList ? <Divider aria-hidden="true" /> : null}
         {beforeList}
         <List className={classes.list} id={listId}>
           {
             data && data.length
             && data.map((item) => {
               const { id, object_type } = item;
-              // Figure out correct icon for item
               let itemComponent = null;
               switch (object_type) {
                 case 'unit':
-                  itemComponent = <UnitItem key={`unit-${id}`} className={`unit-${id}`} unit={item} />;
+                  itemComponent = <UnitItem key={`unit-${id}`} className={`unit-${id}`} simpleItem={embeddedList} unit={item} />;
                   break;
                 case 'service':
                   itemComponent = <ServiceItem key={`service-${id}`} service={item} />;
@@ -103,6 +110,7 @@ ResultList.propTypes = {
   resultCount: PropTypes.number,
   title: PropTypes.string,
   titleComponent: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']).isRequired,
+  embeddedList: PropTypes.bool,
 };
 
 ResultList.defaultProps = {
@@ -111,4 +119,5 @@ ResultList.defaultProps = {
   customComponent: null,
   resultCount: null,
   title: null,
+  embeddedList: false,
 };

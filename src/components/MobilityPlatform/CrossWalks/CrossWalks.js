@@ -1,13 +1,13 @@
 /* eslint-disable global-require */
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useMap, useMapEvents } from 'react-leaflet';
-import pedestrianIcon from 'servicemap-ui-turku/assets/icons/icons-icon_pedestrian.svg';
-import pedestrianIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_pedestrian-bw.svg';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import pedestrianIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle-stand.svg';
+import pedestrianIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_bicycle_stand-bw.svg';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchMobilityMapDataBbox } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid } from '../utils/utils';
 import MapUtility from '../../../utils/mapUtility';
 import MarkerComponent from '../MarkerComponent';
@@ -18,7 +18,7 @@ import TextContent from '../TextContent';
 const CrossWalks = ({ mapObject }) => {
   const [crossWalksData, setCrossWalksData] = useState([]);
 
-  const { openMobilityPlatform, showCrossWalks } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showCrossWalks } = useMobilityPlatformContext();
 
   const map = useMap();
   const currentZoom = map.getZoom();
@@ -53,14 +53,23 @@ const CrossWalks = ({ mapObject }) => {
   // Bounds used in fetch
   const fetchBox = MapUtility.getBboxFromBounds(wideBounds, true);
 
+  const handleCrossWalks = () => {
+    const options = {
+      type_name: 'CrossWalkSign',
+      page_size: 3000,
+      bbox: fetchBox,
+    };
+    if (openMobilityPlatform && zoomLevel >= mapObject.options.detailZoom) {
+      fetchMobilityMapData(options, setCrossWalksData);
+    }
+  };
+
   const mapEvent = useMapEvents({
     zoomend() {
       setZoomLevel(mapEvent.getZoom());
     },
     moveend() {
-      if (openMobilityPlatform && zoomLevel >= mapObject.options.detailZoom) {
-        fetchMobilityMapDataBbox('CrossWalkSign', 3000, fetchBox, setCrossWalksData);
-      }
+      handleCrossWalks();
     },
   });
 

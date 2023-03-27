@@ -5,29 +5,29 @@ import config from '../../../../config';
 const apiUrl = config.mobilityPlatformAPI;
 const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
 
-const fetchMobilityMapData = async (type, pageSize, setData) => {
-  try {
-    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?type_name=${type}&page_size=${pageSize}&srid=4326`);
-    const jsonData = await response.json();
-    setData(jsonData.results);
-  } catch (err) {
-    console.warn(err.message);
-  }
+/**
+ * Returns query options as a search params for URLs
+ * @param {Object} options
+ * @param {*} options.key
+ * @returns {string}
+ */
+
+const optionsToParams = (options) => {
+  const defaultOptions = {
+    page_size: 100,
+    srid: 4326,
+  };
+  const params = new URLSearchParams();
+  Object.entries({ ...defaultOptions, ...options }).forEach(([key, value]) => {
+    params.set(key, value);
+  });
+  return params.toString();
 };
 
-const fetchMobilityMapDataBbox = async (type, pageSize, bbox, setData) => {
+const fetchMobilityMapData = async (options, setData) => {
+  const params = optionsToParams(options);
   try {
-    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?type_name=${type}&page_size=${pageSize}&bbox=${bbox}&srid=4326`);
-    const jsonData = await response.json();
-    setData(jsonData.results);
-  } catch (err) {
-    console.warn(err.message);
-  }
-};
-
-const fetchMobilityMapDataExtra = async (type, pageSize, extraQuery, setData) => {
-  try {
-    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?type_name=${type}&extra__${extraQuery}&page_size=${pageSize}&srid=4326`);
+    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?${params}`);
     const jsonData = await response.json();
     setData(jsonData.results);
   } catch (err) {
@@ -38,16 +38,6 @@ const fetchMobilityMapDataExtra = async (type, pageSize, extraQuery, setData) =>
 const fetchCultureRouteNames = async (setData) => {
   try {
     const response = await fetch(`${isApiUrl}/mobility_data/mobile_unit_groups/`);
-    const jsonData = await response.json();
-    setData(jsonData.results);
-  } catch (err) {
-    console.warn(err.message);
-  }
-};
-
-const fetchCultureRoutesData = async (type, size, setData) => {
-  try {
-    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?type_name=${type}&page_size=${size}&srid=4326`);
     const jsonData = await response.json();
     setData(jsonData.results);
   } catch (err) {
@@ -80,16 +70,6 @@ const fetchIotData = async (sourceName, setData, isScooter) => {
     const response = await fetch(`${isApiUrl}/iot?source_name=${sourceName}`);
     const jsonData = await response.json();
     setData(!isScooter ? jsonData.results[0].data : jsonData.results[0].data.data.bikes);
-  } catch (err) {
-    console.warn(err.message);
-  }
-};
-
-const fetchMobilityMapPolygonData = async (type, pageSize, setData) => {
-  try {
-    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?type_name=${type}&page_size=${pageSize}&srid=4326&latlon=true`);
-    const jsonData = await response.json();
-    setData(jsonData.results);
   } catch (err) {
     console.warn(err.message);
   }
@@ -139,14 +119,10 @@ const fetchParkingAreaStats = async (endpoint, setData, setError) => {
 
 export {
   fetchMobilityMapData,
-  fetchMobilityMapDataBbox,
-  fetchMobilityMapDataExtra,
   fetchCultureRouteNames,
-  fetchCultureRoutesData,
   fetchBicycleRouteNames,
   fetchBicycleRoutesGeometry,
   fetchIotData,
-  fetchMobilityMapPolygonData,
   fetchCityBikesData,
   fetchStreetMaintenanceData,
   fetchParkingAreaGeometries,

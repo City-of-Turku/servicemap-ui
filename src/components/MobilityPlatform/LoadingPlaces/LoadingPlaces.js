@@ -1,18 +1,19 @@
-import React, { useContext, useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import loadingPlaceIcon from 'servicemap-ui-turku/assets/icons/icons-icon_loading_place.svg';
 import loadingPlaceIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_loading_place-bw.svg';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchMobilityMapPolygonData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, fitPolygonsToBounds, createIcon } from '../utils/utils';
 import LoadingPlacesContent from './components/LoadingPlacesContent';
 
 const LoadingPlaces = () => {
   const [loadingPlaces, setLoadingPlaces] = useState([]);
 
-  const { openMobilityPlatform, showLoadingPlaces } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showLoadingPlaces } = useMobilityPlatformContext();
 
   const map = useMap();
 
@@ -24,8 +25,13 @@ const LoadingPlaces = () => {
   const customIcon = icon(createIcon(useContrast ? loadingPlaceIconBw : loadingPlaceIcon));
 
   useEffect(() => {
+    const options = {
+      type_name: 'LoadingUnloadingPlace',
+      page_size: 300,
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('LoadingUnloadingPlace', 300, setLoadingPlaces);
+      fetchMobilityMapData(options, setLoadingPlaces);
     }
   }, [openMobilityPlatform, setLoadingPlaces]);
 
