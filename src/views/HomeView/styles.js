@@ -1,8 +1,14 @@
+import mapBackgroundTku from 'servicemap-ui-turku/assets/images/front-page-map-bg-tku.png';
 import mapBackground from '../../assets/images/front-page-map-bg.png';
 
 export default theme => ({
   background: {
     backgroundImage: `url(${mapBackground})`,
+    backgroundSize: 'cover',
+    flex: '1 1 auto',
+  },
+  backgroundTku: {
+    backgroundImage: `url(${mapBackgroundTku})`,
     backgroundSize: 'cover',
     flex: '1 1 auto',
   },

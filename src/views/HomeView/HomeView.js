@@ -18,6 +18,10 @@ const HomeView = (props) => {
   const { formatMessage } = useIntl();
   const getAddressNavigatorParams = useNavigationParams();
 
+  // If external theme (by Turku) is true, then can be used to select which background to render
+  const externalTheme = config.themePKG;
+  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
   const renderNavigationOptions = () => {
     const noUserLocation = !userLocation || !userLocation.coordinates || !userLocation.addressData;
 
@@ -33,7 +37,7 @@ const HomeView = (props) => {
     }
 
     return (
-      <div className={classes.background}>
+      <div className={isExternalTheme ? classes.backgroundTku : classes.background}>
         <div className={classes.buttonContainer}>
           <nav aria-label={formatMessage({ id: 'app.navigation.home' })}>
             {areaSelection}
