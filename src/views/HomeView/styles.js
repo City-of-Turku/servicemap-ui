@@ -1,4 +1,4 @@
-import mapBackgroundTku from 'servicemap-ui-turku/assets/images/front-page-map-bg-tku.png';
+import mapBackgroundTku from 'servicemap-ui-turku/assets/images/front-page-map-bg-tku.webp';
 import mapBackground from '../../assets/images/front-page-map-bg.png';
 import config from '../../../config';
 
