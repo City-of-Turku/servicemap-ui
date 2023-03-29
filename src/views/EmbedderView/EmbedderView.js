@@ -23,7 +23,6 @@ import IFramePreview from './components/IFramePreview';
 import embedderConfig from './embedderConfig';
 import * as smurl from './utils/url';
 import { getEmbedURL, getLanguage } from './utils/utils';
-import config from '../../../config';
 
 const hideCitiesIn = [paths.unit.regex, paths.address.regex];
 
@@ -59,10 +58,6 @@ const EmbedderView = ({
 
   const cityOption = (search?.city !== '' && search?.city?.split(',')) || citySettings;
   const citiesToReduce = cityOption.length > 0 ? cityOption : embedderConfig.CITIES.filter(v => v);
-
-  // If external theme (by Turku) is true, then can be used to select which controls to render
-  const externalTheme = config.themePKG;
-  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
 
   // Defaults
   const initialRatio = ratio || 52;
@@ -461,8 +456,6 @@ const EmbedderView = ({
     </div>
   ), [restrictBounds]);
 
-  const filterControls = controlsArr => controlsArr.filter(item => item.key !== 'transit');
-
   const renderMarkerOptionsControl = () => {
     const controls = [
       {
@@ -485,7 +478,7 @@ const EmbedderView = ({
       <EmbedController
         titleID="embedder.options.title"
         titleComponent="h2"
-        checkboxControls={isExternalTheme ? filterControls(controls) : controls}
+        checkboxControls={controls}
         checkboxLabelledBy="embedder.options.title"
       />
     );

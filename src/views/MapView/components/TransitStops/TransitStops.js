@@ -36,7 +36,7 @@ const TransitStops = ({ mapObject, classes }) => {
 
     const url = new URL(window.location);
     const embeded = isEmbed({ url: url.toString() });
-    const showTransit = !embeded || url.searchParams.get('transit') === '1';
+    const showTransit = (showBusStops && !embeded) || url.searchParams.get('transit') === '1';
 
     return (currentZoom >= transitZoom) && showTransit;
   };
@@ -111,27 +111,26 @@ const TransitStops = ({ mapObject, classes }) => {
   };
 
   return (
-    showBusStops ? (
-      transitStops.map((stop) => {
-        const icon = getTransitIcon(stop.vehicleType);
-        return (
-          <Marker
-            icon={icon}
-            key={stop.name.fi + stop.gtfsId}
-            position={[stop.lat, stop.lon]}
-            keyboard={false}
-          >
-            <div aria-hidden>
-              <Popup closeButton={false} className="popup" autoPan={false}>
-                <TransitStopInfo
-                  stop={stop}
-                  onCloseClick={() => closePopup()}
-                />
-              </Popup>
-            </div>
-          </Marker>
-        );
-      })) : null
+    transitStops.map((stop) => {
+      const icon = getTransitIcon(stop.vehicleType);
+      return (
+        <Marker
+          icon={icon}
+          key={stop.name.fi + stop.gtfsId}
+          position={[stop.lat, stop.lon]}
+          keyboard={false}
+        >
+          <div aria-hidden>
+            <Popup closeButton={false} className="popup" autoPan={false}>
+              <TransitStopInfo
+                stop={stop}
+                onCloseClick={() => closePopup()}
+              />
+            </Popup>
+          </div>
+        </Marker>
+      );
+    })
   );
 };
 
