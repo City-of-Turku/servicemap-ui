@@ -10,7 +10,7 @@ import {
   handleOpenGeographicalCategory,
   setSelectedDistrictServices,
   setSelectedDistrictType,
-  setSelectedSubdistricts
+  setSelectedSubdistricts,
 } from '../../../../redux/actions/district';
 import { getFilteredSubdistrictServices } from '../../../../redux/selectors/district';
 import { formAddressString } from '../../../../utils';
@@ -124,7 +124,7 @@ const GeographicalTab = ({
         {localAddressData?.address && localAddressData.districts?.length && (
           renderAddressInfo()
         )}
-        <Typography variant="srOnly" component="h3">
+        <Typography variant="srOnly" component="h4">
           <FormattedMessage id="area.list" />
         </Typography>
         <List className={classes.listNoPadding}>

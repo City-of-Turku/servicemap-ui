@@ -139,7 +139,7 @@ const ServiceTab = (props) => {
 
   return (
     <div>
-      <Typography variant="srOnly" component="h3">
+      <Typography variant="srOnly" component="h4">
         <FormattedMessage id="area.list" />
       </Typography>
       <List>{districtCategoryList.map(item => renderCategoryItem(item))}</List>
