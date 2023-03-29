@@ -127,7 +127,7 @@ const GeographicalTab = ({
         <Typography variant="srOnly" component="h3">
           <FormattedMessage id="area.list" />
         </Typography>
-        <List>
+        <List className={classes.listNoPadding}>
           {districtItems.map((district) => {
             const opened = openCategory === district.id;
             const selected = selectedDistrictType === district.id;
