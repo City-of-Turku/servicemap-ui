@@ -57,7 +57,7 @@ const AreaView = ({
   const searchParams = parseSearchParams(location.search);
   const selectedArea = searchParams.selected;
   // Get area parameter without year data
-  const selectedAreaType = selectedArea?.split(/([0-9]+)/)[0];
+  const selectedAreaType = selectedArea?.split(/([\d]+)/)[0];
   const mapFocusDisabled = useMapFocusDisabled();
 
   const getInitialOpenItems = () => {
@@ -228,11 +228,11 @@ const AreaView = ({
     } else if (mapState) { // Returning to page, without url parameters
       // Returns map to the previous spot
       const { center, zoom } = mapState;
-      if (!map && center && zoom) map.setView(center, zoom);
+      if (map && center && zoom) map.setView(center, zoom);
     }
   }, []);
 
-  if (!map || !map) {
+  if (!map) {
     return null;
   }
 
