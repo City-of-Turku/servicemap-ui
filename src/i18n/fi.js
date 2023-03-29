@@ -814,6 +814,7 @@ const translations = {
   'mobilityPlatform.info.parkingMachines': 'Kartalla näkyvät Turun kaupungin omistamat pysäköintiautomaatit. Kaikissa automaateissa maksutapoina toimivat pankkikortti ja lähimaksu. Lisätietoja automaatista näkee painamalla kuvaketta kartalla.',
   'mobilityPlatform.info.publicParkingSpaces': 'Kartalla näkyvät yleisessä käytössä olevat pysäköintialueet. Niiden käyttöasteesta ei ole kuitenkaan saatavilla tietoja. Tarkempia tietoja valitusta pysäköintialueesta voi lukea painamalla aluetta kartalla.',
   'mobilityPlatform.info.outdoorGymDevices': 'Turun kaupunki ylläpitää ulkoliikuntapaikkoja. Ulkokuntosalilaitteet tarjoavat hauskan tavan harjoittaa lihaskuntoa ulkoilmasta nauttien. Ympäri kaupunkia sijaitsevilla ulkokuntoilulaitteilla pystyt harjoittamaan koko kehoa. Ylätaljat, jalkaprässit, punnerrus-, surffaus- ja kävelylaitteet sopivat kaikille. Enemmän haastetta tarjoavat leuanvetoteline, dippi, vatsalauta ja selkäpenkki.',
+  'mobilityPlatform.info.busStops': 'Kartalla näkyvät Turun seudun joukkoliikenteen Fölin linja-autopysäkit. Kuvaketta painamalle voi nähdä seuraavat pysäkiltä lähtevät vuorot. Tarkenna karttaa lähemmäs, jotta pysäkit näkyvät. Tiedot tulevat Digitransitin ylläpitämästä rajapinnasta.', // TODO: verify
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',

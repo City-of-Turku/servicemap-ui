@@ -1554,6 +1554,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     },
   ];
 
+  const infoTextsPublicTransport = [
+    {
+      visible: showBusStops,
+      type: 'busStopsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.busStops" />,
+    },
+  ];
+
   /** Render infotext(s) if visible value is true
    * @param {Array} textData
    * @return {Element}
@@ -1701,6 +1709,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const renderPublicTransportSettings = () => (
     <React.Fragment>
       {renderSettings(openPublicTransportSettings, publicTransportControlTypes)}
+      {renderInfoTexts(infoTextsPublicTransport)}
     </React.Fragment>
   );
 
