@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Typography, List, ListItem } from '@material-ui/core';
-import { Map } from '@material-ui/icons';
+import { Map, BusinessCenter, LocationCity } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -281,10 +281,12 @@ const AreaView = ({
       {
         component: renderServiceTab(),
         title: intl.formatMessage({ id: 'area.tab.publicServices' }),
+        icon: <BusinessCenter className={classes.icon} />,
       },
       {
         component: renderGeographicalTab(),
         title: intl.formatMessage({ id: 'area.tab.geographical' }),
+        icon: <LocationCity className={classes.icon} />,
       },
     ];
     if (!embed) {
@@ -318,13 +320,14 @@ const AreaView = ({
                   className={`${classes.listItem}`}
                 >
                   <SMAccordion // Top level categories
+                    adornment={category.icon}
                     defaultOpen={false}
                     disableUnmount
                     onOpen={(e, open) => areaSectionSelection(open, i)}
                     isOpen={areaSelection === i}
                     elevated={areaSelection === i}
                     titleContent={(
-                      <Typography component="h3" variant="subtitle1">
+                      <Typography component="p" variant="subtitle1">
                         {category.title}
                       </Typography>
                     )}
