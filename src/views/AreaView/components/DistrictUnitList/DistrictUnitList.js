@@ -63,20 +63,13 @@ const DistrictUnitList = (props) => {
     );
   };
 
-  const renderServiceListAccordion = (title, districts) => (
-    <SMAccordion
-      className={classes.serviceListAccordion}
-      defaultOpen
-      titleContent={<Typography>{`${title} (${districts.length})`}</Typography>}
-      disabled={!districts.length}
-      collapseContent={(
-        <List className={`${classes.serviceListPadding} districtUnits`} disablePadding>
-          {districts.map(district => (
-            renderDistrictUnitItem(district)
-          ))}
-        </List>
-      )}
-    />
+  const renderServiceListAccordion = (title, unitList) => (
+    <div className={classes.serviceTabServiceList}>
+      <Typography>{`${title} (${unitList.length})`}</Typography>
+      <List className="districtUnits" disablePadding>
+        {unitList.map(unit => renderDistrictUnitItem(unit))}
+      </List>
+    </div>
   );
 
 
