@@ -1,5 +1,5 @@
 import {
-    Checkbox, FormControlLabel, List, ListItem, Typography
+  Checkbox, FormControlLabel, List, ListItem, Typography,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -75,7 +75,7 @@ const GeographicalDistrictList = ({ district, classes }) => {
   return (
     <>
       <div className={classes.municipalitySubtitle}>
-        <Typography component="h5" className={classes.bold}>
+        <Typography component="h4" className={classes.bold}>
           <FormattedMessage id={`area.${district.name}.title`} />
         </Typography>
       </div>
@@ -84,7 +84,7 @@ const GeographicalDistrictList = ({ district, classes }) => {
         return (
           <React.Fragment key={municipality}>
             <div className={classes.municipalitySubtitle}>
-              <Typography component="h6" className={classes.bold}>
+              <Typography component="h5" className={classes.bold}>
                 <FormattedMessage id={`settings.city.${municipality}`} />
               </Typography>
             </div>
