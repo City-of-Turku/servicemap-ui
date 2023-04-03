@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SpeedLimitZonesContent /> should match snapshot 1`] = `
+<div>
+  <div
+    class="injectIntl(SpeedLimitZonesContent)-padding-1"
+  >
+    <div
+      class="injectIntl(SpeedLimitZonesContent)-subtitle-2"
+    >
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle1"
+      >
+        Nopeusrajoitusalue
+      </h6>
+    </div>
+    <p
+      class="MuiTypography-root MuiTypography-body2"
+    >
+      Nopeusrajoitus: 40 km/t
+    </p>
+  </div>
+</div>
+`;

@@ -1,35 +1,46 @@
-import React, { useContext, useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchCultureRoutesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../utils/utils';
+import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import {
+  isDataValid, blueOptionsBase, whiteOptionsBase, blackOptionsBase,
+} from '../utils/utils';
 import CultureRouteUnits from './components/CultureRouteUnits';
 
 const CultureRoutes = () => {
   const [cultureRoutesGeometry, setCultureRoutesGeometry] = useState([]);
   const [cultureRouteUnits, setCultureRouteUnits] = useState([]);
 
-  const { openMobilityPlatform, showCultureRoutes, cultureRouteId } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showCultureRoutes, cultureRouteId } = useMobilityPlatformContext();
 
   const { Polyline } = global.rL;
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const blueOptions = { color: 'rgba(7, 44, 115, 255)' };
-  const whiteOptions = { color: 'rgba(255, 255, 255, 255)', dashArray: !useContrast ? '1, 8' : null };
-  const blackOptions = { color: 'rgba(0, 0, 0, 255)', dashArray: '2 10 10 10' };
+  const blueOptions = blueOptionsBase();
+  const whiteOptions = whiteOptionsBase({ dashArray: !useContrast ? '1, 8' : null });
+  const blackOptions = blackOptionsBase({ dashArray: '2 10 10 10' });
 
   useEffect(() => {
+    const options = {
+      type_name: 'CultureRouteGeometry',
+      page_size: 50,
+    };
     if (openMobilityPlatform) {
-      fetchCultureRoutesData('CultureRouteGeometry', 20, setCultureRoutesGeometry);
+      fetchMobilityMapData(options, setCultureRoutesGeometry);
     }
   }, [openMobilityPlatform, setCultureRoutesGeometry]);
 
   useEffect(() => {
+    const options = {
+      type_name: 'CultureRouteUnit',
+      page_size: 200,
+    };
     if (openMobilityPlatform) {
-      fetchCultureRoutesData('CultureRouteUnit', 200, setCultureRouteUnits);
+      fetchMobilityMapData(options, setCultureRouteUnits);
     }
   }, [openMobilityPlatform, setCultureRouteUnits]);
 
@@ -61,7 +72,7 @@ const CultureRoutes = () => {
       });
       map.fitBounds([bounds]);
     }
-  }, [showCultureRoutes, activeCultureRoute, map]);
+  }, [showCultureRoutes, activeCultureRoute]);
 
   return (
     <>

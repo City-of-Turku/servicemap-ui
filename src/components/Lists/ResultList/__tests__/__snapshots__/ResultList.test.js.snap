@@ -45,15 +45,15 @@ exports[`<ResultList /> should work 1`] = `
           <img
             alt=""
             aria-hidden="true"
-            class="Connect(UnitIcon)-icon-18 "
+            class="Connect(UnitIcon)-icon-21 "
             src="data:image/png;base64,00"
           />
         </div>
         <div
-          class="ResultItem-itemTextContainer-10"
+          class="ResultItem-itemTextContainer-10  "
         >
           <div
-            class="ResultItem-topRow-11"
+            class="ResultItem-topRow-12"
           >
             <p
               class="MuiTypography-root ResultItem-title-8 ResultItem-srOnly MuiTypography-srOnly"
@@ -68,7 +68,7 @@ exports[`<ResultList /> should work 1`] = `
             </p>
             <p
               aria-hidden="true"
-              class="MuiTypography-root ResultItem-title-8  Connect(UnitItem)-title-1 ResultItem-title MuiTypography-body2"
+              class="MuiTypography-root ResultItem-title-8  Connect(UnitItem)-title-1  ResultItem-title MuiTypography-body2"
               role="textbox"
             >
               Pääkirjasto
@@ -78,7 +78,7 @@ exports[`<ResultList /> should work 1`] = `
             <div>
               <p
                 aria-hidden="true"
-                class="MuiTypography-root ResultItem-noMargin-9 ResultItem-text-16  ResultItem-subtitle MuiTypography-caption"
+                class="MuiTypography-root ResultItem-noMargin-9 ResultItem-text-17  ResultItem-subtitle MuiTypography-caption"
               >
                 Kunnallinen palvelu
               </p>
@@ -90,7 +90,7 @@ exports[`<ResultList /> should work 1`] = `
         aria-hidden="true"
       >
         <hr
-          class="MuiDivider-root ResultItem-divider-17 MuiDivider-inset"
+          class="MuiDivider-root ResultItem-divider-18 MuiDivider-inset"
         />
       </li>
       <li
@@ -105,15 +105,15 @@ exports[`<ResultList /> should work 1`] = `
           <img
             alt=""
             aria-hidden="true"
-            class="Connect(UnitIcon)-icon-18 "
+            class="Connect(UnitIcon)-icon-21 "
             src="data:image/png;base64,00"
           />
         </div>
         <div
-          class="ResultItem-itemTextContainer-10"
+          class="ResultItem-itemTextContainer-10  "
         >
           <div
-            class="ResultItem-topRow-11"
+            class="ResultItem-topRow-12"
           >
             <p
               class="MuiTypography-root ResultItem-title-8 ResultItem-srOnly MuiTypography-srOnly"
@@ -128,7 +128,7 @@ exports[`<ResultList /> should work 1`] = `
             </p>
             <p
               aria-hidden="true"
-              class="MuiTypography-root ResultItem-title-8  Connect(UnitItem)-title-1 ResultItem-title MuiTypography-body2"
+              class="MuiTypography-root ResultItem-title-8  Connect(UnitItem)-title-1  ResultItem-title MuiTypography-body2"
               role="textbox"
             >
               Kivistön kirjasto
@@ -138,7 +138,7 @@ exports[`<ResultList /> should work 1`] = `
             <div>
               <p
                 aria-hidden="true"
-                class="MuiTypography-root ResultItem-noMargin-9 ResultItem-text-16  ResultItem-subtitle MuiTypography-caption"
+                class="MuiTypography-root ResultItem-noMargin-9 ResultItem-text-17  ResultItem-subtitle MuiTypography-caption"
               >
                 Kunnallinen palvelu
               </p>
@@ -150,7 +150,7 @@ exports[`<ResultList /> should work 1`] = `
         aria-hidden="true"
       >
         <hr
-          class="MuiDivider-root ResultItem-divider-17 MuiDivider-inset"
+          class="MuiDivider-root ResultItem-divider-18 MuiDivider-inset"
         />
       </li>
     </ul>

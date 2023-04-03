@@ -4,7 +4,6 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { DistrictItem } from '../../../../components';
-import SMAccordion from '../../../../components/SMAccordion';
 import { getAddressDistrict } from '../../../../redux/selectors/district';
 import { sortByOriginID } from '../../utils';
 
@@ -46,19 +45,14 @@ export const DistrictAreaList = ({
   }
 
   const renderServiceListAccordion = (title, districts) => (
-    <SMAccordion
-      className={classes.serviceListAccordion}
-      defaultOpen
-      titleContent={<Typography>{`${title} (${districts.length})`}</Typography>}
-      disabled={!districts.length}
-      collapseContent={(
-        <List className={classes.serviceListPadding} disablePadding>
-          {districts.map(district => (
-            <DistrictItem key={district.id} area={district} title={false} paddedDivider />
-          ))}
-        </List>
-      )}
-    />
+    <div className={classes.serviceTabServiceList}>
+      <Typography>{`${title} (${districts.length})`}</Typography>
+      <List disablePadding>
+        {districts.map(district => (
+          <DistrictItem key={district.id} area={district} title={false} paddedDivider />
+        ))}
+      </List>
+    </div>
   );
 
   sortByOriginID(filteredData);

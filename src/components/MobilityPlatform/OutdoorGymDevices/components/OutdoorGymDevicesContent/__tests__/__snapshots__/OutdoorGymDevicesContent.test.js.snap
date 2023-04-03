@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<OutdoorGymDevicesContent /> should match snapshot 1`] = `
+<div>
+  <div
+    class="OutdoorGymDevicesContent-container-1"
+  >
+    <div
+      class="OutdoorGymDevicesContent-headerContainer-2"
+    >
+      <div
+        class="injectIntl(TextComponent)-margin-7"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-subtitle1"
+        >
+          Testi
+        </p>
+      </div>
+    </div>
+    <div
+      class="OutdoorGymDevicesContent-textContainer-3"
+    >
+      <div
+        class="injectIntl(TextComponent)-margin-7"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          Osoite: Testikatu
+        </p>
+      </div>
+      <div
+        class="injectIntl(TextComponent)-margin-7"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2"
+        >
+          Testikuvaus
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

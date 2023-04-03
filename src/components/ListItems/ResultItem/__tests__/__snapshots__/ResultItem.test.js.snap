@@ -9,10 +9,10 @@ exports[`<ResultItem /> should work 1`] = `
     tabindex="0"
   >
     <div
-      class="ResultItem-itemTextContainer-9"
+      class="ResultItem-itemTextContainer-9  "
     >
       <div
-        class="ResultItem-topRow-10"
+        class="ResultItem-topRow-11"
       >
         <p
           class="MuiTypography-root ResultItem-title-7 ResultItem-srOnly MuiTypography-srOnly"
@@ -27,17 +27,17 @@ exports[`<ResultItem /> should work 1`] = `
         </p>
         <p
           aria-hidden="true"
-          class="MuiTypography-root ResultItem-title-7   ResultItem-title MuiTypography-body2"
+          class="MuiTypography-root ResultItem-title-7    ResultItem-title MuiTypography-body2"
           role="textbox"
         >
           Title text
         </p>
         <div
-          class="ResultItem-rightColumn-13"
+          class="ResultItem-rightColumn-14"
         >
           <p
             aria-hidden="true"
-            class="MuiTypography-root ResultItem-caption-14 ResultItem-text-15 ResultItem-marginLeft-12  ResultItem-distance MuiTypography-caption"
+            class="MuiTypography-root ResultItem-caption-15 ResultItem-text-16 ResultItem-marginLeft-13  ResultItem-distance MuiTypography-caption"
           >
             100m
           </p>
@@ -47,7 +47,7 @@ exports[`<ResultItem /> should work 1`] = `
         <div>
           <p
             aria-hidden="true"
-            class="MuiTypography-root ResultItem-noMargin-8 ResultItem-text-15  ResultItem-subtitle MuiTypography-caption"
+            class="MuiTypography-root ResultItem-noMargin-8 ResultItem-text-16  ResultItem-subtitle MuiTypography-caption"
           >
             Subtitle text
           </p>
@@ -69,7 +69,7 @@ exports[`<ResultItem /> should work 1`] = `
     aria-hidden="true"
   >
     <hr
-      class="MuiDivider-root ResultItem-divider-16 MuiDivider-inset"
+      class="MuiDivider-root ResultItem-divider-17"
     />
   </li>
 </div>

@@ -17,7 +17,7 @@ exports[`<FormLabel /> should work 1`] = `
           class="MuiIconButton-label"
         >
           <input
-            aria-label="Polkupyöräpysäköinti"
+            aria-label="Polkupyöräpysäköinti (ei-runkolukittava)"
             class="PrivateSwitchBase-input-7 MuiSwitch-input"
             type="checkbox"
             value=""
@@ -35,10 +35,10 @@ exports[`<FormLabel /> should work 1`] = `
       class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body2"
     >
       <p
-        aria-label="Polkupyöräpysäköinti"
+        aria-label="Polkupyöräpysäköinti (ei-runkolukittava)"
         class="MuiTypography-root MuiTypography-body2"
       >
-        Polkupyöräpysäköinti
+        Polkupyöräpysäköinti (ei-runkolukittava)
       </p>
     </span>
   </label>

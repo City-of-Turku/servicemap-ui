@@ -1,6 +1,11 @@
-import { Checkbox, FormControlLabel, Typography } from '@material-ui/core';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
+import {
+  Divider, Typography, Checkbox, FormControlLabel,
+} from '@material-ui/core';
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -18,6 +23,7 @@ import IFramePreview from './components/IFramePreview';
 import embedderConfig from './embedderConfig';
 import * as smurl from './utils/url';
 import { getEmbedURL, getLanguage } from './utils/utils';
+import config from '../../../config';
 
 const hideCitiesIn = [paths.unit.regex, paths.address.regex];
 
@@ -54,6 +60,10 @@ const EmbedderView = ({
   const cityOption = (search?.city !== '' && search?.city?.split(',')) || citySettings;
   const citiesToReduce = cityOption.length > 0 ? cityOption : embedderConfig.CITIES.filter(v => v);
 
+  // If external theme (by Turku) is true, then can be used to select which controls to render
+  const externalTheme = config.themePKG;
+  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
   // Defaults
   const initialRatio = ratio || 52;
   const defaultMap = search.map || mapType || embedderConfig.BACKGROUND_MAPS[0];
@@ -86,11 +96,15 @@ const EmbedderView = ({
   const [transit, setTransit] = useState(false);
   const [showUnits, setShowUnits] = useState(true);
   const [restrictBounds, setRestrictBounds] = useState(true);
+  const [showUnitList, setShowUnitList] = useState('none');
 
   const boundsRef = useRef([]);
   const dialogRef = useRef();
 
   const selectedBbox = restrictBounds && boundsRef.current;
+
+  const minHeightWithBottomList = '478px';
+
   const embedUrl = getEmbedURL(url, {
     language,
     map,
@@ -99,6 +113,7 @@ const EmbedderView = ({
     defaultLanguage,
     transit,
     showUnits,
+    showUnitList,
     bbox: selectedBbox,
   });
 
@@ -166,10 +181,14 @@ const EmbedderView = ({
 
   // Figure out embed html
   const createEmbedHTML = useCallback((url) => {
+    const showListBottom = showUnitList === 'bottom';
     if (!url) {
       return '';
     }
-    const renderWrapperStyle = () => `position: relative; width:100%; padding-bottom:${ratioHeight}%;`;
+    const renderWrapperStyle = () => (showListBottom
+      ? `position: relative; width:100%; padding-bottom: max(${ratioHeight}%, ${minHeightWithBottomList});`
+      : `position: relative; width:100%; padding-bottom:${ratioHeight}%;`
+    );
     let height;
     let html;
     if (heightMode === 'fixed') {
@@ -177,9 +196,7 @@ const EmbedderView = ({
     }
     if (heightMode === 'ratio') {
       if (widthMode === 'auto') {
-        html = `<div style="${renderWrapperStyle()}">
-          <iframe title="${iframeTitle}" style="position: absolute; top: 0; left: 0; border: none; width: 100%; height: 100%;"
-          src="${url}"></iframe></div>`;
+        html = `<div style="${renderWrapperStyle()}"><iframe title="${iframeTitle}" style="position: absolute; top: 0; left: 0; border: none; width: 100%; height: 100%;" src="${url}"></iframe></div>`;
       } else {
         height = parseInt(
           parseInt(customWidth, 10) * (parseInt(ratioHeight, 10) / 100.0),
@@ -195,7 +212,8 @@ const EmbedderView = ({
             && iframeConfig.style.width
         : customWidth;
       const widthUnit = width !== '100%' ? 'px' : '';
-      html = `<iframe title="${iframeTitle}" style="border: none; width: ${width}${widthUnit}; height: ${height}px;"
+      const heightValue = showListBottom ? `height: max(${height}px, ${minHeightWithBottomList})` : `height: ${height}px`;
+      html = `<iframe title="${iframeTitle}" style="border: none; width: ${width}${widthUnit}; ${heightValue};"
                   src="${url}"></iframe>`;
     }
     return html;
@@ -207,6 +225,7 @@ const EmbedderView = ({
     widthMode,
     ratioHeight,
     iframeConfig.style,
+    showUnitList,
   ]);
 
   const showCities = (embedUrl) => {
@@ -425,57 +444,72 @@ const EmbedderView = ({
     );
   };
 
-  const renderBoundsControl = useCallback(() => (
-    <FormControlLabel
-      control={(
-        <Checkbox
-          color="primary"
-          checked={!!restrictBounds}
-          value="bounds"
-          onChange={() => setRestrictBounds(!restrictBounds)}
-        />
+  const renderMapControls = useCallback(() => (
+    <div className={classes.mapControlContainer}>
+      {/* Map bounds */}
+      <FormControlLabel
+        control={(
+          <Checkbox
+            color="primary"
+            checked={!!restrictBounds}
+            value="bounds"
+            onChange={() => setRestrictBounds(!restrictBounds)}
+          />
         )}
-      label={(<FormattedMessage id="embedder.options.label.bbox" />)}
-    />
+        label={(<FormattedMessage id="embedder.options.label.bbox" />)}
+      />
+    </div>
   ), [restrictBounds]);
 
-  const renderMapOptionsControl = () => {
-    let controls = [];
-    if (window.nodeEnvSettings.THEME_PKG) {
-      controls = [
-        {
-          key: 'units',
-          value: showUnits,
-          onChange: v => setShowUnits(v),
-          icon: null,
-          labelId: 'embedder.options.label.units',
-        },
-      ];
-    } else {
-      controls = [
-        {
-          key: 'transit',
-          value: transit,
-          onChange: v => setTransit(v),
-          icon: null,
-          labelId: 'embedder.options.label.transit',
-        },
-        {
-          key: 'units',
-          value: showUnits,
-          onChange: v => setShowUnits(v),
-          icon: null,
-          labelId: 'embedder.options.label.units',
-        },
-      ];
-    }
+  const filterControls = controlsArr => controlsArr.filter(item => item.key !== 'transit');
+
+  const renderMarkerOptionsControl = () => {
+    const controls = [
+      {
+        key: 'transit',
+        value: transit,
+        onChange: v => setTransit(v),
+        icon: null,
+        labelId: 'embedder.options.label.transit',
+      },
+      {
+        key: 'units',
+        value: showUnits,
+        onChange: v => setShowUnits(v),
+        icon: null,
+        labelId: 'embedder.options.label.units',
+      },
+    ];
 
     return (
       <EmbedController
         titleID="embedder.options.title"
         titleComponent="h2"
-        checkboxControls={controls}
+        checkboxControls={isExternalTheme ? filterControls(controls) : controls}
         checkboxLabelledBy="embedder.options.title"
+      />
+    );
+  };
+
+  /**
+ * Render unit list controls
+ */
+  const renderListOptionsControl = () => {
+    const controls = [
+      { label: intl.formatMessage({ id: 'embedder.options.label.list.none' }), value: 'none' },
+      { label: intl.formatMessage({ id: 'embedder.options.label.list.side' }), value: 'side' },
+      { label: intl.formatMessage({ id: 'embedder.options.label.list.bottom' }), value: 'bottom' },
+    ];
+
+    return (
+      <EmbedController
+        titleID="embedder.options.list.title"
+        titleComponent="h2"
+        radioAriaLabel={intl.formatMessage({ id: 'embedder.options.list.title' })}
+        radioName="unitList"
+        radioValue={showUnitList}
+        radioControls={controls}
+        radioOnChange={(e, v) => setShowUnitList(v)}
       />
     );
   };
@@ -495,75 +529,105 @@ const EmbedderView = ({
   }
 
   return (
-    <div ref={dialogRef}>
-      {renderHeadInfo()}
-      <div className={classes.appBar} />
-      <div className={classes.container}>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            position: 'relative',
-          }}
-        >
-          <CloseButton
-            aria-label={intl.formatMessage({ id: 'embedder.close' })}
-            className={classes.closeButton}
-            onClick={closeView}
-            role="link"
-            textID="embedder.close"
-          />
+    <>
+      <div ref={dialogRef}>
+        {
+          renderHeadInfo()
+        }
+        <div className={classes.container}>
           <div className={classes.titleContainer}>
+            <CloseButton
+              aria-label={intl.formatMessage({ id: 'embedder.close' })}
+              className={classes.closeButton}
+              onClick={closeView}
+              role="link"
+              textID="embedder.close"
+            />
             <Typography align="left" className={classes.title} variant="h1">
               <FormattedMessage id="embedder.title" />
             </Typography>
-            <Typography align="left" variant="body2">
-              <FormattedMessage id="embedder.title.info" />
-            </Typography>
           </div>
-          <div className={classes.pusher} />
-        </div>
-        <div className={classes.formContainer}>
-          <form>
-            {renderLanguageControl()}
-            {renderServiceControl()}
-            {renderMapTypeControl()}
-            {renderCityControl()}
-            {renderWidthControl()}
-            {renderHeightControl()}
-            <IFramePreview
-              classes={classes}
-              customWidth={customWidth}
-              embedUrl={embedUrl}
-              fixedHeight={fixedHeight}
-              heightMode={heightMode}
-              ratioHeight={ratioHeight}
-              title={iframeTitle}
-              titleComponent="h2"
-              widthMode={widthMode}
-              renderBoundsControl={renderBoundsControl}
-            />
+          <div className={classes.scrollContainer}>
+            <div className={classes.formContainer}>
+              <Typography className={classes.infoText} align="left" variant="body2">
+                <FormattedMessage id="embedder.title.info" />
+              </Typography>
+              <br />
+              <Typography className={classes.infoTitle} variant="h6" component="h2" align="left">
+                <FormattedMessage id="embedder.info.title" />
+              </Typography>
+              <Typography className={classes.infoText} align="left">
+                <FormattedMessage id="embedder.info.description" />
+              </Typography>
+              <br />
+              <form>
+                {
+                renderLanguageControl()
+              }
+                {
+                renderServiceControl()
+              }
+                {
+                renderMapTypeControl()
+              }
+                {
+                renderCityControl()
+              }
+                {
+                renderWidthControl()
+              }
+                {
+                renderHeightControl()
+              }
+                {
+                renderMarkerOptionsControl()
+              }
+                {
+                renderListOptionsControl()
+              }
+              </form>
+            </div>
 
-            {renderMapOptionsControl()}
-          </form>
-          <EmbedHTML
-            classes={classes}
-            url={embedUrl}
-            createEmbedHTML={createEmbedHTML}
-            setBoundsRef={setBoundsRef}
-            restrictBounds={restrictBounds}
-          />
-          <SMButton
-            aria-label={intl.formatMessage({ id: 'embedder.close' })}
-            className={classes.button}
-            small
-            role="link"
-            onClick={closeView}
-            messageID="embedder.close"
-          />
+            <div>
+              <Divider className={classes.divider} orientation="vertical" aria-hidden />
+            </div>
+
+            <div className={classes.previewContainer}>
+              <IFramePreview
+                classes={classes}
+                customWidth={customWidth}
+                embedUrl={embedUrl}
+                fixedHeight={fixedHeight}
+                heightMode={heightMode}
+                ratioHeight={ratioHeight}
+                title={iframeTitle}
+                titleComponent="h2"
+                widthMode={widthMode}
+                renderMapControls={renderMapControls}
+                bottomList={showUnitList === 'bottom'}
+                minHeightWithBottomList={minHeightWithBottomList}
+              />
+
+              <EmbedHTML
+                classes={classes}
+                url={embedUrl}
+                createEmbedHTML={createEmbedHTML}
+                setBoundsRef={setBoundsRef}
+                restrictBounds={restrictBounds}
+              />
+              <SMButton
+                aria-label={intl.formatMessage({ id: 'embedder.close' })}
+                className={classes.button}
+                small
+                role="link"
+                onClick={closeView}
+                messageID="embedder.close"
+              />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -582,6 +646,12 @@ EmbedderView.propTypes = {
     textField: PropTypes.string,
     title: PropTypes.string,
     titleContainer: PropTypes.string,
+    scrollContainer: PropTypes.string,
+    previewContainer: PropTypes.string,
+    divider: PropTypes.string,
+    infoTitle: PropTypes.string,
+    infoText: PropTypes.string,
+    mapControlContainer: PropTypes.string,
   }).isRequired,
   location: PropTypes.shape({
     hash: PropTypes.string,

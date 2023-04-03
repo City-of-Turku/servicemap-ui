@@ -24,7 +24,7 @@ const TrailList = ({
   };
 
   const renderName = (item) => {
-    if (item.content_type.name === 'PaavonPolku') {
+    if (item.content_types[0].name === 'PaavonPolku') {
       return fixRouteName(item.name_fi, item.name_en, item.name_sv);
     } return item.name;
   };

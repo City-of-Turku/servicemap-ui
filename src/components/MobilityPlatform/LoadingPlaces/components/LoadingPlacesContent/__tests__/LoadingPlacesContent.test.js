@@ -45,12 +45,11 @@ describe('<LoadingPlacesContent />', () => {
   it('does show text correctly', () => {
     const { container } = renderWithProviders(<LoadingPlacesContent {...mockProps} />);
 
-    const h6 = container.querySelectorAll('h6');
     const p = container.querySelectorAll('p');
-    expect(h6[0].textContent).toContain(mockProps.item.name_fi);
-    expect(p[0].textContent).toContain(`Osoite: ${mockProps.item.address_fi}`);
-    expect(p[1].textContent).toContain(mockProps.item.extra.lastauspiste.fi);
-    expect(p[2].textContent).toContain(mockProps.item.extra.Saavutettavuus.fi);
-    expect(p[3].textContent).toContain(mockProps.item.extra.rajoitustyyppi.fi);
+    expect(p[0].textContent).toContain(mockProps.item.name_fi);
+    expect(p[1].textContent).toContain(`Osoite: ${mockProps.item.address_fi}`);
+    expect(p[2].textContent).toContain(mockProps.item.extra.lastauspiste.fi);
+    expect(p[3].textContent).toContain(mockProps.item.extra.Saavutettavuus.fi);
+    expect(p[4].textContent).toContain(mockProps.item.extra.rajoitustyyppi.fi);
   });
 });

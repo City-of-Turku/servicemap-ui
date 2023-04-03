@@ -18,6 +18,7 @@ import { changeLocaleAction } from './redux/actions/user';
 import { getLocale } from './redux/selectors/locale';
 import SMFonts from './service-map-icons.css';
 import isClient from './utils';
+import { MobilityPlatformContextProvider } from './context/MobilityPlatformContext';
 import EmbedderView from './views/EmbedderView';
 
 import '@formatjs/intl-pluralrules/dist/locale-data/en';
@@ -70,11 +71,13 @@ class App extends React.Component {
           <MetaTags />
           {/* <StylesProvider generateClassName={generateClassName}> */}
           <div className="App">
-            <Switch>
-              <Route path="*/embedder" component={EmbedderView} />
-              <Route path="*/embed" component={EmbedLayout} />
-              <Route render={() => <DefaultLayout />} />
-            </Switch>
+            <MobilityPlatformContextProvider>
+              <Switch>
+                <Route path="*/embedder" component={EmbedderView} />
+                <Route path="*/embed" component={EmbedLayout} />
+                <Route render={() => <DefaultLayout />} />
+              </Switch>
+            </MobilityPlatformContextProvider>
             <Navigator />
             <DataFetcher />
           </div>

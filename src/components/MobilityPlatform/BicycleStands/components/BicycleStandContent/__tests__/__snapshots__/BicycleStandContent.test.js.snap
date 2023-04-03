@@ -2,7 +2,9 @@
 
 exports[`<BicycleStandContent /> should work 1`] = `
 <div>
-  <div>
+  <div
+    class="injectIntl(BicycleStandContent)-padding-4"
+  >
     <div
       class="injectIntl(BicycleStandContent)-title-1"
     >

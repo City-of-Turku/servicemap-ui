@@ -32,7 +32,7 @@ export const createMarkerClusterLayer = (
 
   if (!embeded) {
     clusterLayer.on('clustermouseover', (a) => {
-      if (clusterMouseover) clusterMouseover(a);
+      if (clusterMouseover && !isEmbed()) clusterMouseover(a);
     });
     // Add click events as alternative way to trigger hover events on mobile
     clusterLayer.on('clusterclick', (a) => {

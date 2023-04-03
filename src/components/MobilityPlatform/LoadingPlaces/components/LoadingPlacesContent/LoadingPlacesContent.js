@@ -1,19 +1,8 @@
-import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
-import useLocaleText from '../../../../../utils/useLocaleText';
+import TextComponent from '../../../TextComponent';
 
-const LoadingPlacesContent = ({ classes, intl, item }) => {
-  const getLocaleText = useLocaleText();
-
-  const singleValText = (messageId, value, props = {}) => (
-    <div {...props}>
-      <Typography component="p" variant="body2">
-        {intl.formatMessage({ id: messageId }, { value })}
-      </Typography>
-    </div>
-  );
-
+const LoadingPlacesContent = ({ classes, item }) => {
   const loadingPlaceName = {
     fi: item.name_fi,
     en: item.name_en,
@@ -26,28 +15,16 @@ const LoadingPlacesContent = ({ classes, intl, item }) => {
     sv: item.address_sv,
   };
 
-  const renderText = textObj => (
-    <div className={classes.marginTop}>
-      <Typography component="p" variant="body2">
-        {getLocaleText(textObj)}
-      </Typography>
-    </div>
-  );
-
-  const renderAddress = () => singleValText('mobilityPlatform.content.address', getLocaleText(loadingPlaceAddress), { className: classes.margin });
-
   const loadingPlaceInfo = (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
-        <Typography variant="subtitle1">
-          {getLocaleText(loadingPlaceName)}
-        </Typography>
+        <TextComponent textObj={loadingPlaceName} isTitle />
       </div>
       <div className={classes.textContainer}>
-        {item.address_fi !== '' ? renderAddress() : null}
-        {renderText(item.extra.lastauspiste)}
-        {renderText(item.extra.Saavutettavuus)}
-        {renderText(item.extra.rajoitustyyppi)}
+        {item.address_fi !== '' ? <TextComponent messageId="mobilityPlatform.content.address" textObj={loadingPlaceAddress} /> : null}
+        <TextComponent textObj={item.extra.lastauspiste} />
+        <TextComponent textObj={item.extra.Saavutettavuus} />
+        <TextComponent textObj={item.extra.rajoitustyyppi} />
       </div>
     </div>
   );
@@ -61,7 +38,6 @@ const LoadingPlacesContent = ({ classes, intl, item }) => {
 
 LoadingPlacesContent.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
   item: PropTypes.objectOf(PropTypes.any),
 };
 

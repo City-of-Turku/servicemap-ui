@@ -1,6 +1,6 @@
 export default theme => ({
-  popupInner: {
-    margin: theme.spacing(2),
+  padding: {
+    padding: theme.spacing(1),
   },
   subtitle: {
     marginBottom: theme.spacing(1),

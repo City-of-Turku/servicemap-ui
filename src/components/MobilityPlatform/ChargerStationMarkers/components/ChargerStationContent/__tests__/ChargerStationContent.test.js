@@ -48,13 +48,13 @@ describe('<ChargerStationContent />', () => {
 
     const h6 = container.querySelectorAll('h6');
     const p = container.querySelectorAll('p');
-    expect(h6[0].textContent).toEqual(mockProps.station.name);
-    expect(h6[1].textContent).toEqual(`${finnishTranslations['mobilityPlatform.content.chargersTitle']}:`);
-    expect(p[0].textContent).toEqual(`Osoite: ${mockProps.station.address_fi}`);
-    expect(p[1].textContent).toEqual(`Ylläpitäjä: ${mockProps.station.extra.administrator.fi}`);
-    expect(p[2].textContent).toEqual(`${finnishTranslations['mobilityPlatform.chargerStations.content.charge']}`);
-    expect(p[3].textContent).toEqual(`Sähkölatausaseman tyyppi: ${mockProps.station.extra.chargers[0].plug}`);
-    expect(p[4].textContent).toEqual(`Määrä: ${mockProps.station.extra.chargers[0].number}`);
-    expect(p[5].textContent).toEqual('Teho: 50 kW');
+    expect(p[0].textContent).toEqual(mockProps.station.name);
+    expect(h6[0].textContent).toEqual(`${finnishTranslations['mobilityPlatform.content.chargersTitle']}:`);
+    expect(p[1].textContent).toEqual(`Osoite: ${mockProps.station.address_fi}`);
+    expect(p[2].textContent).toEqual(`Ylläpitäjä: ${mockProps.station.extra.administrator.fi}`);
+    expect(p[3].textContent).toEqual(`${finnishTranslations['mobilityPlatform.chargerStations.content.charge']}`);
+    expect(p[4].textContent).toEqual(`Sähkölatausaseman tyyppi: ${mockProps.station.extra.chargers[0].plug}`);
+    expect(p[5].textContent).toEqual(`Määrä: ${mockProps.station.extra.chargers[0].number}`);
+    expect(p[6].textContent).toEqual('Teho: 50 kW');
   });
 });

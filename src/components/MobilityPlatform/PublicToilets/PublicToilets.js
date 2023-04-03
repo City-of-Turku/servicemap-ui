@@ -1,20 +1,21 @@
-import React, { useEffect, useState, useContext } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import publicToiletIcon from 'servicemap-ui-turku/assets/icons/icons-icon_toilet.svg';
 import publicToiletIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_toilet-bw.svg';
-import MobilityPlatformContext from '../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import MarkerComponent from '../MarkerComponent';
 import PublicToiletsContent from './components/PublicToiletsContent';
 
 const PublicToilets = () => {
   const [publicToiletsData, setPublicToiletsData] = useState([]);
 
-  const { openMobilityPlatform, showPublicToilets } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showPublicToilets } = useMobilityPlatformContext();
 
-  const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
@@ -22,8 +23,12 @@ const PublicToilets = () => {
   const customIcon = icon(createIcon(useContrast ? publicToiletIconBw : publicToiletIcon));
 
   useEffect(() => {
+    const options = {
+      type_name: 'PublicToilet',
+      page_size: 50,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapData('PublicToilet', 100, setPublicToiletsData);
+      fetchMobilityMapData(options, setPublicToiletsData);
     }
   }, [openMobilityPlatform, setPublicToiletsData]);
 
@@ -37,19 +42,13 @@ const PublicToilets = () => {
 
   return (
     <>
-      {renderData ? (
-        publicToiletsData.map(item => (
-          <Marker
-            key={item.id}
-            icon={customIcon}
-            position={[item.geometry_coords.lat, item.geometry_coords.lon]}
-          >
-            <Popup>
-              <PublicToiletsContent />
-            </Popup>
-          </Marker>
+      {renderData
+        ? publicToiletsData.map(item => (
+          <MarkerComponent key={item.id} item={item} icon={customIcon}>
+            <PublicToiletsContent />
+          </MarkerComponent>
         ))
-      ) : null}
+        : null}
     </>
   );
 };

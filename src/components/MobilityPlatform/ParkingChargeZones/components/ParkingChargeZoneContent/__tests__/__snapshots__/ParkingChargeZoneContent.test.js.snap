@@ -3,7 +3,7 @@
 exports[`<ParkingChargeZoneContent /> should work 1`] = `
 <div>
   <div
-    class="injectIntl(ParkingChargeZoneContent)-popupInner-1"
+    class="injectIntl(ParkingChargeZoneContent)-padding-1"
   >
     <div
       class="injectIntl(ParkingChargeZoneContent)-subtitle-2"

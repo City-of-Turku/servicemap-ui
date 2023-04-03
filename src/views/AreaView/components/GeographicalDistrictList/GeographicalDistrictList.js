@@ -1,5 +1,5 @@
 import {
-    Checkbox, FormControlLabel, List, ListItem, Typography
+  Checkbox, FormControlLabel, List, ListItem, Typography,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';

@@ -1,9 +1,9 @@
-
-import { Typography } from '@material-ui/core';
-import PropTypes from 'prop-types';
 import React from 'react';
+import { Tooltip as MUITooltip, ButtonBase, Typography } from '@material-ui/core';
+import { useTheme } from '@material-ui/styles';
+import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import AddressView from '../views/AddressView';
 import AreaView from '../views/AreaView';
 import DivisionView from '../views/DivisionView';
@@ -13,18 +13,23 @@ import SearchView from '../views/SearchView';
 import ServiceView from '../views/ServiceView';
 import UnitView from '../views/UnitView';
 import PageHandler from './components/PageHandler';
+import { parseSearchParams } from '../utils';
+import HomeLogo from '../components/Logos/HomeLogo';
+import PaginatedList from '../components/Lists/PaginatedList';
+import useMapUnits from '../views/MapView/utils/useMapUnits';
 
-const createContentStyles = (
-  isSmallScreen, landscape, mobileMapOnly, fullMobileMap, settingsOpen,
-) => {
+const createContentStyles = (theme, unitListPosition) => {
+  const bottomList = unitListPosition === 'bottom';
+  const sideList = unitListPosition === 'side';
   const width = 450;
-  const styles = {
+  return {
     activeRoot: {
       margin: 0,
       width: '100%',
       display: 'flex',
       flexWrap: 'nowrap',
       height: '100vh',
+      flexDirection: bottomList ? 'column-reverse' : 'row',
     },
     map: {
       bottom: 0,
@@ -41,23 +46,84 @@ const createContentStyles = (
       width,
       margin: 0,
       overflow: 'auto',
-      visibility: mobileMapOnly && !settingsOpen ? 'hidden' : null,
+      visibility: null,
     },
     topNav: {
       minWidth: width,
     },
+    embedLogo: {
+      top: sideList ? 0 : null,
+      bottom: sideList ? null : 0,
+      left: bottomList ? null : 0,
+      right: bottomList ? 0 : null,
+      height: 'auto',
+      position: 'fixed',
+      zIndex: 1000,
+      margin: bottomList ? theme.spacing(2) : theme.spacing(1.5),
+    },
+    embedSidebarContainer: bottomList
+      ? {
+        height: 300,
+        maxHeight: '40%',
+        minHeight: '25%',
+      } : {
+        minWidth: 220,
+        maxWidth: 'min(40%, 300px)',
+        flexGrow: 1,
+      },
+    unitList: {
+      paddingTop: bottomList ? 0 : 36,
+      maxHeight: '100%',
+      overflowY: 'auto',
+      boxSizing: 'border-box',
+      display: 'flex',
+      flexDirection: 'column',
+    },
   };
-
-  return styles;
 };
 
 const EmbedLayout = ({ intl }) => {
-  const styles = createContentStyles();
+  const theme = useTheme();
+  const location = useLocation();
+  const units = useMapUnits();
+  const searchParams = parseSearchParams(location.search);
+
+  const showList = searchParams?.show_list;
+
+  const styles = createContentStyles(theme, showList);
+
+  const renderEmbedOverlay = () => {
+    const openApp = () => {
+      const url = window.location.href;
+      window.open(url.replace('/embed', ''));
+    };
+    return (
+      <ButtonBase
+        style={styles.embedLogo}
+        onClick={openApp}
+        aria-label={intl.formatMessage({ id: 'embed.click_prompt_move' })}
+        role="link"
+      >
+        <MUITooltip title={intl.formatMessage({ id: 'embed.click_prompt_move' })}>
+          <HomeLogo aria-hidden />
+        </MUITooltip>
+      </ButtonBase>
+    );
+  };
 
   return (
     <>
+      {renderEmbedOverlay()}
       <div style={styles.activeRoot}>
-        <div aria-hidden className="sr-only">
+        <div aria-hidden={!showList} style={styles.embedSidebarContainer} className={!showList ? 'sr-only' : ''} id="unitListContainer">
+          <div style={styles.unitList}>
+            <PaginatedList
+              id="embeddedResults"
+              data={units}
+              titleComponent="h3"
+              embeddedList={showList}
+            />
+          </div>
           <Switch>
             <Route
               path="*/embed/unit/:unit"

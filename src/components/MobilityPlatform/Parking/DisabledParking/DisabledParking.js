@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import disabledParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_disabled_parking.svg';
 import disabledParkingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_disabled_parking-bw.svg';
-import MobilityPlatformContext from '../../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
-import { fetchMobilityMapPolygonData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitPolygonsToBounds } from '../../utils/utils';
 import DisabledParkingContent from './components/DisabledParkingContent';
 
@@ -16,7 +17,7 @@ import DisabledParkingContent from './components/DisabledParkingContent';
 const DisabledParking = () => {
   const [disabledParkingData, setDisabledParkingData] = useState([]);
 
-  const { openMobilityPlatform, showDisabledParking } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showDisabledParking } = useMobilityPlatformContext();
 
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
@@ -26,8 +27,13 @@ const DisabledParking = () => {
   const customIcon = icon(createIcon(useContrast ? disabledParkingIconBw : disabledParkingIcon));
 
   useEffect(() => {
+    const options = {
+      type_name: 'DisabledParking',
+      page_size: 1000,
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('DisabledParking', 1000, setDisabledParkingData);
+      fetchMobilityMapData(options, setDisabledParkingData);
     }
   }, [openMobilityPlatform, setDisabledParkingData]);
 
@@ -37,7 +43,7 @@ const DisabledParking = () => {
 
   useEffect(() => {
     fitPolygonsToBounds(renderData, disabledParkingData, map);
-  }, [showDisabledParking, disabledParkingData, map]);
+  }, [showDisabledParking, disabledParkingData]);
 
   const getSingleCoordinates = data => data[0][0];
 

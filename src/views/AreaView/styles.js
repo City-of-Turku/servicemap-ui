@@ -1,4 +1,19 @@
 const styles = theme => ({
+  listLevelTwo: {
+    backgroundColor: 'rgb(250,250,250)',
+  },
+  listLevelThree: {
+    backgroundColor: 'rgb(245,245,245)',
+  },
+  listLevelFour: {
+    backgroundColor: 'rgb(240,240,240)',
+  },
+  listLevelFive: {
+    backgroundColor: 'rgb(235,235,235)',
+  },
+  listLevelSix: {
+    backgroundColor: 'rgb(230,230,230)',
+  },
   topBar: {
     height: 24,
     backgroundColor: theme.palette.primary.main,
@@ -18,7 +33,15 @@ const styles = theme => ({
   list: {
     paddingLeft: 10,
   },
-  subsistrictAccordion: {
+  listNoPadding: {
+    padding: 0,
+    marginTop: theme.spacing(0),
+    marginBottom: theme.spacing(0),
+    '& li:last-of-type': {
+      borderBottom: 'none',
+    },
+  },
+  subdistrictAccordion: {
     padding: 0,
     marginLeft: -11,
   },
@@ -37,6 +60,19 @@ const styles = theme => ({
     justifyContent: 'center',
     height: 56,
   },
+  serviceTabSubtitle: {
+    height: 48,
+    display: 'flex',
+    alignItems: 'center',
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(9),
+  },
+  serviceTabCategoryList: {
+    '& > li:last-of-type': {
+      borderBottom: 'none',
+    },
+  },
   subtitle: {
     height: 48,
     display: 'flex',
@@ -46,9 +82,9 @@ const styles = theme => ({
     paddingLeft: 26,
   },
   municipalitySubtitle: {
-    height: 48,
     display: 'flex',
-    alignItems: 'center',
+    flexDirection: 'column',
+    alignItems: 'start',
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(1),
     paddingLeft: theme.spacing(4),
@@ -59,14 +95,17 @@ const styles = theme => ({
     minHeight: theme.spacing(7),
   },
   areaItem: {
-    paddingLeft: theme.spacing(2),
+    paddingLeft: theme.spacing(8),
     paddingRight: theme.spacing(2),
+  },
+  geographicalCategoryListAccordion: {
+    paddingLeft: theme.spacing(7),
   },
   geoItem: {
     paddingLeft: theme.spacing(2),
   },
   serviceTitle: {
-    paddingLeft: 63,
+    paddingLeft: theme.spacing(10),
   },
   categoryItemContent: {
     paddingLeft: 32,
@@ -123,7 +162,7 @@ const styles = theme => ({
   subdistrictList: {
     paddingLeft: theme.spacing(3),
   },
-  accodrion: {
+  accordion: {
     paddingLeft: theme.spacing(3),
   },
   expandingElementContent: {
@@ -151,12 +190,8 @@ const styles = theme => ({
     alignItems: 'center',
     padding: 0,
   },
-  accoridonContent: {
-    paddingLeft: 0,
-    paddingRight: 0,
-  },
   unitList: {
-    paddingLeft: theme.spacing(8),
+    paddingLeft: theme.spacing(10),
     paddingRight: theme.spacing(4),
     paddingBottom: theme.spacing(1),
   },
@@ -164,20 +199,20 @@ const styles = theme => ({
     backgroundColor: 'rgba(222, 222, 222, 0.12)',
   },
   districtServiceList: {
-    backgroundColor: 'rgb(245,245,245)',
     boxShadow: 'inset 0px 4px 4px rgba(0, 0, 0, 0.06)',
   },
-  geogrpahicalDiststrictlist: {
-    backgroundColor: 'rgb(245,245,245)',
-    paddingLeft: 30,
+  serviceTabServiceList: {
+    paddingLeft: theme.spacing(10),
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
-  serviceListAccordion: {
-    paddingLeft: 77,
-    height: 48,
+  icon: {
+    padding: theme.spacing(2),
+    paddingLeft: theme.spacing(0),
   },
   iconPadding: {
     padding: theme.spacing(2.5),
-    paddingLeft: 60,
+    paddingLeft: theme.spacing(7),
   },
   areaSwitch: {
     paddingLeft: theme.spacing(2),
@@ -219,9 +254,6 @@ const styles = theme => ({
     paddingBottom: theme.spacing(2),
     paddingLeft: 77,
     backgroundColor: 'rgb(230,243,254)',
-  },
-  serviceListPadding: {
-    paddingLeft: 72,
   },
   serviceDivider: {
     marginLeft: -72,

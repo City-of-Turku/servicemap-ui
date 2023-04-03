@@ -20,10 +20,7 @@ exports[`<MarinasContent /> should work 1`] = `
       <p
         class="MuiTypography-root injectIntl(MarinasContent)-margin-4 MuiTypography-body2"
       >
-        Venepaikkojen määrä
-        :
-         
-        1
+        Venepaikkojen määrä: 1
       </p>
       <p
         class="MuiTypography-root injectIntl(MarinasContent)-margin-4 MuiTypography-body2"
@@ -35,20 +32,12 @@ exports[`<MarinasContent /> should work 1`] = `
       <p
         class="MuiTypography-root injectIntl(MarinasContent)-margin-4 MuiTypography-body2"
       >
-        Tyyppi
-        :
-         
-        Aisapaikka
+        Tyyppi: Aisapaikka
       </p>
       <p
         class="MuiTypography-root injectIntl(MarinasContent)-margin-4 MuiTypography-body2"
       >
-        Hinta
-        :
-         
-        124
-         
-        €
+        Hinta: 124 €
       </p>
       <p
         class="MuiTypography-root injectIntl(MarinasContent)-margin-4 MuiTypography-body2"

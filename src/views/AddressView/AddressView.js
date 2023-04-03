@@ -1,12 +1,15 @@
 /* eslint-disable global-require */
 /* eslint-disable camelcase */
-import { ButtonBase, Divider, List, Typography } from '@material-ui/core';
+import {
+  ButtonBase, Divider, List, Typography,
+} from '@material-ui/core';
 import { Map } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import { AddressIcon } from '../../components/SMIcon';
 import TitleBar from '../../components/TitleBar';
 import { focusToPosition, useMapFocusDisabled } from '../MapView/utils/mapActions';
@@ -20,7 +23,7 @@ import MobileComponent from '../../components/MobileComponent';
 import SMButton from '../../components/ServiceMapButton';
 import TabLists from '../../components/TabLists';
 import { parseSearchParams } from '../../utils';
-import { addressMatchParamsToFetchOptions, getAddressText, useNavigationParams } from '../../utils/address';
+import { getAddressText } from '../../utils/address';
 import useLocaleText from '../../utils/useLocaleText';
 import { getCategoryDistricts } from '../AreaView/utils/districtDataHelper';
 import fetchAddressData from './utils/fetchAddressData';
@@ -55,8 +58,9 @@ const getEmergencyCareUnit = (division) => {
 const AddressView = (props) => {
   const [error, setError] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-  const getAddressNavigatorParams = useNavigationParams();
   const getLocaleText = useLocaleText();
+  const match = useRouteMatch();
+  const location = useLocation();
   const searchResults = useSelector(state => state.searchResults.data);
 
   const {
@@ -65,7 +69,6 @@ const AddressView = (props) => {
     classes,
     embed,
     intl,
-    match,
     getDistance,
     map,
     setAddressData,
@@ -75,15 +78,13 @@ const AddressView = (props) => {
     setAdminDistricts,
     setToRender,
     navigator,
-    location,
     units,
   } = props;
 
   let title = '';
 
   if (!isFetching) {
-    if (addressData?.name) title = getLocaleText(addressData?.name);
-    else title = getAddressText(addressData, getLocaleText);
+    title = getAddressText(addressData, getLocaleText);
   }
 
   const mapFocusDisabled = useMapFocusDisabled();
@@ -106,33 +107,7 @@ const AddressView = (props) => {
       });
   };
 
-  const compareAddress = (newAdddress) => {
-    if (!newAdddress) return false;
-    const compareValues = (a, b) => {
-      if ((!a && !b) || a === b) {
-        return true;
-      }
-      return false;
-    };
-
-    return addressData
-      && compareValues(newAdddress.street, getLocaleText(addressData.street.name))
-      && compareValues(newAdddress.number, addressData.number)
-      && compareValues(newAdddress.number_end, addressData.number_end)
-      && compareValues(newAdddress.letter, addressData.letter);
-  };
-
   const handleAddressData = (address) => {
-    // Check if address data is in different language
-    // and move navigation to address page with correct language
-    const { params } = match;
-
-    if (params.street.toLowerCase() !== getLocaleText(address.street.name).toLowerCase()) {
-      navigator.replace('address', {
-        ...getAddressNavigatorParams(address),
-        embed,
-      });
-    }
     setAddressData(address);
     setAddressLocation({ addressCoordinates: address.location.coordinates });
     const { coordinates } = address.location;
@@ -145,20 +120,16 @@ const AddressView = (props) => {
   };
 
   const fetchData = () => {
-    const options = match ? addressMatchParamsToFetchOptions(match) : {};
-
-    const isSameAddress = compareAddress(options);
-    if (isSameAddress) return;
+    const { municipality, street } = match.params;
 
     setAddressUnits([]);
 
     setIsFetching(true);
-    fetchAddressData(options)
-      .then((data) => {
+    fetchAddressData(municipality, street)
+      .then((address) => {
         setIsFetching(false);
-        const address = data;
-        if (address) {
-          handleAddressData(address);
+        if (address?.length) {
+          handleAddressData(address[0]);
         } else {
           setError(intl.formatMessage({ id: 'address.error' }));
         }
@@ -166,14 +137,19 @@ const AddressView = (props) => {
   };
 
 
+  // Gets address data from previously fetched search results
   const getAddressFromSearch = () => {
     if (!searchResults.length) return null;
-    const addressNameFromParams = [match.params.street, match.params.number].join(' ');
-    return searchResults.find(item => addressNameFromParams === getLocaleText(item.name));
+    const addressNameFromParams = match.params.street;
+    const municipalityFromParams = match.params.municipality.toLowerCase();
+    return searchResults.find(item => (
+      addressNameFromParams === getLocaleText(item.name)
+      && municipalityFromParams === item.municipality.id
+    ));
   };
 
 
-  const renderHead = (title) => {
+  const renderHead = () => {
     if (addressData) {
       return (
         <Helmet>
@@ -185,7 +161,7 @@ const AddressView = (props) => {
     } return null;
   };
 
-  const renderTopBar = title => (
+  const renderTopBar = () => (
     <>
       <DesktopComponent>
         <SearchBar margin />
@@ -213,7 +189,8 @@ const AddressView = (props) => {
   const renderNearbyList = () => {
     if (isFetching || !units) {
       return <Typography><FormattedMessage id="general.loading" /></Typography>;
-    } if (units && !units.length) {
+    }
+    if (units && !units.length) {
       return <Typography><FormattedMessage id="general.noData" /></Typography>;
     }
     return null;
@@ -221,9 +198,15 @@ const AddressView = (props) => {
 
 
   const renderClosebyServices = () => {
-    if (isFetching || !adminDistricts) {
+    if (isFetching) {
       return <Typography><FormattedMessage id="general.loading" /></Typography>;
     }
+
+    // TODO: should do proper loading/finished state dislpay message
+    if (!adminDistricts) {
+      return <Typography />;
+    }
+
     // Get divisions with units
     const divisionsWithUnits = adminDistricts
       .filter(d => d.unit)
@@ -360,8 +343,8 @@ const AddressView = (props) => {
 
   return (
     <div>
-      {renderHead(title)}
-      {renderTopBar(title)}
+      {renderHead()}
+      {renderTopBar()}
       <TabLists
         data={tabs}
         headerComponents={(
@@ -397,7 +380,6 @@ AddressView.propTypes = {
   adminDistricts: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
   })),
-  match: PropTypes.objectOf(PropTypes.any),
   map: PropTypes.objectOf(PropTypes.any),
   intl: PropTypes.objectOf(PropTypes.any).isRequired,
   navigator: PropTypes.objectOf(PropTypes.any),
@@ -419,7 +401,6 @@ AddressView.propTypes = {
 AddressView.defaultProps = {
   addressData: null,
   adminDistricts: null,
-  match: {},
   map: null,
   navigator: null,
   embed: false,

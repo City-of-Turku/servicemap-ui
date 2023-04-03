@@ -8,6 +8,7 @@ import DisabledParkingContent from '../index';
 
 const mockProps = {
   item: {
+    address_fi: 'Testikatu 1',
     extra: {
       invapaikkoja: 5,
       rajoitustyyppi: {
@@ -36,8 +37,9 @@ describe('<DisabledParkingContent />', () => {
     const p = container.querySelectorAll('p');
     const h6 = container.querySelector('h6');
     expect(h6.textContent).toContain(finnishTranslations['mobilityPlatform.content.disabledParking.title']);
-    expect(p[0].textContent).toContain(`Parkkipaikkojen määrä: ${mockProps.item.extra.invapaikkoja}`);
-    expect(p[1].textContent).toContain(mockProps.item.extra.rajoitustyyppi.fi);
-    expect(p[2].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicParking.access']);
+    expect(p[0].textContent).toContain(`Osoite: ${mockProps.item.address_fi}`);
+    expect(p[1].textContent).toContain(`Parkkipaikkojen määrä: ${mockProps.item.extra.invapaikkoja}`);
+    expect(p[2].textContent).toContain(mockProps.item.extra.rajoitustyyppi.fi);
+    expect(p[3].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicParking.access']);
   });
 });

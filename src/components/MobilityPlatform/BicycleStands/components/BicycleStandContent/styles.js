@@ -10,4 +10,7 @@ export default theme => ({
   paragraph: {
     marginBottom: theme.spacing(0.5),
   },
+  padding: {
+    padding: theme.spacing(1),
+  },
 });

@@ -2,6 +2,7 @@
 // Link.react.test.js
 import React from 'react';
 import { getRenderWithProviders } from '../../../../../../../jestUtils';
+import { initialState } from '../../../../../../redux/reducers/user';
 import finnishTranslations from '../../../../../../i18n/fi';
 import RentalCarsContent from '../index';
 
@@ -21,7 +22,9 @@ const mockProps = {
   },
 };
 
-const renderWithProviders = getRenderWithProviders({});
+const renderWithProviders = getRenderWithProviders({
+  user: initialState,
+});
 
 describe('<RentalCarsContent />', () => {
   it('should work', () => {

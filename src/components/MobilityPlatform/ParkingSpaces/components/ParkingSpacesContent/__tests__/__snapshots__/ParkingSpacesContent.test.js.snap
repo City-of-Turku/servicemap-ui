@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ParkingSpacesContent /> should work 1`] = `
+<div>
+  <div
+    class="injectIntl(ParkingSpacesContent)-container-1"
+  >
+    <div
+      class="injectIntl(ParkingSpacesContent)-title-2"
+    >
+      <h6
+        class="MuiTypography-root MuiTypography-subtitle1"
+      >
+        Pysäköintialue
+      </h6>
+    </div>
+    <div
+      class="injectIntl(ParkingSpacesContent)-text-3"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2"
+      >
+        Maksutyyppi
+        :
+         
+        Maksullinen
+      </p>
+    </div>
+    <div
+      class="injectIntl(ParkingSpacesContent)-text-3"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2"
+      >
+        Parkkipaikkojen määrä
+        :
+         
+        10
+      </p>
+    </div>
+    <div
+      class="injectIntl(ParkingSpacesContent)-text-3"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2"
+      >
+        Vapaana olevat parkkipaikat: 5 / 10
+      </p>
+    </div>
+  </div>
+</div>
+`;

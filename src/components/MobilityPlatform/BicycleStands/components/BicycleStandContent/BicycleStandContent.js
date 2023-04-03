@@ -111,7 +111,7 @@ const BicycleStandContent = ({
   );
 
   return (
-    <div>
+    <div className={classes.padding}>
       {titleTypo()}
       {multiValueTypo(messageIds)}
     </div>

@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
-import MobilityPlatformContext from '../../../../../context/MobilityPlatformContext';
+import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
-import { fetchMobilityMapPolygonData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, fitPolygonsToBounds } from '../../../utils/utils';
 
 /* Display brush sanded and brush salted bicycle roads */
@@ -12,7 +13,7 @@ const BrushedBicycleRoads = () => {
   const [brushSandedRoutes, setBrushSandedRoutes] = useState([]);
   const [brushSaltedRoutes, setBrushSaltedRoutes] = useState([]);
 
-  const { openMobilityPlatform, showBrushSandedRoute, showBrushSaltedRoute } = useContext(MobilityPlatformContext);
+  const { openMobilityPlatform, showBrushSandedRoute, showBrushSaltedRoute } = useMobilityPlatformContext();
 
   const { Polyline } = global.rL;
 
@@ -48,11 +49,24 @@ const BrushedBicycleRoads = () => {
   };
 
   useEffect(() => {
+    const options = {
+      type_name: 'BrushSandedBicycleNetwork',
+      latlon: true,
+    };
     if (openMobilityPlatform) {
-      fetchMobilityMapPolygonData('BrushSandedBicycleNetwork', 100, setBrushSandedRoutes);
-      fetchMobilityMapPolygonData('BrushSaltedBicycleNetwork', 100, setBrushSaltedRoutes);
+      fetchMobilityMapData(options, setBrushSandedRoutes);
     }
-  }, [openMobilityPlatform, setBrushSandedRoutes, setBrushSaltedRoutes]);
+  }, [openMobilityPlatform, setBrushSandedRoutes]);
+
+  useEffect(() => {
+    const options = {
+      type_name: 'BrushSaltedBicycleNetwork',
+      latlon: true,
+    };
+    if (openMobilityPlatform) {
+      fetchMobilityMapData(options, setBrushSaltedRoutes);
+    }
+  }, [openMobilityPlatform, setBrushSaltedRoutes]);
 
   const map = useMap();
 

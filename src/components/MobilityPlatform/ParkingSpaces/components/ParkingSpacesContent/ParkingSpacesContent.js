@@ -55,14 +55,7 @@ const ParkingSpacesContent = ({
       <div key={capacity} className={classes.text}>
         {freeParkingSpaces > 0 ? (
           <Typography variant="body2">
-            {intl.formatMessage({ id: 'mobilityPlatform.content.parkingSpaces.parkingCount' })}
-            :
-            {' '}
-            {freeParkingSpaces}
-            {''}
-            /
-            {''}
-            {capacity}
+            {intl.formatMessage({ id: 'mobilityPlatform.content.parkingSpaces.parkingCount' }, { value: freeParkingSpaces, capacity })}
           </Typography>
         ) : (
           <Typography variant="body2">

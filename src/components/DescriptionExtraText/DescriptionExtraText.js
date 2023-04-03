@@ -20,36 +20,13 @@ const DescriptionExtraText = ({
       {chargers.map(charger => (
         <div key={`${charger.plug}${charger.power}${charger.number}`} className={classes.paragraph}>
           <Typography className={classes.textItem} variant="body2">
-            <strong>
-              {intl.formatMessage({
-                id: 'mobilityPlatform.content.cgsType',
-              })}
-              :
-            </strong>
-            {' '}
-            {charger.plug}
+            {intl.formatMessage({ id: 'mobilityPlatform.content.cgsType' }, { value: charger.plug })}
           </Typography>
           <Typography className={classes.textItem} variant="body2">
-            <strong>
-              {intl.formatMessage({
-                id: 'mobilityPlatform.content.count',
-              })}
-              :
-            </strong>
-            {' '}
-            {charger.number}
+            {intl.formatMessage({ id: 'mobilityPlatform.content.count' }, { value: charger.number })}
           </Typography>
           <Typography className={classes.textItem} variant="body2">
-            <strong>
-              {intl.formatMessage({
-                id: 'mobilityPlatform.content.power',
-              })}
-              :
-            </strong>
-            {' '}
-            {charger.power}
-            {' '}
-            kW
+            {intl.formatMessage({ id: 'mobilityPlatform.content.power' }, { value: charger.power })}
           </Typography>
         </div>
       ))}
@@ -65,24 +42,10 @@ const DescriptionExtraText = ({
       </Typography>
       <div className={classes.paragraph}>
         <Typography className={classes.textItem} variant="body2">
-          <strong>
-            {intl.formatMessage({
-              id: 'mobilityPlatform.content.gfsType',
-            })}
-            :
-          </strong>
-          {' '}
-          {extra.lng_cng}
+          {intl.formatMessage({ id: 'mobilityPlatform.content.gfsType' }, { value: extra.lng_cng })}
         </Typography>
         <Typography className={classes.textItem} variant="body2">
-          <strong>
-            {intl.formatMessage({
-              id: 'mobilityPlatform.content.operator',
-            })}
-            :
-          </strong>
-          {' '}
-          {extra.operator}
+          {intl.formatMessage({ id: 'mobilityPlatform.content.operator' }, { value: extra.operator })}
         </Typography>
       </div>
     </>
