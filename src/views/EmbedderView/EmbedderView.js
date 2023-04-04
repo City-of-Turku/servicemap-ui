@@ -97,6 +97,8 @@ const EmbedderView = ({
   const [showUnits, setShowUnits] = useState(true);
   const [restrictBounds, setRestrictBounds] = useState(true);
   const [showUnitList, setShowUnitList] = useState('none');
+  const [chargingStation, setChargingStation] = useState(false);
+  const [cityBikes, setCityBikes] = useState(false);
 
   const boundsRef = useRef([]);
   const dialogRef = useRef();
@@ -114,6 +116,8 @@ const EmbedderView = ({
     transit,
     showUnits,
     showUnitList,
+    chargingStation,
+    cityBikes,
     bbox: selectedBbox,
   });
 
@@ -491,6 +495,34 @@ const EmbedderView = ({
     );
   };
 
+  const renderMobilityDataControls = () => {
+    const controls = [
+      {
+        key: 'cityBikes',
+        value: cityBikes,
+        onChange: v => setCityBikes(v),
+        icon: null,
+        labelId: 'mobilityPlatform.menu.showCityBikes',
+      },
+      {
+        key: 'chargingStation',
+        value: chargingStation,
+        onChange: v => setChargingStation(v),
+        icon: null,
+        labelId: 'mobilityPlatform.menu.showChargingStations',
+      },
+    ];
+
+    return (
+      <EmbedController
+        titleID="embedder.options.mobility.title"
+        titleComponent="h2"
+        checkboxControls={controls}
+        checkboxLabelledBy="embedder.options.mobility.title"
+      />
+    );
+  };
+
   /**
  * Render unit list controls
  */
@@ -581,6 +613,9 @@ const EmbedderView = ({
               }
                 {
                 renderMarkerOptionsControl()
+              }
+                {
+                renderMobilityDataControls()
               }
                 {
                 renderListOptionsControl()

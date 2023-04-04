@@ -39,6 +39,12 @@ export const getEmbedURL = (url, params = {}) => {
   if (params.showUnitList && params.showUnitList !== 'none') {
     data.show_list = params.showUnitList;
   }
+  if (params.chargingStation) {
+    data.chargingStation = params.chargingStation ? 1 : 0;
+  }
+  if (params.cityBikes) {
+    data.cityBikes = params.cityBikes ? 1 : 0;
+  }
   if (params.bbox) {
     data.bbox = params.bbox;
   }
