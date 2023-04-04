@@ -192,7 +192,7 @@ const EmbedLayout = ({ intl }) => {
         </div>
         <Typography variant="srOnly">{intl.formatMessage({ id: 'map.ariaLabel' })}</Typography>
         <div aria-hidden tabIndex={-1} style={styles.map}>
-          <MapView showMobilityPlatform={false} />
+          <MapView />
         </div>
       </div>
     </>
