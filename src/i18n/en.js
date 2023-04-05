@@ -194,6 +194,7 @@ const translations = {
   'embedder.width.input.aria.auto': 'Width of the embedding, per cent',
   'embedder.width.input.aria.custom': 'Width of the embedding, pixels',
   'embedder.options.mobility.title': 'Mobility',
+  'embedder.options.mobility.description': 'Voit luoda upotuksia valituista liikkumisnäkymän sisällöistä. Kopioi linkki tai HTML-koodi käyttöösi.', // TODO: translate
 
   // Feedback
   'feedback.back': 'Go back',

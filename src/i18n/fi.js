@@ -197,6 +197,7 @@ const translations = {
   'embedder.width.input.aria.auto': 'Upotuksen leveys prosentteina',
   'embedder.width.input.aria.custom': 'Upotuksen leveys pikseleissä',
   'embedder.options.mobility.title': 'Liikenne ja liikkuminen',
+  'embedder.options.mobility.description': 'Voit luoda upotuksia valituista liikkumisnäkymän sisällöistä. Kopioi linkki tai HTML-koodi käyttöösi.', // TODO: verify
 
   // Feedback
   'feedback.back': 'Palaa takaisin',
