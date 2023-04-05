@@ -54,8 +54,13 @@ const CityBikes = () => {
     }
   }, [openMobilityPlatform, setCityBikeStatistics]);
 
+  /** Set render boolean value based on embed status.
+   * Embedder tool needs specific value to be in url to create embedded view with selected content.
+   * Utilize default values when not in embedder tool and if in it, then check if url contains required value.
+   * @returns {boolean}
+   */
   const setRender = () => {
-    const paramValue = url.searchParams.get('cityBikes') === '1';
+    const paramValue = url.searchParams.get('city_bikes') === '1';
     if (embeded) {
       return isDataValid(paramValue, cityBikeStations);
     }

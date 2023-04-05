@@ -38,8 +38,13 @@ const ChargerStationMarkers = () => {
     }
   }, [openMobilityPlatform, setChargerStations]);
 
+  /** Set render boolean value based on embed status.
+   * Embedder tool needs specific value to be in url to create embedded view with selected content.
+   * Utilize default values when not in embedder tool and if in it, then check if url contains required value.
+   * @returns {boolean}
+   */
   const setRender = () => {
-    const paramValue = url.searchParams.get('chargingStation') === '1';
+    const paramValue = url.searchParams.get('charging_station') === '1';
     if (embeded) {
       return isDataValid(paramValue, chargerStations);
     }

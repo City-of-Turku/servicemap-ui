@@ -99,6 +99,7 @@ const EmbedderView = ({
   const [showUnitList, setShowUnitList] = useState('none');
   const [chargingStation, setChargingStation] = useState(false);
   const [cityBikes, setCityBikes] = useState(false);
+  const [rentalCars, setRentalCars] = useState(false);
 
   const boundsRef = useRef([]);
   const dialogRef = useRef();
@@ -118,6 +119,7 @@ const EmbedderView = ({
     showUnitList,
     chargingStation,
     cityBikes,
+    rentalCars,
     bbox: selectedBbox,
   });
 
@@ -510,6 +512,13 @@ const EmbedderView = ({
         onChange: v => setChargingStation(v),
         icon: null,
         labelId: 'mobilityPlatform.menu.showChargingStations',
+      },
+      {
+        key: 'rentalCars',
+        value: rentalCars,
+        onChange: v => setRentalCars(v),
+        icon: null,
+        labelId: 'mobilityPlatform.menu.showRentalCars',
       },
     ];
 

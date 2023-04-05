@@ -10,6 +10,7 @@ import { useMobilityPlatformContext } from '../../../context/MobilityPlatformCon
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid } from '../utils/utils';
+import { isEmbed } from '../../../utils/path';
 import RentalCarsContent from './components/RentalCarsContent';
 
 const RentalCars = ({ classes }) => {
@@ -17,6 +18,9 @@ const RentalCars = ({ classes }) => {
   const [zoomLevel, setZoomLevel] = useState(13);
 
   const { openMobilityPlatform, showRentalCars } = useMobilityPlatformContext();
+
+  const url = new URL(window.location);
+  const embeded = isEmbed({ url: url.toString() });
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -37,17 +41,25 @@ const RentalCars = ({ classes }) => {
   });
 
   useEffect(() => {
-    if (openMobilityPlatform) {
+    if (openMobilityPlatform || embeded) {
       fetchIotData('R24', setRentalCarsData);
     }
   }, [openMobilityPlatform, setRentalCarsData]);
 
   const map = useMap();
 
-  const renderData = isDataValid(showRentalCars, rentalCarsData);
+  const setRender = () => {
+    const paramValue = url.searchParams.get('rental_cars') === '1';
+    if (embeded) {
+      return isDataValid(paramValue, rentalCarsData);
+    }
+    return isDataValid(showRentalCars, rentalCarsData);
+  };
+
+  const renderData = setRender();
 
   useEffect(() => {
-    if (renderData) {
+    if (renderData && !embeded) {
       const bounds = [];
       rentalCarsData.forEach((item) => {
         bounds.push([item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]);
