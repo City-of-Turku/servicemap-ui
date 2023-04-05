@@ -100,6 +100,7 @@ const EmbedderView = ({
   const [chargingStation, setChargingStation] = useState(false);
   const [cityBikes, setCityBikes] = useState(false);
   const [rentalCars, setRentalCars] = useState(false);
+  const [outdoorGym, setOutdoorGym] = useState(false);
 
   const boundsRef = useRef([]);
   const dialogRef = useRef();
@@ -120,6 +121,7 @@ const EmbedderView = ({
     chargingStation,
     cityBikes,
     rentalCars,
+    outdoorGym,
     bbox: selectedBbox,
   });
 
@@ -524,6 +526,13 @@ const EmbedderView = ({
         onChange: v => setRentalCars(v),
         icon: null,
         labelId: 'mobilityPlatform.menu.showRentalCars',
+      },
+      {
+        key: 'outdoorGym',
+        value: outdoorGym,
+        onChange: v => setOutdoorGym(v),
+        icon: null,
+        labelId: 'mobilityPlatform.menu.show.outdoorGymDevices',
       },
     ];
 
