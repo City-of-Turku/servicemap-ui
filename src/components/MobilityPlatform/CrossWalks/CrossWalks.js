@@ -9,6 +9,7 @@ import { useMobilityPlatformContext } from '../../../context/MobilityPlatformCon
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid } from '../utils/utils';
+import { isEmbed } from '../../../utils/path';
 import MapUtility from '../../../utils/mapUtility';
 import MarkerComponent from '../MarkerComponent';
 import TextContent from '../TextContent';
@@ -31,6 +32,9 @@ const CrossWalks = ({ mapObject }) => {
   const useContrast = useSelector(useAccessibleMap);
 
   const customIcon = icon(createIcon(useContrast ? crossWalkIconContrast : crossWalkIcon));
+
+  const url = new URL(window.location);
+  const embeded = isEmbed({ url: url.toString() });
 
   const fetchBounds = map.getBounds();
   const cornerBottom = fetchBounds.getSouthWest();
@@ -58,7 +62,7 @@ const CrossWalks = ({ mapObject }) => {
       page_size: 3000,
       bbox: fetchBox,
     };
-    if (openMobilityPlatform && zoomLevel >= mapObject.options.detailZoom) {
+    if ((openMobilityPlatform && zoomLevel >= mapObject.options.detailZoom) || (embeded && zoomLevel >= mapObject.options.detailZoom)) {
       fetchMobilityMapData(options, setCrossWalksData);
     }
   };
@@ -72,7 +76,15 @@ const CrossWalks = ({ mapObject }) => {
     },
   });
 
-  const renderData = zoomLevel >= mapObject.options.detailZoom && isDataValid(showCrossWalks, crossWalksData);
+  const setRender = () => {
+    const paramValue = url.searchParams.get('crossWalks') === '1';
+    if (embeded) {
+      return isDataValid(paramValue, crossWalksData);
+    }
+    return isDataValid(showCrossWalks, crossWalksData);
+  };
+
+  const renderData = zoomLevel >= mapObject.options.detailZoom && setRender();
 
   // TODO verify text content
   return (

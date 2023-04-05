@@ -76,7 +76,6 @@ const MapView = (props) => {
     measuringMode,
     toggleSidebar,
     sidebarHidden,
-    showMobilityPlatform,
   } = props;
 
   // State
@@ -359,7 +358,7 @@ const MapView = (props) => {
           </CustomControls>
           <CoordinateMarker position={getCoordinatesFromUrl()} />
           <EmbeddedActions />
-          {showMobilityPlatform ? <MobilityPlatformMapView mapObject={mapObject} /> : null}
+          <MobilityPlatformMapView mapObject={mapObject} />
         </MapContainer>
       </>
     );
@@ -390,7 +389,6 @@ MapView.propTypes = {
   measuringMode: PropTypes.bool.isRequired,
   toggleSidebar: PropTypes.func,
   sidebarHidden: PropTypes.bool,
-  showMobilityPlatform: PropTypes.bool,
 };
 
 MapView.defaultProps = {
@@ -403,5 +401,4 @@ MapView.defaultProps = {
   toggleSidebar: null,
   sidebarHidden: false,
   userLocation: null,
-  showMobilityPlatform: true,
 };

@@ -196,6 +196,7 @@ const translations = {
   'embedder.width.custom.label': 'Asetettu leveys. Upotuksen leveys on määritelty pikseleissä.',
   'embedder.width.input.aria.auto': 'Upotuksen leveys prosentteina',
   'embedder.width.input.aria.custom': 'Upotuksen leveys pikseleissä',
+  'embedder.options.mobility.title': 'Liikenne ja liikkuminen',
 
   // Feedback
   'feedback.back': 'Palaa takaisin',

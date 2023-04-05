@@ -8,6 +8,7 @@ import { useMobilityPlatformContext } from '../../../context/MobilityPlatformCon
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
+import { isEmbed } from '../../../utils/path';
 import MarkerComponent from '../MarkerComponent';
 import ChargerStationContent from './components/ChargerStationContent';
 
@@ -24,21 +25,34 @@ const ChargerStationMarkers = () => {
 
   const chargerStationIcon = icon(createIcon(useContrast ? chargerIconBw : chargerIcon));
 
+  const url = new URL(window.location);
+  const embeded = isEmbed({ url: url.toString() });
+
   useEffect(() => {
     const options = {
       type_name: 'ChargingStation',
       page_size: 200,
     };
-    if (openMobilityPlatform) {
+    if (openMobilityPlatform || embeded) {
       fetchMobilityMapData(options, setChargerStations);
     }
   }, [openMobilityPlatform, setChargerStations]);
 
-  const renderData = isDataValid(showChargingStations, chargerStations);
+  const setRender = () => {
+    const paramValue = url.searchParams.get('chargingStation') === '1';
+    if (embeded) {
+      return isDataValid(paramValue, chargerStations);
+    }
+    return isDataValid(showChargingStations, chargerStations);
+  };
+
+  const renderData = setRender();
 
   useEffect(() => {
-    fitToMapBounds(renderData, chargerStations, map);
-  }, [showChargingStations, chargerStations]);
+    if (!embeded) {
+      fitToMapBounds(renderData, chargerStations, map);
+    }
+  }, [showChargingStations, chargerStations, embeded]);
 
   return (
     <>
