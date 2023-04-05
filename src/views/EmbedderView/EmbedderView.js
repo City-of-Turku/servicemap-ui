@@ -101,6 +101,8 @@ const EmbedderView = ({
   const [cityBikes, setCityBikes] = useState(false);
   const [rentalCars, setRentalCars] = useState(false);
   const [outdoorGym, setOutdoorGym] = useState(false);
+  const [bicycleStands, setBicycleStands] = useState(false);
+  const [frameLockable, setFrameLockable] = useState(false);
 
   const boundsRef = useRef([]);
   const dialogRef = useRef();
@@ -122,6 +124,8 @@ const EmbedderView = ({
     cityBikes,
     rentalCars,
     outdoorGym,
+    bicycleStands,
+    frameLockable,
     bbox: selectedBbox,
   });
 
@@ -506,6 +510,20 @@ const EmbedderView = ({
   const renderMobilityDataControls = () => {
     const description = intl.formatMessage({ id: 'embedder.options.mobility.description' });
     const controls = [
+      {
+        key: 'bicycleStands',
+        value: bicycleStands,
+        onChange: v => setBicycleStands(v),
+        icon: null,
+        labelId: 'mobilityPlatform.menu.showBicycleStands',
+      },
+      {
+        key: 'frameLockable',
+        value: frameLockable,
+        onChange: v => setFrameLockable(v),
+        icon: null,
+        labelId: 'mobilityPlatform.menu.show.hullLockableStands',
+      },
       {
         key: 'cityBikes',
         value: cityBikes,

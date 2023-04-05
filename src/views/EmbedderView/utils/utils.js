@@ -51,6 +51,12 @@ export const getEmbedURL = (url, params = {}) => {
   if (params.outdoorGym) {
     data.outdoor_gym = params.outdoorGym ? 1 : 0;
   }
+  if (params.bicycleStands) {
+    data.bicycle_stands = params.bicycleStands ? 1 : 0;
+  }
+  if (params.frameLockable) {
+    data.frame_lockable = params.frameLockable ? 1 : 0;
+  }
   if (params.bbox) {
     data.bbox = params.bbox;
   }
