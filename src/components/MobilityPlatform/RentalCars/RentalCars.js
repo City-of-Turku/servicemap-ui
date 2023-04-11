@@ -9,7 +9,7 @@ import rentalCarIcon from 'servicemap-ui-turku/assets/icons/icons-icon_rental_ca
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../utils/utils';
+import { isDataValid, setRender } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import RentalCarsContent from './components/RentalCarsContent';
 
@@ -48,15 +48,8 @@ const RentalCars = ({ classes }) => {
 
   const map = useMap();
 
-  const setRender = () => {
-    const paramValue = url.searchParams.get('rental_cars') === '1';
-    if (embeded) {
-      return isDataValid(paramValue, rentalCarsData);
-    }
-    return isDataValid(showRentalCars, rentalCarsData);
-  };
-
-  const renderData = setRender();
+  const paramValue = url.searchParams.get('rental_cars') === '1';
+  const renderData = setRender(paramValue, embeded, showRentalCars, rentalCarsData, isDataValid);
 
   useEffect(() => {
     if (renderData && !embeded) {
