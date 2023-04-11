@@ -9,7 +9,7 @@ import rentalCarIcon from 'servicemap-ui-turku/assets/icons/icons-icon_rental_ca
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid, setRender } from '../utils/utils';
+import { isDataValid, setRender, checkMapType } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import RentalCarsContent from './components/RentalCarsContent';
 
@@ -33,7 +33,7 @@ const RentalCars = ({ classes }) => {
     },
   });
 
-  const setBaseIcon = useContrast ? rentalCarIconBw : rentalCarIcon;
+  const setBaseIcon = checkMapType(embeded, useContrast, url) ? rentalCarIconBw : rentalCarIcon;
 
   const customIcon = icon({
     iconUrl: zoomLevel < 14 ? setBaseIcon : providerIcon,

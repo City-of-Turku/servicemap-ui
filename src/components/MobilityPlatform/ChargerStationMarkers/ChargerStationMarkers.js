@@ -8,7 +8,7 @@ import { useMobilityPlatformContext } from '../../../context/MobilityPlatformCon
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
-  createIcon, isDataValid, fitToMapBounds, setRender,
+  createIcon, isDataValid, fitToMapBounds, setRender, checkMapType,
 } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import MarkerComponent from '../MarkerComponent';
@@ -25,10 +25,10 @@ const ChargerStationMarkers = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const chargerStationIcon = icon(createIcon(useContrast ? chargerIconBw : chargerIcon));
-
   const url = new URL(window.location);
   const embeded = isEmbed({ url: url.toString() });
+
+  const chargerStationIcon = icon(createIcon(checkMapType(embeded, useContrast, url) ? chargerIconBw : chargerIcon));
 
   useEffect(() => {
     const options = {

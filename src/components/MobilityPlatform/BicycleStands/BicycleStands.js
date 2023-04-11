@@ -9,7 +9,9 @@ import circleIcon from 'servicemap-ui-turku/assets/icons/icons-icon_circle_borde
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid, fitToMapBounds, setRender } from '../utils/utils';
+import {
+  isDataValid, fitToMapBounds, setRender, checkMapType,
+} from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import MarkerComponent from '../MarkerComponent';
 import BicycleStandContent from './components/BicycleStandContent';
@@ -24,18 +26,18 @@ const BicycleStands = () => {
 
   const map = useMap();
 
+  const url = new URL(window.location);
+  const embeded = isEmbed({ url: url.toString() });
+
   const { icon } = global.L;
 
-  const setBaseIcon = useContrast ? bicycleStandIconBw : bicycleStandIcon;
-  const setCircleIcon = useContrast ? circleIconBw : circleIcon;
+  const setBaseIcon = checkMapType(embeded, useContrast, url) ? bicycleStandIconBw : bicycleStandIcon;
+  const setCircleIcon = checkMapType(embeded, useContrast, url) ? circleIconBw : circleIcon;
 
   const customIcon = icon({
     iconUrl: zoomLevel < 14 ? setCircleIcon : setBaseIcon,
     iconSize: zoomLevel < 14 ? [20, 20] : [45, 45],
   });
-
-  const url = new URL(window.location);
-  const embeded = isEmbed({ url: url.toString() });
 
   useEffect(() => {
     const options = {

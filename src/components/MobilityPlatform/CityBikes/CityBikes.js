@@ -9,7 +9,7 @@ import follariIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchCityBikesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../utils/utils';
+import { isDataValid, setRender, checkMapType } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import CityBikesContent from './components/CityBikesContent';
 
@@ -34,8 +34,8 @@ const CityBikes = () => {
     },
   });
 
-  const setBaseIcon = useContrast ? cityBikeIconBw : cityBikeIcon;
-  const setFollariIcon = useContrast ? follariIconBw : follariIcon;
+  const setBaseIcon = checkMapType(embeded, useContrast, url) ? cityBikeIconBw : cityBikeIcon;
+  const setFollariIcon = checkMapType(embeded, useContrast, url) ? follariIconBw : follariIcon;
 
   const customIcon = icon({
     iconUrl: zoomLevel < 14 ? setBaseIcon : setFollariIcon,
@@ -54,20 +54,8 @@ const CityBikes = () => {
     }
   }, [openMobilityPlatform, setCityBikeStatistics]);
 
-  /** Set render boolean value based on embed status.
-   * Embedder tool needs specific value to be in url to create embedded view with selected content.
-   * Utilize default values when not in embedder tool and if in it, then check if url contains required value.
-   * @returns {boolean}
-   */
-  const setRender = () => {
-    const paramValue = url.searchParams.get('city_bikes') === '1';
-    if (embeded) {
-      return isDataValid(paramValue, cityBikeStations);
-    }
-    return isDataValid(showCityBikes, cityBikeStations);
-  };
-
-  const renderData = setRender();
+  const paramValue = url.searchParams.get('city_bikes') === '1';
+  const renderData = setRender(paramValue, embeded, showCityBikes, cityBikeStations, isDataValid);
 
   return (
     <>

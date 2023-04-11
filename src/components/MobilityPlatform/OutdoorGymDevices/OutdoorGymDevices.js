@@ -8,7 +8,7 @@ import { useMobilityPlatformContext } from '../../../context/MobilityPlatformCon
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
-  isDataValid, fitToMapBounds, createIcon, setRender,
+  isDataValid, fitToMapBounds, createIcon, setRender, checkMapType,
 } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import MarkerComponent from '../MarkerComponent';
@@ -24,10 +24,11 @@ const OutdoorGymDevices = () => {
   const map = useMap();
 
   const { icon } = global.L;
-  const customIcon = icon(createIcon(useContrast ? sportIconContrast : sportIcon));
 
   const url = new URL(window.location);
   const embeded = isEmbed({ url: url.toString() });
+
+  const customIcon = icon(createIcon(checkMapType(embeded, useContrast, url) ? sportIconContrast : sportIcon));
 
   useEffect(() => {
     const options = {

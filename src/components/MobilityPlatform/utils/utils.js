@@ -75,6 +75,21 @@ const setRender = (paramValue, embeded, showData, data, isDataValid) => {
   return isDataValid(showData, data);
 };
 
+/**
+ * In embedder tool maptype is url parameter
+ * useContrast selector always equals false in embedder tool
+ * @param {*boolean} embeded
+ * @param {*boolean} useContrast
+ * @param {*string} url
+ * @returns boolean
+ */
+const checkMapType = (embeded, useContrast, url) => {
+  if (embeded && !useContrast) {
+    return url.searchParams.get('map') === 'accessible_map';
+  }
+  return useContrast;
+};
+
 export {
   isDataValid,
   isObjValid,
@@ -86,4 +101,5 @@ export {
   fitToMapBounds,
   fitPolygonsToBounds,
   setRender,
+  checkMapType,
 };
