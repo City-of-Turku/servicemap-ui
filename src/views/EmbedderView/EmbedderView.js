@@ -659,7 +659,7 @@ const EmbedderView = ({
                 renderMarkerOptionsControl()
               }
                 {
-                renderMobilityDataControls()
+                isExternalTheme ? renderMobilityDataControls() : null
               }
                 {
                 renderListOptionsControl()
