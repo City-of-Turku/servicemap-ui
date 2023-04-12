@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useMapEvents } from 'react-leaflet';
+import { useMap, useMapEvents } from 'react-leaflet';
 import cityBikeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_city_bike.svg';
 import cityBikeIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_city_bike-bw.svg';
 import follariIcon from 'servicemap-ui-turku/assets/icons/icons-icon_follari.svg';
@@ -23,6 +23,7 @@ const CityBikes = () => {
   const url = new URL(window.location);
   const embeded = isEmbed({ url: url.toString() });
 
+  const map = useMap();
   const useContrast = useSelector(useAccessibleMap);
 
   const { Marker, Popup } = global.rL;
@@ -56,6 +57,22 @@ const CityBikes = () => {
 
   const paramValue = url.searchParams.get('city_bikes') === '1';
   const renderData = setRender(paramValue, embeded, showCityBikes, cityBikeStations, isDataValid);
+
+  const fitBounds = () => {
+    if (renderData) {
+      const bounds = [];
+      cityBikeStations.forEach((item) => {
+        bounds.push([item.lat, item.lon]);
+      });
+      map.fitBounds(bounds);
+    }
+  };
+
+  useEffect(() => {
+    if (!embeded) {
+      fitBounds();
+    }
+  }, [showCityBikes, cityBikeStations]);
 
   return (
     <>
