@@ -24,6 +24,7 @@ import embedderConfig from './embedderConfig';
 import * as smurl from './utils/url';
 import { getEmbedURL, getLanguage } from './utils/utils';
 import config from '../../../config';
+import TopBar from '../../components/TopBar';
 
 const hideCitiesIn = [paths.unit.regex, paths.address.regex];
 
@@ -604,6 +605,7 @@ const EmbedderView = ({
 
   return (
     <>
+      <TopBar smallScreen={false} hideButtons />
       <div ref={dialogRef}>
         {
           renderHeadInfo()
