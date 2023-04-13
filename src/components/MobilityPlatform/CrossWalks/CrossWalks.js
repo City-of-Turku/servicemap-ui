@@ -8,7 +8,9 @@ import crossWalkIconContrast from 'servicemap-ui-turku/assets/icons/contrast/ico
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { createIcon, isDataValid, setRender } from '../utils/utils';
+import {
+  createIcon, isDataValid, setRender, checkMapType,
+} from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import MapUtility from '../../../utils/mapUtility';
 import MarkerComponent from '../MarkerComponent';
@@ -31,10 +33,10 @@ const CrossWalks = ({ mapObject }) => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const customIcon = icon(createIcon(useContrast ? crossWalkIconContrast : crossWalkIcon));
-
   const url = new URL(window.location);
   const embedded = isEmbed({ url: url.toString() });
+
+  const customIcon = icon(createIcon(checkMapType(embedded, useContrast, url) ? crossWalkIconContrast : crossWalkIcon));
 
   const fetchBounds = map.getBounds();
   const cornerBottom = fetchBounds.getSouthWest();

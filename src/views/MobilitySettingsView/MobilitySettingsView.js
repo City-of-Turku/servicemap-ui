@@ -1373,6 +1373,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       component: <InfoTextBox infoText="mobilityPlatform.info.outdoorGymDevices" />,
     },
     {
+      visible: showCrossWalks,
+      type: 'crosswalksInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.crosswalks" />,
+    },
+    {
       visible: showPublicToilets,
       type: 'publicRestroomsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.publicToilets" />,

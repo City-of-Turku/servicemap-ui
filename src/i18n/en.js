@@ -820,7 +820,8 @@ const translations = {
   'mobilityPlatform.info.parkingMachines': 'The map shows parking machines that are owned by City of Turku. All machines accept either card or contacless payment method. More information can be read by pressing an icon on the map.',
   'mobilityPlatform.info.publicParkingSpaces': 'The map shows public parking spaces that are available for general public. Information about occupancy is not available however. Additional information can be read by selecting an area from the map.',
   'mobilityPlatform.info.outdoorGymDevices': 'City of Turku maintains outdoor gym devices. They offer a fun way to train muscles outdoors anytime for free while enjoying the fresh air. With outdoor gym devices, such as lat pull down, pull up, leg press and benches, one can exercise the whole body. The combination of devices varies between places.',
-  'mobilityPlatform.info.short.crosswalks': 'Kartalla näkyvät Turun suojatiet.', // TODO translate
+  'mobilityPlatform.info.crosswalks': 'The map shows locations of crosswalks inside the city of Turku. Zoom in on the map to see crosswalks.', // TODO verify
+  'mobilityPlatform.info.short.crosswalks': 'The maps show crosswalks in Turku.', // TODO verify
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',
