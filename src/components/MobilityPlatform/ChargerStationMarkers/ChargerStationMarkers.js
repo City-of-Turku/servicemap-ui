@@ -26,28 +26,28 @@ const ChargerStationMarkers = () => {
   const useContrast = useSelector(useAccessibleMap);
 
   const url = new URL(window.location);
-  const embeded = isEmbed({ url: url.toString() });
+  const embedded = isEmbed({ url: url.toString() });
 
-  const chargerStationIcon = icon(createIcon(checkMapType(embeded, useContrast, url) ? chargerIconBw : chargerIcon));
+  const chargerStationIcon = icon(createIcon(checkMapType(embedded, useContrast, url) ? chargerIconBw : chargerIcon));
 
   useEffect(() => {
     const options = {
       type_name: 'ChargingStation',
       page_size: 200,
     };
-    if (openMobilityPlatform || embeded) {
+    if (openMobilityPlatform || embedded) {
       fetchMobilityMapData(options, setChargerStations);
     }
   }, [openMobilityPlatform, setChargerStations]);
 
   const paramValue = url.searchParams.get('charging_station') === '1';
-  const renderData = setRender(paramValue, embeded, showChargingStations, chargerStations, isDataValid);
+  const renderData = setRender(paramValue, embedded, showChargingStations, chargerStations, isDataValid);
 
   useEffect(() => {
-    if (!embeded) {
+    if (!embedded) {
       fitToMapBounds(renderData, chargerStations, map);
     }
-  }, [showChargingStations, chargerStations, embeded]);
+  }, [showChargingStations, chargerStations, embedded]);
 
   return (
     <>

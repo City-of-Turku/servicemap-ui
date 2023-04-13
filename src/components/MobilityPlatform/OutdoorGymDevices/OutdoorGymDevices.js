@@ -26,24 +26,24 @@ const OutdoorGymDevices = () => {
   const { icon } = global.L;
 
   const url = new URL(window.location);
-  const embeded = isEmbed({ url: url.toString() });
+  const embedded = isEmbed({ url: url.toString() });
 
-  const customIcon = icon(createIcon(checkMapType(embeded, useContrast, url) ? sportIconContrast : sportIcon));
+  const customIcon = icon(createIcon(checkMapType(embedded, useContrast, url) ? sportIconContrast : sportIcon));
 
   useEffect(() => {
     const options = {
       type_name: 'OutdoorGymDevice',
     };
-    if (openMobilityPlatform || embeded) {
+    if (openMobilityPlatform || embedded) {
       fetchMobilityMapData(options, setOutdoorGymDevices);
     }
   }, [openMobilityPlatform, setOutdoorGymDevices]);
 
   const paramValue = url.searchParams.get('outdoor_gym') === '1';
-  const renderData = setRender(paramValue, embeded, showOutdoorGymDevices, outdoorGymDevices, isDataValid);
+  const renderData = setRender(paramValue, embedded, showOutdoorGymDevices, outdoorGymDevices, isDataValid);
 
   useEffect(() => {
-    if (!embeded) {
+    if (!embedded) {
       fitToMapBounds(renderData, outdoorGymDevices, map);
     }
   }, [showOutdoorGymDevices, outdoorGymDevices]);

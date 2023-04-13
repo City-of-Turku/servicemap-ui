@@ -20,7 +20,7 @@ const RentalCars = ({ classes }) => {
   const { openMobilityPlatform, showRentalCars } = useMobilityPlatformContext();
 
   const url = new URL(window.location);
-  const embeded = isEmbed({ url: url.toString() });
+  const embedded = isEmbed({ url: url.toString() });
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -33,7 +33,7 @@ const RentalCars = ({ classes }) => {
     },
   });
 
-  const setBaseIcon = checkMapType(embeded, useContrast, url) ? rentalCarIconBw : rentalCarIcon;
+  const setBaseIcon = checkMapType(embedded, useContrast, url) ? rentalCarIconBw : rentalCarIcon;
 
   const customIcon = icon({
     iconUrl: zoomLevel < 14 ? setBaseIcon : providerIcon,
@@ -41,7 +41,7 @@ const RentalCars = ({ classes }) => {
   });
 
   useEffect(() => {
-    if (openMobilityPlatform || embeded) {
+    if (openMobilityPlatform || embedded) {
       fetchIotData('R24', setRentalCarsData);
     }
   }, [openMobilityPlatform, setRentalCarsData]);
@@ -49,10 +49,10 @@ const RentalCars = ({ classes }) => {
   const map = useMap();
 
   const paramValue = url.searchParams.get('rental_cars') === '1';
-  const renderData = setRender(paramValue, embeded, showRentalCars, rentalCarsData, isDataValid);
+  const renderData = setRender(paramValue, embedded, showRentalCars, rentalCarsData, isDataValid);
 
   useEffect(() => {
-    if (renderData && !embeded) {
+    if (renderData && !embedded) {
       const bounds = [];
       rentalCarsData.forEach((item) => {
         bounds.push([item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]);

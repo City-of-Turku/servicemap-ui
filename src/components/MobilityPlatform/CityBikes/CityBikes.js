@@ -21,7 +21,7 @@ const CityBikes = () => {
   const { openMobilityPlatform, showCityBikes } = useMobilityPlatformContext();
 
   const url = new URL(window.location);
-  const embeded = isEmbed({ url: url.toString() });
+  const embedded = isEmbed({ url: url.toString() });
 
   const map = useMap();
   const useContrast = useSelector(useAccessibleMap);
@@ -35,8 +35,8 @@ const CityBikes = () => {
     },
   });
 
-  const setBaseIcon = checkMapType(embeded, useContrast, url) ? cityBikeIconBw : cityBikeIcon;
-  const setFollariIcon = checkMapType(embeded, useContrast, url) ? follariIconBw : follariIcon;
+  const setBaseIcon = checkMapType(embedded, useContrast, url) ? cityBikeIconBw : cityBikeIcon;
+  const setFollariIcon = checkMapType(embedded, useContrast, url) ? follariIconBw : follariIcon;
 
   const customIcon = icon({
     iconUrl: zoomLevel < 14 ? setBaseIcon : setFollariIcon,
@@ -44,19 +44,19 @@ const CityBikes = () => {
   });
 
   useEffect(() => {
-    if (openMobilityPlatform || embeded) {
+    if (openMobilityPlatform || embedded) {
       fetchCityBikesData('CBI', setCityBikeStations);
     }
   }, [openMobilityPlatform, setCityBikeStations]);
 
   useEffect(() => {
-    if (openMobilityPlatform || embeded) {
+    if (openMobilityPlatform || embedded) {
       fetchCityBikesData('CBS', setCityBikeStatistics);
     }
   }, [openMobilityPlatform, setCityBikeStatistics]);
 
   const paramValue = url.searchParams.get('city_bikes') === '1';
-  const renderData = setRender(paramValue, embeded, showCityBikes, cityBikeStations, isDataValid);
+  const renderData = setRender(paramValue, embedded, showCityBikes, cityBikeStations, isDataValid);
 
   const fitBounds = () => {
     if (renderData) {
@@ -69,7 +69,7 @@ const CityBikes = () => {
   };
 
   useEffect(() => {
-    if (!embeded) {
+    if (!embedded) {
       fitBounds();
     }
   }, [showCityBikes, cityBikeStations]);

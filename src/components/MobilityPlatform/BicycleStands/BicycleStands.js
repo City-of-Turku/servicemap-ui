@@ -27,12 +27,12 @@ const BicycleStands = () => {
   const map = useMap();
 
   const url = new URL(window.location);
-  const embeded = isEmbed({ url: url.toString() });
+  const embedded = isEmbed({ url: url.toString() });
 
   const { icon } = global.L;
 
-  const setBaseIcon = checkMapType(embeded, useContrast, url) ? bicycleStandIconBw : bicycleStandIcon;
-  const setCircleIcon = checkMapType(embeded, useContrast, url) ? circleIconBw : circleIcon;
+  const setBaseIcon = checkMapType(embedded, useContrast, url) ? bicycleStandIconBw : bicycleStandIcon;
+  const setCircleIcon = checkMapType(embedded, useContrast, url) ? circleIconBw : circleIcon;
 
   const customIcon = icon({
     iconUrl: zoomLevel < 14 ? setCircleIcon : setBaseIcon,
@@ -44,7 +44,7 @@ const BicycleStands = () => {
       type_name: 'BicycleStand',
       page_size: 500,
     };
-    if (openMobilityPlatform || embeded) {
+    if (openMobilityPlatform || embedded) {
       fetchMobilityMapData(options, setBicycleStands);
     }
   }, [openMobilityPlatform, setBicycleStands]);
@@ -70,17 +70,17 @@ const BicycleStands = () => {
   const paramValue1 = url.searchParams.get('bicycle_stands') === '1';
   const paramValue2 = url.searchParams.get('frame_lockable') === '1';
 
-  const validBicycleStands = setRender(paramValue1, embeded, showBicycleStands, otherBicycleStands, isDataValid);
-  const validHulllockableStands = setRender(paramValue2, embeded, showHullLockableStands, hullLockableBicycleStands, isDataValid);
+  const validBicycleStands = setRender(paramValue1, embedded, showBicycleStands, otherBicycleStands, isDataValid);
+  const validHulllockableStands = setRender(paramValue2, embedded, showHullLockableStands, hullLockableBicycleStands, isDataValid);
 
   useEffect(() => {
-    if (!embeded) {
+    if (!embedded) {
       fitToMapBounds(validBicycleStands, otherBicycleStands, map);
     }
   }, [showBicycleStands]);
 
   useEffect(() => {
-    if (!embeded) {
+    if (!embedded) {
       fitToMapBounds(validHulllockableStands, hullLockableBicycleStands, map);
     }
   }, [showHullLockableStands]);
