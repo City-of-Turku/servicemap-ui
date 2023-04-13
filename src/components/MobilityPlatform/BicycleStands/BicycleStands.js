@@ -9,7 +9,10 @@ import circleIcon from 'servicemap-ui-turku/assets/icons/icons-icon_circle_borde
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid, fitToMapBounds } from '../utils/utils';
+import {
+  isDataValid, fitToMapBounds, setRender, checkMapType,
+} from '../utils/utils';
+import { isEmbed } from '../../../utils/path';
 import MarkerComponent from '../MarkerComponent';
 import BicycleStandContent from './components/BicycleStandContent';
 
@@ -23,10 +26,13 @@ const BicycleStands = () => {
 
   const map = useMap();
 
+  const url = new URL(window.location);
+  const embedded = isEmbed({ url: url.toString() });
+
   const { icon } = global.L;
 
-  const setBaseIcon = useContrast ? bicycleStandIconBw : bicycleStandIcon;
-  const setCircleIcon = useContrast ? circleIconBw : circleIcon;
+  const setBaseIcon = checkMapType(embedded, useContrast, url) ? bicycleStandIconBw : bicycleStandIcon;
+  const setCircleIcon = checkMapType(embedded, useContrast, url) ? circleIconBw : circleIcon;
 
   const customIcon = icon({
     iconUrl: zoomLevel < 14 ? setCircleIcon : setBaseIcon,
@@ -38,7 +44,7 @@ const BicycleStands = () => {
       type_name: 'BicycleStand',
       page_size: 500,
     };
-    if (openMobilityPlatform) {
+    if (openMobilityPlatform || embedded) {
       fetchMobilityMapData(options, setBicycleStands);
     }
   }, [openMobilityPlatform, setBicycleStands]);
@@ -61,15 +67,22 @@ const BicycleStands = () => {
     return acc;
   }, []);
 
-  const validBicycleStands = isDataValid(showBicycleStands, otherBicycleStands);
-  const validHulllockableStands = isDataValid(showHullLockableStands, hullLockableBicycleStands);
+  const paramValue1 = url.searchParams.get('bicycle_stands') === '1';
+  const paramValue2 = url.searchParams.get('frame_lockable') === '1';
+
+  const validBicycleStands = setRender(paramValue1, embedded, showBicycleStands, otherBicycleStands, isDataValid);
+  const validHulllockableStands = setRender(paramValue2, embedded, showHullLockableStands, hullLockableBicycleStands, isDataValid);
 
   useEffect(() => {
-    fitToMapBounds(validBicycleStands, otherBicycleStands, map);
+    if (!embedded) {
+      fitToMapBounds(validBicycleStands, otherBicycleStands, map);
+    }
   }, [showBicycleStands]);
 
   useEffect(() => {
-    fitToMapBounds(validHulllockableStands, hullLockableBicycleStands, map);
+    if (!embedded) {
+      fitToMapBounds(validHulllockableStands, hullLockableBicycleStands, map);
+    }
   }, [showHullLockableStands]);
 
   const renderBicycleStands = (isValid, data) => (isValid ? (

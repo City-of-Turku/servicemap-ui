@@ -40,13 +40,25 @@ export const getEmbedURL = (url, params = {}) => {
     data.show_list = params.showUnitList;
   }
   if (params.chargingStation) {
-    data.chargingStation = params.chargingStation ? 1 : 0;
+    data.charging_station = params.chargingStation ? 1 : 0;
   }
   if (params.cityBikes) {
-    data.cityBikes = params.cityBikes ? 1 : 0;
+    data.city_bikes = params.cityBikes ? 1 : 0;
+  }
+  if (params.rentalCars) {
+    data.rental_cars = params.rentalCars ? 1 : 0;
+  }
+  if (params.outdoorGym) {
+    data.outdoor_gym = params.outdoorGym ? 1 : 0;
+  }
+  if (params.bicycleStands) {
+    data.bicycle_stands = params.bicycleStands ? 1 : 0;
+  }
+  if (params.frameLockable) {
+    data.frame_lockable = params.frameLockable ? 1 : 0;
   }
   if (params.crossWalks) {
-    data.crossWalks = params.crossWalks ? 1 : 0;
+    data.crosswalks = params.crossWalks ? 1 : 0;
   }
   if (params.bbox) {
     data.bbox = params.bbox;

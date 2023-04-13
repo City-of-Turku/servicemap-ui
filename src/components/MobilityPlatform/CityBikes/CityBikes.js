@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useMapEvents } from 'react-leaflet';
+import { useMap, useMapEvents } from 'react-leaflet';
 import cityBikeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_city_bike.svg';
 import cityBikeIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_city_bike-bw.svg';
 import follariIcon from 'servicemap-ui-turku/assets/icons/icons-icon_follari.svg';
@@ -9,7 +9,7 @@ import follariIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchCityBikesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../utils/utils';
+import { isDataValid, setRender, checkMapType } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import CityBikesContent from './components/CityBikesContent';
 
@@ -21,8 +21,9 @@ const CityBikes = () => {
   const { openMobilityPlatform, showCityBikes } = useMobilityPlatformContext();
 
   const url = new URL(window.location);
-  const embeded = isEmbed({ url: url.toString() });
+  const embedded = isEmbed({ url: url.toString() });
 
+  const map = useMap();
   const useContrast = useSelector(useAccessibleMap);
 
   const { Marker, Popup } = global.rL;
@@ -34,8 +35,8 @@ const CityBikes = () => {
     },
   });
 
-  const setBaseIcon = useContrast ? cityBikeIconBw : cityBikeIcon;
-  const setFollariIcon = useContrast ? follariIconBw : follariIcon;
+  const setBaseIcon = checkMapType(embedded, useContrast, url) ? cityBikeIconBw : cityBikeIcon;
+  const setFollariIcon = checkMapType(embedded, useContrast, url) ? follariIconBw : follariIcon;
 
   const customIcon = icon({
     iconUrl: zoomLevel < 14 ? setBaseIcon : setFollariIcon,
@@ -43,26 +44,35 @@ const CityBikes = () => {
   });
 
   useEffect(() => {
-    if (openMobilityPlatform || embeded) {
+    if (openMobilityPlatform || embedded) {
       fetchCityBikesData('CBI', setCityBikeStations);
     }
   }, [openMobilityPlatform, setCityBikeStations]);
 
   useEffect(() => {
-    if (openMobilityPlatform || embeded) {
+    if (openMobilityPlatform || embedded) {
       fetchCityBikesData('CBS', setCityBikeStatistics);
     }
   }, [openMobilityPlatform, setCityBikeStatistics]);
 
-  const setRender = () => {
-    const paramValue = url.searchParams.get('cityBikes') === '1';
-    if (embeded) {
-      return isDataValid(paramValue, cityBikeStations);
+  const paramValue = url.searchParams.get('city_bikes') === '1';
+  const renderData = setRender(paramValue, embedded, showCityBikes, cityBikeStations, isDataValid);
+
+  const fitBounds = () => {
+    if (renderData) {
+      const bounds = [];
+      cityBikeStations.forEach((item) => {
+        bounds.push([item.lat, item.lon]);
+      });
+      map.fitBounds(bounds);
     }
-    return isDataValid(showCityBikes, cityBikeStations);
   };
 
-  const renderData = setRender();
+  useEffect(() => {
+    if (!embedded) {
+      fitBounds();
+    }
+  }, [showCityBikes, cityBikeStations]);
 
   return (
     <>

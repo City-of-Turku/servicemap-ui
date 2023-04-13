@@ -8,7 +8,7 @@ import crossWalkIconContrast from 'servicemap-ui-turku/assets/icons/contrast/ico
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { createIcon, isDataValid } from '../utils/utils';
+import { createIcon, isDataValid, setRender } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import MapUtility from '../../../utils/mapUtility';
 import MarkerComponent from '../MarkerComponent';
@@ -34,7 +34,7 @@ const CrossWalks = ({ mapObject }) => {
   const customIcon = icon(createIcon(useContrast ? crossWalkIconContrast : crossWalkIcon));
 
   const url = new URL(window.location);
-  const embeded = isEmbed({ url: url.toString() });
+  const embedded = isEmbed({ url: url.toString() });
 
   const fetchBounds = map.getBounds();
   const cornerBottom = fetchBounds.getSouthWest();
@@ -62,7 +62,10 @@ const CrossWalks = ({ mapObject }) => {
       page_size: 3000,
       bbox: fetchBox,
     };
-    if ((openMobilityPlatform && zoomLevel >= mapObject.options.detailZoom) || (embeded && zoomLevel >= mapObject.options.detailZoom)) {
+    if (
+      (openMobilityPlatform && zoomLevel >= mapObject.options.detailZoom)
+      || (embedded && zoomLevel >= mapObject.options.detailZoom)
+    ) {
       fetchMobilityMapData(options, setCrossWalksData);
     }
   };
@@ -76,33 +79,23 @@ const CrossWalks = ({ mapObject }) => {
     },
   });
 
-  const setRender = () => {
-    const paramValue = url.searchParams.get('crossWalks') === '1';
-    if (embeded) {
-      return isDataValid(paramValue, crossWalksData);
-    }
-    return isDataValid(showCrossWalks, crossWalksData);
-  };
-
-  const renderData = zoomLevel >= mapObject.options.detailZoom && setRender();
+  const paramValue = url.searchParams.get('crosswalks') === '1';
+  const renderData = zoomLevel >= mapObject.options.detailZoom
+    && setRender(paramValue, embedded, showCrossWalks, crossWalksData, isDataValid);
 
   // TODO verify text content
   return (
     <>
-      {renderData ? (
-        crossWalksData.map(item => (
-          <MarkerComponent
-            key={item.id}
-            item={item}
-            icon={customIcon}
-          >
+      {renderData
+        ? crossWalksData.map(item => (
+          <MarkerComponent key={item.id} item={item} icon={customIcon}>
             <TextContent
               titleId="mobilityPlatform.content.crosswalks.title"
               translationId="mobilityPlatform.info.short.crosswalks"
             />
           </MarkerComponent>
         ))
-      ) : null}
+        : null}
     </>
   );
 };

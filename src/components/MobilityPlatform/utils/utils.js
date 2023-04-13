@@ -58,6 +58,38 @@ const fitPolygonsToBounds = (renderData, data, map) => {
   }
 };
 
+/** Set render boolean value based on embed status.
+   * Embedder tool needs specific value to be in url to create embedded view with selected content.
+   * Utilize default values when not in embedder tool and if in it, then check if url contains required value.
+   * @param {boolean} paramValue
+   * @param {boolean} embedded
+   * @param {boolean} showData
+   * @param {array} data
+   * @param {function} isDataValid
+   * @returns boolean value through function
+   */
+const setRender = (paramValue, embedded, showData, data, isDataValid) => {
+  if (embedded) {
+    return isDataValid(paramValue, data);
+  }
+  return isDataValid(showData, data);
+};
+
+/**
+ * In embedder tool maptype is url parameter
+ * useContrast selector always equals false in embedder tool
+ * @param {boolean} embedded
+ * @param {boolean} useContrast
+ * @param {string} url
+ * @returns boolean
+ */
+const checkMapType = (embedded, useContrast, url) => {
+  if (embedded && !useContrast) {
+    return url.searchParams.get('map') === 'accessible_map';
+  }
+  return useContrast;
+};
+
 export {
   isDataValid,
   isObjValid,
@@ -68,4 +100,6 @@ export {
   redOptionsBase,
   fitToMapBounds,
   fitPolygonsToBounds,
+  setRender,
+  checkMapType,
 };

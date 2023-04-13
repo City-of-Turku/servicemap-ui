@@ -7,7 +7,9 @@ import chargerIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
+import {
+  createIcon, isDataValid, fitToMapBounds, setRender, checkMapType,
+} from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import MarkerComponent from '../MarkerComponent';
 import ChargerStationContent from './components/ChargerStationContent';
@@ -23,36 +25,29 @@ const ChargerStationMarkers = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const chargerStationIcon = icon(createIcon(useContrast ? chargerIconBw : chargerIcon));
-
   const url = new URL(window.location);
-  const embeded = isEmbed({ url: url.toString() });
+  const embedded = isEmbed({ url: url.toString() });
+
+  const chargerStationIcon = icon(createIcon(checkMapType(embedded, useContrast, url) ? chargerIconBw : chargerIcon));
 
   useEffect(() => {
     const options = {
       type_name: 'ChargingStation',
       page_size: 200,
     };
-    if (openMobilityPlatform || embeded) {
+    if (openMobilityPlatform || embedded) {
       fetchMobilityMapData(options, setChargerStations);
     }
   }, [openMobilityPlatform, setChargerStations]);
 
-  const setRender = () => {
-    const paramValue = url.searchParams.get('chargingStation') === '1';
-    if (embeded) {
-      return isDataValid(paramValue, chargerStations);
-    }
-    return isDataValid(showChargingStations, chargerStations);
-  };
-
-  const renderData = setRender();
+  const paramValue = url.searchParams.get('charging_station') === '1';
+  const renderData = setRender(paramValue, embedded, showChargingStations, chargerStations, isDataValid);
 
   useEffect(() => {
-    if (!embeded) {
+    if (!embedded) {
       fitToMapBounds(renderData, chargerStations, map);
     }
-  }, [showChargingStations, chargerStations, embeded]);
+  }, [showChargingStations, chargerStations, embedded]);
 
   return (
     <>
