@@ -684,6 +684,7 @@ const translations = {
   'mobilityPlatform.menu.show.publicParking': 'Yleiset pysäköintialueet',
   'mobilityPlatform.menu.show.outdoorGymDevices': 'Ulkokuntoilulaitteet',
   'mobilityPlatform.menu.show.crossWalks': 'Suojatiet',
+  'mobilityPlatform.embedded.label.crossWalks': 'Suojatiet (tarkenna karttaa lähemmäs)',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',
@@ -816,8 +817,8 @@ const translations = {
   'mobilityPlatform.info.parkingMachines': 'Kartalla näkyvät Turun kaupungin omistamat pysäköintiautomaatit. Kaikissa automaateissa maksutapoina toimivat pankkikortti ja lähimaksu. Lisätietoja automaatista näkee painamalla kuvaketta kartalla.',
   'mobilityPlatform.info.publicParkingSpaces': 'Kartalla näkyvät yleisessä käytössä olevat pysäköintialueet. Niiden käyttöasteesta ei ole kuitenkaan saatavilla tietoja. Tarkempia tietoja valitusta pysäköintialueesta voi lukea painamalla aluetta kartalla.',
   'mobilityPlatform.info.outdoorGymDevices': 'Turun kaupunki ylläpitää ulkoliikuntapaikkoja. Ulkokuntosalilaitteet tarjoavat hauskan tavan harjoittaa lihaskuntoa ulkoilmasta nauttien. Ympäri kaupunkia sijaitsevilla ulkokuntoilulaitteilla pystyt harjoittamaan koko kehoa. Ylätaljat, jalkaprässit, punnerrus-, surffaus- ja kävelylaitteet sopivat kaikille. Enemmän haastetta tarjoavat leuanvetoteline, dippi, vatsalauta ja selkäpenkki.',
-  'mobilityPlatform.info.crosswalks': 'Kartalla näkyvät Turun alueen suojatieden sijainnit. Tarkenna karttaa lähietäisyydelle, jotta suojatiet näkyvät.', // TODO verify
-  'mobilityPlatform.info.short.crosswalks': 'Kartalla näkyvät Turun suojatiet.', // TODO verify
+  'mobilityPlatform.info.crosswalks': 'Kartalla näkyvät Turun alueen suojatieden sijainnit. Tarkenna karttaa lähietäisyydelle, jotta suojatiet näkyvät.',
+  'mobilityPlatform.info.short.crosswalks': 'Kartalla näkyvät Turun suojatiet.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',

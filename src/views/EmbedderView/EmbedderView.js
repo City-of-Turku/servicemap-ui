@@ -560,7 +560,7 @@ const EmbedderView = ({
         value: crossWalks,
         onChange: v => setCrossWalks(v),
         icon: null,
-        labelId: 'mobilityPlatform.menu.show.crossWalks',
+        labelId: 'mobilityPlatform.embedded.label.crossWalks',
       },
     ];
 
