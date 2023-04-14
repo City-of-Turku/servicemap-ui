@@ -474,13 +474,6 @@ const EmbedderView = ({
   const renderMarkerOptionsControl = () => {
     const controls = [
       {
-        key: 'transit',
-        value: transit,
-        onChange: v => setTransit(v),
-        icon: null,
-        labelId: 'embedder.options.label.transit',
-      },
-      {
         key: 'units',
         value: showUnits,
         onChange: v => setShowUnits(v),
@@ -526,6 +519,13 @@ const EmbedderView = ({
         onChange: v => setCityBikes(v),
         icon: null,
         labelId: 'mobilityPlatform.menu.showCityBikes',
+      },
+      {
+        key: 'transit',
+        value: transit,
+        onChange: v => setTransit(v),
+        icon: null,
+        labelId: 'embedder.options.label.transit',
       },
       {
         key: 'chargingStation',
