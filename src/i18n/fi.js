@@ -185,7 +185,7 @@ const translations = {
   'embedder.service.none': 'Kartta näytetään ilman toimipisteitä',
   'embedder.service.common': 'Kartalla näytetään yleisimmät kaupunkilaisen arkeen liittyvät toimipisteet: koulut, päiväkodit ja terveyskeskukset.',
   'embedder.service.all': 'Kartalla näytetään kaikki toimipisteet. Jos aluerajaus on liian laaja, upotuksen näyttäminen hidastuu ja sen havainnollisuus vähenee.',
-  'embedder.title': 'Upotustyökalu',
+  'embedder.title': 'Palvelukartan upotustyökalu',
   'embedder.title.info': 'Palvelukartan upotustyökalulla voit upottaa Palvelukartan yksittäisiä näkymiä osaksi mitä tahansa verkkosivua.',
   'embedder.info.title': 'Ohjeet upotustyökalun käyttöön',
   'embedder.info.description': 'Valitse alla olevasta valikoimasta karttanäkymään haluamasi toiminnallisuudet. Kopioi kartalta URL-linkki tai html-koodi käyttöösi.',
@@ -196,6 +196,8 @@ const translations = {
   'embedder.width.custom.label': 'Asetettu leveys. Upotuksen leveys on määritelty pikseleissä.',
   'embedder.width.input.aria.auto': 'Upotuksen leveys prosentteina',
   'embedder.width.input.aria.custom': 'Upotuksen leveys pikseleissä',
+  'embedder.options.mobility.title': 'Liikenne ja liikkuminen',
+  'embedder.options.mobility.description': 'Voit luoda upotuksia myös valituista liikkumisnäkymän sisällöistä. Kopioi linkki tai html-koodi käyttöösi.',
 
   // Feedback
   'feedback.back': 'Palaa takaisin',

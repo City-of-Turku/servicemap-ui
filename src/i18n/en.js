@@ -193,6 +193,8 @@ const translations = {
   'embedder.width.custom.label': 'Width has been set. The width of the embedding has been set in pixels.',
   'embedder.width.input.aria.auto': 'Width of the embedding, per cent',
   'embedder.width.input.aria.custom': 'Width of the embedding, pixels',
+  'embedder.options.mobility.title': 'Mobility',
+  'embedder.options.mobility.description': 'You can also embed selected views of the mobility map. Copy link or html code for your use.',
 
   // Feedback
   'feedback.back': 'Go back',

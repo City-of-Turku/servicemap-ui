@@ -196,6 +196,8 @@ const translations = {
   'embedder.width.custom.label': 'Bredden har fastställts. Inbäddningens bredd har fastställs i pixlar.',
   'embedder.width.input.aria.auto': 'Inbäddningens bredd, procent',
   'embedder.width.input.aria.custom': 'Inbäddningens bredd, pixlar',
+  'embedder.options.mobility.title': 'Mobilitet',
+  'embedder.options.mobility.description': 'Du kan också skapa inbäddningar från valt innehåll från mobilitetsvyn. Kopiera länken eller html-koden för ditt eget bruk.',
 
   // Feedback
   'feedback.back': 'Gå tillbaka',

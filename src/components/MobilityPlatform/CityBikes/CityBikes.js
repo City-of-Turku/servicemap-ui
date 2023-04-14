@@ -9,7 +9,8 @@ import follariIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchCityBikesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../utils/utils';
+import { isDataValid, setRender, checkMapType } from '../utils/utils';
+import { isEmbed } from '../../../utils/path';
 import CityBikesContent from './components/CityBikesContent';
 
 const CityBikes = () => {
@@ -19,9 +20,11 @@ const CityBikes = () => {
 
   const { openMobilityPlatform, showCityBikes } = useMobilityPlatformContext();
 
-  const useContrast = useSelector(useAccessibleMap);
+  const url = new URL(window.location);
+  const embedded = isEmbed({ url: url.toString() });
 
   const map = useMap();
+  const useContrast = useSelector(useAccessibleMap);
 
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
@@ -32,8 +35,8 @@ const CityBikes = () => {
     },
   });
 
-  const setBaseIcon = useContrast ? cityBikeIconBw : cityBikeIcon;
-  const setFollariIcon = useContrast ? follariIconBw : follariIcon;
+  const setBaseIcon = checkMapType(embedded, useContrast, url) ? cityBikeIconBw : cityBikeIcon;
+  const setFollariIcon = checkMapType(embedded, useContrast, url) ? follariIconBw : follariIcon;
 
   const customIcon = icon({
     iconUrl: zoomLevel < 14 ? setBaseIcon : setFollariIcon,
@@ -41,26 +44,33 @@ const CityBikes = () => {
   });
 
   useEffect(() => {
-    if (openMobilityPlatform) {
+    if (openMobilityPlatform || embedded) {
       fetchCityBikesData('CBI', setCityBikeStations);
     }
   }, [openMobilityPlatform, setCityBikeStations]);
 
   useEffect(() => {
-    if (openMobilityPlatform) {
+    if (openMobilityPlatform || embedded) {
       fetchCityBikesData('CBS', setCityBikeStatistics);
     }
   }, [openMobilityPlatform, setCityBikeStatistics]);
 
-  const renderData = isDataValid(showCityBikes, cityBikeStations);
+  const paramValue = url.searchParams.get('city_bikes') === '1';
+  const renderData = setRender(paramValue, embedded, showCityBikes, cityBikeStations, isDataValid);
 
-  useEffect(() => {
+  const fitBounds = () => {
     if (renderData) {
       const bounds = [];
       cityBikeStations.forEach((item) => {
         bounds.push([item.lat, item.lon]);
       });
       map.fitBounds(bounds);
+    }
+  };
+
+  useEffect(() => {
+    if (!embedded) {
+      fitBounds();
     }
   }, [showCityBikes, cityBikeStations]);
 
