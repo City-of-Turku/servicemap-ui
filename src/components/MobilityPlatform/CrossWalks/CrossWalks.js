@@ -58,6 +58,8 @@ const CrossWalks = ({ mapObject }) => {
   // Bounds used in fetch
   const fetchBox = MapUtility.getBboxFromBounds(wideBounds, true);
 
+  const isDetailZoom = zoomLevel >= mapObject.options.detailZoom;
+
   const handleCrossWalks = () => {
     const options = {
       type_name: 'CrossWalkSign',
@@ -65,8 +67,8 @@ const CrossWalks = ({ mapObject }) => {
       bbox: fetchBox,
     };
     if (
-      (openMobilityPlatform && zoomLevel >= mapObject.options.detailZoom)
-      || (embedded && zoomLevel >= mapObject.options.detailZoom)
+      (openMobilityPlatform && isDetailZoom)
+      || (embedded && isDetailZoom)
     ) {
       fetchMobilityMapData(options, setCrossWalksData);
     }
@@ -82,10 +84,8 @@ const CrossWalks = ({ mapObject }) => {
   });
 
   const paramValue = url.searchParams.get('crosswalks') === '1';
-  const renderData = zoomLevel >= mapObject.options.detailZoom
-    && setRender(paramValue, embedded, showCrossWalks, crossWalksData, isDataValid);
+  const renderData = isDetailZoom && setRender(paramValue, embedded, showCrossWalks, crossWalksData, isDataValid);
 
-  // TODO verify text content
   return (
     <>
       {renderData

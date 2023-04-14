@@ -535,6 +535,13 @@ const EmbedderView = ({
         labelId: 'mobilityPlatform.menu.showCityBikes',
       },
       {
+        key: 'crossWalks',
+        value: crossWalks,
+        onChange: v => setCrossWalks(v),
+        icon: null,
+        labelId: 'mobilityPlatform.embedded.label.crossWalks',
+      },
+      {
         key: 'chargingStation',
         value: chargingStation,
         onChange: v => setChargingStation(v),
@@ -554,13 +561,6 @@ const EmbedderView = ({
         onChange: v => setOutdoorGym(v),
         icon: null,
         labelId: 'mobilityPlatform.menu.show.outdoorGymDevices',
-      },
-      {
-        key: 'crossWalks',
-        value: crossWalks,
-        onChange: v => setCrossWalks(v),
-        icon: null,
-        labelId: 'mobilityPlatform.embedded.label.crossWalks',
       },
     ];
 
