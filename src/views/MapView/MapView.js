@@ -353,7 +353,7 @@ const MapView = (props) => {
           </CustomControls>
           <CoordinateMarker position={getCoordinatesFromUrl()} />
           <EmbeddedActions />
-          <MobilityPlatformMapView />
+          <MobilityPlatformMapView mapObject={mapObject} />
         </MapContainer>
       </>
     );

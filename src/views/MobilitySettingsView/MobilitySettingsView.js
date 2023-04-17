@@ -159,6 +159,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowPublicParking,
     showOutdoorGymDevices,
     setShowOutdoorGymDevices,
+    showCrossWalks,
+    setShowCrossWalks,
     showBusStops,
     setShowBusStops,
   } = useMobilityPlatformContext();
@@ -677,6 +679,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowOutdoorGymDevices(current => !current);
   };
 
+  const crossWalksToggle = () => {
+    setShowCrossWalks(current => !current);
+  };
+
   const scooterSpeedLimitAreasToggle = () => {
     setShowScooterSpeedLimitAreas(current => !current);
   };
@@ -1021,6 +1027,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.show.outdoorGymDevices',
       checkedValue: showOutdoorGymDevices,
       onChangeValue: outdoorGymDevicesToggle,
+    },
+    {
+      type: 'crossWalks',
+      msgId: 'mobilityPlatform.menu.show.crossWalks',
+      checkedValue: showCrossWalks,
+      onChangeValue: crossWalksToggle,
     },
     {
       type: 'publicToilets',
@@ -1388,6 +1400,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       visible: showOutdoorGymDevices,
       type: 'outdoorGymsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.outdoorGymDevices" />,
+    },
+    {
+      visible: showCrossWalks,
+      type: 'crosswalksInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.crosswalks" />,
     },
     {
       visible: showPublicToilets,

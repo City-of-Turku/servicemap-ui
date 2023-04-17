@@ -57,6 +57,9 @@ export const getEmbedURL = (url, params = {}) => {
   if (params.frameLockable) {
     data.frame_lockable = params.frameLockable ? 1 : 0;
   }
+  if (params.crossWalks) {
+    data.crosswalks = params.crossWalks ? 1 : 0;
+  }
   if (params.bbox) {
     data.bbox = params.bbox;
   }
