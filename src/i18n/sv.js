@@ -177,7 +177,7 @@ const translations = {
   'embedder.options.label.list.none': 'Ta bort listan med verksamhetsställen',
   'embedder.options.label.list.side': 'Visa verksamhetsställen som en lista (intill kartan)',
   'embedder.options.label.list.bottom': 'Visa verksamhetsställen som en lista (nedanför kartan)',
-  'embedder.options.label.transit': 'Visa kollektivtrafikens hållplatser (Zooma in kartan för att se hållplatserna)',
+  'embedder.options.label.transit': 'Kollektivtrafikens hållplatser (zooma in kartan för att se hållplatserna)',
   'embedder.options.label.bbox': 'Begränsa den inbäddade kartan till området i förhandsgranskningsfönstret',
   'embedder.preview.title': 'Map preview',
   'embedder.service.title': 'Tjänster',
@@ -625,7 +625,7 @@ const translations = {
   'mobilityPlatform.menu.title.boating': 'Båtliv',
   'mobilityPlatform.menu.title.scooter': 'Elsparkcyklar',
   'mobilityPlatform.menu.title.streetMaintenance': 'Gatuunderhåll',
-  'mobilityPlatform.menu.title.public.transport': 'Kollektivtrafik', // TODO verify
+  'mobilityPlatform.menu.title.public.transport': 'Kollektivtrafik',
   'mobilityPlatform.menu.showChargingStations': 'Elladdningsstationer för bilar',
   'mobilityPlatform.menu.showGasFillingStations': 'Tankstationer med gas',
   'mobilityPlatform.menu.showEcoCounter': 'Beräkningspunkter',
@@ -681,9 +681,9 @@ const translations = {
   'mobilityPlatform.menu.show.parkingMachines': 'Parkeringsautomater',
   'mobilityPlatform.menu.show.publicParking': 'Allmänna parkeringsplatser',
   'mobilityPlatform.menu.show.outdoorGymDevices': 'Träningsredskap utomhus',
-  'mobilityPlatform.menu.show.crossWalks': 'Övergångställen',
-  'mobilityPlatform.embedded.label.crossWalks': 'Övergångställen (zooma in på kartan)',
-  'mobilityPlatform.menu.show.busStops': 'Busshållplatser',
+  'mobilityPlatform.menu.show.crossWalks': 'Övergångställen (zooma in på kartan)',
+  'mobilityPlatform.embedded.label.crossWalks': 'Övergångställen (zooma in på kartan för att se övergångställen)',
+  'mobilityPlatform.menu.show.busStops': 'Busshållplatser (zooma in på kartan)',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',

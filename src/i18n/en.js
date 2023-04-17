@@ -175,7 +175,7 @@ const translations = {
   'embedder.options.label.list.none': 'Hide list of service points',
   'embedder.options.label.list.side': 'Show service points as a list (next to the map)',
   'embedder.options.label.list.bottom': 'Show service points as a list (under the map)',
-  'embedder.options.label.transit': 'Show public transport stops (Zoom in the map to see the stops)',
+  'embedder.options.label.transit': 'Public transport stops (zoom in the map to see the stops)',
   'embedder.options.label.bbox': 'Limit the embedded map to the area in the preview window',
   'embedder.service.title': 'Services',
   'embedder.service.aria.label': 'Choose services to be shown',
@@ -678,9 +678,9 @@ const translations = {
   'mobilityPlatform.menu.show.parkingMachines': 'Parking machines',
   'mobilityPlatform.menu.show.publicParking': 'Public parking spaces',
   'mobilityPlatform.menu.show.outdoorGymDevices': 'Outdoor gym devices',
-  'mobilityPlatform.menu.show.crossWalks': 'Crosswalks',
-  'mobilityPlatform.embedded.label.crossWalks': 'Crosswalks (zoom in on the map)',
-  'mobilityPlatform.menu.show.busStops': 'Bus stops',
+  'mobilityPlatform.menu.show.crossWalks': 'Crosswalks (zoom in on the map)',
+  'mobilityPlatform.embedded.label.crossWalks': 'Crosswalks (zoom in on the map to see crosswalks)',
+  'mobilityPlatform.menu.show.busStops': 'Bus stops (zoom in on the map)',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
