@@ -22,43 +22,38 @@ const TransitStops = ({ mapObject, classes }) => {
   const externalTheme = config.themePKG;
   const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
 
+
   const map = useMapEvents({
+    zoomend() {
+      setZoomLevel(map.getZoom());
+    },
     moveend() {
       handleTransit();
     },
   });
 
+  const [zoomLevel, setZoomLevel] = useState(map.getZoom());
+  const transitZoom = isMobile
+    ? mapObject.options.detailZoom - 1 : mapObject.options.detailZoom;
+
   // Check if transit stops should be shown
   const showTransitStops = () => {
-    const transitZoom = isMobile
-      ? mapObject.options.detailZoom - 1 : mapObject.options.detailZoom;
-    const currentZoom = map.getZoom();
-
     const url = new URL(window.location);
     const embeded = isEmbed({ url: url.toString() });
     const showTransit = (showBusStops && !embeded) || url.searchParams.get('transit') === '1';
-
-    return (currentZoom >= transitZoom) && showTransit;
+    return (zoomLevel >= transitZoom) && showTransit;
   };
 
   const fetchTransitStops = () => {
     fetchStops(map)
       .then((stops) => {
-        if (showTransitStops()) {
-          setTransitStops(stops);
-        }
+        setTransitStops(stops);
       });
   };
 
-  const clearTransitStops = () => {
-    setTransitStops([]);
-  };
-
   const handleTransit = () => {
-    if (showTransitStops()) {
+    if (zoomLevel >= transitZoom) {
       fetchTransitStops();
-    } else if (transitStops.length) {
-      clearTransitStops();
     }
   };
 
@@ -111,7 +106,7 @@ const TransitStops = ({ mapObject, classes }) => {
   };
 
   return (
-    transitStops.map((stop) => {
+    showTransitStops() ? transitStops.map((stop) => {
       const icon = getTransitIcon(stop.vehicleType);
       return (
         <Marker
@@ -130,7 +125,7 @@ const TransitStops = ({ mapObject, classes }) => {
           </div>
         </Marker>
       );
-    })
+    }) : null
   );
 };
 
