@@ -40,7 +40,8 @@ const TransitStops = ({ mapObject, classes }) => {
   const showTransitStops = () => {
     const url = new URL(window.location);
     const embeded = isEmbed({ url: url.toString() });
-    const showTransit = (showBusStops && !embeded) || url.searchParams.get('transit') === '1';
+    const isDataValid = transitStops.length > 0;
+    const showTransit = (showBusStops && isDataValid && !embeded) || (isDataValid && url.searchParams.get('transit') === '1');
     return (zoomLevel >= transitZoom) && showTransit;
   };
 
