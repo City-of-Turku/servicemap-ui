@@ -528,7 +528,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const publicTransportSettingsToggle = () => {
     setOpenPublicTransportSettings(current => !current);
     if (!openPublicTransportSettings) {
-      navigator.push('mobilityPlatform', 'publicTransport');
+      navigator.push('mobilityPlatform', 'transport');
       setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.public.transport' }));
     }
   };
@@ -566,6 +566,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       && !openBoatingSettings
       && !openScooterSettings
       && !openStreetMaintenanceSettings
+      && !openPublicTransportSettings
       && pageTitle
     ) {
       setPageTitle(null);
@@ -577,6 +578,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     openBoatingSettings,
     openScooterSettings,
     openStreetMaintenanceSettings,
+    openPublicTransportSettings,
     pageTitle,
   ]);
 
