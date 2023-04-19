@@ -60,7 +60,7 @@ const EmbedderView = ({
   const cityOption = (search?.city !== '' && search?.city?.split(',')) || citySettings;
   const citiesToReduce = cityOption.length > 0 ? cityOption : embedderConfig.CITIES.filter(v => v);
 
-  // If external theme (by Turku) is true, then can be used to select which controls to render
+  // If external theme (by Turku) is true, then can be used to select which content to render
   const externalTheme = config.themePKG;
   const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
 
@@ -103,6 +103,7 @@ const EmbedderView = ({
   const [outdoorGym, setOutdoorGym] = useState(false);
   const [bicycleStands, setBicycleStands] = useState(false);
   const [frameLockable, setFrameLockable] = useState(false);
+  const [crossWalks, setCrossWalks] = useState(false);
 
   const boundsRef = useRef([]);
   const dialogRef = useRef();
@@ -126,6 +127,7 @@ const EmbedderView = ({
     outdoorGym,
     bicycleStands,
     frameLockable,
+    crossWalks,
     bbox: selectedBbox,
   });
 
@@ -210,10 +212,7 @@ const EmbedderView = ({
       if (widthMode === 'auto') {
         html = `<div style="${renderWrapperStyle()}"><iframe title="${iframeTitle}" style="position: absolute; top: 0; left: 0; border: none; width: 100%; height: 100%;" src="${url}"></iframe></div>`;
       } else {
-        height = parseInt(
-          parseInt(customWidth, 10) * (parseInt(ratioHeight, 10) / 100.0),
-          10,
-        );
+        height = parseInt(parseInt(customWidth, 10) * (parseInt(ratioHeight, 10) / 100.0), 10);
       }
     }
 
@@ -479,17 +478,8 @@ const EmbedderView = ({
     </div>
   ), [restrictBounds]);
 
-  const filterControls = controlsArr => controlsArr.filter(item => item.key !== 'transit');
-
   const renderMarkerOptionsControl = () => {
     const controls = [
-      {
-        key: 'transit',
-        value: transit,
-        onChange: v => setTransit(v),
-        icon: null,
-        labelId: 'embedder.options.label.transit',
-      },
       {
         key: 'units',
         value: showUnits,
@@ -503,7 +493,7 @@ const EmbedderView = ({
       <EmbedController
         titleID="embedder.options.title"
         titleComponent="h2"
-        checkboxControls={isExternalTheme ? filterControls(controls) : controls}
+        checkboxControls={controls}
         checkboxLabelledBy="embedder.options.title"
       />
     );
@@ -536,6 +526,20 @@ const EmbedderView = ({
         onChange: v => setCityBikes(v),
         icon: null,
         labelId: 'mobilityPlatform.menu.showCityBikes',
+      },
+      {
+        key: 'transit',
+        value: transit,
+        onChange: v => setTransit(v),
+        icon: null,
+        labelId: 'embedder.options.label.transit',
+      },
+      {
+        key: 'crossWalks',
+        value: crossWalks,
+        onChange: v => setCrossWalks(v),
+        icon: null,
+        labelId: 'mobilityPlatform.embedded.label.crossWalks',
       },
       {
         key: 'chargingStation',

@@ -6,52 +6,55 @@ import { useMapEvents } from 'react-leaflet';
 import TransitStopInfo from './TransitStopInfo';
 import { fetchStops } from '../../utils/transitFetch';
 import { transitIconSize } from '../../config/mapConfig';
+import config from '../../../../../config';
 import { isEmbed } from '../../../../utils/path';
 import useMobileStatus from '../../../../utils/isMobile';
+import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 
 const TransitStops = ({ mapObject, classes }) => {
   const isMobile = useMobileStatus();
   const { Marker, Popup } = global.rL;
 
   const [transitStops, setTransitStops] = useState([]);
+  const { showBusStops } = useMobilityPlatformContext();
+
+  // If external theme (by Turku) is true, then can be used to select which color to render
+  const externalTheme = config.themePKG;
+  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
 
   const map = useMapEvents({
+    zoomend() {
+      setZoomLevel(map.getZoom());
+    },
     moveend() {
       handleTransit();
     },
   });
 
+  const [zoomLevel, setZoomLevel] = useState(map.getZoom());
+  const transitZoom = isMobile
+    ? mapObject.options.detailZoom - 1 : mapObject.options.detailZoom;
+
   // Check if transit stops should be shown
   const showTransitStops = () => {
-    const transitZoom = isMobile
-      ? mapObject.options.detailZoom - 1 : mapObject.options.detailZoom;
-    const currentZoom = map.getZoom();
-
     const url = new URL(window.location);
     const embeded = isEmbed({ url: url.toString() });
-    const showTransit = !embeded || url.searchParams.get('transit') === '1';
-
-    return (currentZoom >= transitZoom) && showTransit;
+    const isDataValid = transitStops.length > 0;
+    const showTransit = (showBusStops && isDataValid && !embeded) || (isDataValid && url.searchParams.get('transit') === '1');
+    return (zoomLevel >= transitZoom) && showTransit;
   };
 
   const fetchTransitStops = () => {
     fetchStops(map)
       .then((stops) => {
-        if (showTransitStops()) {
-          setTransitStops(stops);
-        }
+        setTransitStops(stops);
       });
   };
 
-  const clearTransitStops = () => {
-    setTransitStops([]);
-  };
-
   const handleTransit = () => {
-    if (showTransitStops()) {
+    if (zoomLevel >= transitZoom) {
       fetchTransitStops();
-    } else if (transitStops.length) {
-      clearTransitStops();
     }
   };
 
@@ -76,7 +79,14 @@ const TransitStops = ({ mapObject, classes }) => {
         icon = <spanz aria-hidden className={`${classes.transitIconMap} ${classes.ferryIconColor} icon-icon-hsl-ferry`} />;
         break;
       default:
-        icon = <span aria-hidden className={`${classes.transitIconMap} ${classes.busIconColor} icon-icon-hsl-bus`} />;
+        icon = (
+          <span
+            aria-hidden
+            className={`${classes.transitIconMap} ${
+              isExternalTheme ? classes.busIconColorDark : classes.busIconColor
+            } icon-icon-hsl-bus`}
+          />
+        );
         break;
     }
 
@@ -97,7 +107,7 @@ const TransitStops = ({ mapObject, classes }) => {
   };
 
   return (
-    transitStops.map((stop) => {
+    showTransitStops() ? transitStops.map((stop) => {
       const icon = getTransitIcon(stop.vehicleType);
       return (
         <Marker
@@ -116,7 +126,7 @@ const TransitStops = ({ mapObject, classes }) => {
           </div>
         </Marker>
       );
-    })
+    }) : null
   );
 };
 

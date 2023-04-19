@@ -376,9 +376,8 @@ const styles = theme => ({
     marginLeft: 6,
     marginRight: 4,
   },
-  tranistInfoContainer: {
-    width: 230,
-    padding: theme.spacing(2),
+  transitInfoContainer: {
+    padding: theme.spacing(1.5),
     display: 'flex',
     flexDirection: 'column',
   },
@@ -436,6 +435,9 @@ const styles = theme => ({
   },
   ferryIconColor: {
     color: '#00B9E4',
+  },
+  busIconColorDark: {
+    color: 'rgba(7, 44, 115, 255)',
   },
 });
 

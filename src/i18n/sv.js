@@ -177,7 +177,7 @@ const translations = {
   'embedder.options.label.list.none': 'Ta bort listan med verksamhetsställen',
   'embedder.options.label.list.side': 'Visa verksamhetsställen som en lista (intill kartan)',
   'embedder.options.label.list.bottom': 'Visa verksamhetsställen som en lista (nedanför kartan)',
-  'embedder.options.label.transit': 'Visa kollektivtrafikens hållplatser (Zooma in kartan för att se hållplatserna)',
+  'embedder.options.label.transit': 'Kollektivtrafikens hållplatser (zooma in kartan för att se hållplatserna)',
   'embedder.options.label.bbox': 'Begränsa den inbäddade kartan till området i förhandsgranskningsfönstret',
   'embedder.preview.title': 'Map preview',
   'embedder.service.title': 'Tjänster',
@@ -612,7 +612,6 @@ const translations = {
 
   'alert.close': 'Stäng meddelande',
 
-  // TODO update translations
   // Mobility Platform of Turku
   'mobilityPlatform.info.title': 'Mobilitetsplatform',
   'mobilityPlatform.info.statement': 'Mobilitetsdataplattformen från servicekartan har utvecklats som en del av SCALE-UP-projekt, finansierat av Europeiska unionens Horizon 2020-program (bidragsavtal nr 955332).',
@@ -626,6 +625,7 @@ const translations = {
   'mobilityPlatform.menu.title.boating': 'Båtliv',
   'mobilityPlatform.menu.title.scooter': 'Elsparkcyklar',
   'mobilityPlatform.menu.title.streetMaintenance': 'Gatuunderhåll',
+  'mobilityPlatform.menu.title.public.transport': 'Kollektivtrafik',
   'mobilityPlatform.menu.showChargingStations': 'Elladdningsstationer för bilar',
   'mobilityPlatform.menu.showGasFillingStations': 'Tankstationer med gas',
   'mobilityPlatform.menu.showEcoCounter': 'Beräkningspunkter',
@@ -681,6 +681,9 @@ const translations = {
   'mobilityPlatform.menu.show.parkingMachines': 'Parkeringsautomater',
   'mobilityPlatform.menu.show.publicParking': 'Allmänna parkeringsplatser',
   'mobilityPlatform.menu.show.outdoorGymDevices': 'Träningsredskap utomhus',
+  'mobilityPlatform.menu.show.crossWalks': 'Övergångställen (zooma in på kartan)',
+  'mobilityPlatform.embedded.label.crossWalks': 'Övergångställen (zooma in på kartan för att se övergångställen)',
+  'mobilityPlatform.menu.show.busStops': 'Busshållplatser (zooma in på kartan)',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
@@ -779,6 +782,7 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.payment': 'För en avgift: {value} €/h',
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Betalningstyper: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Ytterligare info: {value}',
+  'mobilityPlatform.content.crosswalks.title': 'Övergångställe',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',
@@ -822,6 +826,9 @@ const translations = {
   'mobilityPlatform.info.parkingMachines': 'Kartan visar de parkeringsautomater som ägs av Åbo stad. Bankkort och kontaktlös betalning används som betalningsmetoder i alla automater. Du kan se mer information om maskinen genom att trycka på ikonen på kartan.',
   'mobilityPlatform.info.publicParkingSpaces': 'Allmänna parkeringsplatser visas på kartan. Det finns dock ingen information om deras utnyttjandegrad. Mer detaljerad information om det valda parkeringsområdet kan läsas genom att trycka på området på kartan.',
   'mobilityPlatform.info.outdoorGymDevices': 'Åbo stad upprätthåller utomhusgym. De erbjuder ett roligt sätt att träna medan du njuter av den friska luften. På de utomhusgym som finns runt om i staden kan du träna hela kroppen. Overhead-remskivor, benpressar, armhävningar, surf- och promenadutrustning passar alla. Fler utmaningar erbjuds av armhävningsräcket, dip, magplanka och ryggbänk.',
+  'mobilityPlatform.info.crosswalks': 'Kartan visar placeringen av övergångsställen inne i Åbo stad. Zooma in på kartan för att se övergångsställen.',
+  'mobilityPlatform.info.short.crosswalks': 'Kartan visar övergångsställen inne i Åbo.',
+  'mobilityPlatform.info.busStops': 'Kartan visar Åboregionens kollektivtrafiks, Fölis, busshållplatser. Om du kilckar på ikonen kan du se nästa buss som går från hållplatsen. Zooma in på kartan för att se hållplatserna. Datan kommer från gränssnittet som underhålls av Digitransit.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',

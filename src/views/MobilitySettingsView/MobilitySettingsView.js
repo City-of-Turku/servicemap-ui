@@ -15,6 +15,7 @@ import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
 import iconScooter from 'servicemap-ui-turku/assets/icons/icons-icon_scooter.svg';
 import iconSnowplow from 'servicemap-ui-turku/assets/icons/icons-icon_street_maintenance.svg';
 import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
+import iconPublicTransport from 'servicemap-ui-turku/assets/icons/icons-icon_public_transport.svg';
 import InfoTextBox from '../../components/MobilityPlatform/InfoTextBox';
 import {
   fetchBicycleRouteNames,
@@ -47,6 +48,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [openBoatingSettings, setOpenBoatingSettings] = useState(false);
   const [openScooterSettings, setOpenScooterSettings] = useState(false);
   const [openStreetMaintenanceSettings, setOpenStreetMaintenanceSettings] = useState(false);
+  const [openPublicTransportSettings, setOpenPublicTransportSettings] = useState(false);
   const [openCultureRouteList, setOpenCultureRouteList] = useState(false);
   const [cultureRouteList, setCultureRouteList] = useState([]);
   const [localizedCultureRoutes, setLocalizedCultureRoutes] = useState([]);
@@ -157,6 +159,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowPublicParking,
     showOutdoorGymDevices,
     setShowOutdoorGymDevices,
+    showCrossWalks,
+    setShowCrossWalks,
+    showBusStops,
+    setShowBusStops,
   } = useMobilityPlatformContext();
 
   const locale = useSelector(state => state.user.locale);
@@ -397,6 +403,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showStreetMaintenance, setOpenStreetMaintenanceSelectionList);
   }, [showStreetMaintenance]);
 
+  useEffect(() => {
+    checkVisibilityValues(showBusStops, setOpenPublicTransportSettings);
+  }, [showBusStops]);
+
   const nameKeys = {
     fi: 'name',
     en: 'name_en',
@@ -512,6 +522,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     if (!openCarSettings) {
       navigator.push('mobilityPlatform', 'driving');
       setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.car' }));
+    }
+  };
+
+  const publicTransportSettingsToggle = () => {
+    setOpenPublicTransportSettings(current => !current);
+    if (!openPublicTransportSettings) {
+      navigator.push('mobilityPlatform', 'publicTransport');
+      setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.public.transport' }));
     }
   };
 
@@ -661,6 +679,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowOutdoorGymDevices(current => !current);
   };
 
+  const crossWalksToggle = () => {
+    setShowCrossWalks(current => !current);
+  };
+
   const scooterSpeedLimitAreasToggle = () => {
     setShowScooterSpeedLimitAreas(current => !current);
   };
@@ -682,6 +704,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const publicParkingToggle = () => {
     setShowPublicParking(current => !current);
+  };
+
+  const busStopsToggle = () => {
+    setShowBusStops(current => !current);
   };
 
   const cultureRouteListToggle = () => {
@@ -1003,6 +1029,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       onChangeValue: outdoorGymDevicesToggle,
     },
     {
+      type: 'crossWalks',
+      msgId: 'mobilityPlatform.menu.show.crossWalks',
+      checkedValue: showCrossWalks,
+      onChangeValue: crossWalksToggle,
+    },
+    {
       type: 'publicToilets',
       msgId: 'mobilityPlatform.menu.show.publicToilets',
       checkedValue: showPublicToilets,
@@ -1151,6 +1183,15 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.speedLimitZones.show',
       checkedValue: openSpeedLimitList,
       onChangeValue: speedLimitZonesToggle,
+    },
+  ];
+
+  const publicTransportControlTypes = [
+    {
+      type: 'busStops',
+      msgId: 'mobilityPlatform.menu.show.busStops',
+      checkedValue: showBusStops,
+      onChangeValue: busStopsToggle,
     },
   ];
 
@@ -1361,6 +1402,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       component: <InfoTextBox infoText="mobilityPlatform.info.outdoorGymDevices" />,
     },
     {
+      visible: showCrossWalks,
+      type: 'crosswalksInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.crosswalks" />,
+    },
+    {
       visible: showPublicToilets,
       type: 'publicRestroomsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.publicToilets" />,
@@ -1525,6 +1571,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     },
   ];
 
+  const infoTextsPublicTransport = [
+    {
+      visible: showBusStops,
+      type: 'busStopsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.busStops" />,
+    },
+  ];
+
   /** Render infotext(s) if visible value is true
    * @param {Array} textData
    * @return {Element}
@@ -1669,6 +1723,13 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     </React.Fragment>
   );
 
+  const renderPublicTransportSettings = () => (
+    <React.Fragment>
+      {renderSettings(openPublicTransportSettings, publicTransportControlTypes)}
+      {renderInfoTexts(infoTextsPublicTransport)}
+    </React.Fragment>
+  );
+
   const categories = [
     {
       component: renderWalkSettings(),
@@ -1690,6 +1751,13 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       icon: <ReactSVG src={iconCar} className={classes.icon} />,
       onClick: carSettingsToggle,
       setState: openCarSettings,
+    },
+    {
+      component: renderPublicTransportSettings(),
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.public.transport' }),
+      icon: <ReactSVG src={iconPublicTransport} className={classes.icon} />,
+      onClick: publicTransportSettingsToggle,
+      setState: openPublicTransportSettings,
     },
     {
       component: renderScooterSettings(),
