@@ -100,7 +100,6 @@ const EmbedderView = ({
   const [chargingStation, setChargingStation] = useState(false);
   const [cityBikes, setCityBikes] = useState(false);
   const [rentalCars, setRentalCars] = useState(false);
-  const [outdoorGym, setOutdoorGym] = useState(false);
   const [bicycleStands, setBicycleStands] = useState(false);
   const [frameLockable, setFrameLockable] = useState(false);
   const [crossWalks, setCrossWalks] = useState(false);
@@ -124,7 +123,6 @@ const EmbedderView = ({
     chargingStation,
     cityBikes,
     rentalCars,
-    outdoorGym,
     bicycleStands,
     frameLockable,
     crossWalks,
@@ -554,13 +552,6 @@ const EmbedderView = ({
         onChange: v => setRentalCars(v),
         icon: null,
         labelId: 'mobilityPlatform.menu.showRentalCars',
-      },
-      {
-        key: 'outdoorGym',
-        value: outdoorGym,
-        onChange: v => setOutdoorGym(v),
-        icon: null,
-        labelId: 'mobilityPlatform.menu.show.outdoorGymDevices',
       },
     ];
 

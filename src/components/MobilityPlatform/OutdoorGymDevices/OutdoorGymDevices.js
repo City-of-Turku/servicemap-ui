@@ -7,10 +7,7 @@ import sportIcon from 'servicemap-ui-turku/assets/icons/icons-icon_outdoor_gym.s
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import {
-  isDataValid, fitToMapBounds, createIcon, setRender, checkMapType,
-} from '../utils/utils';
-import { isEmbed } from '../../../utils/path';
+import { isDataValid, fitToMapBounds, createIcon } from '../utils/utils';
 import MarkerComponent from '../MarkerComponent';
 import OutdoorGymDevicesContent from './components/OutdoorGymDevicesContent';
 
@@ -25,27 +22,21 @@ const OutdoorGymDevices = () => {
 
   const { icon } = global.L;
 
-  const url = new URL(window.location);
-  const embedded = isEmbed({ url: url.toString() });
-
-  const customIcon = icon(createIcon(checkMapType(embedded, useContrast, url) ? sportIconContrast : sportIcon));
+  const customIcon = icon(createIcon(useContrast ? sportIconContrast : sportIcon));
 
   useEffect(() => {
     const options = {
       type_name: 'OutdoorGymDevice',
     };
-    if (openMobilityPlatform || embedded) {
+    if (openMobilityPlatform) {
       fetchMobilityMapData(options, setOutdoorGymDevices);
     }
   }, [openMobilityPlatform, setOutdoorGymDevices]);
 
-  const paramValue = url.searchParams.get('outdoor_gym') === '1';
-  const renderData = setRender(paramValue, embedded, showOutdoorGymDevices, outdoorGymDevices, isDataValid);
+  const renderData = isDataValid(showOutdoorGymDevices, outdoorGymDevices);
 
   useEffect(() => {
-    if (!embedded) {
-      fitToMapBounds(renderData, outdoorGymDevices, map);
-    }
+    fitToMapBounds(renderData, outdoorGymDevices, map);
   }, [showOutdoorGymDevices, outdoorGymDevices]);
 
   return (

@@ -301,7 +301,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   useEffect(() => {
     checkVisibilityValues(showPublicToilets, setOpenWalkSettings);
     checkVisibilityValues(showOutdoorGymDevices, setOpenWalkSettings);
-  }, [showPublicToilets, showOutdoorGymDevices]);
+    checkVisibilityValues(showCrossWalks, setOpenWalkSettings);
+  }, [showPublicToilets, showOutdoorGymDevices, showCrossWalks]);
 
   useEffect(() => {
     checkVisibilityValues(showEcoCounter.walking, setOpenWalkSettings);
