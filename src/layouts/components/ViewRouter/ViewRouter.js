@@ -166,7 +166,7 @@ const Area = () => (
 
 const MobilityPlatform = () => (
   <TitleWrapper messageId="general.pageTitles.mobilityPlatform">
-    <PageWrapper headMsgId="general.pageTitles.mobilityPlatform.title" page="mobilityPlatform">
+    <PageWrapper headMsgId="general.pageTitles.mobilityPlatform" page="mobilityPlatform">
       <MobilitySettingsView />
     </PageWrapper>
   </TitleWrapper>

@@ -310,7 +310,6 @@ const translations = {
   'general.time.short': 'kl.',
   'general.tools': 'Verktyg',
   'general.pageTitles.mobilityPlatform': 'Mobilitet',
-  'general.pageTitles.mobilityPlatform.title': 'Mobilitet',
   // Readspeaker
   'general.readspeaker.buttonText': 'Lyssna', // TODO: verify
   'general.readspeaker.title': 'Lyssna med ReadSpeaker webReader', // TODO: verify

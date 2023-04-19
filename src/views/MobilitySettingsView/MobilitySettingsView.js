@@ -1592,7 +1592,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   /** Render header */
   const renderHead = () => {
-    const title = intl.formatMessage({ id: 'general.pageTitles.mobilityPlatform.title' });
+    const title = intl.formatMessage({ id: 'general.pageTitles.mobilityPlatform' });
     const appTitle = intl.formatMessage({ id: 'app.title' });
     return (
       <Helmet>
@@ -1786,7 +1786,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     <div className={classes.content}>
       {renderHead()}
       <TitleBar
-        title={intl.formatMessage({ id: 'general.pageTitles.mobilityPlatform.title' })}
+        title={intl.formatMessage({ id: 'general.pageTitles.mobilityPlatform' })}
         titleComponent="h3"
         backButton
         backButtonOnClick={() => navigator.push('home')}

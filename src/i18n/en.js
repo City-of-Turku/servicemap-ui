@@ -289,7 +289,6 @@ const translations = {
   'general.pageTitles.area': 'Area page',
   'general.tools': 'Tools',
   'general.pageTitles.mobilityPlatform': 'Mobility map',
-  'general.pageTitles.mobilityPlatform.title': 'Mobility map',
   // Readspeaker
   'general.readspeaker.buttonText': 'Listen',
   'general.readspeaker.title': 'Listen with ReadSpeaker webReader',
