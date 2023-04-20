@@ -9,7 +9,6 @@ import {
   isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase, setRender,
 } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
-import PolygonComponent from '../PolygonComponent';
 
 /**
  * Displays underpasses and overpasses on the map in polygon format.
@@ -20,6 +19,8 @@ const Overpasses = () => {
   const [underpassData, setUnderpassData] = useState([]);
 
   const { openMobilityPlatform, showOverpasses, showUnderpasses } = useMobilityPlatformContext();
+
+  const { Polyline } = global.rL;
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -48,13 +49,13 @@ const Overpasses = () => {
     }
   }, [openMobilityPlatform, setUnderpassData]);
 
-  const blueOptions = blueOptionsBase({ weight: 5 });
+  const blueOptions = blueOptionsBase({ weight: 9 });
+  const greenOptions = { color: 'rgba(13, 145, 31, 255)', weight: 9 };
   const whiteOptions = whiteOptionsBase({
-    fillOpacity: 0.3,
-    weight: 5,
-    dashArray: '12',
+    weight: 9,
   });
-  const pathOptions = useContrast ? whiteOptions : blueOptions;
+  const underPassPathOptions = useContrast ? whiteOptions : blueOptions;
+  const overPassPathOptions = useContrast ? whiteOptions : greenOptions;
 
   const map = useMap();
 
@@ -79,21 +80,19 @@ const Overpasses = () => {
     <>
       {renderOverpassData
         ? overpassData.map(item => (
-          <PolygonComponent
+          <Polyline
             key={item.id}
-            item={item}
-            useContrast={useContrast}
-            pathOptions={pathOptions}
+            pathOptions={overPassPathOptions}
+            positions={item.geometry_coords}
           />
         ))
         : null}
       {renderUnderpassData
         ? underpassData.map(item => (
-          <PolygonComponent
+          <Polyline
             key={item.id}
-            item={item}
-            useContrast={useContrast}
-            pathOptions={pathOptions}
+            pathOptions={underPassPathOptions}
+            positions={item.geometry_coords}
           />
         ))
         : null}
