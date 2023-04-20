@@ -39,6 +39,27 @@ export const getEmbedURL = (url, params = {}) => {
   if (params.showUnitList && params.showUnitList !== 'none') {
     data.show_list = params.showUnitList;
   }
+  if (params.chargingStation) {
+    data.charging_station = params.chargingStation ? 1 : 0;
+  }
+  if (params.cityBikes) {
+    data.city_bikes = params.cityBikes ? 1 : 0;
+  }
+  if (params.rentalCars) {
+    data.rental_cars = params.rentalCars ? 1 : 0;
+  }
+  if (params.outdoorGym) {
+    data.outdoor_gym = params.outdoorGym ? 1 : 0;
+  }
+  if (params.bicycleStands) {
+    data.bicycle_stands = params.bicycleStands ? 1 : 0;
+  }
+  if (params.frameLockable) {
+    data.frame_lockable = params.frameLockable ? 1 : 0;
+  }
+  if (params.crossWalks) {
+    data.crosswalks = params.crossWalks ? 1 : 0;
+  }
   if (params.bbox) {
     data.bbox = params.bbox;
   }

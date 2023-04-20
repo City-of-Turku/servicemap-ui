@@ -57,12 +57,11 @@ const ServiceTab = (props) => {
     const listDistrictAreas = ['rescue_area', 'rescue_district', 'rescue_sub_district'].includes(selectedDistrictType);
     const DistrictList = listDistrictAreas ? DistrictAreaList : DistrictUnitList;
     return (
-      <List className="districtList" disablePadding>
-        {districList.map((district, i) => (
+      <List className={`districtList ${classes.listLevelThree}`} disablePadding>
+        {districList.map(district => (
           <Fragment key={district.id}>
             <ListItem
               key={district.id}
-              divider={districList.length !== i + 1}
               className={`${classes.listItem} ${classes.areaItem} ${district.id}`}
             >
               {renderDistrictItem(district)}
@@ -86,7 +85,7 @@ const ServiceTab = (props) => {
         const districList = districtData.filter(i => obj.districts.includes(i.name));
         return (
           <React.Fragment key={obj.titleID}>
-            <div className={classes.subtitle}>
+            <div className={classes.serviceTabSubtitle}>
               <Typography>
                 <FormattedMessage id={obj.titleID} />
               </Typography>
@@ -106,7 +105,7 @@ const ServiceTab = (props) => {
     return (
       <ListItem key={item.titleID} className={classes.listItem} divider>
         <SMAccordion
-          className={classes.accodrion}
+          className={classes.accordion}
           onOpen={() => dispatch(handleOpenItems(item.id))}
           defaultOpen={defaultExpanded}
           titleContent={(
@@ -139,10 +138,12 @@ const ServiceTab = (props) => {
 
   return (
     <div>
-      <Typography variant="srOnly" component="h3">
+      <Typography variant="srOnly" component="h4">
         <FormattedMessage id="area.list" />
       </Typography>
-      <List>{districtCategoryList.map(item => renderCategoryItem(item))}</List>
+      <List className={`${classes.listLevelTwo} ${classes.serviceTabCategoryList}`}>
+        {districtCategoryList.map(item => renderCategoryItem(item))}
+      </List>
     </div>
   );
 };

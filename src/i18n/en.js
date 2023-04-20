@@ -177,7 +177,7 @@ const translations = {
   'embedder.options.label.list.none': 'Hide list of service points',
   'embedder.options.label.list.side': 'Show service points as a list (next to the map)',
   'embedder.options.label.list.bottom': 'Show service points as a list (under the map)',
-  'embedder.options.label.transit': 'Show public transport stops (Zoom in the map to see the stops)',
+  'embedder.options.label.transit': 'Public transport stops (zoom in the map to see the stops)',
   'embedder.options.label.bbox': 'Limit the embedded map to the area in the preview window',
   'embedder.service.title': 'Services',
   'embedder.service.aria.label': 'Choose services to be shown',
@@ -195,6 +195,8 @@ const translations = {
   'embedder.width.custom.label': 'Width has been set. The width of the embedding has been set in pixels.',
   'embedder.width.input.aria.auto': 'Width of the embedding, per cent',
   'embedder.width.input.aria.custom': 'Width of the embedding, pixels',
+  'embedder.options.mobility.title': 'Mobility',
+  'embedder.options.mobility.description': 'You can also embed selected views of the mobility map. Copy link or html code for your use.',
 
   // Feedback
   'feedback.back': 'Go back',
@@ -289,7 +291,6 @@ const translations = {
   'general.pageTitles.area': 'Area page',
   'general.tools': 'Tools',
   'general.pageTitles.mobilityPlatform': 'Mobility map',
-  'general.pageTitles.mobilityPlatform.title': 'Mobility map',
   // Readspeaker
   'general.readspeaker.buttonText': 'Listen',
   'general.readspeaker.title': 'Listen with ReadSpeaker webReader',
@@ -614,7 +615,6 @@ const translations = {
   'mobilityPlatform.info.statement': 'The mobility data platform of the service map has been developed as part of European Union Horizon 2020 programme funded SCALE-UP project (grant agreement no. 955332).',
 
   // Menu
-  'mobilityPlatform.menu.title': 'Mobility map',
   'mobilityPlatform.menu.subtitle': 'Settings',
   'mobilityPlatform.menu.title.walk': 'Walking',
   'mobilityPlatform.menu.title.bicycle': 'Cycling',
@@ -622,6 +622,7 @@ const translations = {
   'mobilityPlatform.menu.title.boating': 'Boating',
   'mobilityPlatform.menu.title.scooter': 'Electric scooters',
   'mobilityPlatform.menu.title.streetMaintenance': 'Street maintenance',
+  'mobilityPlatform.menu.title.public.transport': 'Public transport',
   'mobilityPlatform.menu.showChargingStations': 'Car e-charging points',
   'mobilityPlatform.menu.showGasFillingStations': 'Gas filling stations',
   'mobilityPlatform.menu.showEcoCounter': 'Measurement point',
@@ -677,6 +678,9 @@ const translations = {
   'mobilityPlatform.menu.show.parkingMachines': 'Parking machines',
   'mobilityPlatform.menu.show.publicParking': 'Public parking spaces',
   'mobilityPlatform.menu.show.outdoorGymDevices': 'Outdoor gym devices',
+  'mobilityPlatform.menu.show.crossWalks': 'Crosswalks (zoom in on the map)',
+  'mobilityPlatform.embedded.label.crossWalks': 'Crosswalks (zoom in on the map to see crosswalks)',
+  'mobilityPlatform.menu.show.busStops': 'Bus stops (zoom in on the map)',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
@@ -775,6 +779,7 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.payment': 'Charge: {value} €/h',
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Payment methods: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Additional info: {value}',
+  'mobilityPlatform.content.crosswalks.title': 'Crosswalk',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Route description',
@@ -818,6 +823,9 @@ const translations = {
   'mobilityPlatform.info.parkingMachines': 'The map shows parking machines that are owned by City of Turku. All machines accept either card or contacless payment method. More information can be read by pressing an icon on the map.',
   'mobilityPlatform.info.publicParkingSpaces': 'The map shows public parking spaces that are available for general public. Information about occupancy is not available however. Additional information can be read by selecting an area from the map.',
   'mobilityPlatform.info.outdoorGymDevices': 'City of Turku maintains outdoor gym devices. They offer a fun way to train muscles outdoors anytime for free while enjoying the fresh air. With outdoor gym devices, such as lat pull down, pull up, leg press and benches, one can exercise the whole body. The combination of devices varies between places.',
+  'mobilityPlatform.info.crosswalks': 'The map shows locations of crosswalks inside the city of Turku. Zoom in on the map to see crosswalks.',
+  'mobilityPlatform.info.short.crosswalks': 'The maps show crosswalks in Turku.',
+  'mobilityPlatform.info.busStops': 'The map shows bus stops by Turku region traffic provider Föli. By clicking the icon on the map, you can see next few departure times from the selected bus stop. Zoom in the map to see the stops. The Map data comes from the interface provided by Digitransit.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',

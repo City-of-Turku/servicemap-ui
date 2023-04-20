@@ -182,7 +182,6 @@ const DefaultLayout = (props) => {
                   sidebarHidden={sidebarHidden}
                   toggleSidebar={toggleSidebar}
                   isMobile={!!isMobile}
-                  showMobilityPlatform
                 />
               </div>
             </div>

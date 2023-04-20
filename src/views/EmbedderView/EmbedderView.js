@@ -24,6 +24,7 @@ import embedderConfig from './embedderConfig';
 import * as smurl from './utils/url';
 import { getEmbedURL, getLanguage } from './utils/utils';
 import config from '../../../config';
+import TopBar from '../../components/TopBar';
 
 const hideCitiesIn = [paths.unit.regex, paths.address.regex];
 
@@ -60,7 +61,7 @@ const EmbedderView = ({
   const cityOption = (search?.city !== '' && search?.city?.split(',')) || citySettings;
   const citiesToReduce = cityOption.length > 0 ? cityOption : embedderConfig.CITIES.filter(v => v);
 
-  // If external theme (by Turku) is true, then can be used to select which controls to render
+  // If external theme (by Turku) is true, then can be used to select which content to render
   const externalTheme = config.themePKG;
   const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
 
@@ -97,6 +98,13 @@ const EmbedderView = ({
   const [showUnits, setShowUnits] = useState(true);
   const [restrictBounds, setRestrictBounds] = useState(true);
   const [showUnitList, setShowUnitList] = useState('none');
+  const [chargingStation, setChargingStation] = useState(false);
+  const [cityBikes, setCityBikes] = useState(false);
+  const [rentalCars, setRentalCars] = useState(false);
+  const [outdoorGym, setOutdoorGym] = useState(false);
+  const [bicycleStands, setBicycleStands] = useState(false);
+  const [frameLockable, setFrameLockable] = useState(false);
+  const [crossWalks, setCrossWalks] = useState(false);
 
   const boundsRef = useRef([]);
   const dialogRef = useRef();
@@ -114,6 +122,13 @@ const EmbedderView = ({
     transit,
     showUnits,
     showUnitList,
+    chargingStation,
+    cityBikes,
+    rentalCars,
+    outdoorGym,
+    bicycleStands,
+    frameLockable,
+    crossWalks,
     bbox: selectedBbox,
   });
 
@@ -198,10 +213,7 @@ const EmbedderView = ({
       if (widthMode === 'auto') {
         html = `<div style="${renderWrapperStyle()}"><iframe title="${iframeTitle}" style="position: absolute; top: 0; left: 0; border: none; width: 100%; height: 100%;" src="${url}"></iframe></div>`;
       } else {
-        height = parseInt(
-          parseInt(customWidth, 10) * (parseInt(ratioHeight, 10) / 100.0),
-          10,
-        );
+        height = parseInt(parseInt(customWidth, 10) * (parseInt(ratioHeight, 10) / 100.0), 10);
       }
     }
 
@@ -461,17 +473,8 @@ const EmbedderView = ({
     </div>
   ), [restrictBounds]);
 
-  const filterControls = controlsArr => controlsArr.filter(item => item.key !== 'transit');
-
   const renderMarkerOptionsControl = () => {
     const controls = [
-      {
-        key: 'transit',
-        value: transit,
-        onChange: v => setTransit(v),
-        icon: null,
-        labelId: 'embedder.options.label.transit',
-      },
       {
         key: 'units',
         value: showUnits,
@@ -485,8 +488,84 @@ const EmbedderView = ({
       <EmbedController
         titleID="embedder.options.title"
         titleComponent="h2"
-        checkboxControls={isExternalTheme ? filterControls(controls) : controls}
+        checkboxControls={controls}
         checkboxLabelledBy="embedder.options.title"
+      />
+    );
+  };
+
+  /**
+   * Render controls for mobility data that can be included in embeds.
+   * @returns {JSX}
+   */
+  const renderMobilityDataControls = () => {
+    const description = intl.formatMessage({ id: 'embedder.options.mobility.description' });
+    const controls = [
+      {
+        key: 'bicycleStands',
+        value: bicycleStands,
+        onChange: v => setBicycleStands(v),
+        icon: null,
+        labelId: 'mobilityPlatform.menu.showBicycleStands',
+      },
+      {
+        key: 'frameLockable',
+        value: frameLockable,
+        onChange: v => setFrameLockable(v),
+        icon: null,
+        labelId: 'mobilityPlatform.menu.show.hullLockableStands',
+      },
+      {
+        key: 'cityBikes',
+        value: cityBikes,
+        onChange: v => setCityBikes(v),
+        icon: null,
+        labelId: 'mobilityPlatform.menu.showCityBikes',
+      },
+      {
+        key: 'transit',
+        value: transit,
+        onChange: v => setTransit(v),
+        icon: null,
+        labelId: 'embedder.options.label.transit',
+      },
+      {
+        key: 'crossWalks',
+        value: crossWalks,
+        onChange: v => setCrossWalks(v),
+        icon: null,
+        labelId: 'mobilityPlatform.embedded.label.crossWalks',
+      },
+      {
+        key: 'chargingStation',
+        value: chargingStation,
+        onChange: v => setChargingStation(v),
+        icon: null,
+        labelId: 'mobilityPlatform.menu.showChargingStations',
+      },
+      {
+        key: 'rentalCars',
+        value: rentalCars,
+        onChange: v => setRentalCars(v),
+        icon: null,
+        labelId: 'mobilityPlatform.menu.showRentalCars',
+      },
+      {
+        key: 'outdoorGym',
+        value: outdoorGym,
+        onChange: v => setOutdoorGym(v),
+        icon: null,
+        labelId: 'mobilityPlatform.menu.show.outdoorGymDevices',
+      },
+    ];
+
+    return (
+      <EmbedController
+        titleID="embedder.options.mobility.title"
+        titleComponent="h2"
+        description={description}
+        checkboxControls={controls}
+        checkboxLabelledBy="embedder.options.mobility.title"
       />
     );
   };
@@ -530,6 +609,7 @@ const EmbedderView = ({
 
   return (
     <>
+      <TopBar smallScreen={false} hideButtons />
       <div ref={dialogRef}>
         {
           renderHeadInfo()
@@ -581,6 +661,9 @@ const EmbedderView = ({
               }
                 {
                 renderMarkerOptionsControl()
+              }
+                {
+                isExternalTheme ? renderMobilityDataControls() : null
               }
                 {
                 renderListOptionsControl()

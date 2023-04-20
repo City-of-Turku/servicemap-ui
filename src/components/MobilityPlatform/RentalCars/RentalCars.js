@@ -9,7 +9,8 @@ import rentalCarIcon from 'servicemap-ui-turku/assets/icons/icons-icon_rental_ca
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../utils/utils';
+import { isDataValid, setRender, checkMapType } from '../utils/utils';
+import { isEmbed } from '../../../utils/path';
 import RentalCarsContent from './components/RentalCarsContent';
 
 const RentalCars = ({ classes }) => {
@@ -17,6 +18,9 @@ const RentalCars = ({ classes }) => {
   const [zoomLevel, setZoomLevel] = useState(13);
 
   const { openMobilityPlatform, showRentalCars } = useMobilityPlatformContext();
+
+  const url = new URL(window.location);
+  const embedded = isEmbed({ url: url.toString() });
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -29,7 +33,7 @@ const RentalCars = ({ classes }) => {
     },
   });
 
-  const setBaseIcon = useContrast ? rentalCarIconBw : rentalCarIcon;
+  const setBaseIcon = checkMapType(embedded, useContrast, url) ? rentalCarIconBw : rentalCarIcon;
 
   const customIcon = icon({
     iconUrl: zoomLevel < 14 ? setBaseIcon : providerIcon,
@@ -37,17 +41,18 @@ const RentalCars = ({ classes }) => {
   });
 
   useEffect(() => {
-    if (openMobilityPlatform) {
+    if (openMobilityPlatform || embedded) {
       fetchIotData('R24', setRentalCarsData);
     }
   }, [openMobilityPlatform, setRentalCarsData]);
 
   const map = useMap();
 
-  const renderData = isDataValid(showRentalCars, rentalCarsData);
+  const paramValue = url.searchParams.get('rental_cars') === '1';
+  const renderData = setRender(paramValue, embedded, showRentalCars, rentalCarsData, isDataValid);
 
   useEffect(() => {
-    if (renderData) {
+    if (renderData && !embedded) {
       const bounds = [];
       rentalCarsData.forEach((item) => {
         bounds.push([item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]);
