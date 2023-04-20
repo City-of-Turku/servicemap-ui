@@ -6,12 +6,13 @@ import { useMobilityPlatformContext } from '../../../context/MobilityPlatformCon
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
-  isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase,
+  isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase, setRender,
 } from '../utils/utils';
+import { isEmbed } from '../../../utils/path';
 import PolygonComponent from '../PolygonComponent';
 
 /**
- * Displays under and overpasses on the map in polygon format.
+ * Displays underpasses and overpasses on the map in polygon format.
  */
 
 const Overpasses = () => {
@@ -22,12 +23,16 @@ const Overpasses = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
+  const url = new URL(window.location);
+  const embedded = isEmbed({ url: url.toString() });
+
   useEffect(() => {
     const options = {
       type_name: 'Overpass',
+      page_size: 200,
       latlon: true,
     };
-    if (openMobilityPlatform) {
+    if (openMobilityPlatform || embedded) {
       fetchMobilityMapData(options, setOverpassData);
     }
   }, [openMobilityPlatform, setOverpassData]);
@@ -35,9 +40,10 @@ const Overpasses = () => {
   useEffect(() => {
     const options = {
       type_name: 'Underpass',
+      page_size: 200,
       latlon: true,
     };
-    if (openMobilityPlatform) {
+    if (openMobilityPlatform || embedded) {
       fetchMobilityMapData(options, setUnderpassData);
     }
   }, [openMobilityPlatform, setUnderpassData]);
@@ -52,15 +58,21 @@ const Overpasses = () => {
 
   const map = useMap();
 
-  const renderOverpassData = isDataValid(showOverpasses, overpassData);
-  const renderUnderpassData = isDataValid(showUnderpasses, underpassData);
+  const paramOverpass = url.searchParams.get('overpass') === '1';
+  const paramUnderpass = url.searchParams.get('underpass') === '1';
+  const renderOverpassData = setRender(paramOverpass, embedded, showOverpasses, overpassData, isDataValid);
+  const renderUnderpassData = setRender(paramUnderpass, embedded, showUnderpasses, underpassData, isDataValid);
 
   useEffect(() => {
-    fitPolygonsToBounds(renderOverpassData, overpassData, map);
+    if (!embedded) {
+      fitPolygonsToBounds(renderOverpassData, overpassData, map);
+    }
   }, [showOverpasses, overpassData]);
 
   useEffect(() => {
-    fitPolygonsToBounds(renderUnderpassData, underpassData, map);
+    if (!embedded) {
+      fitPolygonsToBounds(renderUnderpassData, underpassData, map);
+    }
   }, [showUnderpasses, underpassData]);
 
   return (
