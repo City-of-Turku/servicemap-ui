@@ -679,6 +679,8 @@ const translations = {
   'mobilityPlatform.menu.show.crossWalks': 'Crosswalks (zoom in on the map)',
   'mobilityPlatform.embedded.label.crossWalks': 'Crosswalks (zoom in on the map to see crosswalks)',
   'mobilityPlatform.menu.show.busStops': 'Bus stops (zoom in on the map)',
+  'mobilityPlatform.menu.show.underPasses': 'Underpasses',
+  'mobilityPlatform.menu.show.overPasses': 'Overpasses',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',

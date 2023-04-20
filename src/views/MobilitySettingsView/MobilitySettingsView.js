@@ -163,6 +163,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowCrossWalks,
     showBusStops,
     setShowBusStops,
+    showUnderpasses,
+    setShowUnderpasses,
+    showOverpasses,
+    setShowOverpasses,
   } = useMobilityPlatformContext();
 
   const locale = useSelector(state => state.user.locale);
@@ -302,7 +306,9 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showPublicToilets, setOpenWalkSettings);
     checkVisibilityValues(showOutdoorGymDevices, setOpenWalkSettings);
     checkVisibilityValues(showCrossWalks, setOpenWalkSettings);
-  }, [showPublicToilets, showOutdoorGymDevices, showCrossWalks]);
+    checkVisibilityValues(showUnderpasses, setOpenWalkSettings);
+    checkVisibilityValues(showOverpasses, setOpenWalkSettings);
+  }, [showPublicToilets, showOutdoorGymDevices, showCrossWalks, showUnderpasses, showOverpasses]);
 
   useEffect(() => {
     checkVisibilityValues(showEcoCounter.walking, setOpenWalkSettings);
@@ -686,6 +692,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowCrossWalks(current => !current);
   };
 
+  const overPassesToggle = () => {
+    setShowOverpasses(current => !current);
+  };
+
+  const underPassesToggle = () => {
+    setShowUnderpasses(current => !current);
+  };
+
   const scooterSpeedLimitAreasToggle = () => {
     setShowScooterSpeedLimitAreas(current => !current);
   };
@@ -1036,6 +1050,18 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.show.crossWalks',
       checkedValue: showCrossWalks,
       onChangeValue: crossWalksToggle,
+    },
+    {
+      type: 'underPasses',
+      msgId: 'mobilityPlatform.menu.show.underPasses',
+      checkedValue: showUnderpasses,
+      onChangeValue: underPassesToggle,
+    },
+    {
+      type: 'overPasses',
+      msgId: 'mobilityPlatform.menu.show.overPasses',
+      checkedValue: showOverpasses,
+      onChangeValue: overPassesToggle,
     },
     {
       type: 'publicToilets',

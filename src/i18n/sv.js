@@ -682,6 +682,8 @@ const translations = {
   'mobilityPlatform.menu.show.crossWalks': 'Övergångställen (zooma in på kartan)',
   'mobilityPlatform.embedded.label.crossWalks': 'Övergångställen (zooma in på kartan för att se övergångställen)',
   'mobilityPlatform.menu.show.busStops': 'Busshållplatser (zooma in på kartan)',
+  'mobilityPlatform.menu.show.underPasses': 'Gångtunnlar', // TODO verify
+  'mobilityPlatform.menu.show.overPasses': 'Vägbroar', // TODO verify
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',

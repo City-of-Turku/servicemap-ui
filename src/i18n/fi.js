@@ -685,6 +685,8 @@ const translations = {
   'mobilityPlatform.menu.show.crossWalks': 'Suojatiet (tarkenna karttaa)',
   'mobilityPlatform.embedded.label.crossWalks': 'Suojatiet (tarkenna karttaa lähietäisyydelle, jotta suojatiet näkyvät)',
   'mobilityPlatform.menu.show.busStops': 'Linja-autopysäkit (tarkenna karttaa)',
+  'mobilityPlatform.menu.show.underPasses': 'Alikulkuväylät',
+  'mobilityPlatform.menu.show.overPasses': 'Ylikulkusillat',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',
