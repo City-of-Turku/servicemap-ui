@@ -1436,6 +1436,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       component: <InfoTextBox infoText="mobilityPlatform.info.crosswalks" />,
     },
     {
+      visible: showUnderpasses || showOverpasses,
+      type: 'underAndOverpassInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.underAndOverpasses" />,
+    },
+    {
       visible: showPublicToilets,
       type: 'publicRestroomsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.publicToilets" />,

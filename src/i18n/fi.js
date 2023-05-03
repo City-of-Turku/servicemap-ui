@@ -822,6 +822,7 @@ const translations = {
   'mobilityPlatform.info.crosswalks': 'Kartalla näkyvät Turun alueen suojatieden sijainnit. Tarkenna karttaa lähietäisyydelle, jotta suojatiet näkyvät.',
   'mobilityPlatform.info.short.crosswalks': 'Kartalla näkyvät Turun suojatiet.',
   'mobilityPlatform.info.busStops': 'Kartalla näkyvät Turun seudun joukkoliikenteen Fölin linja-autopysäkit. Kuvaketta painamalle voi nähdä seuraavat pysäkiltä lähtevät vuorot. Tarkenna karttaa lähietäisyydelle, jotta linja-autopysäkit näkyvät. Tiedot tulevat Digitransitin ylläpitämästä rajapinnasta.',
+  'mobilityPlatform.info.underAndOverpasses': 'Kartalla näkyvät Turun alueella sijaitsevat alikulkutunnelit ja ylikulkukuväylät.', // TODO verify
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',

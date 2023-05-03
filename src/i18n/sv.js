@@ -829,6 +829,7 @@ const translations = {
   'mobilityPlatform.info.crosswalks': 'Kartan visar placeringen av övergångsställen inne i Åbo stad. Zooma in på kartan för att se övergångsställen.',
   'mobilityPlatform.info.short.crosswalks': 'Kartan visar övergångsställen inne i Åbo.',
   'mobilityPlatform.info.busStops': 'Kartan visar Åboregionens kollektivtrafiks, Fölis, busshållplatser. Om du kilckar på ikonen kan du se nästa buss som går från hållplatsen. Zooma in på kartan för att se hållplatserna. Datan kommer från gränssnittet som underhålls av Digitransit.',
+  'mobilityPlatform.info.underAndOverpasses': 'Kartalla näkyvät Turun alueella sijaitsevat alikulkutunnelit ja ylikulkukuväylät.', // TODO translate
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',
