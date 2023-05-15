@@ -1,7 +1,5 @@
-import {
-    Drawer
-} from '@material-ui/core';
-import { Map } from '@material-ui/icons';
+import { Drawer } from '@material-ui/core';
+import { Map, DirectionsBike } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
 import useLocaleText from '../../../utils/useLocaleText';
@@ -46,7 +44,7 @@ const DrawerMenu = (props) => {
     { // Mobility platform button
       name: intl.formatMessage({ id: 'home.buttons.mobilityPlatformSettings' }),
       // active: currentPage === 'serviceTree' && !settingsOpen,
-      icon: getIcon('mobilityPlatformIcon'),
+      icon: <DirectionsBike />,
       clickEvent: () => {
         handleNavigation('mobilityPlatform');
         toggleDrawerMenu();

@@ -1,4 +1,4 @@
-import { Map } from '@material-ui/icons';
+import { Map, DirectionsBike } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -50,7 +50,7 @@ const HomeView = (props) => {
             {/* Turku mobility platform settings */}
             <PaperButton
               messageID="home.buttons.mobilityPlatformSettings"
-              icon={getIcon('mobilityPlatformIcon')}
+              icon={<DirectionsBike />}
               link
               onClick={() => navigator.push('mobilityPlatform')}
             />
