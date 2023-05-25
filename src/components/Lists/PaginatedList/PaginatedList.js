@@ -2,7 +2,8 @@
 import React, {
   useEffect, useLayoutEffect, useRef, useState,
 } from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
@@ -113,7 +114,7 @@ const PaginatedList = ({
   const shownData = data.slice(startIndex, endIndex);
   const additionalText = `${intl.formatMessage({ id: 'general.pagination.pageCount' }, { current: adjustedCurrentPage, max: pageCount })}`;
   const beforeList = (
-    <Typography ref={focusTarget} variant="srOnly" component="p" tabIndex={-1}>
+    <Typography ref={focusTarget} style={visuallyHidden} component="p" tabIndex={-1}>
       {`${srTitle || ''} ${additionalText}`}
     </Typography>
   );

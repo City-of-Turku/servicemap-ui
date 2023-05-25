@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import {
-    FormControl, Select, Typography
-} from '@material-ui/core';
+  FormControl, Select, Typography,
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';

@@ -1,5 +1,8 @@
-import { ButtonBase, Checkbox, Dialog, DialogContent, DialogTitle, FormControl, InputBase, Typography } from '@material-ui/core';
-import { Warning } from '@material-ui/icons';
+import {
+  ButtonBase, Checkbox, Dialog, DialogContent, DialogTitle, FormControl, InputBase, Typography,
+} from '@mui/material';
+import { Warning } from '@mui/icons-material';
+import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -300,7 +303,7 @@ const FeedbackView = ({
                     {intl.formatMessage({ id: formFields.email.errorMessageId })}
                   </Typography>
                 </div>
-                <Typography id="srErrorEmail" role="alert" variant="srOnly">
+                <Typography id="srErrorEmail" role="alert" style={visuallyHidden}>
                   <FormattedMessage id="feedback.srError.email.invalid" />
                 </Typography>
               </>
@@ -337,7 +340,7 @@ const FeedbackView = ({
                     {intl.formatMessage({ id: formFields.feedback.errorMessageId })}
                   </Typography>
                 </div>
-                <Typography id="srErrorFeedback" role="alert" variant="srOnly">
+                <Typography id="srErrorFeedback" role="alert" style={visuallyHidden}>
                   <FormattedMessage id="feedback.srError.feedback.required" />
                 </Typography>
               </>

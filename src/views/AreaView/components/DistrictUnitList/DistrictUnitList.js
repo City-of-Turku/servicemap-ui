@@ -1,4 +1,4 @@
-import { Divider, List, Typography } from '@material-ui/core';
+import { Divider, List, Typography } from '@mui/material';
 import distance from '@turf/distance';
 import PropTypes from 'prop-types';
 import React from 'react';

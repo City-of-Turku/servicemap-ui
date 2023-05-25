@@ -1,7 +1,7 @@
 import {
-  Divider, List, ListItem, Typography
-} from '@material-ui/core';
-import DefaultIcon from '@material-ui/icons/Public';
+  Divider, List, ListItem, Typography,
+} from '@mui/material';
+import DefaultIcon from '@mui/icons-material/Public';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';

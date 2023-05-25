@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@mui/styles';
 import PanControl from './PanControl';
 import styles from './styles';
 

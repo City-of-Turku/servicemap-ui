@@ -1,5 +1,5 @@
-import { Button, ButtonBase, IconButton, Typography } from '@material-ui/core';
-import { ArrowBack } from '@material-ui/icons';
+import { Button, ButtonBase, IconButton, Typography } from '@mui/material';
+import { ArrowBack } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { getPathName } from '../../utils/path';

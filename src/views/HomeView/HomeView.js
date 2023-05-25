@@ -1,4 +1,4 @@
-import { Map, DirectionsBike } from '@material-ui/icons';
+import { Map, DirectionsBike } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';

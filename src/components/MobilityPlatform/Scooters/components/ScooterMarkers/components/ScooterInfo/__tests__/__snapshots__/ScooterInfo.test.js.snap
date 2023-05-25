@@ -10,7 +10,7 @@ exports[`<ScooterInfo /> should work 1`] = `
     >
       <div>
         <h6
-          class="MuiTypography-root MuiTypography-subtitle1"
+          class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
         >
           Sähköpotkulauta
         </h6>
@@ -23,7 +23,7 @@ exports[`<ScooterInfo /> should work 1`] = `
         class="injectIntl(ScooterInfo)-marginTop-5"
       >
         <p
-          class="MuiTypography-root MuiTypography-body2"
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
           Palveluntarjoaja: Ryde
         </p>
@@ -32,7 +32,7 @@ exports[`<ScooterInfo /> should work 1`] = `
         class="injectIntl(ScooterInfo)-marginTop-5"
       >
         <p
-          class="MuiTypography-root MuiTypography-body2"
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
           Vuokrattavissa oleva
         </p>
@@ -41,7 +41,7 @@ exports[`<ScooterInfo /> should work 1`] = `
         class="injectIntl(ScooterInfo)-marginTop-5"
       >
         <p
-          class="MuiTypography-root MuiTypography-body2"
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
           Jäljellä oleva kantama: 20.20 km
         </p>
@@ -50,7 +50,7 @@ exports[`<ScooterInfo /> should work 1`] = `
         class="injectIntl(ScooterInfo)-paragraph-4"
       >
         <p
-          class="MuiTypography-root injectIntl(ScooterInfo)-bold-6 MuiTypography-body2"
+          class="MuiTypography-root MuiTypography-body2 injectIntl(ScooterInfo)-bold-6 css-1ak20dk-MuiTypography-root"
         >
           Varauslinkit
           :
@@ -60,12 +60,12 @@ exports[`<ScooterInfo /> should work 1`] = `
         class="injectIntl(ScooterInfo)-paragraph-4"
       >
         <a
-          class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-fixjtq-MuiTypography-root-MuiLink-root"
           href="https://www.testilinkki.fi"
           target="_blank"
         >
           <p
-            class="MuiTypography-root injectIntl(ScooterInfo)-link-7 MuiTypography-body2"
+            class="MuiTypography-root MuiTypography-body2 injectIntl(ScooterInfo)-link-7 css-1ak20dk-MuiTypography-root"
           >
             Android
           </p>
@@ -75,12 +75,12 @@ exports[`<ScooterInfo /> should work 1`] = `
         class="injectIntl(ScooterInfo)-paragraph-4"
       >
         <a
-          class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-fixjtq-MuiTypography-root-MuiLink-root"
           href="https://www.testilinkki.fi"
           target="_blank"
         >
           <p
-            class="MuiTypography-root injectIntl(ScooterInfo)-link-7 MuiTypography-body2"
+            class="MuiTypography-root MuiTypography-body2 injectIntl(ScooterInfo)-link-7 css-1ak20dk-MuiTypography-root"
           >
             iOS
           </p>

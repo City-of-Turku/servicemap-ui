@@ -1,9 +1,9 @@
-import { Typography, useTheme } from '@material-ui/core';
+import { Typography } from '@mui/material';
+import { useTheme } from '@mui/styles';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useMapEvents } from 'react-leaflet';
-
 
 const DistanceMeasure = (props) => {
   const {

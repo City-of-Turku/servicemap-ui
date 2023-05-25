@@ -1,5 +1,6 @@
-import { ButtonBase, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
+import { ButtonBase, Typography } from '@mui/material';
+import { withStyles } from '@mui/styles';
+import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { injectIntl } from 'react-intl';
@@ -26,16 +27,16 @@ const PageElement = ({
           className={newClassName}
           {...rest}
         >
-          <Typography variant="srOnly">
-            {
+          <span aria-hidden="true">
+            {number}
+          </span>
+        </Typography>
+        <Typography style={visuallyHidden}>
+          {
             isActive
               ? intl.formatMessage({ id: 'general.pagination.currentlyOpenedPage' }, { count: number })
               : intl.formatMessage({ id: 'general.pagination.openPage' }, { count: number })
           }
-          </Typography>
-          <span aria-hidden="true">
-            {number}
-          </span>
         </Typography>
       </ButtonBase>
     </li>

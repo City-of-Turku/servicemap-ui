@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import URI from 'urijs';

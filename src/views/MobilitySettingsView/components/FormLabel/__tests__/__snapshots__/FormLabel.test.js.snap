@@ -3,44 +3,34 @@
 exports[`<FormLabel /> should work 1`] = `
 <div>
   <label
-    class="MuiFormControlLabel-root injectIntl(FormLabel)-formLabel-1 injectIntl(FormLabel)-paddingMd-2"
+    class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd injectIntl(FormLabel)-formLabel-1 injectIntl(FormLabel)-paddingMd-2 css-j204z7-MuiFormControlLabel-root"
   >
     <span
-      class="MuiSwitch-root"
+      class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
     >
       <span
-        aria-disabled="false"
-        class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-4 MuiSwitch-switchBase MuiSwitch-colorSecondary"
+        class="MuiSwitch-switchBase MuiSwitch-colorPrimary MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root css-1f23wvo-MuiButtonBase-root-MuiSwitch-switchBase"
         role="switch"
       >
+        <input
+          aria-label="Polkupyöräpysäköinti (ei-runkolukittava)"
+          class="MuiSwitch-input PrivateSwitchBase-input css-1m9pwf3"
+          type="checkbox"
+        />
         <span
-          class="MuiIconButton-label"
-        >
-          <input
-            aria-label="Polkupyöräpysäköinti (ei-runkolukittava)"
-            class="PrivateSwitchBase-input-7 MuiSwitch-input"
-            type="checkbox"
-            value=""
-          />
-          <span
-            class="MuiSwitch-thumb"
-          />
-        </span>
+          class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+        />
       </span>
       <span
-        class="MuiSwitch-track"
+        class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
       />
     </span>
-    <span
-      class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body2"
+    <p
+      aria-label="Polkupyöräpysäköinti (ei-runkolukittava)"
+      class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
     >
-      <p
-        aria-label="Polkupyöräpysäköinti (ei-runkolukittava)"
-        class="MuiTypography-root MuiTypography-body2"
-      >
-        Polkupyöräpysäköinti (ei-runkolukittava)
-      </p>
-    </span>
+      Polkupyöräpysäköinti (ei-runkolukittava)
+    </p>
   </label>
 </div>
 `;

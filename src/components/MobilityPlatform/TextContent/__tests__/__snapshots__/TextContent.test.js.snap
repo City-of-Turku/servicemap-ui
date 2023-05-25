@@ -10,7 +10,7 @@ exports[`<TextContent /> should work 1`] = `
     >
       <div>
         <h6
-          class="MuiTypography-root MuiTypography-subtitle1"
+          class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
         >
           Pysäköintikieltoalue
         </h6>
@@ -21,7 +21,7 @@ exports[`<TextContent /> should work 1`] = `
     >
       <div>
         <p
-          class="MuiTypography-root MuiTypography-body2"
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
           Sähköpotkulautojen pysäköinti kartalla näkyville alueille on kielletty.
         </p>

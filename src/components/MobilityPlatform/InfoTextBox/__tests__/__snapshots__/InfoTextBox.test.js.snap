@@ -7,7 +7,7 @@ exports[`<InfoTextBox /> should work 1`] = `
   >
     <p
       aria-label="Turun alueen julkiset autojen sähkölatauspisteet. Latauspistetiedot perustuvat 05/2022 tehtyyn kartoitukseen."
-      class="MuiTypography-root MuiTypography-body2"
+      class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
     >
       Turun alueen julkiset autojen sähkölatauspisteet. Latauspistetiedot perustuvat 05/2022 tehtyyn kartoitukseen.
     </p>

@@ -1,7 +1,8 @@
-import { Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
+import { Typography } from '@mui/material';
+import { withStyles } from '@mui/styles';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { visuallyHidden } from '@mui/utils';
 import { useUserTheme } from '../../utils/user';
 import HomeLogo from '../Logos/HomeLogo';
 import styles from './styles';
@@ -65,7 +66,7 @@ export const ErrorComponent = withStyles(styles)(({
       <div className={classes.viewBackgroundCover} />
       <div className={classes.viewContent}>
         <HomeLogo aria-hidden contrast={theme === 'dark'} className={classes.viewLogo} />
-        <Typography variant="srOnly" component="h1"><FormattedMessage id="app.errorpage.title" /></Typography>
+        <Typography style={visuallyHidden} component="h1"><FormattedMessage id="app.errorpage.title" /></Typography>
         {content}
       </div>
     </div>

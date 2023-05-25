@@ -17,7 +17,7 @@ test('AddressView does render correct view', async (t) => {
   const tab2Text = await tab2.textContent;
   
   await t
-    .expect(title).eql('Linnankatu 14')
+    .expect(title).eql('Linnankatu 10')
     .expect(tab1).eql('Palvelualueet')
     .expect(tab2Text.indexOf('Lähellä')).eql(0, 'Tab text should include text "Lähellä"')
     ;

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { NoSsr } from '@material-ui/core';
-import { Event } from '@material-ui/icons';
+import { NoSsr } from '@mui/material';
+import { Event } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import formatEventDate from '../../../utils/events';

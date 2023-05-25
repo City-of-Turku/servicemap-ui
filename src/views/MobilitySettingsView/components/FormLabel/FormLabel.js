@@ -1,5 +1,5 @@
-import { FormControlLabel, Switch, Typography } from '@material-ui/core';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { FormControlLabel, Switch, Typography } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import PropTypes from 'prop-types';
 import React from 'react';
 

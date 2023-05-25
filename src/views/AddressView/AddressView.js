@@ -2,8 +2,8 @@
 /* eslint-disable camelcase */
 import {
   ButtonBase, Divider, List, Typography,
-} from '@material-ui/core';
-import { Map } from '@material-ui/icons';
+} from '@mui/material';
+import { Map } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import Helmet from 'react-helmet';

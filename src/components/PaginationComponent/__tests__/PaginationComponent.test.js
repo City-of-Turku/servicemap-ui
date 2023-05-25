@@ -55,8 +55,8 @@ describe('<PaginationComponent />', () => {
     expect(buttons[1]).toHaveAttribute('role', 'link');
 
     // Expect page 1 button to have opened text
-    expect(buttons[2].querySelectorAll('span')[1]).toHaveTextContent(1);
+    expect(buttons[2].querySelectorAll('p')[1]).toHaveTextContent(1);
     // expect page 2 button to have open new page text
-    expect(buttons[3].querySelectorAll('span')[1]).toHaveTextContent(2);
+    expect(buttons[3].querySelectorAll('p')[1]).toHaveTextContent(2);
   });
 });

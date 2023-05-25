@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import AccessibilityInfo from './AccessibilityInfo';
 import styles from './styles';

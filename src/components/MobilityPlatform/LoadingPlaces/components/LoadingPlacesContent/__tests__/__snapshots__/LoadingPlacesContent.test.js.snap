@@ -15,7 +15,7 @@ exports[`<LoadingPlacesContent /> should match snapshot 1`] = `
           class="injectIntl(TextComponent)-margin-7"
         >
           <p
-            class="MuiTypography-root MuiTypography-subtitle1"
+            class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
           >
             Testi
           </p>
@@ -28,7 +28,7 @@ exports[`<LoadingPlacesContent /> should match snapshot 1`] = `
           class="injectIntl(TextComponent)-margin-7"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
           >
             Osoite: Testikatu
           </p>
@@ -37,7 +37,7 @@ exports[`<LoadingPlacesContent /> should match snapshot 1`] = `
           class="injectIntl(TextComponent)-margin-7"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
           >
             Testi
           </p>
@@ -46,7 +46,7 @@ exports[`<LoadingPlacesContent /> should match snapshot 1`] = `
           class="injectIntl(TextComponent)-margin-7"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
           >
             Testitieto
           </p>
@@ -55,7 +55,7 @@ exports[`<LoadingPlacesContent /> should match snapshot 1`] = `
           class="injectIntl(TextComponent)-margin-7"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
           >
             Testitieto
           </p>

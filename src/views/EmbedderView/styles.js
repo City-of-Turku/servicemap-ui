@@ -39,7 +39,7 @@ export default (theme) => {
       border: '3px dashed #666',
     },
     formContainer: {
-      margin: `${theme.spacing(2)}px 0`,
+      margin: `${theme.spacing(2)} 0`,
       marginTop: 0,
       width: '45%',
       height: '100%',
@@ -64,11 +64,11 @@ export default (theme) => {
       width: '100%',
       boxSizing: 'border-box',
       display: 'inline-block',
-      margin: `${theme.spacing(3)}px 0`,
-      padding: `${theme.spacing(2)}px ${theme.spacing(3)}px`,
+      margin: `${theme.spacing(3)} 0`,
+      padding: `${theme.spacing(2)} ${theme.spacing(3)}`,
       textAlign: 'left',
       '& label': {
-        margin: `${theme.spacing(1)}px 0`,
+        margin: `${theme.spacing(1)} 0`,
       },
       '& fieldset': {
         margin: '0 -12px',
@@ -124,7 +124,7 @@ export default (theme) => {
       width: '100%',
     },
     titleContainer: {
-      margin: `${theme.spacing(2)}px 0`,
+      margin: `${theme.spacing(2)} 0`,
       paddingTop: 0,
       paddingLeft: '9.5vw',
       paddingRight: '9.5vw',

@@ -1,6 +1,7 @@
 import {
   Divider, List, ListItem, Typography,
-} from '@material-ui/core';
+} from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -138,7 +139,7 @@ const ServiceTab = (props) => {
 
   return (
     <div>
-      <Typography variant="srOnly" component="h4">
+      <Typography style={visuallyHidden} component="h4">
         <FormattedMessage id="area.list" />
       </Typography>
       <List className={`${classes.listLevelTwo} ${classes.serviceTabCategoryList}`}>

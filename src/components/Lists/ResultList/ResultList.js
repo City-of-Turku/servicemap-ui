@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Divider, List, Typography } from '@material-ui/core';
+import { Divider, List, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';

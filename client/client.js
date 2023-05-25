@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/react';
 import ac from 'abortcontroller-polyfill';
 import 'core-js/stable';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
+import { CacheProvider } from '@emotion/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Helmet } from 'react-helmet';
@@ -17,6 +18,7 @@ import favicon from '../src/assets/icons/favicon.ico';
 import rootReducer from '../src/redux/rootReducer';
 import LocalStorageUtility from '../src/utils/localStorage';
 import SettingsUtility from '../src/utils/settings';
+import createEmotionCache from '../server/createEmotionCache';
 
 if (config.sentryDSN) {
   Sentry.init({
@@ -66,6 +68,9 @@ const insertCss = (...styles) => {
   return () => removeCss.forEach(dispose => dispose());
 };
 
+// Create cache object which will inject emotion styles from cache
+const cache = createEmotionCache();
+
 function Main() {
   // Remove server side styles
   React.useEffect(() => {
@@ -76,6 +81,7 @@ function Main() {
   }, []);
 
   return (
+    <CacheProvider value={cache}>
       <Provider store={store}>
         {/* Provider to help with isomorphic style loader */}
         <StyleContext.Provider value={{ insertCss }}>
@@ -88,6 +94,7 @@ function Main() {
           <App />
         </StyleContext.Provider>
       </Provider>
+    </CacheProvider>
   );
 }
 

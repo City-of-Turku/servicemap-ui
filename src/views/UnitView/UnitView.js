@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
-import { Typography } from '@material-ui/core';
-import { Hearing, Mail, Map } from '@material-ui/icons';
+import { Typography } from '@mui/material';
+import { Hearing, Mail, Map } from '@mui/icons-material';
+import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
@@ -170,7 +171,7 @@ const UnitView = (props) => {
   const renderTitleForRS = () => {
     const title = unit && unit.name ? getLocaleText(unit.name) : '';
     return (
-      <Typography variant="srOnly" aria-hidden>{title}</Typography>
+      <Typography style={visuallyHidden} aria-hidden>{title}</Typography>
     );
   };
 

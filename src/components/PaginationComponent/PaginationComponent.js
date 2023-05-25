@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { ArrowForwardIos } from '@material-ui/icons';
+import { ArrowForwardIos } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Container from '../Container';

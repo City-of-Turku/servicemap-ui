@@ -2,9 +2,10 @@
 import {
   Paper,
   Table, TableBody, TableCell, TableContainer, TableHead,
-  TableRow, Typography
-} from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
+  TableRow, Typography,
+} from '@mui/material';
+import { withStyles } from '@mui/styles';
+import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -80,7 +81,7 @@ const PrintView = ({
       const cl = current?._icon?.classList; // Class list for icon
 
       if (
-        ( 
+        (
           current instanceof global.L.MarkerCluster
           || current instanceof global.L.Marker
         )
@@ -255,7 +256,7 @@ const PrintView = ({
   return (
     <div ref={dialogRef} role="dialog" className={classes.wrapper}>
       {/* Empty element that makes keyboard focus loop in dialog */}
-      <Typography variant="srOnly" aria-hidden tabIndex={0} onFocus={focusToLastElement} />
+      <Typography style={visuallyHidden} aria-hidden tabIndex={0} onFocus={focusToLastElement} />
       <div className={classes.container}>
         <div className={classes.buttonContainer}>
           <SMButton
@@ -360,7 +361,7 @@ const PrintView = ({
         </div>
       </div>
       {/* Empty element that makes keyboard focus loop in dialog */}
-      <Typography variant="srOnly" aria-hidden tabIndex={0} onFocus={focusToFirstElement} />
+      <Typography style={visuallyHidden} aria-hidden tabIndex={0} onFocus={focusToFirstElement} />
     </div>
   );
 };

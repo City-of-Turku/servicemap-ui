@@ -1,8 +1,8 @@
-import { Button, Divider, Typography } from '@material-ui/core';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { ArrowUpward } from '@material-ui/icons';
+import { Button, Divider, Typography } from '@mui/material';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import { ArrowUpward } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';

@@ -1,13 +1,13 @@
-import HoursIcon from '@material-ui/icons/AccessTime';
-import RouteIcon from '@material-ui/icons/DirectionsBus';
-import EmailIcon from '@material-ui/icons/Email';
-import AddressIcon from '@material-ui/icons/LocationOn';
-import OpenLinkIcon from '@material-ui/icons/OpenInNew';
-import PersonIcon from '@material-ui/icons/Person';
-import PhoneIcon from '@material-ui/icons/Phone';
-import InfoIcon from '@material-ui/icons/PriorityHigh';
-import ServiceIcon from '@material-ui/icons/Reorder';
-import WarningIcon from '@material-ui/icons/Warning';
+import HoursIcon from '@mui/icons-material/AccessTime';
+import RouteIcon from '@mui/icons-material/DirectionsBus';
+import EmailIcon from '@mui/icons-material/Email';
+import AddressIcon from '@mui/icons-material/LocationOn';
+import OpenLinkIcon from '@mui/icons-material/OpenInNew';
+import PersonIcon from '@mui/icons-material/Person';
+import PhoneIcon from '@mui/icons-material/Phone';
+import InfoIcon from '@mui/icons-material/PriorityHigh';
+import ServiceIcon from '@mui/icons-material/Reorder';
+import WarningIcon from '@mui/icons-material/Warning';
 import React from 'react';
 
 const getItemIconData = (type, data) => {

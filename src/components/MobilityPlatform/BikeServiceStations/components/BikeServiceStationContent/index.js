@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@mui/styles';
 import BikeServiceStationContent from './BikeServiceStationContent';
 import styles from './styles';
 

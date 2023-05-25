@@ -1,5 +1,5 @@
-import { ButtonBase, Typography } from '@material-ui/core';
-import { Close } from '@material-ui/icons';
+import { ButtonBase, Typography } from '@mui/material';
+import { Close } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';

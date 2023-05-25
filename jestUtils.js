@@ -1,4 +1,4 @@
-import { MuiThemeProvider } from '@material-ui/core';
+import { ThemeProvider } from '@mui/material/styles';
 import { render } from '@testing-library/react';
 import React from 'react';
 import { IntlProvider } from 'react-intl';
@@ -21,9 +21,9 @@ const Providers = (mockState) => ({ children }) => {
   return (
     <Provider store={store}>
       <IntlProvider {...intlMock}>
-        <MuiThemeProvider theme={themes.SMTheme}>
+        <ThemeProvider theme={themes.SMTheme}>
           {children}
-        </MuiThemeProvider>
+        </ThemeProvider>
       </IntlProvider>
     </Provider>
   );

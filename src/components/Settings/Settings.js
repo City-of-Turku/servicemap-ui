@@ -1,7 +1,8 @@
 import {
   Checkbox, Divider, FormControl, FormControlLabel, FormGroup, FormLabel, List,
-  ListItem, Radio, RadioGroup, Typography
-} from '@material-ui/core';
+  ListItem, Radio, RadioGroup, Typography,
+} from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -11,7 +12,7 @@ import Container from '../Container';
 import SMButton from '../ServiceMapButton';
 import {
   ColorblindIcon, getIcon, HearingIcon,
-  VisualImpairmentIcon
+  VisualImpairmentIcon,
 } from '../SMIcon';
 import SMIcon from '../SMIcon/SMIcon';
 import TitleBar from '../TitleBar';
@@ -684,7 +685,7 @@ class Settings extends React.Component {
     return (
       <div id="SettingsContainer" className={`${classes.container}`} ref={this.dialogRef} role="dialog">
         {/* Empty element that makes keyboard focus loop in dialog */}
-        <Typography variant="srOnly" aria-hidden tabIndex={0} onFocus={() => this.focusToLastElement()} />
+        <Typography style={visuallyHidden} aria-hidden tabIndex={0} onFocus={() => this.focusToLastElement()} />
 
         <TitleBar id="SettingsTitle" titleComponent="h2" title={<FormattedMessage id={`settings.${settingsPage}.long`} />} />
         <>
@@ -716,7 +717,7 @@ class Settings extends React.Component {
             />
           </Container>
 
-          <Typography aria-live="polite" variant="srOnly">
+          <Typography aria-live="polite" style={visuallyHidden}>
             {settingsHaveChanged && (
               <FormattedMessage id="settings.aria.changed" />
             )}
@@ -726,7 +727,7 @@ class Settings extends React.Component {
           </Typography>
         </>
         {/* Empty element that makes keyboard focus loop in dialog */}
-        <Typography variant="srOnly" aria-hidden tabIndex={0} onFocus={() => this.focusToFirstElement()} />
+        <Typography style={visuallyHidden} aria-hidden tabIndex={0} onFocus={() => this.focusToFirstElement()} />
       </div>
     );
   }

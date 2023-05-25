@@ -1,5 +1,5 @@
-import { Drawer } from '@material-ui/core';
-import { Map, DirectionsBike } from '@material-ui/icons';
+import { Drawer } from '@mui/material';
+import { Map, DirectionsBike } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import useLocaleText from '../../../utils/useLocaleText';

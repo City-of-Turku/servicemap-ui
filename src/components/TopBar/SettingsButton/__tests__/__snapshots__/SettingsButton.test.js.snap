@@ -5,29 +5,25 @@ exports[`<SettingsButton /> should work 1`] = `
   <button
     aria-current="page"
     aria-haspopup="dialog"
-    class="MuiButtonBase-root MuiButton-root MuiButton-text 
+    class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root 
     undefined 
     
-  "
+   css-1p2nkht-MuiButtonBase-root-MuiButton-root"
     id="SettingsButtoncitySettings"
     role="button"
     tabindex="0"
     type="button"
   >
-    <span
-      class="MuiButton-label"
+    <p
+      class="MuiTypography-root MuiTypography-subtitle1 SettingsText-title-1 css-dlbwt1-MuiTypography-root"
     >
-      <p
-        class="MuiTypography-root SettingsText-title-1 MuiTypography-subtitle1"
-      >
-        Kaupunki
-      </p>
-      <p
-        class="MuiTypography-root SettingsText-text-3 MuiTypography-body2"
-      >
-        Näytä kaikki
-      </p>
-    </span>
+      Kaupunki
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 SettingsText-text-3 css-1ak20dk-MuiTypography-root"
+    >
+      Näytä kaikki
+    </p>
   </button>
 </div>
 `;

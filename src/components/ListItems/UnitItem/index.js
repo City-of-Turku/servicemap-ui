@@ -1,5 +1,5 @@
 
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@mui/styles';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { changeSelectedUnit } from '../../../redux/actions/selectedUnit';

@@ -1,4 +1,4 @@
-import { Link, Typography } from '@material-ui/core';
+import { Link, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';

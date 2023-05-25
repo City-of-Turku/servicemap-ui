@@ -3,14 +3,13 @@
 exports[`<ServiceItem /> should work 1`] = `
 <div>
   <li
-    aria-disabled="false"
-    class="MuiButtonBase-root MuiListItem-root SimpleListItem-listItem-2 null  MuiListItem-gutters MuiListItem-button"
+    class="MuiButtonBase-root SimpleListItem-listItem-2 MuiListItem-root MuiListItem-gutters MuiListItem-padding MuiListItem-button null  css-16e6fe9-MuiButtonBase-root-MuiListItem-root"
     role="link"
     tabindex="0"
   >
     <div
       aria-hidden="true"
-      class="MuiListItemIcon-root SimpleListItem-listIcon-6 "
+      class="MuiListItemIcon-root SimpleListItem-listIcon-6  css-cveggr-MuiListItemIcon-root"
     >
       <img
         alt=""
@@ -21,23 +20,28 @@ exports[`<ServiceItem /> should work 1`] = `
       />
     </div>
     <div
-      class="MuiListItemText-root SimpleListItem-textContainer-3"
+      class="SimpleListItem-textContainer-3 MuiListItemText-root css-vt7cuc-MuiListItemText-root"
     >
-      <p
-        class="MuiTypography-root null  MuiTypography-body2 MuiTypography-colorInherit"
+      <span
+        class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10wsksd-MuiTypography-root"
       >
-        <span
-          class="MuiTypography-root MuiTypography-srOnly"
+        <p
+          class="null  MuiTypography-root MuiTypography-body2 css-q91igz-MuiTypography-root"
+        >
+          Kirjastot
+        </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+          style="border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;"
         />
-        Kirjastot
-      </p>
+      </span>
     </div>
   </li>
   <li
     aria-hidden="true"
   >
     <hr
-      class="MuiDivider-root SimpleListItem-divider-7"
+      class="MuiDivider-root MuiDivider-fullWidth SimpleListItem-divider-7 css-9mgopn-MuiDivider-root"
     />
   </li>
 </div>

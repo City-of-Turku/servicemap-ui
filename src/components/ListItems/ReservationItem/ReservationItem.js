@@ -1,4 +1,4 @@
-import { EventAvailable } from '@material-ui/icons';
+import { EventAvailable } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import useLocaleText from '../../../utils/useLocaleText';

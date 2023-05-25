@@ -6,7 +6,7 @@ exports[`<TextComponent /> should match snapshot 1`] = `
     class="injectIntl(TextComponent)-margin-1"
   >
     <p
-      class="MuiTypography-root MuiTypography-body2"
+      class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
     >
       Testiteksti
     </p>

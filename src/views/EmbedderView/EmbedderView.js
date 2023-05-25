@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 import {
   Divider, Typography, Checkbox, FormControlLabel,
-} from '@material-ui/core';
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';

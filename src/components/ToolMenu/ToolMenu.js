@@ -1,6 +1,6 @@
 import {
     Build, Code, GetApp, Print
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';

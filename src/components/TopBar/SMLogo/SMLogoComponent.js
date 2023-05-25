@@ -1,4 +1,4 @@
-import { ButtonBase, NoSsr } from '@material-ui/core';
+import { ButtonBase, NoSsr } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';

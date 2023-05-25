@@ -1,6 +1,6 @@
 import {
     Typography
-} from '@material-ui/core';
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import useMobileStatus from '../../utils/isMobile';

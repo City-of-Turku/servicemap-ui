@@ -1,5 +1,6 @@
-import { List, ListItem, Typography } from '@material-ui/core';
-import { FormatListBulleted, LocationOn } from '@material-ui/icons';
+import { List, ListItem, Typography } from '@mui/material';
+import { FormatListBulleted, LocationOn } from '@mui/icons-material';
+import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -124,7 +125,7 @@ const GeographicalTab = ({
         {localAddressData?.address && localAddressData.districts?.length && (
           renderAddressInfo()
         )}
-        <Typography variant="srOnly" component="h3">
+        <Typography style={visuallyHidden} component="h3">
           <FormattedMessage id="area.list" />
         </Typography>
         <List className={`${classes.listNoPadding} ${classes.listLevelTwo}`}>

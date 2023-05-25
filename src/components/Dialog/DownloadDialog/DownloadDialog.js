@@ -5,8 +5,8 @@ import {
     Radio,
     RadioGroup,
     Typography
-} from '@material-ui/core';
-import { OpenInNew } from '@material-ui/icons';
+} from '@mui/material';
+import { OpenInNew } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';

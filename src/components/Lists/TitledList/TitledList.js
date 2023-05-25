@@ -1,5 +1,5 @@
-import { Divider, List, Typography } from '@material-ui/core';
-import { ArrowDropDown } from '@material-ui/icons';
+import { Divider, List, Typography } from '@mui/material';
+import { ArrowDropDown } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';

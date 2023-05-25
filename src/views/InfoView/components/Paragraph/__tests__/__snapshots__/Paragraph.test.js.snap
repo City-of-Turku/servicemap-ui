@@ -7,7 +7,7 @@ exports[`<Paragraph /> should work 1`] = `
   >
     <p
       aria-label="Palvelukartalta löytyvät Turun julkiset toimipisteet ja niiden palvelut, esimerkiksi koulut, päiväkodit ja terveysasemat."
-      class="MuiTypography-root MuiTypography-body2"
+      class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
     >
       Palvelukartalta löytyvät Turun julkiset toimipisteet ja niiden palvelut, esimerkiksi koulut, päiväkodit ja terveysasemat.
     </p>

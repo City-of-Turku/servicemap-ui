@@ -1,6 +1,7 @@
 import React from 'react';
-import { Tooltip as MUITooltip, ButtonBase, Typography } from '@material-ui/core';
-import { useTheme } from '@material-ui/styles';
+import { Tooltip as MUITooltip, ButtonBase, Typography } from '@mui/material';
+import { useTheme } from '@mui/styles';
+import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 import { Route, Switch, useLocation } from 'react-router-dom';
@@ -190,7 +191,7 @@ const EmbedLayout = ({ intl }) => {
             />
           </Switch>
         </div>
-        <Typography variant="srOnly">{intl.formatMessage({ id: 'map.ariaLabel' })}</Typography>
+        <Typography style={visuallyHidden}>{intl.formatMessage({ id: 'map.ariaLabel' })}</Typography>
         <div aria-hidden tabIndex={-1} style={styles.map}>
           <MapView />
         </div>

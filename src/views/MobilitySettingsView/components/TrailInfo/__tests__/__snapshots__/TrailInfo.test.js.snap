@@ -8,7 +8,7 @@ exports[`<TrailInfo /> should match snapshot 1`] = `
     >
       <p
         aria-label="Reitin pituus: 5 km"
-        class="MuiTypography-root MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
       >
         Reitin pituus: 5 km
       </p>

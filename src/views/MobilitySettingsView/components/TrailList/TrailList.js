@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, FormControlLabel, Typography } from '@material-ui/core';
+import { Checkbox, FormControlLabel, Typography } from '@mui/material';
 import { isDataValid } from '../../../../components/MobilityPlatform/utils/utils';
 import useLocaleText from '../../../../utils/useLocaleText';
 import TrailInfo from '../TrailInfo';
@@ -24,7 +24,7 @@ const TrailList = ({
   };
 
   const renderName = (item) => {
-    if (item.content_types[0].name === 'PaavonPolku') {
+    if (item.content_types[0].type_name === 'PaavonPolku') {
       return fixRouteName(item.name_fi, item.name_en, item.name_sv);
     } return item.name;
   };

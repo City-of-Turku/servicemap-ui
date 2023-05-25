@@ -7,7 +7,7 @@ exports[`<PaginationComponent /> should work 1`] = `
   >
     <button
       aria-label="Aiempi sivu"
-      class="MuiButtonBase-root SMButton SMButton-button-16  SMButton-marginRight-19 injectIntl(PaginationComponent)-button-4 injectIntl(PaginationComponent)-arrowFlip-2 injectIntl(PaginationComponent)-borderBlack-3 SMButton-primary-20"
+      class="MuiButtonBase-root SMButton SMButton-button-16  SMButton-marginRight-19 injectIntl(PaginationComponent)-button-4 injectIntl(PaginationComponent)-arrowFlip-2 injectIntl(PaginationComponent)-borderBlack-3 SMButton-primary-20 css-fvdnvy-MuiButtonBase-root"
       role="link"
       tabindex="0"
       type="button"
@@ -15,18 +15,19 @@ exports[`<PaginationComponent /> should work 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root injectIntl(PaginationComponent)-arrowIcon-1"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium injectIntl(PaginationComponent)-arrowIcon-1 css-6yqi1c-MuiSvgIcon-root"
+        data-testid="ArrowForwardIosIcon"
         focusable="false"
         viewBox="0 0 24 24"
       >
         <path
-          d="M5.88 4.12L13.76 12l-7.88 7.88L8 22l10-10L8 2z"
+          d="M6.23 20.23 8 22l10-10L8 2 6.23 3.77 14.46 12z"
         />
       </svg>
     </button>
     <button
       aria-label="Seuraava sivu"
-      class="MuiButtonBase-root SMButton SMButton-button-16  SMButton-marginRight-19 injectIntl(PaginationComponent)-button-4 injectIntl(PaginationComponent)-borderBlack-3 SMButton-primary-20"
+      class="MuiButtonBase-root SMButton SMButton-button-16  SMButton-marginRight-19 injectIntl(PaginationComponent)-button-4 injectIntl(PaginationComponent)-borderBlack-3 SMButton-primary-20 css-fvdnvy-MuiButtonBase-root"
       role="link"
       tabindex="0"
       type="button"
@@ -34,12 +35,13 @@ exports[`<PaginationComponent /> should work 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root injectIntl(PaginationComponent)-arrowIcon-1"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium injectIntl(PaginationComponent)-arrowIcon-1 css-6yqi1c-MuiSvgIcon-root"
+        data-testid="ArrowForwardIosIcon"
         focusable="false"
         viewBox="0 0 24 24"
       >
         <path
-          d="M5.88 4.12L13.76 12l-7.88 7.88L8 22l10-10L8 2z"
+          d="M6.23 20.23 8 22l10-10L8 2 6.23 3.77 14.46 12z"
         />
       </svg>
     </button>
@@ -51,117 +53,122 @@ exports[`<PaginationComponent /> should work 1`] = `
       >
         <li>
           <button
-            class="MuiButtonBase-root"
+            class="MuiButtonBase-root css-fvdnvy-MuiButtonBase-root"
             role="link"
             tabindex="0"
             type="button"
           >
             <p
-              class="MuiTypography-root  PageElement-pageItem-33 PageElement-pageElement-31 MuiTypography-subtitle1"
+              class="MuiTypography-root MuiTypography-subtitle1  PageElement-pageItem-33 PageElement-pageElement-31 css-dlbwt1-MuiTypography-root"
             >
-              <span
-                class="MuiTypography-root MuiTypography-srOnly"
-              >
-                Avaa sivu 1
-              </span>
               <span
                 aria-hidden="true"
               >
                 1
               </span>
             </p>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+              style="border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;"
+            >
+              Avaa sivu 1
+            </p>
           </button>
         </li>
         <li>
           <button
-            class="MuiButtonBase-root Mui-disabled"
+            class="MuiButtonBase-root Mui-disabled css-fvdnvy-MuiButtonBase-root"
             disabled=""
             role="link"
             tabindex="-1"
             type="button"
           >
             <p
-              class="MuiTypography-root  PageElement-pageItem-33 PageElement-pageElementActive-32 MuiTypography-subtitle1"
+              class="MuiTypography-root MuiTypography-subtitle1  PageElement-pageItem-33 PageElement-pageElementActive-32 css-dlbwt1-MuiTypography-root"
             >
-              <span
-                class="MuiTypography-root MuiTypography-srOnly"
-              >
-                Sivu 2, avattu
-              </span>
               <span
                 aria-hidden="true"
               >
                 2
               </span>
             </p>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+              style="border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;"
+            >
+              Sivu 2, avattu
+            </p>
           </button>
         </li>
         <li>
           <button
-            class="MuiButtonBase-root"
+            class="MuiButtonBase-root css-fvdnvy-MuiButtonBase-root"
             role="link"
             tabindex="0"
             type="button"
           >
             <p
-              class="MuiTypography-root  PageElement-pageItem-33 PageElement-pageElement-31 MuiTypography-subtitle1"
+              class="MuiTypography-root MuiTypography-subtitle1  PageElement-pageItem-33 PageElement-pageElement-31 css-dlbwt1-MuiTypography-root"
             >
-              <span
-                class="MuiTypography-root MuiTypography-srOnly"
-              >
-                Avaa sivu 3
-              </span>
               <span
                 aria-hidden="true"
               >
                 3
               </span>
             </p>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+              style="border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;"
+            >
+              Avaa sivu 3
+            </p>
           </button>
         </li>
         <li>
           <button
-            class="MuiButtonBase-root"
+            class="MuiButtonBase-root css-fvdnvy-MuiButtonBase-root"
             role="link"
             tabindex="0"
             type="button"
           >
             <p
-              class="MuiTypography-root  PageElement-pageItem-33 PageElement-pageElement-31 MuiTypography-subtitle1"
+              class="MuiTypography-root MuiTypography-subtitle1  PageElement-pageItem-33 PageElement-pageElement-31 css-dlbwt1-MuiTypography-root"
             >
-              <span
-                class="MuiTypography-root MuiTypography-srOnly"
-              >
-                Avaa sivu 4
-              </span>
               <span
                 aria-hidden="true"
               >
                 4
               </span>
             </p>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+              style="border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;"
+            >
+              Avaa sivu 4
+            </p>
           </button>
         </li>
         <li>
           <button
-            class="MuiButtonBase-root"
+            class="MuiButtonBase-root css-fvdnvy-MuiButtonBase-root"
             role="link"
             tabindex="0"
             type="button"
           >
             <p
-              class="MuiTypography-root  PageElement-pageItem-33 PageElement-pageElement-31 MuiTypography-subtitle1"
+              class="MuiTypography-root MuiTypography-subtitle1  PageElement-pageItem-33 PageElement-pageElement-31 css-dlbwt1-MuiTypography-root"
             >
-              <span
-                class="MuiTypography-root MuiTypography-srOnly"
-              >
-                Avaa sivu 5
-              </span>
               <span
                 aria-hidden="true"
               >
                 5
               </span>
+            </p>
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+              style="border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;"
+            >
+              Avaa sivu 5
             </p>
           </button>
         </li>

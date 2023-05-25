@@ -1,8 +1,8 @@
 import {
     Button, ButtonBase, ClickAwayListener,
     Typography
-} from '@material-ui/core';
-import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons';
+} from '@mui/material';
+import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { keyboardHandler } from '../../utils';

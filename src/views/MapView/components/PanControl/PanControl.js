@@ -1,4 +1,4 @@
-import { ButtonBase } from '@material-ui/core';
+import { ButtonBase } from '@mui/material';
 import {
     Add,
     ArrowDropDown,
@@ -6,7 +6,7 @@ import {
     ArrowLeft,
     ArrowRight,
     Remove
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { useMap } from 'react-leaflet';

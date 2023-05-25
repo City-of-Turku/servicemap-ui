@@ -2,8 +2,8 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { ButtonBase, Typography } from '@material-ui/core';
-import DateRangeIcon from '@material-ui/icons/DateRange';
+import { ButtonBase, Typography } from '@mui/material';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { DayPickerSingleDateController } from 'react-dates';

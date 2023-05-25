@@ -1,9 +1,9 @@
 import {
   ButtonBase, Checkbox, Collapse, Divider, List, ListItem, NoSsr, Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
   ArrowDropDown, ArrowDropUp, Cancel, Search,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';

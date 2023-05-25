@@ -9,7 +9,7 @@ exports[`<MarinasContent /> should work 1`] = `
       class="injectIntl(MarinasContent)-headerContainer-2"
     >
       <h6
-        class="MuiTypography-root MuiTypography-subtitle1"
+        class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
       >
         Satama: Marina
       </h6>
@@ -18,50 +18,50 @@ exports[`<MarinasContent /> should work 1`] = `
       class="injectIntl(MarinasContent)-textContainer-3"
     >
       <p
-        class="MuiTypography-root injectIntl(MarinasContent)-margin-4 MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 injectIntl(MarinasContent)-margin-4 css-1ak20dk-MuiTypography-root"
       >
         Venepaikkojen määrä: 1
       </p>
       <p
-        class="MuiTypography-root injectIntl(MarinasContent)-margin-4 MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 injectIntl(MarinasContent)-margin-4 css-1ak20dk-MuiTypography-root"
       >
         <strong>
           Venetyyppi (esimerkki):
         </strong>
       </p>
       <p
-        class="MuiTypography-root injectIntl(MarinasContent)-margin-4 MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 injectIntl(MarinasContent)-margin-4 css-1ak20dk-MuiTypography-root"
       >
         Tyyppi: Aisapaikka
       </p>
       <p
-        class="MuiTypography-root injectIntl(MarinasContent)-margin-4 MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 injectIntl(MarinasContent)-margin-4 css-1ak20dk-MuiTypography-root"
       >
         Hinta: 124 €
       </p>
       <p
-        class="MuiTypography-root injectIntl(MarinasContent)-margin-4 MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 injectIntl(MarinasContent)-margin-4 css-1ak20dk-MuiTypography-root"
       >
         Tiedot vapaista venepaikoista löytyvät varauspalvelusta.
       </p>
       <a
-        class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-fixjtq-MuiTypography-root-MuiLink-root"
         href="https://opaskartta.turku.fi/ePermit/fi/Reservation/"
         target="_blank"
       >
         <p
-          class="MuiTypography-root injectIntl(MarinasContent)-link-5 MuiTypography-body2"
+          class="MuiTypography-root MuiTypography-body2 injectIntl(MarinasContent)-link-5 css-1ak20dk-MuiTypography-root"
         >
           Varauspalvelu
         </p>
       </a>
       <a
-        class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-fixjtq-MuiTypography-root-MuiLink-root"
         href="https://www.turku.fi/venepaikat"
         target="_blank"
       >
         <p
-          class="MuiTypography-root injectIntl(MarinasContent)-link-5 MuiTypography-body2"
+          class="MuiTypography-root MuiTypography-body2 injectIntl(MarinasContent)-link-5 css-1ak20dk-MuiTypography-root"
         >
           Lisätietoja
         </p>

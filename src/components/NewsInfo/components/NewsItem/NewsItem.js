@@ -1,5 +1,5 @@
-import { Link, Paper, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
+import { Link, Paper, Typography } from '@mui/material';
+import { withStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import useLocaleText from '../../../../utils/useLocaleText';

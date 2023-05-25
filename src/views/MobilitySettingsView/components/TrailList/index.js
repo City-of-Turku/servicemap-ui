@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@mui/styles';
 import TrailList from './TrailList';
 import styles from './styles';
 

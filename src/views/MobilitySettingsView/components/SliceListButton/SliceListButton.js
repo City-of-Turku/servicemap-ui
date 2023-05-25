@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Typography } from '@material-ui/core';
+import { Button, Typography } from '@mui/material';
 
 /* By default 4 routes/items are shown from the route list. Button and functions control number of routes shown (4 or all routes). */
 

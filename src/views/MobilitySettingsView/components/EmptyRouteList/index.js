@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@mui/styles';
 import { injectIntl } from 'react-intl';
 import EmptyRouteList from './EmptyRouteList';
 import styles from './styles';

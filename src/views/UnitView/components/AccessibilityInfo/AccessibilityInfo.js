@@ -1,5 +1,5 @@
-import { ButtonBase, Divider, List, ListItem, ListItemIcon, ListItemText, NoSsr, Typography } from '@material-ui/core';
-import { Accessibility, VerifiedUser, Warning } from '@material-ui/icons';
+import { ButtonBase, Divider, List, ListItem, ListItemIcon, ListItemText, NoSsr, Typography } from '@mui/material';
+import { Accessibility, VerifiedUser, Warning } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';

@@ -9,7 +9,7 @@ exports[`<ParkingSpacesContent /> should work 1`] = `
       class="injectIntl(ParkingSpacesContent)-title-2"
     >
       <h6
-        class="MuiTypography-root MuiTypography-subtitle1"
+        class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
       >
         Pysäköintialue
       </h6>
@@ -18,7 +18,7 @@ exports[`<ParkingSpacesContent /> should work 1`] = `
       class="injectIntl(ParkingSpacesContent)-text-3"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
       >
         Maksutyyppi
         :
@@ -30,7 +30,7 @@ exports[`<ParkingSpacesContent /> should work 1`] = `
       class="injectIntl(ParkingSpacesContent)-text-3"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
       >
         Parkkipaikkojen määrä
         :
@@ -42,7 +42,7 @@ exports[`<ParkingSpacesContent /> should work 1`] = `
       class="injectIntl(ParkingSpacesContent)-text-3"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
       >
         Vapaana olevat parkkipaikat: 5 / 10
       </p>

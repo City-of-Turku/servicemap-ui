@@ -1,7 +1,8 @@
-import { Button, Typography } from '@material-ui/core';
+import { Button, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { visuallyHidden } from '@mui/utils';
 import { focusToViewTitle } from '../../utils/accessibility';
 import LocalStorageUtility from '../../utils/localStorage';
 import useLocaleText from '../../utils/useLocaleText';
@@ -49,7 +50,7 @@ const AlertBox = ({
 
   return (
     <section className={classes.container}>
-      <Typography variant="srOnly" component="h2">
+      <Typography style={visuallyHidden} component="h2">
         <FormattedMessage id="general.news.alert.title" />
       </Typography>
       <Button

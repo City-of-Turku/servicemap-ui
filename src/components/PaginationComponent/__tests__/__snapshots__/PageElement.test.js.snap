@@ -4,24 +4,25 @@ exports[`<PageElement /> should work 1`] = `
 <div>
   <li>
     <button
-      class="MuiButtonBase-root"
+      class="MuiButtonBase-root css-fvdnvy-MuiButtonBase-root"
       role="link"
       tabindex="0"
       type="button"
     >
       <p
-        class="MuiTypography-root  PageElement-pageItem-10 PageElement-pageElement-8 MuiTypography-subtitle1"
+        class="MuiTypography-root MuiTypography-subtitle1  PageElement-pageItem-10 PageElement-pageElement-8 css-dlbwt1-MuiTypography-root"
       >
-        <span
-          class="MuiTypography-root MuiTypography-srOnly"
-        >
-          Avaa sivu 2
-        </span>
         <span
           aria-hidden="true"
         >
           2
         </span>
+      </p>
+      <p
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        style="border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;"
+      >
+        Avaa sivu 2
       </p>
     </button>
   </li>

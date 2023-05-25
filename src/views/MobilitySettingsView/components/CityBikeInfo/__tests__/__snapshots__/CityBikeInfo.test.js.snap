@@ -7,37 +7,37 @@ exports[`<CityBikeInfo /> should work 1`] = `
   >
     <p
       aria-label="Turun kaupunkipyörät eli tuttavallisemmin föllärit, ovat pyöriä, joita kuka vaan voi vuokrata Donkey Republicin sovelluksella.  Föllärin voi vuokrata kertamaksulla, kuukausimaksulla tai koko kesän kattavalla kausimaksulla."
-      class="MuiTypography-root injectIntl(CityBikeInfo)-margin-2 MuiTypography-body2"
+      class="MuiTypography-root MuiTypography-body2 injectIntl(CityBikeInfo)-margin-2 css-1ak20dk-MuiTypography-root"
     >
       Turun kaupunkipyörät eli tuttavallisemmin föllärit, ovat pyöriä, joita kuka vaan voi vuokrata Donkey Republicin sovelluksella.  Föllärin voi vuokrata kertamaksulla, kuukausimaksulla tai koko kesän kattavalla kausimaksulla.
     </p>
     <p
       aria-label="Jos sinulla on käytössä Fölin kausikortti, jonka kausi on vähintään 30 päivää, sisältää oikeuden käyttää fölläreitä tunnin ajan kerrallaan maksutta. Vuokrattavia pyöriä on 700 ja asemia yli 70 kappaletta."
-      class="MuiTypography-root injectIntl(CityBikeInfo)-margin-2 MuiTypography-body2"
+      class="MuiTypography-root MuiTypography-body2 injectIntl(CityBikeInfo)-margin-2 css-1ak20dk-MuiTypography-root"
     >
       Jos sinulla on käytössä Fölin kausikortti, jonka kausi on vähintään 30 päivää, sisältää oikeuden käyttää fölläreitä tunnin ajan kerrallaan maksutta. Vuokrattavia pyöriä on 700 ja asemia yli 70 kappaletta.
     </p>
     <p
       aria-label="Lue lisää kaupunkipyöristä:"
-      class="MuiTypography-root injectIntl(CityBikeInfo)-margin-2 MuiTypography-body2"
+      class="MuiTypography-root MuiTypography-body2 injectIntl(CityBikeInfo)-margin-2 css-1ak20dk-MuiTypography-root"
     >
       Lue lisää kaupunkipyöristä:
     </p>
     <a
-      class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-fixjtq-MuiTypography-root-MuiLink-root"
       href="https://foli.fi/föllärit"
       target="_blank"
     >
       <p
         aria-label="https://www.foli.fi/fi/aikataulut-ja-reitit/fölifillarit"
-        class="MuiTypography-root injectIntl(CityBikeInfo)-margin-2 MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 injectIntl(CityBikeInfo)-margin-2 css-1ak20dk-MuiTypography-root"
       >
         https://www.foli.fi/fi/aikataulut-ja-reitit/fölifillarit
       </p>
     </a>
     <p
       aria-label="Kartan tiedot tulevat Donkey Republicin rajapinnasta reaaliajassa."
-      class="MuiTypography-root injectIntl(CityBikeInfo)-margin-2 MuiTypography-body2"
+      class="MuiTypography-root MuiTypography-body2 injectIntl(CityBikeInfo)-margin-2 css-1ak20dk-MuiTypography-root"
     >
       Kartan tiedot tulevat Donkey Republicin rajapinnasta reaaliajassa.
     </p>

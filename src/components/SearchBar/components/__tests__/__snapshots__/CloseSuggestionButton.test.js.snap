@@ -7,18 +7,19 @@ exports[`<CloseSuggestionButton /> should work 1`] = `
     tabindex="0"
   >
     <p
-      class="MuiTypography-root MuiTypography-body2"
+      class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
     >
       Piilota ehdotuslista
     </p>
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root"
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-6yqi1c-MuiSvgIcon-root"
+      data-testid="ArrowDownwardIcon"
       focusable="false"
       viewBox="0 0 24 24"
     >
       <path
-        d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+        d="m20 12-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
       />
     </svg>
   </div>

@@ -6,13 +6,13 @@ exports[`<LinkBasic /> should work 1`] = `
     class="LinkBasic-linkContainer-1"
   >
     <a
-      class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-fixjtq-MuiTypography-root-MuiLink-root"
       href="https://www.turku.fi/feedback"
       target="_blank"
     >
       <p
         aria-label="www.turku.fi/palaute (linkki avautuu uudelle välilehdelle)."
-        class="MuiTypography-root LinkBasic-link-2 MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 LinkBasic-link-2 css-1ak20dk-MuiTypography-root"
       >
         www.turku.fi/palaute (linkki avautuu uudelle välilehdelle).
       </p>

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-nested-ternary */
-import { ButtonBase, Typography } from '@material-ui/core';
-import DateRangeIcon from '@material-ui/icons/DateRange';
+import { ButtonBase, Typography } from '@mui/material';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';

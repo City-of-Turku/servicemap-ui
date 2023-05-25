@@ -1,7 +1,7 @@
 import {
   Button, Divider, IconButton, InputBase, Paper, Typography
-} from '@material-ui/core';
-import { Cancel, Search } from '@material-ui/icons';
+} from '@mui/material';
+import { Cancel, Search } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';

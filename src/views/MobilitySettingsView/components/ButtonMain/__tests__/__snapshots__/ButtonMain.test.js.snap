@@ -4,29 +4,25 @@ exports[`<ButtonMain /> should work 1`] = `
 <div>
   <button
     aria-label="Pyöräily"
-    class="MuiButtonBase-root MuiButton-root MuiButton-outlined injectIntl(ButtonMain)-button-1"
+    class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButtonBase-root injectIntl(ButtonMain)-button-1 css-1d3jj02-MuiButtonBase-root-MuiButton-root"
     tabindex="0"
     type="button"
   >
-    <span
-      class="MuiButton-label"
+    <div
+      class="injectIntl(ButtonMain)-icon-4"
     >
-      <div
-        class="injectIntl(ButtonMain)-icon-4"
-      >
-        <div>
-          <div
-            data-src="testi"
-            src=""
-          />
-        </div>
+      <div>
+        <div
+          data-src="testi"
+          src=""
+        />
       </div>
-      <p
-        class="MuiTypography-root MuiTypography-body2"
-      >
-        Pyöräily
-      </p>
-    </span>
+    </div>
+    <p
+      class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+    >
+      Pyöräily
+    </p>
   </button>
 </div>
 `;

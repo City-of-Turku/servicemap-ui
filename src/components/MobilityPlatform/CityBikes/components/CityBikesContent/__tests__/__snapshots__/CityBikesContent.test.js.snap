@@ -9,7 +9,7 @@ exports[`<CityBikesContent /> should work 1`] = `
       class="injectIntl(CityBikesContent)-subtitle-2"
     >
       <h6
-        class="MuiTypography-root MuiTypography-subtitle1"
+        class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
       >
         Kaupunkipyöräasema
       </h6>
@@ -18,7 +18,7 @@ exports[`<CityBikesContent /> should work 1`] = `
       class="injectIntl(CityBikesContent)-paragraph-3"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
       >
         <strong>
           Asema
@@ -32,7 +32,7 @@ exports[`<CityBikesContent /> should work 1`] = `
       class="injectIntl(CityBikesContent)-paragraph-3"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
       >
         Virtuaaliasema
       </p>
@@ -41,7 +41,7 @@ exports[`<CityBikesContent /> should work 1`] = `
       class="injectIntl(CityBikesContent)-paragraph-3"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
       >
         <strong>
           Kapasiteetti
@@ -56,7 +56,7 @@ exports[`<CityBikesContent /> should work 1`] = `
         class="injectIntl(CityBikesContent)-paragraph-3"
       >
         <p
-          class="MuiTypography-root MuiTypography-body2"
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
           <strong>
             Pyöriä vapaana
@@ -70,7 +70,7 @@ exports[`<CityBikesContent /> should work 1`] = `
         class="injectIntl(CityBikesContent)-paragraph-3"
       >
         <p
-          class="MuiTypography-root MuiTypography-body2"
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
           <strong>
             Telineitä vapaana
@@ -85,7 +85,7 @@ exports[`<CityBikesContent /> should work 1`] = `
       class="injectIntl(CityBikesContent)-paragraph-3"
     >
       <p
-        class="MuiTypography-root injectIntl(CityBikesContent)-bold-4 MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 injectIntl(CityBikesContent)-bold-4 css-1ak20dk-MuiTypography-root"
       >
         Varauslinkit
         :
@@ -95,12 +95,12 @@ exports[`<CityBikesContent /> should work 1`] = `
       class="injectIntl(CityBikesContent)-paragraph-3"
     >
       <a
-        class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-fixjtq-MuiTypography-root-MuiLink-root"
         href="https://www.testilinkki.fi"
         target="_blank"
       >
         <p
-          class="MuiTypography-root injectIntl(CityBikesContent)-link-5 MuiTypography-body2"
+          class="MuiTypography-root MuiTypography-body2 injectIntl(CityBikesContent)-link-5 css-1ak20dk-MuiTypography-root"
         >
           Android
         </p>
@@ -110,12 +110,12 @@ exports[`<CityBikesContent /> should work 1`] = `
       class="injectIntl(CityBikesContent)-paragraph-3"
     >
       <a
-        class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-fixjtq-MuiTypography-root-MuiLink-root"
         href="https://www.testilinkki.fi"
         target="_blank"
       >
         <p
-          class="MuiTypography-root injectIntl(CityBikesContent)-link-5 MuiTypography-body2"
+          class="MuiTypography-root MuiTypography-body2 injectIntl(CityBikesContent)-link-5 css-1ak20dk-MuiTypography-root"
         >
           iOS
         </p>

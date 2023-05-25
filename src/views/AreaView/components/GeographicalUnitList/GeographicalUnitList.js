@@ -1,6 +1,6 @@
 import {
     Checkbox, List, ListItem, Typography
-} from '@material-ui/core';
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import React, {
     useCallback, useEffect, useMemo, useState

@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import distance from '@turf/distance';
 import flip from '@turf/flip';
 import PropTypes from 'prop-types';

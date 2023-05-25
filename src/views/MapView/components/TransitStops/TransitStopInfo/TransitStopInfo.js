@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
-import { ButtonBase, Typography } from '@material-ui/core';
-import { Close } from '@material-ui/icons';
-import Accessible from '@material-ui/icons/Accessible';
+import { ButtonBase, Typography } from '@mui/material';
+import { Close } from '@mui/icons-material';
+import Accessible from '@mui/icons-material/Accessible';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';

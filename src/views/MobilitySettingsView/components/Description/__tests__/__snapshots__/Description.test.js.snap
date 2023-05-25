@@ -8,7 +8,7 @@ exports[`<Description /> should work 1`] = `
     >
       <p
         aria-label="testikuvaus"
-        class="MuiTypography-root MuiTypography-body2"
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
       >
         testikuvaus
       </p>

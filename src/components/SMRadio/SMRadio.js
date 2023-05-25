@@ -1,6 +1,6 @@
 import {
     FormControl, FormControlLabel, FormLabel, Radio, RadioGroup
-} from '@material-ui/core';
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 

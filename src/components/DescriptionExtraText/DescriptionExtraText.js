@@ -1,4 +1,4 @@
-import { Divider, Typography } from '@material-ui/core';
+import { Divider, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import isClient from '../../utils';

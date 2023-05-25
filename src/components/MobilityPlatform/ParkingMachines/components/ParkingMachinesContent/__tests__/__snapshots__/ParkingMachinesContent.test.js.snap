@@ -10,7 +10,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
         class="injectIntl(ParkingMachinesContent)-headerContainer-2"
       >
         <h6
-          class="MuiTypography-root MuiTypography-subtitle1"
+          class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
         >
           Pysäköintiautomaatti
         </h6>
@@ -22,7 +22,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           class="injectIntl(TextComponent)-margin-5"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
           >
             Osoite: osoite
           </p>
@@ -31,7 +31,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           class="injectIntl(TextComponent)-margin-5"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
           >
             Sijainti: Katuosa
           </p>
@@ -40,7 +40,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           class="injectIntl(ParkingMachinesContent)-margin-4"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
           >
             Maksu: 1,8 €/t
           </p>
@@ -49,7 +49,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           class="injectIntl(TextComponent)-margin-5"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
           >
             Maksutavat: Kolikko, kortti, lähimaksu
           </p>
@@ -58,7 +58,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           class="injectIntl(ParkingMachinesContent)-margin-4"
         >
           <p
-            class="MuiTypography-root MuiTypography-body2"
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
           >
             Lisätietoja: Testiteksti
           </p>

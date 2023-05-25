@@ -1,7 +1,7 @@
 import {
   Button, Checkbox, Divider, FormControlLabel, FormGroup, InputBase, List, ListItem, Paper, Typography
-} from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
+} from '@mui/material';
+import { withStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';

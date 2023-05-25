@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
-import { ButtonBase } from '@material-ui/core';
-import { LocationDisabled, MyLocation } from '@material-ui/icons';
+import { ButtonBase } from '@mui/material';
+import { LocationDisabled, MyLocation } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useMapEvents } from 'react-leaflet';

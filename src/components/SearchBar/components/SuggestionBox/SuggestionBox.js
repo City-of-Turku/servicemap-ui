@@ -1,7 +1,7 @@
-import { List, Paper, Typography } from '@material-ui/core';
+import { List, Paper, Typography } from '@mui/material';
 import {
   AccessTime, ArrowDropUp, LocationOn, Search
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, {
   useEffect, useRef, useState

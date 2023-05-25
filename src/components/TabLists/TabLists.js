@@ -1,5 +1,6 @@
 /* eslint-disable react/no-multi-comp */
-import { Tab, Tabs, Typography } from '@material-ui/core';
+import { Tab, Tabs, Typography } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -201,7 +202,7 @@ const TabLists = ({
           focusClass
           && focusText
           && (
-            <Typography variant="srOnly" className={focusClass} tabIndex={-1}>{focusText}</Typography>
+            <Typography style={visuallyHidden} className={focusClass} tabIndex={-1}>{focusText}</Typography>
           )
         }
         <Tabs

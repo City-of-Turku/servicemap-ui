@@ -1,5 +1,5 @@
-import { ButtonBase, Typography } from '@material-ui/core';
-import { ChevronLeft, ChevronRight } from '@material-ui/icons';
+import { ButtonBase, Typography } from '@mui/material';
+import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';

@@ -4,7 +4,7 @@ exports[`<SMLogo /> should work 1`] = `
 <div>
   <button
     aria-label="Palvelukartta - Siirry etusivulle"
-    class="MuiButtonBase-root"
+    class="MuiButtonBase-root css-fvdnvy-MuiButtonBase-root"
     role="link"
     tabindex="0"
     type="button"

@@ -1,7 +1,7 @@
 import {
     ButtonBase, List, ListItem, Typography
-} from '@material-ui/core';
-import { Close } from '@material-ui/icons';
+} from '@mui/material';
+import { Close } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useMap } from 'react-leaflet';

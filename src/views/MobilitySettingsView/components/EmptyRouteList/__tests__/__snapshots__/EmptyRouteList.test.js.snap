@@ -7,7 +7,7 @@ exports[`<CityBikeInfo /> should work 1`] = `
   >
     <p
       aria-label="Reittejä ladataan."
-      class="MuiTypography-root MuiTypography-subtitle2"
+      class="MuiTypography-root MuiTypography-subtitle2 css-chrj9w-MuiTypography-root"
     >
       Reittejä ladataan.
     </p>

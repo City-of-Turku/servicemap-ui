@@ -1,5 +1,5 @@
-import { Button, Typography } from '@material-ui/core';
-import { Close, Menu } from '@material-ui/icons';
+import { Button, Typography } from '@mui/material';
+import { Close, Menu } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';

@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import { getSelectedUnit, getSelectedUnitEvents } from '../../../../redux/selectors/selectedUnit';
 import { calculateDistance, getCurrentlyUsedPosition } from '../../../../redux/selectors/unit';

@@ -77,7 +77,7 @@ const styles = theme => ({
     paddingTop: theme.spacing(0.5),
   },
   marginBottom: {
-    marginBottom: `${theme.spacing(2)}px !important`,
+    marginBottom: `${theme.spacing(2)} !important`,
   },
   embedLogo: {
     top: 0,

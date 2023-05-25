@@ -1,5 +1,5 @@
 // Link.react.test.js
-import { Search } from '@material-ui/icons';
+import { Search } from '@mui/icons-material';
 import { fireEvent } from '@testing-library/react';
 import React from 'react';
 import { getRenderWithProviders } from '../../../../../jestUtils';

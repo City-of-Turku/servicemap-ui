@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet';
 import { IntlProvider, useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { StyledEngineProvider } from '@mui/material';
 import appStyles from './App.css';
 import DataFetcher from './components/DataFetchers/DataFetcher';
 import Navigator from './components/Navigator';
@@ -66,24 +67,26 @@ class App extends React.Component {
     const intlData = LocaleUtility.intlData(locale);
 
     return (
-      <ThemeWrapper>
-        <IntlProvider {...intlData}>
-          <MetaTags />
-          {/* <StylesProvider generateClassName={generateClassName}> */}
-          <div className="App">
-            <MobilityPlatformContextProvider>
-              <Switch>
-                <Route path="*/embedder" component={EmbedderView} />
-                <Route path="*/embed" component={EmbedLayout} />
-                <Route render={() => <DefaultLayout />} />
-              </Switch>
-            </MobilityPlatformContextProvider>
-            <Navigator />
-            <DataFetcher />
-          </div>
-          {/* </StylesProvider> */}
-        </IntlProvider>
-      </ThemeWrapper>
+      <StyledEngineProvider injectFirst>
+        <ThemeWrapper>
+          <IntlProvider {...intlData}>
+            <MetaTags />
+            {/* <StylesProvider generateClassName={generateClassName}> */}
+            <div className="App">
+              <MobilityPlatformContextProvider>
+                <Switch>
+                  <Route path="*/embedder" component={EmbedderView} />
+                  <Route path="*/embed" component={EmbedLayout} />
+                  <Route render={() => <DefaultLayout />} />
+                </Switch>
+              </MobilityPlatformContextProvider>
+              <Navigator />
+              <DataFetcher />
+            </div>
+            {/* </StylesProvider> */}
+          </IntlProvider>
+        </ThemeWrapper>
+      </StyledEngineProvider>
     );
   }
 }

@@ -1,4 +1,6 @@
-import { ServerStyleSheets } from '@material-ui/core/styles';
+import { ServerStyleSheets } from '@mui/styles';
+import { CacheProvider } from '@emotion/react';
+import createEmotionServer from '@emotion/server/create-instance';
 import express from 'express';
 import IntlPolyfill from 'intl';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
@@ -24,9 +26,15 @@ import ieHandler from './ieMiddleware';
 import legacyRedirector from './legacyRedirector';
 import { generateSitemap, getRobotsFile, getSitemap } from './sitemapMiddlewares';
 import {
-  getRequestFullUrl, languageSubdomainRedirect, makeLanguageHandler, parseInitialMapPositionFromHostname, sitemapActive, unitRedirect
+  getRequestFullUrl,
+  languageSubdomainRedirect,
+  makeLanguageHandler,
+  parseInitialMapPositionFromHostname,
+  sitemapActive,
+  unitRedirect,
 } from './utils';
 import { getLastCommit, getVersion } from './version';
+import createEmotionCache from './createEmotionCache';
 
 // Get sentry dsn from environtment variables
 const sentryDSN = process.env.SENTRY_DSN_SERVER;
@@ -106,6 +114,8 @@ app.use(paths.event.regex, fetchEventData);
 app.use(paths.unit.regex, fetchSelectedUnitData);
 
 app.get('/*', (req, res, next) => {
+  const cache = createEmotionCache();
+  const { extractCriticalToChunks, constructStyleTagsFromChunks } = createEmotionServer(cache);
   // CSS for all rendered React components
   const css = new Set();
   const insertCss = (...styles) => styles.forEach(style => css.add(style._getCss()));
@@ -123,6 +133,7 @@ app.get('/*', (req, res, next) => {
   const sheets = new ServerStyleSheets();
 
   const jsx = sheets.collect(
+    <CacheProvider value={cache}>
       <Provider store={store}>
         <StaticRouter location={req.url} context={{}}>
           {/* Provider to help with isomorphic style loader */}
@@ -131,6 +142,7 @@ app.get('/*', (req, res, next) => {
           </StyleContext.Provider>
         </StaticRouter>
       </Provider>
+    </CacheProvider>
   );
   const reactDom = ReactDOMServer.renderToString(jsx);
   const cssString = sheets.toString();
@@ -142,8 +154,11 @@ app.get('/*', (req, res, next) => {
     initialMapPosition: parseInitialMapPositionFromHostname(req, Sentry),
   };
 
+  const emotionChunks = extractCriticalToChunks(reactDom);
+  const emotionCss = constructStyleTagsFromChunks(emotionChunks);
+
   res.writeHead(200, { 'Content-Type': 'text/html' });
-  res.end(htmlTemplate(req, reactDom, preloadedState, css, cssString, locale, helmet, customValues));
+  res.end(htmlTemplate(req, reactDom, preloadedState, css, cssString, emotionCss, locale, helmet, customValues));
 });
 
 // The error handler must be before any other error middleware
@@ -154,7 +169,7 @@ if (Sentry) {
 console.log(`Starting server on port ${process.env.PORT || 2048}`);
 app.listen(process.env.PORT || 2048);
 
-const htmlTemplate = (req, reactDom, preloadedState, css, cssString, locale, helmet, customValues) => `
+const htmlTemplate = (req, reactDom, preloadedState, css, cssString, emotionCss, locale, helmet, customValues) => `
 <!DOCTYPE html>
 <html lang="${locale || 'fi'}">
   <head>
@@ -164,6 +179,7 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, locale, hel
     <meta property="og:url" data-react-helmet="true" content="${getRequestFullUrl(req)}" />
     <meta property="og:image" data-react-helmet="true" content="${ogImage}" />
     <meta name="twitter:card" data-react-helmet="true" content="summary" />
+    ${emotionCss}
     <!-- jss-insertion-point -->
     <style id="jss-server-side">${cssString}</style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"

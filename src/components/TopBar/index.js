@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import { setMapType, toggleSettings } from '../../redux/actions/settings';
 import { changeTheme } from '../../redux/actions/user';

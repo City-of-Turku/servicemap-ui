@@ -1,5 +1,5 @@
 // CloseSuggestionButton.test.js
-import { ArrowDownward } from '@material-ui/icons';
+import { ArrowDownward } from '@mui/icons-material';
 import { fireEvent } from '@testing-library/react';
 import React from 'react';
 import { getRenderWithProviders } from '../../../../../jestUtils';

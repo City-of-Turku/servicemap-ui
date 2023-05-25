@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@mui/styles';
 import OutdoorGymDevicesContent from './OutdoorGymDevicesContent';
 import styles from './styles';
 

@@ -1,5 +1,5 @@
-import { ButtonBase, Collapse } from '@material-ui/core';
-import { ArrowDropDown } from '@material-ui/icons';
+import { ButtonBase, Collapse } from '@mui/material';
+import { ArrowDropDown } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 

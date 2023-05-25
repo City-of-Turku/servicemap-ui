@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
 // TODO Remove this when redux selected event is used
-import { AccessTime, Event, Phone } from '@material-ui/icons';
+import { AccessTime, Event, Phone } from '@mui/icons-material';
 import { SearchBar } from '../../components';
 import DescriptionText from '../../components/DescriptionText';
 import SimpleListItem from '../../components/ListItems/SimpleListItem';

@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/core';
+import { withStyles } from '@mui/styles';
 import DownloadDialog from './DownloadDialog';
 import styles from './styles';
 
