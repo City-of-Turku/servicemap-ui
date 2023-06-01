@@ -44,7 +44,7 @@ const FormLabel = ({
               id: msgId,
             }),
           }}
-          onChange={onChangeValue}
+          onChange={() => onChangeValue()}
           onKeyPress={(event) => {
             if (event.key === 'Enter') {
               onChangeValue();
