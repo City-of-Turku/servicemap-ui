@@ -1,23 +1,31 @@
 import { Divider, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import isClient from '../../utils';
 
 const DescriptionExtraText = ({
-  extra, chargers, serviceId, html, classes, title, titleComponent, intl,
+  classes, intl, extra, serviceName, html, title, titleComponent,
 }) => {
   // Hide linebreak html elements from screen readers
   const hideBRFromSR = text => text.replaceAll('<br>', '<br aria-hidden="true" />');
 
+  const [chargers, setChargers] = useState(null);
+
+  useEffect(() => {
+    if (extra.chargers) {
+      setChargers(extra.chargers);
+    }
+  }, [extra]);
+
   const chargerStationInfo = (
     <>
-      <Typography variant="subtitle1" className={classes.paragraph}>
+      <Typography variant="subtitle2" component="h5" className={classes.paragraph}>
         {intl.formatMessage({
           id: 'services.description.extra.cgsTitle',
         })}
         :
       </Typography>
-      {chargers.map(charger => (
+      {chargers?.map(charger => (
         <div key={`${charger.plug}${charger.power}${charger.number}`} className={classes.paragraph}>
           <Typography className={classes.textItem} variant="body2">
             {intl.formatMessage({ id: 'mobilityPlatform.content.cgsType' }, { value: charger.plug })}
@@ -35,7 +43,7 @@ const DescriptionExtraText = ({
 
   const gasFillingInfo = (
     <>
-      <Typography variant="subtitle1" className={classes.paragraph}>
+      <Typography variant="subtitle2" component="h5" className={classes.paragraph}>
         {intl.formatMessage({
           id: 'services.description.extra.gfsTitle',
         })}
@@ -53,7 +61,7 @@ const DescriptionExtraText = ({
 
   const bicycleStandInfo = (
     <>
-      <Typography variant="subtitle1" className={classes.paragraph}>
+      <Typography variant="subtitle2" component="h5" className={classes.paragraph}>
         {intl.formatMessage({
           id: 'services.description.extra.bisTitle',
         })}
@@ -141,9 +149,9 @@ const DescriptionExtraText = ({
         <Divider className={classes.divider} aria-hidden="true" />
         { !html ? (
           <>
-            {serviceId === 20000 ? gasFillingInfo : null}
-            {serviceId === 30000 ? chargerStationInfo : null}
-            {serviceId === 40000 ? bicycleStandInfo : null}
+            {serviceName === 'Kaasutankkausasema' ? gasFillingInfo : null}
+            {serviceName === 'Autojen sähkölatauspiste' ? chargerStationInfo : null}
+            {serviceName === 'Pyöräpysäköinti' ? bicycleStandInfo : null}
           </>
         ) : (
           <Typography dangerouslySetInnerHTML={{ __html: hideBRFromSR(extra) }} className={classes.paragraph} variant="body2" />
@@ -154,20 +162,18 @@ const DescriptionExtraText = ({
 };
 
 DescriptionExtraText.propTypes = {
-  extra: PropTypes.objectOf(PropTypes.any).isRequired,
-  chargers: PropTypes.arrayOf(PropTypes.any),
-  title: PropTypes.node.isRequired,
-  serviceId: PropTypes.number,
-  html: PropTypes.bool,
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  titleComponent: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']).isRequired,
   intl: PropTypes.objectOf(PropTypes.any).isRequired,
+  extra: PropTypes.objectOf(PropTypes.any).isRequired,
+  serviceName: PropTypes.string,
+  title: PropTypes.node.isRequired,
+  html: PropTypes.bool,
+  titleComponent: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']).isRequired,
 };
 
 DescriptionExtraText.defaultProps = {
+  serviceName: null,
   html: false,
-  chargers: [],
-  serviceId: 0,
 };
 
 export default DescriptionExtraText;
