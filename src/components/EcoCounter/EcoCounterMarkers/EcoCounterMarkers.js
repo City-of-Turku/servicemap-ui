@@ -97,19 +97,17 @@ const EcoCounterMarkers = () => {
    * @param {array} data -EcoCounter stations
    * @returns {JSX element}
    */
-  const renderStations = (isValid, data) => (isValid ? (
-    data.map(item => (
+  const renderStations = (isValid, data) => (isValid
+    ? data.map(item => (
       <CounterMarkers key={item.id} counterStation={item}>
         {item.csv_data_source === 'EC' ? (
-          <EcoCounterContent
-            stationId={item.id}
-            stationName={item.name}
-          />
-        ) : <p>Telraam</p>}
+          <EcoCounterContent stationId={item.id} stationName={item.name} />
+        ) : (
+          <EcoCounterContent stationId={item.id} isTelraam />
+        )}
       </CounterMarkers>
     ))
-  ) : null
-  );
+    : null);
 
   return (
     <>

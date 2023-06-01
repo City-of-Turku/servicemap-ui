@@ -17,7 +17,7 @@ import {
 import LineChart from '../LineChart';
 
 const EcoCounterContent = ({
-  classes, intl, stationId, stationName,
+  classes, intl, stationId, stationName, isTelraam,
 }) => {
   const [ecoCounterHour, setEcoCounterHour] = useState(null);
   const [ecoCounterDay, setEcoCounterDay] = useState(null);
@@ -280,7 +280,7 @@ const EcoCounterContent = ({
         setChannelTotals(countsArr[2]);
       }
     } else if (currentTime === 'day') {
-      ecoCounterDay.forEach((el) => {
+      ecoCounterDay?.forEach((el) => {
         const countsArr = [];
         if (el.station === stationId && currentType === 'walking') {
           countsArr.push(el.value_jk, el.value_jp, el.value_jt, el.day_info.date);
@@ -295,7 +295,7 @@ const EcoCounterContent = ({
         setEcoCounterLabels(ecoCounterLabels => [...ecoCounterLabels, formatDates(countsArr[3])]);
       });
     } else if (currentTime === 'week') {
-      ecoCounterWeek.forEach((el) => {
+      ecoCounterWeek?.forEach((el) => {
         const countsArr = [];
         if (el.station === stationId && currentType === 'walking') {
           countsArr.push(el.value_jk, el.value_jp, el.value_jt, el.week_info.week_number);
@@ -308,7 +308,7 @@ const EcoCounterContent = ({
         setEcoCounterLabels(ecoCounterLabels => [...ecoCounterLabels, formatWeeks(countsArr[3])]);
       });
     } else if (currentTime === 'month') {
-      ecoCounterMonth.forEach((el) => {
+      ecoCounterMonth?.forEach((el) => {
         const countsArr = [];
         if (el.station === stationId && currentType === 'walking') {
           countsArr.push(el.value_jk, el.value_jp, el.value_jt, el.month_info.month_number);
@@ -418,7 +418,7 @@ const EcoCounterContent = ({
   // Sets user types based on station name.
   // Initially used id, but it can change, so it's not always reliable.
   useEffect(() => {
-    if (stationName === 'Auransilta') {
+    if (stationName === 'Auransilta' || isTelraam) {
       setUserTypesList(allUsers);
     } else if (stationName === 'Kirjastosilta' || stationName === 'Teatteri ranta' || stationName === 'Teatterisilta') {
       setUserTypesList(pedestrianAndBicycle);
@@ -435,7 +435,7 @@ const EcoCounterContent = ({
     <>
       <div className={classes.ecoCounterHeader}>
         <Typography component="h4" className={classes.headerSubtitle}>
-          {renderStationName(stationName)}
+          {isTelraam ? 'Telraam' : renderStationName(stationName)}
         </Typography>
         <div className={classes.headerDate}>
           <div className={classes.iconContainer}>
@@ -470,8 +470,7 @@ const EcoCounterContent = ({
       </div>
       <div className={classes.ecocounterContent}>
         <div className={classes.ecocounterUserTypes}>
-          {userTypesList
-            && userTypesList.map((userType, i) => (
+          {userTypesList?.map((userType, i) => (
               <div key={userType.type.user} className={classes.buttonAndTextContainer}>
                 <ButtonBase
                   className={i === activeType ? `${classes.buttonActive}` : `${classes.buttonWhite}`}
@@ -535,11 +534,13 @@ EcoCounterContent.propTypes = {
   intl: PropTypes.objectOf(PropTypes.any).isRequired,
   stationId: PropTypes.number,
   stationName: PropTypes.string,
+  isTelraam: PropTypes.bool,
 };
 
 EcoCounterContent.defaultProps = {
   stationId: 0,
   stationName: '',
+  isTelraam: false,
 };
 
 export default EcoCounterContent;
