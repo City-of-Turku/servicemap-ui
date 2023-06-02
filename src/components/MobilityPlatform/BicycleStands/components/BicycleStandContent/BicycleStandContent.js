@@ -18,7 +18,7 @@ const BicycleStandContent = ({
 
   const titleTypo = () => (
     <div className={classes.title}>
-      <Typography variant="subtitle1" className={classes.titleText}>
+      <Typography variant="subtitle1" component="h3" className={classes.titleText}>
         {bicycleStand.name}
       </Typography>
     </div>
