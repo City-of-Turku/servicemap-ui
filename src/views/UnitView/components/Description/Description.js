@@ -15,7 +15,7 @@ const Description = ({ unit, classes }) => {
     ...unitSectionFilter(unit.connections, 'TOPICAL'),
   ];
 
-  if (unit.description || additionalInfo.length || unit.services[0].id === 40000) {
+  if (unit.description || additionalInfo.length || unit.extra) {
     return (
       <div>
         {/* Description */}
@@ -31,8 +31,7 @@ const Description = ({ unit, classes }) => {
         {unit.extra && (
           <DescriptionExtraText
             extra={unit.extra}
-            chargers={unit.extra.chargers}
-            serviceId={unit.services[0].id}
+            serviceName={unit.services[0].name.fi}
             title={<FormattedMessage id="unit.description" />}
             titleComponent="h4"
           />
