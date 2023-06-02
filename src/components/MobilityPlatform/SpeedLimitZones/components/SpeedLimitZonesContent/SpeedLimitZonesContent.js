@@ -5,7 +5,7 @@ import { Typography } from '@mui/material';
 const SpeedLimitZonesContent = ({ classes, intl, item }) => (
   <div className={classes.padding}>
     <div className={classes.subtitle}>
-      <Typography variant="subtitle1">
+      <Typography variant="subtitle1" component="h3">
         {intl.formatMessage({
           id: 'mobilityPlatform.content.speedLimitZones.area',
         })}
