@@ -69,35 +69,20 @@ const DescriptionExtraText = ({
       <div className={classes.paragraph}>
         {extra.model ? (
           <Typography variant="body2" className={classes.textItem}>
-            <strong>
               {intl.formatMessage({
                 id: 'mobilityPlatform.content.bicycleStands.model',
-              })}
-              :
-            </strong>
-            {' '}
-            {extra.model}
+              }, { value: extra.model })}
           </Typography>
         ) : null}
         <Typography variant="body2" className={classes.textItem}>
-          <strong>
             {intl.formatMessage({
               id: 'mobilityPlatform.content.bicycleStands.numOfPlaces',
-            })}
-            :
-          </strong>
-          {' '}
-          {extra.number_of_places}
+            }, { value: extra.number_of_places})}
         </Typography>
         <Typography variant="body2" className={classes.textItem}>
-          <strong>
             {intl.formatMessage({
               id: 'mobilityPlatform.content.bicycleStands.numOfStands',
-            })}
-            :
-          </strong>
-          {' '}
-          {extra.number_of_stands}
+            }, { value: extra.number_of_stands })}
         </Typography>
         {extra.hull_lockable ? (
           <Typography variant="body2" className={classes.textItem}>
@@ -136,7 +121,7 @@ const DescriptionExtraText = ({
     </>
   );
 
-  if (extra && isClient()) {
+  if (extra && isClient() && serviceName !== 'Pyöränkorjauspiste') {
     return (
       <div className={classes.left}>
         <Typography
