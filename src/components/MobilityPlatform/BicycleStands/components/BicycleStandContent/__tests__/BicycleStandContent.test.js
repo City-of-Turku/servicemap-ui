@@ -33,13 +33,13 @@ describe('<BicycleStandContent />', () => {
     const p = container.querySelectorAll('p');
     expect(h6.textContent).toContain(mockProps.bicycleStand.name);
     expect(p[0].textContent).toContain(
-      `${finnishTranslations['mobilityPlatform.content.bicycleStands.model']}: ${mockProps.bicycleStand.extra.model}`,
+      'Malli: Testimalli',
     );
     expect(p[1].textContent).toContain(
-      `${finnishTranslations['mobilityPlatform.content.bicycleStands.numOfPlaces']}: ${mockProps.bicycleStand.extra.number_of_places}`,
+      'Pyöräpaikkojen määrä: 10',
     );
     expect(p[2].textContent).toContain(
-      `${finnishTranslations['mobilityPlatform.content.bicycleStands.numOfStands']}: ${mockProps.bicycleStand.extra.number_of_stands}`,
+      'Pyörätelineiden määrä: 5',
     );
     expect(p[3].textContent).toContain(finnishTranslations['mobilityPlatform.content.bicycleStands.covered']);
     expect(p[4].textContent).toContain(finnishTranslations['mobilityPlatform.content.bicycleStands.hullLockable']);
