@@ -7,8 +7,11 @@ import { fetchTrafficCounterStations } from '../EcoCounterRequests/ecoCounterReq
 import CounterMarkers from '../CounterMarkers';
 import LamCountersContent from './components/LamCountersContent';
 
+/** Show LAM Counters operated by Digitraffic and other traffic counters which are operated by Turku */
+
 const LamCounters = () => {
   const [lamCounterStations, setLamCounterStations] = useState([]);
+  const [trafficCounterStations, setTrafficCounterStations] = useState([]);
 
   const { openMobilityPlatform, showLamCounter } = useMobilityPlatformContext();
 
@@ -18,24 +21,32 @@ const LamCounters = () => {
     }
   }, [openMobilityPlatform, setLamCounterStations]);
 
+  useEffect(() => {
+    if (openMobilityPlatform) {
+      fetchTrafficCounterStations('TC', setTrafficCounterStations);
+    }
+  }, [openMobilityPlatform, setTrafficCounterStations]);
+
+  const allStationsData = [].concat(lamCounterStations, trafficCounterStations);
+
   const map = useMap();
 
-  const renderData = isDataValid(showLamCounter, lamCounterStations);
+  const renderData = isDataValid(showLamCounter, allStationsData);
 
   useEffect(() => {
     if (renderData) {
       const bounds = [];
-      lamCounterStations.forEach((item) => {
+      allStationsData.forEach((item) => {
         bounds.push([item.lat, item.lon]);
       });
       map.fitBounds(bounds);
     }
-  }, [showLamCounter, lamCounterStations]);
+  }, [showLamCounter, allStationsData]);
 
   return (
     <>
       {renderData ? (
-        lamCounterStations.map(item => (
+        allStationsData.map(item => (
           <CounterMarkers key={item.id} counterStation={item}>
             <LamCountersContent
               stationId={item.id}
