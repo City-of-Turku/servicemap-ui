@@ -29,39 +29,24 @@ const BicycleStandContent = ({
       {bicycleStand.extra.model ? (
         <div className={classes.paragraph}>
           <Typography component="p" variant="body2">
-            <strong>
-              {intl.formatMessage({
-                id: messages.model,
-              })}
-              :
-            </strong>
-            {' '}
-            {bicycleStand.extra.model}
+            {intl.formatMessage({
+              id: messages.model,
+            }, { value: bicycleStand.extra.model })}
           </Typography>
         </div>
       ) : null}
       <div className={classes.paragraph}>
         <Typography component="p" variant="body2">
-          <strong>
-            {intl.formatMessage({
-              id: messages.places,
-            })}
-            :
-          </strong>
-          {' '}
-          {bicycleStand.extra.number_of_places}
+          {intl.formatMessage({
+            id: messages.places,
+          }, { value: bicycleStand.extra.number_of_places })}
         </Typography>
       </div>
       <div className={classes.paragraph}>
         <Typography component="p" variant="body2">
-          <strong>
-            {intl.formatMessage({
-              id: messages.stands,
-            })}
-            :
-          </strong>
-          {' '}
-          {bicycleStand.extra.number_of_stands}
+          {intl.formatMessage({
+            id: messages.stands,
+          }, { value: bicycleStand.extra.number_of_stands })}
         </Typography>
       </div>
       {bicycleStand.extra.covered ? (
