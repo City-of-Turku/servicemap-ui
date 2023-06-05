@@ -21,12 +21,7 @@ exports[`<BicycleStandContent /> should work 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
-          <strong>
-            Malli
-            :
-          </strong>
-           
-          Testimalli
+          Malli: Testimalli
         </p>
       </div>
       <div
@@ -35,12 +30,7 @@ exports[`<BicycleStandContent /> should work 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
-          <strong>
-            Pyöräpaikkojen määrä
-            :
-          </strong>
-           
-          10
+          Pyöräpaikkojen määrä: 10
         </p>
       </div>
       <div
@@ -49,12 +39,7 @@ exports[`<BicycleStandContent /> should work 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
-          <strong>
-            Pyörätelineiden määrä
-            :
-          </strong>
-           
-          5
+          Pyörätelineiden määrä: 5
         </p>
       </div>
       <div
