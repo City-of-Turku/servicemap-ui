@@ -27,46 +27,26 @@ const EcoCounterMarkers = () => {
 
   const map = useMap();
 
-  /** These stations contains data about pedestrians as well
-   * @param {string} name -name value is used to check if it matches or not
-   * @returns {boolean} -true or false value
-   */
-  const stationNames = (name) => {
-    switch (name) {
-      case 'Teatterisilta':
-        return true;
-      case 'Auransilta':
-        return true;
-      case 'Kirjastosilta':
-        return true;
-      case 'Teatteri ranta':
-        return true;
-      default:
-        return false;
-    }
-  };
-
   /**
    * Filter out stations that only show data about cycling
    * @param {array} data -EcoCounter stations
    * @returns {array} -Filtered data with only items that matched criteria
    */
   const filterStations = data => data.reduce((acc, curr) => {
-    if (stationNames(curr.name)) {
+    if (curr.sensor_types.includes('jt')) {
       acc.push(curr);
     }
     return acc;
   }, []);
 
-  const showTelraam = Object.values(showTrafficCounter).some(val => val === true);
 
-  const stationsWithPedestrians = filterStations(ecoCounterStations);
-  /** All stations contain data about cyclists */
-  const renderAllStations = isDataValid(showTrafficCounter.cycling, ecoCounterStations);
-  /** 4 stations contain data about pedestrians as well */
+  const allCounterStations = [].concat(ecoCounterStations, telraamCounterStations);
+  const stationsWithPedestrians = filterStations(allCounterStations);
+
+  /** Check validity of all stations including Telraam and stations with data about cycling */
+  const renderAllStations = isDataValid(showTrafficCounter.cycling, allCounterStations);
+  /** Stations contain data about pedestrians as well */
   const renderFilteredStations = isDataValid(showTrafficCounter.walking, stationsWithPedestrians);
-  /** 2 Terlaam stations */
-  const renderTelraamStations = isDataValid(showTelraam, telraamCounterStations);
 
   /**
    * Fit markers to map bounds
@@ -85,11 +65,11 @@ const EcoCounterMarkers = () => {
 
   useEffect(() => {
     fitToMapBounds(isDataValid(showTrafficCounter.walking, stationsWithPedestrians), stationsWithPedestrians);
-  }, [showTrafficCounter.walking, ecoCounterStations]);
+  }, [showTrafficCounter.walking, allCounterStations]);
 
   useEffect(() => {
-    fitToMapBounds(isDataValid(showTrafficCounter.cycling, ecoCounterStations), ecoCounterStations);
-  }, [showTrafficCounter.cycling, ecoCounterStations]);
+    fitToMapBounds(isDataValid(showTrafficCounter.cycling, allCounterStations), allCounterStations);
+  }, [showTrafficCounter.cycling, allCounterStations]);
 
   /**
    * Render markers on the map
@@ -111,9 +91,8 @@ const EcoCounterMarkers = () => {
 
   return (
     <>
-      {renderStations(renderAllStations, ecoCounterStations)}
+      {renderStations(renderAllStations, allCounterStations)}
       {renderStations(renderFilteredStations, stationsWithPedestrians)}
-      {renderStations(renderTelraamStations, telraamCounterStations)}
     </>
   );
 };
