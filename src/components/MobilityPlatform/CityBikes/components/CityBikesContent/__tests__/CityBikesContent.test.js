@@ -41,9 +41,9 @@ describe('<CityBikesContent />', () => {
     const { container } = renderWithProviders(<CityBikesContent {...mockProps} />);
 
     const p = container.querySelectorAll('p');
-    const h6 = container.querySelector('h6');
+    const h3 = container.querySelector('h3');
     const link = container.querySelectorAll('a');
-    expect(h6.textContent).toContain(finnishTranslations['mobilityPlatform.content.cityBikes.title']);
+    expect(h3.textContent).toContain(finnishTranslations['mobilityPlatform.content.cityBikes.title']);
     expect(p[0].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.cityBikes.name']}: ${mockProps.bikeStation.name}`);
     expect(p[1].textContent).toContain(finnishTranslations['mobilityPlatform.content.cityBikes.virtualStation']);
     expect(p[2].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.cityBikes.capacity']}: ${mockProps.bikeStation.capacity}`);

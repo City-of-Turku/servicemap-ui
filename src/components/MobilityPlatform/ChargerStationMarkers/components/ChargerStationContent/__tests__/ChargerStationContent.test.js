@@ -46,10 +46,10 @@ describe('<ChargerStationContent />', () => {
   it('does show text correctly', () => {
     const { container } = renderWithProviders(<ChargerStationContent {...mockProps} />);
 
-    const h6 = container.querySelectorAll('h6');
+    const h3 = container.querySelectorAll('h3');
     const p = container.querySelectorAll('p');
     expect(p[0].textContent).toEqual(mockProps.station.name);
-    expect(h6[0].textContent).toEqual(`${finnishTranslations['mobilityPlatform.content.chargersTitle']}:`);
+    expect(h3[0].textContent).toEqual(`${finnishTranslations['mobilityPlatform.content.chargersTitle']}:`);
     expect(p[1].textContent).toEqual(`Osoite: ${mockProps.station.address_fi}`);
     expect(p[2].textContent).toEqual(`Ylläpitäjä: ${mockProps.station.extra.administrator.fi}`);
     expect(p[3].textContent).toEqual(`${finnishTranslations['mobilityPlatform.chargerStations.content.charge']}`);
