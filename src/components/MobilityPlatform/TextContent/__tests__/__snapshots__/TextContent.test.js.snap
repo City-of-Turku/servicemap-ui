@@ -9,11 +9,11 @@ exports[`<TextContent /> should work 1`] = `
       class="injectIntl(TextContent)-headerContainer-2"
     >
       <div>
-        <h6
+        <h3
           class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
         >
           Pysäköintikieltoalue
-        </h6>
+        </h3>
       </div>
     </div>
     <div
