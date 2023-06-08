@@ -40,9 +40,9 @@ describe('<ParkingMachinesContent />', () => {
   it('does show text correctly', () => {
     const { container } = renderWithProviders(<ParkingMachinesContent {...mockProps} />);
 
-    const h6 = container.querySelectorAll('h6');
+    const h3 = container.querySelectorAll('h3');
     const p = container.querySelectorAll('p');
-    expect(h6[0].textContent).toContain(finnishTranslations['mobilityPlatform.content.parkingMachine.title']);
+    expect(h3[0].textContent).toContain(finnishTranslations['mobilityPlatform.content.parkingMachine.title']);
     expect(p[0].textContent).toContain(`Osoite: ${mockProps.item.address_fi}`);
     expect(p[1].textContent).toContain(`Sijainti: ${mockProps.item.extra.Sijainti.fi}`);
     expect(p[2].textContent).toContain('Maksu: 1,8 €/t');

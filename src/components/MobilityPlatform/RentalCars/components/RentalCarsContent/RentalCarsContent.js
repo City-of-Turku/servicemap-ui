@@ -8,7 +8,7 @@ const RentalCarsContent = ({ classes, intl, car }) => {
 
   const titleText = (messageId, props = {}) => (
     <div className={classes.title}>
-      <Typography variant="subtitle1" {...props}>
+      <Typography variant="subtitle1" component="h3" {...props}>
         {intl.formatMessage({
           id: messageId,
         })}
@@ -53,12 +53,11 @@ const RentalCarsContent = ({ classes, intl, car }) => {
       {titleText('mobilityPlatform.content.rentalCars.title')}
       {contentText('mobilityPlatform.content.general.provider', serviceProvider)}
       <div className={classes.linkContainer}>
-        <Link target="_blank" href={getLink(car.homeLocationData.fullAddress)}>
+        <Link role="link" target="_blank" href={getLink(car.homeLocationData.fullAddress)}>
           <Typography className={classes.link} variant="body2">
             {intl.formatMessage({
               id: 'mobilityPlatform.content.rentalCars.link',
             })}
-
           </Typography>
         </Link>
       </div>

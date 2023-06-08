@@ -8,11 +8,11 @@ exports[`<CityBikesContent /> should work 1`] = `
     <div
       class="injectIntl(CityBikesContent)-subtitle-2"
     >
-      <h6
+      <h3
         class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
       >
         Kaupunkipyöräasema
-      </h6>
+      </h3>
     </div>
     <div
       class="injectIntl(CityBikesContent)-paragraph-3"

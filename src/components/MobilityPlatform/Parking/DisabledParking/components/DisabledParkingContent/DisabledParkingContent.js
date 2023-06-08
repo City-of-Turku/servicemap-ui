@@ -21,14 +21,13 @@ const DisabledParkingContent = ({ classes, intl, item }) => {
           {intl.formatMessage({ id: 'mobilityPlatform.content.publicParking.access.gate' })}
         </Typography>
       );
-    } return null;
+    }
+    return null;
   };
 
   const renderText = (msgId, value, props = {}) => (
     <div {...props}>
-      <Typography variant="body2">
-        {intl.formatMessage({ id: msgId }, { value })}
-      </Typography>
+      <Typography variant="body2">{intl.formatMessage({ id: msgId }, { value })}</Typography>
     </div>
   );
 
@@ -43,19 +42,19 @@ const DisabledParkingContent = ({ classes, intl, item }) => {
   return (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
-        <Typography variant="subtitle1">{intl.formatMessage({ id: 'mobilityPlatform.content.disabledParking.title' })}</Typography>
+        <Typography variant="subtitle1" component="h3">
+          {intl.formatMessage({ id: 'mobilityPlatform.content.disabledParking.title' })}
+        </Typography>
       </div>
       <div className={classes.textContainer}>
         {renderAddress()}
-        {renderText('mobilityPlatform.content.disabledParking.amount', item.extra.invapaikkoja, { className: classes.margin })}
+        {renderText('mobilityPlatform.content.disabledParking.amount', item.extra.invapaikkoja, {
+          className: classes.margin,
+        })}
         <div className={classes.margin}>
-          <Typography variant="body2">
-            {getLocaleText(item.extra.rajoitustyyppi)}
-          </Typography>
+          <Typography variant="body2">{getLocaleText(item.extra.rajoitustyyppi)}</Typography>
         </div>
-        <div className={classes.margin}>
-          {renderAccessInfo(item.extra.saavutettavuus.fi)}
-        </div>
+        <div className={classes.margin}>{renderAccessInfo(item.extra.saavutettavuus.fi)}</div>
       </div>
     </div>
   );

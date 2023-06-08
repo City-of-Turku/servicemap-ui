@@ -5,7 +5,7 @@ import React from 'react';
 const ScooterInfo = ({ classes, intl, item }) => {
   const titleTypo = messageId => (
     <div>
-      <Typography variant="subtitle1">
+      <Typography variant="subtitle1" component="h3">
         {intl.formatMessage({
           id: messageId,
         })}
@@ -35,7 +35,7 @@ const ScooterInfo = ({ classes, intl, item }) => {
 
   const renderLink = (linkUrl, text) => (
     <div className={classes.paragraph}>
-      <Link target="_blank" href={linkUrl}>
+      <Link role="link" target="_blank" href={linkUrl}>
         <Typography className={classes.link} variant="body2">
           {text}
         </Typography>

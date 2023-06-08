@@ -31,9 +31,9 @@ describe('<MarinasContent />', () => {
   it('does show text correctly', () => {
     const { container } = renderWithProviders(<MarinasContent {...mockProps} />);
 
-    const h6 = container.querySelectorAll('h6');
+    const h3 = container.querySelectorAll('h3');
     const p = container.querySelectorAll('p');
-    expect(h6[0].textContent).toContain(mockProps.berthItem.name);
+    expect(h3[0].textContent).toContain(mockProps.berthItem.name);
     expect(p[0].textContent).toContain('Venepaikkojen määrä: 1');
     expect(p[1].textContent).toContain(finnishTranslations['mobilityPlatform.content.marinas.typeTitle']);
     expect(p[2].textContent).toContain(
