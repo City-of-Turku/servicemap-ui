@@ -29,8 +29,8 @@ describe('<ParkingChargeZoneContent />', () => {
     const { container } = renderWithProviders(<ParkingChargeZoneContent {...mockProps} />);
 
     const p = container.querySelectorAll('p');
-    const h6 = container.querySelector('h6');
-    expect(h6.textContent).toContain(
+    const h3 = container.querySelector('h3');
+    expect(h3.textContent).toContain(
       `${finnishTranslations['mobilityPlatform.content.parkingChargeZones.zone']}: ${mockProps.parkingChargeZone.extra.maksuvyohyke}`,
     );
     expect(p[0].textContent).toContain(

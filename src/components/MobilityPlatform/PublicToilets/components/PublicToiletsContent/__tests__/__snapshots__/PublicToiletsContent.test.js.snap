@@ -9,22 +9,22 @@ exports[`<PublicToiletsContent /> should work 1`] = `
       class="injectIntl(PublicToiletsContent)-headerContainer-2"
     >
       <div>
-        <h6
+        <h3
           class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
         >
           Yleinen vessa
-        </h6>
+        </h3>
       </div>
     </div>
     <div
       class="injectIntl(PublicToiletsContent)-textContainer-3"
     >
       <div>
-        <h6
+        <h4
           class="MuiTypography-root MuiTypography-subtitle2 css-chrj9w-MuiTypography-root"
         >
           Aukioloajat:
-        </h6>
+        </h4>
       </div>
       <div>
         <p
@@ -43,11 +43,11 @@ exports[`<PublicToiletsContent /> should work 1`] = `
       <div
         class="injectIntl(PublicToiletsContent)-marginTop-5"
       >
-        <h6
+        <h4
           class="MuiTypography-root MuiTypography-subtitle2 css-chrj9w-MuiTypography-root"
         >
           Erityisaukioloajat:
-        </h6>
+        </h4>
       </div>
       <div>
         <p

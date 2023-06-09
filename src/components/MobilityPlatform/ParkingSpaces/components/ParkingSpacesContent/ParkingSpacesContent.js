@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 const ParkingSpacesContent = ({
-  classes,
-  intl,
-  parkingSpace,
-  parkingStatistics,
+  classes, intl, parkingSpace, parkingStatistics,
 }) => {
   let freeParkingSpaces = 0;
 
@@ -15,13 +12,13 @@ const ParkingSpacesContent = ({
   const renderText = (isTitle, translationId, text) => (
     <div className={isTitle ? classes.title : classes.text}>
       {isTitle ? (
-        <Typography variant="subtitle1">
+        <Typography variant="subtitle1" component="h3">
           {intl.formatMessage({
             id: translationId,
           })}
         </Typography>
       ) : (
-        <Typography variant="body2">
+        <Typography variant="body2" component="p">
           {intl.formatMessage({
             id: translationId,
           })}
@@ -49,13 +46,16 @@ const ParkingSpacesContent = ({
   );
 
   const renderParkingCount = (capacity, parkingCount) => {
-    freeParkingSpaces = (capacity - parkingCount);
+    freeParkingSpaces = capacity - parkingCount;
 
     return (
       <div key={capacity} className={classes.text}>
         {freeParkingSpaces > 0 ? (
           <Typography variant="body2">
-            {intl.formatMessage({ id: 'mobilityPlatform.content.parkingSpaces.parkingCount' }, { value: freeParkingSpaces, capacity })}
+            {intl.formatMessage(
+              { id: 'mobilityPlatform.content.parkingSpaces.parkingCount' },
+              { value: freeParkingSpaces, capacity },
+            )}
           </Typography>
         ) : (
           <Typography variant="body2">

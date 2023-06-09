@@ -9,11 +9,11 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
       <div
         class="injectIntl(ParkingMachinesContent)-headerContainer-2"
       >
-        <h6
+        <h3
           class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
         >
           Pysäköintiautomaatti
-        </h6>
+        </h3>
       </div>
       <div
         class="injectIntl(ParkingMachinesContent)-textContainer-3"

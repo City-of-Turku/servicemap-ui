@@ -64,7 +64,7 @@ const MarinasContent = ({
   return (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
-        <Typography variant="subtitle1">
+        <Typography variant="subtitle1" component="h3">
           {berthItem.name}
         </Typography>
       </div>

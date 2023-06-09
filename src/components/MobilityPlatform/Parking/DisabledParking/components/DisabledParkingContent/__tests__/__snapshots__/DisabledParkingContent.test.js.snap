@@ -8,11 +8,11 @@ exports[`<DisabledParkingContent /> does match snapshot 1`] = `
     <div
       class="injectIntl(DisabledParkingContent)-headerContainer-2"
     >
-      <h6
+      <h3
         class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
       >
         Pysäköintialue liikkumisesteisille
-      </h6>
+      </h3>
     </div>
     <div
       class="injectIntl(DisabledParkingContent)-textContainer-3"

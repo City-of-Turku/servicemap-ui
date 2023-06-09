@@ -51,12 +51,12 @@ exports[`<ChargerStationContent /> should match snapshot 1`] = `
       <div
         class="injectIntl(ChargerStationContent)-margin-5"
       >
-        <h6
+        <h3
           class="MuiTypography-root MuiTypography-subtitle2 css-chrj9w-MuiTypography-root"
         >
           Latausasemat
           :
-        </h6>
+        </h3>
       </div>
       <div
         class="injectIntl(ChargerStationContent)-contentInner-4"
