@@ -115,6 +115,10 @@ const styles = theme => ({
     marginRight: theme.spacing(0.5),
     paddingTop: theme.spacing(1),
   },
+  yearText: {
+    textAlign: 'center',
+    margin: `${theme.spacing(1)} 0`,
+  },
 });
 
 export default styles;

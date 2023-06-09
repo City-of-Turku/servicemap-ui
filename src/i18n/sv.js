@@ -870,6 +870,7 @@ const translations = {
   'ecocounter.oct': 'Oktober',
   'ecocounter.nov': 'November',
   'ecocounter.dec': 'December',
+  'trafficCounter.year.warning.text': 'Siffror för {value} är inte tillgängliga.', // TODO verify
 };
 
 let overridingExternalTranslations;

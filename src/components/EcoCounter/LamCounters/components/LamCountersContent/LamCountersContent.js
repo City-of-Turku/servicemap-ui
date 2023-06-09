@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -11,7 +10,11 @@ import 'react-dates/initialize';
 import { ReactSVG } from 'react-svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
 import {
-  fetchInitialDayDatas, fetchInitialHourData, fetchInitialMonthDatas, fetchInitialWeekDatas,
+  fetchInitialDayDatas,
+  fetchInitialHourData,
+  fetchInitialMonthDatas,
+  fetchInitialWeekDatas,
+  fetchInitialYearData,
 } from '../../../EcoCounterRequests/ecoCounterRequests';
 import LineChart from '../../../LineChart';
 
@@ -22,6 +25,7 @@ const LamCountersContent = ({
   const [lamCounterDay, setLamCounterDay] = useState([]);
   const [lamCounterWeek, setLamCounterWeek] = useState([]);
   const [lamCounterMonth, setLamCounterMonth] = useState([]);
+  const [lamCounterYear, setLamCounterYear] = useState(null);
   const [channel1Counts, setChannel1Counts] = useState([]);
   const [channel2Counts, setChannel2Counts] = useState([]);
   const [channelTotals, setChannelTotals] = useState([]);
@@ -126,7 +130,7 @@ const LamCountersContent = ({
 
   // Reset selectedDate value when the new popup is opened.
   useEffect(() => {
-    setSelectedDate(moment().clone().subtract(1, 'months').endOf('month'));
+    setSelectedDate(moment().clone().subtract(1, 'months').startOf('month'));
   }, [stationId]);
 
   useEffect(() => {
@@ -298,6 +302,10 @@ const LamCountersContent = ({
     fetchInitialMonthDatas(initialYear, '1', initialMonth, stationId, setLamCounterMonth);
   }, [stationId, setLamCounterMonth]);
 
+  useEffect(() => {
+    fetchInitialYearData(initialYear, stationId, setLamCounterYear);
+  }, [stationId]);
+
   // Fetch updated data when selected date is changed in datepicker.
   useEffect(() => {
     setLamCounterLabels(labelsHour);
@@ -316,7 +324,11 @@ const LamCountersContent = ({
 
   useEffect(() => {
     fetchInitialMonthDatas(selectedYear, '1', selectedMonth, stationId, setLamCounterMonth);
-  }, [selectedDate, stationId]);
+  }, [selectedYear, selectedMonth, stationId]);
+
+  useEffect(() => {
+    fetchInitialYearData(selectedYear, stationId, setLamCounterYear);
+  }, [selectedYear, stationId]);
 
   // useEffect is used to fill the chart with default data (default step is 'hourly')
   useEffect(() => {
@@ -373,23 +385,28 @@ const LamCountersContent = ({
       </div>
       <div className={classes.lamCounterContent}>
         <div className={classes.lamCounterUserTypes}>
-          {userTypes
-            && userTypes.map(userType => (
-              <div key={userType.type.user} className={classes.container}>
-                <div className={classes.iconWrapper}>
-                  <ReactSVG
-                    className={classes.iconActive}
-                    src={userType.type.icon}
-                  />
-                </div>
-                <div className={classes.textContainer}>
-                  <Typography variant="body2" className={classes.userTypeText}>
-                    {userType.type.text}
-                  </Typography>
-                </div>
+          {userTypes?.map(userType => (
+            <div key={userType.type.user} className={classes.container}>
+              <div className={classes.iconWrapper}>
+                <ReactSVG className={classes.iconActive} src={userType.type.icon} />
               </div>
-            ))}
+              <div className={classes.textContainer}>
+                <Typography variant="body2" className={classes.userTypeText}>
+                  {userType.type.text}
+                </Typography>
+              </div>
+            </div>
+          ))}
         </div>
+        <>
+          {lamCounterYear?.value_at === 0 ? (
+            <div className={classes.yearText}>
+              <Typography component="p" variant="body2">
+                {intl.formatMessage({ id: 'trafficCounter.year.warning.text' }, { value: selectedYear })}
+              </Typography>
+            </div>
+          ) : null}
+        </>
         <div className={classes.lamCounterChart}>
           <LineChart
             labels={lamCounterLabels}

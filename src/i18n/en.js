@@ -867,6 +867,7 @@ const translations = {
   'ecocounter.oct': 'October',
   'ecocounter.nov': 'November',
   'ecocounter.dec': 'December',
+  'trafficCounter.year.warning.text': 'Numbers from the year {value} are not available.',
 };
 
 let overridingExternalTranslations;
