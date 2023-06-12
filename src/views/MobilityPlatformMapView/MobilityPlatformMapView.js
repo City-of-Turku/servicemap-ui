@@ -32,6 +32,7 @@ import ParkingMachines from '../../components/MobilityPlatform/ParkingMachines';
 import PublicParking from '../../components/MobilityPlatform/Parking/PublicParking';
 import OutdoorGymDevices from '../../components/MobilityPlatform/OutdoorGymDevices';
 import CrossWalks from '../../components/MobilityPlatform/CrossWalks';
+import Overpasses from '../../components/MobilityPlatform/Overpasses';
 
 const MobilityPlatformMapView = ({ mapObject }) => (
   <>
@@ -67,6 +68,7 @@ const MobilityPlatformMapView = ({ mapObject }) => (
     <PublicParking />
     <OutdoorGymDevices />
     <CrossWalks mapObject={mapObject} />
+    <Overpasses />
   </>
 );
 

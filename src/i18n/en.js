@@ -681,6 +681,8 @@ const translations = {
   'mobilityPlatform.menu.show.crossWalks': 'Crosswalks (zoom in on the map)',
   'mobilityPlatform.embedded.label.crossWalks': 'Crosswalks (zoom in on the map to see crosswalks)',
   'mobilityPlatform.menu.show.busStops': 'Bus stops (zoom in on the map)',
+  'mobilityPlatform.menu.show.underPasses': 'Underpasses',
+  'mobilityPlatform.menu.show.overPasses': 'Overpasses',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
@@ -826,6 +828,7 @@ const translations = {
   'mobilityPlatform.info.crosswalks': 'The map shows locations of crosswalks inside the city of Turku. Zoom in on the map to see crosswalks.',
   'mobilityPlatform.info.short.crosswalks': 'The maps show crosswalks in Turku.',
   'mobilityPlatform.info.busStops': 'The map shows bus stops by Turku region traffic provider Föli. By clicking the icon on the map, you can see next few departure times from the selected bus stop. Zoom in the map to see the stops. The Map data comes from the interface provided by Digitransit.',
+  'mobilityPlatform.info.underAndOverpasses': 'The map shows underpasses and overpasses located within the city of Turku.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',

@@ -57,6 +57,12 @@ export const getEmbedURL = (url, params = {}) => {
   if (params.crossWalks) {
     data.crosswalks = params.crossWalks ? 1 : 0;
   }
+  if (params.underPass) {
+    data.underpass = params.underPass ? 1 : 0;
+  }
+  if (params.overPass) {
+    data.overpass = params.overPass ? 1 : 0;
+  }
   if (params.bbox) {
     data.bbox = params.bbox;
   }
