@@ -9,8 +9,9 @@ import EcoCounterContent from '../EcoCounterContent';
 
 const EcoCounterMarkers = () => {
   const [ecoCounterStations, setEcoCounterStations] = useState([]);
+  const [telraamCounterStations, setTelraamCounterStations] = useState([]);
 
-  const { openMobilityPlatform, showEcoCounter } = useMobilityPlatformContext();
+  const { openMobilityPlatform, showTrafficCounter } = useMobilityPlatformContext();
 
   useEffect(() => {
     if (openMobilityPlatform) {
@@ -18,26 +19,13 @@ const EcoCounterMarkers = () => {
     }
   }, [openMobilityPlatform, setEcoCounterStations]);
 
-  const map = useMap();
-
-  /** These stations contains data about pedestrians as well
-   * @param {string} name -name value is used to check if it matches or not
-   * @returns {boolean} -true or false value
-   */
-  const stationNames = (name) => {
-    switch (name) {
-      case 'Teatterisilta':
-        return true;
-      case 'Auransilta':
-        return true;
-      case 'Kirjastosilta':
-        return true;
-      case 'Teatteri ranta':
-        return true;
-      default:
-        return false;
+  useEffect(() => {
+    if (openMobilityPlatform) {
+      fetchTrafficCounterStations('TR', setTelraamCounterStations);
     }
-  };
+  }, [openMobilityPlatform, setTelraamCounterStations]);
+
+  const map = useMap();
 
   /**
    * Filter out stations that only show data about cycling
@@ -45,17 +33,20 @@ const EcoCounterMarkers = () => {
    * @returns {array} -Filtered data with only items that matched criteria
    */
   const filterStations = data => data.reduce((acc, curr) => {
-    if (stationNames(curr.name)) {
+    if (curr.sensor_types.includes('jt')) {
       acc.push(curr);
     }
     return acc;
   }, []);
 
-  const stationsWithPedestrians = filterStations(ecoCounterStations);
-  /** All stations contain data about cyclists */
-  const renderAllStations = isDataValid(showEcoCounter.cycling, ecoCounterStations);
-  /** 4 stations contain data about pedestrians as well */
-  const renderFilteredStations = isDataValid(showEcoCounter.walking, stationsWithPedestrians);
+
+  const allCounterStations = [].concat(ecoCounterStations, telraamCounterStations);
+  const stationsWithPedestrians = filterStations(allCounterStations);
+
+  /** Check validity of all stations including Telraam and stations with data about cycling */
+  const renderAllStations = isDataValid(showTrafficCounter.cycling, allCounterStations);
+  /** Stations contain data about pedestrians as well */
+  const renderFilteredStations = isDataValid(showTrafficCounter.walking, stationsWithPedestrians);
 
   /**
    * Fit markers to map bounds
@@ -73,12 +64,12 @@ const EcoCounterMarkers = () => {
   };
 
   useEffect(() => {
-    fitToMapBounds(isDataValid(showEcoCounter.walking, stationsWithPedestrians), stationsWithPedestrians);
-  }, [showEcoCounter.walking, ecoCounterStations]);
+    fitToMapBounds(isDataValid(showTrafficCounter.walking, stationsWithPedestrians), stationsWithPedestrians);
+  }, [showTrafficCounter.walking, allCounterStations]);
 
   useEffect(() => {
-    fitToMapBounds(isDataValid(showEcoCounter.cycling, ecoCounterStations), ecoCounterStations);
-  }, [showEcoCounter.cycling, ecoCounterStations]);
+    fitToMapBounds(isDataValid(showTrafficCounter.cycling, allCounterStations), allCounterStations);
+  }, [showTrafficCounter.cycling, allCounterStations]);
 
   /**
    * Render markers on the map
@@ -86,21 +77,21 @@ const EcoCounterMarkers = () => {
    * @param {array} data -EcoCounter stations
    * @returns {JSX element}
    */
-  const renderStations = (isValid, data) => (isValid ? (
-    data.map(item => (
+  const renderStations = (isValid, data) => (isValid
+    ? data.map(item => (
       <CounterMarkers key={item.id} counterStation={item}>
-        <EcoCounterContent
-          stationId={item.id}
-          stationName={item.name}
-        />
+        {item.csv_data_source === 'EC' ? (
+          <EcoCounterContent stationId={item.id} stationName={item.name} />
+        ) : (
+          <EcoCounterContent stationId={item.id} isTelraam />
+        )}
       </CounterMarkers>
     ))
-  ) : null
-  );
+    : null);
 
   return (
     <>
-      {renderStations(renderAllStations, ecoCounterStations)}
+      {renderStations(renderAllStations, allCounterStations)}
       {renderStations(renderFilteredStations, stationsWithPedestrians)}
     </>
   );

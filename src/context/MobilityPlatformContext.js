@@ -16,9 +16,10 @@ const useMobilityPlatformContext = () => {
   return context;
 };
 
-const ecoCounterStationsInitial = {
+const trafficCountersInitial = {
   walking: false,
   cycling: false,
+  driving: false,
 };
 
 const MobilityPlatformContextProvider = ({ children }) => {
@@ -26,8 +27,8 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [openMobilityPlatform, setOpenMobilityPlatform] = useState(false);
 
   // measurement points
-  const [showEcoCounter, setShowEcoCounter] = useState(ecoCounterStationsInitial);
   const [showLamCounter, setShowLamCounter] = useState(false);
+  const [showTrafficCounter, setShowTrafficCounter] = useState(trafficCountersInitial);
 
   // cycling
   const [showBicycleStands, setShowBicycleStands] = useState(false);
@@ -96,8 +97,8 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const getters = {
     openMobilityPlatform,
     // measurement points
-    showEcoCounter,
     showLamCounter,
+    showTrafficCounter,
     // cycling
     showBicycleRoutes,
     bicycleRouteName,
@@ -158,8 +159,8 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const setters = {
     setOpenMobilityPlatform,
     // measurement points
-    setShowEcoCounter,
     setShowLamCounter,
+    setShowTrafficCounter,
     // cycling
     setShowBicycleRoutes,
     setBicycleRouteName,

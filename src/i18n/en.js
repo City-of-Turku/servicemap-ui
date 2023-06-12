@@ -785,7 +785,7 @@ const translations = {
 
   // Info text
   'mobilityPlatform.info.description.title': 'Route description',
-  'mobilityPlatform.info.ecoCounter': 'Measurement points collect traffic information by measuring the number of users in different modes at selected destinations. The information has been provided by the City of Turku under the CC BY 4.0 license.',
+  'mobilityPlatform.info.ecoCounter': 'Measurement points collect traffic information by measuring the number of users in different modes at selected destinations. The information has been provided by the City of Turku under the CC BY 4.0 license. Two measurement points collect traffic information provided by Telraam.',
   'mobilityPlatform.info.bicycleStands': 'The bicycle stands maintained by the City of Turku comprise three types of bicycle stands: covered and frame-locked bicycle stands, frame-lockable bicycle stands and tire racks, non-frame-lockable bicycle stands.',
   'mobilityPlatform.info.gasFillingStations': 'Public gas filling stations in the Turku area. The information on the gas stations is based on information from the traffic situation website maintained by Fintraffic, https://liikennetilanne.fintraffic.fi',
   'mobilityPlatform.info.rentalCars': 'The car share vehicles are rental cars. The available cars are visible on the map. Information about the cars is provided by 24Rent.',
