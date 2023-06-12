@@ -26,8 +26,8 @@ describe('<GasFillingStationContent />', () => {
     const { container } = renderWithProviders(<GasFillingStationContent {...mockProps} />);
 
     const p = container.querySelectorAll('p');
-    const h6 = container.querySelector('h6');
-    expect(h6.textContent).toContain(mockProps.station.name);
+    const h3 = container.querySelector('h3');
+    expect(h3.textContent).toContain(mockProps.station.name);
     expect(p[0].textContent).toContain(`Osoite: ${mockProps.station.address}`);
     expect(p[1].textContent).toContain(`Kaasuaseman tyyppi: ${mockProps.station.extra.lng_cng}`);
     expect(p[2].textContent).toContain(`Operaattori: ${mockProps.station.extra.operator}`);

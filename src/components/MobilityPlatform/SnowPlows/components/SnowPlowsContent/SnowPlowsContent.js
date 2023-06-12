@@ -7,7 +7,7 @@ const SnowPlowsContent = ({
 }) => (
   <div className={classes.popupInner}>
     <div className={classes.subtitle}>
-      <Typography variant="subtitle1">
+      <Typography variant="subtitle1" component="h3">
         {intl.formatMessage({
           id: 'mobilityPlatform.content.streetMaintenance.title',
         })}

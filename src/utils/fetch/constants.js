@@ -30,7 +30,7 @@ export const APIHandlers = {
     options: {
       page_size: 5,
     },
-    envName: config.serviceMapAPI.id,
+    envName: config.reservationsAPI.id,
   },
   service: {
     url: id => `${config.serviceMapAPI.root}/service/${id}/`,

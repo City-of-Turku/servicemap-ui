@@ -7,7 +7,7 @@ const TextContent = ({
 }) => {
   const singleValTypo = (messageId, isTitle) => (
     <div>
-      <Typography variant={isTitle ? 'subtitle1' : 'body2'}>
+      <Typography variant={isTitle ? 'subtitle1' : 'body2'} component={isTitle ? 'h3' : 'p'}>
         {intl.formatMessage({
           id: messageId,
         })}

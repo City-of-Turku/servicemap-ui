@@ -8,14 +8,14 @@ exports[`<ParkingChargeZoneContent /> should work 1`] = `
     <div
       class="injectIntl(ParkingChargeZoneContent)-subtitle-2"
     >
-      <h6
+      <h3
         class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
       >
         Vyöhyke
         :
          
         1
-      </h6>
+      </h3>
     </div>
     <div>
       <p

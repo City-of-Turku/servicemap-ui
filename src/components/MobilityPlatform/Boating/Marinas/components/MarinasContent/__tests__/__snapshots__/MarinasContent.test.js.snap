@@ -8,11 +8,11 @@ exports[`<MarinasContent /> should work 1`] = `
     <div
       class="injectIntl(MarinasContent)-headerContainer-2"
     >
-      <h6
+      <h3
         class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
       >
         Satama: Marina
-      </h6>
+      </h3>
     </div>
     <div
       class="injectIntl(MarinasContent)-textContainer-3"

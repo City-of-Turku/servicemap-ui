@@ -5,7 +5,7 @@ import React from 'react';
 const ParkingChargeZoneContent = ({ classes, intl, parkingChargeZone }) => {
   const renderText = (msgId, objValue, isTitle) => (
     <div className={isTitle ? classes.subtitle : classes.text}>
-      <Typography variant={isTitle ? 'subtitle1' : 'body2'}>
+      <Typography variant={isTitle ? 'subtitle1' : 'body2'} component={isTitle ? 'h3' : 'p'}>
         {intl.formatMessage({
           id: msgId,
         })}

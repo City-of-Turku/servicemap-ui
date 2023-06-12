@@ -8,11 +8,11 @@ exports[`<SpeedLimitZonesContent /> should match snapshot 1`] = `
     <div
       class="injectIntl(SpeedLimitZonesContent)-subtitle-2"
     >
-      <h6
+      <h3
         class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
       >
         Nopeusrajoitusalue
-      </h6>
+      </h3>
     </div>
     <p
       class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"

@@ -24,8 +24,8 @@ describe('<SpeedLimitZonesContent />', () => {
     const { container } = renderWithProviders(<SpeedLimitZonesContent {...mockProps} />);
 
     const p = container.querySelectorAll('p');
-    const h6 = container.querySelector('h6');
-    expect(h6.textContent).toContain(finnishTranslations['mobilityPlatform.content.speedLimitZones.area']);
+    const h3 = container.querySelector('h3');
+    expect(h3.textContent).toContain(finnishTranslations['mobilityPlatform.content.speedLimitZones.area']);
     expect(p[0].textContent).toContain('Nopeusrajoitus: 40 km/t');
   });
 });
