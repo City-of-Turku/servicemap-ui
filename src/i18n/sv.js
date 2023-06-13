@@ -725,7 +725,7 @@ const translations = {
   'mobilityPlatform.settings.streetMaintenance.info': 'Visa information från.',
   'mobilityPlatform.content.rentalCars.title': 'Bil för delad användning',
   'mobilityPlatform.content.rentalCars.address': 'Plats: {value}',
-  'mobilityPlatform.content.rentalCars.carInfo': 'Bilens uppgiter',
+  'mobilityPlatform.content.rentalCars.carInfo': 'Bilens uppgifter',
   'mobilityPlatform.content.rentalCars.available': 'Ledig bil',
   'mobilityPlatform.content.rentalCars.reserved': 'Reseverad',
   'mobilityPlatform.content.rentalCars.link': 'https://www.24rent.fi',
@@ -824,7 +824,7 @@ const translations = {
   'mobilityPlatform.info.markedTrails': 'Paavos stigar är rutter som märkts ut i terrängen. Längs rutterna får vandrare bekanta sig med den lokala naturen och närmiljön på olika håll i Åbo. På flera ställen möter stigarna andra friluftsleder och kopplar dem ihop med varandra. Gångrutterna längs stigar har märkts ut i terrängen med blåmålade löpare och runda märken på träd och stenar. Längs skogsavsnitten är det tillåtet att åka terrängcykel enligt allemansrätten.',
   'mobilityPlatform.info.natureTrails': 'Naturstigar korsar varierande landskap, så genom att följa dem får man en bra överblick över Åbos mångfaldiga naturomgivning. Stigarna är skyltade och längs med dem finns informationsplakat om det aktuella området. För att underlätta framkomligheten har vissa stigar belagts med grus eller byggts träspång över våtmarker. De brantaste platserna är försedda med trappor och broar.',
   'mobilityPlatform.info.fitnessTrails': 'Åbo stad har över 20 motionsbanor, som ligger över hela staden och dessa leder tillåter mångsidig träning. Leder är upplysta mellan 6 och 22.',
-  'mobilityPlatform.info.lamCounters': 'Beräkningspunkterna samlar information om mängden bilister på utvalda ställen. Informationen är öppen data som levererats av Digitraffic tjänsten.',
+  'mobilityPlatform.info.lamCounters': 'Beräkningspunkterna samlar information om mängden bilister på utvalda ställen. Informationen är öppen data som levererats av Digitraffic tjänsten. En del av beräkningspunkterna upprätthålls av Åbo stad.',
   'mobilityPlatform.info.parkingMachines': 'Kartan visar de parkeringsautomater som ägs av Åbo stad. Bankkort och kontaktlös betalning används som betalningsmetoder i alla automater. Du kan se mer information om maskinen genom att trycka på ikonen på kartan.',
   'mobilityPlatform.info.publicParkingSpaces': 'Allmänna parkeringsplatser visas på kartan. Det finns dock ingen information om deras utnyttjandegrad. Mer detaljerad information om det valda parkeringsområdet kan läsas genom att trycka på området på kartan.',
   'mobilityPlatform.info.outdoorGymDevices': 'Åbo stad upprätthåller utomhusgym. De erbjuder ett roligt sätt att träna medan du njuter av den friska luften. På de utomhusgym som finns runt om i staden kan du träna hela kroppen. Overhead-remskivor, benpressar, armhävningar, surf- och promenadutrustning passar alla. Fler utmaningar erbjuds av armhävningsräcket, dip, magplanka och ryggbänk.',
@@ -873,7 +873,7 @@ const translations = {
   'ecocounter.oct': 'Oktober',
   'ecocounter.nov': 'November',
   'ecocounter.dec': 'December',
-  'trafficCounter.year.warning.text': 'Siffror för {value} är inte tillgängliga.', // TODO verify
+  'trafficCounter.year.warning.text': 'Siffror från år {value} är inte tillgängliga.',
 };
 
 let overridingExternalTranslations;
