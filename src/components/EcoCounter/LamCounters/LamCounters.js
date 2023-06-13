@@ -49,8 +49,7 @@ const LamCounters = () => {
         allStationsData.map(item => (
           <CounterMarkers key={item.id} counterStation={item}>
             <LamCountersContent
-              stationId={item.id}
-              stationName={item.name}
+              station={item}
             />
           </CounterMarkers>
         ))

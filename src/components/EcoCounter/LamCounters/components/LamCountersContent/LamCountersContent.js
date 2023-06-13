@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -19,7 +20,7 @@ import {
 import LineChart from '../../../LineChart';
 
 const LamCountersContent = ({
-  classes, intl, stationId, stationName,
+  classes, intl, station,
 }) => {
   const [lamCounterHour, setLamCounterHour] = useState([]);
   const [lamCounterDay, setLamCounterDay] = useState([]);
@@ -36,6 +37,10 @@ const LamCountersContent = ({
   const [selectedDate, setSelectedDate] = useState(moment().clone().add(-1, 'days'));
 
   const locale = useSelector(state => state.user.locale);
+
+  const stationId = station.id;
+  const stationName = station.name;
+  const stationType = station.csv_data_source;
 
   // steps that determine which data is shown on the chart
   const buttonSteps = [
@@ -288,19 +293,19 @@ const LamCountersContent = ({
   useEffect(() => {
     setLamCounterLabels(labelsHour);
     fetchInitialHourData(yesterDayFormat, stationId, setLamCounterHour);
-  }, [stationId, setLamCounterHour]);
+  }, [stationId]);
 
   useEffect(() => {
     fetchInitialDayDatas(initialDateStart, initialDateEnd, stationId, setLamCounterDay);
-  }, [stationId, setLamCounterDay]);
+  }, [stationId]);
 
   useEffect(() => {
     fetchInitialWeekDatas(initialYear, initialWeekStart, initialWeekEnd, stationId, setLamCounterWeek);
-  }, [stationId, setLamCounterWeek]);
+  }, [stationId]);
 
   useEffect(() => {
     fetchInitialMonthDatas(initialYear, '1', initialMonth, stationId, setLamCounterMonth);
-  }, [stationId, setLamCounterMonth]);
+  }, [stationId]);
 
   useEffect(() => {
     fetchInitialYearData(initialYear, stationId, setLamCounterYear);
@@ -346,11 +351,18 @@ const LamCountersContent = ({
     setChannelData();
   }, [currentTime]);
 
+  /**
+   * Split name into array of words and remove special characters (_) and first index (for example 'vt1').
+   * @param {string} name for example vt1_Kupittaa
+   * @returns {string} for example Kupittaa
+   */
+  const formatCounterName = name => name?.split('_').splice(1).join(' ');
+
   return (
     <>
       <div className={classes.lamCounterHeader}>
         <Typography component="h4" className={classes.headerSubtitle}>
-          {stationName}
+          {stationType === 'LC' ? formatCounterName(stationName) : stationName}
         </Typography>
         <div className={classes.headerDate}>
           <div className={classes.iconContainer}>
@@ -448,13 +460,19 @@ const LamCountersContent = ({
 LamCountersContent.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
   intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  stationId: PropTypes.number,
-  stationName: PropTypes.string,
+  station: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    csv_data_source: PropTypes.string,
+  }),
 };
 
 LamCountersContent.defaultProps = {
-  stationId: 0,
-  stationName: '',
+  station: {
+    id: 0,
+    name: '',
+    csv_data_source: '',
+  },
 };
 
 export default LamCountersContent;
