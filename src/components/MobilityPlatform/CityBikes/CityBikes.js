@@ -18,7 +18,7 @@ const CityBikes = () => {
   const [cityBikeStatistics, setCityBikeStatistics] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, showCityBikes } = useMobilityPlatformContext();
+  const { showCityBikes } = useMobilityPlatformContext();
 
   const url = new URL(window.location);
   const embedded = isEmbed({ url: url.toString() });
@@ -44,16 +44,16 @@ const CityBikes = () => {
   });
 
   useEffect(() => {
-    if (openMobilityPlatform || embedded) {
+    if (showCityBikes || embedded) {
       fetchCityBikesData('CBI', setCityBikeStations);
     }
-  }, [openMobilityPlatform, setCityBikeStations]);
+  }, [showCityBikes, setCityBikeStations]);
 
   useEffect(() => {
-    if (openMobilityPlatform || embedded) {
+    if (showCityBikes || embedded) {
       fetchCityBikesData('CBS', setCityBikeStatistics);
     }
-  }, [openMobilityPlatform, setCityBikeStatistics]);
+  }, [showCityBikes, setCityBikeStatistics]);
 
   const paramValue = url.searchParams.get('city_bikes') === '1';
   const renderData = setRender(paramValue, embedded, showCityBikes, cityBikeStations, isDataValid);

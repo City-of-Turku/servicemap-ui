@@ -17,7 +17,7 @@ const RentalCars = ({ classes }) => {
   const [rentalCarsData, setRentalCarsData] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, showRentalCars } = useMobilityPlatformContext();
+  const { showRentalCars } = useMobilityPlatformContext();
 
   const url = new URL(window.location);
   const embedded = isEmbed({ url: url.toString() });
@@ -41,10 +41,10 @@ const RentalCars = ({ classes }) => {
   });
 
   useEffect(() => {
-    if (openMobilityPlatform || embedded) {
+    if (showRentalCars || embedded) {
       fetchIotData('R24', setRentalCarsData);
     }
-  }, [openMobilityPlatform, setRentalCarsData]);
+  }, [showRentalCars, setRentalCarsData]);
 
   const map = useMap();
 

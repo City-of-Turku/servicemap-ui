@@ -14,7 +14,7 @@ import OutdoorGymDevicesContent from './components/OutdoorGymDevicesContent';
 const OutdoorGymDevices = () => {
   const [outdoorGymDevices, setOutdoorGymDevices] = useState([]);
 
-  const { openMobilityPlatform, showOutdoorGymDevices } = useMobilityPlatformContext();
+  const { showOutdoorGymDevices } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -28,10 +28,10 @@ const OutdoorGymDevices = () => {
     const options = {
       type_name: 'OutdoorGymDevice',
     };
-    if (openMobilityPlatform) {
+    if (showOutdoorGymDevices) {
       fetchMobilityMapData(options, setOutdoorGymDevices);
     }
-  }, [openMobilityPlatform, setOutdoorGymDevices]);
+  }, [showOutdoorGymDevices, setOutdoorGymDevices]);
 
   const renderData = isDataValid(showOutdoorGymDevices, outdoorGymDevices);
 

@@ -17,7 +17,7 @@ import DisabledParkingContent from './components/DisabledParkingContent';
 const DisabledParking = () => {
   const [disabledParkingData, setDisabledParkingData] = useState([]);
 
-  const { openMobilityPlatform, showDisabledParking } = useMobilityPlatformContext();
+  const { showDisabledParking } = useMobilityPlatformContext();
 
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
@@ -32,10 +32,10 @@ const DisabledParking = () => {
       page_size: 1000,
       latlon: true,
     };
-    if (openMobilityPlatform) {
+    if (showDisabledParking) {
       fetchMobilityMapData(options, setDisabledParkingData);
     }
-  }, [openMobilityPlatform, setDisabledParkingData]);
+  }, [showDisabledParking, setDisabledParkingData]);
 
   const map = useMap();
 

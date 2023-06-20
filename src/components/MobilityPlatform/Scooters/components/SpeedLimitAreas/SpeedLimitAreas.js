@@ -18,7 +18,7 @@ import TextContent from '../../../TextContent';
 const SpeedLimitAreas = () => {
   const [speedLimitAreas, setSpeedLimitAreas] = useState([]);
 
-  const { openMobilityPlatform, showScooterSpeedLimitAreas } = useMobilityPlatformContext();
+  const { showScooterSpeedLimitAreas } = useMobilityPlatformContext();
 
   useEffect(() => {
     const options = {
@@ -26,10 +26,10 @@ const SpeedLimitAreas = () => {
       page_size: 100,
       latlon: true,
     };
-    if (openMobilityPlatform) {
+    if (showScooterSpeedLimitAreas) {
       fetchMobilityMapData(options, setSpeedLimitAreas);
     }
-  }, [openMobilityPlatform, setSpeedLimitAreas]);
+  }, [showScooterSpeedLimitAreas, setSpeedLimitAreas]);
 
   const useContrast = useSelector(useAccessibleMap);
 

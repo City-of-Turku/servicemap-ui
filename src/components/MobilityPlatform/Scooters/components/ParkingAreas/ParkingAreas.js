@@ -13,7 +13,7 @@ import TextContent from '../../../TextContent';
 const ParkingAreas = () => {
   const [parkingAreas, setParkingAreas] = useState([]);
 
-  const { openMobilityPlatform, showScooterParkingAreas } = useMobilityPlatformContext();
+  const { showScooterParkingAreas } = useMobilityPlatformContext();
 
   const map = useMap();
 
@@ -28,10 +28,10 @@ const ParkingAreas = () => {
     const options = {
       type_name: 'ScooterParkingArea',
     };
-    if (openMobilityPlatform) {
+    if (showScooterParkingAreas) {
       fetchMobilityMapData(options, setParkingAreas);
     }
-  }, [openMobilityPlatform, setParkingAreas]);
+  }, [showScooterParkingAreas, setParkingAreas]);
 
   const renderData = isDataValid(showScooterParkingAreas, parkingAreas);
 

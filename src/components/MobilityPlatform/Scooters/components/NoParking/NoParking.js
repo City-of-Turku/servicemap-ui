@@ -16,17 +16,17 @@ import TextContent from '../../../TextContent';
 const NoParking = () => {
   const [noParkingData, setNoParkingData] = useState([]);
 
-  const { openMobilityPlatform, showScooterNoParking } = useMobilityPlatformContext();
+  const { showScooterNoParking } = useMobilityPlatformContext();
 
   useEffect(() => {
     const options = {
       type_name: 'ScooterNoParkingArea',
       latlon: true,
     };
-    if (openMobilityPlatform) {
+    if (showScooterNoParking) {
       fetchMobilityMapData(options, setNoParkingData);
     }
-  }, [openMobilityPlatform, setNoParkingData]);
+  }, [showScooterNoParking, setNoParkingData]);
 
   const useContrast = useSelector(useAccessibleMap);
 

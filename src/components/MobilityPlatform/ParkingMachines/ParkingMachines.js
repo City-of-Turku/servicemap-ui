@@ -14,7 +14,7 @@ import ParkingMachinesContent from './components/ParkingMachinesContent';
 const ParkingMachines = () => {
   const [parkingMachinesData, setParkingMachinesData] = useState([]);
 
-  const { openMobilityPlatform, showParkingMachines } = useMobilityPlatformContext();
+  const { showParkingMachines } = useMobilityPlatformContext();
 
   const map = useMap();
 
@@ -29,10 +29,10 @@ const ParkingMachines = () => {
       type_name: 'ParkingMachine',
       page_size: 500,
     };
-    if (openMobilityPlatform) {
+    if (showParkingMachines) {
       fetchMobilityMapData(options, setParkingMachinesData);
     }
-  }, [openMobilityPlatform, setParkingMachinesData]);
+  }, [showParkingMachines, setParkingMachinesData]);
 
   const renderData = isDataValid(showParkingMachines, parkingMachinesData);
 

@@ -14,7 +14,7 @@ const ParkingSpaces = () => {
   const [parkingStatistics, setParkingStatistics] = useState([]);
   const [fetchError, setFetchError] = useState(false);
 
-  const { openMobilityPlatform, showParkingSpaces } = useMobilityPlatformContext();
+  const { showParkingSpaces } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -44,11 +44,11 @@ const ParkingSpaces = () => {
   const isParkingStatisticsUrl = !parkingStatisticsUrl || parkingStatisticsUrl === 'undefined' ? null : parkingStatisticsUrl;
 
   useEffect(() => {
-    if (openMobilityPlatform && isParkingSpacesUrl && isParkingStatisticsUrl) {
+    if (showParkingSpaces && isParkingSpacesUrl && isParkingStatisticsUrl) {
       fetchParkingAreaGeometries(isParkingSpacesUrl, setParkingSpaces, setFetchError);
       fetchParkingAreaStats(isParkingStatisticsUrl, setParkingStatistics, setFetchError);
     }
-  }, [openMobilityPlatform, setParkingSpaces, setParkingStatistics]);
+  }, [showParkingSpaces, setParkingSpaces, setParkingStatistics]);
 
   const swapCoords = (inputData) => {
     if (inputData.length > 0) {

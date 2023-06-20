@@ -20,7 +20,7 @@ const BicycleStands = () => {
   const [bicycleStands, setBicycleStands] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, showBicycleStands, showHullLockableStands } = useMobilityPlatformContext();
+  const { showBicycleStands, showHullLockableStands } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -44,10 +44,10 @@ const BicycleStands = () => {
       type_name: 'BicycleStand',
       page_size: 500,
     };
-    if (openMobilityPlatform || embedded) {
+    if (showBicycleStands || showHullLockableStands || embedded) {
       fetchMobilityMapData(options, setBicycleStands);
     }
-  }, [openMobilityPlatform, setBicycleStands]);
+  }, [showBicycleStands, setBicycleStands]);
 
   const mapEvent = useMapEvents({
     zoomend() {

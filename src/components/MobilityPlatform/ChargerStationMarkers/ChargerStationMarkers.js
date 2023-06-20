@@ -17,7 +17,7 @@ import ChargerStationContent from './components/ChargerStationContent';
 const ChargerStationMarkers = () => {
   const [chargerStations, setChargerStations] = useState([]);
 
-  const { openMobilityPlatform, showChargingStations } = useMobilityPlatformContext();
+  const { showChargingStations } = useMobilityPlatformContext();
 
   const map = useMap();
 
@@ -35,10 +35,10 @@ const ChargerStationMarkers = () => {
       type_name: 'ChargingStation',
       page_size: 200,
     };
-    if (openMobilityPlatform || embedded) {
+    if (showChargingStations || embedded) {
       fetchMobilityMapData(options, setChargerStations);
     }
-  }, [openMobilityPlatform, setChargerStations]);
+  }, [showChargingStations, setChargerStations]);
 
   const paramValue = url.searchParams.get('charging_station') === '1';
   const renderData = setRender(paramValue, embedded, showChargingStations, chargerStations, isDataValid);
