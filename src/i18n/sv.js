@@ -654,7 +654,7 @@ const translations = {
   'mobilityPlatform.menu.show.scooterParkingAreas': 'Parkeringplatser',
   'mobilityPlatform.menu.show.scooterSpeedLimitAreas': 'Hastighetsbegränsningszoner',
   'mobilityPlatform.menu.show.scooterProviders': 'Elsparkcyklarföretagen',
-  'mobilityPlatform.menu.show.scootersRyde': 'Ryde elsparkcyklar',
+  'mobilityPlatform.menu.show.scootersRyde': 'Ryde elsparkcyklar (zooma in på kartan)',
   'mobilityPlatform.menu.scooters.list.info': 'Du kan visa tillgängliga elsparkcyklar på kartan genom att välja en företag från listan.',
   'mobilityPlatform.menu.show.disabledParking': 'Parkering för rörelsehindrade',
   'mobilityPlatform.menu.loadingPlaces.show': 'Lastningsplatser',

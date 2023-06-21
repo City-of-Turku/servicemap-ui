@@ -651,7 +651,7 @@ const translations = {
   'mobilityPlatform.menu.show.scooterParkingAreas': 'Parking places',
   'mobilityPlatform.menu.show.scooterSpeedLimitAreas': 'Speed limit zones',
   'mobilityPlatform.menu.show.scooterProviders': 'Electric scooter operators',
-  'mobilityPlatform.menu.show.scootersRyde': 'Ryde scooters',
+  'mobilityPlatform.menu.show.scootersRyde': 'Ryde scooters (zoom in on the map)',
   'mobilityPlatform.menu.scooters.list.info': 'You can view available electric scooters on the map by selecting an operator from the list.',
   'mobilityPlatform.menu.show.disabledParking': 'Parking for disabled',
   'mobilityPlatform.menu.loadingPlaces.show': 'Loading places',

@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useMap, useMapEvents } from 'react-leaflet';
-import circleIcon from 'servicemap-ui-turku/assets/icons/icons-icon_circle_border.svg';
-import circleIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_circle_border-bw.svg';
 import rydeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ryde.svg';
 import rydeIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ryde-bw.svg';
-import scooterIcon from 'servicemap-ui-turku/assets/icons/icons-icon_scooters_marker.svg';
-import scooterIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_scooters_marker-bw.svg';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchIotData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import ScooterInfo from './components/ScooterInfo';
 import { isDataValid } from '../../../utils/utils';
 
-const ScooterMarkers = () => {
+const ScooterMarkers = ({ mapObject }) => {
   const [scooterData, setScooterData] = useState([]);
-  const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, showScootersRyde } = useMobilityPlatformContext();
+  const { showScootersRyde } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -25,6 +21,7 @@ const ScooterMarkers = () => {
   const { icon } = global.L;
 
   const map = useMap();
+  const [zoomLevel, setZoomLevel] = useState(map.getZoom());
 
   const mapEvent = useMapEvents({
     zoomend() {
@@ -32,40 +29,20 @@ const ScooterMarkers = () => {
     },
   });
 
-  const setBaseIcon = useContrast ? scooterIconBw : scooterIcon;
+  const isDetailZoom = zoomLevel >= mapObject.options.detailZoom;
+
   const setProviderIcon = useContrast ? rydeIconBw : rydeIcon;
-  const setCircleIcon = useContrast ? circleIconBw : circleIcon;
-
-  const setIcon = (zoomLvl) => {
-    if (zoomLvl < 14) {
-      return setCircleIcon;
-    }
-    if (zoomLvl > 16) {
-      return setProviderIcon;
-    }
-    return setBaseIcon;
-  };
-
-  const setIconSize = (zoomLvl) => {
-    if (zoomLvl < 14) {
-      return [20, 20];
-    }
-    if (zoomLvl > 16) {
-      return [40, 40];
-    }
-    return [45, 45];
-  };
 
   const customIcon = icon({
-    iconUrl: setIcon(zoomLevel),
-    iconSize: setIconSize(zoomLevel),
+    iconUrl: setProviderIcon,
+    iconSize: [40, 40],
   });
 
   useEffect(() => {
-    if (openMobilityPlatform) {
+    if (showScootersRyde) {
       fetchIotData('SDR', setScooterData, true);
     }
-  }, [openMobilityPlatform, setScooterData]);
+  }, [showScootersRyde, setScooterData]);
 
   const filterByBounds = (data) => {
     if (data && data.length > 0) {
@@ -76,7 +53,7 @@ const ScooterMarkers = () => {
 
   const filteredScooters = filterByBounds(scooterData);
 
-  const renderData = isDataValid(showScootersRyde, filteredScooters);
+  const renderData = isDataValid(showScootersRyde, filteredScooters) && isDetailZoom;
 
   return (
     <>
@@ -95,6 +72,10 @@ const ScooterMarkers = () => {
       ) : null}
     </>
   );
+};
+
+ScooterMarkers.propTypes = {
+  mapObject: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default ScooterMarkers;
