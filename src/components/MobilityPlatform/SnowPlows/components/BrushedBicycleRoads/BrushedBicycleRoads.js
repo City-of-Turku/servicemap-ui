@@ -13,7 +13,7 @@ const BrushedBicycleRoads = () => {
   const [brushSandedRoutes, setBrushSandedRoutes] = useState([]);
   const [brushSaltedRoutes, setBrushSaltedRoutes] = useState([]);
 
-  const { openMobilityPlatform, showBrushSandedRoute, showBrushSaltedRoute } = useMobilityPlatformContext();
+  const { showBrushSandedRoute, showBrushSaltedRoute } = useMobilityPlatformContext();
 
   const { Polyline } = global.rL;
 
@@ -53,20 +53,20 @@ const BrushedBicycleRoads = () => {
       type_name: 'BrushSandedBicycleNetwork',
       latlon: true,
     };
-    if (openMobilityPlatform) {
+    if (showBrushSandedRoute) {
       fetchMobilityMapData(options, setBrushSandedRoutes);
     }
-  }, [openMobilityPlatform, setBrushSandedRoutes]);
+  }, [showBrushSandedRoute]);
 
   useEffect(() => {
     const options = {
       type_name: 'BrushSaltedBicycleNetwork',
       latlon: true,
     };
-    if (openMobilityPlatform) {
+    if (showBrushSaltedRoute) {
       fetchMobilityMapData(options, setBrushSaltedRoutes);
     }
-  }, [openMobilityPlatform, setBrushSaltedRoutes]);
+  }, [showBrushSaltedRoute]);
 
   const map = useMap();
 
