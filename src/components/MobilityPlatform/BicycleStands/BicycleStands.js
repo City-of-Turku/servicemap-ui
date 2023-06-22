@@ -47,7 +47,7 @@ const BicycleStands = () => {
     if (showBicycleStands || showHullLockableStands || embedded) {
       fetchMobilityMapData(options, setBicycleStands);
     }
-  }, [showBicycleStands, setBicycleStands]);
+  }, [showBicycleStands, showHullLockableStands]);
 
   const mapEvent = useMapEvents({
     zoomend() {
