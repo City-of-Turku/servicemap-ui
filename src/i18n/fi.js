@@ -689,6 +689,7 @@ const translations = {
   'mobilityPlatform.menu.show.busStops': 'Linja-autopysäkit (tarkenna karttaa)',
   'mobilityPlatform.menu.show.underPasses': 'Alikulkuväylät',
   'mobilityPlatform.menu.show.overPasses': 'Ylikulkusillat',
+  'mobilityPlatform.menu.show.publicBenches': 'Yleiset penkit (tarkenna karttaa)',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',
