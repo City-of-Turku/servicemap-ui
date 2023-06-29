@@ -779,6 +779,9 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Maksutavat: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Lisätietoja: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Suojatie',
+  'mobilityPlatform.content.publicBench.title': 'Yleinen penkki',
+  'mobilityPlatform.content.publicBench.condition': 'Penkin kunto: {value}',
+  'mobilityPlatform.content.publicBench.model': 'Penkin malli: {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',

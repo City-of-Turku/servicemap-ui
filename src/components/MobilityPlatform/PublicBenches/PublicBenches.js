@@ -14,13 +14,14 @@ import {
 import { isEmbed } from '../../../utils/path';
 import MapUtility from '../../../utils/mapUtility';
 import MarkerComponent from '../MarkerComponent';
+import PublicBenchesContent from './components/PublicBenchesContent';
 
 /** Shows public benches on the map in marker form */
 
 const PublicBenches = ({ mapObject }) => {
   const [publicBenchesData, setPublicBenchesData] = useState([]);
 
-  const { openMobilityPlatform, showPublicBenches } = useMobilityPlatformContext();
+  const { showPublicBenches } = useMobilityPlatformContext();
 
   const map = useMap();
   const currentZoom = map.getZoom();
@@ -85,14 +86,12 @@ const PublicBenches = ({ mapObject }) => {
   const paramValue = url.searchParams.get('benches') === '1';
   const renderData = isDetailZoom && setRender(paramValue, embedded, showPublicBenches, publicBenchesData, isDataValid);
 
-  // TODO update content
-
   return (
     <>
       {renderData
         ? publicBenchesData.map(item => (
           <MarkerComponent key={item.id} item={item} icon={customIcon}>
-            <p>penkki</p>
+            <PublicBenchesContent item={item} />
           </MarkerComponent>
         ))
         : null}

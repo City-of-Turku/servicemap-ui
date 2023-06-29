@@ -786,6 +786,9 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Betalningstyper: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Ytterligare info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Övergångställe',
+  'mobilityPlatform.content.publicBench.title': 'Allmänn bänk',
+  'mobilityPlatform.content.publicBench.condition': 'Bänkens skick: {value}',
+  'mobilityPlatform.content.publicBench.model': 'Modell av bänken: {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',

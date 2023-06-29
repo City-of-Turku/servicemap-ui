@@ -783,6 +783,9 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Payment methods: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Additional info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Crosswalk',
+  'mobilityPlatform.content.publicBench.title': 'A public bench',
+  'mobilityPlatform.content.publicBench.condition': 'Condition of the bench: {value}',
+  'mobilityPlatform.content.publicBench.model': 'Model of the bench: {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Route description',
