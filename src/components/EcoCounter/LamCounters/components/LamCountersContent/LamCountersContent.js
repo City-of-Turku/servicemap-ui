@@ -40,7 +40,8 @@ const LamCountersContent = ({
 
   const stationId = station.id;
   const stationName = station.name;
-  const stationType = station.csv_data_source;
+  const stationSource = station.csv_data_source;
+  const userTypes = station.sensor_types;
 
   // steps that determine which data is shown on the chart
   const buttonSteps = [
@@ -70,15 +71,29 @@ const LamCountersContent = ({
     },
   ];
 
-  const userTypes = [
-    {
-      type: {
-        user: 'driving',
-        text: intl.formatMessage({ id: 'ecocounter.car' }),
-        icon: iconCar,
-      },
-    },
-  ];
+  const renderUserTypeText = (userType) => {
+    if (userType === 'at') {
+      return (
+        <div className={classes.textContainer}>
+          <Typography variant="body2" className={classes.userTypeText}>
+            {intl.formatMessage({ id: 'ecocounter.car' })}
+          </Typography>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const renderUserTypeIcon = (userType) => {
+    if (userType === 'at') {
+      return (
+        <div className={classes.iconWrapper}>
+          <ReactSVG className={classes.iconActive} src={iconCar} />
+        </div>
+      );
+    }
+    return null;
+  };
 
   const changeDate = (newDate) => {
     setSelectedDate(newDate);
@@ -362,7 +377,7 @@ const LamCountersContent = ({
     <>
       <div className={classes.lamCounterHeader}>
         <Typography component="h4" className={classes.headerSubtitle}>
-          {stationType === 'LC' ? formatCounterName(stationName) : stationName}
+          {stationSource === 'LC' ? formatCounterName(stationName) : stationName}
         </Typography>
         <div className={classes.headerDate}>
           <div className={classes.iconContainer}>
@@ -398,15 +413,9 @@ const LamCountersContent = ({
       <div className={classes.lamCounterContent}>
         <div className={classes.lamCounterUserTypes}>
           {userTypes?.map(userType => (
-            <div key={userType.type.user} className={classes.container}>
-              <div className={classes.iconWrapper}>
-                <ReactSVG className={classes.iconActive} src={userType.type.icon} />
-              </div>
-              <div className={classes.textContainer}>
-                <Typography variant="body2" className={classes.userTypeText}>
-                  {userType.type.text}
-                </Typography>
-              </div>
+            <div key={userType} className={classes.container}>
+              {renderUserTypeIcon(userType)}
+              {renderUserTypeText(userType)}
             </div>
           ))}
         </div>
@@ -464,6 +473,7 @@ LamCountersContent.propTypes = {
     id: PropTypes.number,
     name: PropTypes.string,
     csv_data_source: PropTypes.string,
+    sensor_types: PropTypes.arrayOf(PropTypes.string),
   }),
 };
 
@@ -472,6 +482,7 @@ LamCountersContent.defaultProps = {
     id: 0,
     name: '',
     csv_data_source: '',
+    sensor_types: [],
   },
 };
 
