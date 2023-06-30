@@ -90,73 +90,69 @@ const EcoCounterContent = ({
     else if (type === 'at') setUserTypeState(index, 'driving');
   };
 
+  /**
+   * Text component
+   * @param {string} translationId
+   * @returns JSX element
+   */
+  const userTypeText = translationId => (
+    <div className={classes.textContainer}>
+      <Typography variant="body2" className={classes.userTypeText}>
+        {intl.formatMessage({ id: translationId })}
+      </Typography>
+    </div>
+  );
+
+  /**
+   * Renders texts based on user type value
+   * @param {string} userType
+   * @returns JSX element
+   */
   const renderUserTypeText = (userType) => {
     if (userType === 'at') {
-      return (
-        <div className={classes.textContainer}>
-          <Typography variant="body2" className={classes.userTypeText}>
-            {intl.formatMessage({ id: 'ecocounter.car' })}
-          </Typography>
-        </div>
-      );
+      return userTypeText('ecocounter.car');
     }
     if (userType === 'pt') {
-      return (
-        <div className={classes.textContainer}>
-          <Typography variant="body2" className={classes.userTypeText}>
-            {intl.formatMessage({ id: 'ecocounter.bicycle' })}
-          </Typography>
-        </div>
-      );
+      return userTypeText('ecocounter.bicycle');
     }
     if (userType === 'jt') {
-      return (
-        <div className={classes.textContainer}>
-          <Typography variant="body2" className={classes.userTypeText}>
-            {intl.formatMessage({ id: 'ecocounter.walk' })}
-          </Typography>
-        </div>
-      );
+      return userTypeText('ecocounter.walk');
     }
     return null;
   };
 
+  /**
+   * Returns button with icon which is based on user type value
+   * @param {string} userType
+   * @param {node} iconValue
+   * @param {number} i
+   * @returns JSX Element
+   */
+  const userTypeButton = (userType, iconValue, i) => (
+    <ButtonBase
+      className={i === activeType ? `${classes.buttonActive}` : `${classes.buttonWhite}`}
+      onClick={() => setUserTypes(userType, i)}
+    >
+      <div>
+        <ReactSVG className={i === activeType ? `${classes.iconActive}` : `${classes.icon}`} src={iconValue} />
+      </div>
+    </ButtonBase>
+  );
+
+  /**
+   * Renders buttons and icons based on user types
+   * @param {string} userType
+   * @param {node} iconValue
+   */
   const renderUserTypeIcon = (userType, i) => {
     if (userType === 'at') {
-      return (
-        <ButtonBase
-          className={i === activeType ? `${classes.buttonActive}` : `${classes.buttonWhite}`}
-          onClick={() => setUserTypes(userType, i)}
-        >
-          <div>
-            <ReactSVG className={i === activeType ? `${classes.iconActive}` : `${classes.icon}`} src={iconCar} />
-          </div>
-        </ButtonBase>
-      );
+      return userTypeButton(userType, iconCar, i);
     }
     if (userType === 'pt') {
-      return (
-        <ButtonBase
-          className={i === activeType ? `${classes.buttonActive}` : `${classes.buttonWhite}`}
-          onClick={() => setUserTypes(userType, i)}
-        >
-          <div>
-            <ReactSVG className={i === activeType ? `${classes.iconActive}` : `${classes.icon}`} src={iconBicycle} />
-          </div>
-        </ButtonBase>
-      );
+      return userTypeButton(userType, iconBicycle, i);
     }
     if (userType === 'jt') {
-      return (
-        <ButtonBase
-          className={i === activeType ? `${classes.buttonActive}` : `${classes.buttonWhite}`}
-          onClick={() => setUserTypes(userType, i)}
-        >
-          <div>
-            <ReactSVG className={i === activeType ? `${classes.iconActive}` : `${classes.icon}`} src={iconWalk} />
-          </div>
-        </ButtonBase>
-      );
+      return userTypeButton(userType, iconWalk, i);
     }
     return null;
   };
