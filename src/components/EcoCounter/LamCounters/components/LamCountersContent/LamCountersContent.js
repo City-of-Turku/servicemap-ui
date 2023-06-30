@@ -383,19 +383,11 @@ const LamCountersContent = ({
           <div className={classes.iconContainer}>
             <DateRangeIcon />
           </div>
-          {!isDatePickerOpen ? (
-            <ButtonBase className={classes.buttonTransparent} onClick={() => setIsDatePickerOpen(true)}>
-              <Typography component="h5" className={classes.headerSubtitle}>
-                {selectedDate.clone().format('DD.MM.YYYY')}
-              </Typography>
-            </ButtonBase>
-          ) : (
-            <ButtonBase className={classes.buttonTransparent} onClick={() => setIsDatePickerOpen(false)}>
-              <Typography component="h5" className={classes.headerSubtitle}>
-                {selectedDate.clone().format('DD.MM.YYYY')}
-              </Typography>
-            </ButtonBase>
-          )}
+          <ButtonBase className={classes.buttonTransparent} onClick={() => setIsDatePickerOpen(current => !current)}>
+            <Typography component="h5" className={classes.headerSubtitle}>
+              {selectedDate.clone().format('DD.MM.YYYY')}
+            </Typography>
+          </ButtonBase>
         </div>
         {isDatePickerOpen ? (
           <div className={classes.lamCounterDatePicker}>
