@@ -34,7 +34,7 @@ const LamCountersContent = ({
   const [currentTime, setCurrentTime] = useState('hour');
   const [activeStep, setActiveStep] = useState(0);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(moment().clone().add(-1, 'days'));
+  const [selectedDate, setSelectedDate] = useState(moment().clone().subtract(1, 'months').startOf('month'));
 
   const locale = useSelector(state => state.user.locale);
 
@@ -123,14 +123,13 @@ const LamCountersContent = ({
   // Initial values that are used to fetch data
   const currentDate = moment();
   const lastMonth = currentDate.clone().subtract(1, 'months').endOf('month');
-  const yesterDay = lastMonth.clone().add(-1, 'days');
-  const yesterDayFormat = yesterDay.clone().format('YYYY-MM-DD');
-  const initialDateStart = yesterDay.clone().startOf('week').format('YYYY-MM-DD');
-  const initialDateEnd = yesterDay.clone().endOf('week').format('YYYY-MM-DD');
-  const initialWeekStart = checkWeekNumber(yesterDay);
-  const initialWeekEnd = yesterDay.clone().endOf('month').week();
-  const initialMonth = yesterDay.clone().month() + 1;
-  const initialYear = yesterDay.clone().year();
+  const lastMonthFormat = lastMonth.clone().format('YYYY-MM-DD');
+  const initialDateStart = lastMonth.clone().startOf('week').format('YYYY-MM-DD');
+  const initialDateEnd = lastMonth.clone().endOf('week').format('YYYY-MM-DD');
+  const initialWeekStart = checkWeekNumber(lastMonth);
+  const initialWeekEnd = lastMonth.clone().endOf('month').week();
+  const initialMonth = lastMonth.clone().month() + 1;
+  const initialYear = lastMonth.clone().year();
 
   // Values that change based on the datepicker value
   const selectedDateFormat = selectedDate.clone().format('YYYY-MM-DD');
@@ -307,7 +306,7 @@ const LamCountersContent = ({
   // Fetch initial data based on the default date
   useEffect(() => {
     setLamCounterLabels(labelsHour);
-    fetchInitialHourData(yesterDayFormat, stationId, setLamCounterHour);
+    fetchInitialHourData(lastMonthFormat, stationId, setLamCounterHour);
   }, [stationId]);
 
   useEffect(() => {
