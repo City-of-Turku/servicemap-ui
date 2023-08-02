@@ -47,13 +47,13 @@ const CityBikes = () => {
     if (showCityBikes || embedded) {
       fetchCityBikesData('CBI', setCityBikeStations);
     }
-  }, [showCityBikes, setCityBikeStations]);
+  }, [showCityBikes, embedded]);
 
   useEffect(() => {
     if (showCityBikes || embedded) {
       fetchCityBikesData('CBS', setCityBikeStatistics);
     }
-  }, [showCityBikes, setCityBikeStatistics]);
+  }, [showCityBikes, embedded]);
 
   const paramValue = url.searchParams.get('city_bikes') === '1';
   const renderData = setRender(paramValue, embedded, showCityBikes, cityBikeStations, isDataValid);

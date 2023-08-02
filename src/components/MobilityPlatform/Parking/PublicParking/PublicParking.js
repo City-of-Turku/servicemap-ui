@@ -31,7 +31,7 @@ const PublicParking = () => {
     if (showPublicParking) {
       fetchMobilityMapData(options, setPublicParkingData);
     }
-  }, [showPublicParking, setPublicParkingData]);
+  }, [showPublicParking]);
 
   const blueOptions = blueOptionsBase({ weight: 5 });
   const whiteOptions = whiteOptionsBase({ fillOpacity: 0.3, weight: 5, dashArray: '2 4 6' });

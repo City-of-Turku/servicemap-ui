@@ -36,7 +36,7 @@ const Overpasses = () => {
     if (showOverpasses || embedded) {
       fetchMobilityMapData(options, setOverpassData);
     }
-  }, [showOverpasses, setOverpassData]);
+  }, [showOverpasses, embedded]);
 
   useEffect(() => {
     const options = {
@@ -47,7 +47,7 @@ const Overpasses = () => {
     if (showUnderpasses || embedded) {
       fetchMobilityMapData(options, setUnderpassData);
     }
-  }, [showUnderpasses, setUnderpassData]);
+  }, [showUnderpasses, embedded]);
 
   const blueOptions = blueOptionsBase({ weight: 9 });
   const greenOptions = { color: 'rgba(13, 145, 31, 255)', weight: 9 };

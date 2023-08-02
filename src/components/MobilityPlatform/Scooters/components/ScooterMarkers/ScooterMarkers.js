@@ -42,7 +42,7 @@ const ScooterMarkers = ({ mapObject }) => {
     if (showScootersRyde) {
       fetchIotData('SDR', setScooterData, true);
     }
-  }, [showScootersRyde, setScooterData]);
+  }, [showScootersRyde]);
 
   const filterByBounds = (data) => {
     if (data && data.length > 0) {

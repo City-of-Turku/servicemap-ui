@@ -35,7 +35,7 @@ const DisabledParking = () => {
     if (showDisabledParking) {
       fetchMobilityMapData(options, setDisabledParkingData);
     }
-  }, [showDisabledParking, setDisabledParkingData]);
+  }, [showDisabledParking]);
 
   const map = useMap();
 

@@ -29,7 +29,7 @@ const SpeedLimitAreas = () => {
     if (showScooterSpeedLimitAreas) {
       fetchMobilityMapData(options, setSpeedLimitAreas);
     }
-  }, [showScooterSpeedLimitAreas, setSpeedLimitAreas]);
+  }, [showScooterSpeedLimitAreas]);
 
   const useContrast = useSelector(useAccessibleMap);
 

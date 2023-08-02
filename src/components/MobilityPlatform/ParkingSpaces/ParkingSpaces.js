@@ -48,7 +48,7 @@ const ParkingSpaces = () => {
       fetchParkingAreaGeometries(isParkingSpacesUrl, setParkingSpaces, setFetchError);
       fetchParkingAreaStats(isParkingStatisticsUrl, setParkingStatistics, setFetchError);
     }
-  }, [showParkingSpaces, setParkingSpaces, setParkingStatistics]);
+  }, [showParkingSpaces]);
 
   const swapCoords = (inputData) => {
     if (inputData.length > 0) {
@@ -72,9 +72,9 @@ const ParkingSpaces = () => {
   }, [showParkingSpaces, parkingSpaces, fetchError]);
 
   const renderColor = (itemId, capacity) => {
-    const stats = parkingStatistics.find(item => item.id === itemId);
+    const stats = parkingStatistics?.find(item => item.id === itemId);
     const almostFull = capacity * 0.85;
-    const parkingCount = stats.current_parking_count;
+    const parkingCount = stats?.current_parking_count;
     if (parkingCount >= almostFull) {
       return redColor;
     }

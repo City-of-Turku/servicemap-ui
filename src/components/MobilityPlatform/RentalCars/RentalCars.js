@@ -44,7 +44,7 @@ const RentalCars = ({ classes }) => {
     if (showRentalCars || embedded) {
       fetchIotData('R24', setRentalCarsData);
     }
-  }, [showRentalCars, setRentalCarsData]);
+  }, [showRentalCars, embedded]);
 
   const map = useMap();
 

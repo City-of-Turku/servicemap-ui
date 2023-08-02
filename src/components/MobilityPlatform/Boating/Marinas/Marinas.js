@@ -30,7 +30,7 @@ const Marinas = () => {
     if (showMarinas) {
       fetchMobilityMapData(options, setMarinasData);
     }
-  }, [showMarinas, setMarinasData]);
+  }, [showMarinas]);
 
   const blueOptions = blueOptionsBase({ weight: 5 });
   const whiteOptions = whiteOptionsBase({

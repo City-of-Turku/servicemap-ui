@@ -29,7 +29,7 @@ const GasFillingStationMarkers = () => {
     if (showGasFillingStations) {
       fetchMobilityMapData(options, setGasFillingStations);
     }
-  }, [showGasFillingStations, setGasFillingStations]);
+  }, [showGasFillingStations]);
 
   const renderData = isDataValid(showGasFillingStations, gasFillingStations);
 

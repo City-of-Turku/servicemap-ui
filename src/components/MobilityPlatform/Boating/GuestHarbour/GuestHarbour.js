@@ -30,7 +30,7 @@ const GuestHarbour = () => {
     if (showGuestHarbour) {
       fetchMobilityMapData(options, setGuestHarbourData);
     }
-  }, [showGuestHarbour, setGuestHarbourData]);
+  }, [showGuestHarbour]);
 
   const blueOptions = blueOptionsBase({ weight: 5 });
   const whiteOptions = whiteOptionsBase({

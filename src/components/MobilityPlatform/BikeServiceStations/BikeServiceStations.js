@@ -31,7 +31,7 @@ const BikeServiceStations = () => {
     if (showBikeServiceStations) {
       fetchMobilityMapData(options, setBikeServiceStations);
     }
-  }, [showBikeServiceStations, setBikeServiceStations]);
+  }, [showBikeServiceStations]);
 
   const renderData = isDataValid(showBikeServiceStations, bikeServiceStations);
 

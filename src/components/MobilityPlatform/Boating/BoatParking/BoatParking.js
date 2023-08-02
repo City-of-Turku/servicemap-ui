@@ -30,7 +30,7 @@ const BoatParking = () => {
     if (showBoatParking) {
       fetchMobilityMapData(options, setBoatParkingData);
     }
-  }, [showBoatParking, setBoatParkingData]);
+  }, [showBoatParking]);
 
   const blueOptions = blueOptionsBase({ weight: 5 });
   const whiteOptions = whiteOptionsBase({

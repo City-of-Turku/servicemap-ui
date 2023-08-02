@@ -38,7 +38,7 @@ const ChargerStationMarkers = () => {
     if (showChargingStations || embedded) {
       fetchMobilityMapData(options, setChargerStations);
     }
-  }, [showChargingStations, setChargerStations]);
+  }, [showChargingStations, embedded]);
 
   const paramValue = url.searchParams.get('charging_station') === '1';
   const renderData = setRender(paramValue, embedded, showChargingStations, chargerStations, isDataValid);

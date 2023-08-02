@@ -26,7 +26,7 @@ const NoParking = () => {
     if (showScooterNoParking) {
       fetchMobilityMapData(options, setNoParkingData);
     }
-  }, [showScooterNoParking, setNoParkingData]);
+  }, [showScooterNoParking]);
 
   const useContrast = useSelector(useAccessibleMap);
 

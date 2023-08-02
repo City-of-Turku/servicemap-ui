@@ -30,7 +30,7 @@ const PublicToilets = () => {
     if (showPublicToilets) {
       fetchMobilityMapData(options, setPublicToiletsData);
     }
-  }, [showPublicToilets, setPublicToiletsData]);
+  }, [showPublicToilets]);
 
   const renderData = isDataValid(showPublicToilets, publicToiletsData);
 

@@ -31,7 +31,7 @@ const ParkingAreas = () => {
     if (showScooterParkingAreas) {
       fetchMobilityMapData(options, setParkingAreas);
     }
-  }, [showScooterParkingAreas, setParkingAreas]);
+  }, [showScooterParkingAreas]);
 
   const renderData = isDataValid(showScooterParkingAreas, parkingAreas);
 

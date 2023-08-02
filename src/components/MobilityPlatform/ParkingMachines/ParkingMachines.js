@@ -32,7 +32,7 @@ const ParkingMachines = () => {
     if (showParkingMachines) {
       fetchMobilityMapData(options, setParkingMachinesData);
     }
-  }, [showParkingMachines, setParkingMachinesData]);
+  }, [showParkingMachines]);
 
   const renderData = isDataValid(showParkingMachines, parkingMachinesData);
 

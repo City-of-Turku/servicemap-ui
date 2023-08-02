@@ -31,7 +31,7 @@ const OutdoorGymDevices = () => {
     if (showOutdoorGymDevices) {
       fetchMobilityMapData(options, setOutdoorGymDevices);
     }
-  }, [showOutdoorGymDevices, setOutdoorGymDevices]);
+  }, [showOutdoorGymDevices]);
 
   const renderData = isDataValid(showOutdoorGymDevices, outdoorGymDevices);
 

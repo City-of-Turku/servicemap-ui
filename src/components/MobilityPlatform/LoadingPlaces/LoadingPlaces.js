@@ -33,7 +33,7 @@ const LoadingPlaces = () => {
     if (showLoadingPlaces) {
       fetchMobilityMapData(options, setLoadingPlaces);
     }
-  }, [showLoadingPlaces, setLoadingPlaces]);
+  }, [showLoadingPlaces]);
 
   const renderData = isDataValid(showLoadingPlaces, loadingPlaces);
 
