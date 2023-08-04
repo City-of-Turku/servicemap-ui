@@ -22,23 +22,19 @@ import {
   fetchCultureRouteNames,
   fetchMobilityMapData,
 } from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../../components/MobilityPlatform/utils/utils';
 import useLocaleText from '../../utils/useLocaleText';
 import TitleBar from '../../components/TitleBar';
 import { useMobilityPlatformContext } from '../../context/MobilityPlatformContext';
 import CityBikeInfo from './components/CityBikeInfo';
-import Description from './components/Description';
 import EmptyRouteList from './components/EmptyRouteList';
 import ExtendedInfo from './components/ExtendedInfo';
 import FormLabel from './components/FormLabel';
-import RouteLength from './components/RouteLength';
-import SliceList from './components/SliceListButton';
 import TrailList from './components/TrailList';
 import ParkingChargeZoneList from './components/ParkingChargeZoneList';
 import ScooterProviderList from './components/ScooterProviderList';
 import SMAccordion from '../../components/SMAccordion';
 import SpeedLimitZonesList from './components/SpeedLimitZonesList';
-import RouteListItem from './components/RouteListItem';
+import RouteList from './components/RouteList';
 
 const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [pageTitle, setPageTitle] = useState(null);
@@ -1286,43 +1282,33 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    * @param {Array} inputData
    * @return {JSX Element}
    */
-  const renderBicycleRoutes = (inputData) => {
-    const renderData = isDataValid(openBicycleRouteList, inputData);
-    return renderData
-      ? inputData.slice(0, bicycleRoutesToShow).map(item => (
-        <RouteListItem
-          key={item.id}
-          item={item}
-          routeAttr={bicycleRouteName}
-          type="BicycleRoute"
-          setRouteState={setBicycleRouteState}
-        >
-          {item.name_fi === bicycleRouteName ? <RouteLength key={item.id} route={item} /> : null}
-        </RouteListItem>
-      ))
-      : null;
-  };
+  const renderBicycleRoutes = inputData => (
+    <RouteList
+      openList={openBicycleRouteList}
+      items={inputData}
+      itemsPerPage={5}
+      routeAttr={bicycleRouteName}
+      type="BicycleRoute"
+      setRouteState={setBicycleRouteState}
+      locale={locale}
+    />
+  );
 
   /**
    * @param {Array} inputData
    * @return {JSX Element}
    */
-  const renderCultureRoutes = (inputData) => {
-    const renderData = isDataValid(openCultureRouteList, inputData);
-    return renderData
-      ? inputData.slice(0, cultureRoutesToShow).map(item => (
-        <RouteListItem
-          key={item.id}
-          item={item}
-          routeAttr={cultureRouteId}
-          type="CultureRoute"
-          setRouteState={setCultureRouteState}
-        >
-          {item.id === cultureRouteId ? <Description key={item.name} route={item} currentLocale={locale} /> : null}
-        </RouteListItem>
-      ))
-      : null;
-  };
+  const renderCultureRoutes = inputData => (
+    <RouteList
+      openList={openCultureRouteList}
+      items={inputData}
+      itemsPerPage={5}
+      routeAttr={cultureRouteId}
+      type="CultureRoute"
+      setRouteState={setCultureRouteState}
+      locale={locale}
+    />
+  );
 
   const renderSelectTrailText = (visibilityValue, obj, routeList) => {
     const isObjValid = Object.keys(obj).length > 0;
@@ -1638,12 +1624,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
         ? renderCultureRoutes(localizedCultureRoutes)
         : null}
       {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
-      <SliceList
-        openList={openCultureRouteList}
-        itemsToShow={cultureRoutesToShow}
-        routes={locale === 'fi' ? cultureRouteList : localizedCultureRoutes}
-        setItemsToShow={setCultureRoutesToShow}
-      />
       {renderSelectTrailText(openMarkedTrailsList, markedTrailsObj, markedTrailsList)}
       <TrailList
         openList={openMarkedTrailsList}
@@ -1679,12 +1659,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
         {openBicycleRouteList && !bicycleRouteName ? <EmptyRouteList route={bicycleRouteList} /> : null}
       </div>
       {renderBicycleRoutes(bicycleRouteList)}
-      <SliceList
-        openList={openBicycleRouteList}
-        itemsToShow={bicycleRoutesToShow}
-        routes={bicycleRouteList}
-        setItemsToShow={setBicycleRoutesToShow}
-      />
       {renderInfoTexts(infoTextsCycling)}
     </React.Fragment>
   );
