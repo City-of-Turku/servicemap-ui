@@ -81,7 +81,6 @@ const TrailList = ({
         </SMButton>,
       );
     }
-
     return <Container className={classes.pagination}>{paginationLinks}</Container>;
   };
 
