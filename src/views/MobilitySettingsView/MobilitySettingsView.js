@@ -48,10 +48,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [openCultureRouteList, setOpenCultureRouteList] = useState(false);
   const [cultureRouteList, setCultureRouteList] = useState([]);
   const [localizedCultureRoutes, setLocalizedCultureRoutes] = useState([]);
-  const [cultureRoutesToShow, setCultureRoutesToShow] = useState(4);
   const [bicycleRouteList, setBicycleRouteList] = useState([]);
   const [openBicycleRouteList, setOpenBicycleRouteList] = useState(false);
-  const [bicycleRoutesToShow, setBicycleRoutesToShow] = useState(4);
   const [openSpeedLimitList, setOpenSpeedLimitList] = useState(false);
   const [openParkingChargeZoneList, setOpenParkingChargeZoneList] = useState(false);
   const [openScooterProviderList, setOpenScooterProviderList] = useState(false);
@@ -728,15 +726,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     if (showCultureRoutes) {
       setShowCultureRoutes(false);
     }
-    if (cultureRoutesToShow === (cultureRouteList.length || localizedCultureRoutes.length)) {
-      setCultureRoutesToShow(4);
-    }
-  };
-
-  const resetItemsToShow = (itemsToShow, data, setItems) => {
-    if (itemsToShow === data.length) {
-      setItems(4);
-    }
   };
 
   const bicycleRouteListToggle = () => {
@@ -747,7 +736,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     if (showBicycleRoutes) {
       setShowBicycleRoutes(false);
     }
-    resetItemsToShow(bicycleRoutesToShow, bicycleRouteList, setBicycleRoutesToShow);
   };
 
   const markedTrailListToggle = () => {
