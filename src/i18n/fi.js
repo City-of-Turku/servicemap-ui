@@ -303,6 +303,7 @@ const translations = {
   'general.pagination.openPage': 'Avaa sivu {count}',
   'general.pagination.currentlyOpenedPage': 'Sivu {count}, avattu',
   'general.pagination.pageCount': 'sivu {current} kautta {max}',
+  'general.pagination.page.number': 'Sivu {number}',
 
   'general.previousSearch': 'Aikaisemmat haut',
   'general.return.viewTitle': 'Siirry pääsisällön alkuun',

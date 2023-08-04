@@ -62,13 +62,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [openStreetMaintenanceSelectionList, setOpenStreetMaintenanceSelectionList] = useState(false);
   const [openMarkedTrailsList, setOpenMarkedTrailsList] = useState(false);
   const [markedTrailsList, setMarkedTrailsList] = useState([]);
-  const [markedTrailsToShow, setMarkedTrailsToShow] = useState(4);
   const [openNatureTrailsList, setOpenNatureTrailsList] = useState(false);
   const [natureTrailsList, setNatureTrailsList] = useState([]);
-  const [natureTrailsToShow, setNatureTrailsToShow] = useState(4);
   const [openFitnessTrailsList, setOpenFitnessTrailsList] = useState(false);
   const [fitnessTrailsList, setFitnessTrailsList] = useState([]);
-  const [fitnessTrailsToShow, setFitnessTrailsToShow] = useState(4);
 
   const {
     setOpenMobilityPlatform,
@@ -765,9 +762,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     if (showMarkedTrails) {
       setShowMarkedTrails(false);
     }
-    if (markedTrailsToShow === markedTrailsSorted.length) {
-      setMarkedTrailsToShow(4);
-    }
   };
 
   const natureTrailListToggle = () => {
@@ -778,7 +772,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     if (showNatureTrails) {
       setShowNatureTrails(false);
     }
-    resetItemsToShow(natureTrailsToShow, natureTrailsTkuSorted, setNatureTrailsToShow);
   };
 
   const fitnessTrailListToggle = () => {
@@ -789,7 +782,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     if (showFitnessTrails) {
       setShowFitnessTrails(false);
     }
-    resetItemsToShow(fitnessTrailsToShow, fitnessTrailsTkuSorted, setFitnessTrailsToShow);
   };
 
   const streetMaintenanceListToggle = () => {
@@ -1655,44 +1647,26 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       {renderSelectTrailText(openMarkedTrailsList, markedTrailsObj, markedTrailsList)}
       <TrailList
         openList={openMarkedTrailsList}
-        inputData={markedTrailsSorted}
-        itemsToShow={markedTrailsToShow}
+        items={markedTrailsSorted}
+        itemsPerPage={5}
         trailsObj={markedTrailsObj}
         setTrailState={setMarkedTrailState}
-      />
-      <SliceList
-        openList={openMarkedTrailsList}
-        itemsToShow={markedTrailsToShow}
-        routes={markedTrailsSorted}
-        setItemsToShow={setMarkedTrailsToShow}
       />
       {renderSelectTrailText(openNatureTrailsList, natureTrailsObj, natureTrailsTkuSorted)}
       <TrailList
         openList={openNatureTrailsList}
-        inputData={natureTrailsTkuSorted}
-        itemsToShow={natureTrailsToShow}
+        items={natureTrailsTkuSorted}
+        itemsPerPage={5}
         trailsObj={natureTrailsObj}
         setTrailState={setNatureTrailState}
-      />
-      <SliceList
-        openList={openNatureTrailsList}
-        itemsToShow={natureTrailsToShow}
-        routes={natureTrailsTkuSorted}
-        setItemsToShow={setNatureTrailsToShow}
       />
       {renderSelectTrailText(openFitnessTrailsList, fitnessTrailsObj, fitnessTrailsTkuSorted)}
       <TrailList
         openList={openFitnessTrailsList}
-        inputData={fitnessTrailsTkuSorted}
-        itemsToShow={fitnessTrailsToShow}
+        items={fitnessTrailsTkuSorted}
+        itemsPerPage={5}
         trailsObj={fitnessTrailsObj}
         setTrailState={setFitnessTrailState}
-      />
-      <SliceList
-        openList={openFitnessTrailsList}
-        itemsToShow={fitnessTrailsToShow}
-        routes={fitnessTrailsTkuSorted}
-        setItemsToShow={setFitnessTrailsToShow}
       />
       {renderInfoTexts(infoTextsWalking)}
     </React.Fragment>
