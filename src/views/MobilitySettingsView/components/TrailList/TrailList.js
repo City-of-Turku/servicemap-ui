@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { FormControlLabel, Checkbox, Typography } from '@mui/material';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { isDataValid } from '../../../../components/MobilityPlatform/utils/utils';
-import SMButton from '../../../../components/ServiceMapButton';
-import Container from '../../../../components/Container';
 import TrailInfo from '../TrailInfo';
+import Pagination from '../Pagination';
 
 const TrailList = ({
-  classes, intl, openList, itemsPerPage, items, trailsObj, setTrailState,
+  classes, openList, itemsPerPage, items, trailsObj, setTrailState,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -63,40 +62,23 @@ const TrailList = ({
       : null;
   };
 
-  const renderPagination = () => {
-    const totalPages = Math.ceil(items.length / itemsPerPage);
-    const paginationLinks = [];
-
-    for (let i = 1; i <= totalPages; i += 1) {
-      paginationLinks.push(
-        <SMButton
-          key={i}
-          aria-label={intl.formatMessage({ id: 'general.pagination.page.number' }, { number: i })}
-          onClick={() => setCurrentPage(i)}
-          className={`${classes.button} ${currentPage === i ? classes.active : ''}`}
-          variant="contained"
-          role="link"
-        >
-          {i}
-        </SMButton>,
-      );
-    }
-    return <Container className={classes.pagination}>{paginationLinks}</Container>;
-  };
-
   return (
     <div>
       <div className={classes.listContainer}>{renderList()}</div>
-      {openList ? renderPagination() : null}
+      {openList ? (
+        <Pagination
+          items={items}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      ) : null}
     </div>
   );
 };
 
 TrailList.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }).isRequired,
   openList: PropTypes.bool,
   items: PropTypes.arrayOf(PropTypes.any),
   itemsPerPage: PropTypes.number,
