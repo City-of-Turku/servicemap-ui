@@ -18,6 +18,7 @@ const Pagination = ({
       <SMButton
         key={i}
         aria-label={intl.formatMessage({ id: 'general.pagination.page.number' }, { number: i })}
+        aria-current={currentPage === i}
         onClick={() => setCurrentPage(i)}
         className={`${classes.button} ${currentPage === i ? classes.active : ''}`}
         variant="contained"
