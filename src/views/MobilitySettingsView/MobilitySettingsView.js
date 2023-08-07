@@ -22,23 +22,19 @@ import {
   fetchCultureRouteNames,
   fetchMobilityMapData,
 } from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
-import { isDataValid } from '../../components/MobilityPlatform/utils/utils';
 import useLocaleText from '../../utils/useLocaleText';
 import TitleBar from '../../components/TitleBar';
 import { useMobilityPlatformContext } from '../../context/MobilityPlatformContext';
 import CityBikeInfo from './components/CityBikeInfo';
-import Description from './components/Description';
 import EmptyRouteList from './components/EmptyRouteList';
 import ExtendedInfo from './components/ExtendedInfo';
 import FormLabel from './components/FormLabel';
-import RouteLength from './components/RouteLength';
-import SliceList from './components/SliceListButton';
 import TrailList from './components/TrailList';
 import ParkingChargeZoneList from './components/ParkingChargeZoneList';
 import ScooterProviderList from './components/ScooterProviderList';
 import SMAccordion from '../../components/SMAccordion';
 import SpeedLimitZonesList from './components/SpeedLimitZonesList';
-import RouteListItem from './components/RouteListItem';
+import RouteList from './components/RouteList';
 
 const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [pageTitle, setPageTitle] = useState(null);
@@ -52,23 +48,18 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [openCultureRouteList, setOpenCultureRouteList] = useState(false);
   const [cultureRouteList, setCultureRouteList] = useState([]);
   const [localizedCultureRoutes, setLocalizedCultureRoutes] = useState([]);
-  const [cultureRoutesToShow, setCultureRoutesToShow] = useState(4);
   const [bicycleRouteList, setBicycleRouteList] = useState([]);
   const [openBicycleRouteList, setOpenBicycleRouteList] = useState(false);
-  const [bicycleRoutesToShow, setBicycleRoutesToShow] = useState(4);
   const [openSpeedLimitList, setOpenSpeedLimitList] = useState(false);
   const [openParkingChargeZoneList, setOpenParkingChargeZoneList] = useState(false);
   const [openScooterProviderList, setOpenScooterProviderList] = useState(false);
   const [openStreetMaintenanceSelectionList, setOpenStreetMaintenanceSelectionList] = useState(false);
   const [openMarkedTrailsList, setOpenMarkedTrailsList] = useState(false);
   const [markedTrailsList, setMarkedTrailsList] = useState([]);
-  const [markedTrailsToShow, setMarkedTrailsToShow] = useState(4);
   const [openNatureTrailsList, setOpenNatureTrailsList] = useState(false);
   const [natureTrailsList, setNatureTrailsList] = useState([]);
-  const [natureTrailsToShow, setNatureTrailsToShow] = useState(4);
   const [openFitnessTrailsList, setOpenFitnessTrailsList] = useState(false);
   const [fitnessTrailsList, setFitnessTrailsList] = useState([]);
-  const [fitnessTrailsToShow, setFitnessTrailsToShow] = useState(4);
 
   const {
     setOpenMobilityPlatform,
@@ -749,15 +740,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     if (showCultureRoutes) {
       setShowCultureRoutes(false);
     }
-    if (cultureRoutesToShow === (cultureRouteList.length || localizedCultureRoutes.length)) {
-      setCultureRoutesToShow(4);
-    }
-  };
-
-  const resetItemsToShow = (itemsToShow, data, setItems) => {
-    if (itemsToShow === data.length) {
-      setItems(4);
-    }
   };
 
   const bicycleRouteListToggle = () => {
@@ -768,7 +750,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     if (showBicycleRoutes) {
       setShowBicycleRoutes(false);
     }
-    resetItemsToShow(bicycleRoutesToShow, bicycleRouteList, setBicycleRoutesToShow);
   };
 
   const markedTrailListToggle = () => {
@@ -778,9 +759,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     }
     if (showMarkedTrails) {
       setShowMarkedTrails(false);
-    }
-    if (markedTrailsToShow === markedTrailsSorted.length) {
-      setMarkedTrailsToShow(4);
     }
   };
 
@@ -792,7 +770,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     if (showNatureTrails) {
       setShowNatureTrails(false);
     }
-    resetItemsToShow(natureTrailsToShow, natureTrailsTkuSorted, setNatureTrailsToShow);
   };
 
   const fitnessTrailListToggle = () => {
@@ -803,7 +780,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     if (showFitnessTrails) {
       setShowFitnessTrails(false);
     }
-    resetItemsToShow(fitnessTrailsToShow, fitnessTrailsTkuSorted, setFitnessTrailsToShow);
   };
 
   const streetMaintenanceListToggle = () => {
@@ -1308,43 +1284,33 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    * @param {Array} inputData
    * @return {JSX Element}
    */
-  const renderBicycleRoutes = (inputData) => {
-    const renderData = isDataValid(openBicycleRouteList, inputData);
-    return renderData
-      ? inputData.slice(0, bicycleRoutesToShow).map(item => (
-        <RouteListItem
-          key={item.id}
-          item={item}
-          routeAttr={bicycleRouteName}
-          type="BicycleRoute"
-          setRouteState={setBicycleRouteState}
-        >
-          {item.name_fi === bicycleRouteName ? <RouteLength key={item.id} route={item} /> : null}
-        </RouteListItem>
-      ))
-      : null;
-  };
+  const renderBicycleRoutes = inputData => (
+    <RouteList
+      openList={openBicycleRouteList}
+      items={inputData}
+      itemsPerPage={5}
+      routeAttr={bicycleRouteName}
+      type="BicycleRoute"
+      setRouteState={setBicycleRouteState}
+      locale={locale}
+    />
+  );
 
   /**
    * @param {Array} inputData
    * @return {JSX Element}
    */
-  const renderCultureRoutes = (inputData) => {
-    const renderData = isDataValid(openCultureRouteList, inputData);
-    return renderData
-      ? inputData.slice(0, cultureRoutesToShow).map(item => (
-        <RouteListItem
-          key={item.id}
-          item={item}
-          routeAttr={cultureRouteId}
-          type="CultureRoute"
-          setRouteState={setCultureRouteState}
-        >
-          {item.id === cultureRouteId ? <Description key={item.name} route={item} currentLocale={locale} /> : null}
-        </RouteListItem>
-      ))
-      : null;
-  };
+  const renderCultureRoutes = inputData => (
+    <RouteList
+      openList={openCultureRouteList}
+      items={inputData}
+      itemsPerPage={5}
+      routeAttr={cultureRouteId}
+      type="CultureRoute"
+      setRouteState={setCultureRouteState}
+      locale={locale}
+    />
+  );
 
   const renderSelectTrailText = (visibilityValue, obj, routeList) => {
     const isObjValid = Object.keys(obj).length > 0;
@@ -1660,53 +1626,29 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
         ? renderCultureRoutes(localizedCultureRoutes)
         : null}
       {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
-      <SliceList
-        openList={openCultureRouteList}
-        itemsToShow={cultureRoutesToShow}
-        routes={locale === 'fi' ? cultureRouteList : localizedCultureRoutes}
-        setItemsToShow={setCultureRoutesToShow}
-      />
       {renderSelectTrailText(openMarkedTrailsList, markedTrailsObj, markedTrailsList)}
       <TrailList
         openList={openMarkedTrailsList}
-        inputData={markedTrailsSorted}
-        itemsToShow={markedTrailsToShow}
+        items={markedTrailsSorted}
+        itemsPerPage={5}
         trailsObj={markedTrailsObj}
         setTrailState={setMarkedTrailState}
-      />
-      <SliceList
-        openList={openMarkedTrailsList}
-        itemsToShow={markedTrailsToShow}
-        routes={markedTrailsSorted}
-        setItemsToShow={setMarkedTrailsToShow}
       />
       {renderSelectTrailText(openNatureTrailsList, natureTrailsObj, natureTrailsTkuSorted)}
       <TrailList
         openList={openNatureTrailsList}
-        inputData={natureTrailsTkuSorted}
-        itemsToShow={natureTrailsToShow}
+        items={natureTrailsTkuSorted}
+        itemsPerPage={5}
         trailsObj={natureTrailsObj}
         setTrailState={setNatureTrailState}
-      />
-      <SliceList
-        openList={openNatureTrailsList}
-        itemsToShow={natureTrailsToShow}
-        routes={natureTrailsTkuSorted}
-        setItemsToShow={setNatureTrailsToShow}
       />
       {renderSelectTrailText(openFitnessTrailsList, fitnessTrailsObj, fitnessTrailsTkuSorted)}
       <TrailList
         openList={openFitnessTrailsList}
-        inputData={fitnessTrailsTkuSorted}
-        itemsToShow={fitnessTrailsToShow}
+        items={fitnessTrailsTkuSorted}
+        itemsPerPage={5}
         trailsObj={fitnessTrailsObj}
         setTrailState={setFitnessTrailState}
-      />
-      <SliceList
-        openList={openFitnessTrailsList}
-        itemsToShow={fitnessTrailsToShow}
-        routes={fitnessTrailsTkuSorted}
-        setItemsToShow={setFitnessTrailsToShow}
       />
       {renderInfoTexts(infoTextsWalking)}
     </React.Fragment>
@@ -1719,12 +1661,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
         {openBicycleRouteList && !bicycleRouteName ? <EmptyRouteList route={bicycleRouteList} /> : null}
       </div>
       {renderBicycleRoutes(bicycleRouteList)}
-      <SliceList
-        openList={openBicycleRouteList}
-        itemsToShow={bicycleRoutesToShow}
-        routes={bicycleRouteList}
-        setItemsToShow={setBicycleRoutesToShow}
-      />
       {renderInfoTexts(infoTextsCycling)}
     </React.Fragment>
   );

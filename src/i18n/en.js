@@ -301,6 +301,7 @@ const translations = {
   'general.pagination.openPage': 'Open page {count}',
   'general.pagination.currentlyOpenedPage': 'Page {count} currently opened',
   'general.pagination.pageCount': 'page {current} of {max}',
+  'general.pagination.page.number': 'Page {number}',
 
   'general.previousSearch': 'Previous searches',
   'general.return.viewTitle': 'Return to beginning of main content',

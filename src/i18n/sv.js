@@ -299,6 +299,7 @@ const translations = {
   'general.pagination.openPage': 'Öppna sida {count}',
   'general.pagination.currentlyOpenedPage': 'Sida {count} öppnad',
   'general.pagination.pageCount': 'sida {current} av {max}',
+  'general.pagination.page.number': 'Sida {number}',
 
   'general.previousSearch': 'Föregående sökningar',
   'general.return.viewTitle': 'Gå till början av huvudinnehållet',
