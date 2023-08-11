@@ -18,12 +18,11 @@ const createSuggestions = (
 
   const additionalOptions = {
     page_size: pageSize,
-    limit: 2000,
+    limit: 2500,
     unit_limit: unitLimit,
     service_limit: serviceLimit,
     address_limit: addressLimit,
     servicenode_limit: servicenodeLimit,
-    municipality: citySettings.join(','),
     language: locale,
   };
 
