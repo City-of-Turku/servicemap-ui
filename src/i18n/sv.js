@@ -749,6 +749,8 @@ const translations = {
   'mobilityPlatform.content.cityBikes.bikes.available': 'Antal lediga cycklar kvar',
   'mobilityPlatform.content.cityBikes.docks.available': 'Antal lediga cykelställ kvar',
   'mobilityPlatform.content.cityBikes.virtualStation': 'Virtual station',
+  'mobilityPlatform.content.cargoBikes.title': 'Lastcyklarstation',
+  'mobilityPlatform.content.cargoBikes.available': 'Cargo bikes available: {count}', // TODO translate
   'mobilityPlatform.content.speedLimitZones.area': 'Hastighetsbegränsningszon',
   'mobilityPlatform.content.speedLimitZones.limit': 'Hastighetsbegränsning: {item} km/h',
   'mobilityPlatform.content.speedLimitZones.suffix': '{curr} km/h',

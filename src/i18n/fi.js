@@ -742,6 +742,8 @@ const translations = {
   'mobilityPlatform.content.cityBikes.bikes.available': 'Pyöriä vapaana',
   'mobilityPlatform.content.cityBikes.docks.available': 'Telineitä vapaana',
   'mobilityPlatform.content.cityBikes.virtualStation': 'Virtuaaliasema',
+  'mobilityPlatform.content.cargoBikes.title': 'Tavarapyöräasema',
+  'mobilityPlatform.content.cargoBikes.available': 'Tavarapyöriä on vapaana: {count}',
   'mobilityPlatform.content.speedLimitZones.area': 'Nopeusrajoitusalue',
   'mobilityPlatform.content.speedLimitZones.limit': 'Nopeusrajoitus: {item} km/t',
   'mobilityPlatform.content.speedLimitZones.suffix': '{curr} km/t',

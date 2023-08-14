@@ -58,7 +58,7 @@ const CityBikes = () => {
 
   const cityBikeStations = [];
 
-  /** Separate bicycle stands that are frame/hull lockable from those that are not */
+  /** Separate cargo bike stations from city bike stations */
   const cargoBikeStations = cityBikeStationsData.reduce((acc, curr) => {
     if (curr.name.includes('eCargo bikes')) {
       acc.push(curr);

@@ -746,6 +746,8 @@ const translations = {
   'mobilityPlatform.content.cityBikes.bikes.available': 'Number of vacant bikes',
   'mobilityPlatform.content.cityBikes.docks.available': 'Number of vacant docks',
   'mobilityPlatform.content.cityBikes.virtualStation': 'Virtual station',
+  'mobilityPlatform.content.cargoBikes.title': 'Cargo bike station',
+  'mobilityPlatform.content.cargoBikes.available': 'Cargo bikes available: {count}', // TODO verify
   'mobilityPlatform.content.speedLimitZones.area': 'Speed limit zone',
   'mobilityPlatform.content.speedLimitZones.limit': 'Speed limit: {item} km/h',
   'mobilityPlatform.content.speedLimitZones.suffix': '{curr} km/h',
