@@ -45,6 +45,9 @@ export const getEmbedURL = (url, params = {}) => {
   if (params.cityBikes) {
     data.city_bikes = params.cityBikes ? 1 : 0;
   }
+  if (params.cargoBikes) {
+    data.cargo_bikes = params.cargoBikes ? 1 : 0;
+  }
   if (params.rentalCars) {
     data.rental_cars = params.rentalCars ? 1 : 0;
   }

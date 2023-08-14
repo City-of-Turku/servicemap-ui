@@ -68,10 +68,10 @@ const CityBikes = () => {
     return acc;
   }, []);
 
-  // TODO add param value for cargo bikes
-  const paramValue = url.searchParams.get('city_bikes') === '1';
-  const renderCityBikes = setRender(paramValue, embedded, showCityBikes, cityBikeStations, isDataValid);
-  const renderCargoBikes = setRender(paramValue, embedded, showCargoBikes, cargoBikeStations, isDataValid);
+  const paramCityBikes = url.searchParams.get('city_bikes') === '1';
+  const paramCargoBikes = url.searchParams.get('cargo_bikes') === '1';
+  const renderCityBikes = setRender(paramCityBikes, embedded, showCityBikes, cityBikeStations, isDataValid);
+  const renderCargoBikes = setRender(paramCargoBikes, embedded, showCargoBikes, cargoBikeStations, isDataValid);
 
   const fitBounds = (renderData, data) => {
     if (renderData) {
