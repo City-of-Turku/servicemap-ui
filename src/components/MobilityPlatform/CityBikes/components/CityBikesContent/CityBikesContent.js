@@ -2,6 +2,8 @@ import { Link, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+// TODO update content to render cargo bike specific values
+
 const CityBikesContent = ({
   classes, intl, bikeStation, cityBikeStatistics,
 }) => {

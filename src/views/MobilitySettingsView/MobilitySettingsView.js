@@ -95,6 +95,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowBikeServiceStations,
     showCityBikes,
     setShowCityBikes,
+    showCargoBikes,
+    setShowCargoBikes,
     showMarinas,
     setShowMarinas,
     showBoatParking,
@@ -314,7 +316,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showHullLockableStands, setOpenBicycleSettings);
     checkVisibilityValues(showBikeServiceStations, setOpenBicycleSettings);
     checkVisibilityValues(showCityBikes, setOpenBicycleSettings);
-  }, [showBicycleStands, showHullLockableStands, showBikeServiceStations, showCityBikes]);
+    checkVisibilityValues(showCargoBikes, setOpenBicycleSettings);
+  }, [showBicycleStands, showHullLockableStands, showBikeServiceStations, showCityBikes, showCargoBikes]);
 
   useEffect(() => {
     checkVisibilityValues(showBicycleRoutes, setOpenBicycleSettings);
@@ -641,6 +644,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const cityBikesToggle = () => {
     setShowCityBikes(current => !current);
+  };
+
+  const cargoBikesToggle = () => {
+    setShowCargoBikes(current => !current);
   };
 
   const marinasToggle = () => {
@@ -1095,6 +1102,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.showCityBikes',
       checkedValue: showCityBikes,
       onChangeValue: cityBikesToggle,
+    },
+    {
+      type: 'cargoBikes',
+      msgId: 'mobilityPlatform.menu.show.cargoBikes',
+      checkedValue: showCargoBikes,
+      onChangeValue: cargoBikesToggle,
     },
     {
       type: 'bikeServiceStations',

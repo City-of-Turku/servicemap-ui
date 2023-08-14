@@ -14,11 +14,11 @@ import { isEmbed } from '../../../utils/path';
 import CityBikesContent from './components/CityBikesContent';
 
 const CityBikes = () => {
-  const [cityBikeStations, setCityBikeStations] = useState([]);
+  const [cityBikeStationsData, setCityBikeStationsData] = useState([]);
   const [cityBikeStatistics, setCityBikeStatistics] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, showCityBikes } = useMobilityPlatformContext();
+  const { openMobilityPlatform, showCityBikes, showCargoBikes } = useMobilityPlatformContext();
 
   const url = new URL(window.location);
   const embedded = isEmbed({ url: url.toString() });
@@ -35,6 +35,7 @@ const CityBikes = () => {
     },
   });
 
+  // TODO add icon for cargo bikes
   const setBaseIcon = checkMapType(embedded, useContrast, url) ? cityBikeIconBw : cityBikeIcon;
   const setFollariIcon = checkMapType(embedded, useContrast, url) ? follariIconBw : follariIcon;
 
@@ -45,9 +46,9 @@ const CityBikes = () => {
 
   useEffect(() => {
     if (openMobilityPlatform || embedded) {
-      fetchCityBikesData('CBI', setCityBikeStations);
+      fetchCityBikesData('CBI', setCityBikeStationsData);
     }
-  }, [openMobilityPlatform, setCityBikeStations]);
+  }, [openMobilityPlatform, setCityBikeStationsData]);
 
   useEffect(() => {
     if (openMobilityPlatform || embedded) {
@@ -55,13 +56,27 @@ const CityBikes = () => {
     }
   }, [openMobilityPlatform, setCityBikeStatistics]);
 
-  const paramValue = url.searchParams.get('city_bikes') === '1';
-  const renderData = setRender(paramValue, embedded, showCityBikes, cityBikeStations, isDataValid);
+  const cityBikeStations = [];
 
-  const fitBounds = () => {
+  /** Separate bicycle stands that are frame/hull lockable from those that are not */
+  const cargoBikeStations = cityBikeStationsData.reduce((acc, curr) => {
+    if (curr.name.includes('eCargo bikes')) {
+      acc.push(curr);
+    } else {
+      cityBikeStations.push(curr);
+    }
+    return acc;
+  }, []);
+
+  // TODO add param value for cargo bikes
+  const paramValue = url.searchParams.get('city_bikes') === '1';
+  const renderCityBikes = setRender(paramValue, embedded, showCityBikes, cityBikeStations, isDataValid);
+  const renderCargoBikes = setRender(paramValue, embedded, showCargoBikes, cargoBikeStations, isDataValid);
+
+  const fitBounds = (renderData, data) => {
     if (renderData) {
       const bounds = [];
-      cityBikeStations.forEach((item) => {
+      data.forEach((item) => {
         bounds.push([item.lat, item.lon]);
       });
       map.fitBounds(bounds);
@@ -70,25 +85,29 @@ const CityBikes = () => {
 
   useEffect(() => {
     if (!embedded) {
-      fitBounds();
+      fitBounds(renderCityBikes, cityBikeStations);
+      fitBounds(renderCargoBikes, cargoBikeStations);
     }
-  }, [showCityBikes, cityBikeStations]);
+  }, [showCityBikes, showCargoBikes]);
+
+  const renderCityBikeMarkers = (isValid, data) => (isValid ? (
+    data.map(item => (
+      <Marker
+        key={item.station_id}
+        icon={customIcon}
+        position={[item.lat, item.lon]}
+      >
+        <Popup>
+          <CityBikesContent bikeStation={item} cityBikeStatistics={cityBikeStatistics} />
+        </Popup>
+      </Marker>
+    ))
+  ) : null);
 
   return (
     <>
-      {renderData ? (
-        cityBikeStations.map(item => (
-          <Marker
-            key={item.station_id}
-            icon={customIcon}
-            position={[item.lat, item.lon]}
-          >
-            <Popup>
-              <CityBikesContent bikeStation={item} cityBikeStatistics={cityBikeStatistics} />
-            </Popup>
-          </Marker>
-        ))
-      ) : null}
+      {renderCityBikeMarkers(renderCityBikes, cityBikeStations)}
+      {renderCityBikeMarkers(renderCargoBikes, cargoBikeStations)}
     </>
   );
 };

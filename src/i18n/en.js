@@ -642,6 +642,7 @@ const translations = {
   'mobilityPlatform.menu.parkingChargeZones.subtitle': 'Zone {value}',
   'mobilityPlatform.menu.showBikeServiceStations': 'Bicycle service stations',
   'mobilityPlatform.menu.showCityBikes': 'City bike stations',
+  'mobilityPlatform.menu.show.cargoBikes': 'Cargo bike stations',
   'mobilityPlatform.menu.show.marinas': 'Marina berths',
   'mobilityPlatform.menu.show.boatParking': 'Boat parking',
   'mobilityPlatform.menu.show.guestHarbour': 'Guest harbour',
