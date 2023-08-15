@@ -687,6 +687,7 @@ const translations = {
   'mobilityPlatform.menu.show.busStops': 'Busshållplatser (zooma in på kartan)',
   'mobilityPlatform.menu.show.underPasses': 'Gångtunnlar',
   'mobilityPlatform.menu.show.overPasses': 'Vägbroar',
+  'mobilityPlatform.menu.show.rentalCarParking': 'Yhteiskäyttöautojen pysäköintialueet', // TODO translate
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',

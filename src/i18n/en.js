@@ -684,6 +684,7 @@ const translations = {
   'mobilityPlatform.menu.show.busStops': 'Bus stops (zoom in on the map)',
   'mobilityPlatform.menu.show.underPasses': 'Underpasses',
   'mobilityPlatform.menu.show.overPasses': 'Overpasses',
+  'mobilityPlatform.menu.show.rentalCarParking': 'Yhteiskäyttöautojen pysäköintialueet', // TODO translate
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',

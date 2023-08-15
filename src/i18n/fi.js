@@ -690,6 +690,7 @@ const translations = {
   'mobilityPlatform.menu.show.busStops': 'Linja-autopysäkit (tarkenna karttaa)',
   'mobilityPlatform.menu.show.underPasses': 'Alikulkuväylät',
   'mobilityPlatform.menu.show.overPasses': 'Ylikulkusillat',
+  'mobilityPlatform.menu.show.rentalCarParking': 'Yhteiskäyttöautojen pysäköintialueet',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',
