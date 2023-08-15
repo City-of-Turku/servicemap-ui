@@ -44,11 +44,11 @@ describe('<CityBikesContent />', () => {
     const h3 = container.querySelector('h3');
     const link = container.querySelectorAll('a');
     expect(h3.textContent).toContain(finnishTranslations['mobilityPlatform.content.cityBikes.title']);
-    expect(p[0].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.cityBikes.name']}: ${mockProps.bikeStation.name}`);
+    expect(p[0].textContent).toContain(`Asema: ${mockProps.bikeStation.name}`);
     expect(p[1].textContent).toContain(finnishTranslations['mobilityPlatform.content.cityBikes.virtualStation']);
-    expect(p[2].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.cityBikes.capacity']}: ${mockProps.bikeStation.capacity}`);
-    expect(p[3].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.cityBikes.bikes.available']}: 10`);
-    expect(p[4].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.cityBikes.docks.available']}: 20`);
+    expect(p[2].textContent).toContain(`Kapasiteetti: ${mockProps.bikeStation.capacity}`);
+    expect(p[3].textContent).toContain('Pyöriä vapaana: 10');
+    expect(p[4].textContent).toContain('Telineitä vapaana: 20');
     expect(p[5].textContent).toContain(finnishTranslations['mobilityPlatform.content.general.rentalUris']);
     expect(link[0].textContent).toEqual('Android');
     expect(link[1].textContent).toEqual('iOS');
