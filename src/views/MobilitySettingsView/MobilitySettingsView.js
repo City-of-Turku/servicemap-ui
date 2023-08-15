@@ -179,6 +179,19 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     },
   };
 
+  const cargoBikeInfo = {
+    paragraph1: 'mobilityPlatform.info.cargoBikes.paragraph.1',
+    paragraph2: 'mobilityPlatform.info.cargoBikes.paragraph.2',
+    subtitle: 'mobilityPlatform.info.cargoBikes.subtitle',
+    link: 'mobilityPlatform.info.cargoBikes.link',
+    apiInfo: 'mobilityPlatform.info.cityBikes.apiInfo',
+    url: {
+      fi: 'https://www.turku.fi/suomen-ensimmaiset-yhteiskayttoiset-taakkapyorat-turkuun',
+      en: 'https://www.turku.fi/en/news/2023-06-05_finlands-first-shared-use-cargo-bikes-turku',
+      sv: 'https://www.turku.fi/sv/nyhet/2023-06-05_finlands-forsta-lastcyklar-gemensamt-bruk-till-abo',
+    },
+  };
+
   const chargeZoneTranslations = {
     message1: 'mobilityPlatform.info.parkingChargeZones.paragraph.1',
     message2: 'mobilityPlatform.info.parkingChargeZones.paragraph.2',
@@ -1456,6 +1469,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       visible: showCityBikes,
       type: 'cityBikesInfo',
       component: <CityBikeInfo bikeInfo={bikeInfo} />,
+    },
+    {
+      visible: showCargoBikes,
+      type: 'cargoBikesInfo',
+      component: <CityBikeInfo bikeInfo={cargoBikeInfo} />,
     },
     {
       visible: showBrushSaltedRoute || showBrushSandedRoute,
