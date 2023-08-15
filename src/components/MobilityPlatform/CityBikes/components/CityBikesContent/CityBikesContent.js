@@ -23,10 +23,7 @@ const CityBikesContent = ({
   const renderText = (translationId, value) => (
     <div className={classes.paragraph}>
       <Typography variant="body2">
-        <strong>{intl.formatMessage({ id: translationId })}</strong>
-        :
-        {' '}
-        {value}
+        {intl.formatMessage({ id: translationId }, { value })}
       </Typography>
     </div>
   );
@@ -83,14 +80,9 @@ const CityBikesContent = ({
           ? stationItem?.vehicle_types_available
             .filter(item => item.vehicle_type_id === 'ecargo')
             .map(item => (
-              <div key={item.vehicle_type_id} className={classes.paragraph}>
-                <Typography variant="body2">
-                  {intl.formatMessage(
-                    { id: 'mobilityPlatform.content.cargoBikes.available' },
-                    { count: item.count },
-                  )}
-                </Typography>
-              </div>
+              <React.Fragment key={item.vehicle_type_id}>
+                {renderText('mobilityPlatform.content.cargoBikes.available', item.count)}
+              </React.Fragment>
             ))
           : null}
       </div>
