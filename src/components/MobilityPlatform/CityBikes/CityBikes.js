@@ -6,6 +6,8 @@ import cityBikeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_city_bike.
 import cityBikeIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_city_bike-bw.svg';
 import follariIcon from 'servicemap-ui-turku/assets/icons/icons-icon_follari.svg';
 import follariIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_follari-bw.svg';
+import cargoBikeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_cargo_bike.svg';
+import cargoBikeIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_cargo_bike-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchCityBikesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
@@ -35,12 +37,18 @@ const CityBikes = () => {
     },
   });
 
-  // TODO add icon for cargo bikes
   const setBaseIcon = checkMapType(embedded, useContrast, url) ? cityBikeIconBw : cityBikeIcon;
   const setFollariIcon = checkMapType(embedded, useContrast, url) ? follariIconBw : follariIcon;
+  const setCargoBikeIcon = checkMapType(embedded, useContrast, url) ? cargoBikeIconBw : cargoBikeIcon;
 
-  const customIcon = icon({
+  const iconForCityBikes = icon({
     iconUrl: zoomLevel < 14 ? setBaseIcon : setFollariIcon,
+    iconSize: zoomLevel < 14 ? [45, 45] : [35, 35],
+  });
+
+  // TODO add new base icon for cargo bikes
+  const iconForCargoBikes = icon({
+    iconUrl: zoomLevel < 14 ? setBaseIcon : setCargoBikeIcon,
     iconSize: zoomLevel < 14 ? [45, 45] : [35, 35],
   });
 
@@ -90,11 +98,11 @@ const CityBikes = () => {
     }
   }, [showCityBikes, showCargoBikes]);
 
-  const renderCityBikeMarkers = (isValid, data) => (isValid ? (
+  const renderCityBikeMarkers = (isValid, data, icon) => (isValid ? (
     data.map(item => (
       <Marker
         key={item.station_id}
-        icon={customIcon}
+        icon={icon}
         position={[item.lat, item.lon]}
       >
         <Popup>
@@ -106,8 +114,8 @@ const CityBikes = () => {
 
   return (
     <>
-      {renderCityBikeMarkers(renderCityBikes, cityBikeStations)}
-      {renderCityBikeMarkers(renderCargoBikes, cargoBikeStations)}
+      {renderCityBikeMarkers(renderCityBikes, cityBikeStations, iconForCityBikes)}
+      {renderCityBikeMarkers(renderCargoBikes, cargoBikeStations, iconForCargoBikes)}
     </>
   );
 };
