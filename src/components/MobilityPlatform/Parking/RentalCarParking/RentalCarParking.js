@@ -2,16 +2,16 @@
 import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
+import disabledParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_disabled_parking.svg';
+import disabledParkingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_disabled_parking-bw.svg';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { fetchMobilityMapData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
-import {
-  isDataValid, blueOptionsBase, whiteOptionsBase, fitPolygonsToBounds,
-} from '../../utils/utils';
-import PolygonComponent from '../../PolygonComponent';
+import { isDataValid, fitPolygonsToBounds, createIcon } from '../../utils/utils';
+import RentalCarParkingContent from './components/RentalCarParkingContent';
 
 /**
- * Displays parking places for the rental cars on the map in polygon format.
+ * Displays parking places for the rental cars on the map.
  */
 
 const RentalCarParking = () => {
@@ -20,6 +20,9 @@ const RentalCarParking = () => {
   const { showRentalCarParking } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
+
+  const { Marker, Popup } = global.rL;
+  const { icon } = global.L;
 
   useEffect(() => {
     const options = {
@@ -32,9 +35,8 @@ const RentalCarParking = () => {
     }
   }, [showRentalCarParking]);
 
-  const blueOptions = blueOptionsBase({ weight: 5 });
-  const whiteOptions = whiteOptionsBase({ fillOpacity: 0.3, weight: 5, dashArray: '2 4 6' });
-  const pathOptions = useContrast ? whiteOptions : blueOptions;
+  // TODO use proper icon
+  const customIcon = icon(createIcon(useContrast ? disabledParkingIconBw : disabledParkingIcon));
 
   const map = useMap();
 
@@ -44,19 +46,19 @@ const RentalCarParking = () => {
     fitPolygonsToBounds(renderData, rentalCarParkingData, map);
   }, [showRentalCarParking, rentalCarParkingData, map]);
 
+  const getSingleCoordinates = data => data[0][0];
+
   return (
     <>
       {renderData
         ? rentalCarParkingData.map(item => (
-          <PolygonComponent
-            key={item.id}
-            item={item}
-            useContrast={useContrast}
-            pathOptions={pathOptions}
-          >
-            <p>abc</p>
-          </PolygonComponent>
-        )) : null}
+          <Marker key={item.id} icon={customIcon} position={getSingleCoordinates(item.geometry_coords)}>
+            <Popup>
+              <RentalCarParkingContent item={item} />
+            </Popup>
+          </Marker>
+        ))
+        : null}
     </>
   );
 };

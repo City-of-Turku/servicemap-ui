@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RentalCarParkingContent /> does match snapshot 1`] = `
+<div>
+  <div
+    class="injectIntl(RentalCarParkingContent)-container-1"
+  >
+    <div
+      class="injectIntl(RentalCarParkingContent)-headerContainer-2"
+    >
+      <div
+        class="injectIntl(TextComponent)-margin-5"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
+        >
+          Parkkipaikka
+        </p>
+      </div>
+    </div>
+    <div
+      class="injectIntl(RentalCarParkingContent)-textContainer-3"
+    >
+      <div
+        class="injectIntl(TextComponent)-margin-5"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Osoite: Testikatu 1
+        </p>
+      </div>
+      <div
+        class="injectIntl(RentalCarParkingContent)-margin-4"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Parkkipaikkojen määrä: 5
+        </p>
+      </div>
+      <div
+        class="injectIntl(RentalCarParkingContent)-margin-4"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Pysäköinnin enimmäisaika: 1 tuntia
+        </p>
+      </div>
+      <div
+        class="injectIntl(TextComponent)-margin-5"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Lisäkilpi
+        </p>
+      </div>
+      <div
+        class="injectIntl(RentalCarParkingContent)-margin-4"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Esteetön pääsy
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
