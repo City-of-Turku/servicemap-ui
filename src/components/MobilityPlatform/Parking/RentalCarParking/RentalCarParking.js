@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
-import disabledParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_disabled_parking.svg';
-import disabledParkingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_disabled_parking-bw.svg';
+import rentalCarParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_rental_car_parking.svg';
+import rentalCarParkingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_rental_car_parking-bw.svg';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { fetchMobilityMapData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
@@ -35,8 +35,7 @@ const RentalCarParking = () => {
     }
   }, [showRentalCarParking]);
 
-  // TODO use proper icon
-  const customIcon = icon(createIcon(useContrast ? disabledParkingIconBw : disabledParkingIcon));
+  const customIcon = icon(createIcon(useContrast ? rentalCarParkingIconBw : rentalCarParkingIcon));
 
   const map = useMap();
 
