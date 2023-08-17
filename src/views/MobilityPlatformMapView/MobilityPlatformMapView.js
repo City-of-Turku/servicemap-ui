@@ -56,7 +56,7 @@ const MobilityPlatformMapView = ({ mapObject }) => (
     <NoParking />
     <ParkingAreas />
     <SpeedLimitAreas />
-    <ScooterMarkers />
+    <ScooterMarkers mapObject={mapObject} />
     <DisabledParking />
     <LoadingPlaces />
     <SnowPlows />

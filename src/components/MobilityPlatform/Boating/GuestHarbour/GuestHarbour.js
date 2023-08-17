@@ -18,7 +18,7 @@ import TextContent from '../../TextContent';
 const GuestHarbour = () => {
   const [guestHarbourData, setGuestHarbourData] = useState([]);
 
-  const { openMobilityPlatform, showGuestHarbour } = useMobilityPlatformContext();
+  const { showGuestHarbour } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -27,10 +27,10 @@ const GuestHarbour = () => {
       type_name: 'GuestMarina',
       latlon: true,
     };
-    if (openMobilityPlatform) {
+    if (showGuestHarbour) {
       fetchMobilityMapData(options, setGuestHarbourData);
     }
-  }, [openMobilityPlatform, setGuestHarbourData]);
+  }, [showGuestHarbour]);
 
   const blueOptions = blueOptionsBase({ weight: 5 });
   const whiteOptions = whiteOptionsBase({

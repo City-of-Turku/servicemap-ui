@@ -18,7 +18,7 @@ import TextContent from '../../TextContent';
 const BoatParking = () => {
   const [boatParkingData, setBoatParkingData] = useState([]);
 
-  const { openMobilityPlatform, showBoatParking } = useMobilityPlatformContext();
+  const { showBoatParking } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -27,10 +27,10 @@ const BoatParking = () => {
       type_name: 'BoatParking',
       latlon: true,
     };
-    if (openMobilityPlatform) {
+    if (showBoatParking) {
       fetchMobilityMapData(options, setBoatParkingData);
     }
-  }, [openMobilityPlatform, setBoatParkingData]);
+  }, [showBoatParking]);
 
   const blueOptions = blueOptionsBase({ weight: 5 });
   const whiteOptions = whiteOptionsBase({

@@ -20,7 +20,7 @@ const CityBikes = () => {
   const [cityBikeStatistics, setCityBikeStatistics] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
-  const { openMobilityPlatform, showCityBikes, showCargoBikes } = useMobilityPlatformContext();
+  const { showCityBikes, showCargoBikes } = useMobilityPlatformContext();
 
   const url = new URL(window.location);
   const embedded = isEmbed({ url: url.toString() });
@@ -53,16 +53,16 @@ const CityBikes = () => {
   });
 
   useEffect(() => {
-    if (openMobilityPlatform || embedded) {
+    if (showCityBikes || showCargoBikes || embedded) {
       fetchCityBikesData('CBI', setCityBikeStationsData);
     }
-  }, [openMobilityPlatform, setCityBikeStationsData]);
+  }, [showCityBikes, embedded]);
 
   useEffect(() => {
-    if (openMobilityPlatform || embedded) {
+    if (showCityBikes || showCargoBikes || embedded) {
       fetchCityBikesData('CBS', setCityBikeStatistics);
     }
-  }, [openMobilityPlatform, setCityBikeStatistics]);
+  }, [showCityBikes, embedded]);
 
   const cityBikeStations = [];
 

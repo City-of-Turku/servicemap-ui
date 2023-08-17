@@ -13,7 +13,7 @@ import LoadingPlacesContent from './components/LoadingPlacesContent';
 const LoadingPlaces = () => {
   const [loadingPlaces, setLoadingPlaces] = useState([]);
 
-  const { openMobilityPlatform, showLoadingPlaces } = useMobilityPlatformContext();
+  const { showLoadingPlaces } = useMobilityPlatformContext();
 
   const map = useMap();
 
@@ -30,10 +30,10 @@ const LoadingPlaces = () => {
       page_size: 300,
       latlon: true,
     };
-    if (openMobilityPlatform) {
+    if (showLoadingPlaces) {
       fetchMobilityMapData(options, setLoadingPlaces);
     }
-  }, [openMobilityPlatform, setLoadingPlaces]);
+  }, [showLoadingPlaces]);
 
   const renderData = isDataValid(showLoadingPlaces, loadingPlaces);
 

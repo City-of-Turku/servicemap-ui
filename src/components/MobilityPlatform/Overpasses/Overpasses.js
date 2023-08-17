@@ -18,7 +18,7 @@ const Overpasses = () => {
   const [overpassData, setOverpassData] = useState([]);
   const [underpassData, setUnderpassData] = useState([]);
 
-  const { openMobilityPlatform, showOverpasses, showUnderpasses } = useMobilityPlatformContext();
+  const { showOverpasses, showUnderpasses } = useMobilityPlatformContext();
 
   const { Polyline } = global.rL;
 
@@ -33,10 +33,10 @@ const Overpasses = () => {
       page_size: 200,
       latlon: true,
     };
-    if (openMobilityPlatform || embedded) {
+    if (showOverpasses || embedded) {
       fetchMobilityMapData(options, setOverpassData);
     }
-  }, [openMobilityPlatform, setOverpassData]);
+  }, [showOverpasses, embedded]);
 
   useEffect(() => {
     const options = {
@@ -44,10 +44,10 @@ const Overpasses = () => {
       page_size: 200,
       latlon: true,
     };
-    if (openMobilityPlatform || embedded) {
+    if (showUnderpasses || embedded) {
       fetchMobilityMapData(options, setUnderpassData);
     }
-  }, [openMobilityPlatform, setUnderpassData]);
+  }, [showUnderpasses, embedded]);
 
   const blueOptions = blueOptionsBase({ weight: 9 });
   const greenOptions = { color: 'rgba(13, 145, 31, 255)', weight: 9 };
