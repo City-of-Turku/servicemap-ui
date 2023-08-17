@@ -14,7 +14,7 @@ import BikeServiceStationContent from './components/BikeServiceStationContent';
 const BikeServiceStations = () => {
   const [bikeServiceStations, setBikeServiceStations] = useState([]);
 
-  const { openMobilityPlatform, showBikeServiceStations } = useMobilityPlatformContext();
+  const { showBikeServiceStations } = useMobilityPlatformContext();
 
   const map = useMap();
 
@@ -28,10 +28,10 @@ const BikeServiceStations = () => {
     const options = {
       type_name: 'BikeServiceStation',
     };
-    if (openMobilityPlatform) {
+    if (showBikeServiceStations) {
       fetchMobilityMapData(options, setBikeServiceStations);
     }
-  }, [openMobilityPlatform, setBikeServiceStations]);
+  }, [showBikeServiceStations]);
 
   const renderData = isDataValid(showBikeServiceStations, bikeServiceStations);
 

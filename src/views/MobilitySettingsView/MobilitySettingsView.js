@@ -212,12 +212,16 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    * @returns {Array} and sets it into state
    */
   useEffect(() => {
-    fetchCultureRouteNames(setCultureRouteList);
-  }, [setCultureRouteList]);
+    if (openWalkSettings) {
+      fetchCultureRouteNames(setCultureRouteList);
+    }
+  }, [openWalkSettings]);
 
   useEffect(() => {
-    fetchBicycleRouteNames(setBicycleRouteList);
-  }, [setBicycleRouteList]);
+    if (openBicycleSettings) {
+      fetchBicycleRouteNames(setBicycleRouteList);
+    }
+  }, [openBicycleSettings]);
 
   useEffect(() => {
     const options = {
@@ -225,8 +229,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       page_size: 1000,
       latlon: true,
     };
-    fetchMobilityMapData(options, setSpeedLimitZones);
-  }, [setSpeedLimitZones]);
+    if (openCarSettings) {
+      fetchMobilityMapData(options, setSpeedLimitZones);
+    }
+  }, [openCarSettings, setSpeedLimitZones]);
 
   useEffect(() => {
     const options = {
@@ -234,16 +240,20 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       page_size: 10,
       latlon: true,
     };
-    fetchMobilityMapData(options, setParkingChargeZones);
-  }, [setParkingChargeZones]);
+    if (openCarSettings) {
+      fetchMobilityMapData(options, setParkingChargeZones);
+    }
+  }, [openCarSettings, setParkingChargeZones]);
 
   useEffect(() => {
     const options = {
       type_name: 'PaavonPolku',
       latlon: true,
     };
-    fetchMobilityMapData(options, setMarkedTrailsList);
-  }, [setMarkedTrailsList]);
+    if (openWalkSettings) {
+      fetchMobilityMapData(options, setMarkedTrailsList);
+    }
+  }, [openWalkSettings]);
 
   useEffect(() => {
     const options = {
@@ -251,8 +261,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       page_size: 200,
       latlon: true,
     };
-    fetchMobilityMapData(options, setNatureTrailsList);
-  }, [setNatureTrailsList]);
+    if (openWalkSettings) {
+      fetchMobilityMapData(options, setNatureTrailsList);
+    }
+  }, [openWalkSettings]);
 
   useEffect(() => {
     const options = {
@@ -260,8 +272,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       page_size: 200,
       latlon: true,
     };
-    fetchMobilityMapData(options, setFitnessTrailsList);
-  }, [setFitnessTrailsList]);
+    if (openWalkSettings) {
+      fetchMobilityMapData(options, setFitnessTrailsList);
+    }
+  }, [openWalkSettings]);
 
   /** If direct link is used to navigate, open correct content view
    * @param {string} pathname

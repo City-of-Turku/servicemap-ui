@@ -11,19 +11,14 @@ const EcoCounterMarkers = () => {
   const [ecoCounterStations, setEcoCounterStations] = useState([]);
   const [telraamCounterStations, setTelraamCounterStations] = useState([]);
 
-  const { openMobilityPlatform, showTrafficCounter } = useMobilityPlatformContext();
+  const { showTrafficCounter } = useMobilityPlatformContext();
 
   useEffect(() => {
-    if (openMobilityPlatform) {
+    if (showTrafficCounter) {
       fetchTrafficCounterStations('EC', setEcoCounterStations);
-    }
-  }, [openMobilityPlatform, setEcoCounterStations]);
-
-  useEffect(() => {
-    if (openMobilityPlatform) {
       fetchTrafficCounterStations('TR', setTelraamCounterStations);
     }
-  }, [openMobilityPlatform, setTelraamCounterStations]);
+  }, [showTrafficCounter]);
 
   const map = useMap();
 

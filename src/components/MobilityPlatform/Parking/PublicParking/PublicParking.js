@@ -18,7 +18,7 @@ import PublicParkingContent from './components/PublicParkingContent';
 const PublicParking = () => {
   const [publicParkingData, setPublicParkingData] = useState([]);
 
-  const { openMobilityPlatform, showPublicParking } = useMobilityPlatformContext();
+  const { showPublicParking } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -28,10 +28,10 @@ const PublicParking = () => {
       page_size: 1000,
       latlon: true,
     };
-    if (openMobilityPlatform) {
+    if (showPublicParking) {
       fetchMobilityMapData(options, setPublicParkingData);
     }
-  }, [openMobilityPlatform, setPublicParkingData]);
+  }, [showPublicParking]);
 
   const blueOptions = blueOptionsBase({ weight: 5 });
   const whiteOptions = whiteOptionsBase({ fillOpacity: 0.3, weight: 5, dashArray: '2 4 6' });
