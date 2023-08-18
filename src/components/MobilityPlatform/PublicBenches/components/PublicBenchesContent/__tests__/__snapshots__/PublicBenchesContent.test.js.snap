@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PublicBenchesContent /> should match snapshot 1`] = `
+<div>
+  <div
+    class="injectIntl(PublicBenchesContent)-padding-1"
+  >
+    <div>
+      <div
+        class="injectIntl(PublicBenchesContent)-headerContainer-2"
+      >
+        <h3
+          class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
+        >
+          Yleinen penkki
+        </h3>
+      </div>
+      <div
+        class="injectIntl(PublicBenchesContent)-textContainer-3"
+      >
+        <div
+          class="injectIntl(PublicBenchesContent)-margin-4"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+          >
+            Penkin kunto: Hyvä
+          </p>
+        </div>
+        <div
+          class="injectIntl(PublicBenchesContent)-margin-4"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+          >
+            Penkin malli: Testipenkki
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
