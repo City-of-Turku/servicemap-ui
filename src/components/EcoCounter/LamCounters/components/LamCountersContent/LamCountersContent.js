@@ -34,13 +34,14 @@ const LamCountersContent = ({
   const [currentTime, setCurrentTime] = useState('hour');
   const [activeStep, setActiveStep] = useState(0);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(moment().clone().add(-1, 'days'));
+  const [selectedDate, setSelectedDate] = useState(moment().clone().subtract(1, 'months').startOf('month'));
 
   const locale = useSelector(state => state.user.locale);
 
   const stationId = station.id;
   const stationName = station.name;
-  const stationType = station.csv_data_source;
+  const stationSource = station.csv_data_source;
+  const userTypes = station.sensor_types;
 
   // steps that determine which data is shown on the chart
   const buttonSteps = [
@@ -70,15 +71,29 @@ const LamCountersContent = ({
     },
   ];
 
-  const userTypes = [
-    {
-      type: {
-        user: 'driving',
-        text: intl.formatMessage({ id: 'ecocounter.car' }),
-        icon: iconCar,
-      },
-    },
-  ];
+  const renderUserTypeText = (userType) => {
+    if (userType === 'at') {
+      return (
+        <div className={classes.textContainer}>
+          <Typography variant="body2" className={classes.userTypeText}>
+            {intl.formatMessage({ id: 'ecocounter.car' })}
+          </Typography>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const renderUserTypeIcon = (userType) => {
+    if (userType === 'at') {
+      return (
+        <div className={classes.iconWrapper}>
+          <ReactSVG className={classes.iconActive} src={iconCar} />
+        </div>
+      );
+    }
+    return null;
+  };
 
   const changeDate = (newDate) => {
     setSelectedDate(newDate);
@@ -108,14 +123,13 @@ const LamCountersContent = ({
   // Initial values that are used to fetch data
   const currentDate = moment();
   const lastMonth = currentDate.clone().subtract(1, 'months').endOf('month');
-  const yesterDay = lastMonth.clone().add(-1, 'days');
-  const yesterDayFormat = yesterDay.clone().format('YYYY-MM-DD');
-  const initialDateStart = yesterDay.clone().startOf('week').format('YYYY-MM-DD');
-  const initialDateEnd = yesterDay.clone().endOf('week').format('YYYY-MM-DD');
-  const initialWeekStart = checkWeekNumber(yesterDay);
-  const initialWeekEnd = yesterDay.clone().endOf('month').week();
-  const initialMonth = yesterDay.clone().month() + 1;
-  const initialYear = yesterDay.clone().year();
+  const lastMonthFormat = lastMonth.clone().format('YYYY-MM-DD');
+  const initialDateStart = lastMonth.clone().startOf('week').format('YYYY-MM-DD');
+  const initialDateEnd = lastMonth.clone().endOf('week').format('YYYY-MM-DD');
+  const initialWeekStart = checkWeekNumber(lastMonth);
+  const initialWeekEnd = lastMonth.clone().endOf('month').week();
+  const initialMonth = lastMonth.clone().month() + 1;
+  const initialYear = lastMonth.clone().year();
 
   // Values that change based on the datepicker value
   const selectedDateFormat = selectedDate.clone().format('YYYY-MM-DD');
@@ -292,7 +306,7 @@ const LamCountersContent = ({
   // Fetch initial data based on the default date
   useEffect(() => {
     setLamCounterLabels(labelsHour);
-    fetchInitialHourData(yesterDayFormat, stationId, setLamCounterHour);
+    fetchInitialHourData(lastMonthFormat, stationId, setLamCounterHour);
   }, [stationId]);
 
   useEffect(() => {
@@ -362,25 +376,17 @@ const LamCountersContent = ({
     <>
       <div className={classes.lamCounterHeader}>
         <Typography component="h4" className={classes.headerSubtitle}>
-          {stationType === 'LC' ? formatCounterName(stationName) : stationName}
+          {stationSource === 'LC' ? formatCounterName(stationName) : stationName}
         </Typography>
         <div className={classes.headerDate}>
           <div className={classes.iconContainer}>
             <DateRangeIcon />
           </div>
-          {!isDatePickerOpen ? (
-            <ButtonBase className={classes.buttonTransparent} onClick={() => setIsDatePickerOpen(true)}>
-              <Typography component="h5" className={classes.headerSubtitle}>
-                {selectedDate.clone().format('DD.MM.YYYY')}
-              </Typography>
-            </ButtonBase>
-          ) : (
-            <ButtonBase className={classes.buttonTransparent} onClick={() => setIsDatePickerOpen(false)}>
-              <Typography component="h5" className={classes.headerSubtitle}>
-                {selectedDate.clone().format('DD.MM.YYYY')}
-              </Typography>
-            </ButtonBase>
-          )}
+          <ButtonBase className={classes.buttonTransparent} onClick={() => setIsDatePickerOpen(current => !current)}>
+            <Typography component="h5" className={classes.headerSubtitle}>
+              {selectedDate.clone().format('DD.MM.YYYY')}
+            </Typography>
+          </ButtonBase>
         </div>
         {isDatePickerOpen ? (
           <div className={classes.lamCounterDatePicker}>
@@ -398,15 +404,9 @@ const LamCountersContent = ({
       <div className={classes.lamCounterContent}>
         <div className={classes.lamCounterUserTypes}>
           {userTypes?.map(userType => (
-            <div key={userType.type.user} className={classes.container}>
-              <div className={classes.iconWrapper}>
-                <ReactSVG className={classes.iconActive} src={userType.type.icon} />
-              </div>
-              <div className={classes.textContainer}>
-                <Typography variant="body2" className={classes.userTypeText}>
-                  {userType.type.text}
-                </Typography>
-              </div>
+            <div key={userType} className={classes.container}>
+              {renderUserTypeIcon(userType)}
+              {renderUserTypeText(userType)}
             </div>
           ))}
         </div>
@@ -464,6 +464,7 @@ LamCountersContent.propTypes = {
     id: PropTypes.number,
     name: PropTypes.string,
     csv_data_source: PropTypes.string,
+    sensor_types: PropTypes.arrayOf(PropTypes.string),
   }),
 };
 
@@ -472,6 +473,7 @@ LamCountersContent.defaultProps = {
     id: 0,
     name: '',
     csv_data_source: '',
+    sensor_types: [],
   },
 };
 

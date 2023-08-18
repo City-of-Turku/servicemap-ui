@@ -303,6 +303,7 @@ const translations = {
   'general.pagination.openPage': 'Avaa sivu {count}',
   'general.pagination.currentlyOpenedPage': 'Sivu {count}, avattu',
   'general.pagination.pageCount': 'sivu {current} kautta {max}',
+  'general.pagination.page.number': 'Sivu {number}',
 
   'general.previousSearch': 'Aikaisemmat haut',
   'general.return.viewTitle': 'Siirry pääsisällön alkuun',
@@ -657,7 +658,7 @@ const translations = {
   'mobilityPlatform.menu.show.scooterParkingAreas': 'Pysäköintipaikat',
   'mobilityPlatform.menu.show.scooterSpeedLimitAreas': 'Nopeusrajoitusalueet',
   'mobilityPlatform.menu.show.scooterProviders': 'Sähköpotkulautaoperaattorit',
-  'mobilityPlatform.menu.show.scootersRyde': 'Ryde -sähköpotkulaudat',
+  'mobilityPlatform.menu.show.scootersRyde': 'Ryde -sähköpotkulaudat (tarkenna karttaa)',
   'mobilityPlatform.menu.scooters.list.info': 'Voit listan avulla näyttää valitun operaattorin vapaat sähköpotkulaudat kartalla.',
   'mobilityPlatform.menu.show.disabledParking': 'Liikkumisesteisen pysäköinti',
   'mobilityPlatform.menu.loadingPlaces.show': 'Kuormauspaikat',

@@ -14,7 +14,7 @@ import GasFillingStationContent from './components/GasFillingStationContent';
 const GasFillingStationMarkers = () => {
   const [gasFillingStations, setGasFillingStations] = useState([]);
 
-  const { openMobilityPlatform, showGasFillingStations } = useMobilityPlatformContext();
+  const { showGasFillingStations } = useMobilityPlatformContext();
 
   const { icon } = global.L;
 
@@ -26,10 +26,10 @@ const GasFillingStationMarkers = () => {
     const options = {
       type_name: 'GasFillingStation',
     };
-    if (openMobilityPlatform) {
+    if (showGasFillingStations) {
       fetchMobilityMapData(options, setGasFillingStations);
     }
-  }, [openMobilityPlatform, setGasFillingStations]);
+  }, [showGasFillingStations]);
 
   const renderData = isDataValid(showGasFillingStations, gasFillingStations);
 

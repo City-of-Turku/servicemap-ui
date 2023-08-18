@@ -14,7 +14,7 @@ import PublicToiletsContent from './components/PublicToiletsContent';
 const PublicToilets = () => {
   const [publicToiletsData, setPublicToiletsData] = useState([]);
 
-  const { openMobilityPlatform, showPublicToilets } = useMobilityPlatformContext();
+  const { showPublicToilets } = useMobilityPlatformContext();
 
   const { icon } = global.L;
 
@@ -27,10 +27,10 @@ const PublicToilets = () => {
       type_name: 'PublicToilet',
       page_size: 50,
     };
-    if (openMobilityPlatform) {
+    if (showPublicToilets) {
       fetchMobilityMapData(options, setPublicToiletsData);
     }
-  }, [openMobilityPlatform, setPublicToiletsData]);
+  }, [showPublicToilets]);
 
   const renderData = isDataValid(showPublicToilets, publicToiletsData);
 

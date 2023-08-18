@@ -14,7 +14,7 @@ const ParkingSpaces = () => {
   const [parkingStatistics, setParkingStatistics] = useState([]);
   const [fetchError, setFetchError] = useState(false);
 
-  const { openMobilityPlatform, showParkingSpaces } = useMobilityPlatformContext();
+  const { showParkingSpaces } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -44,11 +44,11 @@ const ParkingSpaces = () => {
   const isParkingStatisticsUrl = !parkingStatisticsUrl || parkingStatisticsUrl === 'undefined' ? null : parkingStatisticsUrl;
 
   useEffect(() => {
-    if (openMobilityPlatform && isParkingSpacesUrl && isParkingStatisticsUrl) {
+    if (showParkingSpaces && isParkingSpacesUrl && isParkingStatisticsUrl) {
       fetchParkingAreaGeometries(isParkingSpacesUrl, setParkingSpaces, setFetchError);
       fetchParkingAreaStats(isParkingStatisticsUrl, setParkingStatistics, setFetchError);
     }
-  }, [openMobilityPlatform, setParkingSpaces, setParkingStatistics]);
+  }, [showParkingSpaces]);
 
   const swapCoords = (inputData) => {
     if (inputData.length > 0) {
@@ -72,9 +72,9 @@ const ParkingSpaces = () => {
   }, [showParkingSpaces, parkingSpaces, fetchError]);
 
   const renderColor = (itemId, capacity) => {
-    const stats = parkingStatistics.find(item => item.id === itemId);
+    const stats = parkingStatistics?.find(item => item.id === itemId);
     const almostFull = capacity * 0.85;
-    const parkingCount = stats.current_parking_count;
+    const parkingCount = stats?.current_parking_count;
     if (parkingCount >= almostFull) {
       return redColor;
     }

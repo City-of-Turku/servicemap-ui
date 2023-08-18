@@ -13,19 +13,14 @@ const LamCounters = () => {
   const [lamCounterStations, setLamCounterStations] = useState([]);
   const [trafficCounterStations, setTrafficCounterStations] = useState([]);
 
-  const { openMobilityPlatform, showLamCounter } = useMobilityPlatformContext();
+  const { showLamCounter } = useMobilityPlatformContext();
 
   useEffect(() => {
-    if (openMobilityPlatform) {
+    if (showLamCounter) {
       fetchTrafficCounterStations('LC', setLamCounterStations);
-    }
-  }, [openMobilityPlatform, setLamCounterStations]);
-
-  useEffect(() => {
-    if (openMobilityPlatform) {
       fetchTrafficCounterStations('TC', setTrafficCounterStations);
     }
-  }, [openMobilityPlatform, setTrafficCounterStations]);
+  }, [showLamCounter]);
 
   const allStationsData = [].concat(lamCounterStations, trafficCounterStations);
 

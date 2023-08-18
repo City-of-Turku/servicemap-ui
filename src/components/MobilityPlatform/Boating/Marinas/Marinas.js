@@ -18,7 +18,7 @@ import MarinasContent from './components/MarinasContent';
 const Marinas = () => {
   const [marinasData, setMarinasData] = useState([]);
 
-  const { openMobilityPlatform, showMarinas } = useMobilityPlatformContext();
+  const { showMarinas } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -27,10 +27,10 @@ const Marinas = () => {
       type_name: 'Marina',
       latlon: true,
     };
-    if (openMobilityPlatform) {
+    if (showMarinas) {
       fetchMobilityMapData(options, setMarinasData);
     }
-  }, [openMobilityPlatform, setMarinasData]);
+  }, [showMarinas]);
 
   const blueOptions = blueOptionsBase({ weight: 5 });
   const whiteOptions = whiteOptionsBase({
