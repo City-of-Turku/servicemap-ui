@@ -105,6 +105,7 @@ const EmbedderView = ({
   const [crossWalks, setCrossWalks] = useState(false);
   const [underPass, setUnderpass] = useState(false);
   const [overPass, setOverPass] = useState(false);
+  const [publicBenches, setPublicBenches] = useState(false);
 
   const boundsRef = useRef([]);
   const dialogRef = useRef();
@@ -130,6 +131,7 @@ const EmbedderView = ({
     crossWalks,
     underPass,
     overPass,
+    publicBenches,
     bbox: selectedBbox,
   });
 
@@ -542,6 +544,13 @@ const EmbedderView = ({
         onChange: v => setCrossWalks(v),
         icon: null,
         labelId: 'mobilityPlatform.embedded.label.crossWalks',
+      },
+      {
+        key: 'publicBenches',
+        value: publicBenches,
+        onChange: v => setPublicBenches(v),
+        icon: null,
+        labelId: 'mobilityPlatform.menu.show.publicBenches',
       },
       {
         key: 'underPass',

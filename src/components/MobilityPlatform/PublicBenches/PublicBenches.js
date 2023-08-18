@@ -83,7 +83,7 @@ const PublicBenches = ({ mapObject }) => {
     },
   });
 
-  const paramValue = url.searchParams.get('benches') === '1';
+  const paramValue = url.searchParams.get('public_benches') === '1';
   const renderData = isDetailZoom && setRender(paramValue, embedded, showPublicBenches, publicBenchesData, isDataValid);
 
   return (

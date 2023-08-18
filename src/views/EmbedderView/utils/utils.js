@@ -57,6 +57,9 @@ export const getEmbedURL = (url, params = {}) => {
   if (params.crossWalks) {
     data.crosswalks = params.crossWalks ? 1 : 0;
   }
+  if (params.publicBenches) {
+    data.public_benches = params.publicBenches ? 1 : 0;
+  }
   if (params.underPass) {
     data.underpass = params.underPass ? 1 : 0;
   }
