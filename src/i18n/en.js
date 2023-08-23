@@ -684,7 +684,7 @@ const translations = {
   'mobilityPlatform.menu.show.busStops': 'Bus stops (zoom in on the map)',
   'mobilityPlatform.menu.show.underPasses': 'Underpasses',
   'mobilityPlatform.menu.show.overPasses': 'Overpasses',
-  'mobilityPlatform.menu.show.rentalCarParking': 'Yhteiskäyttöautojen pysäköintialueet', // TODO translate
+  'mobilityPlatform.menu.show.rentalCarParking': 'Parking places for shared use cars',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
@@ -831,7 +831,7 @@ const translations = {
   'mobilityPlatform.info.short.crosswalks': 'The maps show crosswalks in Turku.',
   'mobilityPlatform.info.busStops': 'The map shows bus stops by Turku region traffic provider Föli. By clicking the icon on the map, you can see next few departure times from the selected bus stop. Zoom in the map to see the stops. The Map data comes from the interface provided by Digitransit.',
   'mobilityPlatform.info.underAndOverpasses': 'The map shows underpasses and overpasses located within the city of Turku.',
-  'mobilityPlatform.info.rentalCarParking': 'Turussa on yhteensä viisi vain yhteiskäyttöautoille tarkoitettua pysäköintipistettä.', // TODO translate
+  'mobilityPlatform.info.rentalCarParking': 'There are total of five parking places in Turku intended only for shared use cars.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',
