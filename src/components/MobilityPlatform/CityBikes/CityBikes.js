@@ -6,8 +6,10 @@ import cityBikeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_city_bike.
 import cityBikeIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_city_bike-bw.svg';
 import follariIcon from 'servicemap-ui-turku/assets/icons/icons-icon_follari.svg';
 import follariIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_follari-bw.svg';
-import cargoBikeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_cargo_bike.svg';
-import cargoBikeIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_cargo_bike-bw.svg';
+import cargoBikeIconMain from 'servicemap-ui-turku/assets/icons/icons-icon_cargo_bikes.svg';
+import cargoBikeIconMainBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_cargo_bikes-bw.svg';
+import cargoBikesIconProvider from 'servicemap-ui-turku/assets/icons/icons-icon_cargo_bikes_provider.svg';
+import cargoBikesIconProviderBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_cargo_bikes_provider-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchCityBikesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
@@ -39,30 +41,30 @@ const CityBikes = () => {
 
   const setBaseIcon = checkMapType(embedded, useContrast, url) ? cityBikeIconBw : cityBikeIcon;
   const setFollariIcon = checkMapType(embedded, useContrast, url) ? follariIconBw : follariIcon;
-  const setCargoBikeIcon = checkMapType(embedded, useContrast, url) ? cargoBikeIconBw : cargoBikeIcon;
+  const setCargoBikesIcon = checkMapType(embedded, useContrast, url) ? cargoBikeIconMainBw : cargoBikeIconMain;
+  const setCargoBikesProviderIcon = checkMapType(embedded, useContrast, url) ? cargoBikesIconProviderBw : cargoBikesIconProvider;
 
   const iconForCityBikes = icon({
     iconUrl: zoomLevel < 14 ? setBaseIcon : setFollariIcon,
-    iconSize: zoomLevel < 14 ? [45, 45] : [35, 35],
+    iconSize: [45, 45],
   });
 
-  // TODO add new base icon for cargo bikes
   const iconForCargoBikes = icon({
-    iconUrl: zoomLevel < 14 ? setBaseIcon : setCargoBikeIcon,
-    iconSize: zoomLevel < 14 ? [45, 45] : [35, 35],
+    iconUrl: zoomLevel < 14 ? setCargoBikesIcon : setCargoBikesProviderIcon,
+    iconSize: [45, 45],
   });
 
   useEffect(() => {
     if (showCityBikes || showCargoBikes || embedded) {
       fetchCityBikesData('CBI', setCityBikeStationsData);
     }
-  }, [showCityBikes, embedded]);
+  }, [showCityBikes, showCargoBikes, embedded]);
 
   useEffect(() => {
     if (showCityBikes || showCargoBikes || embedded) {
       fetchCityBikesData('CBS', setCityBikeStatistics);
     }
-  }, [showCityBikes, embedded]);
+  }, [showCityBikes, showCargoBikes, embedded]);
 
   const cityBikeStations = [];
 
