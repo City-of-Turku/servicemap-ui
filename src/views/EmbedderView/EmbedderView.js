@@ -99,6 +99,7 @@ const EmbedderView = ({
   const [showUnitList, setShowUnitList] = useState('none');
   const [chargingStation, setChargingStation] = useState(false);
   const [cityBikes, setCityBikes] = useState(false);
+  const [cargoBikes, setCargoBikes] = useState(false);
   const [rentalCars, setRentalCars] = useState(false);
   const [bicycleStands, setBicycleStands] = useState(false);
   const [frameLockable, setFrameLockable] = useState(false);
@@ -124,6 +125,7 @@ const EmbedderView = ({
     showUnitList,
     chargingStation,
     cityBikes,
+    cargoBikes,
     rentalCars,
     bicycleStands,
     frameLockable,
@@ -528,6 +530,13 @@ const EmbedderView = ({
         onChange: v => setCityBikes(v),
         icon: null,
         labelId: 'mobilityPlatform.menu.showCityBikes',
+      },
+      {
+        key: 'cargoBikes',
+        value: cargoBikes,
+        onChange: v => setCargoBikes(v),
+        icon: null,
+        labelId: 'mobilityPlatform.menu.show.cargoBikes',
       },
       {
         key: 'transit',

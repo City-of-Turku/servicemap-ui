@@ -37,6 +37,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [bicycleRouteName, setBicycleRouteName] = useState(null);
   const [showBikeServiceStations, setShowBikeServiceStations] = useState(false);
   const [showCityBikes, setShowCityBikes] = useState(false);
+  const [showCargoBikes, setShowCargoBikes] = useState(false);
 
   // culture routes
   const [showCultureRoutes, setShowCultureRoutes] = useState(false);
@@ -107,6 +108,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     showHullLockableStands,
     showBikeServiceStations,
     showCityBikes,
+    showCargoBikes,
     // culture routes
     showCultureRoutes,
     cultureRouteId,
@@ -170,6 +172,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setShowHullLockableStands,
     setShowBikeServiceStations,
     setShowCityBikes,
+    setShowCargoBikes,
     // culture routes
     setShowCultureRoutes,
     setCultureRouteId,

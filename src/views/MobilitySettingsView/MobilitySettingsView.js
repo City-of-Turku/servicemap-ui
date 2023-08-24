@@ -95,6 +95,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowBikeServiceStations,
     showCityBikes,
     setShowCityBikes,
+    showCargoBikes,
+    setShowCargoBikes,
     showMarinas,
     setShowMarinas,
     showBoatParking,
@@ -176,6 +178,19 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       fi: 'https://www.foli.fi/fi/aikataulut-ja-reitit/f%C3%B6lifillarit',
       en: 'https://www.foli.fi/en/f%C3%B6li-bikes',
       sv: 'https://www.foli.fi/sv/fölicyklar',
+    },
+  };
+
+  const cargoBikeInfo = {
+    paragraph1: 'mobilityPlatform.info.cargoBikes.paragraph.1',
+    paragraph2: 'mobilityPlatform.info.cargoBikes.paragraph.2',
+    subtitle: 'mobilityPlatform.info.cargoBikes.subtitle',
+    link: 'mobilityPlatform.info.cargoBikes.link',
+    apiInfo: 'mobilityPlatform.info.cityBikes.apiInfo',
+    url: {
+      fi: 'https://www.turku.fi/tavarapyorat',
+      en: 'https://www.turku.fi/en/cargobikes',
+      sv: 'https://www.turku.fi/sv/lastcyklar',
     },
   };
 
@@ -330,7 +345,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showHullLockableStands, setOpenBicycleSettings);
     checkVisibilityValues(showBikeServiceStations, setOpenBicycleSettings);
     checkVisibilityValues(showCityBikes, setOpenBicycleSettings);
-  }, [showBicycleStands, showHullLockableStands, showBikeServiceStations, showCityBikes]);
+    checkVisibilityValues(showCargoBikes, setOpenBicycleSettings);
+  }, [showBicycleStands, showHullLockableStands, showBikeServiceStations, showCityBikes, showCargoBikes]);
 
   useEffect(() => {
     checkVisibilityValues(showBicycleRoutes, setOpenBicycleSettings);
@@ -659,6 +675,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const cityBikesToggle = () => {
     setShowCityBikes(current => !current);
+  };
+
+  const cargoBikesToggle = () => {
+    setShowCargoBikes(current => !current);
   };
 
   const marinasToggle = () => {
@@ -1119,6 +1139,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       onChangeValue: cityBikesToggle,
     },
     {
+      type: 'cargoBikes',
+      msgId: 'mobilityPlatform.menu.show.cargoBikes',
+      checkedValue: showCargoBikes,
+      onChangeValue: cargoBikesToggle,
+    },
+    {
       type: 'bikeServiceStations',
       msgId: 'mobilityPlatform.menu.showBikeServiceStations',
       checkedValue: showBikeServiceStations,
@@ -1471,6 +1497,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       visible: showCityBikes,
       type: 'cityBikesInfo',
       component: <CityBikeInfo bikeInfo={bikeInfo} />,
+    },
+    {
+      visible: showCargoBikes,
+      type: 'cargoBikesInfo',
+      component: <CityBikeInfo bikeInfo={cargoBikeInfo} />,
     },
     {
       visible: showBrushSaltedRoute || showBrushSandedRoute,

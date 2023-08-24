@@ -20,12 +20,7 @@ exports[`<CityBikesContent /> should work 1`] = `
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
       >
-        <strong>
-          Asema
-        </strong>
-        :
-         
-        Testiasema
+        Asema: Testiasema
       </p>
     </div>
     <div
@@ -43,12 +38,7 @@ exports[`<CityBikesContent /> should work 1`] = `
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
       >
-        <strong>
-          Kapasiteetti
-        </strong>
-        :
-         
-        20
+        Kapasiteetti: 20
       </p>
     </div>
     <div>
@@ -58,26 +48,7 @@ exports[`<CityBikesContent /> should work 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
-          <strong>
-            Pyöriä vapaana
-          </strong>
-          :
-           
-          10
-        </p>
-      </div>
-      <div
-        class="injectIntl(CityBikesContent)-paragraph-3"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
-        >
-          <strong>
-            Telineitä vapaana
-          </strong>
-          :
-           
-          20
+          Pyöriä vapaana: 10
         </p>
       </div>
     </div>
