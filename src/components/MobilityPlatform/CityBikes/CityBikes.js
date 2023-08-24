@@ -51,7 +51,7 @@ const CityBikes = () => {
 
   const iconForCargoBikes = icon({
     iconUrl: zoomLevel < 14 ? setCargoBikesIcon : setCargoBikesProviderIcon,
-    iconSize: zoomLevel < 14 ? [45, 45] : [60, 60],
+    iconSize: zoomLevel < 14 ? [45, 45] : [35, 35],
   });
 
   useEffect(() => {
