@@ -812,7 +812,7 @@ const translations = {
   'mobilityPlatform.info.cargoBikes.paragraph.1': 'De elektriska lastcyklarna för gemensamt bruk, är cyklar som vem som helst kan hyra via Donkey Republic appen.',
   'mobilityPlatform.info.cargoBikes.paragraph.2': 'Cyklarna ägs av Kaakau Ab.',
   'mobilityPlatform.info.cargoBikes.subtitle': 'Läs mer om lastcyklarna:',
-  'mobilityPlatform.info.cargoBikes.link': 'https://www.turku.fi/sv/nyhet/2023-06-05_finlands-forsta-lastcyklar-gemensamt-bruk-till-abo',
+  'mobilityPlatform.info.cargoBikes.link': 'https://www.turku.fi/sv/lastcyklar',
   'mobilityPlatform.info.guestHarbour': 'Turku Gästhamn ligger precis intill centrum, på Västra Strandgatan 57. Mer information t.ex. om bokning av båtplats finns på',
   'mobilityPlatform.info.guestHarbour.link': 'www.turunvierasvenesatama.fi/sv',
   'mobilityPlatform.info.marinas': 'Åbo stad har båtplatser vid Färjstranden, Uittamo och Aura å. Båtplatser kan bokas och betalas via Bokningstjänsten. Båtsäsongen börjar den 1 maj och slutar den 31 oktober. Båtplatser kan bokas från januari 31. Där går det att bläddra bland lediga platser efter hamn och båtens mått. Vid Färjstranden finns det också vinterförvaringsplatser. Båten kan laggas i vinterforvaring mellan september 1 och maj 31.',

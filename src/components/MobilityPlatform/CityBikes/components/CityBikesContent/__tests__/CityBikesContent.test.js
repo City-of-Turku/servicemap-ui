@@ -19,12 +19,10 @@ const mockProps = {
     {
       station_id: 'abc123test',
       num_bikes_available: 10,
-      num_docks_available: 20,
     },
     {
       station_id: 'abc456test',
       num_bikes_available: 5,
-      num_docks_available: 30,
     },
   ],
 };
@@ -48,8 +46,7 @@ describe('<CityBikesContent />', () => {
     expect(p[1].textContent).toContain(finnishTranslations['mobilityPlatform.content.cityBikes.virtualStation']);
     expect(p[2].textContent).toContain(`Kapasiteetti: ${mockProps.bikeStation.capacity}`);
     expect(p[3].textContent).toContain('Pyöriä vapaana: 10');
-    expect(p[4].textContent).toContain('Telineitä vapaana: 20');
-    expect(p[5].textContent).toContain(finnishTranslations['mobilityPlatform.content.general.rentalUris']);
+    expect(p[4].textContent).toContain(finnishTranslations['mobilityPlatform.content.general.rentalUris']);
     expect(link[0].textContent).toEqual('Android');
     expect(link[1].textContent).toEqual('iOS');
   });

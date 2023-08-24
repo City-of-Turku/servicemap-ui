@@ -186,9 +186,9 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     link: 'mobilityPlatform.info.cargoBikes.link',
     apiInfo: 'mobilityPlatform.info.cityBikes.apiInfo',
     url: {
-      fi: 'https://www.turku.fi/suomen-ensimmaiset-yhteiskayttoiset-taakkapyorat-turkuun',
-      en: 'https://www.turku.fi/en/news/2023-06-05_finlands-first-shared-use-cargo-bikes-turku',
-      sv: 'https://www.turku.fi/sv/nyhet/2023-06-05_finlands-forsta-lastcyklar-gemensamt-bruk-till-abo',
+      fi: 'https://www.turku.fi/tavarapyorat',
+      en: 'https://www.turku.fi/en/cargobikes',
+      sv: 'https://www.turku.fi/sv/lastcyklar',
     },
   };
 

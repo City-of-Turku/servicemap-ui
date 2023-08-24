@@ -2,8 +2,6 @@ import { Link, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-// TODO update content to render cargo bike specific values
-
 const CityBikesContent = ({
   classes, intl, bikeStation, cityBikeStatistics,
 }) => {
@@ -72,9 +70,6 @@ const CityBikesContent = ({
       <div>
         {!isCargoBike
           ? renderText('mobilityPlatform.content.cityBikes.bikes.available', stationItem?.num_bikes_available)
-          : null}
-        {!isCargoBike
-          ? renderText('mobilityPlatform.content.cityBikes.docks.available', stationItem?.num_docks_available)
           : null}
         {isCargoBike
           ? stationItem?.vehicle_types_available

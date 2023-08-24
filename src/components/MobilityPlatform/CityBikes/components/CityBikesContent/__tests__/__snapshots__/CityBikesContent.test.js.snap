@@ -51,15 +51,6 @@ exports[`<CityBikesContent /> should work 1`] = `
           Pyöriä vapaana: 10
         </p>
       </div>
-      <div
-        class="injectIntl(CityBikesContent)-paragraph-3"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
-        >
-          Telineitä vapaana: 20
-        </p>
-      </div>
     </div>
     <div
       class="injectIntl(CityBikesContent)-paragraph-3"

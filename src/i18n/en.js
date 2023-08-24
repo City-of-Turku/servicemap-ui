@@ -809,7 +809,7 @@ const translations = {
   'mobilityPlatform.info.cargoBikes.paragraph.1': 'Electric cargo bikes are cargo bicycles that everyone can rent using the Donkey Republic app.',
   'mobilityPlatform.info.cargoBikes.paragraph.2': 'Cargo bikes provided by Kaakau.',
   'mobilityPlatform.info.cargoBikes.subtitle': 'Read more:',
-  'mobilityPlatform.info.cargoBikes.link': 'https://www.turku.fi/en/news/2023-06-05_finlands-first-shared-use-cargo-bikes-turku',
+  'mobilityPlatform.info.cargoBikes.link': 'https://www.turku.fi/en/cargobikes',
   'mobilityPlatform.info.guestHarbour': 'Turku Guest harbour is directly next to the city centre, on Läntinen Rantakatu 57. More information about e.g. booking of boat place can be found on',
   'mobilityPlatform.info.guestHarbour.link': 'www.turunvierasvenesatama.fi/en',
   'mobilityPlatform.info.marinas': 'City of Turku´s marina berths are located in Uittamo, Lauttaranta and Aura River. A berth can be reserved and paid either on the Varauspalvelu reservation service (in Finnish only) or at the customer service of the City of Turku (Puolalankatu 5). Boating season begins 1st of May and ends on 31st of October. Reservations open on January 31. On the Varauspalvelu reservation service you can browse available berths by harbour and by boat size. There are also winter storage places for boats in Lauttaranta. Boats can be stored for winter between September 1st and May 31st.',

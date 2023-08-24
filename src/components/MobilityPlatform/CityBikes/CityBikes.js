@@ -46,12 +46,12 @@ const CityBikes = () => {
 
   const iconForCityBikes = icon({
     iconUrl: zoomLevel < 14 ? setBaseIcon : setFollariIcon,
-    iconSize: [45, 45],
+    iconSize: zoomLevel < 14 ? [45, 45] : [35, 35],
   });
 
   const iconForCargoBikes = icon({
     iconUrl: zoomLevel < 14 ? setCargoBikesIcon : setCargoBikesProviderIcon,
-    iconSize: [45, 45],
+    iconSize: zoomLevel < 14 ? [45, 45] : [60, 60],
   });
 
   useEffect(() => {

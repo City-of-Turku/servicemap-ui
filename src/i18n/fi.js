@@ -805,7 +805,7 @@ const translations = {
   'mobilityPlatform.info.cargoBikes.paragraph.1': 'Yhteiskäyttöiset sähköiset tavarapyörät ovat pyöriä, joita kuka vaan voi vuokrata Donkey Republicin sovelluksella.',
   'mobilityPlatform.info.cargoBikes.paragraph.2': 'Pyörät ovat Kaakau Oy:n.',
   'mobilityPlatform.info.cargoBikes.subtitle': 'Lue lisää tavarapyöristä:',
-  'mobilityPlatform.info.cargoBikes.link': 'https://www.turku.fi/suomen-ensimmaiset-yhteiskayttoiset-taakkapyorat-turkuun',
+  'mobilityPlatform.info.cargoBikes.link': 'https://www.turku.fi/tavarapyörät',
   'mobilityPlatform.info.guestHarbour': 'Turun vierasvenesatama sijaitsee aivan keskustan kupeessa, osoitteessa Läntinen Rantakatu 57. Lisätietoja liittyen esimerkiksi venepaikan varaamiseen löytyy osoitteesta',
   'mobilityPlatform.info.guestHarbour.link': 'www.turunvierasvenesatama.fi',
   'mobilityPlatform.info.marinas': 'Turun kaupungilla on venepaikkoja Lauttarannassa, Uittamolla ja Aurajoessa.  Venepaikkoja voi varata ja maksaa Varauspalvelussa, jossa vapaita paikkoja voi selata satamittain ja myös veneen mittojen mukaan. Veneilykausi on 1.5 - 31.10. Venepaikkoja voi varata 31.1 alkaen. Lauttarannassa on lisäksi talvisäilytyspaikkoja. Talvisäilytysaika on 1.9 - 31.5.',
