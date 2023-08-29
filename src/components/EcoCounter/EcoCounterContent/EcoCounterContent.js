@@ -39,7 +39,16 @@ const EcoCounterContent = ({
   const stationId = station.id;
   const stationName = station.name;
   const stationSource = station.csv_data_source;
-  const userTypes = station.sensor_types;
+
+  /** When all 3 user types are rendered, a reverse order is required where 'at' is placed last */
+  const reverseUserTypes = () => {
+    if (station.sensor_types.includes('at')) {
+      return [...station.sensor_types].reverse();
+    }
+    return station.sensor_types;
+  };
+
+  const userTypes = reverseUserTypes();
 
   const setUserTypeValue = () => {
     if (userTypes.includes('at')) {
