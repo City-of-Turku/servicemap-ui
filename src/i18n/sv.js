@@ -825,7 +825,7 @@ const translations = {
   'mobilityPlatform.info.scooters.speedLimitAreas': 'Hastigheten på området är max. 15km/h.',
   'mobilityPlatform.info.scooters.general': 'Servicekartan visar företagets lediga hyreselsparkcyklar. Andra leverantörers elsparkcyklar kommer att läggas till mobilitetsvyn senare.',
   'mobilityPlatform.info.disabledParking': 'Parkeringsplatser avsedda för personer med nedsatt rörlighet visas på kartan. För att parkera på dem behöver du ett parkeringstillstånd för rörelsehindrade. Plattserna ärr tillgängliga, förutom de som nås via en port.',
-  'mobilityPlatform.info.loadingPlaces': 'Kartan visar platserna som är avsedda för lastning och lossning av gods.',
+  'mobilityPlatform.info.loadingPlaces': 'Kartan visar platserna som är avsedda för lastning och lossning av gods. Informationen baserar sig på en kartläggning som gjordes 08/2022.',
   'mobilityPlatform.info.streetMaintenance.noActivity': 'Det pågår inget underhållsarbete under den valda tidsperioden.',
   'mobilityPlatform.info.streetMaintenance.general': 'Gatuunderhållet omfattar plogning och sandning av körbanor, cykelvägar och strukturellt oskiljaktiga gång- och cykelvägar på vintern och borttagning av sandingssand på våren.',
   'mobilityPlatform.info.streetMaintenance.link': 'Spelregler för vinterunderhåll.',

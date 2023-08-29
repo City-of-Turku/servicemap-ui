@@ -818,7 +818,7 @@ const translations = {
   'mobilityPlatform.info.scooters.speedLimitAreas': 'Ylin sallittu nopeus alueilla on 15 km/t.',
   'mobilityPlatform.info.scooters.general': 'Palvelukartalla näkyvät operaattorien vapaana olevat sähköpotkulaudat. Liikkumisnäkymään tullaan lisäämään tietoja muidenkin operaattorien sähköpotkulaudoista.',
   'mobilityPlatform.info.disabledParking': 'Kartalla näkyvät liikkumisesteisille tarkoitetut pysäköintipaikat. Niihin pysäköintiä varten tarvitsee liikkumisesteisen pysäköintitunnuksen. Paikkoihin on esteetön pääsy, poislukien ne pysäköintipaikat, joihin pääsee portin kautta.',
-  'mobilityPlatform.info.loadingPlaces': 'Kartalla näkyvät tavaroiden lastaukseen ja purkamiseen tarkoitetut paikat.',
+  'mobilityPlatform.info.loadingPlaces': 'Kartalla näkyvät tavaroiden lastaukseen ja purkamiseen tarkoitetut paikat. Tiedot perustuvat 08/2022 tehtyyn kartoitukseen.',
   'mobilityPlatform.info.streetMaintenance.noActivity': 'Kunnossapitotöitä ei ole meneillään valitulla ajanjaksolla.',
   'mobilityPlatform.info.streetMaintenance.general': 'Katujen kunnossapitoon kuuluu ajoratojen, pyöräteiden ja rakenteellisesti toisistaan erottamattomien jalankulku- ja pyöräteiden auraus sekä hiekoitus talvella ja hiekoitushiekan poisto keväällä.',
   'mobilityPlatform.info.streetMaintenance.link': 'Talvikunnossapidon pelisäännöt.',

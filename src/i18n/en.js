@@ -822,7 +822,7 @@ const translations = {
   'mobilityPlatform.info.scooters.speedLimitAreas': 'Maximum speed allowed on the areas shown on the map is 15 km/h.',
   'mobilityPlatform.info.scooters.general': 'The service map shows available electric scooters provided by operators. Electric scooters provided by other operators will be visible on the mobility view later.',
   'mobilityPlatform.info.disabledParking': 'Parking spaces intended for people with reduced mobility are shown on the map. To park on them, you need a disabled parking permit. There is accessible access to the parking places, excluding those parking places that can only be accessed through a gate.',
-  'mobilityPlatform.info.loadingPlaces': 'The map shows the places for loading and unloading goods.',
+  'mobilityPlatform.info.loadingPlaces': 'The map shows the places for loading and unloading goods. The information is based on a mappig carried out 08/2022.',
   'mobilityPlatform.info.streetMaintenance.noActivity': 'There is no street maintenance work in progress during the selected time period.',
   'mobilityPlatform.info.streetMaintenance.general': 'Street maintenance includes ploughing and sanding of streets, cycle paths and structurally indistinguishable footpaths and cycle paths in winter and removing the sand in spring.',
   'mobilityPlatform.info.streetMaintenance.link': 'Winter maintenance rules.',
