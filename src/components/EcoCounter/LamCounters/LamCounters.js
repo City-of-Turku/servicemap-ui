@@ -22,7 +22,18 @@ const LamCounters = () => {
     }
   }, [showLamCounter]);
 
-  const allStationsData = [].concat(lamCounterStations, trafficCounterStations);
+  /** Filter out stations that have empty sensor_types array.
+   * Those stations do not have data and sensor type(s) were never assigned.
+   * It only occurs in some counters operated by Turku.
+   * This will also prevent rendering bugs. */
+  const filteredTrafficCounters = trafficCounterStations.reduce((acc, curr) => {
+    if (curr.sensor_types.length) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
+  const allStationsData = [].concat(lamCounterStations, filteredTrafficCounters);
 
   const map = useMap();
 
