@@ -6,6 +6,7 @@ import config from '../../../../config';
 const apiUrl = config.mobilityPlatformAPI;
 const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
 
+/** fetch counter stations by counter type, eg. 'TR' (Telraam). */
 const fetchTrafficCounterStations = async (type, setStations) => {
   try {
     const response = await fetch(`${isApiUrl}/eco-counter/stations?page_size=200&counter_type=${type}`);
@@ -16,7 +17,7 @@ const fetchTrafficCounterStations = async (type, setStations) => {
   }
 };
 
-// TODO Change this into the default fetch function
+/** Fetch traffic counter stations by user type, eg. 'p' (cyclists / pyöräilijät). */
 const fetchTrafficCounterStationsByType = async (dataType, setStations) => {
   try {
     const response = await fetch(`${isApiUrl}/eco-counter/stations?page_size=200&data_type=${dataType}`);

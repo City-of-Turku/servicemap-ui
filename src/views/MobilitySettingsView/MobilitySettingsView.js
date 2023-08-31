@@ -1871,8 +1871,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 };
 
 MobilitySettingsView.propTypes = {
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func,
+  }).isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   navigator: PropTypes.objectOf(PropTypes.any),
 };
 
