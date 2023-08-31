@@ -43,6 +43,8 @@ const styles = (theme) => ({
     justifyContent: 'space-between',
   },
   headerSubtitle: {
+    padding: '4px 0 5px',
+    fontWeight: 'bold',
     marginBlockStart: theme.spacing(2),
     marginBlockEnd: theme.spacing(0.2),
   },
@@ -50,6 +52,7 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    width: '30%',
   },
   lamCounterUserTypes: {
     display: 'flex',

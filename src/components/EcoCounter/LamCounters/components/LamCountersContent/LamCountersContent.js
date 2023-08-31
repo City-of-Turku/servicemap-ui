@@ -6,7 +6,6 @@ import React, {
 } from 'react';
 import { useSelector } from 'react-redux';
 import { ButtonBase, Typography } from '@mui/material';
-import { CalendarMonth } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import {
@@ -407,7 +406,6 @@ const LamCountersContent = ({
             dateFormat="P"
             customInput={<CustomInput inputRef={inputRef} />}
           />
-          <CalendarMonth />
         </div>
       </div>
       <div className={classes.lamCounterContent}>

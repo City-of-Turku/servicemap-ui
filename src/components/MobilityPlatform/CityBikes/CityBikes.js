@@ -101,7 +101,7 @@ const CityBikes = () => {
   }, [showCityBikes, showCargoBikes]);
 
   const renderCityBikeMarkers = (isValid, data, icon) => (isValid ? (
-    data.map(item => (
+    data.map((item) => (
       <Marker
         key={item.station_id}
         icon={icon}

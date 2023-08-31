@@ -7,7 +7,6 @@ import React, {
   useEffect, useState, useRef, forwardRef,
 } from 'react';
 import { useSelector } from 'react-redux';
-import { CalendarMonth } from '@mui/icons-material';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import {
   endOfMonth,
@@ -497,7 +496,6 @@ const EcoCounterContent = ({
             dateFormat="P"
             customInput={<CustomInput inputRef={inputRef} />}
           />
-          <CalendarMonth />
         </div>
       </div>
       <div className={classes.ecocounterContent}>
