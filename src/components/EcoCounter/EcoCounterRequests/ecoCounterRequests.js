@@ -16,6 +16,17 @@ const fetchTrafficCounterStations = async (type, setStations) => {
   }
 };
 
+// TODO Change this into the default fetch function
+const fetchTrafficCounterStationsByType = async (dataType, setStations) => {
+  try {
+    const response = await fetch(`${isApiUrl}/eco-counter/stations?page_size=200&data_type=${dataType}`);
+    const jsonData = await response.json();
+    setStations(jsonData.results);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 const fetchInitialHourData = async (day, stationId, setHourData) => {
   try {
     const response = await fetch(`${isApiUrl}/eco-counter/hour_data/get_hour_data?date=${day}&station_id=${stationId}`);
@@ -76,6 +87,7 @@ const fetchInitialYearData = async (yearNumber, id, setYearData) => {
 
 export {
   fetchTrafficCounterStations,
+  fetchTrafficCounterStationsByType,
   fetchInitialHourData,
   fetchInitialDayDatas,
   fetchInitialWeekDatas,

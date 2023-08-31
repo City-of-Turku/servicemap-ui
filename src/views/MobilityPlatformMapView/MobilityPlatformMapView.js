@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EcoCounterMarkers from '../../components/EcoCounter/EcoCounterMarkers';
-import LamCounters from '../../components/EcoCounter/LamCounters';
+import TrafficCounters from '../../components/EcoCounter/TrafficCounters';
 import BicycleRoutes from '../../components/MobilityPlatform/BicycleRoutes';
 import BicycleStands from '../../components/MobilityPlatform/BicycleStands';
 import BikeServiceStations from '../../components/MobilityPlatform/BikeServiceStations';
@@ -37,8 +36,7 @@ import RentalCarParking from '../../components/MobilityPlatform/Parking/RentalCa
 
 const MobilityPlatformMapView = ({ mapObject }) => (
   <>
-    <EcoCounterMarkers />
-    <LamCounters />
+    <TrafficCounters />
     <BicycleStands />
     <BicycleRoutes />
     <CultureRoutes />

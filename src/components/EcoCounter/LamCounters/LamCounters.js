@@ -50,17 +50,15 @@ const LamCounters = () => {
   }, [showLamCounter, allStationsData]);
 
   return (
-    <>
-      {renderData ? (
-        allStationsData.map(item => (
-          <CounterMarkers key={item.id} counterStation={item}>
-            <LamCountersContent
-              station={item}
-            />
-          </CounterMarkers>
-        ))
-      ) : null}
-    </>
+    renderData ? (
+      allStationsData.map((item) => (
+        <CounterMarkers key={item.id} counterStation={item}>
+          <LamCountersContent
+            station={item}
+          />
+        </CounterMarkers>
+      ))
+    ) : null
   );
 };
 
