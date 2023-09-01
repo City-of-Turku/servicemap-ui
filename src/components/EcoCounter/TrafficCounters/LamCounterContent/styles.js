@@ -52,7 +52,7 @@ const styles = (theme) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    width: '30%',
+    maxWidth: '32%',
   },
   lamCounterUserTypes: {
     display: 'flex',

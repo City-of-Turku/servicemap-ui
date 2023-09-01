@@ -4,12 +4,12 @@ import { InputBase, InputAdornment } from '@mui/material';
 import styled from '@emotion/styled';
 import { CalendarMonth } from '@mui/icons-material';
 
-const InputDate = ({ value, onClick, onChange }, ref) => (
+const InputDateFunction = ({ value, onClick, onChange }, ref) => (
   <StyledInputBase
     type="text"
     value={value}
     ref={ref}
-    onChange={e => onChange(e.target.value)}
+    onChange={(e) => onChange(e.target.value)}
     onClick={onClick}
     startAdornment={(
       <InputAdornment position="start">
@@ -27,14 +27,16 @@ const StyledInputBase = styled(InputBase)(() => ({
   cursor: 'pointer',
 }));
 
-InputDate.propTypes = {
+const InputDate = forwardRef(InputDateFunction);
+
+InputDateFunction.propTypes = {
   value: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
-InputDate.defaultProps = {
+InputDateFunction.defaultProps = {
   value: '',
 };
 
-export default forwardRef(InputDate);
+export default InputDate;
