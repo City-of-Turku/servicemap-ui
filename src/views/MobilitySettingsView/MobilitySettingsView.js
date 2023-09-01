@@ -144,8 +144,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowFitnessTrails,
     fitnessTrailsObj,
     setFitnessTrailsObj,
-    showLamCounter,
-    setShowLamCounter,
     showParkingMachines,
     setShowParkingMachines,
     showPublicParking,
@@ -334,11 +332,15 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   useEffect(() => {
     checkVisibilityValues(showTrafficCounter.walking, setOpenWalkSettings);
-  }, [showTrafficCounter]);
+  }, [showTrafficCounter.walking]);
 
   useEffect(() => {
     checkVisibilityValues(showTrafficCounter.cycling, setOpenBicycleSettings);
-  }, [showTrafficCounter]);
+  }, [showTrafficCounter.cycling]);
+
+  useEffect(() => {
+    checkVisibilityValues(showTrafficCounter.driving, setOpenCarSettings);
+  }, [showTrafficCounter.driving]);
 
   useEffect(() => {
     checkVisibilityValues(showBicycleStands, setOpenBicycleSettings);
@@ -390,7 +392,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showSpeedLimitZones, setOpenCarSettings);
     checkVisibilityValues(showDisabledParking, setOpenCarSettings);
     checkVisibilityValues(showLoadingPlaces, setOpenCarSettings);
-    checkVisibilityValues(showLamCounter, setOpenCarSettings);
     checkVisibilityValues(showParkingMachines, setOpenCarSettings);
     checkVisibilityValues(showPublicParking, setOpenCarSettings);
     checkVisibilityValues(showRentalCarParking, setOpenCarSettings);
@@ -402,7 +403,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     showSpeedLimitZones,
     showDisabledParking,
     showLoadingPlaces,
-    showLamCounter,
     showParkingMachines,
     showPublicParking,
     showRentalCarParking,
@@ -621,8 +621,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    */
   const trafficCounterStationsToggle = () => {
     if (!showTrafficCounter.walking) {
-      setShowTrafficCounter(showTrafficCounter => ({ ...showTrafficCounter, walking: true }));
-    } else setShowTrafficCounter(showTrafficCounter => ({ ...showTrafficCounter, walking: false }));
+      setShowTrafficCounter((showTrafficCounter) => ({ ...showTrafficCounter, walking: true }));
+    } else setShowTrafficCounter((showTrafficCounter) => ({ ...showTrafficCounter, walking: false }));
   };
 
   /**
@@ -632,8 +632,19 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    */
   const trafficCounterStationsToggleCycling = () => {
     if (!showTrafficCounter.cycling) {
-      setShowTrafficCounter(showTrafficCounter => ({ ...showTrafficCounter, cycling: true }));
-    } else setShowTrafficCounter(showTrafficCounter => ({ ...showTrafficCounter, cycling: false }));
+      setShowTrafficCounter((showTrafficCounter) => ({ ...showTrafficCounter, cycling: true }));
+    } else setShowTrafficCounter((showTrafficCounter) => ({ ...showTrafficCounter, cycling: false }));
+  };
+
+  /**
+   * Toggle function for traffic counter stations that contain data about cars
+   * @var {Object} showTrafficCounter
+   * @returns {Object} showTrafficCounter
+   */
+  const trafficCounterStationsToggleDriving = () => {
+    if (!showTrafficCounter.driving) {
+      setShowTrafficCounter((showTrafficCounter) => ({ ...showTrafficCounter, driving: true }));
+    } else setShowTrafficCounter((showTrafficCounter) => ({ ...showTrafficCounter, driving: false }));
   };
 
   /**
@@ -647,10 +658,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const hullLockableStandsToggle = () => {
     setShowHullLockableStands((current) => !current);
-  };
-
-  const lamCounterStationsToggle = () => {
-    setShowLamCounter((current) => !current);
   };
 
   const parkingSpacesToggle = () => {
@@ -678,7 +685,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const cargoBikesToggle = () => {
-    setShowCargoBikes(current => !current);
+    setShowCargoBikes((current) => !current);
   };
 
   const marinasToggle = () => {
@@ -722,11 +729,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const overPassesToggle = () => {
-    setShowOverpasses(current => !current);
+    setShowOverpasses((current) => !current);
   };
 
   const underPassesToggle = () => {
-    setShowUnderpasses(current => !current);
+    setShowUnderpasses((current) => !current);
   };
 
   const scooterSpeedLimitAreasToggle = () => {
@@ -753,7 +760,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const rentalCarParkingToggle = () => {
-    setShowRentalCarParking(current => !current);
+    setShowRentalCarParking((current) => !current);
   };
 
   const busStopsToggle = () => {
@@ -1052,7 +1059,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    */
   const walkingControlTypes = [
     {
-      type: 'ecoCounterStations',
+      type: 'counterStationsPedestrian',
       msgId: 'mobilityPlatform.menu.showEcoCounter',
       checkedValue: showTrafficCounter.walking,
       onChangeValue: trafficCounterStationsToggle,
@@ -1115,7 +1122,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const bicycleControlTypes = [
     {
-      type: 'ecoCounterStations',
+      type: 'counterStationsCyclist',
       msgId: 'mobilityPlatform.menu.showEcoCounter',
       checkedValue: showTrafficCounter.cycling,
       onChangeValue: trafficCounterStationsToggleCycling,
@@ -1172,10 +1179,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const carControlTypes = [
     {
-      type: 'lamCounters',
+      type: 'counterStationsDrivers',
       msgId: 'mobilityPlatform.menu.showEcoCounter',
-      checkedValue: showLamCounter,
-      onChangeValue: lamCounterStationsToggle,
+      checkedValue: showTrafficCounter.driving,
+      onChangeValue: trafficCounterStationsToggleDriving,
     },
     {
       type: 'rentalCars',
@@ -1324,7 +1331,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    * @param {Array} inputData
    * @return {JSX Element}
    */
-  const renderBicycleRoutes = inputData => (
+  const renderBicycleRoutes = (inputData) => (
     <RouteList
       openList={openBicycleRouteList}
       items={inputData}
@@ -1340,7 +1347,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    * @param {Array} inputData
    * @return {JSX Element}
    */
-  const renderCultureRoutes = inputData => (
+  const renderCultureRoutes = (inputData) => (
     <RouteList
       openList={openCultureRouteList}
       items={inputData}
@@ -1517,7 +1524,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const infoTextsDriving = [
     {
-      visible: showLamCounter,
+      visible: showTrafficCounter.driving,
       type: 'lamCountersInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.lamCounters" />,
     },
@@ -1864,8 +1871,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 };
 
 MobilitySettingsView.propTypes = {
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func,
+  }).isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   navigator: PropTypes.objectOf(PropTypes.any),
 };
 

@@ -31,13 +31,13 @@ import {
   fetchInitialMonthDatas,
   fetchInitialWeekDatas,
   fetchInitialYearData,
-} from '../../../EcoCounterRequests/ecoCounterRequests';
-import LineChart from '../../../LineChart';
-import InputDate from '../../../InputDate';
+} from '../../EcoCounterRequests/ecoCounterRequests';
+import LineChart from '../../LineChart';
+import InputDate from '../../InputDate';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
-const LamCountersContent = ({
+const LamCounterContent = ({
   classes, intl, station,
 }) => {
   const [lamCounterHour, setLamCounterHour] = useState([]);
@@ -386,10 +386,10 @@ const LamCountersContent = ({
   }, [currentTime]);
 
   /**
-   * Split name into array of words and remove special characters (_) and first index (for example 'vt1').
-   * @param {string} name for example vt1_Kupittaa
-   * @returns {string} for example Kupittaa
-   */
+     * Split name into array of words and remove special characters (_) and first index (for example 'vt1').
+     * @param {string} name for example vt1_Kupittaa
+     * @returns {string} for example Kupittaa
+     */
   const formatCounterName = (name) => name?.split('_').splice(1).join(' ');
 
   return (
@@ -460,7 +460,7 @@ const LamCountersContent = ({
   );
 };
 
-LamCountersContent.propTypes = {
+LamCounterContent.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   intl: PropTypes.shape({
     formatMessage: PropTypes.func,
@@ -473,7 +473,7 @@ LamCountersContent.propTypes = {
   }),
 };
 
-LamCountersContent.defaultProps = {
+LamCounterContent.defaultProps = {
   station: {
     id: 0,
     name: '',
@@ -482,4 +482,4 @@ LamCountersContent.defaultProps = {
   },
 };
 
-export default LamCountersContent;
+export default LamCounterContent;

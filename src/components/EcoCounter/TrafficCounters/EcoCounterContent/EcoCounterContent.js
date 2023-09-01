@@ -32,9 +32,9 @@ import {
   fetchInitialHourData,
   fetchInitialMonthDatas,
   fetchInitialWeekDatas,
-} from '../EcoCounterRequests/ecoCounterRequests';
-import LineChart from '../LineChart';
-import InputDate from '../InputDate';
+} from '../../EcoCounterRequests/ecoCounterRequests';
+import LineChart from '../../LineChart';
+import InputDate from '../../InputDate';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
