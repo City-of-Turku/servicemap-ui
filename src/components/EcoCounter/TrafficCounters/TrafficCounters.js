@@ -53,11 +53,11 @@ const TrafficCounters = () => {
 
   useEffect(() => {
     fitToMapBounds(renderPedestrianCounters, pedestrianCounterStations);
-  }, [showTrafficCounter.walking, pedestrianCounterStations]);
+  }, [renderPedestrianCounters, pedestrianCounterStations]);
 
   useEffect(() => {
     fitToMapBounds(renderBicycleCounters, bicycleCounterStations);
-  }, [showTrafficCounter.cycling, bicycleCounterStations]);
+  }, [renderBicycleCounters, bicycleCounterStations]);
 
   useEffect(() => {
     fitToMapBounds(renderCarCounters, carCounterStations);
