@@ -400,7 +400,7 @@ const translations = {
   'home.send.feedback': 'Skicka respons',
   'home.old.link': 'Gamla Servicekartan',
   'home.buttons.mobilityPlatformSettings.title': 'Mobilitet',
-  'home.buttons.mobilityPlatformSettings': 'Läs information om trafiken och mobilitet i Åbo.',
+  'home.buttons.mobilityPlatformSettings': 'Bekanta dig med de mångsidiga alternativen för trafik och mobilitet',
 
   // Location
   'location.notFound': 'Positionen hittades inte',

@@ -6,9 +6,9 @@ import { CalendarMonth } from '@mui/icons-material';
 
 const InputDateFunction = ({ value, onClick, onChange }, ref) => (
   <StyledInputBase
-    type="text"
+    type="button"
     value={value}
-    ref={ref}
+    inputRef={ref}
     onChange={(e) => onChange(e.target.value)}
     onClick={onClick}
     startAdornment={(

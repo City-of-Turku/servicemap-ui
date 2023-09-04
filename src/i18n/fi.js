@@ -399,7 +399,7 @@ const translations = {
   'home.send.feedback': 'Anna palautetta',
   'home.old.link': 'Linkki vanhaan Palvelukarttaan',
   'home.buttons.mobilityPlatformSettings.title': 'Liikenne ja liikkuminen',
-  'home.buttons.mobilityPlatformSettings': 'Katso täältä Turun liikenteeseen ja liikkumiseen liittyvää tietoa.',
+  'home.buttons.mobilityPlatformSettings': 'Tutustu liikenteen ja liikkumisen monipuolisiin vaihtoehtoihin',
 
   // Location
   'location.notFound': 'Sijaintia ei löytynyt',
