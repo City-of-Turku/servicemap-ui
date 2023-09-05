@@ -31,6 +31,7 @@ import {
   fetchInitialMonthDatas,
   fetchInitialWeekDatas,
   fetchInitialYearData,
+  fetchSelectedYearData,
 } from '../../EcoCounterRequests/ecoCounterRequests';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
@@ -45,6 +46,7 @@ const LamCounterContent = ({
   const [lamCounterWeek, setLamCounterWeek] = useState([]);
   const [lamCounterMonth, setLamCounterMonth] = useState([]);
   const [lamCounterYear, setLamCounterYear] = useState(null);
+  const [lamCounterMultipleYears, setLamCounterMultipleYears] = useState([]);
   const [channel1Counts, setChannel1Counts] = useState([]);
   const [channel2Counts, setChannel2Counts] = useState([]);
   const [channelTotals, setChannelTotals] = useState([]);
@@ -156,6 +158,9 @@ const LamCounterContent = ({
   const selectedWeekEnd = getWeek(endOfMonth(selectedDate));
   let selectedMonth = getMonth(currentDate);
   const selectedYear = getYear(selectedDate);
+
+  // TODO Add yearly values and labels to the line chart
+  console.log(lamCounterMultipleYears);
 
   // Reset selectedDate value when the new popup is opened.
   useEffect(() => {
@@ -367,6 +372,10 @@ const LamCounterContent = ({
 
   useEffect(() => {
     fetchInitialYearData(selectedYear, stationId, setLamCounterYear);
+  }, [selectedYear, stationId]);
+
+  useEffect(() => {
+    fetchSelectedYearData(selectedYear, initialYear, stationId, setLamCounterMultipleYears);
   }, [selectedYear, stationId]);
 
   // useEffect is used to fill the chart with default data (default step is 'hourly')
