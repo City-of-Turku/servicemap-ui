@@ -974,6 +974,7 @@ const translations = {
   'ecocounter.day': 'Dagligen',
   'ecocounter.week': 'Varje vecka',
   'ecocounter.month': 'Månatligen',
+  'ecocounter.year': 'Årlig',
   'ecocounter.walk': 'Promenad',
   'ecocounter.bicycle': 'Cykling',
   'ecocounter.car': 'Bilåkning',

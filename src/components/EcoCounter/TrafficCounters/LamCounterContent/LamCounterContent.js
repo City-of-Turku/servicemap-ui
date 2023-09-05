@@ -63,6 +63,7 @@ const LamCounterContent = ({
   const stationSource = station.csv_data_source;
   const userTypes = station.sensor_types;
 
+  // TODO finalize these datetime texts
   // steps that determine which data is shown on the chart
   const buttonSteps = [
     {
@@ -87,6 +88,12 @@ const LamCounterContent = ({
       step: {
         type: 'month',
         text: intl.formatMessage({ id: 'ecocounter.month' }),
+      },
+    },
+    {
+      step: {
+        type: 'year',
+        text: intl.formatMessage({ id: 'ecocounter.year' }),
       },
     },
   ];
@@ -158,9 +165,6 @@ const LamCounterContent = ({
   const selectedWeekEnd = getWeek(endOfMonth(selectedDate));
   let selectedMonth = getMonth(currentDate);
   const selectedYear = getYear(selectedDate);
-
-  // TODO Add yearly values and labels to the line chart
-  console.log(lamCounterMultipleYears);
 
   // Reset selectedDate value when the new popup is opened.
   useEffect(() => {
@@ -306,6 +310,15 @@ const LamCounterContent = ({
         setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
         setLamCounterLabels((lamCounterLabels) => [...lamCounterLabels, formatMonths(countsArr[3])]);
       });
+    } else if (currentTime === 'year') {
+      lamCounterMultipleYears.forEach((el) => {
+        const countsArr = [];
+        if (el.station === stationId) {
+          countsArr.push(el.value_ak, el.value_ap, el.value_at, el.year_info.year_number);
+        }
+        setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
+        setLamCounterLabels((lamCounterLabels) => [...lamCounterLabels, countsArr[3]]);
+      });
     }
   };
 
@@ -325,6 +338,8 @@ const LamCounterContent = ({
       setStepState(index, 'week');
     } else if (title === 'month') {
       setStepState(index, 'month');
+    } else if (title === 'year') {
+      setStepState(index, 'year');
     }
   };
 
@@ -455,7 +470,7 @@ const LamCounterContent = ({
             <ButtonBase
               key={timing.step.type}
               type="button"
-              className={i === activeStep ? `${classes.buttonActive}` : `${classes.buttonWhite}`}
+              className={`${classes.button} ${i === activeStep ? classes.buttonActive : classes.buttonWhite}`}
               onClick={() => handleClick(timing.step.type, i)}
             >
               <Typography variant="body2" className={classes.buttonText}>

@@ -970,6 +970,7 @@ const translations = {
   'ecocounter.day': 'Daily',
   'ecocounter.week': 'Weekly',
   'ecocounter.month': 'Monthly',
+  'ecocounter.year': 'Annually',
   'ecocounter.walk': 'Walking',
   'ecocounter.bicycle': 'Cycling',
   'ecocounter.car': 'Driving',
