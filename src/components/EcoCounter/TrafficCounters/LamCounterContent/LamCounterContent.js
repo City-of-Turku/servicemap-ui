@@ -267,6 +267,20 @@ const LamCounterContent = ({
     setChannelTotals((channelTotals) => [...channelTotals, newValue3]);
   };
 
+  /** Function that will process data & update state values
+   * @param {array} data
+   * @param {func} labelFormatter
+   */
+  const processData = (data, labelFormatter) => {
+    data.forEach((el) => {
+      if (el.station === stationId) {
+        const countsArr = [el.value_ak, el.value_ap, el.value_at];
+        setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
+        setLamCounterLabels((lamCounterLabels) => [...lamCounterLabels, labelFormatter(el)]);
+      }
+    });
+  };
+
   // Sets channel data into React state, so it can be displayed on the chart
   // States for user type(s) and step(s) are used to filter shown data
   const setChannelData = () => {
@@ -281,43 +295,13 @@ const LamCounterContent = ({
         setChannelTotals(countsArr[2]);
       }
     } else if (currentTime === 'day') {
-      lamCounterDay.forEach((el) => {
-        const countsArr = [];
-        if (el.station === stationId) {
-          countsArr.push(el.value_ak, el.value_ap, el.value_at, el.day_info.date);
-        }
-        setChannel1Counts((channel1Counts) => [...channel1Counts, countsArr[0]]);
-        setChannel2Counts((channel2Counts) => [...channel2Counts, countsArr[1]]);
-        setChannelTotals((channelTotals) => [...channelTotals, countsArr[2]]);
-        setLamCounterLabels((lamCounterLabels) => [...lamCounterLabels, formatDates(countsArr[3])]);
-      });
+      processData(lamCounterDay, (el) => formatDates(el.day_info.date));
     } else if (currentTime === 'week') {
-      lamCounterWeek.forEach((el) => {
-        const countsArr = [];
-        if (el.station === stationId) {
-          countsArr.push(el.value_ak, el.value_ap, el.value_at, el.week_info.week_number);
-        }
-        setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
-        setLamCounterLabels((lamCounterLabels) => [...lamCounterLabels, formatWeeks(countsArr[3])]);
-      });
+      processData(lamCounterWeek, (el) => formatWeeks(el.week_info.week_number));
     } else if (currentTime === 'month') {
-      lamCounterMonth.forEach((el) => {
-        const countsArr = [];
-        if (el.station === stationId) {
-          countsArr.push(el.value_ak, el.value_ap, el.value_at, el.month_info.month_number);
-        }
-        setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
-        setLamCounterLabels((lamCounterLabels) => [...lamCounterLabels, formatMonths(countsArr[3])]);
-      });
+      processData(lamCounterMonth, (el) => formatMonths(el.month_info.month_number));
     } else if (currentTime === 'year') {
-      lamCounterMultipleYears.forEach((el) => {
-        const countsArr = [];
-        if (el.station === stationId) {
-          countsArr.push(el.value_ak, el.value_ap, el.value_at, el.year_info.year_number);
-        }
-        setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
-        setLamCounterLabels((lamCounterLabels) => [...lamCounterLabels, countsArr[3]]);
-      });
+      processData(lamCounterMultipleYears, (el) => el.year_info.year_number);
     }
   };
 
