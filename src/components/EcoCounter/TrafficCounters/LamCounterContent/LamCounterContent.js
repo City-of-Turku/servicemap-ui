@@ -19,10 +19,9 @@ import {
   endOfWeek,
   subMonths,
   addWeeks,
+  addDays,
 } from 'date-fns';
-import enGB from 'date-fns/locale/en-GB';
-import fi from 'date-fns/locale/fi';
-import sv from 'date-fns/locale/sv';
+import { enGB, fi, sv } from 'date-fns/locale';
 import { ReactSVG } from 'react-svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
 import {
@@ -428,6 +427,10 @@ const LamCounterContent = ({
             onChange={(newDate) => changeDate(newDate)}
             locale={locale}
             dateFormat="P"
+            showYearDropdown
+            scrollableYearDropdown
+            minDate={new Date(2015, 1, 1)}
+            maxDate={addDays(new Date(), 1)}
             customInput={<CustomInput inputRef={inputRef} />}
           />
         </div>
