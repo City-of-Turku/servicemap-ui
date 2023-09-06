@@ -429,7 +429,7 @@ const LamCounterContent = ({
             dateFormat="P"
             showYearDropdown
             scrollableYearDropdown
-            minDate={new Date(2015, 1, 1)}
+            minDate={new Date('2015-01-01')}
             maxDate={addDays(new Date(), 1)}
             customInput={<CustomInput inputRef={inputRef} />}
           />
