@@ -19,6 +19,7 @@ import {
   endOfWeek,
   subDays,
   addWeeks,
+  addDays,
 } from 'date-fns';
 import enGB from 'date-fns/locale/en-GB';
 import fi from 'date-fns/locale/fi';
@@ -32,19 +33,19 @@ import {
   fetchInitialHourData,
   fetchInitialMonthDatas,
   fetchInitialWeekDatas,
+  fetchSelectedYearData,
 } from '../../EcoCounterRequests/ecoCounterRequests';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
-const EcoCounterContent = ({
-  classes, intl, station,
-}) => {
-  const [ecoCounterHour, setEcoCounterHour] = useState(null);
-  const [ecoCounterDay, setEcoCounterDay] = useState(null);
-  const [ecoCounterWeek, setEcoCounterWeek] = useState(null);
-  const [ecoCounterMonth, setEcoCounterMonth] = useState(null);
+const EcoCounterContent = ({ classes, intl, station }) => {
+  const [ecoCounterHour, setEcoCounterHour] = useState([]);
+  const [ecoCounterDay, setEcoCounterDay] = useState([]);
+  const [ecoCounterWeek, setEcoCounterWeek] = useState([]);
+  const [ecoCounterMonth, setEcoCounterMonth] = useState([]);
+  const [ecoCounterMultipleYears, setEcoCounterMultipleYears] = useState([]);
   const [channel1Counts, setChannel1Counts] = useState([]);
   const [channel2Counts, setChannel2Counts] = useState([]);
   const [channelTotals, setChannelTotals] = useState([]);
@@ -85,25 +86,36 @@ const EcoCounterContent = ({
     {
       step: {
         type: 'hour',
+        visible: true,
         text: intl.formatMessage({ id: 'ecocounter.hour' }),
       },
     },
     {
       step: {
         type: 'day',
+        visible: true,
         text: intl.formatMessage({ id: 'ecocounter.day' }),
       },
     },
     {
       step: {
         type: 'week',
+        visible: true,
         text: intl.formatMessage({ id: 'ecocounter.week' }),
       },
     },
     {
       step: {
         type: 'month',
+        visible: true,
         text: intl.formatMessage({ id: 'ecocounter.month' }),
+      },
+    },
+    {
+      step: {
+        type: 'year',
+        visible: stationSource !== 'TR',
+        text: intl.formatMessage({ id: 'ecocounter.year' }),
       },
     },
   ];
@@ -160,7 +172,7 @@ const EcoCounterContent = ({
    */
   const userTypeButton = (userType, iconValue, i) => (
     <ButtonBase
-      className={i === activeType ? `${classes.buttonActive}` : `${classes.buttonWhite}`}
+      className={`${classes.button} ${classes.paddingNarrow} ${i === activeType ? classes.buttonActive : classes.buttonWhite}`}
       onClick={() => setUserTypes(userType, i)}
     >
       <div>
@@ -393,6 +405,19 @@ const EcoCounterContent = ({
         setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
         setEcoCounterLabels((ecoCounterLabels) => [...ecoCounterLabels, formatMonths(countsArr[3])]);
       });
+    } else if (currentTime === 'year') {
+      ecoCounterMultipleYears?.forEach((el) => {
+        const countsArr = [];
+        if (el.station === stationId && currentType === 'walking') {
+          countsArr.push(el.value_jk, el.value_jp, el.value_jt, el.year_info.year_number);
+        } else if (el.station === stationId && currentType === 'bicycle') {
+          countsArr.push(el.value_pk, el.value_pp, el.value_pt, el.year_info.year_number);
+        } else if (el.station === stationId && currentType === 'driving') {
+          countsArr.push(el.value_ak, el.value_ap, el.value_at, el.year_info.year_number);
+        }
+        setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
+        setEcoCounterLabels((ecoCounterLabels) => [...ecoCounterLabels, countsArr[3]]);
+      });
     }
   };
 
@@ -412,6 +437,8 @@ const EcoCounterContent = ({
       setStepState(index, 'week');
     } else if (title === 'month') {
       setStepState(index, 'month');
+    } else if (title === 'year') {
+      setStepState(index, 'year');
     }
   };
 
@@ -452,6 +479,10 @@ const EcoCounterContent = ({
   useEffect(() => {
     fetchInitialMonthDatas(selectedYear, '1', selectedMonth, stationId, setEcoCounterMonth);
   }, [selectedDate, stationId]);
+
+  useEffect(() => {
+    fetchSelectedYearData(selectedYear, initialYear, stationId, setEcoCounterMultipleYears);
+  }, [selectedYear, stationId]);
 
   // useEffect is used to fill the chart with default data (default step is 'hourly')
   useEffect(() => {
@@ -494,6 +525,10 @@ const EcoCounterContent = ({
             onChange={(newDate) => changeDate(newDate)}
             locale={locale}
             dateFormat="P"
+            showYearDropdown={stationSource !== 'TR'}
+            scrollableYearDropdown
+            minDate={stationSource === 'TR' ? new Date('2023-05-26') : new Date('2020-01-01')}
+            maxDate={addDays(new Date(), 1)}
             customInput={<CustomInput inputRef={inputRef} />}
           />
         </div>
@@ -525,18 +560,20 @@ const EcoCounterContent = ({
           />
         </div>
         <div className={classes.ecocounterSteps}>
-          {buttonSteps.map((timing, i) => (
-            <ButtonBase
-              key={timing.step.type}
-              type="button"
-              className={i === activeStep ? `${classes.buttonActive}` : `${classes.buttonWhite}`}
-              onClick={() => handleClick(timing.step.type, i)}
-            >
-              <Typography variant="body2" className={classes.buttonText}>
-                {timing.step.text}
-              </Typography>
-            </ButtonBase>
-          ))}
+          {buttonSteps
+            .filter((item) => item.step.visible)
+            .map((timing, i) => (
+              <ButtonBase
+                key={timing.step.type}
+                type="button"
+                className={`${classes.button} ${classes.paddingWide} ${i === activeStep ? classes.buttonActive : classes.buttonWhite}`}
+                onClick={() => handleClick(timing.step.type, i)}
+              >
+                <Typography variant="body2" className={classes.buttonText}>
+                  {timing.step.text}
+                </Typography>
+              </ButtonBase>
+            ))}
         </div>
       </div>
     </>

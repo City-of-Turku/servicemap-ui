@@ -7,6 +7,12 @@ const styles = (theme) => ({
       color: 'rgba(84, 84, 84, 255)',
     },
   },
+  button: {
+    border: '1px solid gray',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    marginRight: theme.spacing(1.5),
+  },
   buttonGray: {
     backgroundColor: '#ddd',
     border: 'none',
@@ -17,19 +23,15 @@ const styles = (theme) => ({
   },
   buttonWhite: {
     backgroundColor: '#fff',
-    border: '1px solid gray',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    marginRight: theme.spacing(1.5),
-    padding: theme.spacing(0.5),
   },
   buttonActive: {
     backgroundColor: 'rgba(7, 44, 115, 255)',
     color: '#fff',
-    border: '1px solid gray',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    marginRight: theme.spacing(1.5),
+  },
+  paddingWide: {
+    padding: `${theme.spacing(0.5)} ${theme.spacing(1.5)}`,
+  },
+  paddingNarrow: {
     padding: theme.spacing(0.5),
   },
   ecoCounterHeader: {
@@ -79,12 +81,12 @@ const styles = (theme) => ({
     fontSize: '0.75rem',
   },
   iconActive: {
-    fill: '#fff',
+    fill: '#ffffff',
     width: '40px',
     height: '40px',
   },
   icon: {
-    fill: '#000',
+    fill: '#000000',
     width: '40px',
     height: '40px',
   },
