@@ -19,7 +19,6 @@ import {
   endOfWeek,
   subDays,
   addWeeks,
-  addDays,
 } from 'date-fns';
 import enGB from 'date-fns/locale/en-GB';
 import fi from 'date-fns/locale/fi';
@@ -526,7 +525,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
             showYearDropdown={stationSource !== 'TR'}
             scrollableYearDropdown
             minDate={stationSource === 'TR' ? new Date('2023-05-26') : new Date('2020-01-01')}
-            maxDate={addDays(new Date(), 1)}
+            maxDate={new Date()}
             customInput={<CustomInput inputRef={inputRef} />}
           />
         </div>

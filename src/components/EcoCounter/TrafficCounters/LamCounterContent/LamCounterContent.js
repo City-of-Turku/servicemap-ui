@@ -19,7 +19,6 @@ import {
   endOfWeek,
   subMonths,
   addWeeks,
-  addDays,
 } from 'date-fns';
 import { enGB, fi, sv } from 'date-fns/locale';
 import { ReactSVG } from 'react-svg';
@@ -414,7 +413,7 @@ const LamCounterContent = ({
             showYearDropdown
             scrollableYearDropdown
             minDate={new Date('2015-01-01')}
-            maxDate={addDays(new Date(), 1)}
+            maxDate={new Date()}
             customInput={<CustomInput inputRef={inputRef} />}
           />
         </div>
