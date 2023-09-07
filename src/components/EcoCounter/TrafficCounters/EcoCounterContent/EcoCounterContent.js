@@ -374,9 +374,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
         } else if (el.station === stationId && currentType === 'driving') {
           countsArr.push(el.value_ak, el.value_ap, el.value_at, el.day_info.date);
         }
-        setChannel1Counts((channel1Counts) => [...channel1Counts, countsArr[0]]);
-        setChannel2Counts((channel2Counts) => [...channel2Counts, countsArr[1]]);
-        setChannelTotals((channelTotals) => [...channelTotals, countsArr[2]]);
+        setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
         setEcoCounterLabels((ecoCounterLabels) => [...ecoCounterLabels, formatDates(countsArr[3])]);
       });
     } else if (currentTime === 'week') {
