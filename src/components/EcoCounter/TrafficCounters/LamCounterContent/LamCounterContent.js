@@ -287,7 +287,7 @@ const LamCounterContent = ({
     resetChannelData();
     if (currentTime === 'hour') {
       setLamCounterLabels(labelsHour);
-      if (lamCounterHour !== null && lamCounterHour.station === stationId) {
+      if (lamCounterHour?.station === stationId) {
         const countsArr = [];
         countsArr.push(lamCounterHour.values_ak, lamCounterHour.values_ap, lamCounterHour.values_at);
         setChannel1Counts(countsArr[0]);

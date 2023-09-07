@@ -351,7 +351,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     resetChannelData();
     if (currentTime === 'hour') {
       setEcoCounterLabels(labelsHour);
-      if (ecoCounterHour !== null && ecoCounterHour.station === stationId) {
+      if (ecoCounterHour?.station === stationId) {
         const countsArr = [];
         if (currentType === 'walking') {
           countsArr.push(ecoCounterHour.values_jk, ecoCounterHour.values_jp, ecoCounterHour.values_jt);
