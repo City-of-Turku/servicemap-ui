@@ -966,11 +966,11 @@ const translations = {
   'mobilityPlatform.menu.bicycleRoutes.regionalTrail12': 'Turku City Center - Hirvensalo - Kakskerta',
 
   // Ecocounter
-  'ecocounter.hour': 'Hourly',
-  'ecocounter.day': 'Daily',
-  'ecocounter.week': 'Weekly',
-  'ecocounter.month': 'Monthly',
-  'ecocounter.year': 'Annually',
+  'ecocounter.hour': 'Hours',
+  'ecocounter.day': 'Days',
+  'ecocounter.week': 'Weeks',
+  'ecocounter.month': 'Months',
+  'ecocounter.year': 'Years',
   'ecocounter.walk': 'Walking',
   'ecocounter.bicycle': 'Cycling',
   'ecocounter.car': 'Driving',

@@ -970,11 +970,11 @@ const translations = {
   'mobilityPlatform.menu.bicycleRoutes.regionalTrail12': 'Åbo centrum - Hirvensalo - Kakskerta',
 
   // Ecocounter
-  'ecocounter.hour': 'Varje timme',
-  'ecocounter.day': 'Dagligen',
-  'ecocounter.week': 'Varje vecka',
-  'ecocounter.month': 'Månatligen',
-  'ecocounter.year': 'Årlig',
+  'ecocounter.hour': 'Timmar',
+  'ecocounter.day': 'Dagar',
+  'ecocounter.week': 'Veckor',
+  'ecocounter.month': 'Månader',
+  'ecocounter.year': 'År',
   'ecocounter.walk': 'Promenad',
   'ecocounter.bicycle': 'Cykling',
   'ecocounter.car': 'Bilåkning',
