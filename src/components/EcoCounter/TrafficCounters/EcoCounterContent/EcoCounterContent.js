@@ -344,6 +344,29 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     setChannelTotals((channelTotals) => [...channelTotals, newValue3]);
   };
 
+  const getUserTypedata = (el) => {
+    switch (currentType) {
+      case 'walking':
+        return [el.value_jk, el.value_jp, el.value_jt];
+      case 'bicycle':
+        return [el.value_pk, el.value_pp, el.value_pt];
+      case 'driving':
+        return [el.value_ak, el.value_ap, el.value_at];
+      default:
+        return [];
+    }
+  };
+
+  const processData = (data, labelFormatter) => {
+    data.forEach((el) => {
+      if (el.station === stationId) {
+        const countsArr = getUserTypedata(el);
+        setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
+        setEcoCounterLabels((lamCounterLabels) => [...lamCounterLabels, labelFormatter(el)]);
+      }
+    });
+  };
+
   // Sets channel data into React state, so it can be displayed on the chart
   // States for user type(s) and step(s) are used to filter shown data
   const setChannelData = () => {
@@ -364,57 +387,13 @@ const EcoCounterContent = ({ classes, intl, station }) => {
         setChannelTotals(countsArr[2]);
       }
     } else if (currentTime === 'day') {
-      ecoCounterDay?.forEach((el) => {
-        const countsArr = [];
-        if (el.station === stationId && currentType === 'walking') {
-          countsArr.push(el.value_jk, el.value_jp, el.value_jt, el.day_info.date);
-        } else if (el.station === stationId && currentType === 'bicycle') {
-          countsArr.push(el.value_pk, el.value_pp, el.value_pt, el.day_info.date);
-        } else if (el.station === stationId && currentType === 'driving') {
-          countsArr.push(el.value_ak, el.value_ap, el.value_at, el.day_info.date);
-        }
-        setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
-        setEcoCounterLabels((ecoCounterLabels) => [...ecoCounterLabels, formatDates(countsArr[3])]);
-      });
+      processData(ecoCounterDay, (el) => formatDates(el.day_info.date));
     } else if (currentTime === 'week') {
-      ecoCounterWeek?.forEach((el) => {
-        const countsArr = [];
-        if (el.station === stationId && currentType === 'walking') {
-          countsArr.push(el.value_jk, el.value_jp, el.value_jt, el.week_info.week_number);
-        } else if (el.station === stationId && currentType === 'bicycle') {
-          countsArr.push(el.value_pk, el.value_pp, el.value_pt, el.week_info.week_number);
-        } else if (el.station === stationId && currentType === 'driving') {
-          countsArr.push(el.value_ak, el.value_ap, el.value_at, el.week_info.week_number);
-        }
-        setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
-        setEcoCounterLabels((ecoCounterLabels) => [...ecoCounterLabels, formatWeeks(countsArr[3])]);
-      });
+      processData(ecoCounterWeek, (el) => formatWeeks(el.week_info.week_number));
     } else if (currentTime === 'month') {
-      ecoCounterMonth?.forEach((el) => {
-        const countsArr = [];
-        if (el.station === stationId && currentType === 'walking') {
-          countsArr.push(el.value_jk, el.value_jp, el.value_jt, el.month_info.month_number);
-        } else if (el.station === stationId && currentType === 'bicycle') {
-          countsArr.push(el.value_pk, el.value_pp, el.value_pt, el.month_info.month_number);
-        } else if (el.station === stationId && currentType === 'driving') {
-          countsArr.push(el.value_ak, el.value_ap, el.value_at, el.month_info.month_number);
-        }
-        setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
-        setEcoCounterLabels((ecoCounterLabels) => [...ecoCounterLabels, formatMonths(countsArr[3])]);
-      });
+      processData(ecoCounterMonth, (el) => formatMonths(el.month_info.month_number));
     } else if (currentTime === 'year') {
-      ecoCounterMultipleYears?.forEach((el) => {
-        const countsArr = [];
-        if (el.station === stationId && currentType === 'walking') {
-          countsArr.push(el.value_jk, el.value_jp, el.value_jt, el.year_info.year_number);
-        } else if (el.station === stationId && currentType === 'bicycle') {
-          countsArr.push(el.value_pk, el.value_pp, el.value_pt, el.year_info.year_number);
-        } else if (el.station === stationId && currentType === 'driving') {
-          countsArr.push(el.value_ak, el.value_ap, el.value_at, el.year_info.year_number);
-        }
-        setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
-        setEcoCounterLabels((ecoCounterLabels) => [...ecoCounterLabels, countsArr[3]]);
-      });
+      processData(ecoCounterMultipleYears, (el) => el.year_info.year_number);
     }
   };
 
@@ -483,7 +462,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
 
   // useEffect is used to fill the chart with default data (default step is 'hourly')
   useEffect(() => {
-    if (ecoCounterHour !== null && ecoCounterHour.station === stationId) {
+    if (ecoCounterHour?.station === stationId) {
       const countsArr = [];
       if (currentType === 'walking') {
         countsArr.push(ecoCounterHour.values_jk, ecoCounterHour.values_jp, ecoCounterHour.values_jt);
