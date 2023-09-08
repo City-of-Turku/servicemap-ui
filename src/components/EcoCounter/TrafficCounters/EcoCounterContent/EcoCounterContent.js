@@ -359,26 +359,34 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   };
 
   /**
+   * Process hour data and set correct values into the state.
+   * Hour data has different structure so few chnages are required.
+   */
+  const processHourData = () => {
+    setEcoCounterLabels(labelsHour);
+    if (ecoCounterHour?.station === stationId) {
+      const countsArr = [];
+      if (currentType === 'walking') {
+        countsArr.push(ecoCounterHour.values_jk, ecoCounterHour.values_jp, ecoCounterHour.values_jt);
+      } else if (currentType === 'bicycle') {
+        countsArr.push(ecoCounterHour.values_pk, ecoCounterHour.values_pp, ecoCounterHour.values_pt);
+      } else if (currentType === 'driving') {
+        countsArr.push(ecoCounterHour.values_ak, ecoCounterHour.values_ap, ecoCounterHour.values_at);
+      }
+      setChannel1Counts(countsArr[0]);
+      setChannel2Counts(countsArr[1]);
+      setChannelTotals(countsArr[2]);
+    }
+  };
+
+  /**
    * Sets channel data into React state, so it can be displayed on the chart.
    * States for user type(s) and step(s) are used to filter shown data.
    * */
   const setChannelData = () => {
     resetChannelData();
     if (currentTime === 'hour') {
-      setEcoCounterLabels(labelsHour);
-      if (ecoCounterHour?.station === stationId) {
-        const countsArr = [];
-        if (currentType === 'walking') {
-          countsArr.push(ecoCounterHour.values_jk, ecoCounterHour.values_jp, ecoCounterHour.values_jt);
-        } else if (currentType === 'bicycle') {
-          countsArr.push(ecoCounterHour.values_pk, ecoCounterHour.values_pp, ecoCounterHour.values_pt);
-        } else if (currentType === 'driving') {
-          countsArr.push(ecoCounterHour.values_ak, ecoCounterHour.values_ap, ecoCounterHour.values_at);
-        }
-        setChannel1Counts(countsArr[0]);
-        setChannel2Counts(countsArr[1]);
-        setChannelTotals(countsArr[2]);
-      }
+      processHourData();
     } else if (currentTime === 'day') {
       processData(ecoCounterDay, (el) => formatDates(el.day_info.date));
     } else if (currentTime === 'week') {
@@ -463,19 +471,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
 
   // useEffect is used to fill the chart with default data (default step is 'hourly')
   useEffect(() => {
-    if (ecoCounterHour?.station === stationId) {
-      const countsArr = [];
-      if (currentType === 'walking') {
-        countsArr.push(ecoCounterHour.values_jk, ecoCounterHour.values_jp, ecoCounterHour.values_jt);
-      } else if (currentType === 'bicycle') {
-        countsArr.push(ecoCounterHour.values_pk, ecoCounterHour.values_pp, ecoCounterHour.values_pt);
-      } else if (currentType === 'driving') {
-        countsArr.push(ecoCounterHour.values_ak, ecoCounterHour.values_ap, ecoCounterHour.values_at);
-      }
-      setChannel1Counts(countsArr[0]);
-      setChannel2Counts(countsArr[1]);
-      setChannelTotals(countsArr[2]);
-    }
+    processHourData();
   }, [ecoCounterHour, stationId]);
 
   // When current user type or step changes, calls function to update the chart data

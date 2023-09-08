@@ -252,6 +252,17 @@ const LamCounterContent = ({
     });
   };
 
+  const processHourData = () => {
+    setLamCounterLabels(labelsHour);
+    if (lamCounterHour?.station === stationId) {
+      const countsArr = [];
+      countsArr.push(lamCounterHour.values_ak, lamCounterHour.values_ap, lamCounterHour.values_at);
+      setChannel1Counts(countsArr[0]);
+      setChannel2Counts(countsArr[1]);
+      setChannelTotals(countsArr[2]);
+    }
+  };
+
   /**
    * Sets channel data into React state, so it can be displayed on the chart.
    * States for user type(s) and step(s) are used to filter shown data.
@@ -259,14 +270,7 @@ const LamCounterContent = ({
   const setChannelData = () => {
     resetChannelData();
     if (currentTime === 'hour') {
-      setLamCounterLabels(labelsHour);
-      if (lamCounterHour?.station === stationId) {
-        const countsArr = [];
-        countsArr.push(lamCounterHour.values_ak, lamCounterHour.values_ap, lamCounterHour.values_at);
-        setChannel1Counts(countsArr[0]);
-        setChannel2Counts(countsArr[1]);
-        setChannelTotals(countsArr[2]);
-      }
+      processHourData();
     } else if (currentTime === 'day') {
       processData(lamCounterDay, (el) => formatDates(el.day_info.date));
     } else if (currentTime === 'week') {
@@ -359,13 +363,7 @@ const LamCounterContent = ({
 
   // useEffect is used to fill the chart with default data (default step is 'hourly')
   useEffect(() => {
-    if (lamCounterHour !== null && lamCounterHour.station === stationId) {
-      const countsArr = [];
-      countsArr.push(lamCounterHour.values_ak, lamCounterHour.values_ap, lamCounterHour.values_at);
-      setChannel1Counts(countsArr[0]);
-      setChannel2Counts(countsArr[1]);
-      setChannelTotals(countsArr[2]);
-    }
+    processHourData();
   }, [lamCounterHour, stationId]);
 
   // When current user type or step changes, calls function to update the chart data
