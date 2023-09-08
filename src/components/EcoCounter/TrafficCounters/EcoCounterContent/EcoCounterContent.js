@@ -34,6 +34,7 @@ import {
   fetchInitialWeekDatas,
   fetchSelectedYearData,
 } from '../../EcoCounterRequests/ecoCounterRequests';
+import { formatDates, formatMonths } from '../../utils';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
 
@@ -171,7 +172,9 @@ const EcoCounterContent = ({ classes, intl, station }) => {
    */
   const userTypeButton = (userType, iconValue, i) => (
     <ButtonBase
-      className={`${classes.button} ${classes.paddingNarrow} ${i === activeType ? classes.buttonActive : classes.buttonWhite}`}
+      className={`${classes.button} ${classes.paddingNarrow} ${
+        i === activeType ? classes.buttonActive : classes.buttonWhite
+      }`}
       onClick={() => setUserTypes(userType, i)}
     >
       <div>
@@ -211,8 +214,12 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     } else registerLocale('fi', fi);
   }, [locale]);
 
-  // API returns empty data if start_week_number parameter is higher number than end_week_number.
-  // This will set it to 1 so that weekly graph in January won't be empty in case week number of 1.1 is 52 or 53.
+  /**
+   * API returns empty data if start_week_number parameter is higher number than end_week_number.
+   * This will set it to 1 so that weekly graph in January won't be empty in case week number of 1.1 is 52 or 53.
+   * @param {*date} dateValue
+   * @returns {*number}
+   */
   const checkWeekNumber = (dateValue) => {
     const start = getWeek(startOfMonth(dateValue));
     const end = getWeek(endOfMonth(dateValue));
@@ -285,51 +292,20 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     '00:00',
   ];
 
-  // Format dates for the chart
-  const formatDates = (dateValue) => {
-    const fields = dateValue.split('-');
-    return `${fields[2]}.${fields[1]}`;
-  };
-
-  // Format weeks and display first day of each week in data
+  /**
+   * Format weeks and display first day of each week in data
+   * @param {date} weekValue
+   * @returns {*string}
+  */
   const formatWeeks = (weekValue) => {
     const startOfSelectedWeek = startOfWeek(new Date(selectedYear, 0, 1), { weekStartsOn: 1 });
     const targetWeekStartDate = addWeeks(startOfSelectedWeek, weekValue - 1);
     return format(targetWeekStartDate, 'dd.MM', { weekStartsOn: 1 });
   };
 
-  const formatMonths = (monthValue) => {
-    switch (monthValue) {
-      case 1:
-        return intl.formatMessage({ id: 'ecocounter.jan' });
-      case 2:
-        return intl.formatMessage({ id: 'ecocounter.feb' });
-      case 3:
-        return intl.formatMessage({ id: 'ecocounter.march' });
-      case 4:
-        return intl.formatMessage({ id: 'ecocounter.april' });
-      case 5:
-        return intl.formatMessage({ id: 'ecocounter.may' });
-      case 6:
-        return intl.formatMessage({ id: 'ecocounter.june' });
-      case 7:
-        return intl.formatMessage({ id: 'ecocounter.july' });
-      case 8:
-        return intl.formatMessage({ id: 'ecocounter.aug' });
-      case 9:
-        return intl.formatMessage({ id: 'ecocounter.sep' });
-      case 10:
-        return intl.formatMessage({ id: 'ecocounter.oct' });
-      case 11:
-        return intl.formatMessage({ id: 'ecocounter.nov' });
-      case 12:
-        return intl.formatMessage({ id: 'ecocounter.dec' });
-      default:
-        return monthValue;
-    }
-  };
-
-  // Empties chart data so that old data won't persist on the chart
+  /**
+   * Empties chart data so that old data won't persist on the chart
+   */
   const resetChannelData = () => {
     setChannel1Counts([]);
     setChannel2Counts([]);
@@ -337,13 +313,23 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     setEcoCounterLabels([]);
   };
 
-  // Channel data is set inside this function to avoid duplicate code
+  /**
+   * Channel data is set inside this function to avoid duplicate code
+   * @param {*object} newValue1
+   * @param {*object} newValue2
+   * @param {*object} newValue3
+   */
   const setAllChannelCounts = (newValue1, newValue2, newValue3) => {
     setChannel1Counts((channel1Counts) => [...channel1Counts, newValue1]);
     setChannel2Counts((channel2Counts) => [...channel2Counts, newValue2]);
     setChannelTotals((channelTotals) => [...channelTotals, newValue3]);
   };
 
+  /**
+   * Gets correct values from data and returns them based on currentType
+   * @param {object} el
+   * @returns {*Array}
+   */
   const getUserTypedata = (el) => {
     switch (currentType) {
       case 'walking':
@@ -357,6 +343,11 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     }
   };
 
+  /**
+   * Processes data and sets correct count values into the state
+   * @param {Array} data
+   * @param {function} labelFormatter
+   */
   const processData = (data, labelFormatter) => {
     data.forEach((el) => {
       if (el.station === stationId) {
@@ -367,8 +358,10 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     });
   };
 
-  // Sets channel data into React state, so it can be displayed on the chart
-  // States for user type(s) and step(s) are used to filter shown data
+  /**
+   * Sets channel data into React state, so it can be displayed on the chart.
+   * States for user type(s) and step(s) are used to filter shown data.
+   * */
   const setChannelData = () => {
     resetChannelData();
     if (currentTime === 'hour') {
@@ -391,19 +384,27 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     } else if (currentTime === 'week') {
       processData(ecoCounterWeek, (el) => formatWeeks(el.week_info.week_number));
     } else if (currentTime === 'month') {
-      processData(ecoCounterMonth, (el) => formatMonths(el.month_info.month_number));
+      processData(ecoCounterMonth, (el) => formatMonths(el.month_info.month_number, intl));
     } else if (currentTime === 'year') {
       processData(ecoCounterMultipleYears, (el) => el.year_info.year_number);
     }
   };
 
-  // Sets current step and active button index
+  /**
+   * Set current step and active button index
+   * @param {*number} index
+   * @param {*date} timeValue
+   */
   const setStepState = (index, timeValue) => {
     setActiveStep(index);
     setCurrentTime(timeValue);
   };
 
-  // Set active step
+  /**
+   * Set active step into state
+   * @param {*string} title
+   * @param {*number} index
+   */
   const handleClick = (title, index) => {
     if (title === 'hour') {
       setStepState(index, 'hour');
@@ -482,6 +483,12 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     setChannelData();
   }, [currentType, currentTime]);
 
+  /**
+   * Fix incorrect spelling of Teatteriranta.
+   * Otherwise return input as is.
+   * @param {*string} input
+   * @returns {*string}
+   */
   const renderStationName = (input) => {
     if (input === 'Teatteri ranta') {
       return 'Teatteriranta';
@@ -542,7 +549,9 @@ const EcoCounterContent = ({ classes, intl, station }) => {
               <ButtonBase
                 key={timing.step.type}
                 type="button"
-                className={`${classes.button} ${classes.paddingWide} ${i === activeStep ? classes.buttonActive : classes.buttonWhite}`}
+                className={`${classes.button} ${classes.paddingWide} ${
+                  i === activeStep ? classes.buttonActive : classes.buttonWhite
+                }`}
                 onClick={() => handleClick(timing.step.type, i)}
               >
                 <Typography variant="body2" className={classes.buttonText}>

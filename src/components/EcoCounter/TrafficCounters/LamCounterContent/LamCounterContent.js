@@ -31,6 +31,7 @@ import {
   fetchInitialYearData,
   fetchSelectedYearData,
 } from '../../EcoCounterRequests/ecoCounterRequests';
+import { formatDates, formatMonths } from '../../utils';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
 
@@ -61,7 +62,6 @@ const LamCounterContent = ({
   const stationSource = station.csv_data_source;
   const userTypes = station.sensor_types;
 
-  // TODO finalize these datetime texts
   // steps that determine which data is shown on the chart
   const buttonSteps = [
     {
@@ -133,8 +133,12 @@ const LamCounterContent = ({
     } else registerLocale('fi', fi);
   }, [locale]);
 
-  // API returns empty data if start_week_number parameter is higher number than end_week_number.
-  // This will set it to 1 so that weekly graph in January won't be empty in case week number of 1.1 is 52 or 53.
+  /**
+   * API returns empty data if start_week_number parameter is higher number than end_week_number.
+   * This will set it to 1 so that weekly graph in January won't be empty in case week number of 1.1 is 52 or 53.
+   * @param {*date} dateValue
+   * @returns {*number}
+   */
   const checkWeekNumber = (dateValue) => {
     const start = getWeek(startOfMonth(dateValue));
     const end = getWeek(endOfMonth(dateValue));
@@ -207,48 +211,15 @@ const LamCounterContent = ({
     '00:00',
   ];
 
-  // Format dates for the chart
-  const formatDates = (dateValue) => {
-    const fields = dateValue.split('-');
-    return `${fields[2]}.${fields[1]}`;
-  };
-
-  // Format weeks and display first day of each week in data
+  /**
+   * Format weeks and display first day of each week in data
+   * @param {date} weekValue
+   * @returns {*string}
+  */
   const formatWeeks = (weekValue) => {
     const startOfSelectedWeek = startOfWeek(new Date(selectedYear, 0, 1), { weekStartsOn: 1 });
     const targetWeekStartDate = addWeeks(startOfSelectedWeek, weekValue - 1);
     return format(targetWeekStartDate, 'dd.MM', { weekStartsOn: 1 });
-  };
-
-  const formatMonths = (monthValue) => {
-    switch (monthValue) {
-      case 1:
-        return intl.formatMessage({ id: 'ecocounter.jan' });
-      case 2:
-        return intl.formatMessage({ id: 'ecocounter.feb' });
-      case 3:
-        return intl.formatMessage({ id: 'ecocounter.march' });
-      case 4:
-        return intl.formatMessage({ id: 'ecocounter.april' });
-      case 5:
-        return intl.formatMessage({ id: 'ecocounter.may' });
-      case 6:
-        return intl.formatMessage({ id: 'ecocounter.june' });
-      case 7:
-        return intl.formatMessage({ id: 'ecocounter.july' });
-      case 8:
-        return intl.formatMessage({ id: 'ecocounter.aug' });
-      case 9:
-        return intl.formatMessage({ id: 'ecocounter.sep' });
-      case 10:
-        return intl.formatMessage({ id: 'ecocounter.oct' });
-      case 11:
-        return intl.formatMessage({ id: 'ecocounter.nov' });
-      case 12:
-        return intl.formatMessage({ id: 'ecocounter.dec' });
-      default:
-        return monthValue;
-    }
   };
 
   // Empties chart data so that old data won't persist on the chart
@@ -266,9 +237,10 @@ const LamCounterContent = ({
     setChannelTotals((channelTotals) => [...channelTotals, newValue3]);
   };
 
-  /** Function that will process data & update state values
-   * @param {array} data
-   * @param {func} labelFormatter
+  /**
+   * Function that will process data & update state values
+   * @param {Array} data
+   * @param {function} labelFormatter
    */
   const processData = (data, labelFormatter) => {
     data.forEach((el) => {
@@ -280,8 +252,10 @@ const LamCounterContent = ({
     });
   };
 
-  // Sets channel data into React state, so it can be displayed on the chart
-  // States for user type(s) and step(s) are used to filter shown data
+  /**
+   * Sets channel data into React state, so it can be displayed on the chart.
+   * States for user type(s) and step(s) are used to filter shown data.
+   * */
   const setChannelData = () => {
     resetChannelData();
     if (currentTime === 'hour') {
@@ -298,19 +272,27 @@ const LamCounterContent = ({
     } else if (currentTime === 'week') {
       processData(lamCounterWeek, (el) => formatWeeks(el.week_info.week_number));
     } else if (currentTime === 'month') {
-      processData(lamCounterMonth, (el) => formatMonths(el.month_info.month_number));
+      processData(lamCounterMonth, (el) => formatMonths(el.month_info.month_number, intl));
     } else if (currentTime === 'year') {
       processData(lamCounterMultipleYears, (el) => el.year_info.year_number);
     }
   };
 
-  // Sets current step and active button index
+  /**
+   * Set current step and active button index
+   * @param {*number} index
+   * @param {*date} timeValue
+   */
   const setStepState = (index, timeValue) => {
     setActiveStep(index);
     setCurrentTime(timeValue);
   };
 
-  // Set active step
+  /**
+   * Set active step into state
+   * @param {*string} title
+   * @param {*number} index
+   */
   const handleClick = (title, index) => {
     if (title === 'hour') {
       setStepState(index, 'hour');
