@@ -29,7 +29,7 @@ const styles = (theme) => ({
     color: '#fff',
   },
   paddingWide: {
-    padding: `${theme.spacing(0.5)} ${theme.spacing(1.5)}`,
+    padding: `${theme.spacing(0.5)} ${theme.spacing(1)}`,
   },
   paddingNarrow: {
     padding: theme.spacing(0.5),
@@ -66,10 +66,6 @@ const styles = (theme) => ({
     flexDirection: 'column',
     marginRight: '0.7rem',
     alignItems: 'center',
-  },
-  textContainer: {
-    width: '40px',
-    marginRight: theme.spacing(1.5),
   },
   userTypeText: {
     fontWeight: 'bold',

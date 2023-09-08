@@ -12,7 +12,7 @@ const styles = (theme) => ({
     borderRadius: '5px',
     cursor: 'pointer',
     marginRight: theme.spacing(1.5),
-    padding: `${theme.spacing(0.5)} ${theme.spacing(1.5)}`,
+    padding: `${theme.spacing(0.5)} ${theme.spacing(1)}`,
   },
   buttonGray: {
     backgroundColor: '#ddd',
@@ -61,10 +61,6 @@ const styles = (theme) => ({
     flexDirection: 'column',
     marginRight: theme.spacing(1.5),
     alignItems: 'center',
-  },
-  textContainer: {
-    width: '40px',
-    marginRight: theme.spacing(1.5),
   },
   iconWrapper: {
     backgroundColor: 'rgba(7, 44, 115, 255)',
