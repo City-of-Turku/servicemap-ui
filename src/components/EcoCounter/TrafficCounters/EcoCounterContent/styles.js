@@ -34,6 +34,12 @@ const styles = (theme) => ({
   paddingNarrow: {
     padding: theme.spacing(0.5),
   },
+  widthMd: {
+    width: '95%',
+  },
+  widthSm: {
+    width: '87%',
+  },
   ecoCounterHeader: {
     display: 'flex',
     flexDirection: 'row',
@@ -41,7 +47,6 @@ const styles = (theme) => ({
     marginBottom: theme.spacing(1.5),
     alignItems: 'flex-end',
     borderBottom: '2px solid gray',
-    width: '95%',
     justifyContent: 'space-between',
   },
   headerSubtitle: {

@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-nested-ternary */
-import { ButtonBase, Typography } from '@mui/material';
+import { ButtonBase, Typography, useMediaQuery } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, {
   useEffect, useState, useRef, forwardRef,
@@ -57,6 +57,9 @@ const EcoCounterContent = ({ classes, intl, station }) => {
 
   const locale = useSelector((state) => state.user.locale);
   const inputRef = useRef(null);
+
+  const useMobileStatus = () => useMediaQuery('(max-width:768px)');
+  const isNarrow = useMobileStatus();
 
   const stationId = station.id;
   const stationName = station.name;
@@ -296,7 +299,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
    * Format weeks and display first day of each week in data
    * @param {date} weekValue
    * @returns {*string}
-  */
+   */
   const formatWeeks = (weekValue) => {
     const startOfSelectedWeek = startOfWeek(new Date(selectedYear, 0, 1), { weekStartsOn: 1 });
     const targetWeekStartDate = addWeeks(startOfSelectedWeek, weekValue - 1);
@@ -494,7 +497,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
 
   return (
     <>
-      <div className={classes.ecoCounterHeader}>
+      <div className={`${classes.ecoCounterHeader} ${isNarrow ? classes.widthSm : classes.widthMd}`}>
         <Typography component="h4" className={classes.headerSubtitle}>
           {stationSource === 'TR' ? 'Telraam' : renderStationName(stationName)}
         </Typography>

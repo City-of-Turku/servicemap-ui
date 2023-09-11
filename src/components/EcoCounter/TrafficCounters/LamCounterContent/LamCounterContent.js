@@ -5,7 +5,7 @@ import React, {
   useEffect, useState, forwardRef, useRef,
 } from 'react';
 import { useSelector } from 'react-redux';
-import { ButtonBase, Typography } from '@mui/material';
+import { ButtonBase, Typography, useMediaQuery } from '@mui/material';
 import PropTypes from 'prop-types';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import {
@@ -56,6 +56,9 @@ const LamCounterContent = ({
 
   const locale = useSelector((state) => state.user.locale);
   const inputRef = useRef(null);
+
+  const useMobileStatus = () => useMediaQuery('(max-width:768px)');
+  const isNarrow = useMobileStatus();
 
   const stationId = station.id;
   const stationName = station.name;
@@ -380,7 +383,7 @@ const LamCounterContent = ({
 
   return (
     <>
-      <div className={classes.lamCounterHeader}>
+      <div className={`${classes.lamCounterHeader} ${isNarrow ? classes.widthSm : classes.widthMd}`}>
         <Typography component="h4" className={classes.headerSubtitle}>
           {stationSource === 'LC' ? formatCounterName(stationName) : stationName}
         </Typography>

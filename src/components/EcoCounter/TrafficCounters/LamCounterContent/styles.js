@@ -29,6 +29,12 @@ const styles = (theme) => ({
     backgroundColor: 'rgba(7, 44, 115, 255)',
     color: '#fff',
   },
+  widthMd: {
+    width: '95%',
+  },
+  widthSm: {
+    width: '87%',
+  },
   lamCounterHeader: {
     display: 'flex',
     flexDirection: 'row',
@@ -36,7 +42,6 @@ const styles = (theme) => ({
     marginBottom: theme.spacing(1.5),
     alignItems: 'flex-end',
     borderBottom: '2px solid gray',
-    width: '95%',
     justifyContent: 'space-between',
   },
   headerSubtitle: {
