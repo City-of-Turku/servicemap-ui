@@ -505,7 +505,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
             locale={locale}
             dateFormat="P"
             showYearDropdown={stationSource !== 'TR'}
-            scrollableYearDropdown
+            dropdownMode="select"
             minDate={stationSource === 'TR' ? new Date('2023-05-26') : new Date('2020-01-01')}
             maxDate={new Date()}
             customInput={<CustomInput inputRef={inputRef} />}

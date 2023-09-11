@@ -391,7 +391,7 @@ const LamCounterContent = ({
             locale={locale}
             dateFormat="P"
             showYearDropdown
-            scrollableYearDropdown
+            dropdownMode="select"
             minDate={new Date('2015-01-01')}
             maxDate={new Date()}
             customInput={<CustomInput inputRef={inputRef} />}

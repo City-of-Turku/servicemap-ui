@@ -107,3 +107,7 @@ input[type="search"]::-webkit-search-cancel-button{
 .react-datepicker__day-name, .react-datepicker__day {
   margin: 0.5rem !important;
 }
+
+div.react-datepicker__header__dropdown.react-datepicker__header__dropdown--select > div > select {
+  font-size: 1rem;
+}
