@@ -37,9 +37,7 @@ import InputDate from '../../InputDate';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
-const LamCounterContent = ({
-  classes, intl, station,
-}) => {
+const LamCounterContent = ({ classes, intl, station }) => {
   const [lamCounterHour, setLamCounterHour] = useState([]);
   const [lamCounterDay, setLamCounterDay] = useState([]);
   const [lamCounterWeek, setLamCounterWeek] = useState([]);
@@ -218,7 +216,7 @@ const LamCounterContent = ({
    * Format weeks and display first day of each week in data
    * @param {date} weekValue
    * @returns {*string}
-  */
+   */
   const formatWeeks = (weekValue) => {
     const startOfSelectedWeek = startOfWeek(new Date(selectedYear, 0, 1), { weekStartsOn: 1 });
     const targetWeekStartDate = addWeeks(startOfSelectedWeek, weekValue - 1);
@@ -375,15 +373,15 @@ const LamCounterContent = ({
   }, [currentTime]);
 
   /**
-     * Split name into array of words and remove special characters (_) and first index (for example 'vt1').
-     * @param {string} name for example vt1_Kupittaa
-     * @returns {string} for example Kupittaa
-     */
+   * Split name into array of words and remove special characters (_) and first index (for example 'vt1').
+   * @param {string} name for example vt1_Kupittaa
+   * @returns {string} for example Kupittaa
+   */
   const formatCounterName = (name) => name?.split('_').splice(1).join(' ');
 
   return (
     <>
-      <div className={`${classes.lamCounterHeader} ${isNarrow ? classes.widthSm : classes.widthMd}`}>
+      <div className={`${classes.trafficCounterHeader} ${isNarrow ? classes.widthSm : classes.widthMd}`}>
         <Typography component="h4" className={classes.headerSubtitle}>
           {stationSource === 'LC' ? formatCounterName(stationName) : stationName}
         </Typography>
@@ -401,8 +399,8 @@ const LamCounterContent = ({
           />
         </div>
       </div>
-      <div className={classes.lamCounterContent}>
-        <div className={classes.lamCounterUserTypes}>
+      <div className={classes.trafficCounterContent}>
+        <div className={classes.trafficCounterUserTypes}>
           {userTypes?.map((userType) => (
             <div key={userType} className={classes.container}>
               {renderUserTypeIcon(userType)}
@@ -417,7 +415,7 @@ const LamCounterContent = ({
             </Typography>
           </div>
         ) : null}
-        <div className={classes.lamCounterChart}>
+        <div className={classes.trafficCounterChart}>
           <LineChart
             labels={lamCounterLabels}
             labelChannel1={intl.formatMessage({
@@ -434,12 +432,14 @@ const LamCounterContent = ({
             channel2Data={channel2Counts}
           />
         </div>
-        <div className={classes.lamCounterSteps}>
+        <div className={classes.trafficCounterSteps}>
           {buttonSteps.map((timing, i) => (
             <ButtonBase
               key={timing.step.type}
               type="button"
-              className={`${classes.button} ${i === activeStep ? classes.buttonActive : classes.buttonWhite}`}
+              className={`${classes.button} ${classes.paddingWide} ${
+                i === activeStep ? classes.buttonActive : classes.buttonWhite
+              }`}
               onClick={() => handleClick(timing.step.type, i)}
             >
               <Typography variant="body2" className={classes.buttonText}>

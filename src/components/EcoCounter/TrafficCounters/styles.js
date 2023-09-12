@@ -81,6 +81,14 @@ const styles = (theme) => ({
   buttonText: {
     fontSize: '0.75rem',
   },
+  iconWrapper: {
+    backgroundColor: 'rgba(7, 44, 115, 255)',
+    color: '#fff',
+    border: '1px solid gray',
+    borderRadius: '5px',
+    marginRight: theme.spacing(1.5),
+    padding: theme.spacing(0.5),
+  },
   iconActive: {
     fill: '#ffffff',
     width: '40px',
