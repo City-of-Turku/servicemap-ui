@@ -40,7 +40,7 @@ const styles = (theme) => ({
   widthSm: {
     width: '87%',
   },
-  ecoCounterHeader: {
+  trafficCounterHeader: {
     display: 'flex',
     flexDirection: 'row',
     marginTop: theme.spacing(0.5),
@@ -61,7 +61,7 @@ const styles = (theme) => ({
     alignItems: 'center',
     maxWidth: '32%',
   },
-  ecocounterUserTypes: {
+  trafficCounterUserTypes: {
     display: 'flex',
     justifyContent: 'flex-end',
     marginBottom: theme.spacing(0.5),
@@ -91,14 +91,14 @@ const styles = (theme) => ({
     width: '40px',
     height: '40px',
   },
-  ecocounterSteps: {
+  trafficCounterSteps: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
     padding: '1rem 0',
   },
-  ecocounterChart: {
+  trafficCounterChart: {
     margin: 0,
   },
   iconContainer: {

@@ -497,7 +497,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
 
   return (
     <>
-      <div className={`${classes.ecoCounterHeader} ${isNarrow ? classes.widthSm : classes.widthMd}`}>
+      <div className={`${classes.trafficCounterHeader} ${isNarrow ? classes.widthSm : classes.widthMd}`}>
         <Typography component="h4" className={classes.headerSubtitle}>
           {stationSource === 'TR' ? 'Telraam' : renderStationName(stationName)}
         </Typography>
@@ -515,8 +515,8 @@ const EcoCounterContent = ({ classes, intl, station }) => {
           />
         </div>
       </div>
-      <div className={classes.ecocounterContent}>
-        <div className={classes.ecocounterUserTypes}>
+      <div className={classes.trafficCounterContent}>
+        <div className={classes.trafficCounterUserTypes}>
           {userTypes?.map((userType, i) => (
             <div key={userType} className={classes.buttonAndTextContainer}>
               {renderUserTypeIcon(userType, i)}
@@ -524,7 +524,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
             </div>
           ))}
         </div>
-        <div className={classes.ecocounterChart}>
+        <div className={classes.trafficCounterChart}>
           <LineChart
             labels={ecoCounterLabels}
             labelChannel1={intl.formatMessage({
@@ -541,7 +541,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
             channel2Data={channel2Counts}
           />
         </div>
-        <div className={classes.ecocounterSteps}>
+        <div className={classes.trafficCounterSteps}>
           {buttonSteps
             .filter((item) => item.step.visible)
             .map((timing, i) => (
