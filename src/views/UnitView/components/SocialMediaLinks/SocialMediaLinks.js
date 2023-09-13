@@ -5,9 +5,9 @@ import DefaultIcon from '@mui/icons-material/Public';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { getIcon } from '../../../../components/SMIcon';
 import useLocaleText from '../../../../utils/useLocaleText';
 import unitSectionFilter from '../../utils/unitSectionFilter';
+import { getIcon } from '../../../../components';
 
 const SocialMediaLinks = ({ unit, classes }) => {
   const getLocaleText = useLocaleText();
@@ -29,7 +29,7 @@ const SocialMediaLinks = ({ unit, classes }) => {
                 onClick={() => link.value.www && window.open(getLocaleText(link.value.www))}
                 className={classes.someItem}
               >
-                {getIcon(link.value.name.fi.toLowerCase())
+                {getIcon(getLocaleText(link.value.name).toLowerCase())
                   || <DefaultIcon className={classes.defaultIcon} />
                 }
                 <Typography className={classes.itemText}>

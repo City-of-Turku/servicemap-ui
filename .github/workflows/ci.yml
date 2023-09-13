@@ -1,0 +1,57 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Continuous Integration
+
+on:
+  push:
+    branches: [develop, master]
+  pull_request:
+    branches: [develop, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      PORT: 2048
+      SSR_FETCH_TIMEOUT: 2500
+      SERVICEMAP_API: https://testipalvelukartta.turku.fi/api
+      SERVICEMAP_API_VERSION: /v2
+      FEEDBACK_URL: https://testipalvelukartta.turku.fi/api/open311/
+      SERVICE_MAP_URL: https://maptiles.turku.fi/styles/hel-osm-bright/{z}/{x}/{y}
+      ACCESSIBLE_MAP_URL: https://maptiles.turku.fi/styles/high-contrast-map-layer/{z}/{x}/{y}
+      DIGITRANSIT_API: https://api.digitransit.fi/routing/v2/routers/waltti/index/graphql
+      PRODUCTION_PREFIX: SM
+      INITIAL_MAP_POSITION: 60.451799,22.266414
+      CITIES: turku,kaarina,naantali,raisio
+      OLD_MAP_LINK_EN: https://servicemap.turku.fi/
+      OLD_MAP_LINK_SV: https://servicekarta.turku.fi/
+      OLD_MAP_LINK_FI: https://palvelukartta.turku.fi/
+      MAPS: servicemap,accessible_map
+      SHOW_AREA_SELECTION: false
+      SHOW_READ_SPEAKER_BUTTON: false
+      FEEDBACK_ADDITIONAL_INFO_LINK: https://opaskartta.turku.fi/eFeedback/fi/Home/AboutService
+      USE_PTV_ACCESSIBILITY_API: true
+      ACCESSIBILITY_SENTENCE_API: https://asiointi.hel.fi/kapaesteettomyys/api/v1/accessibility/servicepoints/d26b5f28-41c6-40a3-99f9-a1b762cc8191
+      FEEDBACK_IS_PUBLISHED: false
+      REITTIOPAS_URL: https://reittiopas.foli.fi/reitti/
+      THEME_PKG: true
+      ECOCOUNTER_API: https://testipalvelukartta.turku.fi/eco-counter
+      MOBILITY_PLATFORM_API: https://testipalvelukartta.turku.fi/mobility_data
+      PARKING_SPACES_URL: https://parkkiopas.turku.fi/public/v1/parking_area/
+      PARKING_STATISTICS_URL: https://parkkiopas.turku.fi/public/v1/parking_area_statistics/
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm test

@@ -43,7 +43,7 @@ export default (theme) => {
       marginTop: 0,
       width: '45%',
       height: '100%',
-      overflow: 'auto',
+      overflowY: 'auto',
       paddingLeft: '9.5vw',
       paddingRight: theme.spacing(3),
     },
@@ -96,7 +96,7 @@ export default (theme) => {
     textField: {
       width: '100%',
       height: 60,
-      fontSize: 14.6,
+      fontSize: '0.913rem',
       borderRadius: '8px',
     },
     htmlField: {

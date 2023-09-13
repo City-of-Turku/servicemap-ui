@@ -1,8 +1,8 @@
-import { Typography } from '@mui/material';
-import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
+import { Typography } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
+import { FormattedMessage } from 'react-intl';
 
 // Close suggestions button for suggestions dropdowns
 export const CloseSuggestionButton = ({
@@ -61,5 +61,3 @@ CloseSuggestionButton.propTypes = {
   icon: PropTypes.node,
   srOnly: PropTypes.bool,
 };
-
-export default CloseSuggestionButton;

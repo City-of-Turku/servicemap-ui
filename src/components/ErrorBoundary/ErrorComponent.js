@@ -1,8 +1,8 @@
 import { Typography } from '@mui/material';
 import { withStyles } from '@mui/styles';
+import { visuallyHidden } from '@mui/utils';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { visuallyHidden } from '@mui/utils';
 import { useUserTheme } from '../../utils/user';
 import HomeLogo from '../Logos/HomeLogo';
 import styles from './styles';

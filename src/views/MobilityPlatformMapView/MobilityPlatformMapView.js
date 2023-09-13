@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EcoCounterMarkers from '../../components/EcoCounter/EcoCounterMarkers';
-import LamCounters from '../../components/EcoCounter/LamCounters';
+import TrafficCounters from '../../components/EcoCounter/TrafficCounters';
 import BicycleRoutes from '../../components/MobilityPlatform/BicycleRoutes';
 import BicycleStands from '../../components/MobilityPlatform/BicycleStands';
 import BikeServiceStations from '../../components/MobilityPlatform/BikeServiceStations';
@@ -33,12 +32,12 @@ import PublicParking from '../../components/MobilityPlatform/Parking/PublicParki
 import OutdoorGymDevices from '../../components/MobilityPlatform/OutdoorGymDevices';
 import CrossWalks from '../../components/MobilityPlatform/CrossWalks';
 import Overpasses from '../../components/MobilityPlatform/Overpasses';
+import RentalCarParking from '../../components/MobilityPlatform/Parking/RentalCarParking';
 import PublicBenches from '../../components/MobilityPlatform/PublicBenches';
 
 const MobilityPlatformMapView = ({ mapObject }) => (
   <>
-    <EcoCounterMarkers />
-    <LamCounters />
+    <TrafficCounters />
     <BicycleStands />
     <BicycleRoutes />
     <CultureRoutes />
@@ -70,6 +69,7 @@ const MobilityPlatformMapView = ({ mapObject }) => (
     <OutdoorGymDevices />
     <CrossWalks mapObject={mapObject} />
     <Overpasses />
+    <RentalCarParking />
     <PublicBenches mapObject={mapObject} />
   </>
 );

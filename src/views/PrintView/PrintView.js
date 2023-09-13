@@ -1,20 +1,25 @@
 /* eslint-disable no-underscore-dangle */
-import {
-  Paper,
-  Table, TableBody, TableCell, TableContainer, TableHead,
-  TableRow, Typography,
-} from '@mui/material';
+import React, { useEffect, useState, useRef } from 'react';
 import { withStyles } from '@mui/styles';
-import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
+import {
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TableContainer,
+  Typography,
+} from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import paths from '../../../config/paths';
-import SMButton from '../../components/ServiceMapButton';
 import useLocaleText from '../../utils/useLocaleText';
 import CreateMap from '../MapView/utils/createMap';
 import { NumberCircleMaker } from '../MapView/utils/drawIcon';
+import { SMButton } from '../../components';
 
 const StyledTableRow = withStyles(theme => ({
   root: {
@@ -26,7 +31,7 @@ const StyledTableRow = withStyles(theme => ({
 
 const StyledTableCell = withStyles(theme => ({
   root: {
-    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
   },
 }))(TableCell);
 
@@ -361,7 +366,7 @@ const PrintView = ({
         </div>
       </div>
       {/* Empty element that makes keyboard focus loop in dialog */}
-      <Typography style={visuallyHidden} aria-hidden tabIndex={0} onFocus={focusToFirstElement} />
+      <Typography style={visuallyHidden} aria-hidden tabIndex="0" onFocus={focusToFirstElement} />
     </div>
   );
 };

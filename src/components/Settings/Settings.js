@@ -1,11 +1,20 @@
-import {
-  Checkbox, Divider, FormControl, FormControlLabel, FormGroup, FormLabel, List,
-  ListItem, Radio, RadioGroup, Typography,
-} from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import {
+  Typography,
+  Divider,
+  List,
+  ListItem,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  RadioGroup,
+  Radio,
+  FormLabel,
+  FormControl,
+} from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import config from '../../../config';
 import SettingsUtility from '../../utils/settings';
 import Container from '../Container';
@@ -702,7 +711,6 @@ class Settings extends React.Component {
             <SMButton
               small
               role="button"
-              disabled={!settingsHaveChanged}
               onClick={() => this.saveSettings(this.closeButtonRef.current)}
               messageID="general.save.changes"
               color="primary"

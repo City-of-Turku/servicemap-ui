@@ -112,9 +112,9 @@ IFramePreview.propTypes = {
   titleComponent: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']).isRequired,
   ratioHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   widthMode: PropTypes.string.isRequired,
-  renderMapControls: PropTypes.func.isRequired,
   bottomList: PropTypes.bool,
   minHeightWithBottomList: PropTypes.string.isRequired,
+  renderMapControls: PropTypes.func.isRequired,
 };
 
 IFramePreview.defaultProps = {

@@ -1,7 +1,6 @@
-import { Typography } from '@mui/material';
-import { useTheme } from '@mui/styles';
-import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { Typography, useTheme } from '@mui/material';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useMapEvents } from 'react-leaflet';
 

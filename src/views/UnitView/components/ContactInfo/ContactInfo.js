@@ -1,25 +1,26 @@
 import {
-    ButtonBase, Divider, ListItem, Typography
+  ButtonBase, Divider, ListItem, Typography,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
 import config from '../../../../../config';
-import SMAccordion from '../../../../components/SMAccordion';
-import { parseSearchParams, stringifySearchParams } from '../../../../utils';
+import InfoList from '../InfoList';
+import unitSectionFilter from '../../utils/unitSectionFilter';
 import { getAddressFromUnit } from '../../../../utils/address';
 import useLocaleText from '../../../../utils/useLocaleText';
-import unitSectionFilter from '../../utils/unitSectionFilter';
-import InfoList from '../InfoList';
+import { parseSearchParams, stringifySearchParams } from '../../../../utils';
+import { SMAccordion } from '../../../../components';
 
 const ContactInfo = ({
-  unit, userLocation, intl, classes,
+  unit, userLocation, intl, classes, headingLevel,
 }) => {
   const history = useHistory();
   const location = useLocation();
   const getLocaleText = useLocaleText();
   const additionalEntrances = unit?.entrances?.filter(entrance => !entrance.is_main_entrance);
+  const subgroupContacts = unit?.connections?.filter(c => c.section_type === 'SUBGROUP');
 
   const address = {
     type: 'ADDRESS',
@@ -29,7 +30,7 @@ const ContactInfo = ({
   const phone = {
     type: 'PHONE',
     value: unit.phone ? { phone: unit.phone } : intl.formatMessage({ id: 'unit.phone.missing' }),
-    noDivider: unit.call_charge_info && unit.call_charge_info.fi !== 'pvm/mpm', // TODO: fix this hard coded value when unit data returns call charge boolean
+    noDivider: (unit.call_charge_info && unit.call_charge_info.fi !== 'pvm/mpm') || (subgroupContacts && subgroupContacts.length > 0), // TODO: fix this hard coded value when unit data returns call charge boolean
   };
   const email = {
     type: 'EMAIL',
@@ -78,7 +79,7 @@ const ContactInfo = ({
           <SMAccordion
             className={classes.accordionRoot}
             disableUnmount
-            titleContent={<Typography><FormattedMessage id="unit.entrances.show" /></Typography>}
+            titleContent={<Typography id="additional-entrances"><FormattedMessage id="unit.entrances.show" /></Typography>}
             collapseContent={(
               <div className={classes.accordionContaianer}>
                 {additionalEntrances.map(entrance => (
@@ -114,38 +115,87 @@ const ContactInfo = ({
     ),
   };
 
+  const subgroups = {
+    component: subgroupContacts?.length > 0 && (
+      <React.Fragment key="entrances">
+        <ListItem className={classes.accordionItem}>
+          <SMAccordion
+            className={classes.accordionRoot}
+            disableUnmount
+            titleContent={<Typography><FormattedMessage id="unit.subgroup.title" /></Typography>}
+            collapseContent={(
+              <div className={classes.accordionContaianer}>
+                {subgroupContacts.map(subgroup => (
+                  subgroup.contact_person ? (
+                    <div key={subgroup.contact_person} className={classes.subgroupItem}>
+                      <Typography key={subgroup.contact_person}>
+                        {`${subgroup.contact_person}, ${getLocaleText(subgroup.name)}, `}
+                      </Typography>
+                      <a href={`tel:${subgroup.phone}`}>{subgroup.phone}</a>
+                    </div>
+                  ) : null
+                ))}
+              </div>
+              )}
+          />
+        </ListItem>
+        <li aria-hidden>
+          <Divider className={classes.dividerShort} />
+        </li>
+      </React.Fragment>
+    ),
+  };
+
   // For infomration that is in data's connections array, use unitSectionFilter
-  const hours = unitSectionFilter(unit.connections, 'OPENING_HOURS');
-  const contact = unitSectionFilter(unit.connections, 'PHONE_OR_EMAIL');
+  let openingHours = [];
+  let contact = [];
 
-  // Temporary link implementation for route info
-  const url = config.reittiopasURL;
-  let currentLocationString = ' ';
-
-  if (userLocation && userLocation.addressData) {
-    const { street, number } = userLocation.addressData;
-    const { latitude, longitude } = userLocation.coordinates;
-
-    const userAddress = `${getLocaleText(street.name)} ${number}, ${street.municipality}`;
-    currentLocationString = `${userAddress}::${latitude},${longitude}`;
+  if (unit.connections) {
+    const hours = unitSectionFilter(unit.connections, 'OPENING_HOURS');
+    const hoursObject = unitSectionFilter(unit.connections, 'OPENING_HOUR_OBJECT');
+    openingHours = [...hours, ...hoursObject];
+    contact = unitSectionFilter(unit.connections, 'PHONE_OR_EMAIL');
   }
+
 
   // Form data array
   const data = [
     address,
     entrances,
     phone,
+    subgroups,
     callInformation,
     email,
     website,
     ...contact.length ? contact : [],
-    ...hours.length ? hours : [{ type: 'OPENING_HOURS', value: intl.formatMessage({ id: 'unit.opening.hours.missing' }) }],
+    ...openingHours.length ? openingHours : [{ type: 'OPENING_HOURS', value: intl.formatMessage({ id: 'unit.opening.hours.missing' }) }],
   ];
 
   // Add route info to data in location exists
   const unitLocation = unit.location;
 
   if (unitLocation && unitLocation.coordinates) {
+    // Temporary link implementation for route info
+    let currentLocationString = ' ';
+
+    if (userLocation && userLocation.addressData) {
+      const { street, number } = userLocation.addressData;
+      const { latitude, longitude } = userLocation.coordinates;
+
+      const userAddress = `${getLocaleText(street.name)} ${number}, ${street.municipality}`;
+      currentLocationString = `${userAddress}::${latitude},${longitude}`;
+    }
+    let url = '';
+    let extraText = '';
+
+    if (config.hslRouteGuideCities?.includes(unit.municipality)) {
+      url = config.hslRouteGuideURL;
+      extraText = intl.formatMessage({ id: 'unit.route.extra.hslRouteGuide' });
+    } else {
+      url = config.reittiopasURL;
+      extraText = intl.formatMessage({ id: 'unit.route.extra.routeGuide' });
+    }
+
     const destinationString = `${getLocaleText(unit.name)}, ${unit.municipality}::${unitLocation.coordinates[1]},${unitLocation.coordinates[0]}`;
     const routeUrl = `${url}${currentLocationString}/${destinationString}?locale=${intl.locale}`;
 
@@ -154,7 +204,7 @@ const ContactInfo = ({
       value: {
         www: routeUrl,
         name: intl.formatMessage({ id: 'unit.route' }),
-        extraText: intl.formatMessage({ id: 'unit.route.extra' }),
+        extraText,
       },
     };
     data.push(route);
@@ -164,7 +214,7 @@ const ContactInfo = ({
     <InfoList
       data={data}
       title={<FormattedMessage id="unit.contact.info" />}
-      titleComponent="h4"
+      titleComponent={headingLevel}
     />
   );
 };
@@ -174,10 +224,12 @@ ContactInfo.propTypes = {
   intl: PropTypes.objectOf(PropTypes.any).isRequired,
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
   userLocation: PropTypes.objectOf(PropTypes.any),
+  headingLevel: PropTypes.string,
 };
 
 ContactInfo.defaultProps = {
   userLocation: null,
+  headingLevel: 'h4',
 };
 
 export default ContactInfo;

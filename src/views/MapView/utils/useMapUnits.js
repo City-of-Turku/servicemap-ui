@@ -2,13 +2,15 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import distance from '@turf/distance';
 import flip from '@turf/flip';
-import { getFilteredSubdistrictUnits } from '../../../redux/selectors/district';
+import { getDistrictPrimaryUnits, getFilteredSubdistrictUnits, getParkingUnits } from '../../../redux/selectors/district';
 import { getOrderedData } from '../../../redux/selectors/results';
 import { getSelectedUnit } from '../../../redux/selectors/selectedUnit';
 import { getServiceUnits } from '../../../redux/selectors/service';
 import { useEmbedStatus } from '../../../utils/path';
+import { getServiceFilteredStatisticalDistrictUnits } from '../../../redux/selectors/statisticalDistrict';
 
-const handleAddressUnits = (addressToRender, adminDistricts, addressUnits) => {
+// Helper function to handle address view units
+const handleAdrressUnits = (addressToRender, adminDistricts, addressUnits) => {
   let mapUnits = [];
   switch (addressToRender) {
     case 'adminDistricts':
@@ -37,7 +39,7 @@ const handleAddressUnits = (addressToRender, adminDistricts, addressUnits) => {
   return mapUnits;
 };
 
-// Add additional service units to unit page if specified on Url parameters
+// Helper function to add additional service units to unit page if specified on Url parameters
 const handleServiceUnitsFromUrl = (mapUnits, serviceUnits, location) => {
   const distanceParameter = new URLSearchParams(location.search).get('distance');
   let additionalUnits = serviceUnits;
@@ -50,7 +52,7 @@ const handleServiceUnitsFromUrl = (mapUnits, serviceUnits, location) => {
         const checkDistance = (a, b) => (
           distance(a, b) * 1000 <= distanceParameter
         );
-        // If target has only one point as geometry data, compare distance between points
+          // If target has only one point as geometry data, compare distance between points
         if (targetGeometry.type === 'Point') {
           return checkDistance(flip(targetGeometry), unitCoord);
         }
@@ -72,6 +74,10 @@ const handleServiceUnitsFromUrl = (mapUnits, serviceUnits, location) => {
   return additionalUnits;
 };
 
+/*
+  This hook servers as the single global source that defines which units
+  should be rendered to map on each page
+*/
 const useMapUnits = () => {
   const embedded = useEmbedStatus();
   const location = useLocation();
@@ -81,22 +87,29 @@ const useMapUnits = () => {
   const adminDistricts = useSelector(state => state.address.adminDistricts);
   const addressUnits = useSelector(state => state.address.units);
   const serviceUnits = useSelector(state => getServiceUnits(state));
-  const districtUnits = useSelector(state => getFilteredSubdistrictUnits(state));
-  const parkingAreaUnits = useSelector(state => state.districts.parkingUnits);
+  const districtPrimaryUnits = useSelector(state => getDistrictPrimaryUnits(state));
+  const districtServiceUnits = useSelector(state => getFilteredSubdistrictUnits(state));
+  const statisticalDistrictUnits = useSelector(getServiceFilteredStatisticalDistrictUnits);
+  const parkingAreaUnits = useSelector(state => getParkingUnits(state));
   const highlightedUnit = useSelector(state => getSelectedUnit(state));
 
   const searchUnitsLoading = useSelector(state => state.searchResults.isFetching);
   const serviceUnitsLoading = useSelector(state => state.service.isFetching);
   const unitsLoading = searchUnitsLoading || serviceUnitsLoading;
 
-  const unitParam = new URLSearchParams(location.search).get('units');
-  const servicesParams = new URLSearchParams(location.search).get('services');
+  const searchParams = new URLSearchParams(location.search);
+  const unitParam = searchParams.get('units');
+  const servicesParams = searchParams.get('services');
+  const statisticalTabOpen = searchParams.get('t') === '2';
 
   if (embedded && unitParam === 'none') {
     return [];
   }
 
-  const filteredUnits = searchResults.filter(item => item.object_type === 'unit');
+  const filteredUnits = searchResults.filter(item => (
+    item.object_type === 'unit'
+    || (item.object_type === 'event' && item.location)
+  ));
 
   // Figure out which units to show on map on different pages
   const getMapUnits = () => {
@@ -112,16 +125,22 @@ const useMapUnits = () => {
         return [];
 
       case 'address':
-        return handleAddressUnits(addressToRender, adminDistricts, addressUnits);
+        return handleAdrressUnits(addressToRender, adminDistricts, addressUnits);
 
       case 'service':
         if (serviceUnits && !unitsLoading) return serviceUnits;
         return [];
 
       case 'area':
-        if (districtUnits) return districtUnits;
-        if (parkingAreaUnits.length) return parkingAreaUnits;
-        return [];
+        return [
+          ...(districtPrimaryUnits.length ? districtPrimaryUnits : []),
+          ...(districtServiceUnits.length ? districtServiceUnits : []),
+          ...(parkingAreaUnits.length ? parkingAreaUnits : []),
+          ...(statisticalDistrictUnits.length && statisticalTabOpen
+            ? statisticalDistrictUnits
+            : []
+          ),
+        ];
 
       default:
         return [];

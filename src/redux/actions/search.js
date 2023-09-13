@@ -1,10 +1,13 @@
 import { saveSearchToHistory } from '../../components/SearchBar/previousSearchData';
+import LinkedEventsAPI from '../../utils/newFetch/LinkedEventsAPI';
 import ServiceMapAPI from '../../utils/newFetch/ServiceMapAPI';
 import { getLocaleString } from '../selectors/locale';
 import { searchResults } from './fetchDataActions';
+import { isEmbed } from '../../utils/path';
 
 // Actions
 const { isFetching, fetchSuccess, fetchProgressUpdateConcurrent } = searchResults;
+
 
 const smFetch = (dispatch, options) => {
   let results = [];
@@ -35,6 +38,14 @@ const smFetch = (dispatch, options) => {
       smAPI.search(address, addressFetchOptions, true),
       smAPI.units(unitFetchOptions),
     ]);
+  } else if (options.id) {
+    const unitFetchOptions = { id: options.id };
+    results = smAPI.units(unitFetchOptions);
+  } else if (options.events) {
+    const eventsAPI = new LinkedEventsAPI();
+    results = eventsAPI.eventsByKeyword(options.events);
+  } else if (options.level) {
+    results = smAPI.units(options);
   }
 
   return results;
@@ -45,7 +56,12 @@ const fetchSearchResults = (options = null) => async (dispatch, getState) => {
   const searchFetchState = getState().searchResults;
   const { locale } = getState().user;
 
-  const searchQuery = options.q || options.address || options.service_node || options.service_id;
+  const searchQuery = options.q
+    || options.address
+    || options.service_node
+    || options.service_id
+    || options.id
+    || options.events;
 
   if (searchFetchState.isFetching) {
     throw Error('Unable to fetch search results because previous fetch is still active');
@@ -53,7 +69,19 @@ const fetchSearchResults = (options = null) => async (dispatch, getState) => {
 
   dispatch(isFetching(searchQuery));
 
-  const fetchOptions = { ...options, language: locale };
+  const extraFields = [
+    'unit.connections',
+    'unit.phone',
+    'unit.call_charge_info',
+    'unit.email',
+    'unit.www',
+    'unit.address_zip',
+  ];
+  const fetchOptions = {
+    ...options,
+    language: locale,
+    include: isEmbed() ? extraFields : null,
+  };
   let results = await smFetch(dispatch, fetchOptions);
 
   /* Handle search results */
@@ -63,8 +91,8 @@ const fetchSearchResults = (options = null) => async (dispatch, getState) => {
     if (options.q) {
       saveSearchToHistory(searchQuery, { object_type: 'searchHistory', text: searchQuery });
     }
-    // Handle service and sercice node results
-    if (options.service_node || options.service_id) {
+    // Handle unit results that have no object_type
+    if (options.service_node || options.service_id || options.id || options.level) {
       results.forEach((item) => {
         item.object_type = 'unit';
       });
@@ -81,6 +109,19 @@ const fetchSearchResults = (options = null) => async (dispatch, getState) => {
         );
       }
       results = [...addressData, ...unitData];
+    }
+    // Handle event search results
+    if (options.events) {
+      results.forEach((event) => {
+        event.object_type = 'event';
+        const eventUnit = event.location;
+        if (eventUnit) {
+          eventUnit.object_type = 'unit';
+          if (typeof eventUnit.id === 'string') {
+            eventUnit.id = parseInt(eventUnit.id.match(/[0-9]+/g), 10);
+          }
+        }
+      });
     }
   }
 

@@ -1,32 +1,31 @@
-import {
-  Divider, IconButton, InputBase, List, ListItem, Paper, Typography
-} from '@mui/material';
-import { Clear, Search } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import {
+  InputBase, IconButton, Paper, List, ListItem, Typography, ButtonBase,
+} from '@mui/material';
+import { Cancel, Home } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { visuallyHidden } from '@mui/utils';
-import { setDirection, setOrder } from '../../redux/actions/sort';
-import { formAddressString, keyboardHandler } from '../../utils';
+import styled from '@emotion/styled';
+import { setOrder, setDirection } from '../../redux/actions/sort';
+import { keyboardHandler } from '../../utils';
 import useMobileStatus from '../../utils/isMobile';
 import ServiceMapAPI from '../../utils/newFetch/ServiceMapAPI';
 import useLocaleText from '../../utils/useLocaleText';
+import { getAddressText } from '../../utils/address';
+import { focusToPosition } from '../../views/MapView/utils/mapActions';
 
-const AddressSearchBar = ({
-  defaultAddress,
-  handleAddressChange,
-  title,
-  containerClassName,
-  inputClassName,
-  classes,
-  intl,
-}) => {
+const AddressSearchBar = ({ title, intl, handleAddressChange }) => {
   const getLocaleText = useLocaleText();
   const dispatch = useDispatch();
-  const locale = useSelector(state => state.user.locale);
-
   const isMobile = useMobileStatus();
+  const locale = useSelector(state => state.user.locale);
+  const map = useSelector(state => state.mapRef);
+  const customPosition = useSelector(state => state.user.customPosition);
+  const position = useSelector(state => state.user.position);
+
+  const defaultAddress = position.addressData || customPosition.addressData;
 
   const [addressResults, setAddressResults] = useState([]);
   const [resultIndex, setResultIndex] = useState(null);
@@ -40,10 +39,10 @@ const AddressSearchBar = ({
   const fetchAddressResults = async (text) => {
     const smAPI = new ServiceMapAPI();
     const fetchOptions = {
-      language: locale,
       page_size: suggestionCount,
       type: 'address',
       address_limit: suggestionCount,
+      language: locale,
     };
     setIsFetching(true);
     const results = smAPI.search(text, fetchOptions);
@@ -56,12 +55,13 @@ const AddressSearchBar = ({
     if (inputRef.current) {
       inputRef.current.focus();
     }
-    inputRef.current.value = formAddressString(address, getLocaleText);
+    inputRef.current.value = getAddressText(address, getLocaleText);
     setAddressResults([]);
-    setCurrentLocation(formAddressString(address, getLocaleText));
+    setCurrentLocation(getAddressText(address, getLocaleText));
     dispatch(setDirection('asc'));
     dispatch(setOrder('distance'));
     handleAddressChange(address);
+    focusToPosition(map, address.location?.coordinates);
   };
 
   const handleSearchBarKeyPress = (e) => {
@@ -108,76 +108,94 @@ const AddressSearchBar = ({
       if (currentLocation) {
         setCurrentLocation(null);
       }
-      fetchAddressResults(text)
-        .then((data) => {
-          if (!isFetching) setAddressResults(data);
-        });
+      fetchAddressResults(text).then((data) => {
+        if (!isFetching) setAddressResults(data);
+      });
     } else if (addressResults.length) setAddressResults([]);
   };
 
   useEffect(() => {
-    inputRef.current.value = formAddressString(defaultAddress, getLocaleText);
+    if (defaultAddress) {
+      inputRef.current.value = getAddressText(defaultAddress, getLocaleText);
+    }
   }, [defaultAddress]);
 
   const showSuggestions = inputRef.current?.value.length > 1 && addressResults?.length;
   // Add info text for location selection
-  const locationInfoText = currentLocation ? intl.formatMessage({ id: 'address.search.location' }, { location: currentLocation }) : '';
+  const locationInfoText = currentLocation
+    ? intl.formatMessage({ id: 'address.search.location' }, { location: currentLocation })
+    : '';
   // Figure out which info text to use
-  let infoText = showSuggestions && addressResults.length ? <FormattedMessage id="search.suggestions.suggestions" values={{ count: addressResults.length }} /> : locationInfoText;
+  let infoText = showSuggestions && addressResults.length ? (
+    <FormattedMessage id="search.suggestions.suggestions" values={{ count: addressResults.length }} />
+  ) : (
+    locationInfoText
+  );
   if (cleared) {
     infoText = <FormattedMessage id="address.search.cleared" />;
   } else {
     infoText = (
       <>
         {infoText}
-        {
-          addressResults.length ? (<FormattedMessage id="address.search.suggestion" />) : null
-        }
+        {addressResults.length ? <FormattedMessage id="address.search.suggestion" /> : null}
       </>
     );
   }
 
   return (
-    <div className={containerClassName}>
+    <StyledContainer>
       <Typography color="inherit">{title}</Typography>
       <form action="" onSubmit={e => handleSubmit(e)}>
-        <InputBase
-          id="addressSearchbar"
-          autoComplete="off"
-          inputRef={inputRef}
-          inputProps={{
-            role: 'combobox',
-            'aria-haspopup': !!showSuggestions,
-            'aria-label': `${intl.formatMessage({ id: 'search.searchField' })} ${intl.formatMessage({ id: 'address.search' })}`,
-            'aria-owns': showSuggestions ? 'address-results' : null,
-            'aria-activedescendant': showSuggestions && resultIndex !== null ? `address-suggestion${resultIndex}` : null,
-          }}
-          type="text"
-          onBlur={isMobile ? () => {} : e => clearSuggestions(e)}
-          onFocus={() => setResultIndex(null)}
-          className={`${classes.searchBar} ${inputClassName}`}
-          defaultValue={formAddressString(defaultAddress, getLocaleText)}
-          onChange={e => handleInputChange(e.target.value)}
-          onKeyDown={e => showSuggestions && handleSearchBarKeyPress(e)}
-          endAdornment={(
-            <>
-              <Search aria-hidden className={classes.searchIcon} />
-              <Divider aria-hidden className={classes.divider} />
-              <IconButton
-                aria-label={intl.formatMessage({ id: 'search.cancelText' })}
-                onClick={() => {
-                  setCleared(true);
-                  handleAddressChange(null);
-                  inputRef.current.value = '';
-                }}
-                className={classes.IconButton}
-              >
-                <Clear className={classes.clearButton} />
-              </IconButton>
-            </>
-          )}
-        />
-        <Typography aria-live="polite" id="resultLength" style={visuallyHidden}>{infoText}</Typography>
+        <StyledFlexContainer>
+          <StyledInputBase
+            id="addressSearchbar"
+            autoComplete="off"
+            inputRef={inputRef}
+            inputProps={{
+              role: 'combobox',
+              'aria-haspopup': !!showSuggestions,
+              'aria-label': `${intl.formatMessage({ id: 'search.searchField' })} ${intl.formatMessage({
+                id: 'address.search',
+              })}`,
+              'aria-owns': showSuggestions ? 'address-results' : null,
+              'aria-activedescendant':
+                showSuggestions && resultIndex !== null ? `address-suggestion${resultIndex}` : null,
+            }}
+            type="text"
+            onBlur={isMobile ? () => {} : e => clearSuggestions(e)}
+            onFocus={() => setResultIndex(null)}
+            defaultValue={getAddressText(defaultAddress, getLocaleText)}
+            onChange={e => handleInputChange(e.target.value)}
+            onKeyDown={e => showSuggestions && handleSearchBarKeyPress(e)}
+            endAdornment={
+              currentLocation ? (
+                <StyledIconButton
+                  aria-label={intl.formatMessage({ id: 'search.cancelText' })}
+                  onClick={() => {
+                    setCleared(true);
+                    setCurrentLocation(null);
+                    handleAddressChange(null);
+                    inputRef.current.value = '';
+                  }}
+                >
+                  <StyledClear />
+                </StyledIconButton>
+              ) : null
+            }
+          />
+          <StyledSearchButton
+            // aria-label={intl.formatMessage({ id: 'search' })}
+            onClick={e => handleSubmit(e)}
+            variant="contained"
+          >
+            <Typography>Lisää</Typography>
+            <Home />
+          </StyledSearchButton>
+
+          <Typography aria-live="polite" id="resultLength" style={visuallyHidden}>
+            {infoText}
+          </Typography>
+        </StyledFlexContainer>
         {showSuggestions ? (
           <Paper>
             <List role="listbox" id="address-results">
@@ -187,38 +205,83 @@ const AddressSearchBar = ({
                   id={`address-suggestion${i}`}
                   role="option"
                   selected={i === resultIndex}
-                  key={formAddressString(address, getLocaleText)}
+                  key={getAddressText(address, getLocaleText)}
                   button
                   onClick={() => handleAddressSelect(address)}
                   onKeyDown={keyboardHandler(() => handleAddressSelect(address), ['space', 'enter'])}
                 >
-                  <Typography>
-                    {formAddressString(address, getLocaleText)}
-                  </Typography>
+                  <Typography>{getAddressText(address, getLocaleText)}</Typography>
                 </ListItem>
               ))}
             </List>
           </Paper>
         ) : null}
       </form>
-    </div>
+    </StyledContainer>
   );
 };
 
+const StyledContainer = styled.div(({ theme }) => ({
+  padding: theme.spacing(2),
+  paddingTop: 0,
+  backgroundColor: theme.palette.primary.main,
+  color: '#fff',
+  textAlign: 'left',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  paddingLeft: theme.spacing(2),
+  width: '100%',
+  height: '100%',
+  boxSizing: 'border-box',
+  backgroundColor: '#fff',
+  flexGrow: 1,
+}));
+
+const StyledClear = styled(Cancel)(() => ({
+  fontSize: '0.875rem',
+}));
+
+const StyledFlexContainer = styled.div(({ theme }) => ({
+  display: 'flex',
+  width: '100%',
+  border: '1px solid #ACACAC',
+  borderRadius: '4px',
+  height: 42,
+  boxSizing: 'border-box',
+  marginTop: theme.spacing(0.5),
+}));
+
+const StyledSearchButton = styled(ButtonBase)(({ theme }) => ({
+  height: '100%',
+  width: 87,
+  paddingTop: theme.spacing(0.5),
+  paddingBottom: theme.spacing(0.5),
+  borderBottomRightRadius: '4px',
+  borderTopRightRadius: '4px',
+  flexShrink: 0,
+  '&:hover': {
+    backgroundColor: 'rgb(30, 32, 39)',
+    transition: '0.5s',
+  },
+  '& svg': {
+    paddingLeft: theme.spacing(0.5),
+    fontSize: 18,
+  },
+}));
+
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+  marginRight: theme.spacing(1),
+  padding: theme.spacing(1),
+}));
+
 AddressSearchBar.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  defaultAddress: PropTypes.objectOf(PropTypes.any),
   handleAddressChange: PropTypes.func.isRequired,
   title: PropTypes.objectOf(PropTypes.any),
-  containerClassName: PropTypes.string,
-  inputClassName: PropTypes.string,
 };
 
 AddressSearchBar.defaultProps = {
-  containerClassName: '',
-  inputClassName: '',
-  defaultAddress: null,
   title: null,
 };
 

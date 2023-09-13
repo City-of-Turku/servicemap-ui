@@ -3,8 +3,11 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    setAddressData, setAddressLocation, setAddressUnits, setAdminDistricts,
-    setToRender
+  setAddressData,
+  setAddressLocation,
+  setAddressUnits,
+  setAdminDistricts,
+  setToRender,
 } from '../../redux/actions/address';
 import { setDistrictAddressData } from '../../redux/actions/district';
 import { calculateDistance, getCurrentlyUsedPosition } from '../../redux/selectors/unit';
@@ -31,15 +34,17 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-
-export default withRouter(withStyles(styles)(injectIntl(connect(
-  mapStateToProps,
-  {
-    setAddressData,
-    setAddressUnits,
-    setAddressLocation,
-    setAdminDistricts,
-    setToRender,
-    setDistrictAddressData,
-  },
-)(AddressView))));
+export default withRouter(
+  withStyles(styles)(
+    injectIntl(
+      connect(mapStateToProps, {
+        setAddressData,
+        setAddressUnits,
+        setAddressLocation,
+        setAdminDistricts,
+        setToRender,
+        setDistrictAddressData,
+      })(AddressView),
+    ),
+  ),
+);

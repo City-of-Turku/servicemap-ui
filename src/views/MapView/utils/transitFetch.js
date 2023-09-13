@@ -2,6 +2,11 @@ import { unitsFetch } from '../../../utils/fetch';
 import config from '../../../../config';
 import MapUtility from '../../../utils/mapUtility';
 
+const digitransitApiHeaders = () => ({
+  'Content-Type': 'application/graphql',
+  'digitransit-subscription-key': `${config.digitransitApiKey.root}`,
+});
+
 /* eslint-disable global-require */
 // Fetch list of stops
 const fetchStops = async (map) => {
@@ -33,7 +38,7 @@ const fetchStops = async (map) => {
     // Fetch for transit stops
     fetch(`${config.digitransitAPI.root}`, {
       method: 'post',
-      headers: { 'Content-Type': 'application/graphql' },
+      headers: digitransitApiHeaders(),
       body:
       `{
         stopsByBbox(minLat: ${wideBounds.getSouthWest().lat}, minLon: ${wideBounds.getSouthWest().lng}, maxLat: ${wideBounds.getNorthEast().lat}, maxLon: ${wideBounds.getNorthEast().lng} ) {
@@ -136,7 +141,7 @@ const fetchStopData = async (stop) => {
 
   const response = await fetch(`${config.digitransitAPI.root}`, {
     method: 'post',
-    headers: { 'Content-Type': 'application/graphql' },
+    headers: digitransitApiHeaders(),
     body: requestBody(stop.gtfsId),
   });
   const data = await response.json();
@@ -144,7 +149,7 @@ const fetchStopData = async (stop) => {
   if (stop.secondaryId) {
     const response = await fetch(`${config.digitransitAPI.root}`, {
       method: 'post',
-      headers: { 'Content-Type': 'application/graphql' },
+      headers: digitransitApiHeaders(),
       body: requestBody(stop.secondaryId),
     });
     const secondData = await response.json();
@@ -160,7 +165,23 @@ const fetchStopData = async (stop) => {
   return data;
 };
 
+
+const fetchBikeStations = async () => fetch(`${config.digitransitAPI.root}`, {
+  method: 'post',
+  headers: digitransitApiHeaders(),
+  body:
+    `{
+      bikeRentalStations {
+        name
+        stationId
+        lat
+        lon
+      }
+    }`,
+}).then(response => response.json());
+
 export {
   fetchStops,
   fetchStopData,
+  fetchBikeStations,
 };

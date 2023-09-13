@@ -32,5 +32,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-
 export default withStyles(styles)(connect(mapStateToProps)(MarkerCluster));

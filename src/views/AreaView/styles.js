@@ -1,4 +1,4 @@
-const styles = theme => ({
+const styles = (theme) => ({
   listLevelTwo: {
     backgroundColor: 'rgb(250,250,250)',
   },
@@ -19,8 +19,11 @@ const styles = theme => ({
     backgroundColor: theme.palette.primary.main,
   },
   infoText: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
+    paddingTop: 0,
     textAlign: 'start',
+    backgroundColor: theme.palette.primary.main,
+    color: '#fff',
   },
   infoTitle: {
     padding: theme.spacing(1),
@@ -41,7 +44,7 @@ const styles = theme => ({
       borderBottom: 'none',
     },
   },
-  subdistrictAccordion: {
+  subsistrictAccordion: {
     padding: 0,
     marginLeft: -11,
   },
@@ -81,14 +84,57 @@ const styles = theme => ({
     paddingBottom: theme.spacing(1),
     paddingLeft: 26,
   },
-  municipalitySubtitle: {
+  municipalityAdjustedCheckboxPadding: {
+    paddingLeft: theme.spacing(2),
+    marginRight: 0,
+    display: 'flex',
+    flex: '1 1 auto',
+  },
+  statisticalAreaAdjustedCheckboxPadding: {
+    paddingLeft: theme.spacing(6),
+    display: 'flex',
+    flex: '1 1 auto',
+  },
+  statisticalCityAccordion: {
+    paddingLeft: theme.spacing(9),
+  },
+  statisticalDistrictListItemLabel: {
+    margin: `${theme.spacing(1)} 0`,
+  },
+  statisticalDistrictListItemLabelInfo: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  statisticalCategoryAccordion: {
+    paddingLeft: theme.spacing(9),
+  },
+  statisticalLayerAccordion: {
+    paddingLeft: theme.spacing(7),
+  },
+  statisticalUnitInfo: {
+    backgroundColor: 'rgba(222, 222, 222, 0.56)',
+    padding: `${theme.spacing(2)} ${theme.spacing(4)}`,
+    paddingLeft: theme.spacing(9),
+    fontWeight: 'normal',
+    color: 'black',
+  },
+  municipalityCheckbox: {
+    padding: 0,
+    margin: 0,
+  },
+  municipalitySubtitleBase: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'start',
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(1),
-    paddingLeft: theme.spacing(4),
     boxSizing: 'border-box',
+  },
+  municipalitySubtitle: {
+    paddingLeft: theme.spacing(9),
+  },
+  municipalitTitle: {
+    paddingLeft: theme.spacing(7),
   },
   listItem: {
     padding: 0,
@@ -125,10 +171,6 @@ const styles = theme => ({
   rightPadding: {
     paddingRight: theme.spacing(1),
   },
-  addressArea: {
-    padding: theme.spacing(3),
-    textAlign: 'start',
-  },
   addressTitle: {
     marginBottom: theme.spacing(2),
   },
@@ -156,6 +198,12 @@ const styles = theme => ({
   selectedAddress: {
     fontSize: '1.125rem',
   },
+  statisticalCategoryTitle: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    flex: '1 1 auto',
+  },
   subdistrictContainer: {
     flexDirection: 'column',
   },
@@ -163,7 +211,7 @@ const styles = theme => ({
     paddingLeft: theme.spacing(3),
   },
   accordion: {
-    paddingLeft: theme.spacing(3),
+    paddingLeft: theme.spacing(9),
   },
   expandingElementContent: {
     marginBottom: -1,
@@ -248,6 +296,43 @@ const styles = theme => ({
   },
   switchBorder: {
     border: '1px solid #949494',
+  },
+  serviceFilter: {
+    backgroundColor: theme.palette.white.main,
+    flex: '1 0 auto',
+  },
+  serviceFilterButton: {
+    flex: '0 0 auto',
+    borderRadius: 0,
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 4,
+    boxShadow: 'none',
+    padding: theme.spacing(1, 2),
+    textTransform: 'none',
+    '& svg': {
+      fontSize: 20,
+      marginBottom: theme.spacing(0.5),
+    },
+    flexDirection: 'column',
+  },
+  serviceFilterButtonFocus: {
+    boxShadow: `0 0 0 4px ${theme.palette.focusBorder.main} !important`,
+  },
+  serviceFilterButtonLabel: {
+    flexDirection: 'column',
+  },
+  serviceFilterContainer: {
+    padding: theme.spacing(2),
+    paddingLeft: 72,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  serviceFilterText: {
+    paddingBottom: theme.spacing(1),
+    fontWeight: 'bold',
+  },
+  serviceFilterInput: {
+    margin: theme.spacing(1),
   },
   servciceList: {
     paddingTop: theme.spacing(2),

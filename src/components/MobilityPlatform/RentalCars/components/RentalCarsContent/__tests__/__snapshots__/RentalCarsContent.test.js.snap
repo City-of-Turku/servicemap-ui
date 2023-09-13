@@ -27,7 +27,7 @@ exports[`<RentalCarsContent /> should work 1`] = `
       class="injectIntl(RentalCarsContent)-linkContainer-4"
     >
       <a
-        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-fixjtq-MuiTypography-root-MuiLink-root"
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-16pak0r-MuiTypography-root-MuiLink-root"
         href="https://www.24rent.fi/#/?city=Testiosoite"
         role="link"
         target="_blank"

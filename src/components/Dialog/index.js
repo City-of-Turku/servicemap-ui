@@ -1,5 +1,5 @@
 import { withStyles } from '@mui/styles';
-import Dialog from './Dialog';
 import styles from './styles';
+import Dialog from './Dialog';
 
 export default withStyles(styles)(Dialog);

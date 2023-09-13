@@ -3,15 +3,16 @@
 exports[`<SMLogo /> should work 1`] = `
 <div>
   <button
+    aria-current="page"
     aria-label="Palvelukartta - Siirry etusivulle"
-    class="MuiButtonBase-root css-fvdnvy-MuiButtonBase-root"
+    class="MuiButtonBase-root css-l9l1yv-MuiButtonBase-root"
     role="link"
     tabindex="0"
     type="button"
   >
     <div
       aria-hidden="true"
-      class="SMLogoComponent-logo-6"
+      class="SMLogoComponent-logo-7"
       role="img"
     >
       <img

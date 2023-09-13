@@ -1,28 +1,37 @@
 import config from '../../../config';
-import HttpClient, { APIFetchError } from './HTTPClient';
+import HttpClient, { APIFetchError, serviceMapAPIName } from './HTTPClient';
 
 export default class ServiceMapAPI extends HttpClient {
   constructor() {
     if (
-      typeof config?.serviceMapAPI?.root === 'string'
-      && config.serviceMapAPI.root.indexOf('undefined') !== -1
+      typeof config?.serviceMapAPI?.root !== 'string'
+      || typeof config?.serviceMapAPI?.version !== 'string'
+      || (
+        typeof config?.serviceMapAPI?.root === 'string'
+        && config.serviceMapAPI.root.indexOf('undefined') !== -1
+      )
+      || (
+        typeof config?.serviceMapAPI?.version === 'string'
+        && config.serviceMapAPI.version.indexOf('undefined') !== -1
+      )
     ) {
       throw new APIFetchError('ServicemapAPI baseURL missing');
     }
-    super(config.serviceMapAPI.root);
+    super(`${config.serviceMapAPI.root}${config.serviceMapAPI.version}`, serviceMapAPIName);
   }
 
   search = async (query, additionalOptions) => {
     if (typeof query !== 'string') {
       throw new APIFetchError('Invalid query string provided to ServiceMapAPI search method');
     }
-    const options = {
+    const options = { // TODO: adjust these values for best results and performance
       q: query,
-      page_size: 200,
-      limit: 2000,
-      unit_limit: 2000,
+      page_size: 400,
+      limit: 2500,
+      unit_limit: 2500,
       service_limit: 500,
       address_limit: 700,
+      administrativedivision_limit: 1,
       ...additionalOptions,
     };
 
@@ -35,7 +44,7 @@ export default class ServiceMapAPI extends HttpClient {
     }
     const options = {
       q: query,
-      limit: 2000,
+      limit: 2500,
       administrativedivision_limit: 1,
       ...additionalOptions,
     };
@@ -87,7 +96,7 @@ export default class ServiceMapAPI extends HttpClient {
       service: idList,
       page_size: 200,
       geometry: true,
-      only: 'street_address,name,accessibility_shortcoming_count,location,municipality,contract_type',
+      only: 'street_address,phone,call_charge_info,email,www,name,accessibility_shortcoming_count,location,municipality,contract_type,connections,picture_url',
       ...additionalOptions,
     };
 
@@ -104,6 +113,25 @@ export default class ServiceMapAPI extends HttpClient {
       page_size: '1000',
     };
     return this.get('service_node', options);
+  }
+
+  // Fetch list of all services
+  services = async () => {
+    const options = {
+      page: '1',
+      page_size: '500',
+    };
+    return this.getConcurrent('service', options);
+  }
+
+  statisticalGeometry = async () => {
+    const options = {
+      page: 1,
+      page_size: 500,
+      geometry: true,
+      type: 'statistical_district',
+    };
+    return this.getConcurrent('administrative_division', options);
   }
 
   areas = async (idList, geometry, additionalOptions) => {
@@ -135,7 +163,7 @@ export default class ServiceMapAPI extends HttpClient {
     return this.getConcurrent('administrative_division', options);
   }
 
-  areaUnits = async (nodeID, progressCallback) => {
+  areaUnits = async (nodeID) => {
     if (typeof nodeID !== 'string') {
       throw new APIFetchError('Invalid nodeID string provided to ServiceMapAPI area unit fetch method');
     }
@@ -148,19 +176,16 @@ export default class ServiceMapAPI extends HttpClient {
       include: 'services',
     };
 
-    return this.getConcurrent('unit', options, progressCallback);
+    return this.getConcurrent('unit', options);
   }
 
-  parkingAreaInfo = async (parkingID) => {
-    if (typeof parkingID !== 'string') {
-      throw new APIFetchError('Invalid parkingID string provided to ServiceMapAPI area unit fetch method');
-    }
+  parkingAreaInfo = async (params) => {
     const options = {
       page: 1,
       page_size: 1,
       type: 'parking_area',
       geometry: false,
-      extra__class: parkingID,
+      ...params,
     };
 
     return this.getSinglePage('administrative_division', options);
@@ -176,5 +201,21 @@ export default class ServiceMapAPI extends HttpClient {
     };
 
     return this.getConcurrent('unit', options);
+  }
+
+  sendStats = async (data) => {
+    if (typeof data.embed === 'undefined' || typeof data.mobile_device === 'undefined') {
+      throw new APIFetchError('Invalid data provided for ServiceMapAPI sendStats fetch method');
+    }
+    if (
+      typeof config?.serviceMapAPI?.root === 'string'
+      && config.serviceMapAPI.root.indexOf('undefined') !== -1
+    ) {
+      throw new APIFetchError('ServicemapAPI missing serviceMapAPI root url in sendStats fetch');
+    }
+
+    const baseUrlOverride = config.serviceMapAPI.root;
+
+    return this.post('stats', data, baseUrlOverride);
   }
 }

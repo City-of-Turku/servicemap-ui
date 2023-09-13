@@ -1,34 +1,35 @@
 /* eslint-disable global-require */
 /* eslint-disable camelcase */
-import {
-  ButtonBase, Divider, List, Typography,
-} from '@mui/material';
-import { Map } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import {
+  Typography, Divider, List, ButtonBase,
+} from '@mui/material';
+import { Map } from '@mui/icons-material';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useLocation, useRouteMatch } from 'react-router-dom';
-import { AddressIcon } from '../../components/SMIcon';
-import TitleBar from '../../components/TitleBar';
 import { focusToPosition, useMapFocusDisabled } from '../MapView/utils/mapActions';
 import fetchAdministrativeDistricts from './utils/fetchAdministrativeDistricts';
-
 import config from '../../../config';
-import { DistrictItem, SearchBar } from '../../components';
-import DesktopComponent from '../../components/DesktopComponent';
-import DivisionItem from '../../components/ListItems/DivisionItem';
-import MobileComponent from '../../components/MobileComponent';
-import SMButton from '../../components/ServiceMapButton';
-import TabLists from '../../components/TabLists';
 import { parseSearchParams } from '../../utils';
 import { getAddressText } from '../../utils/address';
 import useLocaleText from '../../utils/useLocaleText';
 import { getCategoryDistricts } from '../AreaView/utils/districtDataHelper';
 import fetchAddressData from './utils/fetchAddressData';
 import fetchAddressUnits from './utils/fetchAddressUnits';
-
+import {
+  AddressIcon,
+  DesktopComponent,
+  DivisionItem,
+  DistrictItem,
+  MobileComponent,
+  SearchBar,
+  SMButton,
+  TabLists,
+  TitleBar,
+} from '../../components';
 
 const hiddenDivisions = {
   emergency_care_district: true,
@@ -136,7 +137,6 @@ const AddressView = (props) => {
       });
   };
 
-
   // Gets address data from previously fetched search results
   const getAddressFromSearch = () => {
     if (!searchResults.length) return null;
@@ -147,7 +147,6 @@ const AddressView = (props) => {
       && municipalityFromParams === item.municipality.id
     ));
   };
-
 
   const renderHead = () => {
     if (addressData) {
@@ -180,7 +179,6 @@ const AddressView = (props) => {
           title={title}
           titleComponent="h3"
           primary
-          backButton
         />
       </MobileComponent>
     </>
@@ -198,7 +196,7 @@ const AddressView = (props) => {
 
 
   const renderClosebyServices = () => {
-    if (isFetching) {
+    if (isFetching || !adminDistricts) {
       return <Typography><FormattedMessage id="general.loading" /></Typography>;
     }
 
@@ -251,6 +249,7 @@ const AddressView = (props) => {
               setDistrictAddressData({ address: addressData });
               navigator.push('area');
             }}
+            id="areaViewLink"
           >
             <Typography align="left" variant="body2">
               <FormattedMessage id="address.area.link" />
@@ -315,6 +314,7 @@ const AddressView = (props) => {
     };
     tabs.unshift(nearbyServicesTab);
   }
+
 
   useEffect(() => {
     const searchParams = parseSearchParams(location.search);

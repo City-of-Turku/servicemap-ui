@@ -10,6 +10,10 @@ import Loading from '../../components/Loading';
 import { getSelectedUnitEvents } from '../../redux/selectors/selectedUnit';
 import { parseSearchParams } from '../../utils';
 import { useNavigationParams } from '../../utils/address';
+import { mapOptions } from './config/mapConfig';
+import CreateMap from './utils/createMap';
+import { focusToPosition, getBoundsFromBbox } from './utils/mapActions';
+import fetchAddress from './utils/fetchAddress';
 import { isEmbed } from '../../utils/path';
 import MobilityPlatformMapView from '../MobilityPlatformMapView';
 import AddressMarker from './components/AddressMarker';
@@ -20,19 +24,19 @@ import DistanceMeasure from './components/DistanceMeasure';
 import Districts from './components/Districts';
 import EntranceMarker from './components/EntranceMarker';
 import EventMarkers from './components/EventMarkers';
-import HideSidebarButton from './components/HideSidebarButton';
 import MarkerCluster from './components/MarkerCluster';
+import UnitGeometry from './components/UnitGeometry';
+import MapUtility from './utils/mapUtility';
+import Util from '../../utils/mapUtility';
+import HideSidebarButton from './components/HideSidebarButton';
 import PanControl from './components/PanControl';
 import TransitStops from './components/TransitStops';
-import UnitGeometry from './components/UnitGeometry';
 import UserMarker from './components/UserMarker';
-import { mapOptions } from './config/mapConfig';
 import adjustControlElements from './utils';
-import CreateMap from './utils/createMap';
-import fetchAddress from './utils/fetchAddress';
-import { focusToPosition, getBoundsFromBbox } from './utils/mapActions';
-import MapUtility from './utils/mapUtility';
 import useMapUnits from './utils/useMapUnits';
+import StatisticalDistricts from './components/StatisticalDistricts';
+import { getStatisticalDistrictUnitsState } from '../../redux/selectors/statisticalDistrict';
+import SimpleStatisticalComponent from './components/StatisticalDataMapInfo';
 
 if (global.window) {
   require('leaflet');
@@ -75,6 +79,7 @@ const MapView = (props) => {
     measuringMode,
     toggleSidebar,
     sidebarHidden,
+    disableInteraction,
   } = props;
 
   // State
@@ -88,6 +93,7 @@ const MapView = (props) => {
   const embedded = isEmbed({ url: location.pathname });
   const getAddressNavigatorParams = useNavigationParams();
   const districtUnitsFetch = useSelector(state => state.districts.unitFetch);
+  const statisticalDistrictFetch = useSelector(getStatisticalDistrictUnitsState);
 
   const unitData = useMapUnits();
 
@@ -198,10 +204,16 @@ const MapView = (props) => {
   const unitHasLocationAndGeometry = un => un?.location && un?.geometry;
 
   // Render
+
+  // Render
   const renderUnitGeometry = () => {
     if (highlightedDistrict) return null;
     if (currentPage !== 'unit') {
-      return unitData.map(unit => (unit.geometry ? <UnitGeometry key={unit.id} data={unit} /> : null));
+      return unitData.map(unit => (
+        unit.geometry
+          ? <UnitGeometry key={unit.id} data={unit} />
+          : null
+      ));
     }
     if (unitHasLocationAndGeometry(highlightedUnit)) {
       return <UnitGeometry data={highlightedUnit} />;
@@ -209,18 +221,12 @@ const MapView = (props) => {
     return null;
   };
 
-  const llMapHasMapPane = (leafLetMap) => {
-    // `getCenter()` call requires existence of mapPane (what ever that means). So check for that before calling it. Just another null check.
-    const panes = leafLetMap.getPanes();
-    return !!panes && !!panes.mapPane;
-  };
-
   if (global.rL && mapObject) {
     const { MapContainer, TileLayer, WMSTileLayer } = global.rL || {};
     let center = mapOptions.initialPosition;
     let zoom = isMobile ? mapObject.options.mobileZoom : mapObject.options.zoom;
-    if (prevMap && llMapHasMapPane(prevMap)) {
-      // If changing map type, use viewport values of previuous map
+    // If changing map type, use viewport values of previous map
+    if (prevMap && Util.mapHasMapPane(prevMap)) {
       center = prevMap.getCenter() || prevMap.options.center;
       /* Different map types have different zoom levels
       Use the zoom difference to calculate the new zoom level */
@@ -230,10 +236,18 @@ const MapView = (props) => {
         : prevMap.options.zoom + zoomDifference;
     }
 
-    const showLoadingScreen = districtViewFetching || (embedded && unitsLoading);
-    const userLocationAriaLabel = intl.formatMessage({
-      id: !userLocation ? 'location.notAllowed' : 'location.center',
-    });
+    const showLoadingScreen = statisticalDistrictFetch.isFetching
+      || districtViewFetching
+      || (embedded && unitsLoading);
+    let showLoadingReducer = null;
+    let hideLoadingNumbers = false;
+    if (statisticalDistrictFetch.isFetching) {
+      showLoadingReducer = statisticalDistrictFetch;
+      hideLoadingNumbers = true;
+    } else if (districtViewFetching) {
+      showLoadingReducer = districtUnitsFetch;
+    }
+    const userLocationAriaLabel = intl.formatMessage({ id: !userLocation ? 'location.notAllowed' : 'location.center' });
     const eventSearch = parseSearchParams(location.search).events;
     const defaultBounds = parseSearchParams(location.search).bbox;
 
@@ -261,33 +275,39 @@ const MapView = (props) => {
             setMapRef(map);
           }}
         >
-          {eventSearch ? (
-            <EventMarkers searchData={unitData} />
-          ) : (
-            <MarkerCluster
-              data={currentPage === 'unit' && highlightedUnit ? [highlightedUnit] : unitData}
-              measuringMode={measuringMode}
-            />
-          )}
-          {renderUnitGeometry()}
-          {mapObject.options.name === 'ortographic' && mapObject.options.wmsUrl !== 'undefined' ? (
-            // Use WMS service for ortographic maps, because HSY's WMTS tiling does not work
-            <WMSTileLayer
-              url={mapObject.options.wmsUrl}
-              layers={mapObject.options.wmsLayerName}
-              attribution={intl.formatMessage({ id: mapObject.options.attribution })}
-            />
-          ) : (
-            <TileLayer
-              url={mapObject.options.url}
-              attribution={intl.formatMessage({ id: mapObject.options.attribution })}
-            />
-          )}
+          {eventSearch
+            ? <EventMarkers searchData={unitData} />
+            : (
+              <MarkerCluster
+                data={unitData}
+                measuringMode={measuringMode}
+                disableInteraction={disableInteraction}
+              />
+            )
+          }
+          {
+            renderUnitGeometry()
+          }
+          {mapObject.options.name === 'ortographic' && mapObject.options.wmsUrl !== 'undefined'
+            ? ( // Use WMS service for ortographic maps, because HSY's WMTS tiling does not work
+              <WMSTileLayer
+                url={mapObject.options.wmsUrl}
+                layers={mapObject.options.wmsLayerName}
+                attribution={intl.formatMessage({ id: mapObject.options.attribution })}
+              />
+            )
+            : (
+              <TileLayer
+                url={mapObject.options.url}
+                attribution={intl.formatMessage({ id: mapObject.options.attribution })}
+              />
+            )}
           {showLoadingScreen ? (
             <div className={classes.loadingScreen}>
-              <Loading reducer={districtUnitsFetch.isFetching ? districtUnitsFetch : null} />
+              <Loading reducer={showLoadingReducer} hideNumbers={hideLoadingNumbers} />
             </div>
           ) : null}
+          <StatisticalDistricts />
           <Districts mapOptions={mapOptions} embedded={embedded} />
           {/* Turku does not yet have data to render this */}
           <TransitStops mapObject={mapObject} />
@@ -300,7 +320,8 @@ const MapView = (props) => {
           {currentPage === 'address' && <AddressMarker embedded={embedded} />}
 
           {currentPage === 'unit' && highlightedUnit?.entrances?.length && unitHasLocationAndGeometry(highlightedUnit) && (
-            <EntranceMarker />)}
+            <EntranceMarker />
+          )}
 
           {!hideUserMarker && userLocation && (
             <UserMarker
@@ -326,31 +347,37 @@ const MapView = (props) => {
               <HideSidebarButton sidebarHidden={sidebarHidden} toggleSidebar={toggleSidebar} />
             ) : null}
           </CustomControls>
-          <CustomControls position="bottomright">
-            {!embedded ? (
-              /* Custom user location map button */
-              <div key="userLocation" className="UserLocation">
-                <ButtonBase
-                  aria-hidden
-                  aria-label={userLocationAriaLabel}
-                  disabled={!userLocation}
-                  className={`${classes.showLocationButton} ${
-                    !userLocation ? classes.locationDisabled : ''
-                  }`}
-                  onClick={() => focusOnUser()}
-                  focusVisibleClassName={classes.locationButtonFocus}
-                >
-                  {userLocation ? (
-                    <MyLocation className={classes.showLocationIcon} />
-                  ) : (
-                    <LocationDisabled className={classes.showLocationIcon} />
-                  )}
-                </ButtonBase>
-              </div>
-            ) : null}
 
-            <PanControl key="panControl" />
+          <CustomControls position="topright">
+            <SimpleStatisticalComponent />
           </CustomControls>
+
+          {!disableInteraction
+            ? (
+              <CustomControls position="bottomright">
+                {!embedded ? (
+                /* Custom user location map button */
+                  <div key="userLocation" className="UserLocation">
+                    <ButtonBase
+                      aria-hidden
+                      aria-label={userLocationAriaLabel}
+                      disabled={!userLocation}
+                      className={`${classes.showLocationButton} ${!userLocation ? classes.locationDisabled : ''}`}
+                      onClick={() => focusOnUser()}
+                      focusVisibleClassName={classes.locationButtonFocus}
+                    >
+                      {userLocation
+                        ? <MyLocation className={classes.showLocationIcon} />
+                        : <LocationDisabled className={classes.showLocationIcon} />
+                  }
+                    </ButtonBase>
+                  </div>
+                ) : null}
+
+                <PanControl key="panControl" />
+              </CustomControls>
+            )
+            : null}
           <CoordinateMarker position={getCoordinatesFromUrl()} />
           <EmbeddedActions />
           <MobilityPlatformMapView mapObject={mapObject} />
@@ -384,6 +411,7 @@ MapView.propTypes = {
   measuringMode: PropTypes.bool.isRequired,
   toggleSidebar: PropTypes.func,
   sidebarHidden: PropTypes.bool,
+  disableInteraction: PropTypes.bool,
 };
 
 MapView.defaultProps = {
@@ -396,4 +424,5 @@ MapView.defaultProps = {
   toggleSidebar: null,
   sidebarHidden: false,
   userLocation: null,
+  disableInteraction: false,
 };

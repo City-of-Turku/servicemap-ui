@@ -1,15 +1,15 @@
-import {
-    FormControl,
-    FormControlLabel,
-    FormLabel,
-    Radio,
-    RadioGroup,
-    Typography
-} from '@mui/material';
-import { OpenInNew } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  Typography,
+} from '@mui/material';
+import { OpenInNew } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import useDownloadData from '../../../utils/downloadData';

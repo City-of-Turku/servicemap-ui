@@ -1,16 +1,18 @@
 /* eslint-disable react/no-array-index-key */
-import { ButtonBase, Typography } from '@mui/material';
-import { Close } from '@mui/icons-material';
-import Accessible from '@mui/icons-material/Accessible';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Typography, ButtonBase } from '@mui/material';
+import { Close } from '@mui/icons-material';
+import Accessible from '@mui/icons-material/Accessible';
 import config from '../../../../../../config';
 import { getIcon } from '../../../../../components/SMIcon';
 import useLocaleText from '../../../../../utils/useLocaleText';
 import { fetchStopData } from '../../../utils/transitFetch';
 
-const TransitStopInfo = ({ stop, onCloseClick, classes }) => {
+const TransitStopInfo = ({
+  stop, onCloseClick, type, classes,
+}) => {
   const getLocaleText = useLocaleText();
   const [stopData, setStopData] = useState({ departureTimes: null, wheelchair: null });
 
@@ -29,6 +31,7 @@ const TransitStopInfo = ({ stop, onCloseClick, classes }) => {
   };
 
   useEffect(() => {
+    if (type === 'bikeStation') return;
     fetchStopData(stop)
       .then((stopData) => {
         if (stopData) {
@@ -110,7 +113,9 @@ const TransitStopInfo = ({ stop, onCloseClick, classes }) => {
         </Typography>
         {getAccessibilityIcon(stopData.wheelchair)}
       </div>
-      {renderDepartureTimes()}
+      {type === 'bikeStation'
+        ? null
+        : renderDepartureTimes()}
     </div>
   );
 };
@@ -119,10 +124,12 @@ TransitStopInfo.propTypes = {
   stop: PropTypes.objectOf(PropTypes.any),
   onCloseClick: PropTypes.func.isRequired,
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
+  type: PropTypes.string,
 };
 
 TransitStopInfo.defaultProps = {
   stop: {},
+  type: null,
 };
 
 export default TransitStopInfo;

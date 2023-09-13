@@ -1,32 +1,33 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useCallback, useEffect, useRef, useState,
+  useState, useRef, useEffect, useCallback,
 } from 'react';
-import {
-  Divider, Typography, Checkbox, FormControlLabel,
-} from '@mui/material';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
-import { useSelector } from 'react-redux';
+import {
+  Checkbox, Divider, FormControlLabel, Typography,
+} from '@mui/material';
 import URI from 'urijs';
-import paths from '../../../config/paths';
-import CloseButton from '../../components/CloseButton';
-import SMButton from '../../components/ServiceMapButton';
+import { Helmet } from 'react-helmet';
+import { useSelector } from 'react-redux';
+import * as smurl from './utils/url';
 import isClient, { uppercaseFirst } from '../../utils';
+import { getEmbedURL, getLanguage } from './utils/utils';
+import EmbedController from './components/EmbedController';
+import IFramePreview from './components/IFramePreview';
+import paths from '../../../config/paths';
+import embedderConfig from './embedderConfig';
 import SettingsUtility from '../../utils/settings';
 import useLocaleText from '../../utils/useLocaleText';
 import { useUserLocale } from '../../utils/user';
-import EmbedController from './components/EmbedController';
 import EmbedHTML from './components/EmbedHTML';
-import IFramePreview from './components/IFramePreview';
-import embedderConfig from './embedderConfig';
-import * as smurl from './utils/url';
-import { getEmbedURL, getLanguage } from './utils/utils';
-import config from '../../../config';
 import TopBar from '../../components/TopBar';
+import config from '../../../config';
+import { CloseButton, SMButton } from '../../components';
 
-const hideCitiesIn = [paths.unit.regex, paths.address.regex];
+const hideCitiesIn = [
+  paths.unit.regex,
+  paths.address.regex,
+];
 
 const hideServicesIn = [
   paths.search.regex,
@@ -40,6 +41,7 @@ const hideServicesIn = [
 // only once user stops typing
 let timeout;
 const timeoutDelay = 1000;
+// const documentationLink = config.embedderDocumentationUrl;
 
 const EmbedderView = ({
   citySettings, classes, intl, mapType, navigator,
@@ -99,6 +101,7 @@ const EmbedderView = ({
   const [showUnitList, setShowUnitList] = useState('none');
   const [chargingStation, setChargingStation] = useState(false);
   const [cityBikes, setCityBikes] = useState(false);
+  const [cargoBikes, setCargoBikes] = useState(false);
   const [rentalCars, setRentalCars] = useState(false);
   const [bicycleStands, setBicycleStands] = useState(false);
   const [frameLockable, setFrameLockable] = useState(false);
@@ -125,6 +128,7 @@ const EmbedderView = ({
     showUnitList,
     chargingStation,
     cityBikes,
+    cargoBikes,
     rentalCars,
     bicycleStands,
     frameLockable,
@@ -532,6 +536,13 @@ const EmbedderView = ({
         labelId: 'mobilityPlatform.menu.showCityBikes',
       },
       {
+        key: 'cargoBikes',
+        value: cargoBikes,
+        onChange: v => setCargoBikes(v),
+        icon: null,
+        labelId: 'mobilityPlatform.menu.show.cargoBikes',
+      },
+      {
         key: 'transit',
         value: transit,
         onChange: v => setTransit(v),
@@ -693,7 +704,6 @@ const EmbedderView = ({
               }
               </form>
             </div>
-
             <div>
               <Divider className={classes.divider} orientation="vertical" aria-hidden />
             </div>

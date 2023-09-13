@@ -1,6 +1,6 @@
-import { EventAvailable } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { EventAvailable } from '@mui/icons-material';
 import useLocaleText from '../../../utils/useLocaleText';
 import SimpleListItem from '../SimpleListItem';
 
@@ -9,6 +9,7 @@ const ReservationItem = ({ reservation, intl, divider }) => {
   return (
     <SimpleListItem
       key={reservation.id}
+      className="reservationItem"
       icon={<EventAvailable color="primary" />}
       link
       text={`${getLocaleText(reservation.name)} ${intl.formatMessage({ id: 'unit.opens.new.tab' })}`}

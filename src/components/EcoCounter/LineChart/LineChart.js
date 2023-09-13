@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, createRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Line } from 'react-chartjs-2';
@@ -17,7 +18,7 @@ const LineChart = ({
   const datasets = [];
 
   const addChannelData = () => {
-    if (channel1Data) {
+    if (channel1Data.length > 0) {
       datasets.push({
         fill: false,
         label: labelChannel1,
@@ -32,7 +33,7 @@ const LineChart = ({
         hidden: true,
       });
     }
-    if (channel2Data) {
+    if (channel2Data.length > 0) {
       datasets.push({
         fill: false,
         label: labelChannel2,
@@ -47,7 +48,7 @@ const LineChart = ({
         hidden: true,
       });
     }
-    if (channelTotalsData) {
+    if (channelTotalsData.length > 0) {
       datasets.push({
         fill: false,
         label: labelChannelTotal,
@@ -74,13 +75,11 @@ const LineChart = ({
   const options = {
     responsive: true,
     scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
+      y: {
+        ticks: {
+          beginAtZero: true,
         },
-      ],
+      },
     },
   };
 
@@ -94,7 +93,7 @@ const LineChart = ({
 
   return (
     <div className="chart-container">
-      <Line ref={chartRef} data={data} width={496} height={248} options={options} />
+      {data.datasets ? <Line ref={chartRef} data={data} width={496} height={248} options={options} /> : null}
     </div>
   );
 };

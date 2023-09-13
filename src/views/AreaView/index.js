@@ -1,13 +1,19 @@
 import { withStyles } from '@mui/styles';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import {
-    fetchAllDistricts, fetchDistrictUnitList, setDistrictAddressData, setMapState, setSelectedDistrictServices, setSelectedDistrictType,
-    setSelectedSubdistricts
-} from '../../redux/actions/district';
-import { getAddressDistrict, getDistrictsByType } from '../../redux/selectors/district';
 import AreaView from './AreaView';
 import styles from './styles';
+import {
+  setSelectedDistrictType,
+  setSelectedSubdistricts,
+  setSelectedDistrictServices,
+  setDistrictAddressData,
+  setSelectedParkingAreas,
+  fetchDistrictUnitList,
+  fetchDistricts,
+  setMapState,
+} from '../../redux/actions/district';
+import { getDistrictsByType } from '../../redux/selectors/district';
 
 const mapStateToProps = (state) => {
   const { navigator } = state;
@@ -22,12 +28,10 @@ const mapStateToProps = (state) => {
   } = state.districts;
   const map = state.mapRef;
   const selectedDistrictData = getDistrictsByType(state);
-  const addressDistrict = getAddressDistrict(state);
   return {
     districtData,
     selectedDistrictData,
     districtAddressData,
-    addressDistrict,
     subdistrictUnits,
     selectedSubdistricts,
     selectedDistrictServices,
@@ -47,6 +51,7 @@ export default injectIntl(withStyles(styles)(connect(
     setDistrictAddressData,
     setMapState,
     fetchDistrictUnitList,
-    fetchAllDistricts,
+    fetchDistricts,
+    setSelectedParkingAreas,
   },
 )(AreaView)));

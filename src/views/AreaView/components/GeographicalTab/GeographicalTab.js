@@ -1,11 +1,10 @@
-import { List, ListItem, Typography } from '@mui/material';
-import { FormatListBulleted, LocationOn } from '@mui/icons-material';
-import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import SMAccordion from '../../../../components/SMAccordion';
+import { List, Typography, ListItem } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
+import { FormatListBulleted, LocationOn } from '@mui/icons-material';
 import {
   fetchDistrictGeometry,
   handleOpenGeographicalCategory,
@@ -14,13 +13,15 @@ import {
   setSelectedSubdistricts,
 } from '../../../../redux/actions/district';
 import { getFilteredSubdistrictServices } from '../../../../redux/selectors/district';
-import { formAddressString } from '../../../../utils';
-import useLocaleText from '../../../../utils/useLocaleText';
 import { geographicalDistricts } from '../../utils/districtDataHelper';
 import DistrictToggleButton from '../DistrictToggleButton';
 import GeographicalDistrictList from '../GeographicalDistrictList';
 import GeographicalUnitList from '../GeographicalUnitList';
-
+import useLocaleText from '../../../../utils/useLocaleText';
+import { getAddressText } from '../../../../utils/address';
+import {
+  SMAccordion,
+} from '../../../../components';
 
 const GeographicalTab = ({
   initialOpenItems,
@@ -101,7 +102,7 @@ const GeographicalTab = ({
         <Typography component="h3" className={classes.addressInfoText}><FormattedMessage id="area.localAddress.title" /></Typography>
         <div className={classes.addressInfoIconArea}>
           <LocationOn color="primary" className={classes.addressInfoIcon} />
-          <Typography component="p" variant="subtitle1">{formAddressString(localAddressData.address, getLocaleText)}</Typography>
+          <Typography component="p" variant="subtitle1">{getAddressText(localAddressData.address, getLocaleText)}</Typography>
         </div>
         {localPostArea ? (
           <Typography className={classes.addressInfoText}>
@@ -134,6 +135,7 @@ const GeographicalTab = ({
             const selected = selectedDistrictType === district.id;
             return (
               <ListItem
+                // divider
                 disableGutters
                 key={district.id}
                 className={`${classes.listItem} ${district.id}`}

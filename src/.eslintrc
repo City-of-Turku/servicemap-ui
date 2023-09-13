@@ -5,7 +5,14 @@
         "no-shadow": 0,
         "no-console": ["error", { "allow": ["warn"] }],
         "no-param-reassign": ["error", { "props": false }],
-        "max-len": ["error", { "code": 150 }]
+        "max-len": ["error", { "code": 150 }],
+        "react/function-component-definition": [
+            "error",
+            {
+              "namedComponents": ["function-declaration", "arrow-function"],
+              "unnamedComponents": "arrow-function"
+            }
+          ]      
     },
     "env": {
         "browser": true,

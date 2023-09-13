@@ -1,27 +1,30 @@
 /* eslint-disable camelcase */
-
-import {
-  Container, Divider, Link, NoSsr, Paper, Typography,
-} from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useRouteMatch } from 'react-router-dom';
-import { SearchBar } from '../../components';
-import Loading from '../../components/Loading';
-import SettingsInfo from '../../components/SettingsInfo';
-import TabLists from '../../components/TabLists';
-import fetchRedirectService from '../../redux/actions/redirectService';
-import fetchSearchResults from '../../redux/actions/search';
+import {
+  Paper, Typography, Link, NoSsr, Divider,
+} from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import { getOrderedData } from '../../redux/selectors/results';
-import { getSearchParam, keyboardHandler, parseSearchParams } from '../../utils';
-import { viewTitleID } from '../../utils/accessibility';
+import { isEmbed } from '../../utils/path';
+import fetchSearchResults from '../../redux/actions/search';
+import { changeCustomUserLocation } from '../../redux/actions/user';
+import { parseSearchParams, getSearchParam, keyboardHandler } from '../../utils';
+import { fitUnitsToMap } from '../MapView/utils/mapActions';
 import { useNavigationParams } from '../../utils/address';
 import useMobileStatus from '../../utils/isMobile';
-import { isEmbed } from '../../utils/path';
-import { fitUnitsToMap } from '../MapView/utils/mapActions';
+import { viewTitleID } from '../../utils/accessibility';
+import {
+  AddressSearchBar,
+  Container,
+  Loading,
+  SearchBar,
+  SettingsComponent,
+  TabLists,
+} from '../../components';
 
 const focusClass = 'TabListFocusTarget';
 
@@ -31,6 +34,7 @@ const SearchView = (props) => {
   const [analyticsSent, setAnalyticsSent] = useState(null);
 
   const searchResults = useSelector(state => getOrderedData(state));
+  const unorderedSearchResults = useSelector(state => state.searchResults.data);
   const searchFetchState = useSelector(state => state.searchResults);
   const isRedirectFetching = useSelector(state => state.redirectService.isFetching);
   const map = useSelector(state => state.mapRef);
@@ -111,6 +115,7 @@ const SearchView = (props) => {
         options.events = events;
       }
 
+      // This is used when embedding a specified list of units by IDs
       if (units) {
         options.id = units;
       }
@@ -157,36 +162,6 @@ const SearchView = (props) => {
     return options;
   };
 
-  // Handle service redirect for old service parameters if given
-  // Will fetch new service_node from redirect endpoint with service parameter
-  const handleServiceRedirect = () => {
-    if (isRedirectFetching) {
-      return true;
-    }
-    const options = getSearchParamData(true);
-    if (options.service && serviceRedirect !== options.service) {
-      // Reset serviceRedirect
-      setServiceRedirect(null);
-
-      // Fetch service_node for given old service data
-      dispatch(fetchRedirectService({ service: options.service }, (data) => {
-        // Success
-        if (data.service_node) {
-          // Need to stringify current search params for unit fetch
-          // Otherwise componentDidMount shouldFetch will compare previous searches incorrectly
-          delete options.service;
-          options.service_node = `${(options.service_node ? `${options.service_node},` : '')}${data.service_node}`;
-
-          // Set serviceRedirect and fetch units
-          dispatch(fetchSearchResults(options));
-          setServiceRedirect(options.service_node);
-        }
-      }));
-      return true;
-    }
-    return false;
-  };
-
   // Check if view will fetch data because sreach params has changed
   const shouldFetch = () => {
     const { isFetching, previousSearch } = searchFetchState;
@@ -194,7 +169,12 @@ const SearchView = (props) => {
       return false;
     }
     const data = getSearchParamData();
-    const searchQuery = data.q || data.address || data.service_node || data.service_id;
+    const searchQuery = data.q
+      || data.address
+      || data.service_node
+      || data.service_id
+      || data.id
+      || data.events;
 
     // Should fetch if previousSearch has changed and data has required parameters
     if (previousSearch) {
@@ -239,15 +219,21 @@ const SearchView = (props) => {
     return null;
   };
 
+  const handleUserAddressChange = (address) => {
+    if (address) {
+      dispatch(changeCustomUserLocation(
+        [address.location.coordinates[1], address.location.coordinates[0]],
+        address,
+      ));
+    } else {
+      dispatch(changeCustomUserLocation(null));
+    }
+  };
+
   useEffect(() => {
     const options = getSearchParamData();
-    // Handle old service value redirects
-    const handlingRedirect = handleServiceRedirect();
-
-    if (!handlingRedirect) {
-      if (shouldFetch() && Object.keys(options).length) {
-        dispatch(fetchSearchResults(options));
-      }
+    if (shouldFetch() && Object.keys(options).length) {
+      dispatch(fetchSearchResults(options));
     }
   }, [match.params]);
 
@@ -257,60 +243,50 @@ const SearchView = (props) => {
       if (searchResults.length === 1) {
         handleSingleResultRedirect();
       } else {
-      // Focus map to new search results units
+        // Focus map to new search results units
         const units = getResultsByType('unit');
         if (units.length) focusMap(units);
       }
     } else {
       // Send analytics report if search query did not return results
       const { previousSearch, isFetching } = searchFetchState;
-      if (navigator && previousSearch && !isFetching && analyticsSent !== previousSearch) {
+      if (
+        navigator
+        && previousSearch
+        && !isFetching
+        && analyticsSent !== previousSearch
+      ) {
         setAnalyticsSent(previousSearch);
         navigator.trackPageView(null, previousSearch);
       }
     }
-  }, [JSON.stringify(searchResults)]);
+  }, [JSON.stringify(unorderedSearchResults)]);
 
   const renderSearchBar = () => (
     <SearchBar expand className={classes.searchbarPlain} />
   );
 
-  const renderSearchInfo = () => {
-    const unitList = getResultsByType('unit');
-    const unitCount = unitList.length || searchResults.length;
-    const className = `SearchInfo ${classes.searchInfo}`;
-
-    return (
-      <NoSsr>
-        <Typography
-          role="link"
-          tabIndex={-1}
-          onClick={() => skipToContent()}
-          onKeyPress={() => {
-            keyboardHandler(() => skipToContent(), ['space', 'enter']);
-          }}
-          style={visuallyHidden}
-        >
-          <FormattedMessage id="search.skipLink" />
-        </Typography>
-        {!searchFetchState.isFetching && (
-          <div align="left" className={className}>
-            <div aria-live="polite" className={classes.infoContainer}>
-              <Typography className={`${classes.infoText} ${classes.bold}`}>
-                <FormattedMessage id="search.infoText" values={{ count: unitCount }} />
-              </Typography>
-            </div>
-          </div>
-        )}
-      </NoSsr>
-    );
-  };
+  const renderSearchInfo = () => (
+    <NoSsr>
+      <Typography
+        role="link"
+        tabIndex={-1}
+        onClick={() => skipToContent()}
+        onKeyPress={() => {
+          keyboardHandler(() => skipToContent(), ['space', 'enter']);
+        }}
+        style={visuallyHidden}
+      >
+        <FormattedMessage id="search.skipLink" />
+      </Typography>
+    </NoSsr>
+  );
 
   const renderScreenReaderInfo = () => {
     const { isFetching, max } = searchFetchState;
     return (
       <Paper className={!isFetching ? classes.noPadding : ''} elevation={1} square aria-live="polite">
-        <Typography className={classes.srOnly} style={visuallyHidden} component="h3" tabIndex={-1}>
+        <Typography style={visuallyHidden} component="h3" tabIndex={-1}>
           {!isFetching && (
             <FormattedMessage id="search.results.title" />
           )}
@@ -398,9 +374,7 @@ const SearchView = (props) => {
   */
   const renderNotFound = () => {
     const { previousSearch, isFetching } = searchFetchState;
-
     const shouldRender = !isFetching && previousSearch && !searchResults.length;
-
     const messageIDs = ['spelling', 'city', 'service', 'address', 'keyword'];
 
     return shouldRender ? (
@@ -440,11 +414,14 @@ const SearchView = (props) => {
     <div className={classes.root}>
       {renderSearchBar()}
       {renderSearchInfo()}
+      <NoSsr>
+        <AddressSearchBar title={<FormattedMessage id="area.searchbar.infoText.address" />} handleAddressChange={handleUserAddressChange} />
+        <SettingsComponent />
+      </NoSsr>
       {renderScreenReaderInfo()}
       {searchFetchState.isFetching ? (
         <Loading reducer={searchFetchState} />
       ) : renderResults() }
-      <SettingsInfo />
       {renderNotFound()}
       {isMobile ? (
         // Jump link back to beginning of current page

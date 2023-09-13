@@ -234,7 +234,7 @@ const getMunicipalityFromGeocoder = function(address, language, callback) {
   timeout = setTimeout((function() {
     return callback(null);
   }), 3000);
-  url = `${config.serviceMapAPI.root}/address/?language=${language}&number=${address.number}&street=${address.street}&page_size=1`;
+  url = `${config.serviceMapAPI.root}${config.serviceMapAPI.version}/address/?language=${language}&number=${address.number}&street=${address.street}&page_size=1`;
   request = https.get(url, function(apiResponse) {
     var respData;
     if (apiResponse.statusCode !== 200) {
@@ -264,7 +264,7 @@ const legacyRedirector = function(req, res) {
   var resource, specs, url;
   specs = extractSpecification(req);
   if (specs.override === true) {
-    url = req.originalUrl.replace(/\/rdr\/?/, 'http://www.hel.fi/karttaupotus/');
+    url = req.originalUrl.replace(/\/rdr\/?/, 'https://www.hel.fi/karttaupotus/');
     res.redirect(301, url);
     return;
   }

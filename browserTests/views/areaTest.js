@@ -65,7 +65,7 @@ test('Unit list functions correctly' , async (t) => {
     .expect(getLocation()).contains(`${server.address}:${server.port}/fi/unit`);
 })
 
-test('Address search bar field updates and gets results', async (t, inputText = 'mann') => {
+test('Address search bar field updates and gets results', async (t, inputText = 'Linnankatu 1') => {
   const addressBar = Selector('#addressSearchbar')
   const suggestions = Selector('#address-results div[role="option"]');
 

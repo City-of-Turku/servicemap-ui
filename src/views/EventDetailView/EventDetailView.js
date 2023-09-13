@@ -1,15 +1,15 @@
 /* eslint-disable no-underscore-dangle */
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-
-// TODO Remove this when redux selected event is used
 import { AccessTime, Event, Phone } from '@mui/icons-material';
-import { SearchBar } from '../../components';
-import DescriptionText from '../../components/DescriptionText';
-import SimpleListItem from '../../components/ListItems/SimpleListItem';
-import UnitItem from '../../components/ListItems/UnitItem';
-import TitledList from '../../components/Lists/TitledList';
-import TitleBar from '../../components/TitleBar';
+import {
+  DescriptionText,
+  SearchBar,
+  SimpleListItem,
+  TitleBar,
+  TitledList,
+  UnitItem,
+} from '../../components';
 import { eventFetch } from '../../utils/fetch';
 import useMobileStatus from '../../utils/isMobile';
 import UnitHelper from '../../utils/unitHelper';
@@ -215,7 +215,6 @@ const EventDetailView = (props) => {
         titleComponent="h3"
         icon={event ? <Event /> : null}
         primary={isMobile}
-        backButton={isMobile}
       />
       {renderEventDetails()}
     </div>

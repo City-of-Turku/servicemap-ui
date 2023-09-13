@@ -1,4 +1,4 @@
-export default theme => ({
+export default (theme) => ({
   divider: {
     marginLeft: theme.spacing(-2),
     marginRight: theme.spacing(-2),

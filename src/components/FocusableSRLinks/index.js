@@ -1,5 +1,5 @@
 import { withStyles } from '@mui/styles';
-import FocusableSRLinks from './FocusableSRLinks';
 import styles from './styles';
+import FocusableSRLinks from './FocusableSRLinks';
 
 export default withStyles(styles)(FocusableSRLinks);

@@ -9,12 +9,12 @@ exports[`<FormLabel /> should work 1`] = `
       class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
     >
       <span
-        class="MuiSwitch-switchBase MuiSwitch-colorPrimary MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root css-1f23wvo-MuiButtonBase-root-MuiSwitch-switchBase"
+        class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-187zix7-MuiButtonBase-root-MuiSwitch-switchBase"
         role="switch"
       >
         <input
           aria-label="Polkupyöräpysäköinti (ei-runkolukittava)"
-          class="MuiSwitch-input PrivateSwitchBase-input css-1m9pwf3"
+          class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
           type="checkbox"
         />
         <span

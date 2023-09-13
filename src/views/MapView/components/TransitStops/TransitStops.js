@@ -16,12 +16,15 @@ const TransitStops = ({ mapObject, classes }) => {
   const { Marker, Popup } = global.rL;
 
   const [transitStops, setTransitStops] = useState([]);
+  // const [rentalBikeStations, setRentalBikeStations] = useState([]);
+  // const [visibleBikeStations, setVisibleBikeStations] = useState([]);
+  // const [bikeStationsLoaded, setBikeStationsLoaded] = useState(false);
+
   const { showBusStops } = useMobilityPlatformContext();
 
   // If external theme (by Turku) is true, then can be used to select which color to render
   const externalTheme = config.themePKG;
   const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
-
 
   const map = useMapEvents({
     zoomend() {
@@ -58,6 +61,18 @@ const TransitStops = ({ mapObject, classes }) => {
     }
   };
 
+  /* useEffect(() => {
+    if (!bikeStationsLoaded) {
+      fetchBikeStations()
+        .then((stations) => {
+          const list = stations?.data?.bikeRentalStations || [];
+          if (list?.length) setRentalBikeStations(list);
+          setBikeStationsLoaded(true);
+          setVisibleBikeStations(showTransitStops() ? list : []);
+        });
+    }
+  }, []); */
+
   const getTransitIcon = (type) => {
     const { divIcon } = require('leaflet');
     let icon;
@@ -74,6 +89,9 @@ const TransitStops = ({ mapObject, classes }) => {
         break;
       case 1: // Subway stops
         icon = <span aria-hidden className={`${classes.transitIconMap} ${classes.metroIconColor} icon-icon-hsl-metro`} />;
+        break;
+      case 7: // Bike stations
+        icon = <span aria-hidden className={`${classes.transitIconMap} ${classes.bikeIconColor} icon-icon-hsl-bike`} />;
         break;
       case -999: case 4: // Ferry stops
         icon = <spanz aria-hidden className={`${classes.transitIconMap} ${classes.ferryIconColor} icon-icon-hsl-ferry`} />;
@@ -106,6 +124,8 @@ const TransitStops = ({ mapObject, classes }) => {
     map.closePopup();
   };
 
+  if (!showTransitStops()) return null;
+
   return (
     showTransitStops() ? transitStops.map((stop) => {
       const icon = getTransitIcon(stop.vehicleType);
@@ -133,11 +153,9 @@ const TransitStops = ({ mapObject, classes }) => {
 TransitStops.propTypes = {
   mapObject: PropTypes.objectOf(PropTypes.any).isRequired,
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  isMobile: PropTypes.bool,
 };
 
 TransitStops.defaultProps = {
-  isMobile: false,
 };
 
 export default TransitStops;

@@ -1,24 +1,16 @@
-import {
-    Typography
-} from '@mui/material';
+import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 const SettingsInfoItem = ({
-  ariaText,
-  classes,
-  divider,
-  icon,
-  text,
+  ariaText, classes, divider, icon, text,
 }) => (
   <div aria-label={ariaText} className={classes.infoItem}>
     <div>
       {icon}
       <Typography className={classes.infoItemText}>{text}</Typography>
     </div>
-    {
-      divider && <div aria-hidden="true" className={classes.verticalDivider} />
-    }
+    {divider && <div aria-hidden="true" className={classes.verticalDivider} />}
   </div>
 );
 

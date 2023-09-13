@@ -1,24 +1,26 @@
-import { List, Paper, Typography } from '@mui/material';
-import {
-  AccessTime, ArrowDropUp, LocationOn, Search
-} from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, {
-  useEffect, useRef, useState
+  useEffect, useRef, useState,
 } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import config from '../../../../../config';
-import { keyboardHandler, uppercaseFirst } from '../../../../utils';
-import { useNavigationParams } from '../../../../utils/address';
-import useLocaleText from '../../../../utils/useLocaleText';
-import { getLocale } from '../../../../redux/selectors/locale';
-import SuggestionItem from '../../../ListItems/SuggestionItem';
-import { getIcon } from '../../../SMIcon';
-import UnitIcon from '../../../SMIcon/UnitIcon';
+import {
+  AccessTime, ArrowDropUp, LocationOn, Search,
+} from '@mui/icons-material';
+import {
+  Paper, List, Typography,
+} from '@mui/material';
 import createSuggestions from '../../createSuggestions';
-import { getPreviousSearches, removeSearchFromHistory, saveSearchToHistory } from '../../previousSearchData';
+import SuggestionItem from '../../../ListItems/SuggestionItem';
+import { keyboardHandler, uppercaseFirst } from '../../../../utils';
+import { getIcon } from '../../../SMIcon';
 import { CloseSuggestionButton } from '../CloseSuggestionButton';
+import useLocaleText from '../../../../utils/useLocaleText';
+import UnitIcon from '../../../SMIcon/UnitIcon';
+import config from '../../../../../config';
+import { getPreviousSearches, removeSearchFromHistory, saveSearchToHistory } from '../../previousSearchData';
+import { useNavigationParams } from '../../../../utils/address';
+import { getLocale } from '../../../../redux/selectors/locale';
 
 const suggestionCount = 8;
 

@@ -1,10 +1,10 @@
-import { Divider, List, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { DistrictItem } from '../../../../components';
+import { Divider, List, Typography } from '@mui/material';
 import { getAddressDistrict } from '../../../../redux/selectors/district';
+import { DistrictItem } from '../../../../components';
 import { sortByOriginID } from '../../utils';
 
 export const DistrictAreaList = ({
@@ -69,7 +69,7 @@ export const DistrictAreaList = ({
     });
     const otherAreaDistricts = [];
     otherDistricts.forEach((district) => {
-      if (district.municipality === selectedAddress.street.municipality) {
+      if (district.municipality === selectedAddress.municipality.id) {
         const newValue = district;
         otherAreaDistricts.push(newValue);
       }
@@ -108,7 +108,7 @@ export const DistrictAreaList = ({
   }
 
   return (
-    <div className={classes.districtServiceList}>
+    <div className={`${classes.districtServiceList} ${classes.listLevelFour}`}>
       {
         renderServiceListAccordion(
           sectionText,

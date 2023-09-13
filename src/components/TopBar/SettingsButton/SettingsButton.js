@@ -1,6 +1,4 @@
-import {
-    Button, useMediaQuery
-} from '@mui/material';
+import { Button, useMediaQuery } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import SettingsText from '../../SettingsText';
@@ -39,7 +37,7 @@ SettingsButton.propTypes = {
     settingsButtonPressed: PropTypes.string,
     smallScreen: PropTypes.string,
   }).isRequired,
-  settingsOpen: PropTypes.oneOf(['citySettings', 'mapSettings', 'accessibilitySettings, search']),
+  settingsOpen: PropTypes.oneOf(['citySettings', 'mapSettings', 'accessibilitySettings']),
   type: PropTypes.oneOf(['citySettings', 'mapSettings', 'accessibilitySettings']).isRequired,
   onClick: PropTypes.func.isRequired,
 };

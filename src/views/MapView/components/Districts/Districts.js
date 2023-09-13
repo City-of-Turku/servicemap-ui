@@ -6,12 +6,13 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import config from '../../../../../config';
 import { parseSearchParams } from '../../../../utils';
-import UnitHelper from '../../../../utils/unitHelper';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { geographicalDistricts, getCategoryDistricts } from '../../../AreaView/utils/districtDataHelper';
 import { drawMarkerIcon } from '../../utils/drawIcon';
 import swapCoordinates from '../../utils/swapCoordinates';
 import AddressMarker from '../AddressMarker';
+import UnitHelper from '../../../../utils/unitHelper';
+import ParkingAreas from './ParkingAreas';
 
 
 const Districts = ({
@@ -40,6 +41,7 @@ const Districts = ({
   const getLocaleText = useLocaleText();
   const citySettings = useSelector(state => state.settings.cities);
   const selectedDistrictType = useSelector(state => state.districts.selectedDistrictType);
+  const selectedParkingAreas = useSelector(state => state.districts.selectedParkingAreas);
   const [areaPopup, setAreaPopup] = useState(null);
 
   const districtOnClick = (e, district) => {
@@ -77,47 +79,48 @@ const Districts = ({
     if (embedded && parseSearchParams(location.search).units === 'none') {
       return null;
     }
-    return (
-      <React.Fragment key={district.id}>
-        {district.unit && district.unit.location ? (
-          <>
-            <Marker
-              customUnitData={district.unit}
-              position={[
-                district.unit.location.coordinates[1],
-                district.unit.location.coordinates[0],
-              ]}
-              icon={drawMarkerIcon(useContrast)}
-              keyboard={false}
-              eventHandlers={{
-                click: () => {
-                  if (navigator) {
-                    UnitHelper.unitElementClick(navigator, district.unit);
-                  }
-                },
+
+    const renderMarker = unit => (
+      unit.location ? (
+        <Marker
+          customUnitData={unit}
+          key={unit.id}
+          position={[
+            unit.location.coordinates[1],
+            unit.location.coordinates[0],
+          ]}
+          icon={drawMarkerIcon(useContrast)}
+          keyboard={false}
+          eventHandlers={{
+            click: () => {
+              if (navigator) {
+                UnitHelper.unitElementClick(navigator, unit);
               }
-              }
+            },
+          }}
+        >
+          <Tooltip
+            direction="top"
+            offset={[1.5, -25]}
+            position={[
+              unit.location.coordinates[1],
+              unit.location.coordinates[0],
+            ]}
+          >
+            <Typography
+              noWrap
+              className={classes.popup}
             >
-              <Tooltip
-                direction="top"
-                offset={[1.5, -25]}
-                position={[
-                  district.unit.location.coordinates[1],
-                  district.unit.location.coordinates[0],
-                ]}
-              >
-                <Typography
-                  noWrap
-                  className={classes.popup}
-                >
-                  {getLocaleText(district.unit.name)}
-                </Typography>
-              </Tooltip>
-            </Marker>
-          </>
-        ) : null}
-      </React.Fragment>
+              {getLocaleText(unit.name)}
+            </Typography>
+          </Tooltip>
+        </Marker>
+      ) : null
     );
+
+    if (district.units?.length) return district.units.map(unit => (renderMarker(unit)));
+    if (district.unit) return renderMarker(district.unit);
+    return null;
   };
 
   const renderSingleDistrict = () => {
@@ -144,7 +147,8 @@ const Districts = ({
   };
 
   const renderMultipleDistricts = () => {
-    if (!districtData[0]?.boundary) {
+    const areasWithBoundary = districtData.filter(obj => obj.boundary);
+    if (!areasWithBoundary.length) {
       return null;
     }
 
@@ -152,11 +156,11 @@ const Districts = ({
     let filteredData = [];
     if (selectedCities.length) {
       const searchParams = parseSearchParams(location.search);
-      filteredData = districtData.filter(district => (searchParams.city
+      filteredData = areasWithBoundary.filter(district => (searchParams.city
         ? embedded && district.municipality === searchParams.city
         : citySettings[district.municipality]));
     } else {
-      filteredData = districtData;
+      filteredData = areasWithBoundary;
     }
 
     return filteredData.map((district) => {
@@ -187,7 +191,11 @@ const Districts = ({
       } else if (getCategoryDistricts('protection').includes(district.type)) {
         tooltipTitle = `${intl.formatMessage({ id: `area.list.${district.type}` })} ${district.origin_id} - ${getLocaleText(district.name)}`;
       } else if (district.name) {
-        tooltipTitle = `${getLocaleText(district.name)} - ${intl.formatMessage({ id: `area.list.${district.type}` })}`;
+        if (district.extra?.area_key) {
+          tooltipTitle = `${intl.formatMessage({ id: 'parkingArea.popup.residentName' }, { letter: district.extra.area_key })} (${getLocaleText(district.name)}) - ${intl.formatMessage({ id: `area.list.${district.type}` })}`;
+        } else {
+          tooltipTitle = `${getLocaleText(district.name)} - ${intl.formatMessage({ id: `area.list.${district.type}` })}`;
+        }
       }
 
       const mainColor = useContrast ? '#fff' : '#ff8400';
@@ -226,10 +234,6 @@ const Districts = ({
               {tooltipTitle}
             </Tooltip>
           ) : null}
-          {renderDistrictMarkers(district)}
-          {district.overlapping && district.overlapping.map(obj => (
-            renderDistrictMarkers(obj)
-          ))}
         </Polygon>
       );
     });
@@ -268,7 +272,8 @@ const Districts = ({
 
       </>
     );
-  } if (currentPage === 'area') {
+  }
+  if (currentPage === 'area') {
     return (
       <>
         {selectedAddress ? (
@@ -286,6 +291,9 @@ const Districts = ({
             {renderMultipleDistricts()}
             {areaPopup && renderAreaPopup()}
           </>
+        ) : null}
+        {selectedParkingAreas.length ? (
+          <ParkingAreas />
         ) : null}
       </>
     );

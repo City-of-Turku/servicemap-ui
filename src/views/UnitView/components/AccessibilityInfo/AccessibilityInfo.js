@@ -1,15 +1,13 @@
-import { ButtonBase, Divider, List, ListItem, ListItemIcon, ListItemText, NoSsr, Typography } from '@mui/material';
-import { Accessibility, VerifiedUser, Warning } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useDispatch } from 'react-redux';
-import Container from '../../../../components/Container';
-import Loading from '../../../../components/Loading';
-import SettingsText from '../../../../components/SettingsText';
-import { toggleSettings } from '../../../../redux/actions/settings';
+import {
+  Typography, List, ListItem, ListItemIcon, ListItemText, Divider, NoSsr, Link,
+} from '@mui/material';
+import { Warning, VerifiedUser } from '@mui/icons-material';
 import SettingsUtility from '../../../../utils/settings';
 import useLocaleText from '../../../../utils/useLocaleText';
+import { Container, Loading } from '../../../../components';
 
 const AccessibilityInfo = (props) => {
   const {
@@ -17,7 +15,6 @@ const AccessibilityInfo = (props) => {
   } = props;
 
   const getLocaleText = useLocaleText();
-  const dispatch = useDispatch();
 
   if (!unit) {
     return null;
@@ -83,23 +80,6 @@ const AccessibilityInfo = (props) => {
     return renderedShortcomings;
   };
 
-  const renderAccessibilitySettings = () => (
-    <div className={classes.aSettingsContainer}>
-      <Accessibility className={classes.infoIcon} />
-      <div>
-        <SettingsText variant="plain" type="accessibilitySettings" />
-        <ButtonBase
-          id="SettingsLink"
-          onClick={() => dispatch(toggleSettings('search'))}
-        >
-          <Typography className={classes.settingsLink}>
-            <FormattedMessage id="settings.change" />
-          </Typography>
-        </ButtonBase>
-      </div>
-    </div>
-  );
-
   const renderAccessibilityShortcomings = (heading, shortcomings) => {
     const data = shortcomings;
 
@@ -131,13 +111,13 @@ const AccessibilityInfo = (props) => {
                     <Warning />
                   </ListItemIcon>
                   <ListItemText>
-                    <Typography className={classes.listTitle} component={heading} variant="body2" align="left">
+                    <Typography className={`AccessibilityInfoShortcomingTitle ${classes.listTitle}`} component={heading} variant="body2" align="left">
                       {title}
                     </Typography>
                     <ul className={classes.list}>
                       {
                         shortcomings.map(shortcoming => (
-                          <li key={shortcoming} className={classes.listItem}>
+                          <li key={shortcoming} className={`AccessibilityInfoShortcoming ${classes.listItem}`}>
                             <Typography component="p" variant="body2">
                               {shortcoming}
                             </Typography>
@@ -257,7 +237,6 @@ const AccessibilityInfo = (props) => {
   const noInfo = !aDescriptions && !aShortcomings;
   const noShortcomings = aDescriptions && !aShortcomings;
 
-  const accessibilitySettings = renderAccessibilitySettings();
   const infoText = renderInfoText(noInfo, noShortcomings);
 
   return (
@@ -273,9 +252,6 @@ const AccessibilityInfo = (props) => {
       <Divider className={classes.divider} aria-hidden="true" />
       <NoSsr>
         {
-          accessibilitySettings
-        }
-        {
             infoText
         }
         {
@@ -288,6 +264,11 @@ const AccessibilityInfo = (props) => {
               <>
                 <Typography className={classes.descriptionsTitle} component={heading} variant="subtitle1" align="left">
                   <FormattedMessage id="accessibility.details" />
+                  {unit.accessibility_www ? (
+                    <Link target="_blank" href={unit.accessibility_www}>
+                      <FormattedMessage id="accessibility.details.summary" />
+                    </Link>
+                  ) : null}
                 </Typography>
                 <Divider className={classes.divider} aria-hidden="true" />
               </>
@@ -318,6 +299,5 @@ AccessibilityInfo.propTypes = {
 AccessibilityInfo.defaultProps = {
   titleAlways: false,
 };
-
 
 export default AccessibilityInfo;

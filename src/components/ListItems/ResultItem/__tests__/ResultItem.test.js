@@ -63,7 +63,8 @@ describe('<ResultItem />', () => {
 
   it('does set divider correctly', () => {
     const { container } = renderWithProviders(<ResultItem {...mockProps} />);
-    expect(container.querySelector('li[aria-hidden=true]')).toBeInTheDocument();
+    // expect(getByRole('listitem', { selector: 'li'}).exists()).toBeTruthy();
+    expect(container.querySelector('li[aria-hidden="true"]')).toBeInTheDocument();
   });
 
   it('does use default accessibility attributes correctly', () => {
@@ -87,7 +88,6 @@ describe('<ResultItem />', () => {
 
     // Expect role to be set
     expect(getByRole('link', { selector: 'li' })).toBeInTheDocument();
-
     // Expect element to have tabIndex 0
     expect(getByRole('link', { selector: 'li' }).tabIndex).toEqual(0);
   });

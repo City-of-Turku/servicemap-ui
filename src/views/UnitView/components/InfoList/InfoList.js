@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import getItemIconData from '../../constants/itemIconData';
-import SimpleListItem from '../../../../components/ListItems/SimpleListItem';
-import TitledList from '../../../../components/Lists/TitledList';
 import useLocaleText from '../../../../utils/useLocaleText';
+import { SimpleListItem, TitledList } from '../../../../components';
 
 const InfoList = ({
   data, title, titleComponent, intl,
@@ -75,6 +74,7 @@ const InfoList = ({
       case 'EMAIL':
         return `${intl.formatMessage({ id: 'unit.email' })}: `;
       case 'OPENING_HOURS':
+      case 'OPENING_HOUR_OBJECT':
         if (data.value.www) {
           return `${intl.formatMessage({ id: 'unit.opening.hours.info' })}: `;
         }

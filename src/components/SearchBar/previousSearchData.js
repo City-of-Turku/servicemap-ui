@@ -2,9 +2,10 @@ import LocalStorageUtility from '../../utils/localStorage';
 
 const toJson = (data = '[]') => JSON.parse(data);
 const key = 'history:new';
-const historyCount = 10;
+const historyCount = 5;
 const nextUpdateKey = 'history:updated';
 const halfDay = 43200000; // Half day in milliseconds
+
 
 // Update weights every 5 days
 const updateWeights = (jsonData) => {
@@ -49,7 +50,9 @@ export const getPreviousSearches = () => {
     ));
 
     // Sort history
-    const sortedHistory = filteredHistory.sort((a, b) => b.weightedLastSearch - a.weightedLastSearch);
+    const sortedHistory = filteredHistory.sort(
+      (a, b) => b.weightedLastSearch - a.weightedLastSearch,
+    );
     return sortedHistory.slice(0, historyCount);
   }
   return null;

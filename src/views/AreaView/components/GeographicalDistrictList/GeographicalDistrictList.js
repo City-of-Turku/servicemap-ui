@@ -1,14 +1,17 @@
 import {
   Checkbox, FormControlLabel, List, ListItem, Typography,
 } from '@mui/material';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedDistrictServices, setSelectedSubdistricts } from '../../../../redux/actions/district';
+import {
+  setSelectedDistrictServices, setSelectedSubdistricts,
+} from '../../../../redux/actions/district';
 import { getDistrictsByType } from '../../../../redux/selectors/district';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { panViewToBounds } from '../../../MapView/utils/mapActions';
+import { SMAccordion } from '../../../../components';
 
 
 const GeographicalDistrictList = ({ district, classes }) => {
@@ -74,38 +77,51 @@ const GeographicalDistrictList = ({ district, classes }) => {
 
   return (
     <>
-      <div className={classes.municipalitySubtitle}>
+      <div className={`${classes.municipalitySubtitleBase} ${classes.municipalitySubtitle}`}>
         <Typography component="h4" className={classes.bold}>
           <FormattedMessage id={`area.${district.name}.title`} />
         </Typography>
+        {
+          cityFilteredData.length === 0
+          && (
+            <Typography variant="body2"><FormattedMessage id="area.city.selection.empty" /></Typography>
+          )
+        }
       </div>
       {cityFilteredData.map((data) => {
         const { municipality } = data[0];
         return (
           <React.Fragment key={municipality}>
-            <div className={classes.municipalitySubtitle}>
-              <Typography component="h5" className={classes.bold}>
-                <FormattedMessage id={`settings.city.${municipality}`} />
-              </Typography>
-            </div>
-            <List disablePadding>
-              {data.map(district => (
-                <ListItem className={`${classes.listItem} ${classes.areaItem}`} key={district.id} divider>
-                  <FormControlLabel
-                    className={classes.checkboxPadding}
-                    control={(
-                      <Checkbox
-                        color="primary"
-                        icon={<span className={classes.checkBoxIcon} />}
-                        onChange={e => handleCheckboxChange(e, district)}
-                        checked={selectedSubdistricts.includes(district.ocd_id)}
+            <SMAccordion // Unit list accordion
+              defaultOpen={false}
+              titleContent={(
+                <div className={`${classes.municipalitySubtitleBase} ${classes.municipalitTitle}`}>
+                  <Typography component="h6" className={classes.bold}>
+                    <FormattedMessage id={`settings.city.${municipality}`} />
+                  </Typography>
+                </div>
+              )}
+              collapseContent={(
+                <List disablePadding>
+                  {data.map(district => (
+                    <ListItem className={`${classes.listItem} ${classes.areaItem}`} key={district.id} divider>
+                      <FormControlLabel
+                        className={classes.checkboxPadding}
+                        control={(
+                          <Checkbox
+                            color="primary"
+                            icon={<span className={classes.checkBoxIcon} />}
+                            onChange={e => handleCheckboxChange(e, district)}
+                            checked={selectedSubdistricts.includes(district.ocd_id)}
+                          />
+                        )}
+                        label={<Typography>{getLocaleText(district.name)}</Typography>}
                       />
-                  )}
-                    label={<Typography>{getLocaleText(district.name)}</Typography>}
-                  />
-                </ListItem>
-              ))}
-            </List>
+                    </ListItem>
+                  ))}
+                </List>
+              )}
+            />
           </React.Fragment>
         );
       })}

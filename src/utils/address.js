@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 import { useCallback } from 'react';
-import useLocaleText from './useLocaleText';
+import { uppercaseFirst } from '.';
 
 export const addressMatchParamsToFetchOptions = (match) => {
   if (!match) {
@@ -32,17 +32,14 @@ export const addressMatchParamsToFetchOptions = (match) => {
   return data;
 };
 
-export const getAddressNavigatorParamsConnector = (getLocaleText, address) => {
-  if (typeof getLocaleText !== 'function') {
-    throw Error('getAddressNavigatorParams requires getLocaleText function');
-  }
+export const getAddressNavigatorParamsConnector = (address) => {
   const nameObject = address.name || address.full_name;
   // TODO: why address endpoint returns different municipality object than search endpoint?
   const municipality = address.municipality.id || address.municipality.name.fi;
 
   return {
-    municipality,
-    name: getLocaleText(nameObject),
+    municipality: municipality.toLowerCase(),
+    name: nameObject.fi, // Use Finnish value to have same url for all languages
   };
 };
 
@@ -76,16 +73,13 @@ export const getAddressFromUnit = (unit, getLocaleText, intl) => {
   const postalCode = addressZip ? `, ${addressZip}` : '';
   const city = intl.formatMessage({
     id: `settings.city.${unit.municipality}`,
-    defaultMessage: ' ',
+    defaultMessage: typeof unit.municipality === 'string' ? uppercaseFirst(unit.municipality) : ' ',
   });
 
   return `${typeof unit.street_address === 'string' ? unit.street_address : getLocaleText(unit.street_address)}${postalCode} ${city}`;
 };
 
-export const useNavigationParams = () => {
-  const getLocaleText = useLocaleText();
-  return useCallback(
-    address => getAddressNavigatorParamsConnector(getLocaleText, address),
-    [getLocaleText],
-  );
-};
+export const useNavigationParams = () => useCallback(
+  address => getAddressNavigatorParamsConnector(address),
+  [],
+);

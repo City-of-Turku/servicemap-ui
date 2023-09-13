@@ -2,7 +2,6 @@ import { withStyles } from '@mui/styles';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { changeCustomUserLocation } from '../../redux/actions/user';
 import styles from './styles';
 import TabLists from './TabLists';
 
@@ -18,5 +17,4 @@ const mapStateToProps = (state) => {
 
 export default connect(
   mapStateToProps,
-  { changeCustomUserLocation },
 )(injectIntl(withRouter(withStyles(styles)(TabLists))));

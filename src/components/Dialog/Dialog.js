@@ -3,12 +3,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Typography
+  Typography,
 } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useRef } from 'react';
 import { useIntl } from 'react-intl';
-import { visuallyHidden } from '@mui/utils';
 import CloseButton from '../CloseButton';
 import SMButton from '../ServiceMapButton';
 
@@ -20,12 +20,16 @@ const Dialog = ({
   open,
   setOpen,
   referer,
+  onClose,
 }) => {
   const intl = useIntl();
   const dialogRef = useRef();
 
   const handleClose = () => {
     setOpen(false);
+    if (onClose) {
+      onClose();
+    }
     if (referer?.current?.anchorEl) {
       setTimeout(() => {
         referer.current.anchorEl.focus();
@@ -49,18 +53,28 @@ const Dialog = ({
 
   return (
     <div>
-      <MUIDialog ref={dialogRef} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <MUIDialog
+        ref={dialogRef}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+        classes={{
+          root: classes.muiRoot,
+        }}
+      >
         <div className={classes.root}>
           {/* Empty element that makes keyboard focus loop in dialog */}
-          <Typography style={visuallyHidden} aria-hidden tabIndex={0} onFocus={focusToLastElement} />
-          <CloseButton
-            autoFocus
-            className={classes.topCloseButton}
-            onClick={handleClose}
-            role="link"
-          />
-          <DialogTitle id="form-dialog-title" autoFocus>{title}</DialogTitle>
-          <DialogContent>
+          <Typography style={visuallyHidden} aria-hidden tabIndex="0" onFocus={focusToLastElement} />
+          <div className={classes.topArea}>
+            <CloseButton
+              autoFocus
+              onClick={handleClose}
+              role="link"
+              className={classes.closeButtonTop}
+            />
+            <DialogTitle className={classes.title} id="form-dialog-title" autoFocus>{title}</DialogTitle>
+          </div>
+          <DialogContent className={classes.muiRoot}>
             {content}
           </DialogContent>
           <DialogActions>
@@ -70,7 +84,7 @@ const Dialog = ({
             </SMButton>
           </DialogActions>
           {/* Empty element that makes keyboard focus loop in dialog */}
-          <Typography style={visuallyHidden} aria-hidden tabIndex={0} onFocus={focusToFirstElement} />
+          <Typography style={visuallyHidden} aria-hidden tabIndex="0" onFocus={focusToFirstElement} />
         </div>
       </MUIDialog>
     </div>
@@ -80,24 +94,30 @@ const Dialog = ({
 Dialog.propTypes = {
   classes: PropTypes.shape({
     closeButton: PropTypes.string,
+    closeButtonTop: PropTypes.string,
+    muiRoot: PropTypes.string,
     root: PropTypes.string,
-    topCloseButton: PropTypes.string,
+    title: PropTypes.string,
+    topArea: PropTypes.string,
   }).isRequired,
   title: PropTypes.node.isRequired,
   content: PropTypes.node.isRequired,
   actions: PropTypes.node,
+  onClose: PropTypes.func,
   open: PropTypes.bool,
   setOpen: PropTypes.func.isRequired,
   referer: PropTypes.shape({
     current: PropTypes.shape({
       anchorEl: PropTypes.objectOf(PropTypes.any),
     }),
-  }).isRequired,
+  }),
 };
 
 Dialog.defaultProps = {
   actions: null,
+  onClose: null,
   open: false,
+  referer: null,
 };
 
 export default Dialog;

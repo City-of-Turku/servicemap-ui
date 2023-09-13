@@ -1,6 +1,6 @@
 import ServiceMapAPI from '../../../utils/newFetch/ServiceMapAPI';
 
-const fetchAddressData = async (municipality, streetName) => {
+const fetchAddressData = (municipality, streetName) => {
   const smAPI = new ServiceMapAPI();
   const fetchOptions = {
     page_size: 1,

@@ -5,21 +5,20 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { IntlProvider, useIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { StyledEngineProvider } from '@mui/material';
-import appStyles from './App.css';
-import DataFetcher from './components/DataFetchers/DataFetcher';
-import Navigator from './components/Navigator';
-import HSLFonts from './hsl-icons.css';
 import styles from './index.css';
+import SMFonts from './service-map-icons.css';
+import HSLFonts from './hsl-icons.css';
+import appStyles from './App.css';
 import DefaultLayout from './layouts';
 import EmbedLayout from './layouts/EmbedLayout';
 import printCSS from './print.css';
 import { changeLocaleAction } from './redux/actions/user';
 import { getLocale } from './redux/selectors/locale';
-import SMFonts from './service-map-icons.css';
 import isClient from './utils';
 import { MobilityPlatformContextProvider } from './context/MobilityPlatformContext';
+import { DataFetcher, Navigator } from './components';
 import EmbedderView from './views/EmbedderView';
 
 import '@formatjs/intl-pluralrules/dist/locale-data/en';
@@ -42,13 +41,15 @@ const MetaTags = () => {
   return (
     <Helmet>
       <meta property="og:site_name" content={intl.formatMessage({ id: 'app.title' })} />
-      {
-        isClient() && <meta property="og:url" content={window.location} />
-      }
+      {isClient() && <meta property="og:url" content={window.location} />}
       <meta property="og:description" content={intl.formatMessage({ id: 'app.description' })} />
       <meta property="og:image" data-react-helmet="true" content={ogImage} />
       <meta name="twitter:card" data-react-helmet="true" content="summary" />
-      <meta name="twitter:image:alt" data-react-helmet="true" content={intl.formatMessage({ id: 'app.og.image.alt' })} />
+      <meta
+        name="twitter:image:alt"
+        data-react-helmet="true"
+        content={intl.formatMessage({ id: 'app.og.image.alt' })}
+      />
     </Helmet>
   );
 };
@@ -67,7 +68,7 @@ class App extends React.Component {
     const intlData = LocaleUtility.intlData(locale);
 
     return (
-      <StyledEngineProvider injectFirst>
+      <StyledEngineProvider>
         <ThemeWrapper>
           <IntlProvider {...intlData}>
             <MetaTags />
@@ -99,10 +100,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const ConnectedApp = connect(
-  mapStateToProps,
-  { changeLocaleAction },
-)(App);
+const ConnectedApp = connect(mapStateToProps, { changeLocaleAction })(App);
 
 // Wrapper to get language route
 const LanguageWrapper = () => {

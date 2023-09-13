@@ -1,18 +1,17 @@
 /* eslint-disable react/no-multi-comp */
-import { Tab, Tabs, Typography } from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import {
+  Tabs, Tab, Typography,
+} from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import config from '../../../config';
 import { parseSearchParams, stringifySearchParams } from '../../utils';
 import useMobileStatus from '../../utils/isMobile';
-import AddressSearchBar from '../AddressSearchBar';
 import PaginatedList from '../Lists/PaginatedList';
 import ResultOrderer from '../ResultOrderer';
 
 const TabLists = ({
-  changeCustomUserLocation,
   location,
   data,
   onTabChange,
@@ -21,14 +20,12 @@ const TabLists = ({
   headerComponents,
   navigator,
   classes,
-  userAddress,
 }) => {
   const isMobile = useMobileStatus();
-
   const searchParams = parseSearchParams(location.search);
   const filteredData = data.filter(item => item.component || (item.data && item.data.length > 0));
   const getTabfromUrl = () => {
-    let index = data.findIndex(tab => tab.id === searchParams.t);
+    let index = filteredData.findIndex(tab => tab.id === searchParams.t);
     if (index === -1) index = parseInt(searchParams.t, 10) || 0;
     if (filteredData.length <= index) {
       return 0;
@@ -49,16 +46,6 @@ const TabLists = ({
     setTabIndex(0);
   }
 
-  const handleAddressChange = (address) => {
-    if (address) {
-      changeCustomUserLocation(
-        [address.location.coordinates[1], address.location.coordinates[0]],
-        address,
-      );
-    } else {
-      changeCustomUserLocation(null);
-    }
-  };
   const adjustScrollDistance = (scroll = null) => {
     let scrollDistanceFromTop = scrollDistance;
     const elem = document.getElementsByClassName(sidebarClass)[0];
@@ -97,8 +84,8 @@ const TabLists = ({
     const searchParams = parseSearchParams(location.search);
     searchParams.p = 1;
 
-    if (data[value].id) {
-      searchParams.t = data[value].id;
+    if (filteredData[value].id) {
+      searchParams.t = filteredData[value].id;
     } else {
       searchParams.t = value;
     }
@@ -188,13 +175,6 @@ const TabLists = ({
           fullData.length > 0 && (
             <>
               <ResultOrderer disabled={disabled} />
-              <AddressSearchBar
-                defaultAddress={userAddress}
-                containerClassName={classes.addressBar}
-                inputClassName={classes.addressBarInput}
-                title={<FormattedMessage id="area.searchbar.infoText.address" />}
-                handleAddressChange={address => handleAddressChange(address)}
-              />
             </>
           )
         }
@@ -208,9 +188,6 @@ const TabLists = ({
         <Tabs
           ref={tabsRef}
           className={`sticky ${classes.root}`}
-          classes={{
-            indicator: classes.indicator,
-          }}
           value={tabIndex}
           onChange={handleTabChange}
           variant="fullWidth"
@@ -356,7 +333,6 @@ TabLists.propTypes = {
     data: PropTypes.arrayOf(PropTypes.any),
     itemsPerPage: PropTypes.number,
   })).isRequired,
-  changeCustomUserLocation: PropTypes.func.isRequired,
   userAddress: PropTypes.objectOf(PropTypes.any),
   headerComponents: PropTypes.objectOf(PropTypes.any),
   onTabChange: PropTypes.func,

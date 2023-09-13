@@ -3,15 +3,17 @@ import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { SearchBar } from '../../components';
-import Container from '../../components/Container';
-import DesktopComponent from '../../components/DesktopComponent';
-import PaginatedList from '../../components/Lists/PaginatedList';
-import Loading from '../../components/Loading';
-import MobileComponent from '../../components/MobileComponent';
-import ResultOrderer from '../../components/ResultOrderer';
-import { getIcon } from '../../components/SMIcon';
-import TitleBar from '../../components/TitleBar';
+import {
+  Container,
+  DesktopComponent,
+  getIcon,
+  Loading,
+  MobileComponent,
+  PaginatedList,
+  ResultOrderer,
+  SearchBar,
+  TitleBar,
+} from '../../components';
 import coordinateIsActive from '../../utils/coordinate';
 import useLocaleText from '../../utils/useLocaleText';
 import { fitUnitsToMap, focusToPosition } from '../MapView/utils/mapActions';
@@ -119,7 +121,6 @@ const ServiceView = (props) => {
               title={getLocaleText(current.name)}
               titleComponent="h3"
               primary
-              backButton
             />
           </MobileComponent>
         )

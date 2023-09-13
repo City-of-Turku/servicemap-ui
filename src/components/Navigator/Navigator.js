@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { breadcrumbPush, breadcrumbPop, breadcrumbReplace } from '../../redux/actions/breadcrumb';
-import { generatePath } from '../../utils/path';
+import { generatePath, isEmbed } from '../../utils/path';
 import config from '../../../config';
 import SettingsUtility from '../../utils/settings';
 import matomoTracker from '../../utils/tracking';
@@ -83,7 +83,7 @@ class Navigator extends React.Component {
     const { params } = match;
     const locale = params && params.lng;
 
-    return generatePath(target, locale, data);
+    return generatePath(target, locale, data, isEmbed());
   }
 
 
@@ -195,6 +195,22 @@ class Navigator extends React.Component {
       return;
     }
     this.goBack();
+  }
+
+  setParameter = (param, value) => {
+    const { history } = this.props;
+    const url = new URL(window.location);
+
+    url.searchParams.set(param, value);
+    history.replace(url.pathname + url.search);
+  }
+
+  removeParameter = (param) => {
+    const { history } = this.props;
+    const url = new URL(window.location);
+
+    url.searchParams.delete(param);
+    history.replace(url.pathname + url.search);
   }
 
   render = () => null;

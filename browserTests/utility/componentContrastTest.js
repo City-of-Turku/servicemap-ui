@@ -6,9 +6,9 @@ export default (componentSelectorQuery) => {
     return componentSelectorQuery;
   }
 
-
   test(`Component with selector ${getComponentSelectorQuery()} has good contrast ratio with background`, async (t) => {
     const elements = Selector(getComponentSelectorQuery());
+    
     const elementsCount = await elements.count;
 
     for (let i = 0; i < elementsCount; i++) {

@@ -1,20 +1,16 @@
-import { withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
-import { setNewCurrentService } from '../../../redux/actions/services';
+import { withStyles } from '@mui/styles';
 import ServiceItem from './ServiceItem';
 import styles from './styles';
 
 // Listen to redux state
 const mapStateToProps = (state) => {
-  const { current } = state.service;
   const { navigator } = state;
   return {
-    currentService: current,
     navigator,
   };
 };
 
 export default withStyles(styles)(connect(
   mapStateToProps,
-  { setNewCurrentService },
 )(ServiceItem));

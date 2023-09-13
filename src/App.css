@@ -140,8 +140,9 @@
   }
 }
 
-/* React Dates */
-@import '~react-dates/lib/css/_datepicker.css';
+/* React Datepicker */
+@import '../node_modules/react-datepicker/dist/react-datepicker.css';
+@import '../node_modules/react-datepicker/dist/react-datepicker-cssmodules.css';
 
 @keyframes spin-animation {
   from {

@@ -1,4 +1,4 @@
-function getSettings() {
+export function getSettings() {
   if (typeof window !== 'undefined' && typeof window.nodeEnvSettings !== 'undefined') {
       // Needed in browser run context
       return window.nodeEnvSettings;
@@ -74,7 +74,15 @@ if (typeof settings.GUIDE_MAP_URL === 'undefined') {
 }
 
 if (typeof settings.REITTIOPAS_URL === 'undefined') {
-  settings.REITTIOPAS_URL = 'https://reittiopas.hsl.fi/reitti/';
+  settings.REITTIOPAS_URL = 'https://opas.matka.fi/reitti/';
+}
+
+if (typeof settings.HSL_ROUTE_GUIDE_URL === 'undefined') {
+  settings.HSL_ROUTE_GUIDE_URL = 'https://reittiopas.hsl.fi/reitti/';
+}
+
+if (typeof settings.HSL_ROUTE_GUIDE_CITIES === 'undefined') {
+  settings.HSL_ROUTE_GUIDE_CITIES = 'helsinki,espoo,vantaa,kauniainen,kerava';
 }
 
 if (typeof settings.SHOW_AREA_SELECTION === 'undefined') {
@@ -112,6 +120,23 @@ if (settings.MATOMO_MOBILITY_DIMENSION_ID === 'undefined') {
 if (settings.MATOMO_SENSES_DIMENSION_ID === 'undefined') {
   settings.MATOMO_SENSES_DIMENSION_ID = undefined;
 }
+
+if (settings.MATOMO_NO_RESULTS_DIMENSION_ID === 'undefined') {
+  settings.MATOMO_NO_RESULTS_DIMENSION_ID = undefined;
+}
+
+if (settings.MATOMO_URL === 'undefined') {
+  settings.MATOMO_URL = undefined;
+}
+
+if (settings.MATOMO_SITE_ID === 'undefined') {
+  settings.MATOMO_SITE_ID = undefined;
+}
+
+if (typeof settings.EMBEDDER_DOCUMENTATION_URL === 'undefined') {
+  settings.EMBEDDER_DOCUMENTATION_URL = 'https://kaupunkialustana.hel.fi/palvelukartta/palvelukartan-upotusohjeet/';
+}
+
 
 let municipalities;
 try {
@@ -152,6 +177,7 @@ export default {
   },
   "serviceMapAPI": {
     "root": settings.SERVICEMAP_API,
+    "version": settings.SERVICEMAP_API_VERSION,
     "id": 'SERVICEMAP_API',
   },
   "eventsAPI": {
@@ -166,6 +192,10 @@ export default {
   "digitransitAPI": {
     "root": settings.DIGITRANSIT_API,
     "id": 'DIGITRANSIT_API',
+  },
+  "digitransitApiKey": {
+    "root": settings.DIGITRANSIT_API_KEY,
+    "id": 'DIGITRANSIT_API_KEY',
   },
   "feedbackURL": {
     "root": settings.FEEDBACK_URL,
@@ -196,16 +226,20 @@ export default {
   "ortographicWMSLAYER": settings.ORTOGRAPHIC_WMS_LAYER,
   "guideMapURL": settings.GUIDE_MAP_URL,
   "reittiopasURL": settings.REITTIOPAS_URL,
+  "hslRouteGuideURL": settings.HSL_ROUTE_GUIDE_URL,
   "outdoorExerciseURL": settings.OUTDOOR_EXERCISE_URL,
   "natureAreaURL": settings.NATURE_AREA_URL,
+  "embedderDocumentationUrl": settings.EMBEDDER_DOCUMENTATION_URL,
   "cities": settings.CITIES.split(','),
+  "hslRouteGuideCities": settings.HSL_ROUTE_GUIDE_CITIES.split(','),
   "maps": settings.MAPS.split(','),
   "smallContentAreaBreakpoint": 449,
   "mobileUiBreakpoint": 699,
   "municipality": municipalities,
   "smallScreenBreakpoint": 899,
-  "topBarHeight": 100,
-  "topBarHeightMobile": 90,
+  "topBarHeight": 90,
+  "topBarHeightMobile": 78,
+  "bottomNavHeight": 78,
   "searchTimeout": 15000,
   // locales
   "defaultLocale": 'fi',
@@ -221,6 +255,11 @@ export default {
   "oldMapEn": settings.OLD_MAP_LINK_EN,
   "oldMapFi": settings.OLD_MAP_LINK_FI,
   "oldMapSv": settings.OLD_MAP_LINK_SV,
+  "accessibilityStatementURL": {
+    fi: settings.ACCESSIBILITY_STATEMENT_URL_FI,
+    sv: settings.ACCESSIBILITY_STATEMENT_URL_SV,
+    en: settings.ACCESSIBILITY_STATEMENT_URL_EN,
+  },
   "readspeakerLocales": {
     "fi": 'fi_fi',
     "en": 'en_uk',
@@ -239,6 +278,7 @@ export default {
   "usePtvAccessibilityApi": (settings.USE_PTV_ACCESSIBILITY_API) === 'true',
   "matomoMobilityDimensionID": settings.MATOMO_MOBILITY_DIMENSION_ID,
   "matomoSensesDimensionID": settings.MATOMO_SENSES_DIMENSION_ID,
+  "matomoNoResultsDimensionID": settings.MATOMO_NO_RESULTS_DIMENSION_ID,
   "matomoUrl": settings.MATOMO_URL,
   "matomoSiteId": settings.MATOMO_SITE_ID,
   "themePKG": settings.THEME_PKG,

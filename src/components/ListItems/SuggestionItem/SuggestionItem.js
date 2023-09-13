@@ -2,12 +2,10 @@ import { Button, Divider, Typography } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { ArrowUpward } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { keyboardHandler } from '../../../utils';
-import useMobileStatus from '../../../utils/isMobile';
 import BoldedText from '../../BoldedText';
 
 const SuggestionItem = (props) => {
@@ -18,7 +16,6 @@ const SuggestionItem = (props) => {
     text,
     handleItemClick,
     handleRemoveClick,
-    handleArrowClick,
     icon,
     selected,
     subtitle,
@@ -28,7 +25,6 @@ const SuggestionItem = (props) => {
   } = props;
 
   const [mouseDown, setMouseDown] = useState(false);
-  const isMobile = useMobileStatus();
   const onClick = handleItemClick
     ? (e) => {
       e.preventDefault();
@@ -36,7 +32,8 @@ const SuggestionItem = (props) => {
         handleItemClick();
         setMouseDown(true);
       }
-    } : null;
+    }
+    : null;
 
   return (
     <React.Fragment>
@@ -58,45 +55,20 @@ const SuggestionItem = (props) => {
         aria-label={`${text} ${subtitle || ''}`}
         id={id}
       >
-        <span
-          className={classes.container}
-        >
+        <span className={classes.container}>
           <ListItemIcon aria-hidden className={`${classes.listIcon}`}>
             {icon}
           </ListItemIcon>
 
-          <ListItemText
-            className={classes.text}
-            classes={{ root: classes.textContainer }}
-          >
-
-            <Typography
-              aria-hidden
-              variant="body2"
-            >
-              {
-                query
-                  ? (
-                    <BoldedText
-                      text={text}
-                      shouldBeBold={query}
-                    />
-                  ) : text
-              }
+          <ListItemText className={classes.text} classes={{ root: classes.textContainer }}>
+            <Typography aria-hidden className={handleRemoveClick ? classes.historyText : ''} variant="body2">
+              {query ? <BoldedText text={text} shouldBeBold={query} /> : text}
             </Typography>
-            {
-            subtitle
-            && (
-              <Typography
-                aria-hidden
-                variant="body2"
-                className={classes.subtitle}
-              >
+            {subtitle && (
+              <Typography aria-hidden variant="body2" className={classes.subtitle}>
                 {subtitle}
               </Typography>
-
-            )
-          }
+            )}
           </ListItemText>
         </span>
         {handleRemoveClick && (
@@ -119,28 +91,6 @@ const SuggestionItem = (props) => {
             </Typography>
           </Button>
         )}
-        {
-          isMobile
-          && handleArrowClick
-          && (
-            <Button
-              aria-hidden
-              className={`${classes.suggestIcon}`}
-              classes={{
-                label: classes.suggestIconLabel,
-              }}
-              onMouseDown={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                const value = text.props ? text.props.text : text;
-                handleArrowClick(value);
-                return false;
-              }}
-            >
-              <ArrowUpward style={{ transform: 'rotate(-48deg)' }} />
-            </Button>
-          )
-        }
       </ListItem>
       {divider ? (
         <li aria-hidden>
@@ -158,7 +108,6 @@ SuggestionItem.propTypes = {
   text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   icon: PropTypes.objectOf(PropTypes.any),
   handleRemoveClick: PropTypes.func,
-  handleArrowClick: PropTypes.func,
   handleItemClick: PropTypes.func,
   divider: PropTypes.bool,
   selected: PropTypes.bool,
@@ -171,9 +120,8 @@ SuggestionItem.propTypes = {
 
 SuggestionItem.defaultProps = {
   icon: null,
-  handleArrowClick: null,
-  handleRemoveClick: null,
   handleItemClick: null,
+  handleRemoveClick: null,
   divider: false,
   selected: false,
   subtitle: null,

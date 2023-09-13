@@ -9,14 +9,15 @@ export const getEmbedURL = (url, params = {}) => {
   const segment = uri.segment();
   const data = uri.search(true); // Get data object of search parameters
   const cityObj = params.city;
-  const cities = cityObj ? Object.keys(cityObj).reduce((acc, current) => {
-    if (Object.prototype.hasOwnProperty.call(cityObj, current)) {
-      if (cityObj[current]) {
-        acc.push(current);
+  const cities = cityObj
+    ? Object.keys(cityObj).reduce((acc, current) => {
+      if (Object.prototype.hasOwnProperty.call(cityObj, current)) {
+        if (cityObj[current]) {
+          acc.push(current);
+        }
       }
-    }
-    return acc;
-  }, []) : [];
+      return acc;
+    }, []) : [];
 
   if (params.map && params.map !== 'servicemap') {
     data.map = params.map;
@@ -44,6 +45,9 @@ export const getEmbedURL = (url, params = {}) => {
   }
   if (params.cityBikes) {
     data.city_bikes = params.cityBikes ? 1 : 0;
+  }
+  if (params.cargoBikes) {
+    data.cargo_bikes = params.cargoBikes ? 1 : 0;
   }
   if (params.rentalCars) {
     data.rental_cars = params.rentalCars ? 1 : 0;

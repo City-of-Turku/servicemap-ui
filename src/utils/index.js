@@ -1,9 +1,7 @@
 /* eslint-disable camelcase */
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import URI from 'urijs';
-import config from '../../config';
 
 const isClient = () => typeof window !== 'undefined';
 
@@ -96,6 +94,7 @@ export const keyboardHandler = (callback, keys) => {
     event.stopPropagation();
     const ref = event.which;
     if (ref && codes.indexOf(ref) >= 0) {
+      event.preventDefault();
       return callback(event);
     }
     return null;
@@ -147,22 +146,6 @@ export const arraysEqual = (a, b) => {
     if (a[i] !== b[i]) return false;
   }
   return true;
-};
-/**
- * USE ONLY IN SIMPLE COMPONENTS because mediaquery hook
- * Check if sidebar content is small
- * Return true if smaller than smallContent treshold
- * or smallscreen but not mobile
- */
-export const isSmallContentArea = () => {
-  const { smallContentAreaBreakpoint, mobileUiBreakpoint, smallScreenBreakpoint } = config;
-  const smallContent = useMediaQuery(`(max-width:${smallContentAreaBreakpoint}px)`);
-  const smallScreen = useMediaQuery(`(max-width:${smallScreenBreakpoint}px)`);
-  const notMobile = useMediaQuery(`(min-width:${mobileUiBreakpoint}px)`);
-  return (
-    smallContent
-    || (smallScreen && notMobile)
-  );
 };
 
 export const getSearchParam = (location, key) => {
@@ -234,5 +217,24 @@ export const formAddressString = (address, getLocaleText) => {
   }
   return '';
 };
+
+export const isMobileDevice = () => {
+  if (!window) {
+    return false;
+  }
+  const toMatch = [
+    /Android/i,
+    /webOS/i,
+    /iPhone/i,
+    /iPad/i,
+    /iPod/i,
+    /BlackBerry/i,
+    /Windows Phone/i,
+  ];
+
+  const { userAgent } = navigator;
+  return toMatch.some(toMatchItem => userAgent.match(toMatchItem));
+};
+
 
 export default isClient;

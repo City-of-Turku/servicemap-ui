@@ -1,15 +1,21 @@
 import { Divider, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import isClient from '../../utils';
 
 const DescriptionExtraText = ({
   classes, intl, extra, serviceName, html, title, titleComponent,
 }) => {
   // Hide linebreak html elements from screen readers
-  const hideBRFromSR = text => text.replaceAll('<br>', '<br aria-hidden="true" />');
+  const hideBRFromSR = (text) => text.replaceAll('<br>', '<br aria-hidden="true" />');
 
   const [chargers, setChargers] = useState(null);
+
+  useEffect(() => {
+    if (extra.chargers) {
+      setChargers(extra.chargers);
+    }
+  }, [extra]);
 
   useEffect(() => {
     if (extra.chargers) {
@@ -25,7 +31,7 @@ const DescriptionExtraText = ({
         })}
         :
       </Typography>
-      {chargers?.map(charger => (
+      {chargers?.map((charger) => (
         <div key={`${charger.plug}${charger.power}${charger.number}`} className={classes.paragraph}>
           <Typography className={classes.textItem} variant="body2">
             {intl.formatMessage({ id: 'mobilityPlatform.content.cgsType' }, { value: charger.plug })}

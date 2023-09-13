@@ -1,24 +1,27 @@
-import { Typography } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { Typography } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
+import MapView from '../views/MapView';
 import config from '../../config';
-import { ErrorComponent } from '../components';
-import AlertBox from '../components/AlertBox';
-import DesktopComponent from '../components/DesktopComponent';
-import ErrorBoundary from '../components/ErrorBoundary';
-import FocusableSRLinks from '../components/FocusableSRLinks';
-import Settings from '../components/Settings';
-import TopBar from '../components/TopBar';
-import { ErrorProvider } from '../context/ErrorContext';
+import ViewRouter from './components/ViewRouter';
+import useMobileStatus from '../utils/isMobile';
+import PrintView from '../views/PrintView';
 import { PrintProvider } from '../context/PrintContext';
 import { viewTitleID } from '../utils/accessibility';
-import useMobileStatus from '../utils/isMobile';
-import MapView from '../views/MapView';
-import PrintView from '../views/PrintView';
-import ViewRouter from './components/ViewRouter';
+import { ErrorProvider } from '../context/ErrorContext';
+import {
+  AlertBox,
+  DesktopComponent,
+  ErrorBoundary,
+  ErrorComponent,
+  FocusableSRLinks,
+  TopBar,
+  Settings,
+  BottomNav,
+} from '../components';
 
 const { smallScreenBreakpoint } = config;
 
@@ -38,6 +41,7 @@ const createContentStyles = (
     width = '50%';
   }
   const topBarHeight = isMobile ? `${config.topBarHeightMobile}px` : `${config.topBarHeight}px`;
+  const bottomNavHeight = isMobile ? `${config.bottomNavHeight}px` : 0;
 
   const styles = {
     activeRoot: {
@@ -45,13 +49,14 @@ const createContentStyles = (
       width: '100%',
       display: 'flex',
       flexWrap: 'nowrap',
-      height: `calc(100vh - ${topBarHeight})`,
+      height: !isMobile ? `calc(100vh - ${topBarHeight})` : 'initial',
       flex: '1 1 auto',
     },
     map: {
       position: isMobile ? 'fixed' : null,
       bottom: 0,
       margin: 0,
+      marginBottom: bottomNavHeight,
       flex: !isMobile || fullMobileMap ? 1 : 0,
       display: 'flex',
       visibility: isMobile && (!fullMobileMap || settingsOpen) ? 'hidden' : '',
@@ -73,6 +78,10 @@ const createContentStyles = (
     },
     sidebarContent: {
       height: '100%',
+    },
+    bottomAligner: {
+      height: bottomNavHeight,
+      padding: 4,
     },
   };
 
@@ -175,10 +184,12 @@ const DefaultLayout = (props) => {
                   <ViewRouter />
                 </div>
               </main>
-              <Typography style={visuallyHidden}>
-                {intl.formatMessage({ id: 'map.ariaLabel' })}
-              </Typography>
-              <div aria-hidden tabIndex={-1} style={styles.map}>
+              <Typography style={visuallyHidden}>{intl.formatMessage({ id: 'map.ariaLabel' })}</Typography>
+              <div
+                aria-hidden
+                tabIndex={-1}
+                style={styles.map}
+              >
                 <MapView
                   sidebarHidden={sidebarHidden}
                   toggleSidebar={toggleSidebar}
@@ -186,6 +197,13 @@ const DefaultLayout = (props) => {
                 />
               </div>
             </div>
+
+            {isMobile ? (
+              <>
+                <BottomNav />
+                <div style={styles.bottomAligner} />
+              </>
+            ) : null}
 
             <footer role="contentinfo" aria-hidden={!!settingsToggled} className="sr-only">
               <DesktopComponent>

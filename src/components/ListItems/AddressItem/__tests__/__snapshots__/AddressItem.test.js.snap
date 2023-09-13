@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AddressItem /> should work 1`] = `
+<div>
+  <li
+    class="MuiButtonBase-root MuiListItem-root SimpleListItem-listItem-2 MuiListItem-gutters MuiListItem-padding MuiListItem-button null  css-18azhdn-MuiButtonBase-root-MuiListItem-root"
+    role="link"
+    tabindex="0"
+  >
+    <div
+      aria-hidden="true"
+      class="MuiListItemIcon-root SimpleListItem-listIcon-6  css-cveggr-MuiListItemIcon-root"
+    >
+      <span
+        aria-hidden="true"
+        class="Connect(AddressItem)-icon-1 icon-icon-address SMIcon-icon-9"
+      />
+    </div>
+    <div
+      class="MuiListItemText-root SimpleListItem-textContainer-3 css-vt7cuc-MuiListItemText-root"
+    >
+      <span
+        class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10wsksd-MuiTypography-root"
+      >
+        <p
+          class="MuiTypography-root null  MuiTypography-body2 css-q91igz-MuiTypography-root"
+        />
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+          style="border: 0px; height: 1px; margin: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;"
+        />
+      </span>
+    </div>
+  </li>
+  <li
+    aria-hidden="true"
+  >
+    <hr
+      class="MuiDivider-root MuiDivider-fullWidth SimpleListItem-divider-7 css-9mgopn-MuiDivider-root"
+    />
+  </li>
+</div>
+`;

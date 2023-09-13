@@ -1,4 +1,4 @@
-const styles = theme => ({
+const styles = (theme) => ({
   topBarColor: {
     background: theme.palette.background.main,
   },
@@ -72,6 +72,8 @@ const styles = theme => ({
   checkBoxContainer: {
     width: '100%',
     backgroundColor: 'rgb(250, 250, 250)',
+    paddingTop: theme.spacing(1.5),
+    paddingBottom: theme.spacing(1.5),
   },
   flexBox: {
     display: 'flex',
@@ -84,6 +86,13 @@ const styles = theme => ({
     alignItems: 'center',
     width: '1.5rem',
     height: '1.5rem',
+  },
+  guidanceInfoText: {
+    backgroundColor: theme.palette.primary.main,
+    padding: `${theme.spacing(3)} ${theme.spacing(2)}`,
+    paddingTop: theme.spacing(1),
+    color: '#fff',
+    textAlign: 'left',
   },
   black: {
     backgroundColor: 'rgba(0, 0, 0,255)',

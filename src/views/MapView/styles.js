@@ -19,6 +19,7 @@ const styles = theme => ({
       outline: '2px solid transparent',
       boxShadow: `0 0 0 4px ${theme.palette.focusBorder.main}`,
     },
+    zIndex: theme.zIndex.forward,
   },
   mapNoSidebar: {
     '&:focus': {
@@ -26,7 +27,7 @@ const styles = theme => ({
     },
   },
   addressLink: {
-    color: theme.palette.primary.main,
+    color: theme.palette.link.main,
     textDecoration: 'underline',
   },
   loadingScreen: {
@@ -76,6 +77,9 @@ const styles = theme => ({
     textAlign: 'center',
     paddingTop: theme.spacing(0.5),
   },
+  parkingLayer: {
+    zIndex: theme.zIndex.infront,
+  },
   marginBottom: {
     marginBottom: `${theme.spacing(2)} !important`,
   },
@@ -119,7 +123,7 @@ const styles = theme => ({
     color: 'inherit',
   },
   topArea: {
-    background: theme.palette.background.main,
+    background: theme.palette.primary.main,
     color: theme.palette.primary.highContrast,
     position: 'fixed',
     top: config.topBarHeightMobile,
@@ -221,7 +225,7 @@ const styles = theme => ({
     ...theme.typography.body2,
     paddingTop: theme.spacing(1),
     textAlign: 'center',
-    color: theme.palette.link.main,
+    color: theme.palette.primary.link,
   },
   unitTooltipWrapper: {
     padding: theme.spacing(3),
@@ -432,6 +436,9 @@ const styles = theme => ({
   },
   metroIconColor: {
     color: '#FF6319',
+  },
+  bikeIconColor: {
+    color: '#fcb919',
   },
   ferryIconColor: {
     color: '#00B9E4',

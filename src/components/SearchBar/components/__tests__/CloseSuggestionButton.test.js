@@ -36,7 +36,7 @@ describe('<CloseSuggestionButton />', () => {
     const { getAllByRole } = renderWithProviders(
       <>
         <CloseSuggestionButton {...mockProps} onKeyDown={mockCallBack} />
-        <CloseSuggestionButton {...mockProps} onKeyPress={mockCallBack} />
+        <CloseSuggestionButton {...mockProps} onKeyPress={mockCallBack} srOnly />
       </>,
     );
 
@@ -69,7 +69,7 @@ describe('<CloseSuggestionButton />', () => {
       charCode: 32,
     });
 
-    expect(mockCallBack.mock.calls.length).toEqual(2);
+    expect(mockCallBack.mock.calls.length).toEqual(4);
   });
 
   it('does show text correctly', () => {

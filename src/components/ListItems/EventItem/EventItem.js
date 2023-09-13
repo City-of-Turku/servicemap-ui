@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
-import { NoSsr } from '@mui/material';
-import { Event } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
-import formatEventDate from '../../../utils/events';
+import { Event } from '@mui/icons-material';
+import { NoSsr } from '@mui/material';
 import useLocaleText from '../../../utils/useLocaleText';
+import formatEventDate from '../../../utils/events';
 import ResultItem from '../ResultItem';
 
 const EventItem = ({
@@ -23,6 +23,7 @@ const EventItem = ({
       <NoSsr key={event.id}>
         <ResultItem
           key={event.id}
+          data-testid="EventItem"
           icon={<Event color="primary" />}
           title={getLocaleText(event.name)}
           subtitle={dateString}

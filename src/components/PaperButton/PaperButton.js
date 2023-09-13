@@ -5,7 +5,19 @@ import { FormattedMessage } from 'react-intl';
 import Container from '../Container';
 
 const PaperButton = ({
-  classes, className, intl, disabled, messageID, onClick, icon, link, subtitleID, noBorder, newTab, role, ...rest
+  classes,
+  className,
+  intl,
+  disabled,
+  messageID,
+  onClick,
+  icon,
+  link,
+  subtitleID,
+  noBorder,
+  newTab,
+  role,
+  ...rest
 }) => {
   const clonedIcon = icon ? React.cloneElement(icon, { className: classes.icon }) : null;
   const bRole = role || link ? 'link' : 'button';
@@ -76,6 +88,5 @@ PaperButton.defaultProps = {
   role: null,
   subtitleID: null,
 };
-
 
 export default PaperButton;

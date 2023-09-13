@@ -1,18 +1,19 @@
-import { Switch } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { SMSwitch } from '../../../../components';
 
 const DistrictToggleButton = ({
-  district, onToggle, selected, selectionSize, label, classes, ...rest
+  district, onToggle, selected, selectionSize, label, classes, inputProps, ...rest
 }) => (
   <div id={district.id} className={classes.areaSwitch}>
-    <Switch
+    <SMSwitch
       color="primary"
       classes={{ thumb: classes.switchBorder }}
       size="small"
       value={district.id}
       className={classes.customSwitch}
       inputProps={{
+        ...inputProps,
         role: 'button',
         'aria-setsize': selectionSize ? selectionSize.toString() : null,
         'aria-pressed': selected,
@@ -34,11 +35,15 @@ DistrictToggleButton.propTypes = {
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
   selected: PropTypes.bool,
   selectionSize: PropTypes.number,
+  inputProps: PropTypes.shape({
+    tabindex: PropTypes.string,
+  }),
   label: PropTypes.objectOf(PropTypes.any),
 };
 
 DistrictToggleButton.defaultProps = {
   selected: false,
+  inputProps: {},
   label: null,
   selectionSize: null,
 };

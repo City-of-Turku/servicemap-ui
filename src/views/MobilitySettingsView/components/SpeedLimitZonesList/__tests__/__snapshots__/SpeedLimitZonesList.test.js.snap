@@ -23,7 +23,7 @@ exports[`<SpeedLimitZonesList /> should work 1`] = `
       >
         <span
           aria-checked="true"
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root Mui-checked injectIntl(SpeedLimitZonesList)-margin-3 css-fy5xgy-MuiButtonBase-root-MuiCheckbox-root"
+          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary injectIntl(SpeedLimitZonesList)-margin-3 css-crkgfp-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
             checked=""
@@ -59,7 +59,7 @@ exports[`<SpeedLimitZonesList /> should work 1`] = `
       >
         <span
           aria-checked="false"
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root injectIntl(SpeedLimitZonesList)-margin-3 css-fy5xgy-MuiButtonBase-root-MuiCheckbox-root"
+          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary injectIntl(SpeedLimitZonesList)-margin-3 css-crkgfp-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
             class="PrivateSwitchBase-input css-1m9pwf3"
@@ -94,7 +94,7 @@ exports[`<SpeedLimitZonesList /> should work 1`] = `
       >
         <span
           aria-checked="false"
-          class="MuiCheckbox-root MuiCheckbox-colorPrimary MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root injectIntl(SpeedLimitZonesList)-margin-3 css-fy5xgy-MuiButtonBase-root-MuiCheckbox-root"
+          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary injectIntl(SpeedLimitZonesList)-margin-3 css-crkgfp-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
             class="PrivateSwitchBase-input css-1m9pwf3"

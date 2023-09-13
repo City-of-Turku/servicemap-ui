@@ -6,7 +6,6 @@ import {
 import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { keyboardHandler } from '../../../utils';
 import locationIcon from '../../../assets/icons/LocationDefault.svg';
 import locationIconContrast from '../../../assets/icons/LocationDefaultContrast.svg';
 import locationIconHover from '../../../assets/icons/LocationHover.svg';
@@ -46,10 +45,13 @@ const ResultItem = ({
     }
   };
 
-  useEffect(() => () => {
-    // Remove highlights on unmount
-    resetMarkerHighlight();
-  }, []);
+  useEffect(
+    () => () => {
+      // Remove highlights on unmount
+      resetMarkerHighlight();
+    },
+    [],
+  );
 
   const onMouseEnter = () => {
     // Handle marker highlighting
@@ -67,7 +69,6 @@ const ResultItem = ({
     // Reset marker highlighting
     resetMarkerHighlight();
   };
-
 
   // Screen reader text
   const srText = `
@@ -91,7 +92,6 @@ const ResultItem = ({
         component="li"
         tabIndex={0}
         onClick={onClick}
-        onKeyDown={keyboardHandler(onClick, ['enter', 'space'])}
         onFocus={unitId ? onMouseEnter : null}
         onBlur={unitId ? onMouseLeave : null}
         onMouseEnter={unitId ? onMouseEnter : null}
@@ -99,24 +99,13 @@ const ResultItem = ({
         className={listItemClasses}
         {...rest}
       >
-        {
-          icon
-          && (
-          <ListItemIcon className={listItemIconClasses}>
-            {icon}
-          </ListItemIcon>
-          )
-        }
+        {icon && <ListItemIcon className={listItemIconClasses}>{icon}</ListItemIcon>}
         <div className={`${classes.itemTextContainer}  ${simpleItem ? classes.compactTextContainer : ''}`}>
           <div className={`${classes.topRow || ''}`}>
             {
               // SROnly element with full readable text
             }
-            <Typography
-              className={`${classes.title || ''} ResultItem-srOnly`}
-              component="p"
-              style={visuallyHidden}
-            >
+            <Typography className={`${classes.title || ''} ResultItem-srOnly`} component="p" style={visuallyHidden}>
               {srText}
             </Typography>
 
@@ -124,7 +113,9 @@ const ResultItem = ({
               // Title
             }
             <Typography
-              className={`${classes.title || ''}  ${typographyClasses.title || ''} ${simpleItem ? classes.compactItem : ''} ResultItem-title`}
+              className={`${classes.title || ''}  ${typographyClasses.title || ''} ${
+                simpleItem ? classes.compactItem : ''
+              } ResultItem-title`}
               component="p"
               role="textbox"
               variant="body2"
@@ -135,12 +126,13 @@ const ResultItem = ({
 
             {
               // Distance text
-              distance && distance.text
-              && (
+              distance && distance.text && (
                 <div className={`${classes.rightColumn || ''}`}>
                   <Typography
                     variant="caption"
-                    className={`${classes.caption || ''} ${classes.text} ${classes.marginLeft || ''} ${typographyClasses.topRight || ''} ResultItem-distance`}
+                    className={`${classes.caption || ''} ${classes.text} ${classes.marginLeft || ''} ${
+                      typographyClasses.topRight || ''
+                    } ResultItem-distance`}
                     component="p"
                     aria-hidden="true"
                   >
@@ -149,26 +141,24 @@ const ResultItem = ({
                 </div>
               )
             }
-
           </div>
           {
             // Bottom row
-            (subtitle || bottomText)
-            && (
+            (subtitle || bottomText) && (
               <div>
                 <div>
                   <Typography
                     variant="caption"
-                    className={`${classes.noMargin || ''} ${classes.text} ${typographyClasses.subtitle || ''} ResultItem-subtitle`}
+                    className={`${classes.noMargin || ''} ${classes.text} ${
+                      typographyClasses.subtitle || ''
+                    } ResultItem-subtitle`}
                     component="p"
                     aria-hidden="true"
                   >
                     {subtitle || ''}
                   </Typography>
                 </div>
-                {
-                  bottomText
-                  && (
+                {bottomText && (
                   <div className={`${classes.bottomContainer} ${bottomHighlight ? classes.bottomHighlight : ''}`}>
                     <Typography
                       className={`${classes.smallFont || ''} ${typographyClasses.bottom || ''} ResultItem-bottom`}
@@ -180,9 +170,7 @@ const ResultItem = ({
                       {bottomText}
                     </Typography>
                   </div>
-                  )
-                }
-
+                )}
               </div>
             )
           }
@@ -207,14 +195,16 @@ ResultItem.propTypes = {
   bottomHighlight: PropTypes.bool,
   bottomText: PropTypes.string,
   classes: PropTypes.objectOf(PropTypes.any),
-  extendedClasses: PropTypes.objectOf(PropTypes.shape({
-    typography: PropTypes.shape({
-      bottom: PropTypes.string,
-      subtitle: PropTypes.string,
-      title: PropTypes.string,
-      topRight: PropTypes.string,
+  extendedClasses: PropTypes.objectOf(
+    PropTypes.shape({
+      typography: PropTypes.shape({
+        bottom: PropTypes.string,
+        subtitle: PropTypes.string,
+        title: PropTypes.string,
+        topRight: PropTypes.string,
+      }),
     }),
-  })),
+  ),
   icon: PropTypes.node,
   onClick: PropTypes.func,
   subtitle: PropTypes.string,

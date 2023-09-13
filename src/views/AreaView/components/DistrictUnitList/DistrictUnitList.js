@@ -1,17 +1,15 @@
-import { Divider, List, Typography } from '@mui/material';
 import distance from '@turf/distance';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Divider, List, Typography } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
-import DivisionItem from '../../../../components/ListItems/DivisionItem';
-import SMAccordion from '../../../../components/SMAccordion';
 import { getAddressDistrict } from '../../../../redux/selectors/district';
 import { formatDistanceObject } from '../../../../utils';
 import { getAddressFromUnit } from '../../../../utils/address';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { sortByOriginID } from '../../utils';
-import { getCategoryDistricts } from '../../utils/districtDataHelper';
+import { DivisionItem } from '../../../../components';
 
 const DistrictUnitList = (props) => {
   const {
@@ -23,8 +21,8 @@ const DistrictUnitList = (props) => {
   const districtsFetching = useSelector(state => state.districts.districtsFetching);
   const getLocaleText = useLocaleText();
 
-  const sortDistricts = (districts) => {
-    districts.sort((a, b) => a.unit.distance - b.unit.distance);
+  const sortDistricts = (units) => {
+    units.sort((a, b) => a.distance - b.distance);
   };
 
   const distanceToAddress = (coord) => {
@@ -35,29 +33,21 @@ const DistrictUnitList = (props) => {
   };
 
 
-  const renderDistrictUnitItem = (district) => {
-    const { unit } = district;
-    let title;
-    const rescueAreas = getCategoryDistricts('protection');
-
-    if (rescueAreas.includes(district.type)) {
-      title = `${intl.formatMessage({ id: `area.list.${district.type}` })} ${district.origin_id} ${getLocaleText(district.name)}`;
-    }
+  const renderDistrictUnitItem = (unit) => {
     const streetAddress = getAddressFromUnit(unit, getLocaleText, intl);
     return (
       <DivisionItem
-        key={district.id}
+        key={unit.id}
         divider={false}
-        disableTitle={!title}
-        customTitle={title}
+        disableTitle
         data={{
           area: district,
-          name: district.unit.name || null,
-          id: district.unit.id,
+          name: unit.name || null,
+          id: unit.id,
           street_address: streetAddress,
         }}
-        distance={district.unit.distance
-          ? formatDistanceObject(intl, district.unit.distance)
+        distance={unit.distance
+          ? formatDistanceObject(intl, unit.distance)
           : null}
       />
     );
@@ -83,103 +73,84 @@ const DistrictUnitList = (props) => {
         </div>
       );
     }
-    const districtsWithUnits = [];
-    district.data.forEach((obj) => {
-      if (obj.unit) {
-        districtsWithUnits.push(obj);
+
+
+    const selectedCities = Object.values(citySettings).filter(city => city);
+    const cityFilteredDistricts = !selectedCities.length
+      ? district.data
+      : district.data.filter(obj => citySettings[obj.municipality]);
+
+    if (district.id === 'rescue_area') {
+      sortByOriginID(cityFilteredDistricts);
+    }
+
+    let unitList = [];
+    cityFilteredDistricts.forEach((obj) => {
+      let localArea = false;
+      if (selectedAddress && addressDistrict?.id === obj.id) {
+        localArea = true;
+      }
+      if (obj.units?.length) {
+        obj.units
+          .filter(unit => typeof unit === 'object')
+          .forEach((unit) => {
+            unit.localUnit = localArea;
+          });
+        unitList.push(...obj.units);
+      } else if (obj.unit) {
+        obj.unit.localUnit = localArea;
+        unitList.push(obj.unit);
       }
       if (obj.overlapping) {
         obj.overlapping.forEach((i) => {
           if (i.unit) {
-            districtsWithUnits.push(i);
+            i.unit.localUnit = localArea;
+            unitList.push(i.unit);
           }
         });
       }
     });
 
-    if (!districtsWithUnits.length) return null;
-
-    const selectedCities = Object.values(citySettings).filter(city => city);
-    let cityFilteredUnits = [];
-    if (!selectedCities.length) {
-      cityFilteredUnits = districtsWithUnits;
-    } else {
-      cityFilteredUnits = districtsWithUnits.filter(unit => citySettings[unit.municipality]);
-    }
-
-    if (district.id === 'rescue_area') {
-      sortByOriginID(cityFilteredUnits);
-    }
+    // Filter out non unit objects
+    unitList = unitList.filter(u => typeof u === 'object' && typeof u.id === 'number');
 
     if (selectedAddress && addressDistrict) {
-      const localDistrict = cityFilteredUnits.filter(obj => obj.id === addressDistrict.id);
-      const otherDistricts = cityFilteredUnits.filter(obj => obj.id !== addressDistrict.id);
-
-      const localUnitDistricts = [];
-      localDistrict.forEach((district) => {
-        const newValue = district;
-        newValue.unit.distance = distanceToAddress(district.unit.location?.coordinates);
-        localUnitDistricts.push(newValue);
-
-        if (district.overlapping) {
-          district.overlapping.forEach((obj) => {
-            if (obj.unit) {
-              const newValue = obj;
-              newValue.unit.distance = distanceToAddress(obj.unit.location?.coordinates);
-              localUnitDistricts.push(newValue);
-            }
-          });
-        }
-      });
-      const otherUnitDistricts = [];
-      otherDistricts.forEach((district) => {
-        if (district.municipality === selectedAddress.street.municipality) {
-          const newValue = district;
-          newValue.unit.distance = distanceToAddress(district.unit.location?.coordinates);
-          otherUnitDistricts.push(newValue);
-          if (district.overlapping) {
-            district.overlapping.forEach((obj) => {
-              if (obj.unit) {
-                const newValue = obj;
-                newValue.unit.distance = distanceToAddress(obj.unit.location?.coordinates);
-                otherUnitDistricts.push(newValue);
-              }
-            });
-          }
-        }
+      unitList.forEach((unit) => {
+        unit.distance = distanceToAddress(unit.location?.coordinates);
       });
 
-      if (!localUnitDistricts.length && !otherUnitDistricts.length) {
+      const localUnits = unitList.filter(unit => unit.localUnit);
+      const otherUnits = unitList.filter(unit => !unit.localUnit);
+
+      if (!localUnits.length && !otherUnits.length) {
         return null;
       }
 
       if (district.id !== 'rescue_area') {
-        sortDistricts(localUnitDistricts);
-        sortDistricts(otherUnitDistricts);
+        sortDistricts(localUnits);
+        sortDistricts(otherUnits);
       }
 
       return (
         <div>
-          {localUnitDistricts.length ? (
+          {localUnits.length ? (
             <>
               <div className={classes.servciceList}>
                 <Typography>
                   <FormattedMessage id="area.services.local" />
                 </Typography>
                 <List disablePadding>
-                  {localUnitDistricts.map(district => (
-                    renderDistrictUnitItem(district)
-                  ))}
+                  {localUnits.map(unit => renderDistrictUnitItem(unit))}
                 </List>
               </div>
               <Divider className={classes.serviceDivider} aria-hidden />
             </>
           ) : null}
 
-          {otherUnitDistricts.length ? (
+          {otherUnits.length ? (
             renderServiceListAccordion(
               intl.formatMessage({ id: 'area.services.nearby' }),
-              otherUnitDistricts,
+              otherUnits,
             )
           ) : null}
         </div>
@@ -189,13 +160,13 @@ const DistrictUnitList = (props) => {
     return (
       renderServiceListAccordion(
         intl.formatMessage({ id: 'area.services.all' }),
-        cityFilteredUnits,
+        unitList,
       )
     );
   };
 
   return (
-    <div className={classes.districtServiceList}>
+    <div className={`${classes.districtServiceList} ${classes.listLevelFour}`}>
       {render()}
       <Divider aria-hidden className={classes.serviceDivider} />
     </div>

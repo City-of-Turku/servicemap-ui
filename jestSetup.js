@@ -1,8 +1,3 @@
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-
-Enzyme.configure({ adapter: new Adapter() });
-
 // Prevent jest test passing if Failed prop type error occures
 const originalConsoleError = console.error;
 console.error = message => {
@@ -27,3 +22,10 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: jest.fn(),
   })),
 });
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useLocation: jest.fn().mockImplementation(() => ({
+    pathname: '/fi/',
+  })),
+}));

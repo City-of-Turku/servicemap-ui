@@ -5,7 +5,7 @@ import { waitForReact, ReactSelector } from 'testcafe-react-selectors';
 import config from '../config';
 const { server } = config;
 fixture`Address view test`
-  .page`http://${server.address}:${server.port}/fi/address/turku/Linnankatu/14`
+  .page`http://${server.address}:${server.port}/fi/address/turku/Linnankatu/1`
   .beforeEach(async () => {
     await waitForReact();
   });
@@ -17,7 +17,7 @@ test('AddressView does render correct view', async (t) => {
   const tab2Text = await tab2.textContent;
   
   await t
-    .expect(title).eql('Linnankatu 10')
+    .expect(title).eql('Linnankatu 1,  Turku')
     .expect(tab1).eql('Palvelualueet')
     .expect(tab2Text.indexOf('Lähellä')).eql(0, 'Tab text should include text "Lähellä"')
     ;

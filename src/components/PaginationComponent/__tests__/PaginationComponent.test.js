@@ -2,8 +2,8 @@
 import { fireEvent } from '@testing-library/react';
 import React from 'react';
 import { getRenderWithProviders } from '../../../../jestUtils';
-import finnishTranslations from '../../../i18n/fi';
 import PaginationComponent from '../index';
+import finnishTranslations from '../../../i18n/fi';
 
 // Generic required props for ResultItem
 const mockProps = {

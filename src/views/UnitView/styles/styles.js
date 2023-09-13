@@ -28,9 +28,6 @@ export default theme => ({
     flex: 1,
     padding: 10,
   },
-  iconButton: {
-    padding: 10,
-  },
   icon: {
     fontSize: '1.5rem',
     margin: 0,
@@ -44,6 +41,15 @@ export default theme => ({
   link: {
     color: theme.palette.link.main,
     textDecoration: 'underline',
+  },
+  linkButton: {
+    color: 'white',
+    textTransform: 'none',
+    marginLeft: 'auto',
+  },
+  linkButtonIcon: {
+    fontSize: 24,
+    marginLeft: theme.spacing(1.5),
   },
   left: {
     textAlign: 'left',
@@ -113,7 +119,7 @@ export default theme => ({
     alignItems: 'end',
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
-    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(1),
   },
   feedbackButton: {
     marginLeft: theme.spacing(2),
@@ -145,5 +151,27 @@ export default theme => ({
   },
   callInfoText: {
     whiteSpace: 'pre-line',
+  },
+  subgroupItem: {
+    marginBottom: theme.spacing(2),
+  },
+  unitLocationContainer: {
+    height: 225,
+    position: 'relative',
+  },
+  mapButton: {
+    position: 'absolute',
+    right: 16,
+    margin: 0,
+    top: 16,
+    zIndex: 51,
+    minHeight: 36,
+    borderRadius: '8px',
+    paddingLeft: theme.spacing(1.5),
+    paddingRight: theme.spacing(1.75),
+  },
+  mapContainer: {
+    height: '100%',
+    pointerEvents: 'none',
   },
 });

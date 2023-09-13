@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styles from '../styles';
 
-
 const DrawerButton = ({
   active, classes, disabled, disableRipple, icon, isOpen, text, onClick, subText,
 }) => (
@@ -39,6 +38,7 @@ DrawerButton.propTypes = {
     drawerIcon: PropTypes.string,
     drawerIconActive: PropTypes.string,
     disabled: PropTypes.string,
+    itemFocus: PropTypes.string,
   }).isRequired,
   disabled: PropTypes.bool,
   disableRipple: PropTypes.bool,

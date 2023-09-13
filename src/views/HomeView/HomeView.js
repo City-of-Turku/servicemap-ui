@@ -1,114 +1,87 @@
-import { Map, DirectionsBike } from '@mui/icons-material';
-import PropTypes from 'prop-types';
 import React from 'react';
-import { useIntl } from 'react-intl';
+import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
+import { NewsInfo, SearchBar, SettingsComponent } from '../../components';
 import config from '../../../config';
-import { SearchBar } from '../../components';
-import MobileComponent from '../../components/MobileComponent';
-import NewsInfo from '../../components/NewsInfo';
-import PaperButton from '../../components/PaperButton';
-import { getIcon } from '../../components/SMIcon';
-import { useNavigationParams } from '../../utils/address';
+import CardSmall from '../../components/CardSmall/CardSmall';
+import areaServices from '../../assets/images/area-services.jpg';
+import serviceTree from '../../assets/images/service-tree.jpg';
+import serviceTreeTku from 'servicemap-ui-turku/assets/images/service-tree-tku.webp';
+import areaServicesTku from 'servicemap-ui-turku/assets/images/area-page-tku.webp';
+import mobilityMapTku from 'servicemap-ui-turku/assets/images/mobility-map-tku.webp';
 
 const HomeView = (props) => {
-  const {
-    classes, toggleSettings, navigator, userLocation,
-  } = props;
+  const { navigator } = props;
 
-  const { formatMessage } = useIntl();
-  const getAddressNavigatorParams = useNavigationParams();
+  // If external theme (by Turku) is true, then can be used to select which content to render
+  const externalTheme = config.themePKG;
+  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
 
   const renderNavigationOptions = () => {
-    const noUserLocation = !userLocation || !userLocation.coordinates || !userLocation.addressData;
-
-    const notFoundText = noUserLocation ? 'location.notFound' : null;
-    const subtitleID = userLocation && userLocation.allowed ? notFoundText : 'location.notAllowed';
-
     let areaSelection = null;
 
     if (config.showAreaSelection) {
       areaSelection = (
-        <PaperButton messageID="home.buttons.area.tku" icon={<Map />} link onClick={() => navigator.push('area')} />
+        <CardSmall
+          image={isExternalTheme ? areaServicesTku : areaServices}
+          headerMessageID="area.services.local"
+          messageID={isExternalTheme ? "home.buttons.area.tku" : "home.buttons.area"}
+          onClick={() => navigator.push('area')}
+        />
+      );
+    }
+
+    let mobilityMap = null;
+
+    if (isExternalTheme) {
+      mobilityMap = (
+        <CardSmall
+          image={mobilityMapTku}
+          headerMessageID="home.buttons.mobilityPlatformSettings.title"
+          messageID="home.buttons.mobilityPlatformSettings"
+          onClick={() => navigator.push('mobilityPlatform')}
+        />
       );
     }
 
     return (
-      <div className={classes.background}>
-        <div className={classes.buttonContainer}>
-          <nav aria-label={formatMessage({ id: 'app.navigation.home' })}>
-            {areaSelection}
-            <PaperButton
-              messageID="home.buttons.closeByServices"
-              icon={getIcon('location')}
-              link
-              disabled={noUserLocation}
-              onClick={() => {
-                navigator.push('address', getAddressNavigatorParams(userLocation.addressData));
-              }}
-              subtitleID={subtitleID && subtitleID}
-            />
-            {/* Turku mobility platform settings */}
-            <PaperButton
-              messageID="home.buttons.mobilityPlatformSettings"
-              icon={<DirectionsBike />}
-              link
-              onClick={() => navigator.push('mobilityPlatform')}
-            />
-            <PaperButton
-              messageID="home.buttons.services"
-              icon={getIcon('serviceList')}
-              link
-              onClick={() => navigator.push('serviceTree')}
-            />
-            <MobileComponent>
-              <PaperButton
-                messageID="home.buttons.settings"
-                icon={getIcon('accessibility')}
-                link
-                onClick={() => toggleSettings('mobile')}
-              />
-            </MobileComponent>
-            <PaperButton
-              messageID="home.send.feedback"
-              icon={getIcon('feedback')}
-              link
-              onClick={() => navigator.push('feedback')}
-            />
-            <PaperButton
-              id="home-paper-info-button"
-              messageID="info.title"
-              icon={getIcon('help')}
-              link
-              onClick={() => {
-                navigator.push('info', null, 'home-paper-info-button');
-              }}
-            />
-          </nav>
-          <NewsInfo showCount={2} />
-        </div>
-      </div>
+      <StyledContainer>
+        {areaSelection}
+        {mobilityMap}
+        <CardSmall
+          image={isExternalTheme ? serviceTreeTku : serviceTree}
+          headerMessageID="general.pageTitles.serviceTree.title"
+          messageID="home.buttons.services"
+          onClick={() => navigator.push('serviceTree')}
+        />
+        <NewsInfo showCount={2} />
+      </StyledContainer>
     );
   };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <SearchBar hideBackButton header />
+      <SettingsComponent />
       {renderNavigationOptions()}
     </div>
   );
 };
+
+const StyledContainer = styled.div(({ theme }) => ({
+  paddingTop: theme.spacing(1),
+  paddingLeft: theme.spacing(2),
+  paddingRight: theme.spacing(2),
+  paddingBottom: theme.spacing(4),
+}));
 
 export default HomeView;
 
 // Typechecking
 HomeView.propTypes = {
   navigator: PropTypes.objectOf(PropTypes.any),
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  toggleSettings: PropTypes.func.isRequired,
-  userLocation: PropTypes.objectOf(PropTypes.any),
 };
 
 HomeView.defaultProps = {
   navigator: null,
-  userLocation: null,
 };

@@ -1,19 +1,19 @@
-import {
-  Button, Divider, IconButton, InputBase, Paper, Typography
-} from '@mui/material';
-import { Cancel, Search } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
-import paths from '../../../config/paths';
-import { keyboardHandler, uppercaseFirst, useQuery } from '../../utils';
-import useLocaleText from '../../utils/useLocaleText';
+import {
+  InputBase, Paper, Typography, IconButton, Divider, ButtonBase,
+} from '@mui/material';
+import { Search, Cancel } from '@mui/icons-material';
 import BackButton from '../BackButton';
+import { keyboardHandler, uppercaseFirst, useQuery } from '../../utils';
 import DesktopComponent from '../DesktopComponent';
 import MobileComponent from '../MobileComponent';
 import { CloseSuggestionButton } from './components/CloseSuggestionButton';
 import SuggestionBox from './components/SuggestionBox';
+import paths from '../../../config/paths';
+import useLocaleText from '../../utils/useLocaleText';
 import { getFullHistory } from './previousSearchData';
 
 let blurTimeout = null;
@@ -49,10 +49,13 @@ const SearchBarComponent = ({
     searchRef.current.value = value;
   };
 
-  useEffect(() => () => {
-    // Unmount
-    clearTimeout(blurTimeout);
-  }, []);
+  useEffect(
+    () => () => {
+      // Unmount
+      clearTimeout(blurTimeout);
+    },
+    [],
+  );
 
   useEffect(() => {
     // If mounting search page show correct search text in searchbar
@@ -179,6 +182,11 @@ const SearchBarComponent = ({
   };
 
   const activateSearch = () => {
+    // Fix problem with iOS keyboard pushing content outside of view
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+    }, 100);
     setIsActive(true);
     setFocusedSuggestion(null);
     setIsActive(true);
@@ -221,7 +229,9 @@ const SearchBarComponent = ({
           />
           <CloseSuggestionButton
             onClick={closeMobileSuggestions}
-            onKeyPress={() => { keyboardHandler(closeMobileSuggestions, ['space', 'enter']); }}
+            onKeyPress={() => {
+              keyboardHandler(closeMobileSuggestions, ['space', 'enter']);
+            }}
             srOnly
           />
         </MobileComponent>
@@ -254,17 +264,14 @@ const SearchBarComponent = ({
     const containerStyles = `${isActive ? classes.containerSticky : classes.containerInactive} ${classes.container}`;
     return (
       <form id="SearchBar" action="" onSubmit={onSubmit} className={containerStyles} autoComplete="off">
-        {
-          (!hideBackButton || (isActive && isMobile))
-          && (
-            <BackButton
-              className={backButtonStyles}
-              onClick={backButtonEvent}
-              variant="icon"
-              srHidden={!!hideBackButton}
-            />
-          )
-        }
+        {(!hideBackButton || (isActive && isMobile)) && (
+          <BackButton
+            className={backButtonStyles}
+            onClick={backButtonEvent}
+            variant="icon"
+            srHidden={!!hideBackButton}
+          />
+        )}
         <InputBase
           inputProps={{
             role: 'combobox',
@@ -288,44 +295,38 @@ const SearchBarComponent = ({
           onKeyDown={e => keyboardHandler(keyHandler(e), ['up, down'])}
           onBlur={isMobile ? () => {} : handleBlur}
           endAdornment={
-            inputHasValue
-              ? (
-                <IconButton
-                  aria-label={intl.formatMessage({ id: 'search.cancelText' })}
-                  className={classes.cancelButton}
-                  onClick={() => {
-                    if (searchRef?.current) {
-                      // Clear blur timeout to keep suggestion box active
-                      clearTimeout(blurTimeout);
-                      searchRef.current.focus();
-                    }
-                    setSearchbarValue('');
-                  }}
-                >
-                  <Cancel />
-                </IconButton>
-              )
-              : null
+            inputHasValue ? (
+              <IconButton
+                aria-label={intl.formatMessage({ id: 'search.cancelText' })}
+                className={classes.cancelButton}
+                onClick={() => {
+                  if (searchRef?.current) {
+                    // Clear blur timeout to keep suggestion box active
+                    clearTimeout(blurTimeout);
+                    searchRef.current.focus();
+                  }
+                  setSearchbarValue('');
+                }}
+              >
+                <Cancel />
+              </IconButton>
+            ) : null
           }
         />
 
-        <Button
+        <ButtonBase
           id="SearchButton"
           aria-label={intl.formatMessage({ id: 'search' })}
           type="submit"
           className={classes.iconButtonSearch}
-          disableRipple
-          disableFocusRipple
-          classes={{
-            label: classes.iconButtonSearchLabel,
-            focusVisible: classes.searchButtonFocus,
-          }}
           color="secondary"
           variant="contained"
         >
+          <Typography>
+            <FormattedMessage id="general.search" />
+          </Typography>
           <Search />
-          <Typography variant="caption" color="inherit"><FormattedMessage id="general.search" /></Typography>
-        </Button>
+        </ButtonBase>
       </form>
     );
   };
@@ -334,7 +335,9 @@ const SearchBarComponent = ({
     const textClasses = `${classes.infoText} ${isActive && isMobile ? classes.infoTextSticky : ''}`;
 
     return (
-      <Typography align="left" className={textClasses} color="inherit" variant="body2"><FormattedMessage id="search.searchbar.infoText" /></Typography>
+      <Typography align="left" className={textClasses} color="inherit" variant="body2">
+        <FormattedMessage id="search.searchbar.infoText" />
+      </Typography>
     );
   };
 
@@ -343,44 +346,28 @@ const SearchBarComponent = ({
       return null;
     }
     return (
-      <Typography align="left" className={classes.headerText} variant="h5" component="p" color="inherit"><FormattedMessage id="search.searchbar.headerText" /></Typography>
+      <Typography align="left" className={classes.headerText} variant="h5" component="p" color="inherit">
+        <FormattedMessage id="search.searchbar.headerText" />
+      </Typography>
     );
   };
 
   const renderMobile = () => {
-    const rootClasses = `${
-      rootClass
-    } ${
-      isActive ? classes.mobileActiveRoot : classes.root
-    } ${
+    const rootClasses = `${rootClass} ${isActive ? classes.mobileActiveRoot : classes.root} ${
       !isActive && typeof isSticky === 'number' ? classes.sticky : ''
-    } ${
-      header ? classes.headerBackground : ''
-    } ${
-      background === 'default' ? classes.background : ''
-    }  ${
-      className
-    }`;
+    } ${header ? classes.headerBackground : ''} ${background === 'default' ? classes.background : ''}  ${className}`;
     const wrapperClasses = `${isActive ? classes.mobileWrapperActive : classes.mobileWrapper}`;
     const stickyStyles = typeof isSticky === 'number' ? { top: isSticky } : null;
 
     return (
       <>
         <div className={rootClasses} style={stickyStyles}>
-          {
-            renderHeaderText(true)
-          }
+          {renderHeaderText(true)}
           <div className={wrapperClasses}>
-            {
-              renderText(true)
-            }
+            {renderText(true)}
             <div className={classes.inputContainer}>
-              {
-                renderInput(true)
-              }
-              {
-                renderSuggestionBox()
-              }
+              {renderInput(true)}
+              {renderSuggestionBox()}
             </div>
           </div>
         </div>
@@ -388,44 +375,22 @@ const SearchBarComponent = ({
     );
   };
 
-  const rootClasses = `${
-    rootClass
-  } ${
-    classes.root
-  } ${
-    typeof isSticky === 'number' ? classes.sticky : ''
-  } ${
+  const rootClasses = `${rootClass} ${classes.root} ${typeof isSticky === 'number' ? classes.sticky : ''} ${
     margin ? classes.bottomMargin : ''
-  } ${
-    header ? classes.headerBackground : ''
-  } ${
-    background === 'default' ? classes.background : ''
-  } ${
-    className
-  }`;
+  } ${header ? classes.headerBackground : ''} ${background === 'default' ? classes.background : ''} ${className}`;
   const wrapperClasses = classes.wrapper;
   const stickyStyles = typeof isSticky === 'number' ? { top: isSticky } : null;
 
   return (
     <>
-      <MobileComponent>
-        {renderMobile()}
-      </MobileComponent>
+      <MobileComponent>{renderMobile()}</MobileComponent>
       <DesktopComponent>
         <div className={rootClasses} style={stickyStyles}>
-          {
-            renderHeaderText()
-          }
-          {
-            renderText()
-          }
+          {renderHeaderText()}
+          {renderText()}
           <Paper className={wrapperClasses} elevation={1} square>
-            {
-              renderInput()
-            }
-            {
-              renderSuggestionBox(true)
-            }
+            {renderInput()}
+            {renderSuggestionBox(true)}
           </Paper>
         </div>
       </DesktopComponent>

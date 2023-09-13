@@ -6,7 +6,7 @@ import config from '../config';
 const { server } = config;
 
 fixture`Division view test`
-  .page`http://${server.address}:${server.port}/fi/embed/division/kunta:helsinki/kaupunginosa:029?level=all`
+  .page`http://${server.address}:${server.port}/fi/embed/division/kunta:turku/kaupunginosa:002?level=all`
   .beforeEach(async () => {
     await waitForReact();
   });

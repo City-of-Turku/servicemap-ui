@@ -10,5 +10,6 @@ export default ({
   },
   flexBase: {
     flex: '0 0 auto',
+    flexDirection: 'column',
   },
 });

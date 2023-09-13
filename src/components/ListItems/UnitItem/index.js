@@ -1,4 +1,3 @@
-
 import { withStyles } from '@mui/styles';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';

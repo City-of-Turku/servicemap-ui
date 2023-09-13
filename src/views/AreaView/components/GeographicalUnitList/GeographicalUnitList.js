@@ -1,18 +1,19 @@
 import {
-    Checkbox, List, ListItem, Typography
+  Checkbox, List, ListItem, Typography,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, {
-    useCallback, useEffect, useMemo, useState
+  useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import UnitItem from '../../../../components/ListItems/UnitItem';
-import SMAccordion from '../../../../components/SMAccordion';
 import { addSelectedDistrictService, handleOpenItems, removeSelectedDistrictService } from '../../../../redux/actions/district';
 import { getFilteredSubdistrictServices } from '../../../../redux/selectors/district';
 import { uppercaseFirst } from '../../../../utils';
 import useLocaleText from '../../../../utils/useLocaleText';
-
+import {
+  SMAccordion,
+  UnitItem,
+} from '../../../../components';
 
 // Custom uncontrolled checkbox that allows default value
 const UnitCheckbox = ({

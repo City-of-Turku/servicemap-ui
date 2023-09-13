@@ -73,6 +73,7 @@ if (sitemapActive()) {
 
 // Configure constants
 const app = express();
+app.disable('x-powered-by');
 const supportedLanguages = config.supportedLanguages;
 
 const versionTag = getVersion();
@@ -115,7 +116,8 @@ app.use(paths.unit.regex, fetchSelectedUnitData);
 
 app.get('/*', (req, res, next) => {
   const cache = createEmotionCache();
-  const { extractCriticalToChunks, constructStyleTagsFromChunks } = createEmotionServer(cache);
+  const { extractCriticalToChunks, constructStyleTagsFromChunks } =
+    createEmotionServer(cache);
   // CSS for all rendered React components
   const css = new Set();
   const insertCss = (...styles) => styles.forEach(style => css.add(style._getCss()));
@@ -182,13 +184,13 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, emotionCss,
     ${emotionCss}
     <!-- jss-insertion-point -->
     <style id="jss-server-side">${cssString}</style>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-    integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
     crossorigin=""
       />
     <script
-      src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
-      integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+      src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
       crossorigin="">
     </script>
     <style>
@@ -220,14 +222,19 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, emotionCss,
         window.nodeEnvSettings = {};
         window.nodeEnvSettings.ACCESSIBILITY_SENTENCE_API = "${process.env.ACCESSIBILITY_SENTENCE_API}";
         window.nodeEnvSettings.SERVICEMAP_API = "${process.env.SERVICEMAP_API}";
+        window.nodeEnvSettings.SERVICEMAP_API_VERSION = "${process.env.SERVICEMAP_API_VERSION}";
         window.nodeEnvSettings.EVENTS_API = "${process.env.EVENTS_API}";
         window.nodeEnvSettings.RESERVATIONS_API = "${process.env.RESERVATIONS_API}";
         window.nodeEnvSettings.PRODUCTION_PREFIX = "${process.env.PRODUCTION_PREFIX}";
         window.nodeEnvSettings.DIGITRANSIT_API = "${process.env.DIGITRANSIT_API}";
+        window.nodeEnvSettings.DIGITRANSIT_API_KEY = "${process.env.DIGITRANSIT_API_KEY}";
         window.nodeEnvSettings.FEEDBACK_URL = "${process.env.FEEDBACK_URL}";
         window.nodeEnvSettings.HEARING_MAP_API = "${process.env.HEARING_MAP_API}";
+        window.nodeEnvSettings.HSL_ROUTE_GUIDE_URL = "${process.env.HSL_ROUTE_GUIDE_URL}";
+        window.nodeEnvSettings.HSL_ROUTE_GUIDE_CITIES = "${process.env.HSL_ROUTE_GUIDE_CITIES}";
         window.nodeEnvSettings.MATOMO_MOBILITY_DIMENSION_ID = "${process.env.MATOMO_MOBILITY_DIMENSION_ID}";
         window.nodeEnvSettings.MATOMO_SENSES_DIMENSION_ID = "${process.env.MATOMO_SENSES_DIMENSION_ID}";
+        window.nodeEnvSettings.MATOMO_NO_RESULTS_DIMENSION_ID = "${process.env.MATOMO_NO_RESULTS_DIMENSION_ID}";
         window.nodeEnvSettings.MATOMO_URL = "${process.env.MATOMO_URL}";
         window.nodeEnvSettings.MATOMO_SITE_ID = "${process.env.MATOMO_SITE_ID}";
         window.nodeEnvSettings.MODE = "${process.env.MODE}";
@@ -241,8 +248,12 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, emotionCss,
         window.nodeEnvSettings.REITTIOPAS_URL = "${process.env.REITTIOPAS_URL}";
         window.nodeEnvSettings.OUTDOOR_EXERCISE_URL = "${process.env.OUTDOOR_EXERCISE_URL}";
         window.nodeEnvSettings.NATURE_AREA_URL = "${process.env.NATURE_AREA_URL}";
+        window.nodeEnvSettings.EMBEDDER_DOCUMENTATION_URL = "${process.env.EMBEDDER_DOCUMENTATION_URL}";
         window.nodeEnvSettings.CITIES = "${process.env.CITIES}";
         window.nodeEnvSettings.MAPS = "${process.env.MAPS}";
+        window.nodeEnvSettings.ACCESSIBILITY_STATEMENT_URL_FI = "${process.env.ACCESSIBILITY_STATEMENT_URL_FI}";
+        window.nodeEnvSettings.ACCESSIBILITY_STATEMENT_URL_SV = "${process.env.ACCESSIBILITY_STATEMENT_URL_SV}";
+        window.nodeEnvSettings.ACCESSIBILITY_STATEMENT_URL_EN = "${process.env.ACCESSIBILITY_STATEMENT_URL_EN}";
         window.nodeEnvSettings.OLD_MAP_LINK_EN = "${process.env.OLD_MAP_LINK_EN}";
         window.nodeEnvSettings.OLD_MAP_LINK_FI = "${process.env.OLD_MAP_LINK_FI}";
         window.nodeEnvSettings.OLD_MAP_LINK_SV = "${process.env.OLD_MAP_LINK_SV}";
@@ -260,6 +271,7 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, emotionCss,
         window.nodeEnvSettings.MOBILITY_PLATFORM_API = "${process.env.MOBILITY_PLATFORM_API}";
         window.nodeEnvSettings.PARKING_SPACES_URL = "${process.env.PARKING_SPACES_URL}";
         window.nodeEnvSettings.PARKING_STATISTICS_URL = "${process.env.PARKING_STATISTICS_URL}";
+        window.nodeEnvSettings.FEATURE_SERVICEMAP_PAGE_TRACKING = "${process.env.FEATURE_SERVICEMAP_PAGE_TRACKING}";
 
         window.appVersion = {};
         window.appVersion.tag = "${versionTag}";

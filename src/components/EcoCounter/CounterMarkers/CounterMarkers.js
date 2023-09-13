@@ -30,8 +30,14 @@ const CounterMarkers = ({
 };
 
 CounterMarkers.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  counterStation: PropTypes.objectOf(PropTypes.any),
+  classes: PropTypes.shape({
+    popupWrapper: PropTypes.string,
+    popupInner: PropTypes.string,
+  }).isRequired,
+  counterStation: PropTypes.shape({
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+  }),
   children: PropTypes.node,
 };
 

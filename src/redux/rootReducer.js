@@ -19,11 +19,12 @@ import event from './reducers/event';
 import address from './reducers/address';
 import serviceTree from './reducers/serviceTree';
 import {
-  colorblind, hearingAid, mobility, mapType, visuallyImpaired, cities,
+  colorblind, hearingAid, mobility, mapType, visuallyImpaired, cities, settingsCollapsed,
 } from './reducers/settings';
 import {
   direction, order, mapRef, settingsToggled, measuringMode,
 } from './reducers/simpleReducers';
+import statisticalDistrict from './reducers/statisticalDistrict';
 
 // Export all redux reducers here
 export default combineReducers({
@@ -57,10 +58,12 @@ export default combineReducers({
     visuallyImpaired,
     cities,
     mapType,
+    settingsCollapsed,
   }),
   sort: combineReducers({
     direction,
     order,
   }),
+  statisticalDistrict,
   redirectService,
 });

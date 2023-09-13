@@ -1,6 +1,6 @@
-import { Paper, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Paper, Typography } from '@mui/material';
 
 const Title = (props) => {
   const { text } = props;

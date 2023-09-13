@@ -148,10 +148,11 @@ export const dataStructure = [
 // Get geographical districts
 export const geographicalDistricts = dataStructure.find(obj => obj.id === 'geographical').districts.map(obj => obj.id);
 // Get category districts by id
-export const getCategoryDistricts = id => dataStructure.find(obj => obj.id === id)?.districts.map(obj => obj.id) || [];
+export const getCategoryDistricts = id => (
+  dataStructure.find(obj => obj.id === id)?.districts.map(obj => obj.id) || []
+);
 // Get category by district id
 export const getDistrictCategory = districtId => dataStructure.find(
-  obj => obj.districts.includes(districtId),
   obj => obj.districts.some(area => area.id === districtId),
 )?.id;
 
@@ -163,7 +164,15 @@ export const groupDistrictData = (data) => {
       // FIXME: temporary solution to hide older school years
       return acc;
     }
-    const period = start && end ? `${new Date(start).getFullYear()}-${new Date(end).getFullYear()}` : null;
+    let period;
+
+    if (cur.extra?.schoolyear) {
+      period = cur.extra.schoolyear;
+    } else {
+      period = start && end
+        ? `${new Date(start).getFullYear()}-${new Date(end).getFullYear()}`
+        : null;
+    }
     const currentType = period ? `${cur.type}${period}` : cur.type;
     const duplicate = acc.find(obj => obj.id === currentType);
 
@@ -184,7 +193,7 @@ export const groupDistrictData = (data) => {
   groupedData.sort((a, b) => new Date(a.data[0].start).getFullYear() - new Date(b.data[0].start).getFullYear());
 
   // Sort by data structure order
-  const categoryOrder = dataStructure.flatMap(obj => obj.districts).map(area => area.id);
+  const categoryOrder = dataStructure.flatMap(obj => obj.districts.map(area => area.id));
   groupedData.sort((a, b) => categoryOrder.indexOf(a.name) - categoryOrder.indexOf(b.name));
 
   return groupedData;
@@ -192,7 +201,11 @@ export const groupDistrictData = (data) => {
 
 const compareBoundaries = (a, b) => {
   // This function checks if district b is within district a or districts are identical
-  if (a.id === b.id || a.start !== b.start || a.end !== b.end) {
+
+  if (a.id === b.id
+    || a.start !== b.start
+    || a.end !== b.end
+    || a.extra?.schoolyear !== b.extra?.schoolyear) {
     return false;
   }
   if (booleanEqual(a.boundary, b.boundary)) {

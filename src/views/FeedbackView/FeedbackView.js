@@ -1,19 +1,25 @@
-import {
-  ButtonBase, Checkbox, Dialog, DialogContent, DialogTitle, FormControl, InputBase, Typography,
-} from '@mui/material';
-import { Warning } from '@mui/icons-material';
-import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Prompt } from 'react-router-dom';
+import { Warning } from '@mui/icons-material';
+import {
+  Typography,
+  InputBase,
+  Checkbox,
+  FormControl,
+  Dialog,
+  ButtonBase,
+  DialogTitle,
+  DialogContent,
+} from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import config from '../../../config';
-import DesktopComponent from '../../components/DesktopComponent';
-import SMButton from '../../components/ServiceMapButton';
-import TitleBar from '../../components/TitleBar';
-import { validateEmail } from '../../utils';
 import { focusToViewTitle } from '../../utils/accessibility';
 import useLocaleText from '../../utils/useLocaleText';
+import { DesktopComponent, SMButton, TitleBar } from '../../components';
+import { validateEmail } from '../../utils';
+import useMobileStatus from '../../utils/isMobile';
 
 const formFieldInitialState = {
   email: {
@@ -32,6 +38,7 @@ const FeedbackView = ({
   classes, navigator, intl, location, selectedUnit,
 }) => {
   const getLocaleText = useLocaleText();
+  const isMobile = useMobileStatus();
   // State
   const [permission, setPermission] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -91,7 +98,6 @@ const FeedbackView = ({
       newFormFields.feedback.errorMessageId = null;
     } else {
       valid = false;
-
       newFormFields.feedback.error = true;
       newFormFields.feedback.errorMessageId = 'feedback.error.required';
     }
@@ -160,7 +166,7 @@ const FeedbackView = ({
         can_be_published: permission,
         service_code: serviceCode,
         service_object_id: selectedUnit.id,
-        service_object_type: 'http://www.hel.fi/servicemap/v2',
+        service_object_type: 'https://www.hel.fi/servicemap/v2',
         service_request_type: 'OTHER',
       }).toString();
     } else if (feedbackType === 'general') {
@@ -183,19 +189,21 @@ const FeedbackView = ({
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body,
-    }).then((response) => {
-      setSending(false);
-      if (response.ok) {
-        resetForm();
-        setModalOpen('send');
-      } else {
+    })
+      .then((response) => {
+        setSending(false);
+        if (response.ok) {
+          resetForm();
+          setModalOpen('send');
+        } else {
+          setModalOpen('error');
+        }
+      })
+      .catch((e) => {
+        console.warn(e);
         setModalOpen('error');
-      }
-    }).catch((e) => {
-      console.warn(e);
-      setModalOpen('error');
-      setSending(false);
-    });
+        setSending(false);
+      });
   };
 
   let feedbackPermission = null;
@@ -218,7 +226,9 @@ const FeedbackView = ({
             aria-labelledby="checkboxTitle"
             classes={{ root: classes.box }}
           />
-          <Typography aria-hidden><FormattedMessage id="feedback.permission" /></Typography>
+          <Typography aria-hidden>
+            <FormattedMessage id="feedback.permission" />
+          </Typography>
         </div>
       </FormControl>
     );
@@ -234,39 +244,36 @@ const FeedbackView = ({
         />
       </DesktopComponent>
       {/* Confirm dialog */}
-      {
-        modalOpen
-        && (
-          <Dialog open={!!modalOpen} onEntered={() => document.getElementById('dialog-title').focus()}>
-            <div className={classes.modalContainer}>
-              <DialogTitle tabIndex={-1} id="dialog-title">
-                <Typography aria-live="polite" className={classes.modalTitle}>
-                  <FormattedMessage id={modalOpen === 'send' ? 'feedback.modal.success' : 'feedback.modal.error'} />
-                </Typography>
-              </DialogTitle>
-              <DialogContent>
-                <SMButton
-                  margin
-                  role="button"
-                  className={classes.modalButton}
-                  messageID="feedback.modal.confirm"
-                  color="primary"
-                  onClick={() => {
-                    setModalOpen(false);
-                    if (modalOpen === 'send') {
-                      navigator.goBack();
-                    }
-                  }}
-                />
-              </DialogContent>
-            </div>
-          </Dialog>
-        )
-      }
+      {modalOpen && (
+        <Dialog open={!!modalOpen} onEntered={() => document.getElementById('dialog-title').focus()}>
+          <div className={classes.modalContainer}>
+            <DialogTitle tabIndex={-1} id="dialog-title">
+              <Typography aria-live="polite" className={classes.modalTitle}>
+                <FormattedMessage id={modalOpen === 'send' ? 'feedback.modal.success' : 'feedback.modal.error'} />
+              </Typography>
+            </DialogTitle>
+            <DialogContent>
+              <SMButton
+                margin
+                role="button"
+                className={classes.modalButton}
+                messageID="feedback.modal.confirm"
+                color="primary"
+                onClick={() => {
+                  setModalOpen(false);
+                  if (modalOpen === 'send') {
+                    navigator.goBack();
+                  }
+                }}
+              />
+            </DialogContent>
+          </div>
+        </Dialog>
+      )}
 
       <form className={classes.container}>
         <TitleBar
-          backButton
+          backButton={!isMobile}
           backButtonOnClick={backButtonCallback}
           backButtonSrText={backButtonSrText}
           title={feedbackTitle}
@@ -276,9 +283,14 @@ const FeedbackView = ({
           {/* Email field */}
           <FormControl>
             <Typography id="emailTitle" className={classes.title}>
+              <span style={visuallyHidden}>
+                <FormattedMessage id="feedback.email" />
+              </span>
               <FormattedMessage id="feedback.email.info" />
             </Typography>
-            <Typography aria-hidden className={classes.subtitle}><FormattedMessage id="feedback.email" /></Typography>
+            <Typography aria-hidden className={classes.subtitle}>
+              <FormattedMessage id="feedback.email" />
+            </Typography>
             <InputBase
               autoComplete="email"
               type="email"
@@ -313,9 +325,14 @@ const FeedbackView = ({
           {/* Feedback field */}
           <FormControl>
             <Typography id="feedbackTitle" className={classes.title}>
+              <span style={visuallyHidden}>
+                <FormattedMessage id="feedback.feedback" />
+              </span>
               <FormattedMessage id="feedback.feedback.info" />
             </Typography>
-            <Typography aria-hidden className={classes.subtitle}><FormattedMessage id="feedback.feedback" /></Typography>
+            <Typography aria-hidden className={classes.subtitle}>
+              <FormattedMessage id="feedback.feedback" />
+            </Typography>
             <InputBase
               className={classes.inputField}
               multiline
@@ -345,7 +362,10 @@ const FeedbackView = ({
                 </Typography>
               </>
             )}
-            <Typography aria-hidden className={`${classes.characterInfo} ${feedbackFull ? classes.characterInfoError : ''}`}>
+            <Typography
+              aria-hidden
+              className={`${classes.characterInfo} ${feedbackFull ? classes.characterInfoError : ''}`}
+            >
               {`${feedbackLength}/${feedbackMaxLength}`}
             </Typography>
           </div>
@@ -353,13 +373,19 @@ const FeedbackView = ({
         </div>
 
         <div className={classes.bottomArea}>
-          <Typography className={classes.infoText}><FormattedMessage id="feedback.additionalInfo" /></Typography>
+          <Typography className={classes.infoText}>
+            <FormattedMessage id="feedback.additionalInfo" />
+          </Typography>
           <ButtonBase
+            id="FeedbackInfoLink"
             className={classes.link}
             role="link"
+            href={config.feedbackAdditionalInfoLink}
             onClick={() => window.open(config.feedbackAdditionalInfoLink)}
           >
-            <Typography><FormattedMessage id="feedback.additionalInfo.link" /></Typography>
+            <Typography>
+              <FormattedMessage id="feedback.additionalInfo.link" />
+            </Typography>
           </ButtonBase>
           <SMButton
             role="button"

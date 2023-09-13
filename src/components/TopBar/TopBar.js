@@ -1,31 +1,40 @@
-import {
-  AppBar, Button, ButtonBase, Toolbar, Typography,
-} from '@mui/material';
-import { Map } from '@mui/icons-material';
-import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import {
+  AppBar, ButtonBase, Container, Toolbar, Typography, useMediaQuery,
+} from '@mui/material';
+import { Map } from '@mui/icons-material';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import paths from '../../../config/paths';
-import { focusToViewTitle } from '../../utils/accessibility';
-import { useNavigationParams } from '../../utils/address';
-import LocaleUtility from '../../utils/locale';
+import DrawerMenu from './DrawerMenu';
 import DesktopComponent from '../DesktopComponent';
 import MobileComponent from '../MobileComponent';
 import ToolMenu from '../ToolMenu';
-import DrawerMenu from './DrawerMenu';
+import { focusToViewTitle } from '../../utils/accessibility';
+import { useNavigationParams } from '../../utils/address';
 import MenuButton from './MenuButton';
-import SettingsButton from './SettingsButton';
 import SMLogo from './SMLogo';
+import { isHomePage } from '../../utils/path';
+import LanguageMenu from './LanguageMenu';
+import { getLocale } from '../../redux/selectors/locale';
+import MobileNavButton from './MobileNavButton/MobileNavButton';
+import LanguageMenuComponent from './LanguageMenu/LanguageMenuComponent';
+import openA11yLink from './util';
+import config from '../../../config';
 
 const TopBar = (props) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const locale = useSelector(state => state.user.locale);
   const location = useLocation();
   const intl = useIntl();
+  const locale = useSelector(getLocale);
   const getAddressNavigatorParams = useNavigationParams();
+  const isOnHomePage = isHomePage(location?.pathname);
+
+  // If accessibility statement link is true, then can be used to select which content to render
+  const a11yUrl = config.accessibilityStatementURL.fi;
+  const isA11yUrl = !a11yUrl || a11yUrl === 'undefined' ? null : a11yUrl;
 
   const {
     hideButtons,
@@ -41,49 +50,15 @@ const TopBar = (props) => {
     smallScreen,
   } = props;
 
-  const isHomePage = paths.home.regex.test(location.pathname);
-
-  const renderSettingsButtons = () => {
-    const settingsCategories = [
-      { type: 'citySettings' },
-      { type: 'mapSettings' },
-      { type: 'accessibilitySettings' },
-    ];
-
-    return settingsCategories.map(category => (
-      <SettingsButton
-        key={category.type}
-        onClick={() => {
-          toggleSettings(category.type);
-          setTimeout(() => {
-            const button = document.getElementById(
-              `SettingsButton${category.type}`,
-            );
-            const settings = document.getElementsByClassName('TitleText')[0];
-            if (settings) {
-              // Focus on settings title
-              settings.focus();
-            } else {
-              button.focus();
-            }
-          }, 1);
-        }}
-        settingsOpen={settingsOpen}
-        type={category.type}
-      />
-    ));
-  };
-
   const renderMapButton = () => {
     const mapPage = location.search.indexOf('showMap=true') > -1;
+    const textId = mapPage ? 'map.close' : 'map.open';
     return (
-      <Button
+      <MobileNavButton
         aria-current={mapPage ? 'page' : false}
         aria-hidden
-        className={
-          mapPage ? classes.toolbarButtonPressed : classes.toolbarButton
-        }
-        classes={{ label: classes.buttonLabel }}
+        icon={<Map />}
+        text={<FormattedMessage id={textId} />}
         onClick={(e) => {
           e.preventDefault();
           if (settingsOpen) {
@@ -95,12 +70,7 @@ const TopBar = (props) => {
             navigator.openMap();
           }
         }}
-      >
-        <Map />
-        <Typography color="inherit" variant="body2">
-          <FormattedMessage id="map" />
-        </Typography>
-      </Button>
+      />
     );
   };
 
@@ -110,49 +80,13 @@ const TopBar = (props) => {
     }, 1);
   };
 
-  const renderMenuButton = pageType => (
+  const renderMenuButton = (pageType) => (
     <MenuButton
       pageType={pageType}
       drawerOpen={drawerOpen}
       toggleDrawerMenu={() => toggleDrawerMenu()}
     />
   );
-
-  const renderLanguages = (pageType) => {
-    const typographyClass = className => `${pageType === 'mobile' ? classes.mobileFont : ''} ${className || ''}`;
-    return (
-      <>
-        {LocaleUtility.availableLocales.map(currentLocale => (
-          <ButtonBase
-            role="link"
-            aria-current={currentLocale === locale ? 'true' : false}
-            key={currentLocale}
-            focusVisibleClassName={classes.topButtonFocused}
-            lang={currentLocale}
-            onClick={() => {
-              const newLocation = location;
-              const newPath = location.pathname.replace(
-                /^\/[a-zA-Z]{2}/,
-                `/${currentLocale}`,
-              );
-              newLocation.pathname = newPath;
-              window.location = `${newLocation.pathname}${newLocation.search}`;
-            }}
-          >
-            <Typography
-              className={typographyClass(
-                currentLocale === locale ? classes.bold : classes.greyText,
-              )}
-              color="inherit"
-              variant="body2"
-            >
-              <FormattedMessage id={`general.language.${currentLocale}`} />
-            </Typography>
-          </ButtonBase>
-        ))}
-      </>
-    );
-  };
 
   const handleContrastChange = () => {
     changeTheme(theme === 'default' ? 'dark' : 'default');
@@ -167,9 +101,11 @@ const TopBar = (props) => {
       navigator.closeMap();
     }
 
+    if (currentPage === target) return;
+
     switch (target) {
       case 'home':
-        if (!isHomePage) {
+        if (!isOnHomePage) {
           navigator.push('home');
         } else {
           setTimeout(() => {
@@ -186,6 +122,10 @@ const TopBar = (props) => {
         if (currentPage !== 'serviceTree') {
           navigator.push('serviceTree');
         }
+        break;
+
+      case 'area':
+        navigator.push('area');
         break;
 
       case 'feedback':
@@ -207,7 +147,9 @@ const TopBar = (props) => {
     }
   };
 
-  const renderDrawerMenu = pageType => (
+  const large = useMediaQuery('(min-width:360px)');
+
+  const renderDrawerMenu = (pageType) => (
     <DrawerMenu
       isOpen={drawerOpen}
       pageType={pageType}
@@ -218,102 +160,92 @@ const TopBar = (props) => {
   );
 
   const renderTopBar = (pageType) => {
-    const fontClass = pageType === 'mobile' ? classes.mobileFont : '';
-    const toolbarBlackClass = `${classes.toolbarBlack} ${
-      pageType === 'mobile' ? classes.toolbarBlackMobile : ''
+    const toolbarBlueClass = `${
+      classes.toolbarBlue
+    } ${
+      pageType === 'mobile' ? classes.toolbarBlueMobile : ''
     }`;
-    const contrastAriaLabel = intl.formatMessage({
-      id: `general.contrast.ariaLabel.${theme === 'dark' ? 'off' : 'on'}`,
-    });
+    const contrastAriaLabel = intl.formatMessage({ id: `general.contrast.ariaLabel.${theme === 'dark' ? 'off' : 'on'}` });
+
+    const topBarLink = (textId, onClick, isCurrent, ariaLabel, linkId) => (
+      <ButtonBase sx={{ ml: 3 }} onClick={onClick} aria-current={isCurrent} aria-label={ariaLabel} id={linkId}>
+        <Typography><FormattedMessage id={textId} /></Typography>
+      </ButtonBase>
+    );
+
+    const navigationButton = (textId, onClick, isCurrent, buttonId) => (
+      <ButtonBase onClick={onClick} aria-current={isCurrent} className={classes.navigationButton} id={buttonId}>
+        <Typography sx={{ color: '#000', fontSize: '1.125rem', fontWeight: 600 }}>
+          <FormattedMessage id={textId} />
+        </Typography>
+      </ButtonBase>
+    );
+
     return (
       <>
         <AppBar className={classes.appBar}>
-          {/* Toolbar black area */}
-          <Toolbar className={toolbarBlackClass}>
+          {/* Toolbar blue area */}
+          <DesktopComponent>
             <nav aria-label={intl.formatMessage({ id: 'app.navigation.language' })}>
-              <div className={classes.toolbarBlackContainer}>
-                <ButtonBase
-                  role="link"
-                  aria-current={isHomePage ? 'page' : false}
-                  onClick={() => handleNavigation('home')}
-                  focusVisibleClassName={classes.topButtonFocused}
-                >
-                  <Typography
-                    className={fontClass}
-                    color="inherit"
-                    variant="body2"
-                  >
-                    <FormattedMessage id="general.frontPage" />
-                  </Typography>
-                </ButtonBase>
-                <Typography aria-hidden color="inherit">
-                  |
-                </Typography>
-                {renderLanguages(pageType)}
-                <Typography aria-hidden color="inherit">
-                  |
-                </Typography>
-                <ButtonBase
-                  role="button"
-                  onClick={() => handleContrastChange()}
-                  focusVisibleClassName={classes.topButtonFocused}
-                  aria-label={contrastAriaLabel}
-                >
-                  <Typography
-                    className={fontClass}
-                    color="inherit"
-                    variant="body2"
-                  >
-                    <FormattedMessage id="general.contrast" />
-                  </Typography>
-                </ButtonBase>
-              </div>
+              <Toolbar className={toolbarBlueClass}>
+                <LanguageMenu mobile={pageType === 'mobile'} />
+                {/* Right side links */}
+                <Container disableGutters sx={{ justifyContent: 'flex-end', display: 'flex', mr: 0 }}>
+                  {topBarLink('general.contrast', () => handleContrastChange(), false, contrastAriaLabel, 'ContrastLink')}
+                  {!smallScreen
+                    ? (
+                      <>
+                        {isA11yUrl ? topBarLink('info.statement', () => openA11yLink(locale), false, undefined, 'AccessibilityStatementLink') : null}
+                        {topBarLink('general.pageTitles.info', () => handleNavigation('info'), currentPage === 'info', undefined, 'PageInfoLink')}
+                        {topBarLink('home.send.feedback', () => handleNavigation('feedback'), currentPage === 'feedback', undefined, 'FeedbackLink')}
+                      </>
+                    )
+                    : null}
+                </Container>
+              </Toolbar>
             </nav>
-          </Toolbar>
+          </DesktopComponent>
 
           {/* Toolbar white area */}
-          <Toolbar
-            disableGutters
-            className={
-              pageType === 'mobile'
-                ? classes.toolbarWhiteMobile
-                : classes.toolbarWhite
-            }
-          >
-            <SMLogo onClick={() => handleNavigation('home')} />
-            {hideButtons ? null : (
-              <>
-                <MobileComponent>
-                  <div className={classes.mobileButtonContainer}>
-                    {renderMapButton()}
-                    {renderMenuButton(pageType)}
-                  </div>
-                  {renderDrawerMenu(pageType)}
-                </MobileComponent>
-                <DesktopComponent>
-                  <nav aria-label={intl.formatMessage({ id: 'app.navigation.settings' })} className={classes.settingsButtonsContainer}>
-                    {!smallScreen ? (
-                      <>
-                        <div className={classes.settingsButtonsContainer}>
-                          <Typography component="h2" style={visuallyHidden}>
-                            <FormattedMessage id="settings" />
-                          </Typography>
-                          {renderSettingsButtons()}
+          <Toolbar disableGutters className={pageType === 'mobile' ? classes.toolbarWhiteMobile : classes.toolbarWhite}>
+            <SMLogo small={!large} onClick={() => handleNavigation('home')} />
+            {hideButtons
+              ? null
+              : (
+                <>
+                  <MobileComponent>
+                    <div className={classes.mobileButtonContainer}>
+                      <LanguageMenuComponent mobile classes={classes} />
+                      {renderMapButton()}
+                      {renderMenuButton(pageType)}
+                    </div>
+                    {renderDrawerMenu(pageType)}
+                  </MobileComponent>
+                  <DesktopComponent>
+                    <nav className={classes.navContainer}>
+                      {!smallScreen ? (
+                        <div className={classes.navigationButtonsContainer}>
+                          {navigationButton('general.frontPage', () => handleNavigation('home'), currentPage === 'home', 'HomePage')}
+                          {navigationButton('general.pageLink.area', () => handleNavigation('area'), currentPage === 'area', 'AreaPage')}
+                          {navigationButton('services', () => handleNavigation('services'), currentPage === 'services', 'ServicePage')}
                         </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className={classes.mobileButtonContainer}>
-                          {renderMenuButton()}
-                        </div>
-                        {renderDrawerMenu(pageType)}
-                      </>
-                    )}
-                  </nav>
-                  {!smallScreen && <ToolMenu />}
-                </DesktopComponent>
-              </>
-            )}
+                      ) : (
+                        <>
+                          <div className={classes.mobileButtonContainer}>
+                            {renderMenuButton()}
+                          </div>
+                          {renderDrawerMenu(pageType)}
+                        </>
+                      )}
+                    </nav>
+                    {
+                      !smallScreen && (
+                        <ToolMenu />
+                      )
+                    }
+                  </DesktopComponent>
+                </>
+              )}
           </Toolbar>
         </AppBar>
         {/* This empty toolbar fixes the issue where App bar hides the top page content */}

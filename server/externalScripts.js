@@ -43,15 +43,33 @@ export function cookieHubCode (req) {
 
   return `
     <script type="text/javascript">
-      var cpm = {
-        enabled: (location.href.indexOf('/embed/') > -1 ? false : true) // uncomment this line when in production
-      };
-      (function(h,u,b){
-      var d=h.getElementsByTagName("script")[0],e=h.createElement("script");
-      e.async=true;e.src='${cookiehubURL}';
-      e.onload=function(){u.cookiehub.load(b);}
-      d.parentNode.insertBefore(e,d);
-      })(document,window,cpm);
+      document.addEventListener('DOMContentLoaded', function() {
+        var cpm = {
+          enabled: (location.href.indexOf('/embed/') > -1 ? false : true), // uncomment this line when in production
+          onInitialise: function (status) {
+            setTimeout(() => {
+              var title = document.getElementById("ch2-dialog-title");
+              if (title) {
+                title.setAttribute('tabindex', -1);
+              }
+              var description = document.getElementById("ch2-dialog-description");
+              if (description) {
+                description.setAttribute('tabindex', -1);
+              }
+              var dialog = document.getElementsByClassName("ch2-dialog");
+              if (dialog && dialog[0]) {
+                dialog[0].setAttribute('tabindex', -1);
+              }
+            }, 0)
+          }
+        };
+        (function(h,u,b){
+        var d=h.getElementsByTagName("script")[0],e=h.createElement("script");
+        e.async=true;e.src='${cookiehubURL}';
+        e.onload=function(){u.cookiehub.load(b);}
+        d.parentNode.insertBefore(e,d);
+        })(document,window,cpm);
+      });
     </script>
   `;
 };

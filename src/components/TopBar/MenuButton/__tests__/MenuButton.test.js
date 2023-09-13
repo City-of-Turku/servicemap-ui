@@ -19,7 +19,6 @@ describe('<MenuButton />', () => {
 
   it('does use correct aria arrtibutes', () => {
     const { getByLabelText } = renderWithProviders(<MenuButton {...mockProps} />);
-
     /*
       The following aria-attributes are based on the accessibility testing report from 26.4.2021
     */

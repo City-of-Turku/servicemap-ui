@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
-import { Button } from '@mui/material';
-import { Close } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Button } from '@mui/material';
+import { Close } from '@mui/icons-material';
 
 const CloseButton = ({
   classes,

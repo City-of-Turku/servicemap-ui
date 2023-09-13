@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { useSelector } from 'react-redux';
 import { drawUnitIcon } from '../views/MapView/utils/drawIcon';
 import isClient, { uppercaseFirst } from '.';
 import SettingsUtility from './settings';
@@ -139,9 +140,7 @@ class UnitHelper {
     const id = typeof unit === 'number' ? unit : unit.id;
     const embeded = isEmbed();
     if (embeded) {
-      const { origin } = window.location;
-      const path = navigator.generatePath('unit', { id });
-      window.open(`${origin}${path}`);
+      navigator.setParameter('selectedUnit', unit.id);
       return;
     }
     const action = paths.unit.regex.test(window.location.href)
@@ -150,24 +149,12 @@ class UnitHelper {
   }
 
   static getContractText = (unit, intl, getLocaleText) => {
-    const { contract_type, department } = unit;
-    if (!contract_type?.description) return null;
-
-    const contractText = uppercaseFirst(getLocaleText(contract_type.description));
-    const contractMunicipality = department?.municipality;
-
-    if (contractMunicipality) {
-      const cityString = intl.formatMessage({
-        id: `settings.city.${contractMunicipality}`,
-        defaultMessage: ' ',
-      });
-      if (cityString.length > 1) {
-        return `${contractText}, ${cityString}`;
-      }
-      return contractText;
-    }
-    return contractText;
+    const { contract_type } = unit;
+    if (!contract_type?.description?.fi) return null;
+    return uppercaseFirst(getLocaleText(contract_type.description));
   }
 }
+
+export const useSelectedUnit = () => useSelector(state => state.selectedUnit.unit.data);
 
 export default UnitHelper;

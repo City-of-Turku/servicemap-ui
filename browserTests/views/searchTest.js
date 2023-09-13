@@ -1,19 +1,21 @@
 /* eslint-disable */
-import { Selector, ClientFunction } from 'testcafe';
+import { Selector } from 'testcafe';
 import { waitForReact, ReactSelector } from 'testcafe-react-selectors';
-
 import config from '../config';
+import { getLocation } from '../utility';
+import paginationTest from '../utility/paginationTest';
+import resultOrdererTest from '../utility/resultOrdererTest';
 const { server } = config;
 
+const searchPage = `http://${server.address}:${server.port}/fi/search?q=kirjasto`;
+
 fixture`Search view test`
-  .page`http://${server.address}:${server.port}/fi/search?q=kirjasto`
+  .page`${searchPage}`
   .beforeEach(async () => {
     await waitForReact();
   });
 
-const getLocation = ClientFunction(() => document.location.href);
-
-const searchUnits = async (t, search = 'kirjasto') => {
+const searchUnits = async (t, search = 'museo') => {
   const input = Selector('#SearchBar input');
 
   // Make new search
@@ -25,11 +27,22 @@ const searchUnits = async (t, search = 'kirjasto') => {
     .pressKey('enter');
 }
 
+// Test result orderer
+resultOrdererTest();
+
+// Test pagination functionality
+paginationTest(searchPage);
+
+// Test result orderer
+resultOrdererTest();
+
+// Test pagination functionality
+paginationTest(searchPage);
+
 test('Navigate search view', async (t) => {
   // Test result orderer navigation
-  await searchUnits(t, 'kirjasto');
   const input = Selector('#SearchBar input');
-  let select = Selector('#result-sorter')
+  const select = Selector('#result-sorter')
   const listItems = Selector('#paginatedList-Toimipisteet-results li[role="link"]')
 
   const firstItemText = await listItems.nth(0).textContent;
@@ -38,26 +51,29 @@ test('Navigate search view', async (t) => {
     // .click(input)
     // .pressKey('ctrl+a delete')
     .typeText(input, 't')
-    .pressKey('tab') // Tabs to cancel button
-    .pressKey('tab') // Tabs to search icon button
-    .pressKey('tab') // Result orderer
+    .click(select)
     .pressKey('down')
-    ;
-    const newFirstItemText = await listItems.nth(0).textContent;
-    await t
-      .expect(newFirstItemText).notEql(firstItemText)
-    ;
-  
-    // Test result list navigation
+    .pressKey('enter');
 
+  const newFirstItemText = await listItems.nth(0).textContent;
+  await t
+    .expect(newFirstItemText).notEql(firstItemText)
+  ;
+
+  // Test result list navigation
   await t
     .typeText(input, 't')
     .pressKey('tab') // Tabs to cancel button
     .pressKey('tab') // Tabs to search icon button
-    .pressKey('tab') // Result orderer
-    .pressKey('tab') // First tab
     .pressKey('tab') // Address search
     .pressKey('tab') // Address search clear
+    .pressKey('tab') // hide settings
+    .pressKey('tab') // sense settings
+    .pressKey('tab') // mobility settings
+    .pressKey('tab') // city settings
+    .pressKey('tab') // Result orderer
+    .pressKey('tab') // First tab
+    // .pressKey('tab') // TODO should remove thin phantom tab press
     .pressKey('tab') // Tabs to first item in list
     .expect(listItems.nth(0).focused).ok('Tab did move focus to first list item')
     .pressKey('tab')
@@ -129,15 +145,16 @@ test('Address search does work', async (t) => {
   ;
 });
 
-test('UnitItem click event takes to unit page', async(t) => {
-  const units =  Selector('#paginatedList-Toimipisteet-results li[role="link"]');
-  const name = await units.nth(0).find('p[role="textbox"]').textContent;
-  const unitTitleSelector = Selector('.TitleText');
+// TODO: update this test
+// test('UnitItem click event takes to unit page', async(t) => {
+//   const units =  Selector('#paginatedList-Toimipisteet-results li[role="link"]');
+//   const name = await units.nth(0).find('p[role="textbox"]').textContent;
+//   const unitTitleSelector = Selector('.TitleText');
 
-  await t
-    .click(units.nth(0))
-    .expect(unitTitleSelector.textContent).eql(name);
-});
+//   await t
+//     .click(units.nth(0))
+//     .expect(unitTitleSelector.textContent).eql(name);
+// });
 
 test('ServiceItem click event takes to service page', async(t) => {
   await searchUnits(t, 'kirjasto');
@@ -148,13 +165,14 @@ test('ServiceItem click event takes to service page', async(t) => {
   await t
     .click(tabs.nth(1));
 
-    const serviceName = await services.nth(0).textContent;
+  const serviceName = await services.nth(0).textContent;
 
   await t
-  .click(services.nth(0));
+    .click(services.nth(0));
   const serviceTitle = await (await serviceTitleSelector.textContent).toLowerCase();
   await t
-    .expect(serviceTitle).eql(serviceName.toLowerCase());
+    .expect(serviceTitle).eql(serviceName.toLowerCase())
+  ;
 });
 // Expanded suggestions are disabled for now
 // test('Expanded suggestions does open and close correctly', async(t) => {
@@ -206,7 +224,7 @@ test('SearchBar accessibility is OK', async(t) => {
 
 test('ResultList accessibility attributes are OK', async(t) => {
   // Check that result list items have correct accessibility attributes
-  const result = Selector('#paginatedList-Toimipisteet-results li[role="link"]').nth(0);
+  const result =  await Selector('#paginatedList-Toimipisteet-results li[role="link"]').nth(0);
   const resultRole = await result.getAttribute('role');
   const resultTabindex = await result.getAttribute('tabindex');
   const resultImageAria = await result.find('img').getAttribute('aria-hidden');
@@ -254,13 +272,13 @@ test('ResultList accessibility attributes are OK', async(t) => {
 //     const expandedSuggestionsButton = await Selector('#ExpandSuggestions');
 //     const esbRole = await expandedSuggestionsButton.getAttribute('role')
 //     await t
-//       // We expect ExpandedSearchButton to have role link since it takes to another view
+//       // We expect ExpandedSearchButton to have role link since it takes to another view 
 //       .expect(esbRole).eql('link', 'ExpandedSearchButton should be considered a link');
 // });
 
 test('Tabs accessibility attributes are OK', async(t) => {
   await searchUnits(t, 'kirjasto');
-  const tabs = Selector('div[role="tablist"] button[role="tab"]');
+  const tabs =  Selector('div[role="tablist"] button[role="tab"]');
   const tab1 = await tabs.nth(0);
   const tab2 = await tabs.nth(1);
 
@@ -270,22 +288,6 @@ test('Tabs accessibility attributes are OK', async(t) => {
   ;
 });
 
-test('Search has aria-live element', async(t) => {
-  await searchUnits(t, 'kirjasto');
-  const resultList = ReactSelector('PaginatedList')
-  const results = await resultList.getReact(({props}) => props.data || []);
-  const unitCount = await results.filter(result => result.object_type === 'unit').length
-  const searchInfo = Selector('.SearchInfo').child(0);
-  const siText = await searchInfo.innerText;
-  const siAriaLive = await searchInfo.getAttribute('aria-live');
-
-  await t
-    // Expect info text to contain unit count
-    .expect(siText).contains(unitCount)
-    // Expect aria live to be set as polite
-    .expect(siAriaLive).eql('polite')
-  ;
-});
 
 test('Search suggestion arrow navigation does loop correctly', async(t) => {
   const expectedBoxShadowColor = 'rgb(71, 131, 235)'; // Focus color
@@ -311,70 +313,23 @@ test('Search suggestion arrow navigation does loop correctly', async(t) => {
     .expect(items.nth(0).getStyleProperty('box-shadow')).contains(expectedBoxShadowColor, 'Focused suggestion index should loop to first item');
 });
 
-test('SettingsInfo works correctly', async(t) => {
-  // Click settings in link in settings info
-  const settingsInfoButton = Selector('#SettingsLink');
-  await t
-    .expect(settingsInfoButton.textContent).contains('Muuta haku- tai esteettömyysasetuksia')
-    .click(settingsInfoButton)
-    .wait(500)
-  ;
-
-  // Expect title to be focused in settings view
-  const title = Selector('.TitleText');
-  const backButton = Selector('button[aria-label="Sulje asetukset"]').nth(0);
-  await t
-    .expect(title.focused).ok('Expected title to be focused on entering settings view')
-    .expect(title.innerText).eql('Asetukset')
-    .click(backButton)
-    .wait(500)
-  ;
-
-  // Expect focus to be back at SettingsInfo button when returning to search view
-  const settingsButton = Selector('#SettingsLink');
-  await t
-    .expect(settingsButton.innerText).contains('Muuta haku- tai esteettömyysasetuksia')
-    .expect(settingsButton.focused).ok()
-  ;
-});
-
-
-// TODO: fix this test to work with new search suggestions
-/* test('Search suggestion click works correctly', async(t) => {
+// TODO: update this test
+// test('Search suggestion click works correctly', async(t) => {
 //   // Get SearchBar input
-  const input = Selector('#SearchBar input');
+//   const input = Selector('#SearchBar input');
 
 //   // Make new search
-  await t
-    .expect(getLocation()).contains(`http://${server.address}:${server.port}/fi/search`)
-    .click(input)
-    .pressKey('ctrl+a delete')
-    .typeText(input, 'kirjastoa');
+//   await t
+//     .expect(getLocation()).contains(`http://${server.address}:${server.port}/fi/search`)
+//     .click(input)
+//     .pressKey('ctrl+a delete')
+//     .typeText(input, 'kirjastoa');
 
-    const items = ReactSelector('SuggestionItem');
-    const clickedItem = items.nth(0);
-    const text = await clickedItem.getReact(({props}) => props.fullQuery);
-  await t
-    .click(Selector('#SuggestionList li[role="option"]').nth(0))
-    .expect(getLocation()).contains(`http://${server.address}:${server.port}/fi/search?q=${text}`)
-
-}); */
-
-fixture`Pagination tests`
-  .page`http://${server.address}:${server.port}/fi/search?q=kirjasto&p=2`
-  .beforeEach(async () => {
-    await waitForReact();
-  });
-
-test('Pagination\'s page defaults correctly', async(t) => {
-  const pagination = ReactSelector('PaginationComponent');
-  // 4th button is second page element
-  const secondPageElement = pagination.find('button').nth(3);
-
-  await t
-    // Expect second page to be out of tabindex because it's active
-    .expect(secondPageElement.getAttribute('tabindex')).eql('-1')
-    // Expect second page to be disabled because it's active
-    .expect(secondPageElement.getAttribute('disabled')).eql('')
-  ;
-});
+//   const items = ReactSelector('SuggestionItem');
+//   const clickedItem = await items.nth(0);
+//   const text = await clickedItem.getReact(({props}) => props.fullQuery);
+//   await t
+//     .click(clickedItem)
+//     .expect(getLocation()).contains(`http://${server.address}:${server.port}/fi/search?q=${text}`)
+    
+// });

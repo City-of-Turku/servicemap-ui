@@ -22,7 +22,7 @@ const js = {
 };
 
 const fonts = (isClient = true) => ({
-    test: /\.(woff(2)?|ttf|eot|svg|png|webp)(\?v=\d+\.\d+\.\d+)?$/,
+    test: /\.(woff(2)?|ttf|eot|svg|png|jpg|webp)(\?v=\d+\.\d+\.\d+)?$/,
     use: [{
         loader: 'file-loader',
         options: {
@@ -58,7 +58,8 @@ const css = {
     {
       loader: 'css-loader',
       options: {
-        importLoaders: 1
+        importLoaders: 1,
+        esModule: false,
       }
     }
   ],

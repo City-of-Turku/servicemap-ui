@@ -1,16 +1,14 @@
-import {
-    Build, Code, GetApp, Print
-} from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import URI from 'urijs';
+import { Code, GetApp, Print } from '@mui/icons-material';
+import { DropDownMenuButton, OwnSettingsMenuButton } from '../MenuButton';
+import SMIcon from '../SMIcon/SMIcon';
 import PrintContext from '../../context/PrintContext';
 import DownloadDialog from '../Dialog/DownloadDialog';
-import DropDownMenuButton from '../DropDownMenuButton';
-import SMButton from '../ServiceMapButton';
-import SMIcon from '../SMIcon/SMIcon';
+import MeasuringStopButton from './MeasuringStopButton';
 
 const ToolMenuButtonID = 'ToolMenuButton';
 
@@ -26,21 +24,28 @@ const ToolMenu = ({
   const getAreaViewParams = () => {
     // Form url with parameters when user clicks embedder from tool menu
     const {
-      districtAddressData, selectedDistrictType, selectedSubdistricts, selectedDistrictServices,
+      districtAddressData,
+      selectedDistrictType,
+      selectedSubdistricts,
+      selectedDistrictServices,
+      selectedParkingAreas,
+      parkingUnits,
     } = districtState;
-    const selected = selectedDistrictType
-      ? `selected=${selectedDistrictType}` : null;
-    const districts = selectedSubdistricts.length
-      ? `districts=${selectedSubdistricts.map(i => i).toString()}` : null;
-    const services = selectedDistrictServices.length
-      ? `services=${selectedDistrictServices}` : null;
+    const selected = selectedDistrictType ? `selected=${selectedDistrictType}` : null;
+    const districts = selectedSubdistricts.length ? `districts=${selectedSubdistricts.map(i => i).toString()}` : null;
+    const services = selectedDistrictServices.length ? `services=${selectedDistrictServices}` : null;
+    const parkingSpaces = selectedParkingAreas.length ? `parkingSpaces=${selectedParkingAreas.join(',')}` : null;
+    const units = parkingUnits.length ? 'parkingUnits=true' : null;
     const addressCoordinates = districtAddressData.address
-      ? `lat=${districtAddressData.address.location.coordinates[1]}&lng=${districtAddressData.address.location.coordinates[0]}` : null;
+      ? `lat=${districtAddressData.address.location.coordinates[1]}&lng=${districtAddressData.address.location.coordinates[0]}`
+      : null;
 
     const params = [
       ...(selected ? [selected] : []),
       ...(districts ? [districts] : []),
       ...(services ? [services] : []),
+      ...(parkingSpaces ? [parkingSpaces] : []),
+      ...(units ? [units] : []),
       ...(addressCoordinates ? [addressCoordinates] : []),
     ];
     if (params.length) {
@@ -79,6 +84,7 @@ const ToolMenu = ({
     // Example shape
     {
       key: 'embedder.title',
+      id: 'EmbedderToolMenuButton',
       text: intl.formatMessage({ id: 'embedder.title' }),
       icon: <Code />,
       onClick: () => {
@@ -88,6 +94,7 @@ const ToolMenu = ({
     },
     {
       key: 'downloadTool',
+      id: 'DownloadToolMenuButton',
       text: intl.formatMessage({ id: 'tool.download' }),
       icon: <GetApp />,
       onClick: () => {
@@ -96,6 +103,7 @@ const ToolMenu = ({
     },
     {
       key: 'printTool',
+      id: 'PrintToolMenuButton',
       text: intl.formatMessage({ id: 'tool.print' }),
       icon: <Print className={classes.smIcon} />,
       onClick: () => {
@@ -106,42 +114,31 @@ const ToolMenu = ({
     },
     {
       key: 'measuringTool',
-      text: measuringMode ? intl.formatMessage({ id: 'tool.measuring.stop' }) : intl.formatMessage({ id: 'tool.measuring' }),
+      id: 'MesuringToolMenuButton',
+      text: measuringMode
+        ? intl.formatMessage({ id: 'tool.measuring.stop' })
+        : intl.formatMessage({ id: 'tool.measuring' }),
       icon: <SMIcon className={classes.smIcon} icon="icon-icon-measuring-tool" />,
-      ariaHidden: true,
+      ariaHidden: false,
       onClick: () => {
         setMeasuringMode(!measuringMode);
       },
     },
   ];
 
-  if (menuItems.length === 0) {
-    return null;
-  }
-
-  const toolMenuText = intl.formatMessage({ id: 'general.tools' });
-
   return (
     <>
-      <DropDownMenuButton
-        id={ToolMenuButtonID}
-        ref={toolMenuButton}
-        panelID="ToolMenuPanel"
-        buttonIcon={<Build />}
-        buttonText={toolMenuText}
-        menuAriaLabel={toolMenuText}
-        menuItems={menuItems}
+      <OwnSettingsMenuButton
+        menuAriaLabel={intl.formatMessage({ id: 'general.ownSettings' })}
+        buttonText={intl.formatMessage({ id: 'general.ownSettings' })}
       />
-      {measuringMode && (
-        <SMButton
-          aria-hidden="true"
-          className={classes.measuringButton}
-          color="primary"
-          role="button"
-          messageID="tool.measuring.stop"
-          onClick={() => setMeasuringMode(false)}
-        />
-      )}
+      <DropDownMenuButton
+        innerRef={toolMenuButton}
+        menuItems={menuItems}
+        menuAriaLabel={intl.formatMessage({ id: 'general.tools' })}
+        buttonText={intl.formatMessage({ id: 'general.tools' })}
+      />
+      {measuringMode && <MeasuringStopButton onClick={() => setMeasuringMode(false)} />}
       <DownloadDialog open={openDownload} setOpen={setOpenDownload} referer={toolMenuButton} />
     </>
   );

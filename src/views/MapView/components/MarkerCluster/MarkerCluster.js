@@ -21,9 +21,9 @@ const tooltipOptions = (permanent, classes) => ({
   offset: [0, -25],
 });
 
-const popupOptions = () => ({
+const popupOptions = isMobile => ({
   autoClose: false,
-  autoPan: false,
+  autoPan: !!isMobile,
   closeButton: true,
   closeOnClick: false,
   direction: 'top',
@@ -52,6 +52,7 @@ const MarkerCluster = ({
   settings,
   theme,
   measuringMode,
+  disableInteraction,
 }) => {
   const map = useMap();
   const getLocaleText = useLocaleText();
@@ -96,14 +97,15 @@ const MarkerCluster = ({
 
   // Open highlighted units' popup
   const openHighlightUnitPopup = (mapLayers) => {
+    if (disableInteraction) return;
     const highlightedMarker = getHighlightedMarker(mapLayers);
     if (highlightedMarker && UnitHelper.isUnitPage()) {
-      const tooltipContent = getUnitPopupContent(clusterData.highlightedUnit);
       // Close all open popups
       map.eachLayer((layer) => {
         layer.closePopup();
       });
       if (highlightedMarker instanceof global.L.MarkerCluster) {
+        const tooltipContent = getUnitPopupContent(clusterData.highlightedUnit);
         highlightedMarker.bindPopup(tooltipContent, popupOptions()).openPopup();
       } else {
         highlightedMarker.openPopup();
@@ -389,7 +391,7 @@ const MarkerCluster = ({
           },
         ).bindPopup(
           popupContent,
-          popupOptions(),
+          popupOptions(isMobile),
         );
 
         if (isMobile) {
@@ -432,8 +434,8 @@ const MarkerCluster = ({
     document.querySelectorAll('.leaflet-marker-icon').forEach((item) => {
       item.setAttribute('tabindex', '-1');
       item.setAttribute('aria-hidden', 'true');
-      // Remove marker interaction when using measuring tool
-      if (measuringMode) item.classList.remove('leaflet-interactive');
+      // Remove marker interaction when using measuring tool or if interactions are disabled
+      if (measuringMode || disableInteraction) item.classList.remove('leaflet-interactive');
     });
   }, [cluster, data, isMobile, measuringMode]);
 

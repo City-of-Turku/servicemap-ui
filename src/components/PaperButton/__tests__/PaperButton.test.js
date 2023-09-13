@@ -2,10 +2,10 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import { initialState } from '../../../redux/reducers/user';
-import finnishTranslations from '../../../i18n/fi';
 import PaperButton from '../index';
 import { getIcon } from '../../SMIcon';
 import { getRenderWithProviders } from '../../../../jestUtils';
+import finnishTranslations from '../../../i18n/fi';
 
 const paperButtonProps = {
   messageID: 'home.buttons.closeByServices',

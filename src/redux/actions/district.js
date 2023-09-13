@@ -1,4 +1,3 @@
-import { districtFetch } from '../../utils/fetch';
 import ServiceMapAPI from '../../utils/newFetch/ServiceMapAPI';
 import {
   dataStructure,
@@ -6,6 +5,10 @@ import {
   groupDistrictData,
   parseDistrictGeometry,
 } from '../../views/AreaView/utils/districtDataHelper';
+
+export const parkingSpaceIDs = ['1', '2', '3', '4', '5', '6'];
+export const parkingSpaceVantaaTypes = ['12h-24h', '2h-3h', '4h-11h', 'Ei rajoitusta', 'Lyhytaikainen', 'Maksullinen', 'Muu', 'Varattu päivisin'];
+
 
 export const setHighlightedDistrict = district => ({
   type: 'SET_DISTRICT_HIGHLIGHT',
@@ -54,6 +57,21 @@ export const setSelectedDistrictServices = services => ({
   services,
 });
 
+export const setSelectedParkingAreas = areas => ({
+  type: 'SET_SELECTED_PARKING_AREAS',
+  areas,
+});
+
+export const addSelectedParkingArea = areaID => ({
+  type: 'ADD_SELECTED_PARKING_AREA',
+  areaID,
+});
+
+export const removeSelectedParkingArea = areaID => ({
+  type: 'REMOVE_SELECTED_PARKING_AREA',
+  areaID,
+});
+
 const addOpenItem = item => ({
   type: 'ADD_OPEN_ITEM',
   item,
@@ -67,6 +85,16 @@ const removeOpenItem = item => ({
 export const setMapState = object => ({
   type: 'SET_MAP_STATE',
   object,
+});
+
+const updateParkingAreas = areas => ({
+  type: 'UPDATE_PARKING_AREAS',
+  areas,
+});
+
+export const setParkingUnits = units => ({
+  type: 'SET_PARKING_UNITS',
+  units,
 });
 
 const startUnitFetch = node => ({
@@ -100,53 +128,46 @@ const endDistrictFetch = districtType => ({
 
 export const fetchDistrictGeometry = (type, period) => (
   async (dispatch) => {
-    const options = {
-      page: 1,
-      page_size: 500,
-      type,
-      geometry: true,
-      unit_include: 'name,location,street_address,address_zip,municipality',
-    };
-    const onStart = () => {
-      dispatch(startDistrictFetch(type));
-    };
-    const onNext = () => {};
-    const onSuccess = (results) => {
-      let filteredData = parseDistrictGeometry(results);
-      if (period) {
-        // Filter with start and end year
-        const start = period.slice(0, 4);
-        const end = period.slice(-4);
-        const yearFilteredData = filteredData.filter(item => (
-          item.start.slice(0, 4) === start && item.end.slice(0, 4) === end
-        ));
-        filteredData = yearFilteredData;
-      }
-      dispatch(updateDistrictData(type, filteredData, period));
-      dispatch(endDistrictFetch(type));
-    };
-    districtFetch(options, onStart, onSuccess, null, onNext);
+    dispatch(startDistrictFetch(type));
+    const smAPI = new ServiceMapAPI();
+    const boundaries = await smAPI.areaGeometry(type);
+    let filteredData = parseDistrictGeometry(boundaries);
+    if (period) {
+      // Filter with start and end year
+      const start = period.slice(0, 4);
+      const end = period.slice(-4);
+      const yearFilteredData = filteredData.filter((item) => {
+        if (item.extra?.schoolyear) {
+          if (item.extra?.schoolyear === period) {
+            return true;
+          }
+          return false;
+        }
+        if (item.start.slice(0, 4) === start && item.end.slice(0, 4) === end) {
+          return true;
+        }
+        return false;
+      });
+      filteredData = yearFilteredData;
+    }
+    dispatch(updateDistrictData(type, filteredData, period));
+    dispatch(endDistrictFetch(type));
   }
 );
 
-export const fetchAllDistricts = selected => (
+export const fetchDistricts = (selected, single) => (
   async (dispatch) => {
-    const categories = dataStructure.map(obj => obj.districts.map(item => item.id)).flat().join(',');
-    const options = {
-      page: 1,
-      page_size: 500,
-      type: categories,
-      geometry: false,
-    };
-    const onStart = () => dispatch(startDistrictFetch('all'));
-    const onNext = () => {};
-    const onSuccess = (result) => {
-      const groupedData = groupDistrictData(result);
-      dispatch(setDistrictData(groupedData));
-      dispatch(endDistrictFetch('all'));
-      if (selected) dispatch(fetchDistrictGeometry(selected));
-    };
-    districtFetch(options, onStart, onSuccess, null, onNext);
+    const categories = single
+      ? selected
+      : dataStructure.map(obj => obj.districts.map(item => item.id)).flat().join(',');
+
+    dispatch(startDistrictFetch(single ? selected : 'all'));
+    const smAPI = new ServiceMapAPI();
+    const areas = await smAPI.areas(categories);
+    const groupedData = groupDistrictData(areas);
+    dispatch(setDistrictData(groupedData));
+    dispatch(endDistrictFetch(single ? selected : 'all'));
+    if (selected) dispatch(fetchDistrictGeometry(selected));
   }
 );
 
@@ -163,7 +184,7 @@ export const fetchDistrictUnitList = nodeID => (
       const smAPI = new ServiceMapAPI();
       smAPI.setOnProgressUpdate(progressUpdate);
       dispatch(startUnitFetch(nodeID));
-      const units = await smAPI.areaUnits(nodeID, progressUpdate);
+      const units = await smAPI.areaUnits(nodeID);
       units.forEach((unit) => {
         unit.object_type = 'unit';
         unit.division_id = nodeID;
@@ -179,6 +200,32 @@ export const fetchDistrictUnitList = nodeID => (
       console.warn(e);
       dispatch(endUnitFetch({ nodeID, units: [], isLastFetch: true }));
     }
+  }
+);
+
+export const fetchParkingAreaGeometry = areaId => (
+  async (dispatch) => {
+    const type = 'parking_area';
+    const areaNumber = areaId.match(/\d+/g);
+    const options = parkingSpaceIDs.includes(areaId)
+      ? { extra__class: areaNumber }
+      : { extra__tyyppi: areaId };
+
+    dispatch(startDistrictFetch(areaId));
+    const smAPI = new ServiceMapAPI();
+    const areas = await smAPI.areaGeometry(type, options);
+    dispatch(endDistrictFetch(areaId));
+    dispatch(updateParkingAreas(areas));
+  }
+);
+
+export const fetchParkingUnits = () => (
+  async (dispatch) => {
+    dispatch(startDistrictFetch('parkingUnits'));
+    const smAPI = new ServiceMapAPI();
+    const units = await smAPI.search('pysäköintitalot ja -tilat');
+    dispatch(setParkingUnits(units));
+    dispatch(endDistrictFetch('parkingUnits'));
   }
 );
 

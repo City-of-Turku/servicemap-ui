@@ -1,23 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { Switch, Route, useLocation } from 'react-router-dom';
+import { injectIntl } from 'react-intl';
 import { Tooltip as MUITooltip, ButtonBase, Typography } from '@mui/material';
 import { useTheme } from '@mui/styles';
+import { useSelector } from 'react-redux';
+import { OpenInNew, Map } from '@mui/icons-material';
 import { visuallyHidden } from '@mui/utils';
-import PropTypes from 'prop-types';
-import { injectIntl } from 'react-intl';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { parseSearchParams } from '../utils';
 import AddressView from '../views/AddressView';
-import AreaView from '../views/AreaView';
-import DivisionView from '../views/DivisionView';
 import EventDetailView from '../views/EventDetailView';
 import MapView from '../views/MapView';
 import SearchView from '../views/SearchView';
 import ServiceView from '../views/ServiceView';
 import UnitView from '../views/UnitView';
 import PageHandler from './components/PageHandler';
-import { parseSearchParams } from '../utils';
-import HomeLogo from '../components/Logos/HomeLogo';
-import PaginatedList from '../components/Lists/PaginatedList';
+import DivisionView from '../views/DivisionView';
+import AreaView from '../views/AreaView';
 import useMapUnits from '../views/MapView/utils/useMapUnits';
+import {
+  HomeLogo, PaginatedList, Dialog, SMButton,
+} from '../components';
+import useLocaleText from '../utils/useLocaleText';
+import ContactInfo from '../views/UnitView/components/ContactInfo';
+import { focusToPosition } from '../views/MapView/utils/mapActions';
 
 const createContentStyles = (theme, unitListPosition) => {
   const bottomList = unitListPosition === 'bottom';
@@ -67,7 +73,8 @@ const createContentStyles = (theme, unitListPosition) => {
         height: 300,
         maxHeight: '40%',
         minHeight: '25%',
-      } : {
+      }
+      : {
         minWidth: 220,
         maxWidth: 'min(40%, 300px)',
         flexGrow: 1,
@@ -86,12 +93,71 @@ const createContentStyles = (theme, unitListPosition) => {
 const EmbedLayout = ({ intl }) => {
   const theme = useTheme();
   const location = useLocation();
+  const navigator = useSelector(state => state.navigator);
+  const getLocaleText = useLocaleText();
   const units = useMapUnits();
   const searchParams = parseSearchParams(location.search);
+  const map = useSelector(state => state.mapRef);
 
   const showList = searchParams?.show_list;
+  const selectedUnit = searchParams?.selectedUnit;
+
+  const [selectedUnitData, setSelectedUnitData] = useState(null);
 
   const styles = createContentStyles(theme, showList);
+
+  useEffect(() => {
+    // Handle shown embedded unit data
+    if (selectedUnit && units.length) {
+      const unitData = units.find(unit => unit.id.toString() === selectedUnit);
+      setSelectedUnitData(unitData);
+    }
+    if (!selectedUnit && selectedUnitData) {
+      setSelectedUnitData(null);
+    }
+  }, [selectedUnit, units, selectedUnitData]);
+
+  const closeDialog = () => {
+    navigator.removeParameter('selectedUnit');
+  };
+
+  // Dialog to show selected unit basic information
+  const renderEmbeddedUnitInfo = () => (
+    <Dialog
+      setOpen={setSelectedUnitData}
+      onClose={closeDialog}
+      open={!!selectedUnitData}
+      title={getLocaleText(selectedUnitData.name)}
+      content={<ContactInfo unit={selectedUnitData} headingLevel="h3" />}
+      actions={(
+        <>
+          <SMButton // Show on map button
+            icon={<Map style={{ paddingRight: 8 }} />}
+            style={{ marginRight: 'auto' }}
+            aria-hidden
+            messageID="general.showOnMap"
+            onClick={() => {
+              navigator.removeParameter('selectedUnit');
+              focusToPosition(map, selectedUnitData.location.coordinates);
+            }}
+            margin
+            role="link"
+          />
+          <SMButton // Open on servicemap button
+            icon={<OpenInNew style={{ paddingRight: 8 }} />}
+            color="primary"
+            role="link"
+            messageID="unit.showInformation"
+            onClick={() => {
+              const { origin } = window.location;
+              const path = navigator.generatePath('unit', { id: selectedUnitData.id });
+              window.open(`${origin}${path}`);
+            }}
+          />
+        </>
+      )}
+    />
+  );
 
   const renderEmbedOverlay = () => {
     const openApp = () => {
@@ -116,14 +182,14 @@ const EmbedLayout = ({ intl }) => {
     <>
       {renderEmbedOverlay()}
       <div style={styles.activeRoot}>
-        <div aria-hidden={!showList} style={styles.embedSidebarContainer} className={!showList ? 'sr-only' : ''} id="unitListContainer">
+        <div
+          aria-hidden={!showList}
+          style={styles.embedSidebarContainer}
+          className={!showList ? 'sr-only' : ''}
+          id="unitListContainer"
+        >
           <div style={styles.unitList}>
-            <PaginatedList
-              id="embeddedResults"
-              data={units}
-              titleComponent="h3"
-              embeddedList={showList}
-            />
+            <PaginatedList id="embeddedResults" data={units} titleComponent="h3" embeddedList={showList} />
           </div>
           <Switch>
             <Route
@@ -163,7 +229,7 @@ const EmbedLayout = ({ intl }) => {
               )}
             />
             <Route
-              path="*/embed/address/:municipality/:street/:number/"
+              path="*/embed/address/:municipality/:street"
               render={() => (
                 <>
                   <PageHandler embed page="address" />
@@ -192,7 +258,8 @@ const EmbedLayout = ({ intl }) => {
           </Switch>
         </div>
         <Typography style={visuallyHidden}>{intl.formatMessage({ id: 'map.ariaLabel' })}</Typography>
-        <div aria-hidden tabIndex={-1} style={styles.map}>
+        {selectedUnitData ? renderEmbeddedUnitInfo() : null}
+        <div aria-hidden tabIndex="-1" style={styles.map}>
           <MapView />
         </div>
       </div>

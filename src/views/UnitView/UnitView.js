@@ -1,35 +1,48 @@
-/* eslint-disable no-underscore-dangle */
-import { Typography } from '@mui/material';
-import { Hearing, Mail, Map } from '@mui/icons-material';
-import { visuallyHidden } from '@mui/utils';
-import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
-import { Helmet } from 'react-helmet';
+import PropTypes from 'prop-types';
+import { Button, Typography } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
-import { useSelector } from 'react-redux';
+import {
+  Mail, Hearing, Share, OpenInFull,
+} from '@mui/icons-material';
+import { visuallyHidden } from '@mui/utils';
+import { Helmet } from 'react-helmet';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from '@emotion/styled';
+import {
+  AcceptSettingsDialog,
+  BackButton,
+  Container,
+  LinkSettingsDialog,
+  ReadSpeakerButton,
+  SearchBar,
+  SettingsComponent,
+  SimpleListItem,
+  SMButton,
+  TabLists,
+  TitleBar,
+  TitledList,
+} from '../../components';
+import AccessibilityInfo from './components/AccessibilityInfo';
+import ContactInfo from './components/ContactInfo';
+import Highlights from './components/Highlights';
+import ElectronicServices from './components/ElectronicServices';
+import Description from './components/Description';
+import SocialMediaLinks from './components/SocialMediaLinks';
+import UnitLinks from './components/UnitLinks';
 import config from '../../../config';
-import paths from '../../../config/paths';
-import { SearchBar } from '../../components';
-import Container from '../../components/Container';
-import SimpleListItem from '../../components/ListItems/SimpleListItem';
-import TitledList from '../../components/Lists/TitledList';
-import ReadSpeakerButton from '../../components/ReadSpeakerButton';
-import SMButton from '../../components/ServiceMapButton';
-import { AddressIcon } from '../../components/SMIcon';
-import TabLists from '../../components/TabLists';
-import TitleBar from '../../components/TitleBar';
 import useMobileStatus from '../../utils/isMobile';
 import UnitHelper from '../../utils/unitHelper';
 import useLocaleText from '../../utils/useLocaleText';
-import AccessibilityInfo from './components/AccessibilityInfo';
-import ContactInfo from './components/ContactInfo';
-import Description from './components/Description';
-import ElectronicServices from './components/ElectronicServices';
-import Highlights from './components/Highlights';
-import SocialMediaLinks from './components/SocialMediaLinks';
+import paths from '../../../config/paths';
+import SettingsUtility from '../../utils/settings';
 import UnitDataList from './components/UnitDataList';
-import UnitLinks from './components/UnitLinks';
 import UnitsServicesList from './components/UnitsServicesList';
+import PriceInfo from './components/PriceInfo';
+import { parseSearchParams } from '../../utils';
+import { fetchServiceUnits } from '../../redux/actions/services';
+import MapView from '../MapView';
+import Util from '../../utils/mapUtility';
 
 const UnitView = (props) => {
   const {
@@ -59,10 +72,29 @@ const UnitView = (props) => {
   const viewPosition = useRef(null);
 
   const isMobile = useMobileStatus();
-
+  const [openAcceptSettingsDialog, setOpenAcceptSettingsDialog] = useState(false);
+  const [openLinkDialog, setOpenLinkDialog] = useState(false);
   const getLocaleText = useLocaleText();
+  const dispatch = useDispatch();
 
   const map = useSelector(state => state.mapRef);
+
+  const getImageAlt = () => `${intl.formatMessage({ id: 'unit.picture' })}${getLocaleText(unit.name)}`;
+
+  const shouldShowAcceptSettingsDialog = () => {
+    const search = new URLSearchParams(location.search);
+    const mobility = search.get('mobility');
+    const senses = search.get('senses')?.split(',') || [];
+    const mobilityValid = !!(mobility && SettingsUtility.isValidMobilitySetting(mobility));
+    const sensesValid = senses.filter(
+      s => SettingsUtility.isValidAccessibilitySenseImpairment(s),
+    ).length > 0;
+    return !!(mobilityValid || sensesValid);
+  };
+
+  useEffect(() => {
+    setOpenAcceptSettingsDialog(shouldShowAcceptSettingsDialog());
+  }, []);
 
   const initializePTVAccessibilitySentences = () => {
     if (unit) {
@@ -103,6 +135,14 @@ const UnitView = (props) => {
     }
   };
 
+  const handleServiceFetch = () => {
+    // Fetch additional data based on URL parameters
+    const searchParams = parseSearchParams(location.search);
+    if (searchParams.services) {
+      dispatch(fetchServiceUnits(searchParams.services));
+    }
+  };
+
   const handleFeedbackClick = () => {
     const URLs = config.additionalFeedbackURLs;
     if (unit.municipality === 'espoo') {
@@ -120,7 +160,7 @@ const UnitView = (props) => {
 
   const saveMapPosition = () => {
     // Remember user's map postition to return to on unmount
-    if (map) {
+    if (map && Util.mapHasMapPane(map)) {
       viewPosition.current = {
         center: map.getCenter(),
         zoom: map.getZoom(),
@@ -135,18 +175,20 @@ const UnitView = (props) => {
       onClick={() => handleFeedbackClick()}
       margin
       role="link"
+      id="UnitFeedbackButton"
     />
   );
 
   useEffect(() => { // On mount
     intializeUnitData();
+    handleServiceFetch();
     saveMapPosition();
     return () => { // On unmount
       // Return map to previous position if returning to search page or service page
       const isSearchPage = paths.search.regex.test(window.location.href);
       const isServicePage = paths.service.regex.test(window.location.href);
       if (map && (isSearchPage || isServicePage)) {
-        map.setView(viewPosition.current.center, viewPosition.current.zoom);
+        map.setView(viewPosition?.current?.center, viewPosition?.current?.zoom);
       }
     };
   }, []);
@@ -174,6 +216,22 @@ const UnitView = (props) => {
       <Typography style={visuallyHidden} aria-hidden>{title}</Typography>
     );
   };
+
+  const renderPicture = () => (
+    <div className={classes.imageContainer}>
+      <img
+        className={classes.image}
+        alt={getImageAlt()}
+        src={unit.picture_url}
+      />
+      {
+          unit.picture_caption
+          && (
+            <Typography variant="body2" className={classes.imageCaption}>{getLocaleText(unit.picture_caption)}</Typography>
+          )
+        }
+    </div>
+  );
 
   const renderDetailTab = () => {
     if (!unit || !unit.complete) {
@@ -216,11 +274,19 @@ const UnitView = (props) => {
           {/* View Components */}
           <ContactInfo unit={unit} userLocation={userLocation} />
           <SocialMediaLinks unit={unit} />
+          <UnitDataList
+            listLength={3}
+            data={eventsData}
+            type="events"
+            navigator={navigator}
+          />
           <Highlights unit={unit} />
           <Description unit={unit} />
+          <PriceInfo unit={unit} />
           <UnitLinks unit={unit} />
           <ElectronicServices unit={unit} />
           {!isMobile && feedbackButton()}
+          {isMobile && renderPicture()}
         </div>
       </div>
     );
@@ -281,12 +347,6 @@ const UnitView = (props) => {
         />
         <UnitDataList
           listLength={5}
-          data={eventsData}
-          type="events"
-          navigator={navigator}
-        />
-        <UnitDataList
-          listLength={5}
           data={reservationsData}
           type="reservations"
           navigator={navigator}
@@ -295,32 +355,12 @@ const UnitView = (props) => {
     );
   };
 
-  const renderMobileButtons = () => (
-    <div className={classes.mobileButtonArea}>
-      <SMButton
-        aria-hidden
-        messageID="general.showOnMap"
-        icon={<Map />}
-        onClick={(e) => {
-          e.preventDefault();
-          if (navigator) {
-            navigator.openMap();
-          }
-        }}
-        margin
-        role="link"
-      />
-      {feedbackButton()}
-    </div>
-  );
-
-
   const renderHead = () => {
     if (!unit || !unit.complete) {
       return null;
     }
     const title = unit && unit.name ? getLocaleText(unit.name) : '';
-    const imageAlt = `${intl.formatMessage({ id: 'unit.picture' })}${getLocaleText(unit.name)}`;
+    const imageAlt = getImageAlt();
     const description = unit.description ? getLocaleText(unit.description) : null;
 
     return (
@@ -344,21 +384,65 @@ const UnitView = (props) => {
     );
   };
 
+  const renderUnitLocation = () => (
+    <div className={classes.unitLocationContainer}>
+      <SMButton
+        role="link"
+        color="primary"
+        className={classes.mapButton}
+        aria-label={intl.formatMessage({ id: 'map.button.expand.aria' })}
+        icon={<StyledMapIcon />}
+        onClick={(e) => {
+          e.preventDefault();
+          if (navigator) {
+            navigator.openMap();
+          }
+        }}
+      >
+        <Typography sx={{ fontSize: '0.875rem', fontWeight: '500' }}>
+          <FormattedMessage id="map.button.expand" />
+        </Typography>
+      </SMButton>
+      <div className={classes.mapContainer}>
+        <MapView disableInteraction />
+      </div>
+    </div>
+  );
+
+
   const render = () => {
     const title = unit && unit.name ? getLocaleText(unit.name) : '';
+    const onLinkOpenClick = () => {
+      setOpenLinkDialog(true);
+    };
+    const elem = (
+      <Button
+        className={classes.linkButton}
+        onClick={onLinkOpenClick}
+      >
+        <Typography fontSize="0.773rem" color="inherit" variant="body2">
+          <FormattedMessage id="general.share.link" />
+        </Typography>
+        <Share className={classes.linkButtonIcon} />
+      </Button>
+    );
 
+    const backButtonText = intl.formatMessage({ id: 'general.backTo' });
     const TopArea = (
       <>
+        <BackButton
+          text={backButtonText}
+          ariaLabel={backButtonText}
+          variant="topBackButton"
+        />
         {!isMobile && (
-          <SearchBar margin />
+          <SearchBar hideBackButton />
         )}
         <TitleBar
           sticky
-          icon={!isMobile ? <AddressIcon className={classes.icon} /> : null}
           title={title}
-          backButton={!!isMobile}
           titleComponent="h3"
-          distance={distance && distance.text}
+          shareLink={elem}
         />
       </>
     );
@@ -377,7 +461,6 @@ const UnitView = (props) => {
     }
 
     if (unit && unit.complete) {
-      const imageAlt = `${intl.formatMessage({ id: 'unit.picture' })}${getLocaleText(unit.name)}`;
       const tabs = [
         {
           id: 'basicInfo',
@@ -407,6 +490,19 @@ const UnitView = (props) => {
       return (
         <div>
           {
+            openAcceptSettingsDialog
+            && (
+              <AcceptSettingsDialog setOpen={setOpenAcceptSettingsDialog} />
+            )
+          }
+          {
+            !openAcceptSettingsDialog
+            && openLinkDialog
+            && (
+              <LinkSettingsDialog setOpen={setOpenLinkDialog} />
+            )
+          }
+          {
             renderHead()
           }
           <TabLists
@@ -416,25 +512,11 @@ const UnitView = (props) => {
                 {TopArea}
                 {/* Unit image */}
                 {
-                unit.picture_url
-                && (
-
-                  <div className={classes.imageContainer}>
-                    <img
-                      className={classes.image}
-                      alt={imageAlt}
-                      src={unit.picture_url}
-                    />
-                    {
-                      unit.picture_caption
-                      && (
-                        <Typography variant="body2" className={classes.imageCaption}>{getLocaleText(unit.picture_caption)}</Typography>
-                      )
-                    }
-                  </div>
-                )
-              }
-                {isMobile && renderMobileButtons()}
+                  isMobile
+                    ? renderUnitLocation()
+                    : unit.picture_url && renderPicture()
+                }
+                <SettingsComponent variant="paddingTopSettings" />
               </>
           )}
           />
@@ -449,6 +531,7 @@ const UnitView = (props) => {
           <Typography color="primary" variant="body1">
             <FormattedMessage id="unit.details.notFound" />
           </Typography>
+          <SettingsComponent />
         </div>
       </div>
     );
@@ -458,6 +541,13 @@ const UnitView = (props) => {
 };
 
 export default UnitView;
+
+const StyledMapIcon = styled(OpenInFull)(({ theme }) => ({
+  order: 2,
+  marginRight: '-4px',
+  paddingLeft: theme.spacing(1),
+  fontSize: '18px',
+}));
 
 // Typechecking
 UnitView.propTypes = {

@@ -1,8 +1,8 @@
 // Link.react.test.js
 import { fireEvent } from '@testing-library/react';
 import React from 'react';
-import { getRenderWithProviders } from '../../../../jestUtils';
 import PageElement from '../PageElement';
+import { getRenderWithProviders } from '../../../../jestUtils';
 
 // Generic required props for ResultItem
 const mockProps = {
@@ -49,7 +49,6 @@ describe('<PageElement />', () => {
 
   it('does show text correctly', () => {
     const { container } = renderWithProviders(<PageElement {...mockProps} />);
-
     expect(container.querySelector('span')).toHaveTextContent(`${mockProps.number}`);
   });
 
@@ -59,7 +58,7 @@ describe('<PageElement />', () => {
   });
 
   it('does use default accessibility attributes correctly', () => {
-    const { container, getByRole } = renderWithProviders(<PageElement {...mockProps} />);
+    const { getByRole } = renderWithProviders(<PageElement {...mockProps} />);
 
     // Expect screen reader texts to render correctly
     // expect(container.querySelectorAll('p')[1]).toHaveTextContent('Open page 2');
@@ -76,7 +75,7 @@ describe('<PageElement />', () => {
   });
 
   it('does use given accessibility attributes correctly', () => {
-    const { container, getByRole } = renderWithProviders(
+    const { getByRole } = renderWithProviders(
       <PageElement
         {...mockProps}
         isActive
@@ -84,7 +83,6 @@ describe('<PageElement />', () => {
     );
 
     // expect(container.querySelectorAll('p')[1]).toHaveTextContent(`Sivu ${mockProps.number}, avattu`);
-
     // // Expect element to have tabIndex -1
     expect(getByRole('link')).toHaveAttribute('tabindex', '-1');
   });

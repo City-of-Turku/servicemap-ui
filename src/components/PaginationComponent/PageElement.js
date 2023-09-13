@@ -1,9 +1,9 @@
-import { ButtonBase, Typography } from '@mui/material';
-import { withStyles } from '@mui/styles';
-import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { injectIntl } from 'react-intl';
+import { Typography, ButtonBase } from '@mui/material';
+import { withStyles } from '@mui/styles';
+import { visuallyHidden } from '@mui/utils';
 import { keyboardHandler } from '../../utils';
 import styles from './styles';
 
@@ -32,10 +32,9 @@ const PageElement = ({
           </span>
         </Typography>
         <Typography style={visuallyHidden}>
-          {
-            isActive
-              ? intl.formatMessage({ id: 'general.pagination.currentlyOpenedPage' }, { count: number })
-              : intl.formatMessage({ id: 'general.pagination.openPage' }, { count: number })
+          {isActive
+            ? intl.formatMessage({ id: 'general.pagination.currentlyOpenedPage' }, { count: number })
+            : intl.formatMessage({ id: 'general.pagination.openPage' }, { count: number })
           }
         </Typography>
       </ButtonBase>

@@ -6,7 +6,7 @@ exports[`<LinkBasic /> should work 1`] = `
     class="LinkBasic-linkContainer-1"
   >
     <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-fixjtq-MuiTypography-root-MuiLink-root"
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-16pak0r-MuiTypography-root-MuiLink-root"
       href="https://www.turku.fi/feedback"
       target="_blank"
     >

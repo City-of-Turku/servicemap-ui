@@ -23,7 +23,7 @@ test('User marker is drawn on map based on coordinates', async (t) => {
     .expect(coords).eql(coordinates, 'user marker coordinates do not match parameter coordinates');
 });
 
-const servicePage = `http://${server.address}:${server.port}/fi/service/813`;
+const servicePage = `http://${server.address}:${server.port}/fi/service/3235633`;
 
 fixture `Service page tests`
   .page`${servicePage}`

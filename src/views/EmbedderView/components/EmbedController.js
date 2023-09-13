@@ -1,13 +1,21 @@
-import {
-  Button, Checkbox, Divider, FormControlLabel, FormGroup, InputBase, List, ListItem, Paper, Typography
-} from '@mui/material';
-import { withStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import {
+  Typography,
+  Paper,
+  InputBase,
+  Divider,
+  Button,
+  List,
+  FormGroup,
+  FormControlLabel,
+  ListItem,
+  Checkbox,
+} from '@mui/material';
+import { withStyles } from '@mui/styles';
 import { FormattedMessage } from 'react-intl';
-import SMRadio from '../../../components/SMRadio';
 import styles from '../styles';
-
+import { SMRadio } from '../../../components';
 
 const customStyles = () => ({
   root: {

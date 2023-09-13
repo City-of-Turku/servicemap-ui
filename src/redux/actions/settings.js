@@ -3,17 +3,17 @@ import LocalStorageUtility from '../../utils/localStorage';
 import simpleAction from './simpleActions';
 import config from '../../../config';
 
-const setAccessibilitySelection = (prefix, key) => async (dispatch, getState) => {
+const setAccessibilitySelection = (prefix, key, value) => async (dispatch, getState) => {
   const { settings } = getState();
   const settingsHasKey = Object.prototype.hasOwnProperty.call(settings, key);
   const keyIsValid = SettingsUtility.isValidAccessibilitySenseImpairment(key);
   if (settingsHasKey && keyIsValid) {
-    const value = settings[key];
+    const newValue = typeof value !== 'undefined' ? !!value : !settings[key];
     dispatch({
       type: `${prefix}_SET_SELECTION`,
-      selection: !value,
+      selection: newValue,
     });
-    LocalStorageUtility.saveItem(key, !value); // Save value to localStorage
+    LocalStorageUtility.saveItem(key, newValue); // Save value to localStorage
   }
 };
 
@@ -36,6 +36,13 @@ const setMapTypeSetting = setting => async (dispatch) => {
   }
 };
 
+export const setSettingsAccordionCollapsed = collapsed => async (dispatch) => {
+  if (SettingsUtility.isValidValueForSettingsCollapsed(collapsed)) {
+    LocalStorageUtility.saveItem('settingsCollapsed', collapsed);
+    dispatch({ type: 'SETTINGS_OPENED', selection: collapsed });
+  }
+};
+
 export const toggleCity = values => async (dispatch) => {
   const keyIsValid = SettingsUtility.isValidCitySetting(values);
   const citySettings = {};
@@ -52,11 +59,11 @@ export const toggleCity = values => async (dispatch) => {
   }
 };
 
-export const toggleHearingAid = () => setAccessibilitySelection('HEARING', 'hearingAid');
+export const toggleHearingAid = (value = undefined) => setAccessibilitySelection('HEARING', 'hearingAid', value);
 
-export const toggleVisuallyImpaired = () => setAccessibilitySelection('SIGHT', 'visuallyImpaired');
+export const toggleVisuallyImpaired = (value = undefined) => setAccessibilitySelection('SIGHT', 'visuallyImpaired', value);
 
-export const toggleColorblind = () => setAccessibilitySelection('COLORBLIND', 'colorblind');
+export const toggleColorblind = (value = undefined) => setAccessibilitySelection('COLORBLIND', 'colorblind', value);
 
 export const setMobility = value => setMobilitySetting(value);
 
@@ -69,3 +76,30 @@ export const toggleSettings = value => async (dispatch, getState) => {
 };
 
 export const setMapType = value => setMapTypeSetting(value);
+
+export const resetAccessibilitySettings = () => async (dispatch) => {
+  dispatch(setMobility(null));
+  dispatch(toggleHearingAid(false));
+  dispatch(toggleColorblind(false));
+  dispatch(toggleVisuallyImpaired(false));
+};
+
+export const activateSetting = (setting, value) => async (dispatch) => {
+  switch (setting) {
+    case 'mobility':
+      if (SettingsUtility.isValidMobilitySetting(value)) {
+        dispatch(setMobility(value));
+      }
+      break;
+    case 'hearingAid':
+      dispatch(toggleHearingAid(true));
+      break;
+    case 'colorblind':
+      dispatch(toggleColorblind(true));
+      break;
+    case 'visuallyImpaired':
+      dispatch(toggleVisuallyImpaired(true));
+      break;
+    default:
+  }
+};
