@@ -13,8 +13,6 @@ import {
 } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import MapUtility from '../../../utils/mapUtility';
-import MarkerComponent from '../MarkerComponent';
-import PublicBenchesContent from './components/PublicBenchesContent';
 
 /** Shows public benches on the map in marker form */
 
@@ -27,8 +25,9 @@ const PublicBenches = ({ mapObject }) => {
   const currentZoom = map.getZoom();
   const [zoomLevel, setZoomLevel] = useState(currentZoom);
 
-  const L = require('leaflet');
+  const { Marker } = global.rL;
 
+  const L = require('leaflet');
   const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
@@ -66,10 +65,7 @@ const PublicBenches = ({ mapObject }) => {
       page_size: 1000,
       bbox: fetchBox,
     };
-    if (
-      (showPublicBenches && isDetailZoom)
-      || (embedded && isDetailZoom)
-    ) {
+    if ((showPublicBenches && isDetailZoom) || (embedded && isDetailZoom)) {
       fetchMobilityMapData(options, setPublicBenchesData);
     }
   };
@@ -86,21 +82,19 @@ const PublicBenches = ({ mapObject }) => {
   const paramValue = url.searchParams.get('public_benches') === '1';
   const renderData = isDetailZoom && setRender(paramValue, embedded, showPublicBenches, publicBenchesData, isDataValid);
 
-  return (
-    <>
-      {renderData
-        ? publicBenchesData.map(item => (
-          <MarkerComponent key={item.id} item={item} icon={customIcon}>
-            <PublicBenchesContent item={item} />
-          </MarkerComponent>
-        ))
-        : null}
-    </>
-  );
+  return renderData
+    ? publicBenchesData.map((item) => (
+      <Marker key={item.id} icon={customIcon} position={[item.geometry_coords.lat, item.geometry_coords.lon]} />
+    ))
+    : null;
 };
 
 PublicBenches.propTypes = {
-  mapObject: PropTypes.objectOf(PropTypes.any).isRequired,
+  mapObject: PropTypes.shape({
+    options: PropTypes.shape({
+      detailZoom: PropTypes.number,
+    }),
+  }).isRequired,
 };
 
 export default PublicBenches;
