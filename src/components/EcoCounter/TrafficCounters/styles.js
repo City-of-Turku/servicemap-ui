@@ -81,6 +81,10 @@ const styles = (theme) => ({
   buttonText: {
     fontSize: '0.75rem',
   },
+  missingDataText: {
+    textAlign: 'center',
+    margin: `${theme.spacing(1)} 0`,
+  },
   iconWrapper: {
     backgroundColor: 'rgba(7, 44, 115, 255)',
     color: '#fff',

@@ -409,7 +409,7 @@ const LamCounterContent = ({ classes, intl, station }) => {
           ))}
         </div>
         {lamCounterYear?.value_at === 0 ? (
-          <div className={classes.yearText}>
+          <div className={classes.missingDataText}>
             <Typography component="p" variant="body2">
               {intl.formatMessage({ id: 'trafficCounter.year.warning.text' }, { value: selectedYear })}
             </Typography>
