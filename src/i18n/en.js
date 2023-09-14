@@ -794,6 +794,7 @@ const translations = {
   'mobilityPlatform.menu.show.underPasses': 'Underpasses',
   'mobilityPlatform.menu.show.overPasses': 'Overpasses',
   'mobilityPlatform.menu.show.rentalCarParking': 'Parking places for shared use cars',
+  'mobilityPlatform.menu.show.airMonitoring': 'Ilmanlaadun mittauspisteet', // TODO translate
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',

@@ -798,6 +798,7 @@ const translations = {
   'mobilityPlatform.menu.show.underPasses': 'Gångtunnlar',
   'mobilityPlatform.menu.show.overPasses': 'Vägbroar',
   'mobilityPlatform.menu.show.rentalCarParking': 'Bilpool bilars parkeringsplatser',
+  'mobilityPlatform.menu.show.airMonitoring': 'Ilmanlaadun mittauspisteet', // TODO translate
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',

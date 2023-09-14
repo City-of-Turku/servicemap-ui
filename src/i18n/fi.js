@@ -799,6 +799,7 @@ const translations = {
   'mobilityPlatform.menu.show.underPasses': 'Alikulkuväylät',
   'mobilityPlatform.menu.show.overPasses': 'Ylikulkusillat',
   'mobilityPlatform.menu.show.rentalCarParking': 'Yhteiskäyttöautojen pysäköintipaikat',
+  'mobilityPlatform.menu.show.airMonitoring': 'Ilmanlaadun mittauspisteet',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',

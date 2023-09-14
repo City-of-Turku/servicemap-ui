@@ -160,6 +160,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowOverpasses,
     showRentalCarParking,
     setShowRentalCarParking,
+    showAirMonitoringStations,
+    setShowAirMonitoringStations,
   } = useMobilityPlatformContext();
 
   const locale = useSelector((state) => state.user.locale);
@@ -328,7 +330,15 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showCrossWalks, setOpenWalkSettings);
     checkVisibilityValues(showUnderpasses, setOpenWalkSettings);
     checkVisibilityValues(showOverpasses, setOpenWalkSettings);
-  }, [showPublicToilets, showOutdoorGymDevices, showCrossWalks, showUnderpasses, showOverpasses]);
+    checkVisibilityValues(showAirMonitoringStations, setOpenWalkSettings);
+  }, [
+    showPublicToilets,
+    showOutdoorGymDevices,
+    showCrossWalks,
+    showUnderpasses,
+    showOverpasses,
+    showAirMonitoringStations,
+  ]);
 
   useEffect(() => {
     checkVisibilityValues(showTrafficCounter.walking, setOpenWalkSettings);
@@ -770,6 +780,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowRentalCarParking((current) => !current);
   };
 
+  const airMonitoringStationsToggle = () => {
+    setShowAirMonitoringStations((current) => !current);
+  };
+
   const busStopsToggle = () => {
     setShowBusStops((current) => !current);
   };
@@ -1070,6 +1084,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.showEcoCounter',
       checkedValue: showTrafficCounter.walking,
       onChangeValue: trafficCounterStationsToggle,
+    },
+    {
+      type: 'airMonitoringStations',
+      msgId: 'mobilityPlatform.menu.show.airMonitoring',
+      checkedValue: showAirMonitoringStations,
+      onChangeValue: airMonitoringStationsToggle,
     },
     {
       type: 'outdoorGymDevices',
