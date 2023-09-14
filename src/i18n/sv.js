@@ -799,6 +799,7 @@ const translations = {
   'mobilityPlatform.menu.show.overPasses': 'Vägbroar',
   'mobilityPlatform.menu.show.rentalCarParking': 'Bilpool bilars parkeringsplatser',
   'mobilityPlatform.menu.show.publicBenches': 'Allmänna bänkar (zooma in på kartan)',
+  'mobilityPlatform.embedded.label.publicBenches': 'Allmänna bänkar (zooma in på kartan för att se bänkar)',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',

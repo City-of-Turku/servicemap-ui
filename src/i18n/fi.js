@@ -800,6 +800,7 @@ const translations = {
   'mobilityPlatform.menu.show.overPasses': 'Ylikulkusillat',
   'mobilityPlatform.menu.show.rentalCarParking': 'Yhteiskäyttöautojen pysäköintipaikat',
   'mobilityPlatform.menu.show.publicBenches': 'Yleiset penkit (tarkenna karttaa)',
+  'mobilityPlatform.embedded.label.publicBenches': 'Yleiset penkit (tarkenna karttaa lähietäisyydelle, jotta penkit näkyvät)',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',
