@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-nested-ternary */
 import React, {
   useEffect, useState, forwardRef, useRef,
 } from 'react';
