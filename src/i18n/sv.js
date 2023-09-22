@@ -754,7 +754,7 @@ const translations = {
   'mobilityPlatform.menu.parkingChargeZones.subtitle': 'Zon {value}',
   'mobilityPlatform.menu.showBikeServiceStations': 'Cykelservicestationer',
   'mobilityPlatform.menu.showCityBikes': 'Stadscykelstationer',
-  'mobilityPlatform.menu.show.cargoBikes': 'Lastcyklarna',
+  'mobilityPlatform.menu.show.cargoBikes': 'Lastcykelstationer',
   'mobilityPlatform.menu.show.marinas': 'Båtplatser',
   'mobilityPlatform.menu.show.boatParking': 'Båtparkering',
   'mobilityPlatform.menu.show.guestHarbour': 'Gästhamn',
