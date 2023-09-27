@@ -755,7 +755,7 @@ const translations = {
   'mobilityPlatform.menu.parkingChargeZones.subtitle': 'Vyöhyke {value}',
   'mobilityPlatform.menu.showBikeServiceStations': 'Pyöränkorjauspisteet',
   'mobilityPlatform.menu.showCityBikes': 'Kaupunkipyöräasemat',
-  'mobilityPlatform.menu.show.cargoBikes': 'Tavarapyörät',
+  'mobilityPlatform.menu.show.cargoBikes': 'Tavarapyöräasemat',
   'mobilityPlatform.menu.show.marinas': 'Venesatamat',
   'mobilityPlatform.menu.show.boatParking': 'Veneparkit',
   'mobilityPlatform.menu.show.guestHarbour': 'Vierasvenesatama',
