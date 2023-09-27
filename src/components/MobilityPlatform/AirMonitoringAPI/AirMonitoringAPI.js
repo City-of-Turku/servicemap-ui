@@ -1,6 +1,6 @@
 import config from '../../../../config';
 
-const apiUrl = config.mobilityPlatformAPI;
+const apiUrl = config.airMonitoringAPI;
 const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
 
 /**
@@ -9,7 +9,7 @@ const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
  */
 const fetchAirMonitoringStations = async (setStations) => {
   try {
-    const response = await fetch(`${isApiUrl}/air_monitoring/api/v1/stations?page_size=20`);
+    const response = await fetch(`${isApiUrl}/stations?page_size=20`);
     const jsonData = await response.json();
     setStations(jsonData.results);
   } catch (err) {
@@ -28,7 +28,7 @@ const fetchAirMonitoringStations = async (setStations) => {
 const fetchAirMonitoringMonthDatas = async (endMonth, startMonth, id, yearNumber, setMonthData) => {
   try {
     const response = await fetch(
-      `${isApiUrl}/air_monitoring/api/v1/data?end=${endMonth}&start=${startMonth}&station_id=${id}$type=month&year=${yearNumber}`,
+      `${isApiUrl}/data?end=${endMonth}&start=${startMonth}&station_id=${id}$type=month&year=${yearNumber}`,
     );
     const jsonData = await response.json();
     setMonthData(jsonData);
