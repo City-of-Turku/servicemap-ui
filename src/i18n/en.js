@@ -732,6 +732,7 @@ const translations = {
   'mobilityPlatform.menu.title.scooter': 'Electric scooters',
   'mobilityPlatform.menu.title.streetMaintenance': 'Street maintenance',
   'mobilityPlatform.menu.title.public.transport': 'Public transport',
+  'mobilityPlatform.menu.title.airMonitoring': 'Air quality and weather',
   'mobilityPlatform.menu.showChargingStations': 'Car e-charging points',
   'mobilityPlatform.menu.showGasFillingStations': 'Gas filling stations',
   'mobilityPlatform.menu.showEcoCounter': 'Measurement point',

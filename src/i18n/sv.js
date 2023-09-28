@@ -736,6 +736,7 @@ const translations = {
   'mobilityPlatform.menu.title.scooter': 'Elsparkcyklar',
   'mobilityPlatform.menu.title.streetMaintenance': 'Gatuunderhåll',
   'mobilityPlatform.menu.title.public.transport': 'Kollektivtrafik',
+  'mobilityPlatform.menu.title.airMonitoring': 'Air quality and weather', // TODO translate
   'mobilityPlatform.menu.showChargingStations': 'Elladdningsstationer för bilar',
   'mobilityPlatform.menu.showGasFillingStations': 'Tankstationer med gas',
   'mobilityPlatform.menu.showEcoCounter': 'Beräkningspunkter',

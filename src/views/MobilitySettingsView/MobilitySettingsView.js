@@ -9,6 +9,7 @@ import { Helmet } from 'react-helmet';
 import { ReactSVG } from 'react-svg';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { Air } from '@mui/icons-material';
 import iconBicycle from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle.svg';
 import iconBoat from 'servicemap-ui-turku/assets/icons/icons-icon_boating.svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
@@ -45,6 +46,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [openScooterSettings, setOpenScooterSettings] = useState(false);
   const [openStreetMaintenanceSettings, setOpenStreetMaintenanceSettings] = useState(false);
   const [openPublicTransportSettings, setOpenPublicTransportSettings] = useState(false);
+  const [openAirMonitoringSettings, setOpenAirMonitoringSettings] = useState(false);
   const [openCultureRouteList, setOpenCultureRouteList] = useState(false);
   const [cultureRouteList, setCultureRouteList] = useState([]);
   const [localizedCultureRoutes, setLocalizedCultureRoutes] = useState([]);
@@ -309,6 +311,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       setOpenBoatingSettings(true);
     } else if (location.pathname.includes('snowplows')) {
       setOpenStreetMaintenanceSettings(true);
+    } else if (location.pathname.includes('weather')) {
+      setOpenAirMonitoringSettings(true);
     }
   }, [location]);
 
@@ -330,14 +334,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showCrossWalks, setOpenWalkSettings);
     checkVisibilityValues(showUnderpasses, setOpenWalkSettings);
     checkVisibilityValues(showOverpasses, setOpenWalkSettings);
-    checkVisibilityValues(showAirMonitoringStations, setOpenWalkSettings);
   }, [
     showPublicToilets,
     showOutdoorGymDevices,
     showCrossWalks,
     showUnderpasses,
     showOverpasses,
-    showAirMonitoringStations,
   ]);
 
   useEffect(() => {
@@ -448,6 +450,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   useEffect(() => {
     checkVisibilityValues(showBusStops, setOpenPublicTransportSettings);
   }, [showBusStops]);
+
+  useEffect(() => {
+    checkVisibilityValues(showAirMonitoringStations, setOpenAirMonitoringSettings);
+  }, [showAirMonitoringStations]);
 
   const nameKeys = {
     fi: 'name',
@@ -599,6 +605,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     }
   };
 
+  const airMonitoringSettingsToggle = () => {
+    setOpenAirMonitoringSettings((current) => !current);
+    if (!openAirMonitoringSettings) {
+      navigator.push('mobilityPlatform', 'weather');
+      setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.airMonitoring' }));
+    }
+  };
+
   /** Reset page title if opened sections have been closed and page title is not initial value */
   useEffect(() => {
     if (
@@ -609,6 +623,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       && !openScooterSettings
       && !openStreetMaintenanceSettings
       && !openPublicTransportSettings
+      && !openAirMonitoringSettings
       && pageTitle
     ) {
       setPageTitle(null);
@@ -621,6 +636,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     openScooterSettings,
     openStreetMaintenanceSettings,
     openPublicTransportSettings,
+    openAirMonitoringSettings,
     pageTitle,
   ]);
 
@@ -1086,12 +1102,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       onChangeValue: trafficCounterStationsToggle,
     },
     {
-      type: 'airMonitoringStations',
-      msgId: 'mobilityPlatform.menu.show.airMonitoring',
-      checkedValue: showAirMonitoringStations,
-      onChangeValue: airMonitoringStationsToggle,
-    },
-    {
       type: 'outdoorGymDevices',
       msgId: 'mobilityPlatform.menu.show.outdoorGymDevices',
       checkedValue: showOutdoorGymDevices,
@@ -1351,6 +1361,15 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.show.streetMaintenanceWorks',
       checkedValue: openStreetMaintenanceSelectionList,
       onChangeValue: streetMaintenanceListToggle,
+    },
+  ];
+
+  const airMonitoringControlTypes = [
+    {
+      type: 'airMonitoringStations',
+      msgId: 'mobilityPlatform.menu.show.airMonitoring',
+      checkedValue: showAirMonitoringStations,
+      onChangeValue: airMonitoringStationsToggle,
     },
   ];
 
@@ -1803,6 +1822,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     </>
   );
 
+  const renderAirMonitoringSettings = () => (
+    renderSettings(openAirMonitoringSettings, airMonitoringControlTypes)
+  );
+
   const categories = [
     {
       component: renderWalkSettings(),
@@ -1852,6 +1875,13 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       icon: <ReactSVG src={iconSnowplow} className={classes.icon} />,
       onClick: streetMaintenanceSettingsToggle,
       setState: openStreetMaintenanceSettings,
+    },
+    {
+      component: renderAirMonitoringSettings(),
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.airMonitoring' }),
+      icon: <Air fontSize="large" sx={{ padding: '0.6rem' }} />,
+      onClick: airMonitoringSettingsToggle,
+      setState: openAirMonitoringSettings,
     },
   ];
 
