@@ -12,14 +12,7 @@ import {
 } from 'date-fns';
 import { enGB, fi, sv } from 'date-fns/locale';
 import DatePicker, { registerLocale } from 'react-datepicker';
-import {
-  fetchAirMonitoringHourDatas,
-  fetchAirMonitoringDayDatas,
-  fetchAirMonitoringMonthDatas,
-  fetchAirMonitoringWeekDatas,
-  fetchAirMonitoringYearDatas,
-  fetchAirMonitoringParameters,
-} from '../../../AirMonitoringAPI/AirMonitoringAPI';
+import { fetchAirMonitoringDatas, fetchAirMonitoringParameters } from '../../../AirMonitoringAPI/AirMonitoringAPI';
 import { formatDates, formatMonths } from '../../../../EcoCounter/utils';
 import InputDate from '../../../../EcoCounter/InputDate';
 
@@ -93,47 +86,116 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
 
   // Initial values
   useEffect(() => {
-    fetchAirMonitoringHourDatas(initialDateEnd, initialDateEnd, stationId, initialYear, setAirQualityHours);
+    const options = {
+      end: initialDateEnd,
+      start: initialDateEnd,
+      station_id: stationId,
+      type: 'hour',
+      year: initialYear,
+    };
+    fetchAirMonitoringDatas(options, setAirQualityHours);
   }, [stationId]);
 
   useEffect(() => {
-    fetchAirMonitoringDayDatas(initialDateEnd, initialDateStart, stationId, initialYear, setAirQualityDays);
+    const options = {
+      end: initialDateEnd,
+      start: initialDateStart,
+      station_id: stationId,
+      type: 'day',
+      year: initialYear,
+    };
+    fetchAirMonitoringDatas(options, setAirQualityDays);
   }, [stationId]);
 
   useEffect(() => {
-    fetchAirMonitoringWeekDatas(initialWeekEnd, initialWeekStart, stationId, initialYear, setAirQualityWeeks);
+    const options = {
+      end: initialWeekEnd,
+      start: initialWeekStart,
+      station_id: stationId,
+      type: 'week',
+      year: initialYear,
+    };
+    fetchAirMonitoringDatas(options, setAirQualityWeeks);
   }, [stationId]);
 
   useEffect(() => {
-    fetchAirMonitoringMonthDatas(initialMonth, '1', stationId, initialYear, setAirQualityMonths);
+    const options = {
+      end: initialMonth,
+      start: '1',
+      station_id: stationId,
+      type: 'month',
+      year: initialYear,
+    };
+    fetchAirMonitoringDatas(options, setAirQualityMonths);
   }, [stationId]);
 
   useEffect(() => {
-    fetchAirMonitoringYearDatas(initialYear, initialYear, stationId, setAirQualityYears);
+    const options = {
+      end: initialYear,
+      start: initialYear,
+      station_id: stationId,
+      type: 'year',
+    };
+    fetchAirMonitoringDatas(options, setAirQualityYears);
   }, [stationId]);
 
   // Selected values
   useEffect(() => {
-    fetchAirMonitoringHourDatas(selectedDateEnd, selectedDateEnd, stationId, selectedYear, setAirQualityHours);
+    const options = {
+      end: selectedDateEnd,
+      start: selectedDateEnd,
+      station_id: stationId,
+      type: 'hour',
+      year: selectedYear,
+    };
+    fetchAirMonitoringDatas(options, setAirQualityHours);
   }, [stationId, selectedDate]);
 
   useEffect(() => {
-    fetchAirMonitoringDayDatas(selectedDateEnd, selectedDateStart, stationId, selectedYear, setAirQualityDays);
+    const options = {
+      end: selectedDateEnd,
+      start: selectedDateStart,
+      station_id: stationId,
+      type: 'day',
+      year: selectedYear,
+    };
+    fetchAirMonitoringDatas(options, setAirQualityDays);
   }, [stationId, selectedDate]);
 
   useEffect(() => {
-    fetchAirMonitoringWeekDatas(selectedWeekEnd, selectedWeekStart, stationId, selectedYear, setAirQualityWeeks);
+    const options = {
+      end: selectedWeekEnd,
+      start: selectedWeekStart,
+      station_id: stationId,
+      type: 'week',
+      year: selectedYear,
+    };
+    fetchAirMonitoringDatas(options, setAirQualityWeeks);
   }, [stationId, selectedDate]);
 
   useEffect(() => {
-    fetchAirMonitoringMonthDatas(selectedMonth, '1', stationId, selectedYear, setAirQualityMonths);
+    const options = {
+      end: selectedMonth,
+      start: '1',
+      station_id: stationId,
+      type: 'month',
+      year: selectedYear,
+    };
+    fetchAirMonitoringDatas(options, setAirQualityMonths);
   }, [stationId, selectedDate]);
 
   useEffect(() => {
-    fetchAirMonitoringYearDatas(initialYear, selectedYear, stationId, setAirQualityYears);
+    const options = {
+      end: initialYear,
+      start: selectedYear,
+      station_id: stationId,
+      type: 'year',
+      year: selectedYear,
+    };
+    fetchAirMonitoringDatas(options, setAirQualityYears);
   }, [stationId, selectedDate]);
 
-  // steps that determine which data is shown on the chart
+  // steps that determine which data is shown
   const buttonSteps = [
     {
       step: {
