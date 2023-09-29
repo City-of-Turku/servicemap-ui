@@ -13,6 +13,7 @@ import {
 import { enGB, fi, sv } from 'date-fns/locale';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import {
+  fetchAirMonitoringHourDatas,
   fetchAirMonitoringDayDatas,
   fetchAirMonitoringMonthDatas,
   fetchAirMonitoringWeekDatas,
@@ -25,12 +26,13 @@ import InputDate from '../../../../EcoCounter/InputDate';
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
 const AirMonitoringContent = ({ classes, intl, station }) => {
+  const [airQualityHours, setAirQualityHours] = useState([]);
   const [airQualityDays, setAirQualityDays] = useState([]);
   const [airQualityWeeks, setAirQualityWeeks] = useState([]);
   const [airQualityMonths, setAirQualityMonths] = useState([]);
   const [airQualityYears, setAirQualityYears] = useState([]);
   const [airQualityParameters, setAirQualityParameters] = useState([]);
-  const [currentTime, setCurrentTime] = useState('day');
+  const [currentTime, setCurrentTime] = useState('hour');
   const [activeStep, setActiveStep] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -45,7 +47,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
 
   // Initial values that are used to fetch data
   const currentDate = new Date();
-  const initialDateEnd = format(currentDate, 'MM-dd');
+  const initialDateEnd = format(subDays(currentDate, 1), 'MM-dd');
   const initialDateStart = format(subDays(currentDate, 7), 'MM-dd');
   const initialWeekEnd = getWeek(currentDate);
   const initialWeekStart = getWeek(subDays(currentDate, 30));
@@ -91,6 +93,10 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
 
   // Initial values
   useEffect(() => {
+    fetchAirMonitoringHourDatas(initialDateEnd, initialDateEnd, stationId, initialYear, setAirQualityHours);
+  }, [stationId]);
+
+  useEffect(() => {
     fetchAirMonitoringDayDatas(initialDateEnd, initialDateStart, stationId, initialYear, setAirQualityDays);
   }, [stationId]);
 
@@ -107,6 +113,10 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
   }, [stationId]);
 
   // Selected values
+  useEffect(() => {
+    fetchAirMonitoringHourDatas(selectedDateEnd, selectedDateEnd, stationId, selectedYear, setAirQualityHours);
+  }, [stationId, selectedDate]);
+
   useEffect(() => {
     fetchAirMonitoringDayDatas(selectedDateEnd, selectedDateStart, stationId, selectedYear, setAirQualityDays);
   }, [stationId, selectedDate]);
@@ -125,6 +135,12 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
 
   // steps that determine which data is shown on the chart
   const buttonSteps = [
+    {
+      step: {
+        type: 'hour',
+        text: intl.formatMessage({ id: 'ecocounter.hour' }),
+      },
+    },
     {
       step: {
         type: 'day',
@@ -191,7 +207,9 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
    * @param {*number} index
    */
   const handleClick = (title, index) => {
-    if (title === 'day') {
+    if (title === 'hour') {
+      setStepState(index, 'hour');
+    } else if (title === 'day') {
       setStepState(index, 'day');
     } else if (title === 'week') {
       setStepState(index, 'week');
@@ -203,6 +221,9 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
   };
 
   const setRenderData = () => {
+    if (currentTime === 'hour') {
+      return airQualityHours;
+    }
     if (currentTime === 'day') {
       return airQualityDays;
     }
@@ -219,6 +240,9 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
   };
 
   const formatDate = (item) => {
+    if (Object.hasOwn(item, 'hour_number')) {
+      return `${item.hour_number}:00`;
+    }
     if (Object.hasOwn(item, 'date')) {
       return formatDates(item.date);
     }

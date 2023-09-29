@@ -32,6 +32,26 @@ const fetchAirMonitoringParameters = async (setData) => {
 };
 
 /**
+ * Fetch hour datas for specific air monitoring station
+ * @param {*number} endDay
+ * @param {*number} startDay
+ * @param {*number} id
+ * @param {*number} yearNumber
+ * @param {*function} setHourData
+ */
+const fetchAirMonitoringHourDatas = async (endDay, startDay, id, yearNumber, setHourData) => {
+  try {
+    const response = await fetch(
+      `${isApiUrl}/data?end=${endDay}&start=${startDay}&station_id=${id}&type=hour&year=${yearNumber}`,
+    );
+    const jsonData = await response.json();
+    setHourData(jsonData.results);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
+/**
  * Fetch daily datas for specific air monitoring station
  * @param {*number} endDay
  * @param {*number} startDay
@@ -112,6 +132,7 @@ const fetchAirMonitoringYearDatas = async (endYear, startYear, id, setMonthData)
 
 export {
   fetchAirMonitoringStations,
+  fetchAirMonitoringHourDatas,
   fetchAirMonitoringDayDatas,
   fetchAirMonitoringParameters,
   fetchAirMonitoringWeekDatas,
