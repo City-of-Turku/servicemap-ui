@@ -50,16 +50,16 @@ const fetchAirMonitoringParameters = async (setData) => {
 /**
  * Fetch air quality datas for specific air monitoring station
  * @param {*object} options
- * @param {*function} setHourData
+ * @param {*function} setData
  */
-const fetchAirMonitoringDatas = async (options, setHourData) => {
+const fetchAirMonitoringDatas = async (options, setData) => {
   const params = optionsToParams(options);
   try {
     const response = await fetch(
       `${isApiUrl}/data?${params}`,
     );
     const jsonData = await response.json();
-    setHourData(jsonData.results);
+    setData(jsonData.results);
   } catch (err) {
     console.warn(err.message);
   }
