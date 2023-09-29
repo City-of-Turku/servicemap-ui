@@ -8,6 +8,7 @@ import { useMobilityPlatformContext } from '../../../context/MobilityPlatformCon
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchAirMonitoringStations } from '../AirMonitoringAPI/AirMonitoringAPI';
 import { isDataValid, createIcon } from '../utils/utils';
+import AirMonitoringContent from './components/AirMonitoringContent';
 
 const AirMonitoring = () => {
   const [airMonitoringStations, setAirMonitoringStations] = useState([]);
@@ -18,7 +19,7 @@ const AirMonitoring = () => {
 
   const map = useMap();
 
-  const { Marker } = global.rL;
+  const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
   // TODO use correct icon
@@ -64,7 +65,11 @@ const AirMonitoring = () => {
 
   return renderData
     ? airMonitoringStations.map((item) => (
-      <Marker key={item.id} icon={customIcon} position={getCoordinates(item.location)} />
+      <Marker key={item.id} icon={customIcon} position={getCoordinates(item.location)}>
+        <Popup className="ecocounter-popup">
+          <AirMonitoringContent station={item} />
+        </Popup>
+      </Marker>
     ))
     : null;
 };

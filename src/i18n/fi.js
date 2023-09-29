@@ -892,6 +892,7 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Maksutavat: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Lisätietoja: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Suojatie',
+  'mobilityPlatform.content.airQuality.index': 'Ilmanlaatu',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',
@@ -961,6 +962,9 @@ const translations = {
   'mobilityPlatform.menu.bicycleRoutes.regionalTrail10': 'Turku keskusta - Varissuo - Piikkiö',
   'mobilityPlatform.menu.bicycleRoutes.regionalTrail11': 'Turku keskusta - Kaarina keskusta - Piikkiö - Paimio',
   'mobilityPlatform.menu.bicycleRoutes.regionalTrail12': 'Turku keskusta - Hirvensalo - Kakskerta',
+
+  // Air monitoring
+  'mobilityPlatform.airMonitoring.airIndex': 'Ilmanlaatu',
 
   // Ecocounter
   'ecocounter.hour': 'Tunnit',

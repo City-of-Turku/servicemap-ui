@@ -967,6 +967,9 @@ const translations = {
   'mobilityPlatform.menu.bicycleRoutes.regionalTrail11': 'Turku City Center - Kaarina City Center - Piikkiö - Paimio',
   'mobilityPlatform.menu.bicycleRoutes.regionalTrail12': 'Turku City Center - Hirvensalo - Kakskerta',
 
+  // Air monitoring
+  'mobilityPlatform.airMonitoring.airIndex': 'Air quality',
+
   // Ecocounter
   'ecocounter.hour': 'Hours',
   'ecocounter.day': 'Days',

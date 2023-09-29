@@ -971,6 +971,9 @@ const translations = {
   'mobilityPlatform.menu.bicycleRoutes.regionalTrail11': 'Åbo centrum - St. Karins centrum - Pikis - Pemar',
   'mobilityPlatform.menu.bicycleRoutes.regionalTrail12': 'Åbo centrum - Hirvensalo - Kakskerta',
 
+  // Air monitoring
+  'mobilityPlatform.airMonitoring.airIndex': 'Air quality', // TODO translate
+
   // Ecocounter
   'ecocounter.hour': 'Timmar',
   'ecocounter.day': 'Dagar',
