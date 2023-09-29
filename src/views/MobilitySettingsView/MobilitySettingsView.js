@@ -1826,6 +1826,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     renderSettings(openAirMonitoringSettings, airMonitoringControlTypes)
   );
 
+  const renderAirQualityIcon = () => (
+    <div className={classes.iconContainer}>
+      <Air fontSize="large" />
+    </div>
+  );
+
   const categories = [
     {
       component: renderWalkSettings(),
@@ -1879,7 +1885,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     {
       component: renderAirMonitoringSettings(),
       title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.airMonitoring' }),
-      icon: <Air fontSize="large" sx={{ padding: '0.6rem' }} />,
+      icon: renderAirQualityIcon(),
       onClick: airMonitoringSettingsToggle,
       setState: openAirMonitoringSettings,
     },

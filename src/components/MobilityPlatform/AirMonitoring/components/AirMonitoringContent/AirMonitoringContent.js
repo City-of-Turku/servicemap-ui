@@ -255,7 +255,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     if (Object.hasOwn(item, 'year_number')) {
       return `Vuosi ${item.year_number}`;
     }
-    return '';
+    return null;
   };
 
   const renderAirQuality = (measurement, parentObj) => {
