@@ -112,7 +112,7 @@ const ResultOrderer = ({
   return (
     <form className={classes.root} autoComplete="off">
       <FormControl className={classes.formControl}>
-        <div style={{ display: 'flex', width: '100%', borderBottom: 'solid 1px white' }}>
+        <div style={{ display: 'flex', width: '100%', borderBottom: 'solid 1px white', color: '#fff' }}>
           <StyledTune />
           <div style={{ display: 'flex', width: '100%' }}>
             <StyledAutocomplete

@@ -83,7 +83,8 @@ const SettingsComponent = ({ variant, classes }) => {
 const StyledAccordion = styled(SMAccordion)(({ theme, settingsVisible }) => ({
   height: settingsVisible ? 32 : '100%',
   backgroundColor: theme.palette.primary.main,
-  color: theme.palette.primary.highContrast,
+  color: '#fff',
+  // color: theme.palette.primary.highContrast,
   paddingLeft: theme.spacing(2),
   paddingRight: theme.spacing(3),
   '& svg': {

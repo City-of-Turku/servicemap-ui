@@ -1,4 +1,4 @@
-export default theme => ({
+export default (theme) => ({
   topArea: {
     background: theme.palette.primary.main,
     // paddingTop: theme.spacing(1),
@@ -79,6 +79,7 @@ export default theme => ({
   searchButton: {
     flexGrow: 1,
     marginRight: 0,
+    color: '#fff',
   },
   seleectionList: {
     marginTop: theme.spacing(1),

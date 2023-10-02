@@ -24,7 +24,7 @@ exports[`<CityBikeInfo /> should work 1`] = `
       Lue lisää kaupunkipyöristä:
     </p>
     <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-16pak0r-MuiTypography-root-MuiLink-root"
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-11g60ih-MuiTypography-root-MuiLink-root"
       href="https://foli.fi/föllärit"
       target="_blank"
     >

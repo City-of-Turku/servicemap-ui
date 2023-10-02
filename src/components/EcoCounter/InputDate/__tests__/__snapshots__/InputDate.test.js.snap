@@ -3,7 +3,7 @@
 exports[`<InputDate /> should match snapshot 1`] = `
 <div>
   <div
-    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-adornedStart css-ravism-MuiInputBase-root"
+    class="MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-adornedStart css-ext27a-MuiInputBase-root"
   >
     <div
       class="MuiInputAdornment-root MuiInputAdornment-positionStart css-ittuaa-MuiInputAdornment-root"
