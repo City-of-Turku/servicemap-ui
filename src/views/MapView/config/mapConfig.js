@@ -75,7 +75,7 @@ const mapTypes = {
     name: 'accessible_map',
     attribution: 'map.attribution.osm',
     generateUrl: (suffix = '') => `${config.accessibleMapURL}${suffix}.png`,
-    minZoom: 9,
+    minZoom: isExternalTheme ? 10 : 9,
     maxZoom: 18,
     zoom: 13,
     clusterPopupVisibility: 13,
