@@ -2,6 +2,11 @@
 import config from '../../../../config';
 import { isRetina } from '../../../utils';
 
+// Turku has less maptiles (which creates empty space on the right) at minZoom so that value could be less than Helsinki.
+// Using this it keeps both values.
+const externalTheme = config.themePKG;
+const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
 // The default maximum bounds of the map
 const defaultMapBounds = {
   maxLat: 61.755,
@@ -58,7 +63,7 @@ const mapTypes = {
     name: 'servicemap',
     attribution: 'map.attribution.osm',
     generateUrl: (suffix = '') => `${config.servicemapURL}${suffix}.png`,
-    minZoom: 9,
+    minZoom: isExternalTheme ? 10 : 9,
     maxZoom: 18,
     zoom: 13,
     clusterPopupVisibility: 13,
