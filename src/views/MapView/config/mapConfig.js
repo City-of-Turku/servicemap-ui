@@ -2,8 +2,8 @@
 import config from '../../../../config';
 import { isRetina } from '../../../utils';
 
-// Turku has less maptiles (which creates empty space on the right) at minZoom so that value could be less than Helsinki.
-// Using this it keeps both values.
+// Turku has less maptiles (which creates empty space on the right) if minZoom is 9.
+// Keeps original minZoom value but uses new value.
 const externalTheme = config.themePKG;
 const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
 
