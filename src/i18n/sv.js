@@ -973,6 +973,8 @@ const translations = {
 
   // Air monitoring
   'mobilityPlatform.airMonitoring.airIndex': 'Air quality', // TODO translate
+  'mobilityPlatform.airMonitoring.chart.label': 'Air quality index', // TODO translate
+  'mobilityPlatform.airMonitoring.chart.week': 'Vecka',
 
   // Ecocounter
   'ecocounter.hour': 'Timmar',

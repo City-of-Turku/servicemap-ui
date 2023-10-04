@@ -969,6 +969,8 @@ const translations = {
 
   // Air monitoring
   'mobilityPlatform.airMonitoring.airIndex': 'Air quality',
+  'mobilityPlatform.airMonitoring.chart.label': 'Air quality index',
+  'mobilityPlatform.airMonitoring.chart.week': 'Week',
 
   // Ecocounter
   'ecocounter.hour': 'Hours',

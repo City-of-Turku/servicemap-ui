@@ -87,6 +87,9 @@ const styles = (theme) => ({
   buttonText: {
     fontSize: '0.75rem',
   },
+  chartContainer: {
+    margin: 0,
+  },
   iconWrapper: {
     display: 'flex',
     justifyContent: 'center',

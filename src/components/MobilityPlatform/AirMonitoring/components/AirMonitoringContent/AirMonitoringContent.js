@@ -15,6 +15,7 @@ import DatePicker, { registerLocale } from 'react-datepicker';
 import { fetchAirMonitoringDatas, fetchAirMonitoringParameters } from '../../../AirMonitoringAPI/AirMonitoringAPI';
 import { formatDates, formatMonths } from '../../../../EcoCounter/utils';
 import InputDate from '../../../../EcoCounter/InputDate';
+import ChartComponent from '../ChartComponent';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
@@ -25,6 +26,8 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
   const [airQualityMonths, setAirQualityMonths] = useState([]);
   const [airQualityYears, setAirQualityYears] = useState([]);
   const [airQualityParameters, setAirQualityParameters] = useState([]);
+  const [channel1Data, setChannel1Data] = useState([]);
+  const [dataLabels, setDataLabels] = useState([]);
   const [currentTime, setCurrentTime] = useState('hour');
   const [activeStep, setActiveStep] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -253,6 +256,8 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     return null;
   };
 
+  const formatWeeks = (weekNumber) => `${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.chart.week' })} ${weekNumber}`;
+
   /**
    * Set current step and active button index
    * @param {*number} index
@@ -282,61 +287,67 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     }
   };
 
-  const setRenderData = () => {
+  // Empties chart data so that old data won't persist on the chart
+  const resetChannelDatas = () => {
+    setChannel1Data([]);
+    setDataLabels([]);
+  };
+
+  // Channel data is set inside this function to avoid duplicate code
+  const setAllChannelDatas = (newValue) => {
+    if (newValue) {
+      setChannel1Data((channel1Data) => [...channel1Data, newValue]);
+    }
+  };
+
+  const getAQIndexValues = (measurementsData) => {
+    const aqIndex = measurementsData.find((item) => item.parameter === 'AQINDEX_PT1H_avg');
+    return aqIndex?.value;
+  };
+
+  /**
+   * Function that will process data & update state values
+   * @param {Array} data
+   * @param {function} labelFormatter
+   */
+  const processData = (data, labelFormatter) => {
+    data.forEach((el) => {
+      const measurementsArr = el.measurements;
+      const aqIndex = getAQIndexValues(measurementsArr);
+      setAllChannelDatas(aqIndex);
+      setDataLabels((dataLabels) => [...dataLabels, labelFormatter(el)]);
+    });
+  };
+
+  /**
+   * Sets channel data into React state, so it can be displayed on the chart.
+   * States for user type(s) and step(s) are used to filter shown data.
+   * */
+  const setChannelData = () => {
+    resetChannelDatas();
     if (currentTime === 'hour') {
-      return airQualityHours;
+      processData(airQualityHours, (el) => `${el.hour_number}:00`);
+    } else if (currentTime === 'day') {
+      processData(airQualityDays, (el) => formatDates(el.date));
+    } else if (currentTime === 'week') {
+      processData(airQualityWeeks, (el) => formatWeeks(el.week_number));
+    } else if (currentTime === 'month') {
+      processData(airQualityMonths, (el) => formatMonths(el.month_number, intl));
+    } else if (currentTime === 'year') {
+      processData(airQualityYears, (el) => el.year_number);
     }
-    if (currentTime === 'day') {
-      return airQualityDays;
-    }
-    if (currentTime === 'week') {
-      return airQualityWeeks;
-    }
-    if (currentTime === 'month') {
-      return airQualityMonths;
-    }
-    if (currentTime === 'year') {
-      return airQualityYears;
-    }
-    return null;
   };
 
-  const formatDate = (item) => {
-    if (Object.hasOwn(item, 'hour_number')) {
-      return `${item.hour_number}:00`;
+  useEffect(() => {
+    if (currentTime === 'hour') {
+      processData(airQualityHours, (el) => el.hour_number);
     }
-    if (Object.hasOwn(item, 'date')) {
-      return formatDates(item.date);
-    }
-    if (Object.hasOwn(item, 'week_number')) {
-      return `Viikko: ${item.week_number}`;
-    }
-    if (Object.hasOwn(item, 'month_number')) {
-      return formatMonths(item.month_number, intl);
-    }
-    if (Object.hasOwn(item, 'year_number')) {
-      return `Vuosi ${item.year_number}`;
-    }
-    return null;
-  };
+  }, [airQualityHours, stationId]);
 
-  const renderAirQuality = (measurement, parentObj) => {
-    if (measurement.parameter === 'AQINDEX_PT1H_avg') {
-      return (
-        <Typography key={measurement.id} variant="body2" component="p">
-          {`${formatDate(parentObj)}: ${measurement.value}`}
-        </Typography>
-      );
-    }
-    return null;
-  };
-
-  const renderData = () => {
-    const data = setRenderData();
-    return data.map((item) => (
-      <div key={item.id}>{item.measurements.map((measurement) => renderAirQuality(measurement, item))}</div>
-    ));
-  };
+  // When current user type or step changes, calls function to update the chart data
+  useEffect(() => {
+    setChannelData();
+  }, [currentTime]);
 
   return (
     <div className={classes.popupInner}>
@@ -368,7 +379,15 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
           ))}
         </div>
       </div>
-      {renderData()}
+      <div className={classes.chartContainer}>
+        <ChartComponent
+          labels={dataLabels}
+          labelChannel1={intl.formatMessage({
+            id: 'mobilityPlatform.airMonitoring.chart.label',
+          })}
+          channel1Data={channel1Data}
+        />
+      </div>
       <div>
         <div className={classes.dateStepsContainer}>
           {buttonSteps.map((timing, i) => (

@@ -965,6 +965,8 @@ const translations = {
 
   // Air monitoring
   'mobilityPlatform.airMonitoring.airIndex': 'Ilmanlaatu',
+  'mobilityPlatform.airMonitoring.chart.label': 'Ilmanlaatuindeksi',
+  'mobilityPlatform.airMonitoring.chart.week': 'Viikko',
 
   // Ecocounter
   'ecocounter.hour': 'Tunnit',
