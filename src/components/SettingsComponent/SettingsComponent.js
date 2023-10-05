@@ -11,11 +11,10 @@ import SMAccordion from '../SMAccordion';
 import SettingsDropdowns from '../SettingsDropdowns';
 import constants from './constants';
 
-
 const SettingsComponent = ({ variant, classes }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const settings = useSelector(state => state.settings);
+  const settings = useSelector((state) => state.settings);
   // Format settings from redux to easier structure
   const settingsValues = constants.convertToSettingsValues(settings);
   const settingsVisible = !settings.settingsCollapsed;
@@ -31,7 +30,6 @@ const SettingsComponent = ({ variant, classes }) => {
     const cities = settingsValues.cities.length;
     return sense + mobility + cities;
   };
-
 
   let classNames = '';
   if (variant === 'paddingTopSettings') {
@@ -70,15 +68,13 @@ const SettingsComponent = ({ variant, classes }) => {
                   </StyledChipContainer>
                 )}
               </>
-            )
-          }
+            )}
           collapseContent={(<SettingsDropdowns />)}
         />
       </Container>
     </NoSsr>
   );
 };
-
 
 const StyledAccordion = styled(SMAccordion)(({ theme, settingsVisible }) => ({
   height: settingsVisible ? 32 : '100%',
@@ -109,7 +105,6 @@ const StyledChip = styled(Chip)(({ theme }) => ({
     backgroundColor: theme.palette.white.main,
   },
 }));
-
 
 const StyledChipContainer = styled('div')(({ theme }) => ({
   display: 'flex',

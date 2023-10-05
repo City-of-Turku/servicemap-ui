@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Selector } from 'testcafe';
 import { waitForReact } from 'testcafe-react-selectors';
-import { paletteDefault, paletteDark } from '../../src/themes';
+import { paletteTurku, paletteDark } from '../../src/themes';
 import config from '../config';
 import { getLocation } from '../utility';
 const { server } = config;
@@ -51,7 +51,7 @@ test('Contrast does change', async (t) => {
   const searchbarContainer = Selector('main').find('.SearchBar');
 
   await t
-    .expect(searchbarContainer.getStyleProperty('background-color')).contains(paletteDefault.primary.main)
+    .expect(searchbarContainer.getStyleProperty('background-color')).contains(paletteTurku.primary.main)
     .click(contrastButton)
     .expect(searchbarContainer.getStyleProperty('background-color')).contains(paletteDark.primary.main)
   ;

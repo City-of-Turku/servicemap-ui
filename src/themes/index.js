@@ -253,6 +253,7 @@ export const paletteTurku = {
   ...paletteDefault,
   primary: {
     main: 'rgb(0, 98, 174)',
+    highContrast: '#fff',
   },
   detail: {
     main: 'rgb(0, 98, 174)',
