@@ -2,6 +2,11 @@
 import config from '../../../../config';
 import { isRetina } from '../../../utils';
 
+// Turku has less maptiles (which creates empty space on the right) if minZoom is 9.
+// Keeps original minZoom value but uses new value.
+const externalTheme = config.themePKG;
+const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
 // The default maximum bounds of the map
 const defaultMapBounds = {
   maxLat: 61.755,
@@ -58,7 +63,7 @@ const mapTypes = {
     name: 'servicemap',
     attribution: 'map.attribution.osm',
     generateUrl: (suffix = '') => `${config.servicemapURL}${suffix}.png`,
-    minZoom: 9,
+    minZoom: isExternalTheme ? 10 : 9,
     maxZoom: 18,
     zoom: 13,
     clusterPopupVisibility: 13,
@@ -70,7 +75,7 @@ const mapTypes = {
     name: 'accessible_map',
     attribution: 'map.attribution.osm',
     generateUrl: (suffix = '') => `${config.accessibleMapURL}${suffix}.png`,
-    minZoom: 9,
+    minZoom: isExternalTheme ? 10 : 9,
     maxZoom: 18,
     zoom: 13,
     clusterPopupVisibility: 13,
