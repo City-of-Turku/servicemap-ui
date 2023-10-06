@@ -5,37 +5,40 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a, .link {
+a,
+.link {
   color: #3344dd;
   text-decoration: underline;
 }
 
-a:hover, a:focus, a:active,
-.link:hover, .link:focus, .link:active {
+a:hover,
+a:focus,
+a:active,
+.link:hover,
+.link:focus,
+.link:active {
   color: #bb1122 !important;
   outline: auto !important;
   outline-color: rgb(71, 131, 235) !important;
 }
 
-a:visited, .link:visited {
+a:visited,
+.link:visited {
   color: #804180;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-
-input[type="search"]::-webkit-search-cancel-button{ 
-  -webkit-appearance:none;
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
 }
 
 .sr-only {
@@ -71,7 +74,7 @@ input[type="search"]::-webkit-search-cancel-button{
 .leaflet-popup-close-button {
   padding: 16px !important;
   font-size: 24px !important;
-  color: #4A4A4C !important;
+  color: #4a4a4c !important;
 }
 
 /* This allows clicks to go through control background to the map. Control buttons need style: pointer-events: auto */
@@ -86,24 +89,4 @@ input[type="search"]::-webkit-search-cancel-button{
 .leaflet-control-attribution {
   background: #fff !important;
   pointer-events: auto;
-}
-
-.react-datepicker {
-  font-size: 1.2rem !important;
-}
-
-.react-datepicker__current-month {
-  font-size: 1.4rem !important;
-}
-
-.react-datepicker__header {
-  padding-top: 6px !important;
-}
-
-.react-datepicker__navigation {
-  top: 13px !important;
-}
-
-.react-datepicker__day-name, .react-datepicker__day {
-  margin: 0.5rem !important;
 }

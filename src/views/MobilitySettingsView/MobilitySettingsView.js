@@ -618,14 +618,25 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   ]);
 
   /**
+   * General function to update object values into state
+   * @param {*string} key
+   * @param {*Object} state
+   * @param {*function} setState
+   */
+  const toggleObjectValue = (key, state, setState) => {
+    setState((prevState) => ({
+      ...prevState,
+      [key]: !prevState[key],
+    }));
+  };
+
+  /**
    * Toggle function for traffic counter stations that contain data about pedestrians
    * @var {Object} showTrafficCounter
    * @returns {Object} showTrafficCounter
    */
   const trafficCounterStationsToggle = () => {
-    if (!showTrafficCounter.walking) {
-      setShowTrafficCounter((showTrafficCounter) => ({ ...showTrafficCounter, walking: true }));
-    } else setShowTrafficCounter((showTrafficCounter) => ({ ...showTrafficCounter, walking: false }));
+    toggleObjectValue('walking', showTrafficCounter, setShowTrafficCounter);
   };
 
   /**
@@ -634,9 +645,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    * @returns {Object} showTrafficCounter
    */
   const trafficCounterStationsToggleCycling = () => {
-    if (!showTrafficCounter.cycling) {
-      setShowTrafficCounter((showTrafficCounter) => ({ ...showTrafficCounter, cycling: true }));
-    } else setShowTrafficCounter((showTrafficCounter) => ({ ...showTrafficCounter, cycling: false }));
+    toggleObjectValue('cycling', showTrafficCounter, setShowTrafficCounter);
   };
 
   /**
@@ -645,9 +654,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    * @returns {Object} showTrafficCounter
    */
   const trafficCounterStationsToggleDriving = () => {
-    if (!showTrafficCounter.driving) {
-      setShowTrafficCounter((showTrafficCounter) => ({ ...showTrafficCounter, driving: true }));
-    } else setShowTrafficCounter((showTrafficCounter) => ({ ...showTrafficCounter, driving: false }));
+    toggleObjectValue('driving', showTrafficCounter, setShowTrafficCounter);
   };
 
   /**

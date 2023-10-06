@@ -86,6 +86,18 @@ const fetchInitialYearData = async (yearNumber, id, setYearData) => {
   }
 };
 
+const fetchSelectedYearData = async (startYear, endYear, id, setYearData) => {
+  try {
+    const response = await fetch(
+      `${isApiUrl}/eco-counter/year_data/get_year_datas?start_year_number=${startYear}&end_year_number=${endYear}&station_id=${id}`,
+    );
+    const jsonData = await response.json();
+    setYearData(jsonData);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 export {
   fetchTrafficCounterStations,
   fetchTrafficCounterStationsByType,
@@ -94,4 +106,5 @@ export {
   fetchInitialWeekDatas,
   fetchInitialMonthDatas,
   fetchInitialYearData,
+  fetchSelectedYearData,
 };

@@ -7,39 +7,46 @@ const styles = (theme) => ({
       color: 'rgba(84, 84, 84, 255)',
     },
   },
+  button: {
+    border: '1px solid gray',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    marginRight: theme.spacing(1.5),
+  },
   buttonGray: {
     backgroundColor: '#ddd',
     border: 'none',
     borderRadius: '5px',
     color: '#fff',
     cursor: 'pointer',
-    padding: theme.spacing(0.5),
+    padding: theme.spacing(1),
   },
   buttonWhite: {
     backgroundColor: '#fff',
-    border: '1px solid gray',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    marginRight: theme.spacing(1.5),
-    padding: theme.spacing(0.5),
   },
   buttonActive: {
     backgroundColor: 'rgba(7, 44, 115, 255)',
     color: '#fff',
-    border: '1px solid gray',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    marginRight: theme.spacing(1.5),
+  },
+  paddingWide: {
+    padding: `${theme.spacing(0.5)} ${theme.spacing(1)}`,
+  },
+  paddingNarrow: {
     padding: theme.spacing(0.5),
   },
-  lamCounterHeader: {
+  widthMd: {
+    width: '95%',
+  },
+  widthSm: {
+    width: '87%',
+  },
+  trafficCounterHeader: {
     display: 'flex',
     flexDirection: 'row',
     marginTop: theme.spacing(0.5),
     marginBottom: theme.spacing(1.5),
     alignItems: 'flex-end',
     borderBottom: '2px solid gray',
-    width: '95%',
     justifyContent: 'space-between',
   },
   headerSubtitle: {
@@ -54,28 +61,16 @@ const styles = (theme) => ({
     alignItems: 'center',
     maxWidth: '32%',
   },
-  lamCounterUserTypes: {
+  trafficCounterUserTypes: {
     display: 'flex',
     justifyContent: 'flex-end',
     marginBottom: theme.spacing(0.5),
   },
-  container: {
+  buttonAndTextContainer: {
     display: 'flex',
     flexDirection: 'column',
-    marginRight: theme.spacing(1.5),
+    marginRight: '0.7rem',
     alignItems: 'center',
-  },
-  textContainer: {
-    width: '40px',
-    marginRight: theme.spacing(1.5),
-  },
-  iconWrapper: {
-    backgroundColor: 'rgba(7, 44, 115, 255)',
-    color: '#fff',
-    border: '1px solid gray',
-    borderRadius: '5px',
-    marginRight: theme.spacing(1.5),
-    padding: theme.spacing(0.5),
   },
   userTypeText: {
     fontWeight: 'bold',
@@ -86,33 +81,41 @@ const styles = (theme) => ({
   buttonText: {
     fontSize: '0.75rem',
   },
+  missingDataText: {
+    textAlign: 'center',
+    margin: `${theme.spacing(1)} 0`,
+  },
+  iconWrapper: {
+    backgroundColor: 'rgba(7, 44, 115, 255)',
+    color: '#fff',
+    border: '1px solid gray',
+    borderRadius: '5px',
+    marginRight: theme.spacing(1.5),
+    padding: theme.spacing(0.5),
+  },
   iconActive: {
-    fill: '#fff',
+    fill: '#ffffff',
     width: '40px',
     height: '40px',
   },
   icon: {
-    fill: '#000',
+    fill: '#000000',
     width: '40px',
     height: '40px',
   },
-  lamCounterSteps: {
+  trafficCounterSteps: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
     padding: '1rem 0',
   },
-  lamCounterChart: {
+  trafficCounterChart: {
     margin: 0,
   },
   iconContainer: {
     marginRight: theme.spacing(0.5),
     paddingTop: theme.spacing(1),
-  },
-  yearText: {
-    textAlign: 'center',
-    margin: `${theme.spacing(1)} 0`,
   },
 });
 

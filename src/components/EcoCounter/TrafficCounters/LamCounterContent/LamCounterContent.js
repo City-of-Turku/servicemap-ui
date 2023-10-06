@@ -1,11 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-nested-ternary */
 import React, {
   useEffect, useState, forwardRef, useRef,
 } from 'react';
 import { useSelector } from 'react-redux';
-import { ButtonBase, Typography } from '@mui/material';
+import { ButtonBase, Typography, useMediaQuery } from '@mui/material';
 import PropTypes from 'prop-types';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import {
@@ -20,9 +19,7 @@ import {
   subMonths,
   addWeeks,
 } from 'date-fns';
-import enGB from 'date-fns/locale/en-GB';
-import fi from 'date-fns/locale/fi';
-import sv from 'date-fns/locale/sv';
+import { enGB, fi, sv } from 'date-fns/locale';
 import { ReactSVG } from 'react-svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
 import {
@@ -31,20 +28,21 @@ import {
   fetchInitialMonthDatas,
   fetchInitialWeekDatas,
   fetchInitialYearData,
+  fetchSelectedYearData,
 } from '../../EcoCounterRequests/ecoCounterRequests';
+import { formatDates, formatMonths } from '../../utils';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
-const LamCounterContent = ({
-  classes, intl, station,
-}) => {
+const LamCounterContent = ({ classes, intl, station }) => {
   const [lamCounterHour, setLamCounterHour] = useState([]);
   const [lamCounterDay, setLamCounterDay] = useState([]);
   const [lamCounterWeek, setLamCounterWeek] = useState([]);
   const [lamCounterMonth, setLamCounterMonth] = useState([]);
   const [lamCounterYear, setLamCounterYear] = useState(null);
+  const [lamCounterMultipleYears, setLamCounterMultipleYears] = useState([]);
   const [channel1Counts, setChannel1Counts] = useState([]);
   const [channel2Counts, setChannel2Counts] = useState([]);
   const [channelTotals, setChannelTotals] = useState([]);
@@ -56,10 +54,14 @@ const LamCounterContent = ({
   const locale = useSelector((state) => state.user.locale);
   const inputRef = useRef(null);
 
+  const useMobileStatus = () => useMediaQuery('(max-width:768px)');
+  const isNarrow = useMobileStatus();
+
   const stationId = station.id;
   const stationName = station.name;
   const stationSource = station.csv_data_source;
   const userTypes = station.sensor_types;
+  const dataFromYear = station.data_from_year;
 
   // steps that determine which data is shown on the chart
   const buttonSteps = [
@@ -85,6 +87,12 @@ const LamCounterContent = ({
       step: {
         type: 'month',
         text: intl.formatMessage({ id: 'ecocounter.month' }),
+      },
+    },
+    {
+      step: {
+        type: 'year',
+        text: intl.formatMessage({ id: 'ecocounter.year' }),
       },
     },
   ];
@@ -126,8 +134,12 @@ const LamCounterContent = ({
     } else registerLocale('fi', fi);
   }, [locale]);
 
-  // API returns empty data if start_week_number parameter is higher number than end_week_number.
-  // This will set it to 1 so that weekly graph in January won't be empty in case week number of 1.1 is 52 or 53.
+  /**
+   * API returns empty data if start_week_number parameter is higher number than end_week_number.
+   * This will set it to 1 so that weekly graph in January won't be empty in case week number of 1.1 is 52 or 53.
+   * @param {*date} dateValue
+   * @returns {*number}
+   */
   const checkWeekNumber = (dateValue) => {
     const start = getWeek(startOfMonth(dateValue));
     const end = getWeek(endOfMonth(dateValue));
@@ -200,48 +212,15 @@ const LamCounterContent = ({
     '00:00',
   ];
 
-  // Format dates for the chart
-  const formatDates = (dateValue) => {
-    const fields = dateValue.split('-');
-    return `${fields[2]}.${fields[1]}`;
-  };
-
-  // Format weeks and display first day of each week in data
+  /**
+   * Format weeks and display first day of each week in data
+   * @param {date} weekValue
+   * @returns {*string}
+   */
   const formatWeeks = (weekValue) => {
     const startOfSelectedWeek = startOfWeek(new Date(selectedYear, 0, 1), { weekStartsOn: 1 });
     const targetWeekStartDate = addWeeks(startOfSelectedWeek, weekValue - 1);
     return format(targetWeekStartDate, 'dd.MM', { weekStartsOn: 1 });
-  };
-
-  const formatMonths = (monthValue) => {
-    switch (monthValue) {
-      case 1:
-        return intl.formatMessage({ id: 'ecocounter.jan' });
-      case 2:
-        return intl.formatMessage({ id: 'ecocounter.feb' });
-      case 3:
-        return intl.formatMessage({ id: 'ecocounter.march' });
-      case 4:
-        return intl.formatMessage({ id: 'ecocounter.april' });
-      case 5:
-        return intl.formatMessage({ id: 'ecocounter.may' });
-      case 6:
-        return intl.formatMessage({ id: 'ecocounter.june' });
-      case 7:
-        return intl.formatMessage({ id: 'ecocounter.july' });
-      case 8:
-        return intl.formatMessage({ id: 'ecocounter.aug' });
-      case 9:
-        return intl.formatMessage({ id: 'ecocounter.sep' });
-      case 10:
-        return intl.formatMessage({ id: 'ecocounter.oct' });
-      case 11:
-        return intl.formatMessage({ id: 'ecocounter.nov' });
-      case 12:
-        return intl.formatMessage({ id: 'ecocounter.dec' });
-      default:
-        return monthValue;
-    }
   };
 
   // Empties chart data so that old data won't persist on the chart
@@ -259,58 +238,66 @@ const LamCounterContent = ({
     setChannelTotals((channelTotals) => [...channelTotals, newValue3]);
   };
 
-  // Sets channel data into React state, so it can be displayed on the chart
-  // States for user type(s) and step(s) are used to filter shown data
-  const setChannelData = () => {
-    resetChannelData();
-    if (currentTime === 'hour') {
-      setLamCounterLabels(labelsHour);
-      if (lamCounterHour !== null && lamCounterHour.station === stationId) {
-        const countsArr = [];
-        countsArr.push(lamCounterHour.values_ak, lamCounterHour.values_ap, lamCounterHour.values_at);
-        setChannel1Counts(countsArr[0]);
-        setChannel2Counts(countsArr[1]);
-        setChannelTotals(countsArr[2]);
+  /**
+   * Function that will process data & update state values
+   * @param {Array} data
+   * @param {function} labelFormatter
+   */
+  const processData = (data, labelFormatter) => {
+    data.forEach((el) => {
+      if (el.station === stationId) {
+        const countsArr = [el.value_ak, el.value_ap, el.value_at];
+        setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
+        setLamCounterLabels((lamCounterLabels) => [...lamCounterLabels, labelFormatter(el)]);
       }
-    } else if (currentTime === 'day') {
-      lamCounterDay.forEach((el) => {
-        const countsArr = [];
-        if (el.station === stationId) {
-          countsArr.push(el.value_ak, el.value_ap, el.value_at, el.day_info.date);
-        }
-        setChannel1Counts((channel1Counts) => [...channel1Counts, countsArr[0]]);
-        setChannel2Counts((channel2Counts) => [...channel2Counts, countsArr[1]]);
-        setChannelTotals((channelTotals) => [...channelTotals, countsArr[2]]);
-        setLamCounterLabels((lamCounterLabels) => [...lamCounterLabels, formatDates(countsArr[3])]);
-      });
-    } else if (currentTime === 'week') {
-      lamCounterWeek.forEach((el) => {
-        const countsArr = [];
-        if (el.station === stationId) {
-          countsArr.push(el.value_ak, el.value_ap, el.value_at, el.week_info.week_number);
-        }
-        setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
-        setLamCounterLabels((lamCounterLabels) => [...lamCounterLabels, formatWeeks(countsArr[3])]);
-      });
-    } else if (currentTime === 'month') {
-      lamCounterMonth.forEach((el) => {
-        const countsArr = [];
-        if (el.station === stationId) {
-          countsArr.push(el.value_ak, el.value_ap, el.value_at, el.month_info.month_number);
-        }
-        setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
-        setLamCounterLabels((lamCounterLabels) => [...lamCounterLabels, formatMonths(countsArr[3])]);
-      });
+    });
+  };
+
+  const processHourData = () => {
+    setLamCounterLabels(labelsHour);
+    if (lamCounterHour?.station === stationId) {
+      const countsArr = [];
+      countsArr.push(lamCounterHour.values_ak, lamCounterHour.values_ap, lamCounterHour.values_at);
+      setChannel1Counts(countsArr[0]);
+      setChannel2Counts(countsArr[1]);
+      setChannelTotals(countsArr[2]);
     }
   };
 
-  // Sets current step and active button index
+  /**
+   * Sets channel data into React state, so it can be displayed on the chart.
+   * States for user type(s) and step(s) are used to filter shown data.
+   * */
+  const setChannelData = () => {
+    resetChannelData();
+    if (currentTime === 'hour') {
+      processHourData();
+    } else if (currentTime === 'day') {
+      processData(lamCounterDay, (el) => formatDates(el.day_info.date));
+    } else if (currentTime === 'week') {
+      processData(lamCounterWeek, (el) => formatWeeks(el.week_info.week_number));
+    } else if (currentTime === 'month') {
+      processData(lamCounterMonth, (el) => formatMonths(el.month_info.month_number, intl));
+    } else if (currentTime === 'year') {
+      processData(lamCounterMultipleYears, (el) => el.year_info.year_number);
+    }
+  };
+
+  /**
+   * Set current step and active button index
+   * @param {*number} index
+   * @param {*date} timeValue
+   */
   const setStepState = (index, timeValue) => {
     setActiveStep(index);
     setCurrentTime(timeValue);
   };
 
-  // Set active step
+  /**
+   * Set active step into state
+   * @param {*string} title
+   * @param {*number} index
+   */
   const handleClick = (title, index) => {
     if (title === 'hour') {
       setStepState(index, 'hour');
@@ -320,6 +307,8 @@ const LamCounterContent = ({
       setStepState(index, 'week');
     } else if (title === 'month') {
       setStepState(index, 'month');
+    } else if (title === 'year') {
+      setStepState(index, 'year');
     }
   };
 
@@ -369,15 +358,13 @@ const LamCounterContent = ({
     fetchInitialYearData(selectedYear, stationId, setLamCounterYear);
   }, [selectedYear, stationId]);
 
+  useEffect(() => {
+    fetchSelectedYearData(selectedYear, initialYear, stationId, setLamCounterMultipleYears);
+  }, [selectedYear, stationId]);
+
   // useEffect is used to fill the chart with default data (default step is 'hourly')
   useEffect(() => {
-    if (lamCounterHour !== null && lamCounterHour.station === stationId) {
-      const countsArr = [];
-      countsArr.push(lamCounterHour.values_ak, lamCounterHour.values_ap, lamCounterHour.values_at);
-      setChannel1Counts(countsArr[0]);
-      setChannel2Counts(countsArr[1]);
-      setChannelTotals(countsArr[2]);
-    }
+    processHourData();
   }, [lamCounterHour, stationId]);
 
   // When current user type or step changes, calls function to update the chart data
@@ -386,15 +373,15 @@ const LamCounterContent = ({
   }, [currentTime]);
 
   /**
-     * Split name into array of words and remove special characters (_) and first index (for example 'vt1').
-     * @param {string} name for example vt1_Kupittaa
-     * @returns {string} for example Kupittaa
-     */
+   * Split name into array of words and remove special characters (_) and first index (for example 'vt1').
+   * @param {string} name for example vt1_Kupittaa
+   * @returns {string} for example Kupittaa
+   */
   const formatCounterName = (name) => name?.split('_').splice(1).join(' ');
 
   return (
     <>
-      <div className={classes.lamCounterHeader}>
+      <div className={`${classes.trafficCounterHeader} ${isNarrow ? classes.widthSm : classes.widthMd}`}>
         <Typography component="h4" className={classes.headerSubtitle}>
           {stationSource === 'LC' ? formatCounterName(stationName) : stationName}
         </Typography>
@@ -404,12 +391,16 @@ const LamCounterContent = ({
             onChange={(newDate) => changeDate(newDate)}
             locale={locale}
             dateFormat="P"
+            showYearDropdown
+            dropdownMode="select"
+            minDate={new Date(`${dataFromYear}-01-01`)}
+            maxDate={new Date()}
             customInput={<CustomInput inputRef={inputRef} />}
           />
         </div>
       </div>
-      <div className={classes.lamCounterContent}>
-        <div className={classes.lamCounterUserTypes}>
+      <div className={classes.trafficCounterContent}>
+        <div className={classes.trafficCounterUserTypes}>
           {userTypes?.map((userType) => (
             <div key={userType} className={classes.container}>
               {renderUserTypeIcon(userType)}
@@ -418,13 +409,13 @@ const LamCounterContent = ({
           ))}
         </div>
         {lamCounterYear?.value_at === 0 ? (
-          <div className={classes.yearText}>
+          <div className={classes.missingDataText}>
             <Typography component="p" variant="body2">
               {intl.formatMessage({ id: 'trafficCounter.year.warning.text' }, { value: selectedYear })}
             </Typography>
           </div>
         ) : null}
-        <div className={classes.lamCounterChart}>
+        <div className={classes.trafficCounterChart}>
           <LineChart
             labels={lamCounterLabels}
             labelChannel1={intl.formatMessage({
@@ -441,12 +432,14 @@ const LamCounterContent = ({
             channel2Data={channel2Counts}
           />
         </div>
-        <div className={classes.lamCounterSteps}>
+        <div className={classes.trafficCounterSteps}>
           {buttonSteps.map((timing, i) => (
             <ButtonBase
               key={timing.step.type}
               type="button"
-              className={i === activeStep ? `${classes.buttonActive}` : `${classes.buttonWhite}`}
+              className={`${classes.button} ${classes.paddingWide} ${
+                i === activeStep ? classes.buttonActive : classes.buttonWhite
+              }`}
               onClick={() => handleClick(timing.step.type, i)}
             >
               <Typography variant="body2" className={classes.buttonText}>
@@ -470,6 +463,7 @@ LamCounterContent.propTypes = {
     name: PropTypes.string,
     csv_data_source: PropTypes.string,
     sensor_types: PropTypes.arrayOf(PropTypes.string),
+    data_from_year: PropTypes.number,
   }),
 };
 
@@ -479,6 +473,7 @@ LamCounterContent.defaultProps = {
     name: '',
     csv_data_source: '',
     sensor_types: [],
+    data_from_year: 2010,
   },
 };
 
