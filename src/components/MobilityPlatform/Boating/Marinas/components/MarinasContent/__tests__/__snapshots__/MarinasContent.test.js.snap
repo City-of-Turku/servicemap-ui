@@ -45,7 +45,7 @@ exports[`<MarinasContent /> should work 1`] = `
         Tiedot vapaista venepaikoista löytyvät varauspalvelusta.
       </p>
       <a
-        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-16pak0r-MuiTypography-root-MuiLink-root"
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-11g60ih-MuiTypography-root-MuiLink-root"
         href="https://opaskartta.turku.fi/ePermit/fi/Reservation/"
         target="_blank"
       >
@@ -56,7 +56,7 @@ exports[`<MarinasContent /> should work 1`] = `
         </p>
       </a>
       <a
-        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-16pak0r-MuiTypography-root-MuiLink-root"
+        class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-11g60ih-MuiTypography-root-MuiLink-root"
         href="https://www.turku.fi/venepaikat"
         target="_blank"
       >

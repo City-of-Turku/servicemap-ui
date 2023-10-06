@@ -21,7 +21,7 @@ const Providers = (mockState) => ({ children }) => {
   return (
     <Provider store={store}>
       <IntlProvider {...intlMock}>
-        <ThemeProvider theme={themes.SMTheme}>
+        <ThemeProvider theme={themes.SMThemeTku}>
           {children}
         </ThemeProvider>
       </IntlProvider>

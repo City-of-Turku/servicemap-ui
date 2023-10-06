@@ -123,4 +123,7 @@ export default theme => ({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  buttonFeedback: {
+    color: '#fff',
+  },
 });

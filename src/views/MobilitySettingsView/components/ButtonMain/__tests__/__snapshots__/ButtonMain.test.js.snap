@@ -4,7 +4,7 @@ exports[`<ButtonMain /> should work 1`] = `
 <div>
   <button
     aria-label="Pyöräily"
-    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium injectIntl(ButtonMain)-button-1 css-9c6jl7-MuiButtonBase-root-MuiButton-root"
+    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium injectIntl(ButtonMain)-button-1 css-1xw51zl-MuiButtonBase-root-MuiButton-root"
     tabindex="0"
     type="button"
   >

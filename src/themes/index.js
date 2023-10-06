@@ -14,7 +14,7 @@ const props = {
   },
 };
 
-const components = theme => ({
+const components = (theme) => ({
   MuiListItem: {
     styleOverrides: {
       button: {
@@ -31,7 +31,7 @@ const components = theme => ({
     styleOverrides: {
       root: {
         // Default keyboard focus indicator for buttons
-        '&.Mui-focusVisible': theme === 'dark' ? focusIndicatorDark : focusIndicator,
+        '&.Mui-focusVisible': theme === 'dark' ? focusIndicatorDark : focusIndicatorTku,
       },
     },
   },
@@ -50,14 +50,14 @@ const components = theme => ({
     styleOverrides: {
       // Default keyboard focus indicator for input fields
       root: {
-        '&.Mui-focused': theme === 'dark' ? focusIndicatorDark : focusIndicator,
+        '&.Mui-focused': theme === 'dark' ? focusIndicatorDark : focusIndicatorTku,
       },
     },
   },
   MuiRadio: {
     styleOverrides: {
       root: {
-        '&.Mui-focusVisible': theme === 'dark' ? focusIndicatorDark : focusIndicator,
+        '&.Mui-focusVisible': theme === 'dark' ? focusIndicatorDark : focusIndicatorTku,
         marginRight: 8,
       },
     },
@@ -65,7 +65,7 @@ const components = theme => ({
   MuiCheckbox: {
     styleOverrides: {
       root: {
-        '&.Mui-focusVisible': theme === 'dark' ? focusIndicatorDark : focusIndicator,
+        '&.Mui-focusVisible': theme === 'dark' ? focusIndicatorDark : focusIndicatorTku,
         marginRight: 8,
       },
     },
@@ -249,6 +249,18 @@ export const paletteDefault = {
   },
 };
 
+export const paletteTurku = {
+  ...paletteDefault,
+  primary: {
+    main: 'rgb(0, 98, 174)',
+    highContrast: '#fff',
+  },
+  detail: {
+    main: 'rgb(0, 98, 174)',
+    alpha: 'rgb(0, 98, 174, 0.5)',
+  },
+};
+
 // Color palette for dark theme
 export const paletteDark = {
   primary: {
@@ -308,6 +320,11 @@ const focusIndicator = {
   zIndex: '1',
 };
 
+const focusIndicatorTku = {
+  ...focusIndicator,
+  boxShadow: `0 0 0 2px rgb(255, 255, 255), 0 0 0 6px ${paletteTurku.primary.main}, 0 0 0 8px rgb(255, 255, 255)`,
+};
+
 const focusIndicatorDark = {
   outline: '2px solid transparent',
   boxShadow:
@@ -340,4 +357,16 @@ const SMThemeDark = createTheme({
   focusIndicator: focusIndicatorDark,
 });
 
-export default { SMTheme, SMThemeDark };
+const SMThemeTku = createTheme({
+  props,
+  components: components('default'),
+  breakpoints,
+  typography,
+  spacing,
+  custom,
+  palette: paletteTurku,
+  zIndex,
+  focusIndicatorTku,
+});
+
+export default { SMTheme, SMThemeDark, SMThemeTku };
