@@ -952,6 +952,7 @@ const translations = {
   'mobilityPlatform.info.busStops': 'The map shows bus stops by Turku region traffic provider Föli. By clicking the icon on the map, you can see next few departure times from the selected bus stop. Zoom in the map to see the stops. The Map data comes from the interface provided by Digitransit.',
   'mobilityPlatform.info.underAndOverpasses': 'The map shows underpasses and overpasses located within the city of Turku.',
   'mobilityPlatform.info.rentalCarParking': 'There are total of five parking places in Turku intended only for shared use cars.',
+  'mobilityPlatform.info.publicBenches': 'Kartalla näkyvät Turussa sijaitsevat yleiset penkit.', // TODO translate
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',
