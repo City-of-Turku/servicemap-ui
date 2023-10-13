@@ -5,7 +5,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { ButtonBase, Typography } from '@mui/material';
+import { ButtonBase, Container, Typography } from '@mui/material';
 import { Air } from '@mui/icons-material';
 import {
   getMonth, getWeek, getYear, format, subDays,
@@ -15,7 +15,6 @@ import DatePicker, { registerLocale } from 'react-datepicker';
 import { fetchAirMonitoringDatas, fetchAirMonitoringParameters } from '../../../AirMonitoringAPI/AirMonitoringAPI';
 import { formatDates, formatMonths } from '../../../../EcoCounter/utils';
 import InputDate from '../../../../EcoCounter/InputDate';
-import ChartComponent from '../ChartComponent';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
@@ -26,15 +25,14 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
   const [airQualityMonths, setAirQualityMonths] = useState([]);
   const [airQualityYears, setAirQualityYears] = useState([]);
   const [airQualityParameters, setAirQualityParameters] = useState([]);
-  const [channel1Data, setChannel1Data] = useState([]);
-  const [dataLabels, setDataLabels] = useState([]);
+  const [currentParameter, setCurrentParameter] = useState('AQINDEX_PT1H_avg');
   const [currentTime, setCurrentTime] = useState('hour');
+  const [activeParameter, setActiveParameter] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const stationId = station.id;
   const stationName = station.name;
-  const parameterTypes = station.parameters;
 
   const locale = useSelector((state) => state.user.locale);
 
@@ -74,13 +72,6 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
   useEffect(() => {
     fetchAirMonitoringParameters(setAirQualityParameters);
   }, [stationId]);
-
-  const getAirQIndex = () => {
-    const AirQItem = airQualityParameters.find((item) => item.name === 'AQINDEX_PT1H_avg');
-    return AirQItem?.id;
-  };
-
-  const AirQIndex = getAirQIndex();
 
   // Reset selectedDate value when the new popup is opened.
   useEffect(() => {
@@ -232,31 +223,55 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     },
   ];
 
-  const renderParameterTypeText = (parameterType) => {
-    if (parameterType === AirQIndex) {
-      return (
-        <div className={classes.textContainer}>
-          <Typography variant="body2" className={classes.parameterTypeText}>
-            {intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.airIndex' })}
-          </Typography>
-        </div>
-      );
-    }
-    return null;
+  // Sets current user type and active button index
+  const setParameterTypeState = (index, typeValue) => {
+    setActiveParameter(index);
+    setCurrentParameter(typeValue.name);
   };
 
-  const renderParameterTypeIcon = (parameterType) => {
-    if (parameterType === AirQIndex) {
-      return (
-        <div className={classes.iconWrapper}>
+  const setParameterTypes = (type, index) => {
+    setParameterTypeState(index, type);
+  };
+
+  const getParameterText = (paramType) => {
+    switch (paramType) {
+      case 'SO2_PT1H_avg':
+        return 'mobilityPlatform.airMonitoring.SO2_PT1H_avg';
+      case 'NO2_PT1H_avg':
+        return 'mobilityPlatform.airMonitoring.NO2_PT1H_avg';
+      case 'PM10_PT1H_avg':
+        return 'mobilityPlatform.airMonitoring.PM10_PT1H_avg';
+      case 'PM25_PT1H_avg':
+        return 'mobilityPlatform.airMonitoring.PM25_PT1H_avg';
+      case 'O3_PT1H_avg':
+        return 'mobilityPlatform.airMonitoring.O3_PT1H_avg';
+      default:
+        return 'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg';
+    }
+  };
+
+  const renderParameterTypeText = (parameterType) => (
+    <div className={classes.textContainer}>
+      <Typography variant="body2" component="p" className={classes.parameterTypeText}>
+        {intl.formatMessage({ id: getParameterText(parameterType.name) })}
+      </Typography>
+    </div>
+  );
+
+  const renderParameterTypeButton = (parameterType, i) => (
+    <div>
+      <ButtonBase
+        className={`${classes.button} ${classes.paddingNarrow} ${
+          i === activeParameter ? classes.buttonActive : classes.buttonWhite
+        }`}
+        onClick={() => setParameterTypes(parameterType, i)}
+      >
+        <div className={i === activeParameter ? `${classes.iconActive}` : `${classes.icon}`}>
           <Air fontSize="medium" />
         </div>
-      );
-    }
-    return null;
-  };
-
-  const formatWeeks = (weekNumber) => `${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.chart.week' })} ${weekNumber}`;
+      </ButtonBase>
+    </div>
+  );
 
   /**
    * Set current step and active button index
@@ -287,67 +302,62 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     }
   };
 
-  // Empties chart data so that old data won't persist on the chart
-  const resetChannelDatas = () => {
-    setChannel1Data([]);
-    setDataLabels([]);
-  };
-
-  // Channel data is set inside this function to avoid duplicate code
-  const setAllChannelDatas = (newValue) => {
-    if (newValue) {
-      setChannel1Data((channel1Data) => [...channel1Data, newValue]);
-    }
-  };
-
-  const getAQIndexValues = (measurementsData) => {
-    const aqIndex = measurementsData.find((item) => item.parameter === 'AQINDEX_PT1H_avg');
-    return aqIndex?.value;
-  };
-
-  /**
-   * Function that will process data & update state values
-   * @param {Array} data
-   * @param {function} labelFormatter
-   */
-  const processData = (data, labelFormatter) => {
-    data.forEach((el) => {
-      const measurementsArr = el.measurements;
-      const aqIndex = getAQIndexValues(measurementsArr);
-      setAllChannelDatas(aqIndex);
-      setDataLabels((dataLabels) => [...dataLabels, labelFormatter(el)]);
-    });
-  };
-
-  /**
-   * Sets channel data into React state, so it can be displayed on the chart.
-   * States for user type(s) and step(s) are used to filter shown data.
-   * */
-  const setChannelData = () => {
-    resetChannelDatas();
+  const setRenderData = () => {
     if (currentTime === 'hour') {
-      processData(airQualityHours, (el) => `${el.hour_number}:00`);
-    } else if (currentTime === 'day') {
-      processData(airQualityDays, (el) => formatDates(el.date));
-    } else if (currentTime === 'week') {
-      processData(airQualityWeeks, (el) => formatWeeks(el.week_number));
-    } else if (currentTime === 'month') {
-      processData(airQualityMonths, (el) => formatMonths(el.month_number, intl));
-    } else if (currentTime === 'year') {
-      processData(airQualityYears, (el) => el.year_number);
+      return airQualityHours;
     }
+    if (currentTime === 'day') {
+      return airQualityDays;
+    }
+    if (currentTime === 'week') {
+      return airQualityWeeks;
+    }
+    if (currentTime === 'month') {
+      return airQualityMonths;
+    }
+    if (currentTime === 'year') {
+      return airQualityYears;
+    }
+    return null;
   };
 
-  useEffect(() => {
-    if (currentTime === 'hour') {
-      processData(airQualityHours, (el) => el.hour_number);
+  const formatDate = (item) => {
+    if (Object.hasOwn(item, 'hour_number')) {
+      return `${item.hour_number}:00`;
     }
-  }, [airQualityHours, stationId]);
+    if (Object.hasOwn(item, 'date')) {
+      return formatDates(item.date);
+    }
+    if (Object.hasOwn(item, 'week_number')) {
+      return `Viikko: ${item.week_number}`;
+    }
+    if (Object.hasOwn(item, 'month_number')) {
+      return formatMonths(item.month_number, intl);
+    }
+    if (Object.hasOwn(item, 'year_number')) {
+      return `Vuosi ${item.year_number}`;
+    }
+    return null;
+  };
 
-  // When current user type or step changes, calls function to update the chart data
-  useEffect(() => {
-    setChannelData();
-  }, [currentTime]);
+  const renderAirQuality = (measurement, parentObj) => {
+    if (measurement.parameter === currentParameter) {
+      return (
+        <Typography key={measurement.id} variant="body2" component="p">
+          {`${formatDate(parentObj)}: ${measurement.value}`}
+        </Typography>
+      );
+    }
+    return null;
+  };
+
+  const renderData = () => {
+    const data = setRenderData();
+    const filteredData = data.filter((item) => item.measurements.some((measurement) => measurement.parameter === currentParameter));
+    return filteredData.map((item) => (
+      <div key={item.id}>{item.measurements.map((measurement) => renderAirQuality(measurement, item))}</div>
+    ));
+  };
 
   return (
     <div className={classes.popupInner}>
@@ -371,23 +381,17 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       </div>
       <div className={classes.wrapper}>
         <div className={classes.parameterTypes}>
-          {parameterTypes?.map((parameterType) => (
-            <div key={parameterType} className={classes.container}>
-              {renderParameterTypeIcon(parameterType)}
+          {airQualityParameters?.map((parameterType, i) => (
+            <div key={parameterType.name} className={classes.container}>
+              {renderParameterTypeButton(parameterType, i)}
               {renderParameterTypeText(parameterType)}
             </div>
           ))}
         </div>
       </div>
-      <div className={classes.chartContainer}>
-        <ChartComponent
-          labels={dataLabels}
-          labelChannel1={intl.formatMessage({
-            id: 'mobilityPlatform.airMonitoring.chart.label',
-          })}
-          channel1Data={channel1Data}
-        />
-      </div>
+      <Container sx={{ margin: '0.5rem 0' }}>
+        {renderData()}
+      </Container>
       <div>
         <div className={classes.dateStepsContainer}>
           {buttonSteps.map((timing, i) => (

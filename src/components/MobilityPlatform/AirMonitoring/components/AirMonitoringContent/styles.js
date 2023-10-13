@@ -83,6 +83,8 @@ const styles = (theme) => ({
   parameterTypeText: {
     fontWeight: 'bold',
     fontSize: '0.8rem',
+    paddingTop: theme.spacing(0.5),
+    paddingRight: theme.spacing(1),
   },
   buttonText: {
     fontSize: '0.75rem',

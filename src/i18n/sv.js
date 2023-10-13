@@ -901,6 +901,12 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Betalningstyper: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Ytterligare info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Övergångställe',
+  'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Luft',
+  'mobilityPlatform.airMonitoring.SO2_PT1H_avg': 'Svavel',
+  'mobilityPlatform.airMonitoring.NO2_PT1H_avg': 'Kväve',
+  'mobilityPlatform.airMonitoring.PM10_PT1H_avg': 'Partiklar',
+  'mobilityPlatform.airMonitoring.PM25_PT1H_avg': 'Små partiklar',
+  'mobilityPlatform.airMonitoring.O3_PT1H_avg': 'Ozon',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',

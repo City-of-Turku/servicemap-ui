@@ -892,7 +892,12 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Maksutavat: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Lisätietoja: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Suojatie',
-  'mobilityPlatform.content.airQuality.index': 'Ilmanlaatu',
+  'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Ilma',
+  'mobilityPlatform.airMonitoring.SO2_PT1H_avg': 'Rikki',
+  'mobilityPlatform.airMonitoring.NO2_PT1H_avg': 'Typpi',
+  'mobilityPlatform.airMonitoring.PM10_PT1H_avg': 'Hiukkaset',
+  'mobilityPlatform.airMonitoring.PM25_PT1H_avg': 'Pienhiukkaset',
+  'mobilityPlatform.airMonitoring.O3_PT1H_avg': 'Otsoni',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',

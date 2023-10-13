@@ -897,6 +897,12 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Payment methods: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Additional info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Crosswalk',
+  'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Air',
+  'mobilityPlatform.airMonitoring.SO2_PT1H_avg': 'Sulfur',
+  'mobilityPlatform.airMonitoring.NO2_PT1H_avg': 'Nitrogen',
+  'mobilityPlatform.airMonitoring.PM10_PT1H_avg': 'Particles',
+  'mobilityPlatform.airMonitoring.PM25_PT1H_avg': 'Fine particles',
+  'mobilityPlatform.airMonitoring.O3_PT1H_avg': 'Ozone',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Route description',
