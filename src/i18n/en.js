@@ -897,12 +897,6 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Payment methods: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Additional info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Crosswalk',
-  'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Air',
-  'mobilityPlatform.airMonitoring.SO2_PT1H_avg': 'Sulfur',
-  'mobilityPlatform.airMonitoring.NO2_PT1H_avg': 'Nitrogen',
-  'mobilityPlatform.airMonitoring.PM10_PT1H_avg': 'Particles',
-  'mobilityPlatform.airMonitoring.PM25_PT1H_avg': 'Fine particles',
-  'mobilityPlatform.airMonitoring.O3_PT1H_avg': 'Ozone',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Route description',
@@ -977,6 +971,17 @@ const translations = {
   'mobilityPlatform.airMonitoring.airIndex': 'Air quality',
   'mobilityPlatform.airMonitoring.chart.label': 'Air quality index',
   'mobilityPlatform.airMonitoring.chart.week': 'Week',
+  'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Air',
+  'mobilityPlatform.airMonitoring.SO2_PT1H_avg': 'Sulfur',
+  'mobilityPlatform.airMonitoring.NO2_PT1H_avg': 'Nitrogen',
+  'mobilityPlatform.airMonitoring.PM10_PT1H_avg': 'Particles',
+  'mobilityPlatform.airMonitoring.PM25_PT1H_avg': 'Fine particles',
+  'mobilityPlatform.airMonitoring.O3_PT1H_avg': 'Ozone',
+  'mobilityPlatform.airMonitoring.quality.good': 'Good',
+  'mobilityPlatform.airMonitoring.quality.satisfactory': 'Satisfactory',
+  'mobilityPlatform.airMonitoring.quality.fair': 'Fair',
+  'mobilityPlatform.airMonitoring.quality.poor': 'Poor',
+  'mobilityPlatform.airMonitoring.quality.hazardous': 'Very poor',
 
   // Ecocounter
   'ecocounter.hour': 'Hours',

@@ -340,11 +340,42 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     return null;
   };
 
+  const renderThresholdValues = (measurementVal) => {
+    if (currentParameter === 'AQINDEX_PT1H_avg') {
+      if (measurementVal >= 0 && measurementVal <= 50) {
+        return `(${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.good' })})`;
+      }
+      if (measurementVal >= 51 && measurementVal <= 75) {
+        return `(${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.satisfactory' })})`;
+      }
+      if (measurementVal >= 76 && measurementVal <= 100) {
+        return `(${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.fair' })})`;
+      }
+      if (measurementVal >= 101 && measurementVal <= 150) {
+        return `(${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.poor' })})`;
+      }
+      if (measurementVal >= 151) {
+        return `(${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.hazardous' })})`;
+      }
+      return '';
+    }
+    return '';
+  };
+
+  const renderFixedDecimals = (measurementVal) => {
+    if (!Number.isInteger(measurementVal)) {
+      return measurementVal.toFixed(2);
+    }
+    return measurementVal;
+  };
+
   const renderAirQuality = (measurement, parentObj) => {
     if (measurement.parameter === currentParameter) {
       return (
         <Typography key={measurement.id} variant="body2" component="p">
-          {`${formatDate(parentObj)}: ${measurement.value}`}
+          {`${formatDate(parentObj)}: ${renderFixedDecimals(measurement.value)} ${renderThresholdValues(
+            measurement.value,
+          )}`}
         </Typography>
       );
     }
@@ -389,9 +420,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
           ))}
         </div>
       </div>
-      <Container sx={{ margin: '0.5rem 0' }}>
-        {renderData()}
-      </Container>
+      <Container sx={{ margin: '0.5rem 0' }}>{renderData()}</Container>
       <div>
         <div className={classes.dateStepsContainer}>
           {buttonSteps.map((timing, i) => (

@@ -892,12 +892,6 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Maksutavat: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Lisätietoja: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Suojatie',
-  'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Ilma',
-  'mobilityPlatform.airMonitoring.SO2_PT1H_avg': 'Rikki',
-  'mobilityPlatform.airMonitoring.NO2_PT1H_avg': 'Typpi',
-  'mobilityPlatform.airMonitoring.PM10_PT1H_avg': 'Hiukkaset',
-  'mobilityPlatform.airMonitoring.PM25_PT1H_avg': 'Pienhiukkaset',
-  'mobilityPlatform.airMonitoring.O3_PT1H_avg': 'Otsoni',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',
@@ -972,6 +966,17 @@ const translations = {
   'mobilityPlatform.airMonitoring.airIndex': 'Ilmanlaatu',
   'mobilityPlatform.airMonitoring.chart.label': 'Ilmanlaatuindeksi',
   'mobilityPlatform.airMonitoring.chart.week': 'Viikko',
+  'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Ilma',
+  'mobilityPlatform.airMonitoring.SO2_PT1H_avg': 'Rikki',
+  'mobilityPlatform.airMonitoring.NO2_PT1H_avg': 'Typpi',
+  'mobilityPlatform.airMonitoring.PM10_PT1H_avg': 'Hiukkaset',
+  'mobilityPlatform.airMonitoring.PM25_PT1H_avg': 'Pienhiukkaset',
+  'mobilityPlatform.airMonitoring.O3_PT1H_avg': 'Otsoni',
+  'mobilityPlatform.airMonitoring.quality.good': 'Hyvä',
+  'mobilityPlatform.airMonitoring.quality.satisfactory': 'Tyydyttävä',
+  'mobilityPlatform.airMonitoring.quality.fair': 'Välttävä',
+  'mobilityPlatform.airMonitoring.quality.poor': 'Huono',
+  'mobilityPlatform.airMonitoring.quality.hazardous': 'Erittäin huono',
 
   // Ecocounter
   'ecocounter.hour': 'Tunnit',
