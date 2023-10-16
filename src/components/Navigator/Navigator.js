@@ -65,27 +65,29 @@ class Navigator extends React.Component {
             },
             {
               id: config.matomoSensesDimensionID,
-              value: senses && senses.join(','),
+              value: senses?.join(','),
             },
           ],
         });
       }, 400);
     }
-  }
+  };
 
   /**
    * Generate url based on path string and data
    * @param target - Key string for path config
    * @param data - Data for path used if target is path key
+   * @param embed - Override isEmbed() check
    */
-  generatePath = (target, data) => {
+  generatePath = (target, data, embed) => {
     const { match } = this.props;
     const { params } = match;
-    const locale = params && params.lng;
+    const locale = params?.lng;
 
-    return generatePath(target, locale, data, isEmbed());
-  }
+    const embedValue = typeof embed !== 'undefined' ? embed : isEmbed();
 
+    return generatePath(target, locale, data, embedValue);
+  };
 
   /**
    * Go back in history if breadcrumbs has values otherwise return to home view
@@ -107,11 +109,10 @@ class Navigator extends React.Component {
       this.trackPageView({ mobility, senses });
       breadcrumbPop();
     } else {
-      history.push(this.generatePath('home'));
+      history.push(this.generatePath('home'), null, false);
       breadcrumbPush({ location });
     }
-  }
-
+  };
 
   /**
    * Push current location to history
@@ -139,7 +140,7 @@ class Navigator extends React.Component {
     } catch (e) {
       console.warn('Warning:', e.message);
     }
-  }
+  };
 
   /**
    * Replace current location in history
@@ -162,7 +163,7 @@ class Navigator extends React.Component {
     } catch (e) {
       console.warn('Warning:', e.message);
     }
-  }
+  };
 
   // Add map param to url
   openMap = () => {
@@ -173,7 +174,7 @@ class Navigator extends React.Component {
     // TODO: better way to normalize spaces in url
     const searchString = url.search.replace('+', ' ');
     history.push(url.pathname + searchString);
-  }
+  };
 
   // Remove map param from url
   closeMap = (replace) => {
@@ -186,7 +187,7 @@ class Navigator extends React.Component {
     } else {
       history.push(url.pathname + url.search);
     }
-  }
+  };
 
   closeFeedback = (unitID) => {
     const { breadcrumb } = this.props;
@@ -195,7 +196,7 @@ class Navigator extends React.Component {
       return;
     }
     this.goBack();
-  }
+  };
 
   setParameter = (param, value) => {
     const { history } = this.props;
@@ -203,7 +204,7 @@ class Navigator extends React.Component {
 
     url.searchParams.set(param, value);
     history.replace(url.pathname + url.search);
-  }
+  };
 
   removeParameter = (param) => {
     const { history } = this.props;
@@ -211,9 +212,9 @@ class Navigator extends React.Component {
 
     url.searchParams.delete(param);
     history.replace(url.pathname + url.search);
-  }
+  };
 
-  render = () => null;
+  render() { return null; }
 }
 
 Navigator.propTypes = {
@@ -245,7 +246,7 @@ const mapStateToProps = (state) => {
     breadcrumb,
     previousSearch,
     mobility: settings.mobility,
-    senses: SettingsUtility.accessibilityImpairmentKeys.filter(key => settings[key]),
+    senses: SettingsUtility.accessibilityImpairmentKeys.filter((key) => settings[key]),
   };
 };
 
