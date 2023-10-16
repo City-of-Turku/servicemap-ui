@@ -11,6 +11,7 @@ import React, { useRef } from 'react';
 import { useIntl } from 'react-intl';
 import CloseButton from '../CloseButton';
 import SMButton from '../ServiceMapButton';
+import useMobileStatus from '../../utils/isMobile';
 
 const Dialog = ({
   classes,
@@ -24,6 +25,7 @@ const Dialog = ({
 }) => {
   const intl = useIntl();
   const dialogRef = useRef();
+  const isMobile = useMobileStatus();
 
   const handleClose = () => {
     setOpen(false);
@@ -58,9 +60,10 @@ const Dialog = ({
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
-        classes={{
-          root: classes.muiRoot,
-        }}
+        fullScreen={isMobile}
+        classes={
+          !isMobile ? { root: classes.muiRoot } : null
+        }
       >
         <div className={classes.root}>
           {/* Empty element that makes keyboard focus loop in dialog */}
