@@ -1,7 +1,7 @@
 import config from '../../../config';
 import { transitIconSize } from './config/mapConfig';
 
-const styles = theme => ({
+const styles = (theme) => ({
   map: {
     height: '100%',
     flex: '1 0 auto',
@@ -225,7 +225,9 @@ const styles = theme => ({
     ...theme.typography.body2,
     paddingTop: theme.spacing(1),
     textAlign: 'center',
-    color: theme.palette.primary.link,
+    color: theme.palette.link.main,
+    textDecoration: 'underline',
+    cursor: 'pointer',
   },
   unitTooltipWrapper: {
     padding: theme.spacing(3),
