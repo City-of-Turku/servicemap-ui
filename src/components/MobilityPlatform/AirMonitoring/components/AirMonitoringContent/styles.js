@@ -76,9 +76,9 @@ const styles = (theme) => ({
   },
   parameterTypes: {
     display: 'flex',
-    justifyContent: 'flex-end',
-    marginBottom: theme.spacing(0.5),
-    paddingRight: theme.spacing(1.5),
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    marginBottom: theme.spacing(0.75),
   },
   parameterTypeText: {
     fontWeight: 'bold',

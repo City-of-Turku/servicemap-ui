@@ -410,15 +410,13 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
           />
         </div>
       </div>
-      <div className={classes.wrapper}>
-        <div className={classes.parameterTypes}>
-          {airQualityParameters?.map((parameterType, i) => (
-            <div key={parameterType.name} className={classes.container}>
-              {renderParameterTypeButton(parameterType, i)}
-              {renderParameterTypeText(parameterType)}
-            </div>
-          ))}
-        </div>
+      <div className={classes.parameterTypes}>
+        {airQualityParameters?.map((parameterType, i) => (
+          <div key={parameterType.name} className={classes.container}>
+            {renderParameterTypeButton(parameterType, i)}
+            {renderParameterTypeText(parameterType)}
+          </div>
+        ))}
       </div>
       <Container sx={{ margin: '0.5rem 0' }}>{renderData()}</Container>
       <div>
