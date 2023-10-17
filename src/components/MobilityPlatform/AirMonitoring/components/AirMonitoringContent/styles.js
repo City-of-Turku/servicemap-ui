@@ -74,17 +74,15 @@ const styles = (theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  parameterTypes: {
+  parameterTitle: {
     display: 'flex',
-    justifyContent: 'space-evenly',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    marginBottom: theme.spacing(0.75),
+    marginBottom: theme.spacing(1),
   },
   parameterTypeText: {
-    fontWeight: 'bold',
-    fontSize: '0.8rem',
-    paddingTop: theme.spacing(0.5),
-    paddingRight: theme.spacing(1),
+    marginTop: theme.spacing(0.5),
+    marginLeft: theme.spacing(3),
   },
   buttonText: {
     fontSize: '0.75rem',
@@ -103,6 +101,17 @@ const styles = (theme) => ({
     padding: theme.spacing(0.5),
     width: '30px',
     height: '30px',
+  },
+  cardContainer: {
+    padding: theme.spacing(1),
+  },
+  card: {
+    padding: theme.spacing(3),
+  },
+  flexRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   dateStepsContainer: {
     display: 'flex',
