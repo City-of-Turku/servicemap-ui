@@ -973,19 +973,19 @@ const translations = {
 
   // Air monitoring
   'mobilityPlatform.airMonitoring.airIndex': 'Luftkvalitet',
-  'mobilityPlatform.airMonitoring.chart.label': 'Luftkvalitetsindex',
   'mobilityPlatform.airMonitoring.chart.week': 'Vecka',
-  'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Luft',
+  'mobilityPlatform.airMonitoring.quality.subTitle': 'koncentrationer:',
+  'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Luftkvalitetsindex',
   'mobilityPlatform.airMonitoring.SO2_PT1H_avg': 'Svaveldioxid',
   'mobilityPlatform.airMonitoring.NO2_PT1H_avg': 'Kvävedioxid',
   'mobilityPlatform.airMonitoring.PM10_PT1H_avg': 'Inandningsbara partiklar',
   'mobilityPlatform.airMonitoring.PM25_PT1H_avg': 'Finpartiklar',
   'mobilityPlatform.airMonitoring.O3_PT1H_avg': 'Ozon',
-  'mobilityPlatform.airMonitoring.quality.good': 'God',
-  'mobilityPlatform.airMonitoring.quality.satisfactory': 'Tillfredsställande',
-  'mobilityPlatform.airMonitoring.quality.fair': 'Nöjaktig',
-  'mobilityPlatform.airMonitoring.quality.poor': 'Dålig',
-  'mobilityPlatform.airMonitoring.quality.hazardous': 'Mycket dålig',
+  'mobilityPlatform.airMonitoring.quality.good': 'Luftkvalitet är god.',
+  'mobilityPlatform.airMonitoring.quality.satisfactory': 'Luftkvalitet är tillfredsställande.',
+  'mobilityPlatform.airMonitoring.quality.fair': 'Luftkvalitet är nöjaktig.',
+  'mobilityPlatform.airMonitoring.quality.poor': 'Luftkvalitet är dålig.',
+  'mobilityPlatform.airMonitoring.quality.hazardous': 'Luftkvalitet är mycket dålig.',
 
   // Ecocounter
   'ecocounter.hour': 'Timmar',

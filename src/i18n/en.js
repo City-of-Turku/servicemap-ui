@@ -969,19 +969,19 @@ const translations = {
 
   // Air monitoring
   'mobilityPlatform.airMonitoring.airIndex': 'Air quality',
-  'mobilityPlatform.airMonitoring.chart.label': 'Air quality index',
   'mobilityPlatform.airMonitoring.chart.week': 'Week',
-  'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Air',
+  'mobilityPlatform.airMonitoring.quality.subTitle': 'Concentrations:',
+  'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Air quality index',
   'mobilityPlatform.airMonitoring.SO2_PT1H_avg': 'Sulphur dioxide',
   'mobilityPlatform.airMonitoring.NO2_PT1H_avg': 'Nitrogen dioxide',
   'mobilityPlatform.airMonitoring.PM10_PT1H_avg': 'Thoraric particles',
   'mobilityPlatform.airMonitoring.PM25_PT1H_avg': 'Fine particles',
   'mobilityPlatform.airMonitoring.O3_PT1H_avg': 'Ozone',
-  'mobilityPlatform.airMonitoring.quality.good': 'Good',
-  'mobilityPlatform.airMonitoring.quality.satisfactory': 'Satisfactory',
-  'mobilityPlatform.airMonitoring.quality.fair': 'Fair',
-  'mobilityPlatform.airMonitoring.quality.poor': 'Poor',
-  'mobilityPlatform.airMonitoring.quality.hazardous': 'Very poor',
+  'mobilityPlatform.airMonitoring.quality.good': 'Air quality is good.',
+  'mobilityPlatform.airMonitoring.quality.satisfactory': 'Air quality is satisfactory.',
+  'mobilityPlatform.airMonitoring.quality.fair': 'Air quality is fair.',
+  'mobilityPlatform.airMonitoring.quality.poor': 'Air quality is poor.',
+  'mobilityPlatform.airMonitoring.quality.hazardous': 'Air quality is very poor.',
 
   // Ecocounter
   'ecocounter.hour': 'Hours',

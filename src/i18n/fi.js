@@ -964,19 +964,19 @@ const translations = {
 
   // Air monitoring
   'mobilityPlatform.airMonitoring.airIndex': 'Ilmanlaatu',
-  'mobilityPlatform.airMonitoring.chart.label': 'Ilmanlaatuindeksi',
   'mobilityPlatform.airMonitoring.chart.week': 'Viikko',
-  'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Ilma',
+  'mobilityPlatform.airMonitoring.quality.subTitle': 'Pitoisuudet:',
+  'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Ilmanlaatuindeksi',
   'mobilityPlatform.airMonitoring.SO2_PT1H_avg': 'Rikkidioksidi',
   'mobilityPlatform.airMonitoring.NO2_PT1H_avg': 'Typpidioksi',
   'mobilityPlatform.airMonitoring.PM10_PT1H_avg': 'Hengitettävät hiukkaset',
   'mobilityPlatform.airMonitoring.PM25_PT1H_avg': 'Pienhiukkaset',
   'mobilityPlatform.airMonitoring.O3_PT1H_avg': 'Otsoni',
-  'mobilityPlatform.airMonitoring.quality.good': 'Hyvä',
-  'mobilityPlatform.airMonitoring.quality.satisfactory': 'Tyydyttävä',
-  'mobilityPlatform.airMonitoring.quality.fair': 'Välttävä',
-  'mobilityPlatform.airMonitoring.quality.poor': 'Huono',
-  'mobilityPlatform.airMonitoring.quality.hazardous': 'Erittäin huono',
+  'mobilityPlatform.airMonitoring.quality.good': 'Ilmanlaatu on hyvä.',
+  'mobilityPlatform.airMonitoring.quality.satisfactory': 'Ilmanlaatu on tyydyttävä.',
+  'mobilityPlatform.airMonitoring.quality.fair': 'Ilmanlaatu on välttävä.',
+  'mobilityPlatform.airMonitoring.quality.poor': 'Ilmanlaatu on huono.',
+  'mobilityPlatform.airMonitoring.quality.hazardous': 'Ilmanlaatu on erittäin huono.',
 
   // Ecocounter
   'ecocounter.hour': 'Tunnit',

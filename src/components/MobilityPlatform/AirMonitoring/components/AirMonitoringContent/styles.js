@@ -74,6 +74,9 @@ const styles = (theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  textContainer: {
+    paddingBottom: theme.spacing(1),
+  },
   parameterTitle: {
     display: 'flex',
     justifyContent: 'flex-start',

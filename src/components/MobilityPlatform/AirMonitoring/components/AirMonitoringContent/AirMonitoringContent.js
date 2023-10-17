@@ -6,8 +6,9 @@ import React, {
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
-  ButtonBase, Card, CardContent, Container, Typography,
+  Box, ButtonBase, Card, Container, Typography,
 } from '@mui/material';
+import styled from '@emotion/styled';
 import {
   getMonth, getWeek, getYear, format, subDays,
 } from 'date-fns';
@@ -30,8 +31,6 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
 
   const stationId = station.id;
   const stationName = station.name;
-
-  const currentParameter = 'AQINDEX_PT1H_avg';
 
   const locale = useSelector((state) => state.user.locale);
 
@@ -273,25 +272,21 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     return null;
   };
 
-  // TODO use this function
   const renderThresholdValues = (measurementVal) => {
-    if (currentParameter === 'AQINDEX_PT1H_avg') {
-      if (measurementVal >= 0 && measurementVal <= 50) {
-        return `(${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.good' })})`;
-      }
-      if (measurementVal >= 51 && measurementVal <= 75) {
-        return `(${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.satisfactory' })})`;
-      }
-      if (measurementVal >= 76 && measurementVal <= 100) {
-        return `(${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.fair' })})`;
-      }
-      if (measurementVal >= 101 && measurementVal <= 150) {
-        return `(${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.poor' })})`;
-      }
-      if (measurementVal >= 151) {
-        return `(${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.hazardous' })})`;
-      }
-      return '';
+    if (measurementVal >= 0 && measurementVal <= 50) {
+      return intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.good' });
+    }
+    if (measurementVal >= 51 && measurementVal <= 75) {
+      return intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.satisfactory' });
+    }
+    if (measurementVal >= 76 && measurementVal <= 100) {
+      return intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.fair' });
+    }
+    if (measurementVal >= 101 && measurementVal <= 150) {
+      return intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.poor' });
+    }
+    if (measurementVal >= 151) {
+      return intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.hazardous' });
     }
     return '';
   };
@@ -305,11 +300,20 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
 
   const renderAirQuality = (measurement) => (
     <div>
-      <Typography key={measurement.id} variant="body2" component="p">
-        {`${intl.formatMessage({ id: getParameterText(measurement.parameter) })}: ${renderFixedDecimals(
-          measurement.value,
-        )}`}
-      </Typography>
+      <div className={classes.textContainer}>
+        <Typography key={measurement.id} variant="body2" component="p">
+          {`${intl.formatMessage({ id: getParameterText(measurement.parameter) })}: ${renderFixedDecimals(
+            measurement.value,
+          )}`}
+        </Typography>
+      </div>
+      {measurement.parameter === 'AQINDEX_PT1H_avg' ? (
+        <div className={classes.textContainer}>
+          <Typography variant="body2" component="p">
+            {renderThresholdValues(measurement.value)}
+          </Typography>
+        </div>
+      ) : null}
     </div>
   );
 
@@ -317,18 +321,20 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     const data = setRenderData();
     return data.map((item) => (
       <Card key={item.id} variant="outlined">
-        <CardContent sx={{ padding: '0.5rem' }}>
-          <Typography variant="subtitle2" component="h5">
-            {formatDate(item)}
-          </Typography>
-        </CardContent>
-        <div className={classes.flexColumn}>
-          {item.measurements.map((measurement) => (
-            <CardContent key={measurement.parameter} sx={{ padding: '0.5rem' }}>
-              {renderAirQuality(measurement)}
-            </CardContent>
-          ))}
-        </div>
+        <StyledBox>
+          <div className={classes.textContainer}>
+            <Typography variant="body2" component="p">
+              {formatDate(item)}
+            </Typography>
+          </div>
+          <div>
+            {item.measurements.map((measurement) => (
+              <div key={measurement.parameter}>
+                {renderAirQuality(measurement)}
+              </div>
+            ))}
+          </div>
+        </StyledBox>
       </Card>
     ));
   };
@@ -354,7 +360,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
         </div>
       </div>
       <div className={classes.parameterTitle}>{renderParameterTypeText()}</div>
-      <Container sx={{ margin: '0.5rem 0' }}>{renderData()}</Container>
+      <StyledContainer>{renderData()}</StyledContainer>
       <div>
         <div className={classes.dateStepsContainer}>
           {buttonSteps.map((timing, i) => (
@@ -376,6 +382,16 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     </div>
   );
 };
+
+const StyledContainer = styled(Container)(({ theme }) => ({
+  paddingLeft: theme.spacing(1.5),
+  paddingRight: theme.spacing(1.5),
+}));
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  paddingLeft: theme.spacing(1),
+  paddingTop: theme.spacing(1),
+}));
 
 AirMonitoringContent.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
