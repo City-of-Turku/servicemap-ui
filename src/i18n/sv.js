@@ -736,7 +736,7 @@ const translations = {
   'mobilityPlatform.menu.title.scooter': 'Elsparkcyklar',
   'mobilityPlatform.menu.title.streetMaintenance': 'Gatuunderhåll',
   'mobilityPlatform.menu.title.public.transport': 'Kollektivtrafik',
-  'mobilityPlatform.menu.title.airMonitoring': 'Air quality and weather', // TODO translate
+  'mobilityPlatform.menu.title.airMonitoring': 'Luftkvalitet ock väder',
   'mobilityPlatform.menu.showChargingStations': 'Elladdningsstationer för bilar',
   'mobilityPlatform.menu.showGasFillingStations': 'Tankstationer med gas',
   'mobilityPlatform.menu.showEcoCounter': 'Beräkningspunkter',
@@ -799,7 +799,7 @@ const translations = {
   'mobilityPlatform.menu.show.underPasses': 'Gångtunnlar',
   'mobilityPlatform.menu.show.overPasses': 'Vägbroar',
   'mobilityPlatform.menu.show.rentalCarParking': 'Bilpool bilars parkeringsplatser',
-  'mobilityPlatform.menu.show.airMonitoring': 'Ilmanlaadun mittauspisteet', // TODO translate
+  'mobilityPlatform.menu.show.airMonitoring': 'Stationer för luftkvalitet', // TODO verify
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
@@ -973,7 +973,6 @@ const translations = {
 
   // Air monitoring
   'mobilityPlatform.airMonitoring.airIndex': 'Luftkvalitet',
-  'mobilityPlatform.airMonitoring.chart.week': 'Vecka',
   'mobilityPlatform.airMonitoring.quality.subTitle': 'koncentrationer:',
   'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Luftkvalitetsindex',
   'mobilityPlatform.airMonitoring.SO2_PT1H_avg': 'Svaveldioxid',
@@ -986,6 +985,10 @@ const translations = {
   'mobilityPlatform.airMonitoring.quality.fair': 'Luftkvalitet är nöjaktig.',
   'mobilityPlatform.airMonitoring.quality.poor': 'Luftkvalitet är dålig.',
   'mobilityPlatform.airMonitoring.quality.hazardous': 'Luftkvalitet är mycket dålig.',
+  'mobilityPlatform.airMonitoring.text.date': 'Datum: {value}',
+  'mobilityPlatform.airMonitoring.text.week': 'Vecka: {value}',
+  'mobilityPlatform.airMonitoring.text.month': 'Månad: {value}',
+  'mobilityPlatform.airMonitoring.text.year': 'År: {value}',
 
   // Ecocounter
   'ecocounter.hour': 'Timmar',

@@ -795,7 +795,7 @@ const translations = {
   'mobilityPlatform.menu.show.underPasses': 'Underpasses',
   'mobilityPlatform.menu.show.overPasses': 'Overpasses',
   'mobilityPlatform.menu.show.rentalCarParking': 'Parking places for shared use cars',
-  'mobilityPlatform.menu.show.airMonitoring': 'Ilmanlaadun mittauspisteet', // TODO translate
+  'mobilityPlatform.menu.show.airMonitoring': 'Air quality stations', // TODO verify
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
@@ -982,6 +982,10 @@ const translations = {
   'mobilityPlatform.airMonitoring.quality.fair': 'Air quality is fair.',
   'mobilityPlatform.airMonitoring.quality.poor': 'Air quality is poor.',
   'mobilityPlatform.airMonitoring.quality.hazardous': 'Air quality is very poor.',
+  'mobilityPlatform.airMonitoring.text.date': 'Date: {value}',
+  'mobilityPlatform.airMonitoring.text.week': 'Week: {value}',
+  'mobilityPlatform.airMonitoring.text.month': 'Month: {value}',
+  'mobilityPlatform.airMonitoring.text.year': 'Year: {value}',
 
   // Ecocounter
   'ecocounter.hour': 'Hours',

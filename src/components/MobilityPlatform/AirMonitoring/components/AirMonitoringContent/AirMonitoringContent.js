@@ -255,19 +255,18 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     return null;
   };
 
-  // TODO Add translations
   const formatDate = (item) => {
     if (Object.hasOwn(item, 'date')) {
-      return `Päivämäärä: ${formatDates(item.date)}`;
+      return `${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.text.date' }, { value: formatDates(item.date) })}`;
     }
     if (Object.hasOwn(item, 'week_number')) {
-      return `Viikko: ${item.week_number}`;
+      return `${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.text.week' }, { value: item.week_number })}`;
     }
     if (Object.hasOwn(item, 'month_number')) {
-      return formatMonths(item.month_number, intl);
+      return `${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.text.month' }, { value: formatMonths(item.month_number, intl) })}`;
     }
     if (Object.hasOwn(item, 'year_number')) {
-      return `Vuosi ${item.year_number}`;
+      return `${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.text.year' }, { value: item.year_number })}`;
     }
     return null;
   };

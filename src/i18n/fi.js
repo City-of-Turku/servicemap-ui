@@ -977,6 +977,10 @@ const translations = {
   'mobilityPlatform.airMonitoring.quality.fair': 'Ilmanlaatu on välttävä.',
   'mobilityPlatform.airMonitoring.quality.poor': 'Ilmanlaatu on huono.',
   'mobilityPlatform.airMonitoring.quality.hazardous': 'Ilmanlaatu on erittäin huono.',
+  'mobilityPlatform.airMonitoring.text.date': 'Päivämäärä: {value}',
+  'mobilityPlatform.airMonitoring.text.week': 'Viikko: {value}',
+  'mobilityPlatform.airMonitoring.text.month': 'Kuukausi: {value}',
+  'mobilityPlatform.airMonitoring.text.year': 'Vuosi: {value}',
 
   // Ecocounter
   'ecocounter.hour': 'Tunnit',
