@@ -737,7 +737,7 @@ const translations = {
   'mobilityPlatform.menu.title.scooter': 'Sähköpotkulaudat',
   'mobilityPlatform.menu.title.streetMaintenance': 'Katujen kunnossapito',
   'mobilityPlatform.menu.title.public.transport': 'Joukkoliikenne',
-  'mobilityPlatform.menu.title.airMonitoring': 'Ilmanlaatu ja sää',
+  'mobilityPlatform.menu.title.airMonitoring': 'Sää ja ilmanlaatu',
   'mobilityPlatform.menu.showChargingStations': 'Sähkölatauspisteet',
   'mobilityPlatform.menu.showGasFillingStations': 'Kaasutankkausasemat',
   'mobilityPlatform.menu.showEcoCounter': 'Laskentapisteet',

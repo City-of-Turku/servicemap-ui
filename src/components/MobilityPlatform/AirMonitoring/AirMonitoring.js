@@ -31,7 +31,17 @@ const AirMonitoring = () => {
     }
   }, [showAirMonitoringStations]);
 
-  const renderData = isDataValid(showAirMonitoringStations, airMonitoringStations);
+  /**
+   * Filter out temporary station, because it contains so little data.
+   */
+  const filteredAirMonitoringStations = airMonitoringStations.reduce((acc, curr) => {
+    if (curr.name !== 'Turku Kauppatori väliaikainen') {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
+  const renderData = isDataValid(showAirMonitoringStations, filteredAirMonitoringStations);
 
   /**
    * Gets coordinate values from string, for example 'SRID=4326;POINT (22.37835 60.40831)'.
@@ -60,11 +70,11 @@ const AirMonitoring = () => {
   };
 
   useEffect(() => {
-    fitBounds(renderData, airMonitoringStations);
+    fitBounds(renderData, filteredAirMonitoringStations);
   }, [renderData]);
 
   return renderData
-    ? airMonitoringStations.map((item) => (
+    ? filteredAirMonitoringStations.map((item) => (
       <Marker key={item.id} icon={customIcon} position={getCoordinates(item.location)}>
         <Popup className="ecocounter-popup">
           <AirMonitoringContent station={item} />

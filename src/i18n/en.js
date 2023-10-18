@@ -732,7 +732,7 @@ const translations = {
   'mobilityPlatform.menu.title.scooter': 'Electric scooters',
   'mobilityPlatform.menu.title.streetMaintenance': 'Street maintenance',
   'mobilityPlatform.menu.title.public.transport': 'Public transport',
-  'mobilityPlatform.menu.title.airMonitoring': 'Air quality and weather',
+  'mobilityPlatform.menu.title.airMonitoring': 'Weather and air quality',
   'mobilityPlatform.menu.showChargingStations': 'Car e-charging points',
   'mobilityPlatform.menu.showGasFillingStations': 'Gas filling stations',
   'mobilityPlatform.menu.showEcoCounter': 'Measurement point',
@@ -795,7 +795,7 @@ const translations = {
   'mobilityPlatform.menu.show.underPasses': 'Underpasses',
   'mobilityPlatform.menu.show.overPasses': 'Overpasses',
   'mobilityPlatform.menu.show.rentalCarParking': 'Parking places for shared use cars',
-  'mobilityPlatform.menu.show.airMonitoring': 'Air quality stations', // TODO verify
+  'mobilityPlatform.menu.show.airMonitoring': 'Air quality stations',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
