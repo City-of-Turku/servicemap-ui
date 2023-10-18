@@ -257,13 +257,19 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
 
   const formatDate = (item) => {
     if (Object.hasOwn(item, 'date')) {
-      return `${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.text.date' }, { value: formatDates(item.date) })}`;
+      return `${intl.formatMessage(
+        { id: 'mobilityPlatform.airMonitoring.text.date' },
+        { value: formatDates(item.date) },
+      )}`;
     }
     if (Object.hasOwn(item, 'week_number')) {
       return `${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.text.week' }, { value: item.week_number })}`;
     }
     if (Object.hasOwn(item, 'month_number')) {
-      return `${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.text.month' }, { value: formatMonths(item.month_number, intl) })}`;
+      return `${intl.formatMessage(
+        { id: 'mobilityPlatform.airMonitoring.text.month' },
+        { value: formatMonths(item.month_number, intl) },
+      )}`;
     }
     if (Object.hasOwn(item, 'year_number')) {
       return `${intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.text.year' }, { value: item.year_number })}`;
@@ -297,8 +303,27 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     return measurementVal;
   };
 
+  const getColorValues = (measurementVal) => {
+    if (measurementVal >= 0 && measurementVal <= 50) {
+      return '#009966';
+    }
+    if (measurementVal >= 51 && measurementVal <= 75) {
+      return '#FFDE33';
+    }
+    if (measurementVal >= 76 && measurementVal <= 100) {
+      return '#FF9933';
+    }
+    if (measurementVal >= 101 && measurementVal <= 150) {
+      return '#CC0033';
+    }
+    if (measurementVal >= 151) {
+      return '#660099';
+    }
+    return '#fff';
+  };
+
   const renderAirQuality = (measurement) => (
-    <div>
+    <StyledColorBox sx={{ bgcolor: getColorValues(measurement.value) }}>
       <div className={classes.textContainer}>
         <Typography key={measurement.id} variant="body2" component="p">
           {`${intl.formatMessage({ id: getParameterText(measurement.parameter) })}: ${renderFixedDecimals(
@@ -306,13 +331,21 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
           )}`}
         </Typography>
       </div>
-      {measurement.parameter === 'AQINDEX_PT1H_avg' ? (
-        <div className={classes.textContainer}>
-          <Typography variant="body2" component="p">
-            {renderThresholdValues(measurement.value)}
-          </Typography>
-        </div>
-      ) : null}
+      <div className={classes.textContainer}>
+        <Typography variant="body2" component="p">
+          {renderThresholdValues(measurement.value)}
+        </Typography>
+      </div>
+    </StyledColorBox>
+  );
+
+  const renderConcentrations = (measurement) => (
+    <div className={classes.textContainer}>
+      <Typography key={measurement.id} variant="body2" component="p">
+        {`${intl.formatMessage({ id: getParameterText(measurement.parameter) })}: ${renderFixedDecimals(
+          measurement.value,
+        )}`}
+      </Typography>
     </div>
   );
 
@@ -329,7 +362,9 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
           <div>
             {item.measurements.map((measurement) => (
               <div key={measurement.parameter}>
-                {renderAirQuality(measurement)}
+                {measurement.parameter === 'AQINDEX_PT1H_avg'
+                  ? renderAirQuality(measurement)
+                  : renderConcentrations(measurement)}
               </div>
             ))}
           </div>
@@ -390,6 +425,14 @@ const StyledContainer = styled(Container)(({ theme }) => ({
 const StyledBox = styled(Box)(({ theme }) => ({
   paddingLeft: theme.spacing(1),
   paddingTop: theme.spacing(1),
+}));
+
+const StyledColorBox = styled(Box)(({ theme }) => ({
+  border: '1px solid #000',
+  borderRadius: '10px',
+  width: '50%',
+  padding: theme.spacing(1),
+  marginBottom: theme.spacing(1),
 }));
 
 AirMonitoringContent.propTypes = {
