@@ -27,7 +27,7 @@ const AirMonitoring = () => {
 
   useEffect(() => {
     if (showAirMonitoringStations) {
-      fetchAirMonitoringStations(setAirMonitoringStations);
+      fetchAirMonitoringStations('AQ', setAirMonitoringStations);
     }
   }, [showAirMonitoringStations]);
 

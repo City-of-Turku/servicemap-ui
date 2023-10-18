@@ -23,9 +23,9 @@ const optionsToParams = (options) => {
  * Fetch air monitoring stations
  * @param {*function} setStations
  */
-const fetchAirMonitoringStations = async (setStations) => {
+const fetchAirMonitoringStations = async (type, setStations) => {
   try {
-    const response = await fetch(`${isApiUrl}/stations?page_size=20`);
+    const response = await fetch(`${isApiUrl}/stations?data_type=${type}&page_size=20`);
     const jsonData = await response.json();
     setStations(jsonData.results);
   } catch (err) {
