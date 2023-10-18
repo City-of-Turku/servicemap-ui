@@ -162,25 +162,25 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     {
       step: {
         type: 'day',
-        text: intl.formatMessage({ id: 'ecocounter.day' }),
+        text: intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.button.day' }),
       },
     },
     {
       step: {
         type: 'week',
-        text: intl.formatMessage({ id: 'ecocounter.week' }),
+        text: intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.button.week' }),
       },
     },
     {
       step: {
         type: 'month',
-        text: intl.formatMessage({ id: 'ecocounter.month' }),
+        text: intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.button.month' }),
       },
     },
     {
       step: {
         type: 'year',
-        text: intl.formatMessage({ id: 'ecocounter.year' }),
+        text: intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.button.year' }),
       },
     },
   ];

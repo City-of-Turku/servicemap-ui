@@ -986,6 +986,10 @@ const translations = {
   'mobilityPlatform.airMonitoring.text.week': 'Week: {value}',
   'mobilityPlatform.airMonitoring.text.month': 'Month: {value}',
   'mobilityPlatform.airMonitoring.text.year': 'Year: {value}',
+  'mobilityPlatform.airMonitoring.button.day': 'Day',
+  'mobilityPlatform.airMonitoring.button.week': 'Week',
+  'mobilityPlatform.airMonitoring.button.month': 'Month',
+  'mobilityPlatform.airMonitoring.button.year': 'Year',
 
   // Ecocounter
   'ecocounter.hour': 'Hours',

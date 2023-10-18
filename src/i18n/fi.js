@@ -981,6 +981,10 @@ const translations = {
   'mobilityPlatform.airMonitoring.text.week': 'Viikko: {value}',
   'mobilityPlatform.airMonitoring.text.month': 'Kuukausi: {value}',
   'mobilityPlatform.airMonitoring.text.year': 'Vuosi: {value}',
+  'mobilityPlatform.airMonitoring.button.day': 'Päivä',
+  'mobilityPlatform.airMonitoring.button.week': 'Viikko',
+  'mobilityPlatform.airMonitoring.button.month': 'Kuukausi',
+  'mobilityPlatform.airMonitoring.button.year': 'Vuosi',
 
   // Ecocounter
   'ecocounter.hour': 'Tunnit',
