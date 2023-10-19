@@ -901,9 +901,6 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Betalningstyper: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Ytterligare info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Övergångställe',
-  'mobilityPlatform.content.publicBench.title': 'Allmänn bänk',
-  'mobilityPlatform.content.publicBench.condition': 'Bänkens skick: {value}',
-  'mobilityPlatform.content.publicBench.model': 'Modell av bänken: {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',
@@ -956,7 +953,7 @@ const translations = {
   'mobilityPlatform.info.busStops': 'Kartan visar Åboregionens kollektivtrafiks, Fölis, busshållplatser. Om du kilckar på ikonen kan du se nästa buss som går från hållplatsen. Zooma in på kartan för att se hållplatserna. Datan kommer från gränssnittet som underhålls av Digitransit.',
   'mobilityPlatform.info.underAndOverpasses': 'Kartan visar gångtunnlar och gångbroar som ligger i Åbo stadsområdet.',
   'mobilityPlatform.info.rentalCarParking': 'Det finns totalt fem parkeringsplatser i Åbo som endast är avsedda för bilpool bilar.',
-  'mobilityPlatform.info.publicBenches': 'Kartalla näkyvät Turussa sijaitsevat yleiset penkit.', // TODO translate
+  'mobilityPlatform.info.publicBenches': 'Kartan visar allmänna bänkar i Åbo.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',
