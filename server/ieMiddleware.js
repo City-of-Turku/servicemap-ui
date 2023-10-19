@@ -80,11 +80,11 @@ const IETemplate = withStyles(styles)(({
           <div>
             <p>Palvelukartta-palvelu ei toimi Internet Explorer-selaimella</p>
             <p>Käytä toista selainta, kuten&nbsp;
-              <a href="https://www.google.com/intl/fi_fi/chrome/" target="_blank" rel="noopener noreferer">Chrome</a>
+              <a href="https://www.google.com/intl/fi_fi/chrome/" target="_blank" rel="noopener noreferrer">Chrome</a>
               ,&nbsp;
-              <a href="https://www.mozilla.org/fi/firefox/new/" target="_blank" rel="noopener noreferer">Firefox</a>
+              <a href="https://www.mozilla.org/fi/firefox/new/" target="_blank" rel="noopener noreferrer">Firefox</a>
               &nbsp;tai&nbsp;
-              <a href="https://www.microsoft/fi-fi/edge/" target="_blank" rel="noopener noreferer">Edge</a>
+              <a href="https://www.microsoft/fi-fi/edge/" target="_blank" rel="noopener noreferrer">Edge</a>
               &nbsp;ole hyvä
             </p>
           </div>
@@ -94,11 +94,11 @@ const IETemplate = withStyles(styles)(({
           <div>
             <p>Servicekarta tjänsten fungerar inte med Internet Explorer</p>
             <p>Vänligen använd någon annan webbläsare t.ex.&nbsp;
-              <a href="https://www.google.com/intl/sv/chrome/" target="_blank" rel="noopener noreferer">Chrome</a>
+              <a href="https://www.google.com/intl/sv/chrome/" target="_blank" rel="noopener noreferrer">Chrome</a>
               ,&nbsp;
-              <a href="https://www.mozilla.org/sv-SE/firefox/new/" target="_blank" rel="noopener noreferer">Firefox</a>
+              <a href="https://www.mozilla.org/sv-SE/firefox/new/" target="_blank" rel="noopener noreferrer">Firefox</a>
               &nbsp;eller&nbsp;
-              <a href="https://www.microsoft/sv-se/edge/" target="_blank" rel="noopener noreferer">Edge</a>
+              <a href="https://www.microsoft/sv-se/edge/" target="_blank" rel="noopener noreferrer">Edge</a>
             </p>
           </div>
         </div>
@@ -107,11 +107,11 @@ const IETemplate = withStyles(styles)(({
           <div>
             <p>Servicemap service does not work with Internet Explorer.</p>
             <p>Please use another browser such as&nbsp;
-              <a href="https://www.google.com/intl/en_us/chrome/" target="_blank" rel="noopener noreferer">Chrome</a>
+              <a href="https://www.google.com/intl/en_us/chrome/" target="_blank" rel="noopener noreferrer">Chrome</a>
               ,&nbsp;
-              <a href="https://www.mozilla.org/en-US/firefox/new/" target="_blank" rel="noopener noreferer">Firefox</a>
+              <a href="https://www.mozilla.org/en-US/firefox/new/" target="_blank" rel="noopener noreferrer">Firefox</a>
               &nbsp;or&nbsp;
-              <a href="https://www.microsoft/en-us/edge/" target="_blank" rel="noopener noreferer">Edge</a>
+              <a href="https://www.microsoft/en-us/edge/" target="_blank" rel="noopener noreferrer">Edge</a>
             </p>
           </div>
         </div>

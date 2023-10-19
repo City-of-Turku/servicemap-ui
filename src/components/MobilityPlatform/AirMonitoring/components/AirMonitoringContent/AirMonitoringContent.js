@@ -428,7 +428,6 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 const StyledColorBox = styled(Box)(({ theme }) => ({
-  border: '1px solid #000',
   borderRadius: '10px',
   width: '50%',
   padding: theme.spacing(1),
