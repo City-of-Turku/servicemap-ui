@@ -392,6 +392,7 @@ const FeedbackView = ({
             onClick={() => handleSend()}
             messageID={sending ? 'feedback.sending' : 'feedback.send'}
             color="primary"
+            className={classes.buttonFeedback}
           />
         </div>
       </form>

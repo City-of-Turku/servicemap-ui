@@ -114,6 +114,7 @@ export default (theme) => {
       textTransform: 'uppercase',
       flexDirection: 'row-reverse',
       borderRadius: '8px',
+      color: '#fff',
     },
     copyIcon: {
       fontSize: 16,

@@ -60,6 +60,7 @@ export default theme => ({
     flexDirection: 'column',
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(0.5),
+    color: '#fff',
   },
   infoTextSticky: {
     backgroundColor: theme.palette.primary.main,
@@ -131,6 +132,7 @@ export default theme => ({
   headerText: {
     fontWeight: 'bold',
     margin: theme.spacing(2, 0, 1, 0),
+    color: '#fff',
   },
   headerBackground: {
     background: theme.palette.primary.main,

@@ -1,4 +1,4 @@
-export default theme => ({
+export default (theme) => ({
   accordionContainer: {
     flexDirection: 'column',
     width: '100%',

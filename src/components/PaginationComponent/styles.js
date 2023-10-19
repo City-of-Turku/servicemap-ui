@@ -16,6 +16,7 @@ export default theme => ({
     width: 32,
     minHeight: 32,
     minWidth: 32,
+    color: '#fff',
   },
   buttonContainer: {
     flexDirection: 'row',
