@@ -60,7 +60,7 @@ const EmbedderView = ({
   }
 
   const cityOption = (search?.city !== '' && search?.city?.split(',')) || citySettings;
-  const citiesToReduce = cityOption.length > 0 ? cityOption : embedderConfig.CITIES.filter(v => v);
+  const citiesToReduce = cityOption.length > 0 ? cityOption : embedderConfig.CITIES.filter((v) => v);
 
   // If external theme (by Turku) is true, then can be used to select which content to render
   const externalTheme = config.themePKG;
@@ -77,9 +77,9 @@ const EmbedderView = ({
   const defaultFixedHeight = embedderConfig.DEFAULT_CUSTOM_WIDTH;
   const iframeConfig = embedderConfig.DEFAULT_IFRAME_PROPERTIES || {};
   const defaultService = 'none';
-  const page = useSelector(state => state.user.page);
-  const selectedUnit = useSelector(state => state.selectedUnit.unit.data);
-  const currentService = useSelector(state => state.service.current);
+  const page = useSelector((state) => state.user.page);
+  const selectedUnit = useSelector((state) => state.selectedUnit.unit.data);
+  const currentService = useSelector((state) => state.service.current);
   const getLocaleText = useLocaleText();
   const userLocale = useUserLocale();
 
@@ -108,6 +108,7 @@ const EmbedderView = ({
   const [crossWalks, setCrossWalks] = useState(false);
   const [underPass, setUnderpass] = useState(false);
   const [overPass, setOverPass] = useState(false);
+  const [publicBenches, setPublicBenches] = useState(false);
 
   const boundsRef = useRef([]);
   const dialogRef = useRef();
@@ -134,6 +135,7 @@ const EmbedderView = ({
     crossWalks,
     underPass,
     overPass,
+    publicBenches,
     bbox: selectedBbox,
   });
 
@@ -277,8 +279,8 @@ const EmbedderView = ({
    * Render language controls
    */
   const renderLanguageControl = () => {
-    const description = locale => intl.formatMessage({ id: `embedder.language.description.${locale}` });
-    const languageControls = generateLabel => Object.keys(embedderConfig.LANGUAGES).map(lang => ({
+    const description = (locale) => intl.formatMessage({ id: `embedder.language.description.${locale}` });
+    const languageControls = (generateLabel) => Object.keys(embedderConfig.LANGUAGES).map((lang) => ({
       value: lang,
       label: `${uppercaseFirst(
         embedderConfig.LANGUAGES[userLocale][lang],
@@ -304,8 +306,8 @@ const EmbedderView = ({
    * Render map controls
    */
   const renderMapTypeControl = () => {
-    const getLabel = map => intl.formatMessage({ id: `settings.map.${map}` });
-    const mapControls = generateLabel => embedderConfig.BACKGROUND_MAPS.map(map => ({
+    const getLabel = (map) => intl.formatMessage({ id: `settings.map.${map}` });
+    const mapControls = (generateLabel) => embedderConfig.BACKGROUND_MAPS.map((map) => ({
       value: map,
       label: `${generateLabel(map)}`,
     }));
@@ -330,7 +332,7 @@ const EmbedderView = ({
       return null;
     }
     const cities = city;
-    const cityControls = embedderConfig.CITIES.filter(v => v).map(city => ({
+    const cityControls = embedderConfig.CITIES.filter((v) => v).map((city) => ({
       key: city,
       value: !!cities[city],
       label: uppercaseFirst(city),
@@ -360,8 +362,8 @@ const EmbedderView = ({
     if (!showServices(embedUrl)) {
       return null;
     }
-    const getLabel = service => intl.formatMessage({ id: `embedder.service.${service}` });
-    const serviceControls = generateLabel => ['none', 'common', 'all'].map(service => ({
+    const getLabel = (service) => intl.formatMessage({ id: `embedder.service.${service}` });
+    const serviceControls = (generateLabel) => ['none', 'common', 'all'].map((service) => ({
       value: service,
       label: generateLabel(service),
     }));
@@ -489,7 +491,7 @@ const EmbedderView = ({
       {
         key: 'units',
         value: showUnits,
-        onChange: v => setShowUnits(v),
+        onChange: (v) => setShowUnits(v),
         icon: null,
         labelId: 'embedder.options.label.units',
       },
@@ -515,70 +517,77 @@ const EmbedderView = ({
       {
         key: 'bicycleStands',
         value: bicycleStands,
-        onChange: v => setBicycleStands(v),
+        onChange: (v) => setBicycleStands(v),
         icon: null,
         labelId: 'mobilityPlatform.menu.showBicycleStands',
       },
       {
         key: 'frameLockable',
         value: frameLockable,
-        onChange: v => setFrameLockable(v),
+        onChange: (v) => setFrameLockable(v),
         icon: null,
         labelId: 'mobilityPlatform.menu.show.hullLockableStands',
       },
       {
         key: 'cityBikes',
         value: cityBikes,
-        onChange: v => setCityBikes(v),
+        onChange: (v) => setCityBikes(v),
         icon: null,
         labelId: 'mobilityPlatform.menu.showCityBikes',
       },
       {
         key: 'cargoBikes',
         value: cargoBikes,
-        onChange: v => setCargoBikes(v),
+        onChange: (v) => setCargoBikes(v),
         icon: null,
         labelId: 'mobilityPlatform.menu.show.cargoBikes',
       },
       {
         key: 'transit',
         value: transit,
-        onChange: v => setTransit(v),
+        onChange: (v) => setTransit(v),
         icon: null,
         labelId: 'embedder.options.label.transit',
       },
       {
         key: 'crossWalks',
         value: crossWalks,
-        onChange: v => setCrossWalks(v),
+        onChange: (v) => setCrossWalks(v),
         icon: null,
         labelId: 'mobilityPlatform.embedded.label.crossWalks',
       },
       {
+        key: 'publicBenches',
+        value: publicBenches,
+        onChange: (v) => setPublicBenches(v),
+        icon: null,
+        labelId: 'mobilityPlatform.embedded.label.publicBenches',
+      },
+      {
         key: 'underPass',
         value: underPass,
-        onChange: v => setUnderpass(v),
+        onChange: (v) => setUnderpass(v),
         icon: null,
         labelId: 'mobilityPlatform.menu.show.underPasses',
       },
       {
         key: 'overPass',
         value: overPass,
-        onChange: v => setOverPass(v),
+        onChange: (v) => setOverPass(v),
         icon: null,
         labelId: 'mobilityPlatform.menu.show.overPasses',
       },
       {
         key: 'chargingStation',
         value: chargingStation,
-        onChange: v => setChargingStation(v),
+        onChange: (v) => setChargingStation(v),
         icon: null,
         labelId: 'mobilityPlatform.menu.showChargingStations',
       },
       {
         key: 'rentalCars',
         value: rentalCars,
-        onChange: v => setRentalCars(v),
+        onChange: (v) => setRentalCars(v),
         icon: null,
         labelId: 'mobilityPlatform.menu.showRentalCars',
       },

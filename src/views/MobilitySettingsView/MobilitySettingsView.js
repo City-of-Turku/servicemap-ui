@@ -162,6 +162,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowOverpasses,
     showRentalCarParking,
     setShowRentalCarParking,
+    showPublicBenches,
+    setShowPublicBenches,
     showAirMonitoringStations,
     setShowAirMonitoringStations,
   } = useMobilityPlatformContext();
@@ -334,12 +336,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showCrossWalks, setOpenWalkSettings);
     checkVisibilityValues(showUnderpasses, setOpenWalkSettings);
     checkVisibilityValues(showOverpasses, setOpenWalkSettings);
+    checkVisibilityValues(showPublicBenches, setOpenWalkSettings);
   }, [
     showPublicToilets,
     showOutdoorGymDevices,
     showCrossWalks,
     showUnderpasses,
     showOverpasses,
+    showPublicBenches,
   ]);
 
   useEffect(() => {
@@ -737,6 +741,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowPublicToilets((current) => !current);
   };
 
+  const publicBenchesToggle = () => {
+    setShowPublicBenches((current) => !current);
+  };
+
   const noParkingToggle = () => {
     setShowScooterNoParking((current) => !current);
   };
@@ -1132,6 +1140,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       onChangeValue: publicToiletsToggle,
     },
     {
+      type: 'publicBenches',
+      msgId: 'mobilityPlatform.menu.show.publicBenches',
+      checkedValue: showPublicBenches,
+      onChangeValue: publicBenchesToggle,
+    },
+    {
       type: 'cultureRoutes',
       msgId: 'mobilityPlatform.menu.showCultureRoutes',
       checkedValue: openCultureRouteList,
@@ -1522,6 +1536,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       visible: showPublicToilets,
       type: 'publicRestroomsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.publicToilets" />,
+    },
+    {
+      visible: showPublicBenches,
+      type: 'publicBenchesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.publicBenches" />,
     },
     {
       visible: openMarkedTrailsList,
