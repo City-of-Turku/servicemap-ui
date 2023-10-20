@@ -1,5 +1,8 @@
 # Servicemap UI
 
+[![Service Map CI](https://github.com/City-of-Turku/servicemap-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/City-of-Turku/servicemap-ui/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/City-of-Turku/servicemap-ui/actions/workflows/codeql-analysis.yml/badge.svg?branch=develop)](https://github.com/City-of-Turku/servicemap-ui/actions/workflows/codeql-analysis.yml)
+
 ## Requirements 
 Using following:
 * Node LTS (v18)

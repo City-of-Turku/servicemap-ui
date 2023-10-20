@@ -1,3 +1,84 @@
+/* lato-100 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 100;
+  src: url('./assets/fonts/lato-v24-latin-100.woff2') format('woff2');
+}
+/* lato-100italic - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 100;
+  src: url('./assets/fonts/lato-v24-latin-100italic.woff2') format('woff2');
+}
+/* lato-300 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: url('./assets/fonts/lato-v24-latin-300.woff2') format('woff2');
+}
+/* lato-300italic - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 300;
+  src: url('./assets/fonts/lato-v24-latin-300italic.woff2') format('woff2');
+}
+/* lato-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/lato-v24-latin-regular.woff2') format('woff2');
+}
+/* lato-italic - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 400;
+  src: url('./assets/fonts/lato-v24-latin-italic.woff2') format('woff2');
+}
+/* lato-700 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./assets/fonts/lato-v24-latin-700.woff2') format('woff2');
+}
+/* lato-700italic - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 700;
+  src: url('./assets/fonts/lato-v24-latin-700italic.woff2') format('woff2');
+}
+/* lato-900 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 900;
+  src: url('./assets/fonts/lato-v24-latin-900.woff2') format('woff2');
+}
+/* lato-900italic - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 900;
+  src: url('./assets/fonts/lato-v24-latin-900italic.woff2') format('woff2');
+}
+
 .App {
   text-align: center;
   display: flex;
@@ -9,7 +90,7 @@
 }
 
 .Search {
-  height:100%;
+  height: 100%;
   display: flex;
   flex-flow: column;
 }
@@ -24,7 +105,6 @@
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
   pointer-events: none;
-
 }
 
 .App-logo {
@@ -149,7 +229,7 @@ div.react-datepicker__header__dropdown.react-datepicker__header__dropdown--selec
   .culture-route-unit-popup {
     width: 380px;
   }
-  
+
   .culture-route-unit-popup > .leaflet-popup-content-wrapper > .leaflet-popup-content {
     width: 380px !important;
   }
@@ -175,7 +255,7 @@ div.react-datepicker__header__dropdown.react-datepicker__header__dropdown--selec
   .culture-route-unit-popup {
     width: 350px;
   }
-  
+
   .culture-route-unit-popup > .leaflet-popup-content-wrapper > .leaflet-popup-content {
     width: 350px !important;
   }
