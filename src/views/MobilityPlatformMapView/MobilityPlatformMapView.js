@@ -34,7 +34,8 @@ import CrossWalks from '../../components/MobilityPlatform/CrossWalks';
 import Overpasses from '../../components/MobilityPlatform/Overpasses';
 import RentalCarParking from '../../components/MobilityPlatform/Parking/RentalCarParking';
 import PublicBenches from '../../components/MobilityPlatform/PublicBenches';
-import AirMonitoring from '../../components/MobilityPlatform/AirMonitoring';
+import AirMonitoring from '../../components/MobilityPlatform/EnvironmentObservations/AirMonitoring/AirMonitoring';
+import WeatherStations from '../../components/MobilityPlatform/EnvironmentObservations/WeatherStations';
 
 const MobilityPlatformMapView = ({ mapObject }) => (
   <>
@@ -73,6 +74,7 @@ const MobilityPlatformMapView = ({ mapObject }) => (
     <RentalCarParking />
     <PublicBenches mapObject={mapObject} />
     <AirMonitoring />
+    <WeatherStations />
   </>
 );
 

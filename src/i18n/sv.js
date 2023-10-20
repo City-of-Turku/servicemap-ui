@@ -802,6 +802,7 @@ const translations = {
   'mobilityPlatform.menu.show.publicBenches': 'Allmänna bänkar (zooma in på kartan)',
   'mobilityPlatform.embedded.label.publicBenches': 'Allmänna bänkar (zooma in på kartan för att se bänkar)',
   'mobilityPlatform.menu.show.airMonitoring': 'Stationer för luftkvalitet', // TODO verify
+  'mobilityPlatform.menu.show.weatherStations': 'Säähavaintoasemat', // TODO translate
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',

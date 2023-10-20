@@ -798,6 +798,7 @@ const translations = {
   'mobilityPlatform.menu.show.publicBenches': 'Public benches (zoom in on the map)',
   'mobilityPlatform.embedded.label.publicBenches': 'Public benches (zoom in on the map to see benches)',
   'mobilityPlatform.menu.show.airMonitoring': 'Air quality stations',
+  'mobilityPlatform.menu.show.weatherStations': 'Weather observation stations',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',

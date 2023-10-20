@@ -4,16 +4,16 @@ import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import ecoCounterIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ecocounter.svg';
 import ecoCounterIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ecocounter-bw.svg';
-import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
-import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchAirMonitoringStations } from '../AirMonitoringAPI/AirMonitoringAPI';
-import { isDataValid, createIcon } from '../utils/utils';
-import AirMonitoringContent from './components/AirMonitoringContent';
+import { Typography } from '@mui/material';
+import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
+import { useAccessibleMap } from '../../../../redux/selectors/settings';
+import { fetchObservationStations } from '../EnvironmentDataAPI/EnvironmentDataAPI';
+import { isDataValid, createIcon } from '../../utils/utils';
 
-const AirMonitoring = () => {
-  const [airMonitoringStations, setAirMonitoringStations] = useState([]);
+const WeatherStations = () => {
+  const [weatherStations, setWeatherStations] = useState([]);
 
-  const { showAirMonitoringStations } = useMobilityPlatformContext();
+  const { showWeatherStations } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -26,22 +26,12 @@ const AirMonitoring = () => {
   const customIcon = icon(createIcon(useContrast ? ecoCounterIconBw : ecoCounterIcon));
 
   useEffect(() => {
-    if (showAirMonitoringStations) {
-      fetchAirMonitoringStations('AQ', setAirMonitoringStations);
+    if (showWeatherStations) {
+      fetchObservationStations('WO', setWeatherStations);
     }
-  }, [showAirMonitoringStations]);
+  }, [showWeatherStations]);
 
-  /**
-   * Filter out temporary station, because it contains so little data.
-   */
-  const filteredAirMonitoringStations = airMonitoringStations.reduce((acc, curr) => {
-    if (curr.name !== 'Turku Kauppatori väliaikainen') {
-      acc.push(curr);
-    }
-    return acc;
-  }, []);
-
-  const renderData = isDataValid(showAirMonitoringStations, filteredAirMonitoringStations);
+  const renderData = isDataValid(showWeatherStations, weatherStations);
 
   /**
    * Gets coordinate values from string, for example 'SRID=4326;POINT (22.37835 60.40831)'.
@@ -70,18 +60,22 @@ const AirMonitoring = () => {
   };
 
   useEffect(() => {
-    fitBounds(renderData, filteredAirMonitoringStations);
+    fitBounds(renderData, weatherStations);
   }, [renderData]);
 
   return renderData
-    ? filteredAirMonitoringStations.map((item) => (
+    ? weatherStations.map((item) => (
       <Marker key={item.id} icon={customIcon} position={getCoordinates(item.location)}>
         <Popup className="ecocounter-popup">
-          <AirMonitoringContent station={item} />
+          <div>
+            <Typography variant="subtitle2">
+              {item?.name}
+            </Typography>
+          </div>
         </Popup>
       </Marker>
     ))
     : null;
 };
 
-export default AirMonitoring;
+export default WeatherStations;

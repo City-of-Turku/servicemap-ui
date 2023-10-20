@@ -46,7 +46,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [openScooterSettings, setOpenScooterSettings] = useState(false);
   const [openStreetMaintenanceSettings, setOpenStreetMaintenanceSettings] = useState(false);
   const [openPublicTransportSettings, setOpenPublicTransportSettings] = useState(false);
-  const [openAirMonitoringSettings, setOpenAirMonitoringSettings] = useState(false);
+  const [openEnvironmentObservationsSettings, setOpenEnvironmentObservationsSettings] = useState(false);
   const [openCultureRouteList, setOpenCultureRouteList] = useState(false);
   const [cultureRouteList, setCultureRouteList] = useState([]);
   const [localizedCultureRoutes, setLocalizedCultureRoutes] = useState([]);
@@ -166,6 +166,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowPublicBenches,
     showAirMonitoringStations,
     setShowAirMonitoringStations,
+    showWeatherStations,
+    setShowWeatherStations,
   } = useMobilityPlatformContext();
 
   const locale = useSelector((state) => state.user.locale);
@@ -313,8 +315,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       setOpenBoatingSettings(true);
     } else if (location.pathname.includes('snowplows')) {
       setOpenStreetMaintenanceSettings(true);
-    } else if (location.pathname.includes('weather')) {
-      setOpenAirMonitoringSettings(true);
+    } else if (location.pathname.includes('environment')) {
+      setOpenEnvironmentObservationsSettings(true);
     }
   }, [location]);
 
@@ -456,8 +458,9 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   }, [showBusStops]);
 
   useEffect(() => {
-    checkVisibilityValues(showAirMonitoringStations, setOpenAirMonitoringSettings);
-  }, [showAirMonitoringStations]);
+    checkVisibilityValues(showAirMonitoringStations, setOpenEnvironmentObservationsSettings);
+    checkVisibilityValues(showWeatherStations, setOpenEnvironmentObservationsSettings);
+  }, [showAirMonitoringStations, showWeatherStations]);
 
   const nameKeys = {
     fi: 'name',
@@ -609,10 +612,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     }
   };
 
-  const airMonitoringSettingsToggle = () => {
-    setOpenAirMonitoringSettings((current) => !current);
-    if (!openAirMonitoringSettings) {
-      navigator.push('mobilityPlatform', 'weather');
+  const environmentObservationsSettingsToggle = () => {
+    setOpenEnvironmentObservationsSettings((current) => !current);
+    if (!openEnvironmentObservationsSettings) {
+      navigator.push('mobilityPlatform', 'environment');
       setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.airMonitoring' }));
     }
   };
@@ -627,7 +630,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       && !openScooterSettings
       && !openStreetMaintenanceSettings
       && !openPublicTransportSettings
-      && !openAirMonitoringSettings
+      && !openEnvironmentObservationsSettings
       && pageTitle
     ) {
       setPageTitle(null);
@@ -640,7 +643,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     openScooterSettings,
     openStreetMaintenanceSettings,
     openPublicTransportSettings,
-    openAirMonitoringSettings,
+    openEnvironmentObservationsSettings,
     pageTitle,
   ]);
 
@@ -806,6 +809,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const airMonitoringStationsToggle = () => {
     setShowAirMonitoringStations((current) => !current);
+  };
+
+  const weatherStationsToggle = () => {
+    setShowWeatherStations((current) => !current);
   };
 
   const busStopsToggle = () => {
@@ -1378,12 +1385,18 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     },
   ];
 
-  const airMonitoringControlTypes = [
+  const environmentObservationsControlTypes = [
     {
       type: 'airMonitoringStations',
       msgId: 'mobilityPlatform.menu.show.airMonitoring',
       checkedValue: showAirMonitoringStations,
       onChangeValue: airMonitoringStationsToggle,
+    },
+    {
+      type: 'weatherStations',
+      msgId: 'mobilityPlatform.menu.show.weatherStations',
+      checkedValue: showWeatherStations,
+      onChangeValue: weatherStationsToggle,
     },
   ];
 
@@ -1841,8 +1854,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     </>
   );
 
-  const renderAirMonitoringSettings = () => (
-    renderSettings(openAirMonitoringSettings, airMonitoringControlTypes)
+  const renderEnvironmentObservationsSettings = () => (
+    renderSettings(openEnvironmentObservationsSettings, environmentObservationsControlTypes)
   );
 
   const renderAirQualityIcon = () => (
@@ -1902,11 +1915,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       setState: openStreetMaintenanceSettings,
     },
     {
-      component: renderAirMonitoringSettings(),
+      component: renderEnvironmentObservationsSettings(),
       title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.airMonitoring' }),
       icon: renderAirQualityIcon(),
-      onClick: airMonitoringSettingsToggle,
-      setState: openAirMonitoringSettings,
+      onClick: environmentObservationsSettingsToggle,
+      setState: openEnvironmentObservationsSettings,
     },
   ];
 

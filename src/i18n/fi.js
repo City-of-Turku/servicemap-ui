@@ -803,6 +803,7 @@ const translations = {
   'mobilityPlatform.menu.show.publicBenches': 'Yleiset penkit (tarkenna karttaa)',
   'mobilityPlatform.embedded.label.publicBenches': 'Yleiset penkit (tarkenna karttaa lähietäisyydelle, jotta penkit näkyvät)',
   'mobilityPlatform.menu.show.airMonitoring': 'Ilmanlaadun mittauspisteet',
+  'mobilityPlatform.menu.show.weatherStations': 'Säähavaintoasemat',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',

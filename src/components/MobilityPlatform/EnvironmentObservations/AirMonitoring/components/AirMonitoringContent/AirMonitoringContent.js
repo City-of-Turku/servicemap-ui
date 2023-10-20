@@ -14,9 +14,9 @@ import {
 } from 'date-fns';
 import { enGB, fi, sv } from 'date-fns/locale';
 import DatePicker, { registerLocale } from 'react-datepicker';
-import { fetchAirMonitoringDatas } from '../../../AirMonitoringAPI/AirMonitoringAPI';
-import { formatDates, formatMonths } from '../../../../EcoCounter/utils';
-import InputDate from '../../../../EcoCounter/InputDate';
+import { fetchObservationDatas } from '../../../EnvironmentDataAPI/EnvironmentDataAPI';
+import { formatDates, formatMonths } from '../../../../../EcoCounter/utils';
+import InputDate from '../../../../../EcoCounter/InputDate';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
@@ -77,7 +77,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       type: 'day',
       year: initialYear,
     };
-    fetchAirMonitoringDatas(options, setAirQualityDays);
+    fetchObservationDatas(options, setAirQualityDays);
   }, [stationId]);
 
   useEffect(() => {
@@ -88,7 +88,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       type: 'week',
       year: initialYear,
     };
-    fetchAirMonitoringDatas(options, setAirQualityWeeks);
+    fetchObservationDatas(options, setAirQualityWeeks);
   }, [stationId]);
 
   useEffect(() => {
@@ -99,7 +99,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       type: 'month',
       year: initialYear,
     };
-    fetchAirMonitoringDatas(options, setAirQualityMonths);
+    fetchObservationDatas(options, setAirQualityMonths);
   }, [stationId]);
 
   useEffect(() => {
@@ -109,7 +109,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       station_id: stationId,
       type: 'year',
     };
-    fetchAirMonitoringDatas(options, setAirQualityYears);
+    fetchObservationDatas(options, setAirQualityYears);
   }, [stationId]);
 
   // Selected values
@@ -121,7 +121,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       type: 'day',
       year: selectedYear,
     };
-    fetchAirMonitoringDatas(options, setAirQualityDays);
+    fetchObservationDatas(options, setAirQualityDays);
   }, [stationId, selectedDate]);
 
   useEffect(() => {
@@ -132,7 +132,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       type: 'week',
       year: selectedYear,
     };
-    fetchAirMonitoringDatas(options, setAirQualityWeeks);
+    fetchObservationDatas(options, setAirQualityWeeks);
   }, [stationId, selectedDate]);
 
   useEffect(() => {
@@ -143,7 +143,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       type: 'month',
       year: selectedYear,
     };
-    fetchAirMonitoringDatas(options, setAirQualityMonths);
+    fetchObservationDatas(options, setAirQualityMonths);
   }, [stationId, selectedDate]);
 
   useEffect(() => {
@@ -154,7 +154,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       type: 'year',
       year: selectedYear,
     };
-    fetchAirMonitoringDatas(options, setAirQualityYears);
+    fetchObservationDatas(options, setAirQualityYears);
   }, [stationId, selectedDate]);
 
   // steps that determine which data is shown
@@ -213,20 +213,20 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
   );
 
   /**
-   * Set current step and active button index
-   * @param {*number} index
-   * @param {*date} timeValue
-   */
+     * Set current step and active button index
+     * @param {*number} index
+     * @param {*date} timeValue
+     */
   const setStepState = (index, timeValue) => {
     setActiveStep(index);
     setCurrentTime(timeValue);
   };
 
   /**
-   * Set active step into state
-   * @param {*string} title
-   * @param {*number} index
-   */
+     * Set active step into state
+     * @param {*string} title
+     * @param {*number} index
+     */
   const handleClick = (title, index) => {
     if (title === 'day') {
       setStepState(index, 'day');
