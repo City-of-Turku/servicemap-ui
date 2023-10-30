@@ -52,7 +52,7 @@ const translations = {
   // Area
   // TODO: clean unused translations
   'area.city.selection.empty': 'Kaupunkivalinnoilla ei löytynyt alueita',
-  'area.searchbar.infoText.address': 'Kirjoita kotiosoitteesi',
+  'area.searchbar.infoText.address': 'Kirjoita osoite',
   'area.searchbar.infoText.optional': '(valinnainen)',
   'area.tab.publicServices': 'Julkisten palveluiden alueet',
   'area.tab.geographical': 'Kaupunginosat ja postinumeroalueet',

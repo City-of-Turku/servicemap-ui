@@ -52,7 +52,7 @@ const translations = {
   // Area
   // TODO: clean unused translations
   'area.city.selection.empty': 'No areas were found with city selections',
-  'area.searchbar.infoText.address': 'Write your home address',
+  'area.searchbar.infoText.address': 'Write an address',
   'area.searchbar.infoText.optional': '(optional)',
   'area.tab.publicServices': 'Public service areas',
   'area.tab.geographical': 'Neighbourhoods and postal code areas',
