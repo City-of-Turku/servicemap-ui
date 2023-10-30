@@ -763,7 +763,7 @@ const translations = {
   'mobilityPlatform.menu.show.scooterProviders': 'Electric scooter operators',
   'mobilityPlatform.menu.show.scootersRyde': 'Ryde scooters (zoom in on the map)',
   'mobilityPlatform.menu.scooters.list.info': 'You can view available electric scooters on the map by selecting an operator from the list.',
-  'mobilityPlatform.menu.show.disabledParking': 'Parking for disabled',
+  'mobilityPlatform.menu.show.disabledParking': 'Parking for disabled (public areas)',
   'mobilityPlatform.menu.loadingPlaces.show': 'Loading places',
   'mobilityPlatform.menu.show.streetMaintenanceWorks': 'Maintenance works',
   'mobilityPlatform.menu.streetMaintenance.1hour': '1 hour',

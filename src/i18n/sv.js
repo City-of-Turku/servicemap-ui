@@ -767,7 +767,7 @@ const translations = {
   'mobilityPlatform.menu.show.scooterProviders': 'Elsparkcyklarföretagen',
   'mobilityPlatform.menu.show.scootersRyde': 'Ryde elsparkcyklar (zooma in på kartan)',
   'mobilityPlatform.menu.scooters.list.info': 'Du kan visa tillgängliga elsparkcyklar på kartan genom att välja en företag från listan.',
-  'mobilityPlatform.menu.show.disabledParking': 'Parkering för rörelsehindrade',
+  'mobilityPlatform.menu.show.disabledParking': 'Parkering för rörelsehindrade (allmänna områden)',
   'mobilityPlatform.menu.loadingPlaces.show': 'Lastningsplatser',
   'mobilityPlatform.menu.show.streetMaintenanceWorks': 'Underhållsarbeten',
   'mobilityPlatform.menu.streetMaintenance.1hour': '1 timme',
