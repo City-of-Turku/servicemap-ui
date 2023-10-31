@@ -63,6 +63,8 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   const stationId = station.id;
   const stationName = station.name;
   const stationSource = station.csv_data_source;
+  const dataFrom = station.data_from_date;
+  const dataUntil = station.data_until_date;
 
   /** When all 3 user types are rendered, a reverse order is required where 'at' is placed last */
   const reverseUserTypes = () => {
@@ -494,8 +496,12 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     return input;
   };
 
+  /**
+   * Render text on 2 Telraam stations that are currently inactive and do not collect new data.
+   * @returns JSX element
+   */
   const renderOldStationText = () => {
-    if (station.is_active['7'] === false) {
+    if (station?.is_active['7'] === false) {
       return (
         <div className={classes.missingDataText}>
           <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
@@ -521,8 +527,8 @@ const EcoCounterContent = ({ classes, intl, station }) => {
             dateFormat="P"
             showYearDropdown={stationSource !== 'TR'}
             dropdownMode="select"
-            minDate={stationSource === 'TR' ? new Date('2023-05-26') : new Date('2020-01-01')}
-            maxDate={new Date()}
+            minDate={new Date(dataFrom)}
+            maxDate={stationSource === 'TR' ? new Date(dataUntil) : new Date()}
             customInput={<CustomInput inputRef={inputRef} />}
           />
         </div>
@@ -587,6 +593,8 @@ EcoCounterContent.propTypes = {
     name: PropTypes.string,
     csv_data_source: PropTypes.string,
     sensor_types: PropTypes.arrayOf(PropTypes.string),
+    data_from_date: PropTypes.string,
+    data_until_date: PropTypes.string,
     is_active: PropTypes.shape({
       7: PropTypes.bool,
     }),
@@ -599,6 +607,9 @@ EcoCounterContent.defaultProps = {
     name: '',
     csv_data_source: '',
     sensor_types: [],
+    data_from_date: '',
+    data_until_date: '',
+    is_active: {},
   },
 };
 
