@@ -996,6 +996,7 @@ const translations = {
   'ecocounter.oct': 'Oktober',
   'ecocounter.nov': 'November',
   'ecocounter.dec': 'December',
+  'ecocounter.station.inactive': 'Tämä laskentapiste ei ole tällä hetkellä käytössä.', // TODO translate
   'trafficCounter.year.warning.text': 'Siffror från år {value} är inte tillgängliga.',
 };
 

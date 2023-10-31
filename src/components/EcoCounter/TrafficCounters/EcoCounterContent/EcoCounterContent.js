@@ -494,6 +494,19 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     return input;
   };
 
+  const renderOldStationText = () => {
+    if (station.is_active['7'] === false) {
+      return (
+        <div className={classes.missingDataText}>
+          <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+            {intl.formatMessage({ id: 'ecocounter.station.inactive' })}
+          </Typography>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <>
       <div className={`${classes.trafficCounterHeader} ${isNarrow ? classes.widthSm : classes.widthMd}`}>
@@ -523,6 +536,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
             </div>
           ))}
         </div>
+        {stationSource === 'TR' ? renderOldStationText() : null}
         <div className={classes.trafficCounterChart}>
           <LineChart
             labels={ecoCounterLabels}
@@ -573,6 +587,9 @@ EcoCounterContent.propTypes = {
     name: PropTypes.string,
     csv_data_source: PropTypes.string,
     sensor_types: PropTypes.arrayOf(PropTypes.string),
+    is_active: PropTypes.shape({
+      7: PropTypes.bool,
+    }),
   }),
 };
 
