@@ -52,7 +52,7 @@ const translations = {
   // Area
   // TODO: clean unused translations
   'area.city.selection.empty': 'Kaupunkivalinnoilla ei löytynyt alueita',
-  'area.searchbar.infoText.address': 'Kirjoita kotiosoitteesi',
+  'area.searchbar.infoText.address': 'Kirjoita osoite',
   'area.searchbar.infoText.optional': '(valinnainen)',
   'area.tab.publicServices': 'Julkisten palveluiden alueet',
   'area.tab.geographical': 'Kaupunginosat ja postinumeroalueet',
@@ -792,7 +792,7 @@ const translations = {
   'mobilityPlatform.menu.list.showMore': 'Näytä lisää reittejä',
   'mobilityPlatform.menu.list.showLess': 'Näytä vähemmän reittejä',
   'mobilityPlatform.menu.show.parkingMachines': 'Pysäköintiautomaatit',
-  'mobilityPlatform.menu.show.publicParking': 'Yleiset pysäköintialueet',
+  'mobilityPlatform.menu.show.publicParking': 'Muut pysäköintialueet',
   'mobilityPlatform.menu.show.outdoorGymDevices': 'Ulkokuntoilulaitteet',
   'mobilityPlatform.menu.show.crossWalks': 'Suojatiet (tarkenna karttaa)',
   'mobilityPlatform.embedded.label.crossWalks': 'Suojatiet (tarkenna karttaa lähietäisyydelle, jotta suojatiet näkyvät)',
