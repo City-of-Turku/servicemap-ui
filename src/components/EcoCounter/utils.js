@@ -9,6 +9,16 @@ const formatDates = (dateValue) => {
 };
 
 /**
+ * Format full dte with year as well
+ * @param {string} dateValue
+ * @returns string
+ */
+const formatFullDates = (dateValue) => {
+  const dates = dateValue.split('-');
+  return `${dates[2]}.${dates[1]}.${dates[0]}`;
+};
+
+/**
  * Return months as string based on numerical value
  * @param {*number} monthValue
  * @param {*function} intl
@@ -45,4 +55,4 @@ const formatMonths = (monthValue, intl) => {
   }
 };
 
-export { formatDates, formatMonths };
+export { formatDates, formatFullDates, formatMonths };

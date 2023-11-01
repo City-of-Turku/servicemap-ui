@@ -992,7 +992,7 @@ const translations = {
   'ecocounter.oct': 'October',
   'ecocounter.nov': 'November',
   'ecocounter.dec': 'December',
-  'ecocounter.station.inactive': 'This measurement point is not in use at the moment.', // TODO verify
+  'ecocounter.station.active.period': 'Measurement point was in use {value1} - {value2}.', // TODO verify
   'trafficCounter.year.warning.text': 'Numbers from the year {value} are not available.',
 };
 

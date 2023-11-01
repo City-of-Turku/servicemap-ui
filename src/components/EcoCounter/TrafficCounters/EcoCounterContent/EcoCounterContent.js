@@ -33,7 +33,7 @@ import {
   fetchInitialWeekDatas,
   fetchSelectedYearData,
 } from '../../EcoCounterRequests/ecoCounterRequests';
-import { formatDates, formatMonths } from '../../utils';
+import { formatDates, formatFullDates, formatMonths } from '../../utils';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
 
@@ -501,11 +501,17 @@ const EcoCounterContent = ({ classes, intl, station }) => {
    * @returns JSX element
    */
   const renderOldStationText = () => {
+    const dataFromFormat = formatDates(dataFrom);
+    const dataUntilFormat = formatFullDates(dataUntil);
+
     if (station?.is_active['7'] === false) {
       return (
         <div className={classes.missingDataText}>
-          <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-            {intl.formatMessage({ id: 'ecocounter.station.inactive' })}
+          <Typography variant="body2" sx={{ mb: '0.5rem', fontWeight: 'bold' }}>
+            {intl.formatMessage(
+              { id: 'ecocounter.station.active.period' },
+              { value1: dataFromFormat, value2: dataUntilFormat },
+            )}
           </Typography>
         </div>
       );
