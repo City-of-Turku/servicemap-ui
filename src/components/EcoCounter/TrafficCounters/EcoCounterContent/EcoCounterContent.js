@@ -65,6 +65,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   const stationSource = station.csv_data_source;
   const dataFrom = station.data_from_date;
   const dataUntil = station.data_until_date;
+  const isActiveStation = station.is_active['7'];
 
   /** When all 3 user types are rendered, a reverse order is required where 'at' is placed last */
   const reverseUserTypes = () => {
@@ -504,7 +505,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     const dataFromFormat = formatDates(dataFrom);
     const dataUntilFormat = formatFullDates(dataUntil);
 
-    if (station?.is_active['7'] === false) {
+    if (!isActiveStation) {
       return (
         <div className={classes.missingDataText}>
           <Typography variant="body2" sx={{ mb: '0.5rem', fontWeight: 'bold' }}>
