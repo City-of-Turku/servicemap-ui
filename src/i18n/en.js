@@ -796,6 +796,7 @@ const translations = {
   'mobilityPlatform.menu.show.rentalCarParking': 'Parking places for shared use cars',
   'mobilityPlatform.menu.show.publicBenches': 'Public benches (zoom in on the map)',
   'mobilityPlatform.embedded.label.publicBenches': 'Public benches (zoom in on the map to see benches)',
+  'mobilityPlatform.menu.show.barbecuePlaces': 'Barbecue places',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
