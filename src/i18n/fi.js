@@ -893,6 +893,7 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Maksutavat: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Lisätietoja: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Suojatie',
+  'mobilityPlatform.content.barbecuePlace.title': 'Grillipaikka',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',
