@@ -893,6 +893,10 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Maksutavat: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Lisätietoja: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Suojatie',
+  'mobilityPlatform.content.playgrounds.title': 'Leikkipaikka: {value}',
+  'mobilityPlatform.content.playgrounds.owner': 'Omistaja: {value}',
+  'mobilityPlatform.content.playgrounds.maintain': 'Hoitaja: {value}',
+  'mobilityPlatform.content.playgrounds.area': 'Pinta-ala: {value} neliömetriä',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',

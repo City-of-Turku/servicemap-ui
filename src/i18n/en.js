@@ -898,6 +898,10 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Payment methods: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Additional info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Crosswalk',
+  'mobilityPlatform.content.playgrounds.title': 'Playground: {value}',
+  'mobilityPlatform.content.playgrounds.owner': 'Owner: {value}',
+  'mobilityPlatform.content.playgrounds.maintain': 'Maintained by: {value}',
+  'mobilityPlatform.content.playgrounds.area': 'Area: {value} square meters',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Route description',

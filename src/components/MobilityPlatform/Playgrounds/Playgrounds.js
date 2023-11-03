@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
-import { Typography } from '@mui/material';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import {
@@ -10,6 +9,7 @@ import {
 } from '../utils/utils';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import PolygonComponent from '../PolygonComponent';
+import PlaygroundsContent from './components/PlaygroundsContent';
 
 /**
  * Displays playgrounds on the map in polygon format.
@@ -58,9 +58,7 @@ const Playgrounds = () => {
           useContrast={useContrast}
           pathOptions={pathOptions}
         >
-          <Typography>
-            {item.name}
-          </Typography>
+          <PlaygroundsContent item={item} />
         </PolygonComponent>
       ))
       : null
