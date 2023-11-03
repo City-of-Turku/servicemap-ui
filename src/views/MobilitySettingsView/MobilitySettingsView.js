@@ -162,6 +162,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowRentalCarParking,
     showPublicBenches,
     setShowPublicBenches,
+    showPlaygrounds,
+    setShowPlaygrounds,
   } = useMobilityPlatformContext();
 
   const locale = useSelector((state) => state.user.locale);
@@ -331,7 +333,16 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showUnderpasses, setOpenWalkSettings);
     checkVisibilityValues(showOverpasses, setOpenWalkSettings);
     checkVisibilityValues(showPublicBenches, setOpenWalkSettings);
-  }, [showPublicToilets, showOutdoorGymDevices, showCrossWalks, showUnderpasses, showOverpasses, showPublicBenches]);
+    checkVisibilityValues(showPlaygrounds, setOpenWalkSettings);
+  }, [
+    showPublicToilets,
+    showOutdoorGymDevices,
+    showCrossWalks,
+    showUnderpasses,
+    showOverpasses,
+    showPublicBenches,
+    showPlaygrounds,
+  ]);
 
   useEffect(() => {
     checkVisibilityValues(showTrafficCounter.walking, setOpenWalkSettings);
@@ -781,6 +792,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowBusStops((current) => !current);
   };
 
+  const playgroundsToggle = () => {
+    setShowPlaygrounds((current) => !current);
+  };
+
   const cultureRouteListToggle = () => {
     setOpenCultureRouteList((current) => !current);
     if (cultureRouteId) {
@@ -1113,6 +1128,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.show.publicBenches',
       checkedValue: showPublicBenches,
       onChangeValue: publicBenchesToggle,
+    },
+    {
+      type: 'playgrounds',
+      msgId: 'mobilityPlatform.menu.show.playgrounds',
+      checkedValue: showPlaygrounds,
+      onChangeValue: playgroundsToggle,
     },
     {
       type: 'cultureRoutes',
