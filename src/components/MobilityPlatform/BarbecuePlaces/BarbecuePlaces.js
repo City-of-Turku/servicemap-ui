@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
-import bikeServiceIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_bike_service_station-bw.svg';
-import bikeServiceIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bike_service_station.svg';
+import barbecuePlaceIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_barbecue_place-bw.svg';
+import barbecuePlaceIcon from 'servicemap-ui-turku/assets/icons/icons-icon_barbecue_place.svg';
 import { Typography } from '@mui/material';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
@@ -22,8 +22,7 @@ const BarbecuePlaces = () => {
 
   const { icon } = global.L;
 
-  // TODO change icon
-  const customIcon = icon(createIcon(useContrast ? bikeServiceIconBw : bikeServiceIcon));
+  const customIcon = icon(createIcon(useContrast ? barbecuePlaceIconBw : barbecuePlaceIcon));
 
   useEffect(() => {
     const options = {
