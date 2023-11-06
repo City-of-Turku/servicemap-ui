@@ -65,7 +65,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   const stationSource = station.csv_data_source;
   const dataFrom = station.data_from_date;
   const dataUntil = station.data_until_date;
-  const isActiveStation = station.is_active['7'];
+  const isActiveStation = station.is_active['30'];
 
   /** When all 3 user types are rendered, a reverse order is required where 'at' is placed last */
   const reverseUserTypes = () => {
@@ -603,7 +603,7 @@ EcoCounterContent.propTypes = {
     data_from_date: PropTypes.string,
     data_until_date: PropTypes.string,
     is_active: PropTypes.shape({
-      7: PropTypes.bool,
+      30: PropTypes.bool,
     }),
   }),
 };
