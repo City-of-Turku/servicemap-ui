@@ -25,6 +25,7 @@ const PlaygroundsContent = ({ intl, item }) => {
       </StyledHeader>
       {singleValueText('mobilityPlatform.content.playgrounds.owner', item.extra.omistaja)}
       {singleValueText('mobilityPlatform.content.playgrounds.maintain', item.extra.hoitaja)}
+      {singleValueText('mobilityPlatform.content.playgrounds.surface', formatArea(item.extra.pintamateriaali))}
       {singleValueText('mobilityPlatform.content.playgrounds.area', formatArea(item.extra.laskettuPintaAla))}
     </StyledContainer>
   );
@@ -53,6 +54,7 @@ PlaygroundsContent.propTypes = {
     extra: PropTypes.shape({
       omistaja: PropTypes.string,
       hoitaja: PropTypes.string,
+      pintamateriaali: PropTypes.string,
       laskettuPintaAla: PropTypes.number,
     }),
   }),

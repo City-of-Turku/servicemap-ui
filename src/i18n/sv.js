@@ -905,6 +905,7 @@ const translations = {
   'mobilityPlatform.content.playgrounds.title': 'Lekplats: {value}',
   'mobilityPlatform.content.playgrounds.owner': 'Ägare: {value}',
   'mobilityPlatform.content.playgrounds.maintain': 'Underhållen av: {value}',
+  'mobilityPlatform.content.playgrounds.surface': 'Yta: {value}',
   'mobilityPlatform.content.playgrounds.area': 'Ytarea: {value} kvadradmeter',
 
   // Info text

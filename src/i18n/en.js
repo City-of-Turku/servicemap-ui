@@ -901,6 +901,7 @@ const translations = {
   'mobilityPlatform.content.playgrounds.title': 'Playground: {value}',
   'mobilityPlatform.content.playgrounds.owner': 'Owner: {value}',
   'mobilityPlatform.content.playgrounds.maintain': 'Maintained by: {value}',
+  'mobilityPlatform.content.playgrounds.surface': 'Surface: {value}',
   'mobilityPlatform.content.playgrounds.area': 'Area: {value} square meters',
 
   // Info text

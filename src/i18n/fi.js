@@ -896,6 +896,7 @@ const translations = {
   'mobilityPlatform.content.playgrounds.title': 'Leikkipaikka: {value}',
   'mobilityPlatform.content.playgrounds.owner': 'Omistaja: {value}',
   'mobilityPlatform.content.playgrounds.maintain': 'Hoitaja: {value}',
+  'mobilityPlatform.content.playgrounds.surface': 'Pinta: {value}',
   'mobilityPlatform.content.playgrounds.area': 'Pinta-ala: {value} neliömetriä',
 
   // Info text
