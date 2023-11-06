@@ -20,13 +20,18 @@ const PlaygroundsContent = ({ intl, item }) => {
     <StyledContainer>
       <StyledHeader>
         <Typography variant="subtitle2" component="h3">
-          {intl.formatMessage({ id: 'mobilityPlatform.content.playgrounds.title' }, { value: removeNumbers(item.name) })}
+          {intl.formatMessage(
+            { id: 'mobilityPlatform.content.playgrounds.title' },
+            { value: removeNumbers(item.name) },
+          )}
         </Typography>
       </StyledHeader>
       {singleValueText('mobilityPlatform.content.playgrounds.owner', item.extra.omistaja)}
       {singleValueText('mobilityPlatform.content.playgrounds.maintain', item.extra.hoitaja)}
       {singleValueText('mobilityPlatform.content.playgrounds.surface', formatArea(item.extra.pintamateriaali))}
-      {singleValueText('mobilityPlatform.content.playgrounds.area', formatArea(item.extra.laskettuPintaAla))}
+      {item.extra.laskettuPintaAla > 0
+        ? singleValueText('mobilityPlatform.content.playgrounds.area', formatArea(item.extra.laskettuPintaAla))
+        : null}
     </StyledContainer>
   );
 };
