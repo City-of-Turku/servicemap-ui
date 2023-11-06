@@ -14,6 +14,8 @@ const PlaygroundsContent = ({ intl, item }) => {
     </StyledText>
   );
 
+  const formatArea = (areaVal) => areaVal.toString().replace('.', ',');
+
   return (
     <StyledContainer>
       <StyledHeader>
@@ -23,7 +25,7 @@ const PlaygroundsContent = ({ intl, item }) => {
       </StyledHeader>
       {singleValueText('mobilityPlatform.content.playgrounds.owner', item.extra.omistaja)}
       {singleValueText('mobilityPlatform.content.playgrounds.maintain', item.extra.hoitaja)}
-      {singleValueText('mobilityPlatform.content.playgrounds.area', item.extra.laskettuPintaAla)}
+      {singleValueText('mobilityPlatform.content.playgrounds.area', formatArea(item.extra.laskettuPintaAla))}
     </StyledContainer>
   );
 };
