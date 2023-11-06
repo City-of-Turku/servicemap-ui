@@ -9,7 +9,7 @@ const formatDates = (dateValue) => {
 };
 
 /**
- * Format full dte with year as well
+ * Format full date with year as well
  * @param {string} dateValue
  * @returns string
  */

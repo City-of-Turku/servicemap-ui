@@ -996,7 +996,7 @@ const translations = {
   'ecocounter.oct': 'Oktober',
   'ecocounter.nov': 'November',
   'ecocounter.dec': 'December',
-  'ecocounter.station.active.period': 'Beräkningspunkt var i bruk {value1} - {value2}.', // TODO verify
+  'ecocounter.station.active.period': 'Beräkningspunkt var i bruk {value1} - {value2}.',
   'trafficCounter.year.warning.text': 'Siffror från år {value} är inte tillgängliga.',
 };
 
