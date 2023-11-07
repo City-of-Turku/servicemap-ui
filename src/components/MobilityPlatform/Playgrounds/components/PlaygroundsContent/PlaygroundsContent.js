@@ -4,7 +4,12 @@ import { Typography } from '@mui/material';
 import styled from '@emotion/styled';
 
 const PlaygroundsContent = ({ intl, item }) => {
-  const removeNumbers = (inputStr) => inputStr.replace(/[0-9]/g, '');
+  /**
+   * Remove 853 and # from texts that include those numbers and character
+   * @param {string} inputStr
+   * @returns string
+   */
+  const formatString = (inputStr) => inputStr.replace(/[853][#]*/g, '');
 
   const singleValueText = (translationId, itemValue) => (
     <StyledText>
@@ -22,13 +27,13 @@ const PlaygroundsContent = ({ intl, item }) => {
         <Typography variant="subtitle2" component="h3">
           {intl.formatMessage(
             { id: 'mobilityPlatform.content.playgrounds.title' },
-            { value: removeNumbers(item.name) },
+            { value: formatString(item.name) },
           )}
         </Typography>
       </StyledHeader>
       {singleValueText('mobilityPlatform.content.playgrounds.owner', item.extra.omistaja)}
       {singleValueText('mobilityPlatform.content.playgrounds.maintain', item.extra.hoitaja)}
-      {singleValueText('mobilityPlatform.content.playgrounds.surface', formatArea(item.extra.pintamateriaali))}
+      {singleValueText('mobilityPlatform.content.playgrounds.surface', item.extra.pintamateriaali)}
       {item.extra.laskettuPintaAla > 0
         ? singleValueText('mobilityPlatform.content.playgrounds.area', formatArea(item.extra.laskettuPintaAla))
         : null}
