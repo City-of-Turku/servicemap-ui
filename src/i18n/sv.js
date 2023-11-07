@@ -768,7 +768,7 @@ const translations = {
   'mobilityPlatform.menu.show.scooterProviders': 'Elsparkcyklarföretagen',
   'mobilityPlatform.menu.show.scootersRyde': 'Ryde elsparkcyklar (zooma in på kartan)',
   'mobilityPlatform.menu.scooters.list.info': 'Du kan visa tillgängliga elsparkcyklar på kartan genom att välja en företag från listan.',
-  'mobilityPlatform.menu.show.disabledParking': 'Parkering för rörelsehindrade',
+  'mobilityPlatform.menu.show.disabledParking': 'Handikapparkering i offentliga byggnader',
   'mobilityPlatform.menu.loadingPlaces.show': 'Lastningsplatser',
   'mobilityPlatform.menu.show.streetMaintenanceWorks': 'Underhållsarbeten',
   'mobilityPlatform.menu.streetMaintenance.1hour': '1 timme',
@@ -1021,6 +1021,7 @@ const translations = {
   'ecocounter.oct': 'Oktober',
   'ecocounter.nov': 'November',
   'ecocounter.dec': 'December',
+  'ecocounter.station.active.period': 'Beräkningspunkt var i bruk {value1} - {value2}.',
   'trafficCounter.year.warning.text': 'Siffror från år {value} är inte tillgängliga.',
 };
 
