@@ -993,6 +993,7 @@ const translations = {
   'ecocounter.oct': 'Loka',
   'ecocounter.nov': 'Marras',
   'ecocounter.dec': 'Joulu',
+  'ecocounter.station.active.period': 'Laskentapiste oli käytössä {value1} - {value2}.',
   'trafficCounter.year.warning.text': 'Vuoden {value} lukuja ei ole saatavilla.',
 };
 
