@@ -1,5 +1,5 @@
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { format, subDays, subHours } from 'date-fns';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { fetchStreetMaintenanceData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 
@@ -100,12 +100,13 @@ const SnowPlows = () => {
     }
   };
 
-  const yesterDay = moment().clone().add(-1, 'days').format('YYYY-MM-DD HH:mm:ss');
-  const threeDays = moment().clone().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
-  const oneHour = moment().clone().add(-1, 'hours').format('YYYY-MM-DD HH:mm:ss');
-  const threeHours = moment().clone().add(-3, 'hours').format('YYYY-MM-DD HH:mm:ss');
-  const sixHours = moment().clone().add(-6, 'hours').format('YYYY-MM-DD HH:mm:ss');
-  const twelveHours = moment().clone().add(-12, 'hours').format('YYYY-MM-DD HH:mm:ss');
+  const currentDate = new Date();
+  const yesterDay = format(subDays(currentDate, 1), 'yyyy-MM-dd HH:mm:ss');
+  const threeDays = format(subDays(currentDate, 3), 'yyyy-MM-dd HH:mm:ss');
+  const oneHour = format(subHours(currentDate, 1), 'yyyy-MM-dd HH:mm:ss');
+  const threeHours = format(subHours(currentDate, 3), 'yyyy-MM-dd HH:mm:ss');
+  const sixHours = format(subHours(currentDate, 6), 'yyyy-MM-dd HH:mm:ss');
+  const twelveHours = format(subHours(currentDate, 12), 'yyyy-MM-dd HH:mm:ss');
 
   const createQuery = (type, dateItem) => `geometry_history?page_size=50000&event=${getEvent(type)}&start_date_time=${dateItem}`;
 
@@ -178,14 +179,14 @@ const SnowPlows = () => {
     streetMaintenanceDeIcing12Hours,
   );
 
-  const validateData = inputData => inputData && inputData.length > 0;
+  const validateData = (inputData) => inputData && inputData.length > 0;
 
   let isDataValid = false;
 
   const swapCoords = (coordsData) => {
     const isValid = validateData(coordsData);
     if (isValid) {
-      const swapped = coordsData.map(item => [item[1], item[0]]);
+      const swapped = coordsData.map((item) => [item[1], item[0]]);
       return swapped;
     }
     return coordsData;
@@ -233,7 +234,7 @@ const SnowPlows = () => {
     return null;
   };
 
-  return <>{showStreetMaintenance ? renderMaintenanceWorks() : null}</>;
+  return showStreetMaintenance ? renderMaintenanceWorks() : null;
 };
 
 export default SnowPlows;

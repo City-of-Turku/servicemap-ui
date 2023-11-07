@@ -269,6 +269,8 @@ export default {
   "showAreaSelection": (settings.SHOW_AREA_SELECTION === 'true'),
   "showReadSpeakerButton": (settings.READ_SPEAKER_URL !== 'false' && settings.READ_SPEAKER_URL !== false),
   "feedbackAdditionalInfoLink": settings.FEEDBACK_ADDITIONAL_INFO_LINK,
+  "feedbackAdditionalInfoLinkSv": settings.FEEDBACK_ADDITIONAL_INFO_LINK_SV,
+  "feedbackAdditionalInfoLinkEn": settings.FEEDBACK_ADDITIONAL_INFO_LINK_EN,
   "feedbackIsPublished": (settings.FEEDBACK_IS_PUBLISHED === 'true'),
   "usePtvAccessibilityApi": (settings.USE_PTV_ACCESSIBILITY_API) === 'true',
   "matomoMobilityDimensionID": settings.MATOMO_MOBILITY_DIMENSION_ID,

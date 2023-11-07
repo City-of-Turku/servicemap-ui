@@ -52,7 +52,7 @@ const translations = {
   // Area
   // TODO: clean unused translations
   'area.city.selection.empty': 'No areas were found with city selections',
-  'area.searchbar.infoText.address': 'Write your home address',
+  'area.searchbar.infoText.address': 'Write an address',
   'area.searchbar.infoText.optional': '(optional)',
   'area.tab.publicServices': 'Public service areas',
   'area.tab.geographical': 'Neighbourhoods and postal code areas',
@@ -764,7 +764,7 @@ const translations = {
   'mobilityPlatform.menu.show.scooterProviders': 'Electric scooter operators',
   'mobilityPlatform.menu.show.scootersRyde': 'Ryde scooters (zoom in on the map)',
   'mobilityPlatform.menu.scooters.list.info': 'You can view available electric scooters on the map by selecting an operator from the list.',
-  'mobilityPlatform.menu.show.disabledParking': 'Parking for disabled',
+  'mobilityPlatform.menu.show.disabledParking': 'Parking for disabled in public properties',
   'mobilityPlatform.menu.loadingPlaces.show': 'Loading places',
   'mobilityPlatform.menu.show.streetMaintenanceWorks': 'Maintenance works',
   'mobilityPlatform.menu.streetMaintenance.1hour': '1 hour',
@@ -787,7 +787,7 @@ const translations = {
   'mobilityPlatform.menu.list.showMore': 'Show more routes',
   'mobilityPlatform.menu.list.showLess': 'Show less routes',
   'mobilityPlatform.menu.show.parkingMachines': 'Parking machines',
-  'mobilityPlatform.menu.show.publicParking': 'Public parking spaces',
+  'mobilityPlatform.menu.show.publicParking': 'Other parking spaces',
   'mobilityPlatform.menu.show.outdoorGymDevices': 'Outdoor gym devices',
   'mobilityPlatform.menu.show.crossWalks': 'Crosswalks (zoom in on the map)',
   'mobilityPlatform.embedded.label.crossWalks': 'Crosswalks (zoom in on the map to see crosswalks)',
@@ -1019,6 +1019,7 @@ const translations = {
   'ecocounter.oct': 'October',
   'ecocounter.nov': 'November',
   'ecocounter.dec': 'December',
+  'ecocounter.station.active.period': 'Measurement point was in use {value1} - {value2}.',
   'trafficCounter.year.warning.text': 'Numbers from the year {value} are not available.',
 };
 
