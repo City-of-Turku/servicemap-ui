@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import ecoCounterIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ecocounter.svg';
 import ecoCounterIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ecocounter-bw.svg';
-import { Typography } from '@mui/material';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { fetchObservationStations } from '../EnvironmentDataAPI/EnvironmentDataAPI';
 import { isDataValid, createIcon } from '../../utils/utils';
+import WeatherStationContent from './components/WeatherStationsContent';
 
 const WeatherStations = () => {
   const [weatherStations, setWeatherStations] = useState([]);
@@ -67,11 +67,7 @@ const WeatherStations = () => {
     ? weatherStations.map((item) => (
       <Marker key={item.id} icon={customIcon} position={getCoordinates(item.location)}>
         <Popup className="ecocounter-popup">
-          <div>
-            <Typography variant="subtitle2">
-              {item?.name}
-            </Typography>
-          </div>
+          <WeatherStationContent station={item} />
         </Popup>
       </Marker>
     ))

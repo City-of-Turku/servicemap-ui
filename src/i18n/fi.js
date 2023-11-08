@@ -990,6 +990,8 @@ const translations = {
   'mobilityPlatform.airMonitoring.button.month': 'Kuukausi',
   'mobilityPlatform.airMonitoring.button.year': 'Vuosi',
 
+  'mobilityPlatform.environment.temperature': 'Lämpötila',
+
   // Ecocounter
   'ecocounter.hour': 'Tunnit',
   'ecocounter.day': 'Päivät',

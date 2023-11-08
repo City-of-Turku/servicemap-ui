@@ -995,6 +995,8 @@ const translations = {
   'mobilityPlatform.airMonitoring.button.month': 'Month',
   'mobilityPlatform.airMonitoring.button.year': 'Year',
 
+  'mobilityPlatform.environment.temperature': 'Temperature',
+
   // Ecocounter
   'ecocounter.hour': 'Hours',
   'ecocounter.day': 'Days',

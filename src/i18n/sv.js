@@ -998,6 +998,8 @@ const translations = {
   'mobilityPlatform.airMonitoring.button.month': 'Månad',
   'mobilityPlatform.airMonitoring.button.year': 'År',
 
+  'mobilityPlatform.environment.temperature': 'Temperatur',
+
   // Ecocounter
   'ecocounter.hour': 'Timmar',
   'ecocounter.day': 'Dagar',
