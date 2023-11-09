@@ -218,8 +218,8 @@ const WeatherStationContent = ({ classes, intl, station }) => {
     },
   ];
 
-  const renderParameterTypeText = (parameterType) => {
-    if (parameterType) {
+  const renderParameterTypeText = (parameterKey, parameterVal) => {
+    if (parameterKey === 'TA_PT1H_AVG' && parameterVal) {
       return (
         <StyledTextContainer>
           <Typography variant="body2" className={classes.parameterTypeText}>
@@ -231,8 +231,8 @@ const WeatherStationContent = ({ classes, intl, station }) => {
     return null;
   };
 
-  const renderParameterTypeIcon = (parameterType) => {
-    if (parameterType) {
+  const renderParameterTypeIcon = (parameterKey, parameterVal) => {
+    if (parameterKey === 'TA_PT1H_AVG' && parameterVal) {
       return (
         <StyledIconWrapper>
           <Thermostat fontSize="medium" />
@@ -350,8 +350,12 @@ const WeatherStationContent = ({ classes, intl, station }) => {
       <div>
         <StyledParameterWrapper>
           <StyledParameterContainer>
-            {renderParameterTypeIcon(parameterTypes.TA_PT1H_AVG)}
-            {renderParameterTypeText(parameterTypes.TA_PT1H_AVG)}
+            {Object.entries(parameterTypes).map(([key, val]) => (
+              <StyledIconText key={key}>
+                {renderParameterTypeIcon(key, val)}
+                {renderParameterTypeText(key, val)}
+              </StyledIconText>
+            ))}
           </StyledParameterContainer>
         </StyledParameterWrapper>
       </div>
@@ -413,6 +417,13 @@ const StyledParameterContainer = styled.div(() => ({
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
+}));
+
+const StyledIconText = styled.div(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  marginRight: theme.spacing(1.5),
 }));
 
 const StyledTextContainer = styled.div(({ theme }) => ({

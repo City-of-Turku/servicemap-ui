@@ -71,27 +71,6 @@ const styles = (theme) => ({
   buttonText: {
     fontSize: '0.75rem',
   },
-  chartContainer: {
-    margin: 0,
-  },
-  iconWrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(7, 44, 115, 255)',
-    color: '#fff',
-    border: '1px solid gray',
-    borderRadius: '5px',
-    padding: theme.spacing(0.5),
-    width: '30px',
-    height: '30px',
-  },
-  cardContainer: {
-    padding: theme.spacing(1),
-  },
-  card: {
-    padding: theme.spacing(3),
-  },
   flexRow: {
     display: 'flex',
     flexDirection: 'row',
