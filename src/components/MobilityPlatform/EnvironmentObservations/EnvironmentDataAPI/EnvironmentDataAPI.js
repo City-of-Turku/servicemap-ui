@@ -1,4 +1,4 @@
-import config from '../../../../config';
+import config from '../../../../../config';
 
 const apiUrl = config.airMonitoringAPI;
 const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;

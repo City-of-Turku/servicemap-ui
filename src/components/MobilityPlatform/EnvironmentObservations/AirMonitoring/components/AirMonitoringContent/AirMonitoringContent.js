@@ -14,9 +14,9 @@ import {
 } from 'date-fns';
 import { enGB, fi, sv } from 'date-fns/locale';
 import DatePicker, { registerLocale } from 'react-datepicker';
-import { fetchAirMonitoringDatas } from '../../../AirMonitoringAPI/AirMonitoringAPI';
-import { formatDates, formatMonths } from '../../../../EcoCounter/utils';
-import InputDate from '../../../../EcoCounter/InputDate';
+import { fetchAirMonitoringDatas } from '../../../EnvironmentDataAPI/EnvironmentDataAPI';
+import { formatDates, formatMonths } from '../../../../../EcoCounter/utils';
+import InputDate from '../../../../../EcoCounter/InputDate';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
@@ -213,20 +213,20 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
   );
 
   /**
-   * Set current step and active button index
-   * @param {*number} index
-   * @param {*date} timeValue
-   */
+     * Set current step and active button index
+     * @param {*number} index
+     * @param {*date} timeValue
+     */
   const setStepState = (index, timeValue) => {
     setActiveStep(index);
     setCurrentTime(timeValue);
   };
 
   /**
-   * Set active step into state
-   * @param {*string} title
-   * @param {*number} index
-   */
+     * Set active step into state
+     * @param {*string} title
+     * @param {*number} index
+     */
   const handleClick = (title, index) => {
     if (title === 'day') {
       setStepState(index, 'day');

@@ -4,10 +4,10 @@ import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import ecoCounterIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ecocounter.svg';
 import ecoCounterIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ecocounter-bw.svg';
-import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
-import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchAirMonitoringStations } from '../AirMonitoringAPI/AirMonitoringAPI';
-import { isDataValid, createIcon } from '../utils/utils';
+import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
+import { useAccessibleMap } from '../../../../redux/selectors/settings';
+import { fetchAirMonitoringStations } from '../EnvironmentDataAPI/EnvironmentDataAPI';
+import { isDataValid, createIcon } from '../../utils/utils';
 import AirMonitoringContent from './components/AirMonitoringContent';
 
 const AirMonitoring = () => {
