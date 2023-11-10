@@ -473,7 +473,7 @@ WeatherStationContent.defaultProps = {
   station: {
     id: 0,
     name: '',
-    parameters: {},
+    parameters_in_use: {},
   },
 };
 
