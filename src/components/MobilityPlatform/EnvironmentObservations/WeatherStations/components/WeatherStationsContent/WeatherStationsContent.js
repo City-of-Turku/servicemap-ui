@@ -223,9 +223,9 @@ const WeatherStationContent = ({ classes, intl, station }) => {
     if (parameterKey === 'TA_PT1H_AVG' && parameterVal) {
       return (
         <StyledTextContainer>
-          <Typography variant="body2" className={classes.parameterTypeText}>
+          <StyledParameterText variant="body2">
             {intl.formatMessage({ id: 'mobilityPlatform.environment.temperature' })}
-          </Typography>
+          </StyledParameterText>
         </StyledTextContainer>
       );
     }
@@ -334,9 +334,9 @@ const WeatherStationContent = ({ classes, intl, station }) => {
   return (
     <StyledPopupInner>
       <StyledContentHeader className={isNarrow ? widthSmClass : widthMdClass}>
-        <Typography component="h4" className={classes.headerSubtitle}>
+        <StyledHeaderText component="h4">
           {stationName}
-        </Typography>
+        </StyledHeaderText>
         <StyledDateContainer>
           <DatePicker
             selected={selectedDate}
@@ -375,7 +375,7 @@ const WeatherStationContent = ({ classes, intl, station }) => {
               }`}
               onClick={() => handleClick(timing.step.type, i)}
             >
-              <Typography variant="body2" className={classes.buttonText}>
+              <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
                 {timing.step.text}
               </Typography>
             </ButtonBase>
@@ -402,6 +402,18 @@ const StyledContentHeader = styled.div(({ theme }) => ({
   alignItems: 'flex-end',
   borderBottom: '2px solid gray',
   justifyContent: 'space-between',
+}));
+
+const StyledHeaderText = styled(Typography)(({ theme }) => ({
+  padding: '4px 0 5px',
+  fontWeight: 'bold',
+  marginBlockStart: theme.spacing(2),
+  marginBlockEnd: theme.spacing(0.2),
+}));
+
+const StyledParameterText = styled(Typography)(({ theme }) => ({
+  marginTop: theme.spacing(0.5),
+  marginLeft: theme.spacing(3),
 }));
 
 const StyledDateContainer = styled.div(() => ({
