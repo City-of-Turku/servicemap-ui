@@ -5,7 +5,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { ButtonBase, Typography } from '@mui/material';
+import { ButtonBase, Container, Typography } from '@mui/material';
 import styled from '@emotion/styled';
 import { css } from '@emotion/css';
 import { Thermostat } from '@mui/icons-material';
@@ -310,11 +310,18 @@ const WeatherStationContent = ({ classes, intl, station }) => {
     return '';
   };
 
-  const renderTemperature = (measurement, parentObj) => {
+  const renderWeatherInfo = (measurement) => {
     if (measurement.parameter === 'TA_PT1H_AVG') {
       return (
         <Typography key={measurement.id} variant="body2" component="p">
-          {`${formatDate(parentObj)}: ${renderFixedDecimals(measurement.value)} °C`}
+          {`Lämpötila: ${renderFixedDecimals(measurement.value)} °C`}
+        </Typography>
+      );
+    }
+    if (measurement.parameter === 'PRA_PT1H_ACC') {
+      return (
+        <Typography key={measurement.id} variant="body2" component="p">
+          {`Sademäärä: ${renderFixedDecimals(measurement.value)} mm`}
         </Typography>
       );
     }
@@ -324,7 +331,16 @@ const WeatherStationContent = ({ classes, intl, station }) => {
   const renderData = () => {
     const data = setRenderData();
     return data.map((item) => (
-      <div key={item.id}>{item.measurements.map((measurement) => renderTemperature(measurement, item))}</div>
+      <Container key={item.id} sx={{ marginBottom: '0.2rem' }}>
+        <Typography variant="subtitle2" component="h5" sx={{ marginBottom: '0.2rem' }}>
+          {formatDate(item)}
+        </Typography>
+        {item.measurements.map((measurement) => (
+          <div>
+            {renderWeatherInfo(measurement)}
+          </div>
+        ))}
+      </Container>
     ));
   };
 
