@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ButtonBase, Typography } from '@mui/material';
 import styled from '@emotion/styled';
+import { css } from '@emotion/css';
 import { Thermostat } from '@mui/icons-material';
 import {
   getMonth, getWeek, getYear, format, subDays, lastDayOfMonth,
@@ -327,9 +328,12 @@ const WeatherStationContent = ({ classes, intl, station }) => {
     ));
   };
 
+  const widthSmClass = css({ width: '87%' });
+  const widthMdClass = css({ width: '95%' });
+
   return (
     <StyledPopupInner>
-      <div className={`${classes.contentHeader} ${isNarrow ? classes.widthSm : classes.widthMd}`}>
+      <StyledContentHeader className={isNarrow ? widthSmClass : widthMdClass}>
         <Typography component="h4" className={classes.headerSubtitle}>
           {stationName}
         </Typography>
@@ -341,12 +345,12 @@ const WeatherStationContent = ({ classes, intl, station }) => {
             dateFormat="P"
             showYearDropdown
             dropdownMode="select"
-            minDate={new Date('2015-01-01')}
+            minDate={new Date('2010-01-01')}
             maxDate={new Date()}
             customInput={<CustomInput inputRef={inputRef} />}
           />
         </StyledDateContainer>
-      </div>
+      </StyledContentHeader>
       <div>
         <StyledParameterWrapper>
           <StyledParameterContainer>
@@ -388,6 +392,16 @@ const StyledPopupInner = styled.div(({ theme }) => ({
   marginLeft: theme.spacing(1.2),
   lineHeight: 1.2,
   overflowX: 'hidden',
+}));
+
+const StyledContentHeader = styled.div(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  marginTop: theme.spacing(0.5),
+  marginBottom: theme.spacing(1.5),
+  alignItems: 'flex-end',
+  borderBottom: '2px solid gray',
+  justifyContent: 'space-between',
 }));
 
 const StyledDateContainer = styled.div(() => ({
