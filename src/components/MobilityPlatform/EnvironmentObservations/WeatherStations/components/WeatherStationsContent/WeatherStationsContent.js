@@ -310,6 +310,23 @@ const WeatherStationContent = ({ classes, intl, station }) => {
     return '';
   };
 
+  const getWindDirection = (degrees) => {
+    const directions = [
+      'mobilityPlatform.environment.north',
+      'mobilityPlatform.environment.northeast',
+      'mobilityPlatform.environment.east',
+      'mobilityPlatform.environment.southeast',
+      'mobilityPlatform.environment.south',
+      'mobilityPlatform.environment.southwest',
+      'mobilityPlatform.environment.west',
+      'mobilityPlatform.environment.northwest',
+    ];
+
+    const index = Math.round(degrees / 45.0) % directions.length;
+
+    return directions[index];
+  };
+
   const renderWeatherInfo = (measurement) => {
     if (measurement.parameter === 'TA_PT1H_AVG') {
       return (
@@ -322,6 +339,20 @@ const WeatherStationContent = ({ classes, intl, station }) => {
       return (
         <Typography key={measurement.id} variant="body2" component="p">
           {`Sademäärä: ${renderFixedDecimals(measurement.value)} mm`}
+        </Typography>
+      );
+    }
+    if (measurement.parameter === 'WS_PT1H_AVG') {
+      return (
+        <Typography key={measurement.id} variant="body2" component="p">
+          {`Tuulen nopeus: ${renderFixedDecimals(measurement.value)} m/s`}
+        </Typography>
+      );
+    }
+    if (measurement.parameter === 'WD_PT1H_AVG') {
+      return (
+        <Typography key={measurement.id} variant="body2" component="p">
+          {intl.formatMessage({ id: getWindDirection(measurement.value) })}
         </Typography>
       );
     }

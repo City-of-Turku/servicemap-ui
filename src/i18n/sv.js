@@ -999,6 +999,14 @@ const translations = {
   'mobilityPlatform.airMonitoring.button.year': 'År',
 
   'mobilityPlatform.environment.temperature': 'Temperatur',
+  'mobilityPlatform.environment.north': 'Vindens riktning: norr',
+  'mobilityPlatform.environment.northeast': 'Vindens riktning: nordost',
+  'mobilityPlatform.environment.east': 'Vindens riktning: öster',
+  'mobilityPlatform.environment.southeast': 'Vindens riktning: sydöst',
+  'mobilityPlatform.environment.south': 'Vindens riktning: söder',
+  'mobilityPlatform.environment.southwest': 'Vindens riktning: sydväst',
+  'mobilityPlatform.environment.west': 'Vindens riktning: väster',
+  'mobilityPlatform.environment.northwest': 'Vindens riktning: nordväst',
 
   // Ecocounter
   'ecocounter.hour': 'Timmar',

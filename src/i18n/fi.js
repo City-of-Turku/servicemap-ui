@@ -991,6 +991,14 @@ const translations = {
   'mobilityPlatform.airMonitoring.button.year': 'Vuosi',
 
   'mobilityPlatform.environment.temperature': 'Lämpötila',
+  'mobilityPlatform.environment.north': 'Tuulen suunta: pohjoinen',
+  'mobilityPlatform.environment.northeast': 'Tuulen suunta: koillinen',
+  'mobilityPlatform.environment.east': 'Tuulen suunta: itä',
+  'mobilityPlatform.environment.southeast': 'Tuulen suunta: kaakko',
+  'mobilityPlatform.environment.south': 'Tuulen suunta: etelä',
+  'mobilityPlatform.environment.southwest': 'Tuulen suunta: lounas',
+  'mobilityPlatform.environment.west': 'Tuulen suunta: länsi',
+  'mobilityPlatform.environment.northwest': 'Tuulen suunta: luode',
 
   // Ecocounter
   'ecocounter.hour': 'Tunnit',

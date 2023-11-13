@@ -996,6 +996,14 @@ const translations = {
   'mobilityPlatform.airMonitoring.button.year': 'Year',
 
   'mobilityPlatform.environment.temperature': 'Temperature',
+  'mobilityPlatform.environment.north': 'Wind direction: north',
+  'mobilityPlatform.environment.northeast': 'Wind direction: northeast',
+  'mobilityPlatform.environment.east': 'Wind direction: east',
+  'mobilityPlatform.environment.southeast': 'Wind direction: southeast',
+  'mobilityPlatform.environment.south': 'Wind direction: south',
+  'mobilityPlatform.environment.southwest': 'Wind direction: southwest',
+  'mobilityPlatform.environment.west': 'Wind direction: west',
+  'mobilityPlatform.environment.northwest': 'Wind direction: northwest',
 
   // Ecocounter
   'ecocounter.hour': 'Hours',
