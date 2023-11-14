@@ -5,7 +5,9 @@ import roadworksIcon from 'servicemap-ui-turku/assets/icons/icons-icon_roadworks
 import roadworksIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_roadworks-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { fetchParkingAreaGeometries } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { createIcon, isDataValid } from '../utils/utils';
+import {
+  createIcon, isDataValid, blueOptionsBase, whiteOptionsBase,
+} from '../utils/utils';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import config from '../../../../config';
 
@@ -16,7 +18,7 @@ const Roadworks = () => {
   const { showRoadworks } = useMobilityPlatformContext();
 
   const { icon } = global.L;
-  const { Marker } = global.rL;
+  const { Marker, Polyline } = global.rL;
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -24,6 +26,9 @@ const Roadworks = () => {
   const isRoadworksUrl = !roadworksUrl || roadworksUrl === 'undefined' ? null : roadworksUrl;
 
   const customIcon = icon(createIcon(useContrast ? roadworksIconBw : roadworksIcon));
+
+  const blueOptions = blueOptionsBase();
+  const whiteOptions = whiteOptionsBase({ dashArray: !useContrast ? '1, 8' : null });
 
   useEffect(() => {
     if (showRoadworks && isRoadworksUrl) {
@@ -66,11 +71,17 @@ const Roadworks = () => {
   }, []);
 
   // TODO render line elements
-  console.log(roadworksFiltered);
-  console.log(roadworksLines);
   console.log(roadworksMultiLines);
 
+  const swapCoords = (inputData) => {
+    if (inputData?.length > 0) {
+      return inputData.map((item) => [item[1], item[0]]);
+    }
+    return inputData;
+  };
+
   const areMarkersValid = isDataValid(showRoadworks, roadworksPoints);
+  const areLinesValid = isDataValid(showRoadworks, roadworksLines);
 
   const renderMarkers = () => (areMarkersValid
     ? roadworksPoints.map((item) => (
@@ -82,7 +93,21 @@ const Roadworks = () => {
     ))
     : null);
 
-  return renderMarkers();
+  const renderLines = () => (areLinesValid ? roadworksLines.map((item) => (
+    <Polyline
+      key={item.properties.situationId}
+      weight={useContrast ? 10 : 8}
+      pathOptions={useContrast ? whiteOptions : blueOptions}
+      positions={swapCoords(item.geometry.coordinates)}
+    />
+  )) : null);
+
+  return (
+    <>
+      {renderMarkers()}
+      {renderLines()}
+    </>
+  );
 };
 
 export default Roadworks;
