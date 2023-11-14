@@ -732,6 +732,7 @@ const translations = {
   'mobilityPlatform.menu.title.scooter': 'Electric scooters',
   'mobilityPlatform.menu.title.streetMaintenance': 'Street maintenance',
   'mobilityPlatform.menu.title.public.transport': 'Public transport',
+  'mobilityPlatform.menu.title.roadworksMain': 'Poikkeustilanteet', // TODO translate
   'mobilityPlatform.menu.showChargingStations': 'Car e-charging points',
   'mobilityPlatform.menu.showGasFillingStations': 'Gas filling stations',
   'mobilityPlatform.menu.showEcoCounter': 'Measurement point',
@@ -796,6 +797,7 @@ const translations = {
   'mobilityPlatform.menu.show.rentalCarParking': 'Parking places for shared use cars',
   'mobilityPlatform.menu.show.publicBenches': 'Public benches (zoom in on the map)',
   'mobilityPlatform.embedded.label.publicBenches': 'Public benches (zoom in on the map to see benches)',
+  'mobilityPlatform.menu.show.roadworks': 'Tietyömaat', // TODO translate
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',

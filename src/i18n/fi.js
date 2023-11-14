@@ -737,6 +737,7 @@ const translations = {
   'mobilityPlatform.menu.title.scooter': 'Sähköpotkulaudat',
   'mobilityPlatform.menu.title.streetMaintenance': 'Katujen kunnossapito',
   'mobilityPlatform.menu.title.public.transport': 'Joukkoliikenne',
+  'mobilityPlatform.menu.title.roadworksMain': 'Poikkeustilanteet',
   'mobilityPlatform.menu.showChargingStations': 'Sähkölatauspisteet',
   'mobilityPlatform.menu.showGasFillingStations': 'Kaasutankkausasemat',
   'mobilityPlatform.menu.showEcoCounter': 'Laskentapisteet',
@@ -801,6 +802,7 @@ const translations = {
   'mobilityPlatform.menu.show.rentalCarParking': 'Yhteiskäyttöautojen pysäköintipaikat',
   'mobilityPlatform.menu.show.publicBenches': 'Yleiset penkit (tarkenna karttaa)',
   'mobilityPlatform.embedded.label.publicBenches': 'Yleiset penkit (tarkenna karttaa lähietäisyydelle, jotta penkit näkyvät)',
+  'mobilityPlatform.menu.show.roadworks': 'Tietyömaat',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',
