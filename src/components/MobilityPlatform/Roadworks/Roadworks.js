@@ -13,7 +13,6 @@ import config from '../../../../config';
 
 const Roadworks = () => {
   const [roadworksData, setRoadworksData] = useState([]);
-  const [fetchError, setFetchError] = useState(false);
 
   const { showRoadworks } = useMobilityPlatformContext();
 
@@ -70,9 +69,11 @@ const Roadworks = () => {
     return acc;
   }, []);
 
-  // TODO render line elements
-  console.log(roadworksMultiLines);
-
+  /**
+   * Swap coordinates of linestrings
+   * @param {array} inputData
+   * @returns array
+   */
   const swapCoords = (inputData) => {
     if (inputData?.length > 0) {
       return inputData.map((item) => [item[1], item[0]]);
@@ -80,8 +81,21 @@ const Roadworks = () => {
     return inputData;
   };
 
+  /**
+   * Swap coordinates of multi linestring
+   * @param {array} inputData
+   * @returns array
+   */
+  const swapCoordsMulti = (inputData) => {
+    if (inputData?.length > 0) {
+      return inputData.map((innerArray) => innerArray.map((coordinates) => [coordinates[1], coordinates[0]]));
+    }
+    return inputData;
+  };
+
   const areMarkersValid = isDataValid(showRoadworks, roadworksPoints);
   const areLinesValid = isDataValid(showRoadworks, roadworksLines);
+  const areMultiLinesValid = isDataValid(showRoadworks, roadworksMultiLines);
 
   const renderMarkers = () => (areMarkersValid
     ? roadworksPoints.map((item) => (
@@ -102,10 +116,20 @@ const Roadworks = () => {
     />
   )) : null);
 
+  const renderMultiLines = () => (areMultiLinesValid ? roadworksMultiLines.map((item) => (
+    <Polyline
+      key={item.properties.situationId}
+      weight={useContrast ? 10 : 8}
+      pathOptions={useContrast ? whiteOptions : blueOptions}
+      positions={swapCoordsMulti(item.geometry.coordinates)}
+    />
+  )) : null);
+
   return (
     <>
       {renderMarkers()}
       {renderLines()}
+      {renderMultiLines()}
     </>
   );
 };
