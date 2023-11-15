@@ -6,7 +6,7 @@ import roadworksIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-ico
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { fetchParkingAreaGeometries } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
-  createIcon, isDataValid, blueOptionsBase, whiteOptionsBase,
+  createIcon, isDataValid, grayOptionsBase, whiteOptionsBase,
 } from '../utils/utils';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import config from '../../../../config';
@@ -27,7 +27,7 @@ const Roadworks = () => {
 
   const customIcon = icon(createIcon(useContrast ? roadworksIconBw : roadworksIcon));
 
-  const blueOptions = blueOptionsBase();
+  const grayOptions = grayOptionsBase({ dashArray: '2, 5, 8' });
   const whiteOptions = whiteOptionsBase({ dashArray: !useContrast ? '1, 8' : null });
 
   useEffect(() => {
@@ -77,7 +77,7 @@ const Roadworks = () => {
    */
   const swapCoords = (inputData) => {
     if (inputData?.length > 0) {
-      return inputData.map((item) => [item[1], item[0]]);
+      return inputData.map((coordinates) => [coordinates[1], coordinates[0]]);
     }
     return inputData;
   };
@@ -120,7 +120,7 @@ const Roadworks = () => {
     <Polyline
       key={item.properties.situationId}
       weight={useContrast ? 10 : 8}
-      pathOptions={useContrast ? whiteOptions : blueOptions}
+      pathOptions={useContrast ? whiteOptions : grayOptions}
       positions={swapCoords(item.geometry.coordinates)}
     >
       {renderContent(item)}
@@ -131,7 +131,7 @@ const Roadworks = () => {
     <Polyline
       key={item.properties.situationId}
       weight={useContrast ? 10 : 8}
-      pathOptions={useContrast ? whiteOptions : blueOptions}
+      pathOptions={useContrast ? whiteOptions : grayOptions}
       positions={swapCoordsMulti(item.geometry.coordinates)}
     >
       {renderContent(item)}

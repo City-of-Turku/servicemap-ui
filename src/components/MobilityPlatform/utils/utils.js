@@ -14,7 +14,7 @@ const isDataValid = (visibilityValue, data) => visibilityValue && data && data.l
  */
 const isObjValid = (visibilityValue, obj) => visibilityValue && obj && Object.entries(obj).length > 0;
 
-const createIcon = icon => ({
+const createIcon = (icon) => ({
   iconUrl: icon,
   iconSize: [45, 45],
 });
@@ -23,6 +23,7 @@ const whiteOptionsBase = (attrs = {}) => ({ color: 'rgba(255, 255, 255, 255)', .
 const blackOptionsBase = (attrs = {}) => ({ color: 'rgba(0, 0, 0, 255)', ...attrs });
 const blueOptionsBase = (attrs = {}) => ({ color: 'rgba(7, 44, 115, 255)', ...attrs });
 const redOptionsBase = (attrs = {}) => ({ color: 'rgba(251, 5, 21, 255)', ...attrs });
+const grayOptionsBase = (attrs = {}) => ({ color: 'rgba(64, 64, 64, 255)', ...attrs });
 
 /**
  * Return arrays of coordinates that fit markers inside map bounds
@@ -98,6 +99,7 @@ export {
   blackOptionsBase,
   blueOptionsBase,
   redOptionsBase,
+  grayOptionsBase,
   fitToMapBounds,
   fitPolygonsToBounds,
   setRender,
