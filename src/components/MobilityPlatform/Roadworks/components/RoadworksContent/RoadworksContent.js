@@ -62,16 +62,18 @@ const StyledHeader = styled.div(({ theme }) => ({
 RoadworksContent.propTypes = {
   item: PropTypes.shape({
     properties: PropTypes.shape({
-      announcements: PropTypes.shape({
-        title: PropTypes.string,
-        location: PropTypes.shape({
-          description: PropTypes.string,
+      announcements: PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.string,
+          location: PropTypes.shape({
+            description: PropTypes.string,
+          }),
+          timeAndDuration: PropTypes.shape({
+            startTime: PropTypes.string,
+            endTime: PropTypes.string,
+          }),
         }),
-        timeAndDuration: PropTypes.shape({
-          startTime: PropTypes.string,
-          endTime: PropTypes.string,
-        }),
-      }),
+      ),
     }),
   }),
 };
