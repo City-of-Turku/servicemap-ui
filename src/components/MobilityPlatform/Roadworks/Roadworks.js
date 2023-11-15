@@ -8,7 +8,7 @@ import { fetchParkingAreaGeometries } from '../mobilityPlatformRequests/mobility
 import {
   createIcon, isDataValid, grayOptionsBase, whiteOptionsBase,
 } from '../utils/utils';
-import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { useAccessibleMap, getCitySettings } from '../../../redux/selectors/settings';
 import config from '../../../../config';
 import RoadworksContent from './components/RoadworksContent';
 
@@ -21,6 +21,7 @@ const Roadworks = () => {
   const { Marker, Polyline, Popup } = global.rL;
 
   const useContrast = useSelector(useAccessibleMap);
+  const citySettings = useSelector(getCitySettings);
 
   const roadworksUrl = config.roadworksAPI;
   const isRoadworksUrl = !roadworksUrl || roadworksUrl === 'undefined' ? null : roadworksUrl;
@@ -36,10 +37,19 @@ const Roadworks = () => {
     }
   }, [showRoadworks]);
 
+  const checkCitySettings = (citiesArray) => {
+    if (citiesArray?.length > 0) {
+      return citiesArray;
+    }
+    return config.cities;
+  };
+
   /** Separate roadworks of Turku from the rest */
   const roadworksFiltered = roadworksData.reduce((acc, curr) => {
+    const selectedCities = config.cities.filter((c) => citySettings[c]);
+    const cities = checkCitySettings(selectedCities);
     if (
-      curr.properties?.announcements[0]?.locationDetails?.roadAddressLocation?.primaryPoint?.municipality === 'Turku'
+      cities.includes(curr.properties?.announcements[0]?.locationDetails?.roadAddressLocation?.primaryPoint?.municipality.toLowerCase())
     ) {
       acc.push(curr);
     }
