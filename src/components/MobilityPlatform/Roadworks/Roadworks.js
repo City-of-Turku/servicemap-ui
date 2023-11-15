@@ -10,6 +10,7 @@ import {
 } from '../utils/utils';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import config from '../../../../config';
+import RoadworksContent from './components/RoadworksContent';
 
 const Roadworks = () => {
   const [roadworksData, setRoadworksData] = useState([]);
@@ -17,7 +18,7 @@ const Roadworks = () => {
   const { showRoadworks } = useMobilityPlatformContext();
 
   const { icon } = global.L;
-  const { Marker, Polyline } = global.rL;
+  const { Marker, Polyline, Popup } = global.rL;
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -97,13 +98,21 @@ const Roadworks = () => {
   const areLinesValid = isDataValid(showRoadworks, roadworksLines);
   const areMultiLinesValid = isDataValid(showRoadworks, roadworksMultiLines);
 
+  const renderContent = (item) => (
+    <Popup className="popup-w350">
+      <RoadworksContent item={item} />
+    </Popup>
+  );
+
   const renderMarkers = () => (areMarkersValid
     ? roadworksPoints.map((item) => (
       <Marker
         key={item.properties.situationId}
         icon={customIcon}
         position={[item?.geometry?.coordinates[1], item?.geometry?.coordinates[0]]}
-      />
+      >
+        {renderContent(item)}
+      </Marker>
     ))
     : null);
 
@@ -113,7 +122,9 @@ const Roadworks = () => {
       weight={useContrast ? 10 : 8}
       pathOptions={useContrast ? whiteOptions : blueOptions}
       positions={swapCoords(item.geometry.coordinates)}
-    />
+    >
+      {renderContent(item)}
+    </Polyline>
   )) : null);
 
   const renderMultiLines = () => (areMultiLinesValid ? roadworksMultiLines.map((item) => (
@@ -122,7 +133,9 @@ const Roadworks = () => {
       weight={useContrast ? 10 : 8}
       pathOptions={useContrast ? whiteOptions : blueOptions}
       positions={swapCoordsMulti(item.geometry.coordinates)}
-    />
+    >
+      {renderContent(item)}
+    </Polyline>
   )) : null);
 
   return (
