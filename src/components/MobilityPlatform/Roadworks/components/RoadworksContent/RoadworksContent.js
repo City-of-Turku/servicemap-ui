@@ -9,6 +9,16 @@ const RoadworksContent = ({ item }) => {
 
   const formatDate = (dateTimeValue) => format(new Date(dateTimeValue), 'dd.MM.yyyy');
 
+  const filterRestrictions = (restrictionsData) => {
+    const restrictionTypes = ['SPEED_LIMIT', 'SPEED_LIMIT_LENGTH'];
+    if (restrictionsData?.length > 0) {
+      return restrictionsData.filter((restriction) => restrictionTypes.includes(restriction.type));
+    }
+    return [];
+  };
+
+  const roadWorksRestrictions = filterRestrictions(roadworkDetails.roadWorkPhases[0].restrictions);
+
   return (
     <StyledPopupInner>
       <StyledHeader>
@@ -20,10 +30,19 @@ const RoadworksContent = ({ item }) => {
         <StyledTextContainer>
           <StyledText variant="body2">{roadworkDetails?.location?.description}</StyledText>
         </StyledTextContainer>
+        {roadWorksRestrictions.length > 0 ? (
+          roadWorksRestrictions.map((limitItem) => (
+            <StyledTextContainer>
+              <Typography variant="body2">
+                {`${limitItem.restriction.name}: ${limitItem.restriction.quantity} ${limitItem.restriction.unit}`}
+              </Typography>
+            </StyledTextContainer>
+          ))
+        ) : null}
         <StyledTextContainer>
           <StyledText variant="body2">
-            {`Aika: ${formatDate(roadworkDetails.timeAndDuration.startTime)} - ${formatDate(
-              roadworkDetails.timeAndDuration.endTime,
+            {`Aika: ${formatDate(roadworkDetails?.timeAndDuration.startTime)} - ${formatDate(
+              roadworkDetails?.timeAndDuration.endTime,
             )}`}
           </StyledText>
         </StyledTextContainer>
