@@ -46,10 +46,11 @@ const Roadworks = () => {
 
   /** Separate roadworks of Turku from the rest */
   const roadworksFiltered = roadworksData.reduce((acc, curr) => {
+    const roadWorkDetails = curr?.properties?.announcements[0];
     const selectedCities = config.cities.filter((c) => citySettings[c]);
     const cities = checkCitySettings(selectedCities);
     if (
-      cities.includes(curr.properties?.announcements[0]?.locationDetails?.roadAddressLocation?.primaryPoint?.municipality.toLowerCase())
+      cities.includes(roadWorkDetails?.locationDetails?.roadAddressLocation?.primaryPoint?.municipality.toLowerCase())
     ) {
       acc.push(curr);
     }
