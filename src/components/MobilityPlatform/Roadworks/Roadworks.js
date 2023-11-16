@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useMap } from 'react-leaflet';
 import roadworksIcon from 'servicemap-ui-turku/assets/icons/icons-icon_roadworks.svg';
 import roadworksIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_roadworks-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
@@ -19,6 +20,8 @@ const Roadworks = () => {
 
   const { icon } = global.L;
   const { Marker, Polyline, Popup } = global.rL;
+
+  const map = useMap();
 
   const useContrast = useSelector(useAccessibleMap);
   const citySettings = useSelector(getCitySettings);
@@ -108,6 +111,16 @@ const Roadworks = () => {
   const areMarkersValid = isDataValid(showRoadworks, roadworksPoints);
   const areLinesValid = isDataValid(showRoadworks, roadworksLines);
   const areMultiLinesValid = isDataValid(showRoadworks, roadworksMultiLines);
+
+  useEffect(() => {
+    if (areMultiLinesValid) {
+      const bounds = [];
+      roadworksMultiLines.forEach((item) => {
+        bounds.push(swapCoordsMulti(item.geometry.coordinates));
+      });
+      map.fitBounds(bounds);
+    }
+  }, [showRoadworks, roadworksMultiLines]);
 
   const renderContent = (item) => (
     <Popup className="popup-w350">
