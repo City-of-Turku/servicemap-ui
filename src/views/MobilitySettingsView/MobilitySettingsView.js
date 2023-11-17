@@ -1709,6 +1709,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     },
   ];
 
+  const infoTextsRoadworks = [
+    {
+      visible: showRoadworks,
+      type: 'roadworksInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.roadworks" />,
+    },
+  ];
+
   /** Render infotext(s) if visible value is true
    * @param {Array} textData
    * @return {Element}
@@ -1831,7 +1839,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   );
 
   const renderRoadworkSettings = () => (
-    renderSettings(openRoadworkSettings, roadworksControlTypes)
+    <>
+      {renderSettings(openRoadworkSettings, roadworksControlTypes)}
+      {renderInfoTexts(infoTextsRoadworks)}
+    </>
   );
 
   const categories = [

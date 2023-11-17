@@ -952,6 +952,7 @@ const translations = {
   'mobilityPlatform.info.underAndOverpasses': 'The map shows underpasses and overpasses located within the city of Turku.',
   'mobilityPlatform.info.rentalCarParking': 'There are total of five parking places in Turku intended only for shared use cars.',
   'mobilityPlatform.info.publicBenches': 'The map shows public benches that are located in the city of Turku.',
+  'mobilityPlatform.info.roadworks': 'Kartalla näkyvät Turun alueen tietyömaat, joista aiheutuu liikenteelle ja liikkumiselle poikkeustilanteita. Merkityillä alueilla on voimassa alennetut nopeusrajoitukset ja tarvittaessa liikennettä voidaan ohjata. Tiedot tulevat Digitrafficin rajapinnasta.', // TODO translate
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',

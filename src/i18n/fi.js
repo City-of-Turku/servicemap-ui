@@ -947,6 +947,7 @@ const translations = {
   'mobilityPlatform.info.underAndOverpasses': 'Kartalla näkyvät Turun alueella sijaitsevat alikulkutunnelit ja ylikulkukuväylät.',
   'mobilityPlatform.info.rentalCarParking': 'Turussa on yhteensä viisi vain yhteiskäyttöautoille tarkoitettua pysäköintipaikkaa.',
   'mobilityPlatform.info.publicBenches': 'Kartalla näkyvät Turussa sijaitsevat yleiset penkit.',
+  'mobilityPlatform.info.roadworks': 'Kartalla näkyvät Turun alueen tietyömaat, joista aiheutuu liikenteelle ja liikkumiselle poikkeustilanteita. Merkityillä alueilla on voimassa alennetut nopeusrajoitukset ja tarvittaessa liikennettä voidaan ohjata. Tiedot tulevat Digitrafficin rajapinnasta.', // TODO verify
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',
