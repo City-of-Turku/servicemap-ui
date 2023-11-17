@@ -35,8 +35,9 @@ const Roadworks = () => {
   const whiteOptions = whiteOptionsBase({ dashArray: !useContrast ? '1, 8' : null });
 
   useEffect(() => {
+    const endpoint = `${isRoadworksUrl}?inactiveHours=0&includeAreaGeometry=true&situationType=ROAD_WORK`;
     if (showRoadworks && isRoadworksUrl) {
-      fetchParkingAreaGeometries(isRoadworksUrl, setRoadworksData);
+      fetchParkingAreaGeometries(endpoint, setRoadworksData);
     }
   }, [showRoadworks]);
 
@@ -128,6 +129,11 @@ const Roadworks = () => {
     </Popup>
   );
 
+  const getSingleCoordinates = (data) => {
+    const coords = data[0][0];
+    return [coords[1], coords[0]];
+  };
+
   const renderMarkers = () => (areMarkersValid
     ? roadworksPoints.map((item) => (
       <Marker
@@ -151,16 +157,25 @@ const Roadworks = () => {
     </Polyline>
   )) : null);
 
-  const renderMultiLines = () => (areMultiLinesValid ? roadworksMultiLines.map((item) => (
-    <Polyline
-      key={item.properties.situationId}
-      weight={useContrast ? 10 : 8}
-      pathOptions={useContrast ? whiteOptions : grayOptions}
-      positions={swapCoordsMulti(item.geometry.coordinates)}
-    >
-      {renderContent(item)}
-    </Polyline>
-  )) : null);
+  const renderMultiLines = () => (areMultiLinesValid ? (
+    roadworksMultiLines.map((item) => (
+      <>
+        <Polyline
+          key={item.properties.situationId}
+          weight={useContrast ? 10 : 8}
+          pathOptions={useContrast ? whiteOptions : grayOptions}
+          positions={swapCoordsMulti(item.geometry.coordinates)}
+        />
+        <Marker
+          key={item.properties.releaseTime}
+          icon={customIcon}
+          position={getSingleCoordinates(item.geometry.coordinates)}
+        >
+          {renderContent(item)}
+        </Marker>
+      </>
+    ))
+  ) : null);
 
   return (
     <>
