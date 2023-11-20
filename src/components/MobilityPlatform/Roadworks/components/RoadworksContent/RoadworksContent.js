@@ -17,7 +17,65 @@ const RoadworksContent = ({ item }) => {
     return [];
   };
 
-  const roadWorksRestrictions = filterRestrictions(roadworkDetails.roadWorkPhases[0].restrictions);
+  const roadWorksRestrictions = filterRestrictions(roadworkDetails.roadWorkPhases[0]?.restrictions);
+
+  const renderRestrictions = () => (
+    roadWorksRestrictions?.length > 0 ? (
+      roadWorksRestrictions.map((limitItem) => (
+        <StyledTextContainer key={limitItem.restriction.quantity}>
+          <Typography variant="body2">
+            {`${limitItem.restriction.name}: ${limitItem.restriction.quantity} ${limitItem.restriction.unit}`}
+          </Typography>
+        </StyledTextContainer>
+      ))
+    ) : null
+  );
+
+  const renderExtraFeatures = () => (
+    roadworkDetails.features?.length > 0 ? (
+      roadworkDetails.features.map((feature) => (
+        <React.Fragment key={feature.name}>
+          {feature.quantity && feature.unit ? (
+            <StyledTextContainer>
+              <Typography variant="body2">
+                {`${feature.name}: ${feature.quantity} ${feature.unit}`}
+              </Typography>
+            </StyledTextContainer>
+          ) : (
+            <StyledTextContainer>
+              <Typography variant="body2">
+                {feature.name}
+              </Typography>
+            </StyledTextContainer>
+          )}
+        </React.Fragment>
+      ))
+    ) : null
+  );
+
+  const renderDateValues = () => {
+    if (roadworkDetails?.timeAndDuration.startTime && roadworkDetails?.timeAndDuration.endTime) {
+      return (
+        <StyledTextContainer>
+          <StyledText variant="body2">
+            {`Aika: ${formatDate(roadworkDetails?.timeAndDuration.startTime)} - ${formatDate(
+              roadworkDetails?.timeAndDuration.endTime,
+            )}`}
+          </StyledText>
+        </StyledTextContainer>
+      );
+    }
+    if (roadworkDetails.timeAndDuration.startTime) {
+      return (
+        <StyledTextContainer>
+          <StyledText variant="body2">
+            {`Työ alkoi: ${formatDate(roadworkDetails?.timeAndDuration.startTime)}`}
+          </StyledText>
+        </StyledTextContainer>
+      );
+    }
+    return null;
+  };
 
   return (
     <StyledPopupInner>
@@ -30,22 +88,14 @@ const RoadworksContent = ({ item }) => {
         <StyledTextContainer>
           <StyledText variant="body2">{roadworkDetails?.location?.description}</StyledText>
         </StyledTextContainer>
-        {roadWorksRestrictions.length > 0 ? (
-          roadWorksRestrictions.map((limitItem) => (
-            <StyledTextContainer>
-              <Typography variant="body2">
-                {`${limitItem.restriction.name}: ${limitItem.restriction.quantity} ${limitItem.restriction.unit}`}
-              </Typography>
-            </StyledTextContainer>
-          ))
+        {roadworkDetails.comment ? (
+          <StyledTextContainer>
+            <StyledText variant="body2">{roadworkDetails?.comment}</StyledText>
+          </StyledTextContainer>
         ) : null}
-        <StyledTextContainer>
-          <StyledText variant="body2">
-            {`Aika: ${formatDate(roadworkDetails?.timeAndDuration.startTime)} - ${formatDate(
-              roadworkDetails?.timeAndDuration.endTime,
-            )}`}
-          </StyledText>
-        </StyledTextContainer>
+        {renderRestrictions()}
+        {renderExtraFeatures()}
+        {renderDateValues()}
       </div>
     </StyledPopupInner>
   );
@@ -81,6 +131,7 @@ const StyledHeader = styled.div(({ theme }) => ({
 RoadworksContent.propTypes = {
   item: PropTypes.shape({
     properties: PropTypes.shape({
+      situationType: PropTypes.string,
       announcements: PropTypes.arrayOf(
         PropTypes.shape({
           title: PropTypes.string,

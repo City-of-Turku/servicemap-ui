@@ -15,6 +15,7 @@ import RoadworksContent from './components/RoadworksContent';
 
 const Roadworks = () => {
   const [roadworksData, setRoadworksData] = useState([]);
+  const [trafficAnnouncementsData, setTrafficAnnouncementsData] = useState([]);
 
   const { showRoadworks } = useMobilityPlatformContext();
 
@@ -41,6 +42,15 @@ const Roadworks = () => {
     }
   }, [showRoadworks]);
 
+  useEffect(() => {
+    const endpoint = `${isRoadworksUrl}?inactiveHours=0&includeAreaGeometry=true&situationType=TRAFFIC_ANNOUNCEMENT`;
+    if (showRoadworks && isRoadworksUrl) {
+      fetchParkingAreaGeometries(endpoint, setTrafficAnnouncementsData);
+    }
+  }, [showRoadworks]);
+
+  const roadworksDataFull = [].concat(roadworksData, trafficAnnouncementsData);
+
   const checkCitySettings = (citiesArray) => {
     if (citiesArray?.length > 0) {
       return citiesArray;
@@ -49,7 +59,7 @@ const Roadworks = () => {
   };
 
   /** Separate roadworks of Turku from the rest */
-  const roadworksFiltered = roadworksData.reduce((acc, curr) => {
+  const roadworksFiltered = roadworksDataFull.reduce((acc, curr) => {
     const roadWorkDetails = curr?.properties?.announcements[0];
     const selectedCities = config.cities.filter((c) => citySettings[c]);
     const cities = checkCitySettings(selectedCities);
@@ -159,21 +169,19 @@ const Roadworks = () => {
 
   const renderMultiLines = () => (areMultiLinesValid ? (
     roadworksMultiLines.map((item) => (
-      <>
+      <React.Fragment key={item.properties.situationId}>
         <Polyline
-          key={item.properties.situationId}
           weight={useContrast ? 10 : 8}
           pathOptions={useContrast ? whiteOptions : grayOptions}
           positions={swapCoordsMulti(item.geometry.coordinates)}
         />
         <Marker
-          key={item.properties.releaseTime}
           icon={customIcon}
           position={getSingleCoordinates(item.geometry.coordinates)}
         >
           {renderContent(item)}
         </Marker>
-      </>
+      </React.Fragment>
     ))
   ) : null);
 

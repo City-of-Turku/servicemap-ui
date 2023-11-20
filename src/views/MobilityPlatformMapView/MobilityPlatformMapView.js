@@ -35,7 +35,6 @@ import Overpasses from '../../components/MobilityPlatform/Overpasses';
 import RentalCarParking from '../../components/MobilityPlatform/Parking/RentalCarParking';
 import PublicBenches from '../../components/MobilityPlatform/PublicBenches';
 import Roadworks from '../../components/MobilityPlatform/Roadworks';
-import TrafficAnnouncements from '../../components/MobilityPlatform/TrafficAnnouncements';
 
 const MobilityPlatformMapView = ({ mapObject }) => (
   <>
@@ -74,7 +73,6 @@ const MobilityPlatformMapView = ({ mapObject }) => (
     <RentalCarParking />
     <PublicBenches mapObject={mapObject} />
     <Roadworks />
-    <TrafficAnnouncements />
   </>
 );
 
