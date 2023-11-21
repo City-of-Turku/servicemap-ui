@@ -18,19 +18,19 @@ const TrafficCounters = () => {
   const { showTrafficCounter } = useMobilityPlatformContext();
 
   useEffect(() => {
-    if (showTrafficCounter.walking) {
+    if (showTrafficCounter.walking && !pedestrianCounterStations.length) {
       fetchTrafficCounterStationsByType('j', setPedestrianCounterStations);
     }
   }, [showTrafficCounter.walking]);
 
   useEffect(() => {
-    if (showTrafficCounter.cycling) {
+    if (showTrafficCounter.cycling && !bicycleCounterStations.length) {
       fetchTrafficCounterStationsByType('p', setBicycleCounterStations);
     }
   }, [showTrafficCounter.cycling]);
 
   useEffect(() => {
-    if (showTrafficCounter.driving) {
+    if (showTrafficCounter.driving && !carCounterStations.length) {
       fetchTrafficCounterStationsByType('a', setCarCounterStations);
     }
   }, [showTrafficCounter.driving]);
