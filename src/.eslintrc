@@ -6,6 +6,8 @@
         "no-console": ["error", { "allow": ["warn"] }],
         "no-param-reassign": ["error", { "props": false }],
         "max-len": ["error", { "code": 150 }],
+        "arrow-parens": ["warn", "as-needed"],
+        "react/jsx-props-no-spreading": ["warn", "as-needed"],
         "react/function-component-definition": [
             "error",
             {
