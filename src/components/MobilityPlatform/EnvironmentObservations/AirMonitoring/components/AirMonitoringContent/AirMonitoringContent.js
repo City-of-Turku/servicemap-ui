@@ -34,7 +34,6 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
 
   const locale = useSelector((state) => state.user.locale);
 
-  const isNarrow = false;
   const inputRef = useRef(null);
 
   // Initial values that are used to fetch data
@@ -205,28 +204,28 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
   };
 
   const renderParameterTypeText = () => (
-    <div className={classes.textContainer}>
-      <Typography variant="subtitle1" component="h4" className={classes.parameterTypeText}>
+    <StyledTextContainer>
+      <StyledParameterType variant="subtitle1" component="h4">
         {intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.airIndex' })}
-      </Typography>
-    </div>
+      </StyledParameterType>
+    </StyledTextContainer>
   );
 
   /**
-     * Set current step and active button index
-     * @param {*number} index
-     * @param {*date} timeValue
-     */
+   * Set current step and active button index
+   * @param {*number} index
+   * @param {*date} timeValue
+   */
   const setStepState = (index, timeValue) => {
     setActiveStep(index);
     setCurrentTime(timeValue);
   };
 
   /**
-     * Set active step into state
-     * @param {*string} title
-     * @param {*number} index
-     */
+   * Set active step into state
+   * @param {*string} title
+   * @param {*number} index
+   */
   const handleClick = (title, index) => {
     if (title === 'day') {
       setStepState(index, 'day');
@@ -324,29 +323,29 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
 
   const renderAirQuality = (measurement) => (
     <StyledColorBox sx={{ bgcolor: getColorValues(measurement.value) }}>
-      <div className={classes.textContainer}>
+      <StyledTextContainer>
         <Typography key={measurement.id} variant="body2" component="p">
           {`${intl.formatMessage({ id: getParameterText(measurement.parameter) })}: ${renderFixedDecimals(
             measurement.value,
           )}`}
         </Typography>
-      </div>
-      <div className={classes.textContainer}>
+      </StyledTextContainer>
+      <StyledTextContainer>
         <Typography variant="body2" component="p">
           {renderThresholdValues(measurement.value)}
         </Typography>
-      </div>
+      </StyledTextContainer>
     </StyledColorBox>
   );
 
   const renderConcentrations = (measurement) => (
-    <div className={classes.textContainer}>
+    <StyledTextContainer>
       <Typography key={measurement.id} variant="body2" component="p">
         {`${intl.formatMessage({ id: getParameterText(measurement.parameter) })}: ${renderFixedDecimals(
           measurement.value,
         )}`}
       </Typography>
-    </div>
+    </StyledTextContainer>
   );
 
   const renderData = () => {
@@ -354,11 +353,11 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     return data.map((item) => (
       <Card key={item.id} variant="outlined">
         <StyledBox>
-          <div className={classes.textContainer}>
+          <StyledTextContainer>
             <Typography variant="body2" component="p">
               {formatDate(item)}
             </Typography>
-          </div>
+          </StyledTextContainer>
           <div>
             {item.measurements.map((measurement) => (
               <div key={measurement.parameter}>
@@ -374,12 +373,10 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
   };
 
   return (
-    <div className={classes.popupInner}>
-      <div className={`${classes.contentHeader} ${isNarrow ? classes.widthSm : classes.widthMd}`}>
-        <Typography component="h4" className={classes.headerSubtitle}>
-          {stationName}
-        </Typography>
-        <div className={classes.dateContainer}>
+    <StyledPopupInner>
+      <StyledContentHeader>
+        <StyledHeaderText component="h4">{stationName}</StyledHeaderText>
+        <StyledDateContainer>
           <DatePicker
             selected={selectedDate}
             onChange={(newDate) => changeDate(newDate)}
@@ -391,12 +388,12 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
             maxDate={new Date()}
             customInput={<CustomInput inputRef={inputRef} />}
           />
-        </div>
-      </div>
-      <div className={classes.parameterTitle}>{renderParameterTypeText()}</div>
+        </StyledDateContainer>
+      </StyledContentHeader>
+      <StyledParameterTitle>{renderParameterTypeText()}</StyledParameterTitle>
       <StyledContainer>{renderData()}</StyledContainer>
       <div>
-        <div className={classes.dateStepsContainer}>
+        <StyledDateSteps>
           {buttonSteps.map((timing, i) => (
             <ButtonBase
               key={timing.step.type}
@@ -411,11 +408,68 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
               </Typography>
             </ButtonBase>
           ))}
-        </div>
+        </StyledDateSteps>
       </div>
-    </div>
+    </StyledPopupInner>
   );
 };
+
+const StyledPopupInner = styled.div(({ theme }) => ({
+  borderRadius: '3px',
+  marginBottom: theme.spacing(1),
+  marginLeft: theme.spacing(1.2),
+  lineHeight: 1.2,
+  overflowX: 'hidden',
+}));
+
+const StyledContentHeader = styled.div(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  marginTop: theme.spacing(0.5),
+  marginBottom: theme.spacing(1.5),
+  alignItems: 'flex-end',
+  borderBottom: '2px solid gray',
+  justifyContent: 'space-between',
+  width: '95%',
+}));
+
+const StyledDateContainer = styled.div(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  maxWidth: '32%',
+}));
+
+const StyledHeaderText = styled(Typography)(({ theme }) => ({
+  padding: '4px 0 5px',
+  fontWeight: 'bold',
+  marginBlockStart: theme.spacing(2),
+  marginBlockEnd: theme.spacing(0.2),
+}));
+
+const StyledParameterType = styled(Typography)(({ theme }) => ({
+  marginTop: theme.spacing(0.5),
+  marginLeft: theme.spacing(3),
+}));
+
+const StyledTextContainer = styled.div(({ theme }) => ({
+  paddingBottom: theme.spacing(1),
+}));
+
+const StyledParameterTitle = styled.div(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+  marginBottom: theme.spacing(1),
+}));
+
+const StyledDateSteps = styled.div(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-evenly',
+  alignItems: 'center',
+  padding: '1rem 0',
+}));
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   paddingLeft: theme.spacing(1.5),

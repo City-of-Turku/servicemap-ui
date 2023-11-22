@@ -1,11 +1,4 @@
 const styles = (theme) => ({
-  popupInner: {
-    borderRadius: '3px',
-    marginBottom: '0.4rem',
-    marginLeft: '0.6rem',
-    lineHeight: 1.2,
-    overflowX: 'hidden',
-  },
   buttonTransparent: {
     backgroundColor: '#fff',
     border: 'none',
@@ -47,81 +40,8 @@ const styles = (theme) => ({
   widthSm: {
     width: '87%',
   },
-  contentHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    marginTop: theme.spacing(0.5),
-    marginBottom: theme.spacing(1.5),
-    alignItems: 'flex-end',
-    borderBottom: '2px solid gray',
-    justifyContent: 'space-between',
-  },
-  headerSubtitle: {
-    padding: '4px 0 5px',
-    fontWeight: 'bold',
-    marginBlockStart: theme.spacing(2),
-    marginBlockEnd: theme.spacing(0.2),
-  },
-  dateContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    maxWidth: '32%',
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textContainer: {
-    paddingBottom: theme.spacing(1),
-  },
-  parameterTitle: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginBottom: theme.spacing(1),
-  },
-  parameterTypeText: {
-    marginTop: theme.spacing(0.5),
-    marginLeft: theme.spacing(3),
-  },
   buttonText: {
     fontSize: '0.75rem',
-  },
-  chartContainer: {
-    margin: 0,
-  },
-  iconWrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(7, 44, 115, 255)',
-    color: '#fff',
-    border: '1px solid gray',
-    borderRadius: '5px',
-    padding: theme.spacing(0.5),
-    width: '30px',
-    height: '30px',
-  },
-  cardContainer: {
-    padding: theme.spacing(1),
-  },
-  card: {
-    padding: theme.spacing(3),
-  },
-  flexRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  dateStepsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    padding: '1rem 0',
   },
 });
 
