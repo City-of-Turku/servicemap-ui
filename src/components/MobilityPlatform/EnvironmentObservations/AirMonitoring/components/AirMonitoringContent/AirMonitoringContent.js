@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import styled from '@emotion/styled';
 import {
-  getMonth, getWeek, getYear, format, subDays,
+  getMonth, getWeek, getYear, format, startOfMonth,
 } from 'date-fns';
 import { enGB, fi, sv } from 'date-fns/locale';
 import DatePicker, { registerLocale } from 'react-datepicker';
@@ -27,7 +27,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
   const [airQualityYears, setAirQualityYears] = useState([]);
   const [currentTime, setCurrentTime] = useState('day');
   const [activeStep, setActiveStep] = useState(0);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(startOfMonth(new Date()));
 
   const stationId = station.id;
   const stationName = station.name;
@@ -38,11 +38,11 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
   const inputRef = useRef(null);
 
   // Initial values that are used to fetch data
-  const currentDate = new Date();
-  const initialDateFormat = format(subDays(currentDate, 1), 'MM-dd');
-  const initialWeek = getWeek(currentDate);
-  const initialMonth = getMonth(currentDate) + 1;
-  const initialYear = getYear(currentDate);
+  const initialDate = startOfMonth(new Date());
+  const initialDateFormat = format(initialDate, 'MM-dd');
+  const initialWeek = getWeek(initialDate);
+  const initialMonth = getMonth(initialDate) + 1;
+  const initialYear = getYear(initialDate);
 
   // Values that change based on the datepicker value
   const selectedDateFormat = format(selectedDate, 'MM-dd');
@@ -65,7 +65,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
 
   // Reset selectedDate value when the new popup is opened.
   useEffect(() => {
-    setSelectedDate(currentDate);
+    setSelectedDate(initialDate);
   }, [stationId]);
 
   // Initial values
