@@ -61,7 +61,8 @@ const LamCounterContent = ({ classes, intl, station }) => {
   const stationName = station.name;
   const stationSource = station.csv_data_source;
   const userTypes = station.sensor_types;
-  const dataFromYear = station.data_from_year;
+  const dataFrom = station.data_from_date;
+  const dataUntil = station.data_until_date;
 
   // steps that determine which data is shown on the chart
   const buttonSteps = [
@@ -393,8 +394,8 @@ const LamCounterContent = ({ classes, intl, station }) => {
             dateFormat="P"
             showYearDropdown
             dropdownMode="select"
-            minDate={new Date(`${dataFromYear}-01-01`)}
-            maxDate={new Date()}
+            minDate={new Date(dataFrom)}
+            maxDate={new Date(dataUntil)}
             customInput={<CustomInput inputRef={inputRef} />}
           />
         </div>
@@ -463,7 +464,8 @@ LamCounterContent.propTypes = {
     name: PropTypes.string,
     csv_data_source: PropTypes.string,
     sensor_types: PropTypes.arrayOf(PropTypes.string),
-    data_from_year: PropTypes.number,
+    data_from_date: PropTypes.string,
+    data_until_date: PropTypes.string,
   }),
 };
 
@@ -473,7 +475,8 @@ LamCounterContent.defaultProps = {
     name: '',
     csv_data_source: '',
     sensor_types: [],
-    data_from_year: 2010,
+    data_from_date: '2010-02-01',
+    data_until_date: '2020-30-01',
   },
 };
 
