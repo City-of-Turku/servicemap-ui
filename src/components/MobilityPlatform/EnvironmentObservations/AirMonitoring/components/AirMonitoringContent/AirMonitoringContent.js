@@ -360,7 +360,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
           </StyledTextContainer>
           <div>
             {item.measurements.map((measurement) => (
-              <div key={measurement.parameter}>
+              <div key={`${measurement.parameter}${measurement.value}`}>
                 {measurement.parameter === 'AQINDEX_PT1H_avg'
                   ? renderAirQuality(measurement)
                   : renderConcentrations(measurement)}
