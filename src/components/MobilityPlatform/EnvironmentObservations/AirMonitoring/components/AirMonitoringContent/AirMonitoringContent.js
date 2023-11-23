@@ -430,7 +430,7 @@ const StyledContentHeader = styled.div(({ theme }) => ({
   alignItems: 'flex-end',
   borderBottom: '2px solid gray',
   justifyContent: 'space-between',
-  width: '95%',
+  width: '92%',
 }));
 
 const StyledDateContainer = styled.div(() => ({

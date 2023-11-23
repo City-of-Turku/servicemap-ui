@@ -6,7 +6,6 @@ import React, {
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ButtonBase, Container, Typography } from '@mui/material';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Thermostat } from '@mui/icons-material';
 import {
@@ -37,7 +36,6 @@ const WeatherStationContent = ({ classes, intl, station }) => {
 
   const locale = useSelector((state) => state.user.locale);
 
-  const isNarrow = false;
   const inputRef = useRef(null);
 
   // Initial values that are used to fetch data
@@ -375,12 +373,9 @@ const WeatherStationContent = ({ classes, intl, station }) => {
     ));
   };
 
-  const widthSmClass = css({ width: '87%' });
-  const widthMdClass = css({ width: '95%' });
-
   return (
     <StyledPopupInner>
-      <StyledContentHeader className={isNarrow ? widthSmClass : widthMdClass}>
+      <StyledContentHeader>
         <StyledHeaderText component="h4">
           {stationName}
         </StyledHeaderText>
@@ -449,6 +444,7 @@ const StyledContentHeader = styled.div(({ theme }) => ({
   alignItems: 'flex-end',
   borderBottom: '2px solid gray',
   justifyContent: 'space-between',
+  width: '92%',
 }));
 
 const StyledHeaderText = styled(Typography)(({ theme }) => ({
