@@ -32,10 +32,11 @@ const AirMonitoring = () => {
   }, [showAirMonitoringStations]);
 
   /**
-   * Filter out temporary station, because it contains so little data.
+   * Filter out temporary stations, because they contain little data & are currently inactive.
    */
   const filteredAirMonitoringStations = airMonitoringStations.reduce((acc, curr) => {
-    if (curr.name !== 'Turku Kauppatori väliaikainen') {
+    const inactiveStations = ['Turku Kauppatori väliaikainen', 'Parainen Parainen'];
+    if (!inactiveStations.includes(curr.name)) {
       acc.push(curr);
     }
     return acc;
