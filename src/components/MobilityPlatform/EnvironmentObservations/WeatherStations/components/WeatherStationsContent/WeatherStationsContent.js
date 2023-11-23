@@ -20,7 +20,7 @@ import renderFixedDecimals from '../../../utils';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
-const WeatherStationContent = ({ classes, intl, station }) => {
+const WeatherStationContent = ({ intl, station }) => {
   const [weatherDataHours, setWeatherDataHours] = useState([]);
   const [weatherDataDays, setWeatherDataDays] = useState([]);
   const [weatherDataWeeks, setWeatherDataWeeks] = useState([]);
@@ -409,18 +409,19 @@ const WeatherStationContent = ({ classes, intl, station }) => {
       <div>
         <StyledDateSteps>
           {buttonSteps.map((timing, i) => (
-            <ButtonBase
+            <StyledButtonBase
               key={timing.step.type}
               type="button"
-              className={`${classes.button} ${classes.paddingWide} ${
-                i === activeStep ? classes.buttonActive : classes.buttonWhite
-              }`}
+              sx={{
+                backgroundColor: i === activeStep ? 'rgba(7, 44, 115, 255)' : '#fff',
+                color: i === activeStep ? '#fff' : '#000',
+              }}
               onClick={() => handleClick(timing.step.type, i)}
             >
               <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
                 {timing.step.text}
               </Typography>
-            </ButtonBase>
+            </StyledButtonBase>
           ))}
         </StyledDateSteps>
       </div>
@@ -444,7 +445,15 @@ const StyledContentHeader = styled.div(({ theme }) => ({
   alignItems: 'flex-end',
   borderBottom: '2px solid gray',
   justifyContent: 'space-between',
-  width: '92%',
+  width: '95%',
+}));
+
+const StyledButtonBase = styled(ButtonBase)(({ theme }) => ({
+  border: '1px solid gray',
+  borderRadius: '5px',
+  cursor: 'pointer',
+  marginRight: theme.spacing(1.5),
+  padding: `${theme.spacing(0.5)} ${theme.spacing(1)}`,
 }));
 
 const StyledHeaderText = styled(Typography)(({ theme }) => ({
@@ -513,7 +522,6 @@ const StyledIconWrapper = styled.div(({ theme }) => ({
 }));
 
 WeatherStationContent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   intl: PropTypes.shape({
     formatMessage: PropTypes.func,
   }).isRequired,
