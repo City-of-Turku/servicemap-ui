@@ -403,7 +403,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
               }`}
               onClick={() => handleClick(timing.step.type, i)}
             >
-              <Typography variant="body2" className={classes.buttonText}>
+              <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
                 {timing.step.text}
               </Typography>
             </ButtonBase>
