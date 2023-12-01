@@ -14,11 +14,9 @@ import AddressMarker from '../AddressMarker';
 import UnitHelper from '../../../../utils/unitHelper';
 import ParkingAreas from './ParkingAreas';
 
-
 const Districts = ({
   highlightedDistrict,
   districtData,
-  unitsFetching,
   addressDistrict,
   theme,
   mapOptions,
@@ -68,14 +66,14 @@ const Districts = ({
       } else {
         newArray = [...selectedSubdistricts, district.ocd_id];
       }
-      if (newArray === []) {
+      if (newArray.length) {
         setSelectedDistrictServices([]);
       }
       setSelectedSubdistricts(newArray);
     }
   };
 
-  const renderDistrictMarkers = (district) => {
+  const renderDistrictMarkers = district => {
     if (embedded && parseSearchParams(location.search).units === 'none') {
       return null;
     }
@@ -163,7 +161,7 @@ const Districts = ({
       filteredData = areasWithBoundary;
     }
 
-    return filteredData.map((district) => {
+    return filteredData.map(district => {
       let dimmed;
       if (geographicalDistricts.includes(district.type)) {
         if (selectedSubdistricts.length) {
@@ -202,7 +200,7 @@ const Districts = ({
 
       return (
         <Polygon
-          interactive={!unitsFetching}
+          interactive
           key={district.id}
           positions={[[area]]}
           color={mainColor}
@@ -213,14 +211,14 @@ const Districts = ({
             fillColor: dimmed ? '#000' : mainColor,
           }}
           eventHandlers={{
-            click: (e) => {
+            click: e => {
               districtOnClick(e, district);
             },
-            mouseover: (e) => {
+            mouseover: e => {
               e.target.openTooltip();
               e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
             },
-            mouseout: (e) => {
+            mouseout: e => {
               e.target.setStyle({ fillOpacity: dimmed ? '0.3' : '0' });
             },
           }}
@@ -252,11 +250,9 @@ const Districts = ({
     </Popup>
   );
 
-
   useEffect(() => {
     setAreaPopup(null);
   }, [selectedDistrictType]);
-
 
   if (highlightedDistrict) {
     return (
@@ -307,7 +303,6 @@ Districts.propTypes = {
   measuringMode: PropTypes.bool.isRequired,
   selectedAddress: PropTypes.objectOf(PropTypes.any),
   districtData: PropTypes.arrayOf(PropTypes.object),
-  unitsFetching: PropTypes.bool.isRequired,
   addressDistrict: PropTypes.objectOf(PropTypes.any),
   selectedSubdistricts: PropTypes.arrayOf(PropTypes.string),
   setSelectedSubdistricts: PropTypes.func.isRequired,

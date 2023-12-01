@@ -6,10 +6,10 @@ import { getAddressDistrict, getDistrictsByType, getHighlightedDistrict } from '
 import styles from '../../styles';
 import Districts from './Districts';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { navigator, measuringMode } = state;
   const { theme, page } = state.user;
-  const { districtAddressData, selectedSubdistricts, unitFetch } = state.districts;
+  const { districtAddressData, selectedSubdistricts } = state.districts;
   const districtData = getDistrictsByType(state);
   const addressDistrict = getAddressDistrict(state);
   const highlightedDistrict = getHighlightedDistrict(state);
@@ -18,7 +18,6 @@ const mapStateToProps = (state) => {
     navigator,
     currentPage: page,
     districtData,
-    unitsFetching: unitFetch.isFetching,
     highlightedDistrict,
     addressDistrict,
     selectedAddress: districtAddressData.address,
