@@ -10,6 +10,7 @@ const getSubdistrictSelection = state => state.districts.selectedSubdistricts;
 const getSelectedDistrictServices = state => state.districts.selectedDistrictServices;
 const getCitySettings = state => state.settings.cities;
 export const getParkingUnits = state => state.districts.parkingUnits.filter(unit => unit.object_type === 'unit');
+export const selectDistrictUnitFetch = state => state.districts.unitFetch;
 
 export const getDistrictsByType = createSelector(
   [getSelectedDistrict, getDistrictData, getCitySettings],
@@ -40,18 +41,18 @@ export const getAddressDistrict = createSelector(
 // Get units that are tied to each area object
 export const getDistrictPrimaryUnits = createSelector(
   [getDistrictsByType],
-  (districts) => {
+  districts => {
     const primaryUnits = [];
 
     // Function to handle unit and add it to the list
-    const checkUnit = (unit) => {
+    const checkUnit = unit => {
       if (unit.location) {
         unit.object_type = 'unit';
         primaryUnits.push(unit);
       }
     };
 
-    districts.forEach((area) => {
+    districts.forEach(area => {
       // If area data has units as list, iterate through it
       if (area.units?.length) {
         area.units.forEach(unit => checkUnit(unit));

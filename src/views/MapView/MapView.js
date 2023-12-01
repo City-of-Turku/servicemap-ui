@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Loading from '../../components/Loading';
 import { getSelectedUnitEvents } from '../../redux/selectors/selectedUnit';
+import { selectDistrictUnitFetch } from '../../redux/selectors/district';
 import { parseSearchParams } from '../../utils';
 import { useNavigationParams } from '../../utils/address';
 import { mapOptions } from './config/mapConfig';
@@ -92,7 +93,7 @@ const MapView = (props) => {
 
   const embedded = isEmbed({ url: location.pathname });
   const getAddressNavigatorParams = useNavigationParams();
-  const districtUnitsFetch = useSelector(state => state.districts.unitFetch);
+  const districtUnitsFetch = useSelector(selectDistrictUnitFetch);
   const statisticalDistrictFetch = useSelector(getStatisticalDistrictUnitsState);
 
   const unitData = useMapUnits();

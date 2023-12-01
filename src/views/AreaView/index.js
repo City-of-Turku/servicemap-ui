@@ -15,7 +15,7 @@ import {
 } from '../../redux/actions/district';
 import { getDistrictsByType } from '../../redux/selectors/district';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { navigator } = state;
   const {
     districtData,
@@ -23,7 +23,6 @@ const mapStateToProps = (state) => {
     subdistrictUnits,
     selectedSubdistricts,
     selectedDistrictServices,
-    unitFetch,
     mapState,
   } = state.districts;
   const map = state.mapRef;
@@ -35,7 +34,6 @@ const mapStateToProps = (state) => {
     subdistrictUnits,
     selectedSubdistricts,
     selectedDistrictServices,
-    unitsFetching: unitFetch.nodesFetching,
     mapState,
     navigator,
     map,
