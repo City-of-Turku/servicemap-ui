@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
-import ecoCounterIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ecocounter.svg';
-import ecoCounterIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ecocounter-bw.svg';
+import weatherIcon from 'servicemap-ui-turku/assets/icons/icons-icon_weather_station.svg';
+import weatherIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_weather_station-bw.svg';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { fetchObservationStations } from '../EnvironmentDataAPI/EnvironmentDataAPI';
@@ -22,8 +22,7 @@ const WeatherStations = () => {
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
-  // TODO use correct icon
-  const customIcon = icon(createIcon(useContrast ? ecoCounterIconBw : ecoCounterIcon));
+  const customIcon = icon(createIcon(useContrast ? weatherIconBw : weatherIcon));
 
   useEffect(() => {
     if (showWeatherStations) {
