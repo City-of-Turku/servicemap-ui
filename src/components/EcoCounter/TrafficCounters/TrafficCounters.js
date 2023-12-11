@@ -18,19 +18,19 @@ const TrafficCounters = () => {
   const { showTrafficCounter } = useMobilityPlatformContext();
 
   useEffect(() => {
-    if (showTrafficCounter.walking) {
+    if (showTrafficCounter.walking && !pedestrianCounterStations.length) {
       fetchTrafficCounterStationsByType('j', setPedestrianCounterStations);
     }
   }, [showTrafficCounter.walking]);
 
   useEffect(() => {
-    if (showTrafficCounter.cycling) {
+    if (showTrafficCounter.cycling && !bicycleCounterStations.length) {
       fetchTrafficCounterStationsByType('p', setBicycleCounterStations);
     }
   }, [showTrafficCounter.cycling]);
 
   useEffect(() => {
-    if (showTrafficCounter.driving) {
+    if (showTrafficCounter.driving && !carCounterStations.length) {
       fetchTrafficCounterStationsByType('a', setCarCounterStations);
     }
   }, [showTrafficCounter.driving]);
@@ -44,7 +44,7 @@ const TrafficCounters = () => {
   const fitToMapBounds = (isValid, data) => {
     if (isValid) {
       const bounds = [];
-      data.forEach((item) => {
+      data.forEach(item => {
         bounds.push([item.lat, item.lon]);
       });
       map.fitBounds(bounds);
@@ -63,7 +63,7 @@ const TrafficCounters = () => {
     fitToMapBounds(renderCarCounters, carCounterStations);
   }, [renderCarCounters, carCounterStations]);
 
-  const renderContent = (item) => {
+  const renderContent = item => {
     const csvSource = item.csv_data_source;
     if (csvSource === 'EC' || csvSource === 'TR') {
       return <EcoCounterContent station={item} />;
@@ -76,7 +76,7 @@ const TrafficCounters = () => {
 
   const renderStationsOnMap = (renderData, data) => (
     renderData ? (
-      data.map((item) => (
+      data.map(item => (
         <CounterMarkers key={item.id} counterStation={item}>
           {renderContent(item)}
         </CounterMarkers>
