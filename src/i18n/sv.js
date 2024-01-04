@@ -800,6 +800,7 @@ const translations = {
   'mobilityPlatform.menu.show.rentalCarParking': 'Bilpool bilars parkeringsplatser',
   'mobilityPlatform.menu.show.publicBenches': 'Allmänna bänkar (zooma in på kartan)',
   'mobilityPlatform.embedded.label.publicBenches': 'Allmänna bänkar (zooma in på kartan för att se bänkar)',
+  'mobilityPlatform.menu.show.railwayStations': 'Järnvägsstationer',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',

@@ -270,6 +270,7 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, emotionCss,
         window.nodeEnvSettings.MOBILITY_PLATFORM_API = "${process.env.MOBILITY_PLATFORM_API}";
         window.nodeEnvSettings.PARKING_SPACES_URL = "${process.env.PARKING_SPACES_URL}";
         window.nodeEnvSettings.PARKING_STATISTICS_URL = "${process.env.PARKING_STATISTICS_URL}";
+        window.nodeEnvSettings.RAILWAYS_API = "${process.env.RAILWAYS_API}";
         window.nodeEnvSettings.FEATURE_SERVICEMAP_PAGE_TRACKING = "${process.env.FEATURE_SERVICEMAP_PAGE_TRACKING}";
 
         window.appVersion = {};

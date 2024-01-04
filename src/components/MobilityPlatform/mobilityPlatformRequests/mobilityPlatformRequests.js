@@ -5,6 +5,9 @@ import config from '../../../../config';
 const apiUrl = config.mobilityPlatformAPI;
 const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
 
+const railwaysApiUrl = config.railwaysAPI;
+const isRailwaysApiUrl = !railwaysApiUrl || railwaysApiUrl === 'undefined' ? null : railwaysApiUrl;
+
 /**
  * Returns query options as a search params for URLs
  * @param {Object} options
@@ -12,7 +15,7 @@ const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
  * @returns {string}
  */
 
-const optionsToParams = (options) => {
+const optionsToParams = options => {
   const defaultOptions = {
     page_size: 100,
     srid: 4326,
@@ -35,7 +38,7 @@ const fetchMobilityMapData = async (options, setData) => {
   }
 };
 
-const fetchCultureRouteNames = async (setData) => {
+const fetchCultureRouteNames = async setData => {
   try {
     const response = await fetch(`${isApiUrl}/mobility_data/mobile_unit_groups/`);
     const jsonData = await response.json();
@@ -45,7 +48,7 @@ const fetchCultureRouteNames = async (setData) => {
   }
 };
 
-const fetchBicycleRouteNames = async (setData) => {
+const fetchBicycleRouteNames = async setData => {
   try {
     const response = await fetch(`${isApiUrl}/bicycle_network/bicycle_networks/`);
     const jsonData = await response.json();
@@ -55,7 +58,7 @@ const fetchBicycleRouteNames = async (setData) => {
   }
 };
 
-const fetchBicycleRoutesGeometry = async (setData) => {
+const fetchBicycleRoutesGeometry = async setData => {
   try {
     const response = await fetch(`${isApiUrl}/bicycle_network/bicycle_networkparts/?page_size=1000&latlon=true`);
     const jsonData = await response.json();
@@ -117,6 +120,16 @@ const fetchParkingAreaStats = async (endpoint, setData, setError) => {
   }
 };
 
+const fetchRailwaysData = async (endpoint, setData) => {
+  try {
+    const response = await fetch(`${isRailwaysApiUrl}/${endpoint}/`);
+    const jsonData = await response.json();
+    setData(jsonData);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 export {
   fetchMobilityMapData,
   fetchCultureRouteNames,
@@ -127,4 +140,5 @@ export {
   fetchStreetMaintenanceData,
   fetchParkingAreaGeometries,
   fetchParkingAreaStats,
+  fetchRailwaysData,
 };
