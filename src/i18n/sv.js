@@ -902,6 +902,7 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Betalningstyper: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Ytterligare info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Övergångställe',
+  'mobilityPlatform.content.railways.train': 'Tåg: {value1} {value2}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',

@@ -8,8 +8,7 @@ import { useMobilityPlatformContext } from '../../../context/MobilityPlatformCon
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchRailwaysData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid } from '../utils/utils';
-
-// TODO Add content component
+import RailwayStationsContent from './components/RailwayStationsContent';
 
 const RailwayStations = () => {
   const [railwayStations, setRailwayStations] = useState([]);
@@ -32,7 +31,7 @@ const RailwayStations = () => {
   }, [showRailwayStations]);
 
   /** Separate railway stations of Turku, eg. main station and Kupittaa */
-  const turkuStationCodes = ['TKU', 'TUS', 'KUT'];
+  const turkuStationCodes = ['TKU', 'KUT'];
   const railwayStationsTku = railwayStations.filter(curr => turkuStationCodes.includes(curr.stationShortCode));
 
   const renderData = isDataValid(showRailwayStations, railwayStationsTku);
@@ -51,8 +50,7 @@ const RailwayStations = () => {
     ? railwayStationsTku.map(item => (
       <Marker key={item.stationName} icon={customIcon} position={[item.latitude, item.longitude]}>
         <Popup>
-          <p>Lähtevät junat:</p>
-          <p>Saapuvat junat:</p>
+          <RailwayStationsContent item={item} />
         </Popup>
       </Marker>
     ))
