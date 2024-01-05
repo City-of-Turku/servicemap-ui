@@ -50,7 +50,7 @@ const RailwayStations = () => {
     ? railwayStationsTku.map(item => (
       <Marker key={item.stationName} icon={customIcon} position={[item.latitude, item.longitude]}>
         <Popup>
-          <RailwayStationsContent item={item} />
+          <RailwayStationsContent item={item} stationsData={railwayStations} />
         </Popup>
       </Marker>
     ))

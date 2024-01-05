@@ -7,7 +7,7 @@ import { fetchRailwaysData } from '../../../mobilityPlatformRequests/mobilityPla
 
 // TODO render additional timetable info
 
-const RailwayStationsContent = ({ intl, item }) => {
+const RailwayStationsContent = ({ intl, item, stationsData }) => {
   const [stationTrainsData, setStationTrainsData] = useState([]);
 
   const formatDateTime = dateTimeValue => format(new Date(dateTimeValue), 'HH:mm');
@@ -32,6 +32,20 @@ const RailwayStationsContent = ({ intl, item }) => {
   const arrivingTrains = filterArrivals(stationTrainsData);
   const departingTrains = filterDeparting(stationTrainsData);
 
+  const findStation = (stationsArr, codeValue) => stationsArr.find(station => station.stationShortCode === codeValue);
+
+  const renderDestinations = data => {
+    const firstIdx = data[0];
+    const lastIdx = data.slice(-1)[0];
+    const departureStation = findStation(stationsData, firstIdx.stationShortCode);
+    const arrivalStation = findStation(stationsData, lastIdx.stationShortCode);
+    return (
+      <StyledText>
+        {`${departureStation.stationName} - ${arrivalStation.stationName}`}
+      </StyledText>
+    );
+  };
+
   return (
     <StyledPopupInner>
       <StyledHeader>
@@ -54,6 +68,7 @@ const RailwayStationsContent = ({ intl, item }) => {
                   { value1: train.trainType, value2: train.trainNumber },
                 )}
               </StyledText>
+              {renderDestinations(train.timeTableRows)}
               {train.timeTableRows
                 .filter(elem => elem.stationShortCode === item.stationShortCode && elem.type === 'DEPARTURE')
                 .map(elem => (
@@ -81,6 +96,7 @@ const RailwayStationsContent = ({ intl, item }) => {
                   { value1: train.trainType, value2: train.trainNumber },
                 )}
               </StyledText>
+              {renderDestinations(train.timeTableRows)}
               {train.timeTableRows
                 .filter(elem => elem.stationShortCode === item.stationShortCode && elem.type === 'ARRIVAL')
                 .map(elem => (
@@ -134,10 +150,14 @@ RailwayStationsContent.propTypes = {
     stationShortCode: PropTypes.string,
     stationName: PropTypes.string,
   }),
+  stationsData: PropTypes.shape({
+    stationShortCode: PropTypes.string,
+  }),
 };
 
 RailwayStationsContent.defaultProps = {
   item: {},
+  stationsData: [],
 };
 
 export default RailwayStationsContent;
