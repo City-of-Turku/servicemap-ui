@@ -49,6 +49,24 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
     );
   };
 
+  const renderTrainInfo = train => (
+    <StyledText variant="body2" component="p">
+      {intl.formatMessage(
+        { id: 'mobilityPlatform.content.railways.train' },
+        { value1: train.trainType, value2: train.trainNumber },
+      )}
+    </StyledText>
+  );
+
+  const renderTimeValues = (elem, translationId) => (
+    <StyledText>
+      {intl.formatMessage(
+        { id: translationId },
+        { value: formatDateTime(elem.scheduledTime, elem.liveEstimateTime) },
+      )}
+    </StyledText>
+  );
+
   return (
     <StyledPopupInner>
       <StyledHeader>
@@ -65,22 +83,12 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
           </StyledTextContainer>
           {departingTrains?.map(train => (
             <StyledTextContainer>
-              <StyledText variant="body2" component="p">
-                {intl.formatMessage(
-                  { id: 'mobilityPlatform.content.railways.train' },
-                  { value1: train.trainType, value2: train.trainNumber },
-                )}
-              </StyledText>
+              {renderTrainInfo(train)}
               {renderDestinations(train.timeTableRows)}
               {train.timeTableRows
                 .filter(elem => elem.stationShortCode === item.stationShortCode && elem.type === 'DEPARTURE')
                 .map(elem => (
-                  <StyledText>
-                    {intl.formatMessage(
-                      { id: 'mobilityPlatform.content.railways.train.departing' },
-                      { value: formatDateTime(elem.scheduledTime, elem.liveEstimateTime) },
-                    )}
-                  </StyledText>
+                  renderTimeValues(elem, 'mobilityPlatform.content.railways.train.departing')
                 ))}
             </StyledTextContainer>
           ))}
@@ -93,22 +101,12 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
           </StyledTextContainer>
           {arrivingTrains?.map(train => (
             <StyledTextContainer>
-              <StyledText variant="body2" component="p">
-                {intl.formatMessage(
-                  { id: 'mobilityPlatform.content.railways.train' },
-                  { value1: train.trainType, value2: train.trainNumber },
-                )}
-              </StyledText>
+              {renderTrainInfo(train)}
               {renderDestinations(train.timeTableRows)}
               {train.timeTableRows
                 .filter(elem => elem.stationShortCode === item.stationShortCode && elem.type === 'ARRIVAL')
                 .map(elem => (
-                  <StyledText>
-                    {intl.formatMessage(
-                      { id: 'mobilityPlatform.content.railways.train.arriving' },
-                      { value: formatDateTime(elem.scheduledTime, elem.liveEstimateTime) },
-                    )}
-                  </StyledText>
+                  renderTimeValues(elem, 'mobilityPlatform.content.railways.train.arriving')
                 ))}
             </StyledTextContainer>
           ))}
