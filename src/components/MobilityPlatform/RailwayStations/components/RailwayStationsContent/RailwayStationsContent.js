@@ -5,16 +5,19 @@ import styled from '@emotion/styled';
 import { format } from 'date-fns';
 import { fetchRailwaysData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 
-// TODO render additional timetable info
-
 const RailwayStationsContent = ({ intl, item, stationsData }) => {
   const [stationTrainsData, setStationTrainsData] = useState([]);
 
-  const formatDateTime = dateTimeValue => format(new Date(dateTimeValue), 'HH:mm');
+  const formatDateTime = (scheduled, estimate) => {
+    if (estimate) {
+      return format(new Date(estimate), 'HH:mm');
+    }
+    return format(new Date(scheduled), 'HH:mm');
+  };
 
   useEffect(() => {
     const endpoint = `live-trains/station/${item.stationShortCode}`;
-    const params = 'minutes_before_departure=120&minutes_after_departure=30&minutes_before_arrival=120&minutes_after_arrival=30&train_categories=Long-distance';
+    const params = 'minutes_before_departure=120&minutes_after_departure=20&minutes_before_arrival=120&minutes_after_arrival=20&train_categories=Long-distance';
     const query = `${endpoint}?${params}`;
     fetchRailwaysData(query, setStationTrainsData);
   }, [item.stationShortCode]);
@@ -75,7 +78,7 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
                   <StyledText>
                     {intl.formatMessage(
                       { id: 'mobilityPlatform.content.railways.train.departing' },
-                      { value: formatDateTime(elem.scheduledTime) },
+                      { value: formatDateTime(elem.scheduledTime, elem.liveEstimateTime) },
                     )}
                   </StyledText>
                 ))}
@@ -103,7 +106,7 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
                   <StyledText>
                     {intl.formatMessage(
                       { id: 'mobilityPlatform.content.railways.train.arriving' },
-                      { value: formatDateTime(elem.scheduledTime) },
+                      { value: formatDateTime(elem.scheduledTime, elem.liveEstimateTime) },
                     )}
                   </StyledText>
                 ))}
