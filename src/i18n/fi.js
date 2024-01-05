@@ -894,6 +894,10 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Lisätietoja: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Suojatie',
   'mobilityPlatform.content.railways.train': 'Juna: {value1} {value2}',
+  'mobilityPlatform.content.departingTrains.title': 'Lähtevät junat',
+  'mobilityPlatform.content.arrivingTrains.title': 'Saapuvat junat',
+  'mobilityPlatform.content.railways.train.departing': 'Juna lähtee klo {value}',
+  'mobilityPlatform.content.railways.train.arriving': 'Juna saapuu klo {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',

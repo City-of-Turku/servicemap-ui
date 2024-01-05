@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@mui/material';
 import styled from '@emotion/styled';
+import { format } from 'date-fns';
 import { fetchRailwaysData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 
-// TODO Add timetable info & separate trains that will arrive and trains that will leave
+// TODO render additional timetable info
 
 const RailwayStationsContent = ({ intl, item }) => {
   const [stationTrainsData, setStationTrainsData] = useState([]);
+
+  const formatDateTime = dateTimeValue => format(new Date(dateTimeValue), 'HH:mm');
 
   useEffect(() => {
     const endpoint = `live-trains/station/${item.stationShortCode}`;
@@ -16,24 +19,81 @@ const RailwayStationsContent = ({ intl, item }) => {
     fetchRailwaysData(query, setStationTrainsData);
   }, [item.stationShortCode]);
 
+  const filterArrivals = data => data.filter(train => {
+    const lastRow = train.timeTableRows[train.timeTableRows.length - 1];
+    return lastRow.stationShortCode === item.stationShortCode && lastRow.type === 'ARRIVAL';
+  });
+
+  const filterDeparting = data => data.filter(train => {
+    const firstRow = train.timeTableRows[0];
+    return firstRow.stationShortCode === item.stationShortCode && firstRow.type === 'DEPARTURE';
+  });
+
+  const arrivingTrains = filterArrivals(stationTrainsData);
+  const departingTrains = filterDeparting(stationTrainsData);
+
   return (
     <StyledPopupInner>
       <StyledHeader>
-        <StyledText variant="subtitle2" component="h4">
+        <StyledText variant="subtitle1" component="h4">
           {item?.stationName}
         </StyledText>
       </StyledHeader>
       <div>
-        {stationTrainsData.map(train => (
+        <div>
           <StyledTextContainer>
-            <StyledText variant="body2" component="p">
-              {intl.formatMessage(
-                { id: 'mobilityPlatform.content.railways.train' },
-                { value1: train.trainType, value2: train.trainNumber },
-              )}
+            <StyledText variant="subtitle2" component="h5">
+              {intl.formatMessage({ id: 'mobilityPlatform.content.departingTrains.title' })}
             </StyledText>
           </StyledTextContainer>
-        ))}
+          {departingTrains?.map(train => (
+            <StyledTextContainer>
+              <StyledText variant="body2" component="p">
+                {intl.formatMessage(
+                  { id: 'mobilityPlatform.content.railways.train' },
+                  { value1: train.trainType, value2: train.trainNumber },
+                )}
+              </StyledText>
+              {train.timeTableRows
+                .filter(elem => elem.stationShortCode === item.stationShortCode && elem.type === 'DEPARTURE')
+                .map(elem => (
+                  <StyledText>
+                    {intl.formatMessage(
+                      { id: 'mobilityPlatform.content.railways.train.departing' },
+                      { value: formatDateTime(elem.scheduledTime) },
+                    )}
+                  </StyledText>
+                ))}
+            </StyledTextContainer>
+          ))}
+        </div>
+        <div>
+          <StyledTextContainer>
+            <StyledText variant="subtitle2" component="h5">
+              {intl.formatMessage({ id: 'mobilityPlatform.content.arrivingTrains.title' })}
+            </StyledText>
+          </StyledTextContainer>
+          {arrivingTrains?.map(train => (
+            <StyledTextContainer>
+              <StyledText variant="body2" component="p">
+                {intl.formatMessage(
+                  { id: 'mobilityPlatform.content.railways.train' },
+                  { value1: train.trainType, value2: train.trainNumber },
+                )}
+              </StyledText>
+              {train.timeTableRows
+                .filter(elem => elem.stationShortCode === item.stationShortCode && elem.type === 'ARRIVAL')
+                .map(elem => (
+                  <StyledText>
+                    {intl.formatMessage(
+                      { id: 'mobilityPlatform.content.railways.train.arriving' },
+                      { value: formatDateTime(elem.scheduledTime) },
+                    )}
+                  </StyledText>
+                ))}
+            </StyledTextContainer>
+          ))}
+        </div>
       </div>
     </StyledPopupInner>
   );

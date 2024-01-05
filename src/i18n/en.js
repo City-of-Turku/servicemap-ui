@@ -899,6 +899,10 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Additional info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Crosswalk',
   'mobilityPlatform.content.railways.train': 'Train: {value1} {value2}',
+  'mobilityPlatform.content.departingTrains.title': 'Departing trains', // TODO verify
+  'mobilityPlatform.content.arrivingTrains.title': 'Arriving trains', // TODO verify
+  'mobilityPlatform.content.railways.train.departing': 'Train will depart at {value}',
+  'mobilityPlatform.content.railways.train.arriving': 'Train will arrive {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Route description',

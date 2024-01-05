@@ -903,6 +903,10 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Ytterligare info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Övergångställe',
   'mobilityPlatform.content.railways.train': 'Tåg: {value1} {value2}',
+  'mobilityPlatform.content.departingTrains.title': 'Avgående tåg', // TODO verify
+  'mobilityPlatform.content.arrivingTrains.title': 'Ankomst tåg', // TODO verify
+  'mobilityPlatform.content.railways.train.departing': 'Juna lähtee klo {value}', // TODO translate
+  'mobilityPlatform.content.railways.train.arriving': 'Juna saapuu klo {value}', // TODO translate
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',
