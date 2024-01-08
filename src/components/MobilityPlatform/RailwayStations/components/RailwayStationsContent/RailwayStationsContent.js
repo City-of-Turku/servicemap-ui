@@ -32,25 +32,22 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
 
   const findStation = (stationsArr, codeValue) => stationsArr.find(station => station.stationShortCode === codeValue);
 
-  const renderDestinations = data => {
-    const firstIdx = data[0];
+  const renderDestination = data => {
     const lastIdx = data.slice(-1)[0];
-    const departureStation = findStation(stationsData, firstIdx.stationShortCode);
     const arrivalStation = findStation(stationsData, lastIdx.stationShortCode);
-    return <StyledText>{`${departureStation.stationName} - ${arrivalStation.stationName}`}</StyledText>;
+    return (
+      <StyledText variant="body2" component="p">
+        {arrivalStation.stationName}
+      </StyledText>
+    );
   };
 
   const renderTrainInfo = train => (
-    <StyledText variant="body2" component="p">
-      {intl.formatMessage(
-        { id: 'mobilityPlatform.content.railways.train' },
-        { value1: train.trainType, value2: train.trainNumber },
-      )}
-    </StyledText>
+    <StyledText variant="body2" component="p">{`${train.trainType} ${train.trainNumber}`}</StyledText>
   );
 
   const renderTimeValues = elem => (
-    <StyledText variant="body2" component="p">
+    <StyledText key={elem.scheduledTime} variant="body2" component="p">
       {elem.liveEstimateTime
         ? `${formatDateTime(elem.liveEstimateTime)} (${formatDateTime(elem.scheduledTime)})`
         : `${formatDateTime(elem.scheduledTime)}`}
@@ -77,13 +74,13 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
             ) : null}
           </StyledTextContainer>
           {departingTrains?.map(train => (
-            <StyledTextContainer>
+            <StyledFlexContainer key={train.trainNumber}>
               {renderTrainInfo(train)}
-              {renderDestinations(train.timeTableRows)}
+              {renderDestination(train.timeTableRows)}
               {train.timeTableRows
                 .filter(elem => elem.stationShortCode === item.stationShortCode && elem.type === 'DEPARTURE')
                 .map(elem => renderTimeValues(elem))}
-            </StyledTextContainer>
+            </StyledFlexContainer>
           ))}
         </div>
         <div>
@@ -98,13 +95,13 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
             ) : null}
           </StyledTextContainer>
           {arrivingTrains?.map(train => (
-            <StyledTextContainer>
+            <StyledFlexContainer key={train.trainNumber}>
               {renderTrainInfo(train)}
-              {renderDestinations(train.timeTableRows)}
+              {renderDestination(train.timeTableRows)}
               {train.timeTableRows
                 .filter(elem => elem.stationShortCode === item.stationShortCode && elem.type === 'ARRIVAL')
                 .map(elem => renderTimeValues(elem))}
-            </StyledTextContainer>
+            </StyledFlexContainer>
           ))}
         </div>
       </div>
@@ -118,6 +115,14 @@ const StyledText = styled(Typography)(({ theme }) => ({
 
 const StyledTextContainer = styled.div(({ theme }) => ({
   marginBottom: theme.spacing(0.75),
+}));
+
+const StyledFlexContainer = styled.div(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  marginBottom: theme.spacing(0.75),
+  width: '90%',
 }));
 
 const StyledPopupInner = styled.div(({ theme }) => ({
@@ -147,9 +152,11 @@ RailwayStationsContent.propTypes = {
     stationShortCode: PropTypes.string,
     stationName: PropTypes.string,
   }),
-  stationsData: PropTypes.shape({
-    stationShortCode: PropTypes.string,
-  }),
+  stationsData: PropTypes.arrayOf(
+    PropTypes.shape({
+      stationShortCode: PropTypes.string,
+    }),
+  ),
 };
 
 RailwayStationsContent.defaultProps = {
