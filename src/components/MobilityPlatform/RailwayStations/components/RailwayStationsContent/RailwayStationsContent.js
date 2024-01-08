@@ -75,6 +75,7 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
           </StyledTextContainer>
           {departingTrains?.map(train => (
             <StyledFlexContainer key={train.trainNumber}>
+              <TrainIcon color="rgba(7, 44, 115, 255)" className="icon-icon-hsl-train" />
               {renderTrainInfo(train)}
               {renderDestination(train.timeTableRows)}
               {train.timeTableRows
@@ -96,6 +97,7 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
           </StyledTextContainer>
           {arrivingTrains?.map(train => (
             <StyledFlexContainer key={train.trainNumber}>
+              <TrainIcon color="rgba(7, 44, 115, 255)" className="icon-icon-hsl-train" />
               {renderTrainInfo(train)}
               {renderDestination(train.timeTableRows)}
               {train.timeTableRows
@@ -108,6 +110,16 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
     </StyledPopupInner>
   );
 };
+
+const TrainIcon = styled.span(({ color }) => ({
+  fontSize: 20,
+  width: 20,
+  height: 20,
+  lineHeight: '21px',
+  marginLeft: 6,
+  marginRight: 4,
+  color,
+}));
 
 const StyledText = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(0.5),
