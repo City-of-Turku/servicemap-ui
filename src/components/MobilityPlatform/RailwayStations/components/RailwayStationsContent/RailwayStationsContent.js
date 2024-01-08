@@ -23,7 +23,7 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
   }, [item.stationShortCode]);
 
   const filterArrivals = data => data.filter(train => {
-    const lastRow = train.timeTableRows[train.timeTableRows.length - 1];
+    const lastRow = train.timeTableRows.slice(-1)[0];
     return lastRow.stationShortCode === item.stationShortCode && lastRow.type === 'ARRIVAL';
   });
 
