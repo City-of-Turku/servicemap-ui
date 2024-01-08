@@ -898,6 +898,8 @@ const translations = {
   'mobilityPlatform.content.arrivingTrains.title': 'Saapuvat junat',
   'mobilityPlatform.content.railways.train.departing': 'Juna lähtee klo {value}',
   'mobilityPlatform.content.railways.train.arriving': 'Juna saapuu klo {value}',
+  'mobilityPlatform.content.departingTrains.empty': 'Ei lähteviä junia',
+  'mobilityPlatform.content.arrivingTrains.empty': 'Ei saapuvia junia',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',

@@ -31,7 +31,7 @@ const RailwayStations = () => {
   }, [showRailwayStations]);
 
   /** Separate railway stations of Turku, eg. main station and Kupittaa */
-  const turkuStationCodes = ['TKU', 'KUT'];
+  const turkuStationCodes = ['TKU', 'KUT', 'TUS'];
   const railwayStationsTku = railwayStations.filter(curr => turkuStationCodes.includes(curr.stationShortCode));
 
   const renderData = isDataValid(showRailwayStations, railwayStationsTku);

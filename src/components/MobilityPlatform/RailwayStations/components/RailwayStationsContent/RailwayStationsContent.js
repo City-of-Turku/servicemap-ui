@@ -77,9 +77,14 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
       <div>
         <div>
           <StyledTextContainer>
-            <StyledText variant="subtitle2" component="h5">
+            <StyledText variant="subtitle1" component="h5">
               {intl.formatMessage({ id: 'mobilityPlatform.content.departingTrains.title' })}
             </StyledText>
+            {!departingTrains?.length ? (
+              <StyledText variant="body2" component="p">
+                {intl.formatMessage({ id: 'mobilityPlatform.content.departingTrains.empty' })}
+              </StyledText>
+            ) : null}
           </StyledTextContainer>
           {departingTrains?.map(train => (
             <StyledTextContainer>
@@ -95,9 +100,14 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
         </div>
         <div>
           <StyledTextContainer>
-            <StyledText variant="subtitle2" component="h5">
+            <StyledText variant="subtitle1" component="h5">
               {intl.formatMessage({ id: 'mobilityPlatform.content.arrivingTrains.title' })}
             </StyledText>
+            {!arrivingTrains?.length ? (
+              <StyledText variant="body2" component="p">
+                {intl.formatMessage({ id: 'mobilityPlatform.content.arrivingTrains.empty' })}
+              </StyledText>
+            ) : null}
           </StyledTextContainer>
           {arrivingTrains?.map(train => (
             <StyledTextContainer>

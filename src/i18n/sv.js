@@ -907,6 +907,8 @@ const translations = {
   'mobilityPlatform.content.arrivingTrains.title': 'Ankomst tåg', // TODO verify
   'mobilityPlatform.content.railways.train.departing': 'Juna lähtee klo {value}', // TODO translate
   'mobilityPlatform.content.railways.train.arriving': 'Juna saapuu klo {value}', // TODO translate
+  'mobilityPlatform.content.departingTrains.empty': 'No departing trains', // TODO translate
+  'mobilityPlatform.content.arrivingTrains.empty': 'No arriving trains', // TODO translate
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',
