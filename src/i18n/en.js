@@ -901,8 +901,6 @@ const translations = {
   'mobilityPlatform.content.railways.train': 'Train: {value1} {value2}',
   'mobilityPlatform.content.departingTrains.title': 'Departing trains', // TODO verify
   'mobilityPlatform.content.arrivingTrains.title': 'Arriving trains', // TODO verify
-  'mobilityPlatform.content.railways.train.departing': 'Train will depart at {value}',
-  'mobilityPlatform.content.railways.train.arriving': 'Train will arrive {value}',
   'mobilityPlatform.content.departingTrains.empty': 'No departing trains',
   'mobilityPlatform.content.arrivingTrains.empty': 'No arriving trains',
 

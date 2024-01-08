@@ -8,12 +8,7 @@ import { fetchRailwaysData } from '../../../mobilityPlatformRequests/mobilityPla
 const RailwayStationsContent = ({ intl, item, stationsData }) => {
   const [stationTrainsData, setStationTrainsData] = useState([]);
 
-  const formatDateTime = (scheduled, estimate) => {
-    if (estimate) {
-      return format(new Date(estimate), 'HH:mm');
-    }
-    return format(new Date(scheduled), 'HH:mm');
-  };
+  const formatDateTime = timeValue => format(new Date(timeValue), 'HH:mm');
 
   useEffect(() => {
     const endpoint = `live-trains/station/${item.stationShortCode}`;
@@ -42,11 +37,7 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
     const lastIdx = data.slice(-1)[0];
     const departureStation = findStation(stationsData, firstIdx.stationShortCode);
     const arrivalStation = findStation(stationsData, lastIdx.stationShortCode);
-    return (
-      <StyledText>
-        {`${departureStation.stationName} - ${arrivalStation.stationName}`}
-      </StyledText>
-    );
+    return <StyledText>{`${departureStation.stationName} - ${arrivalStation.stationName}`}</StyledText>;
   };
 
   const renderTrainInfo = train => (
@@ -58,12 +49,11 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
     </StyledText>
   );
 
-  const renderTimeValues = (elem, translationId) => (
-    <StyledText>
-      {intl.formatMessage(
-        { id: translationId },
-        { value: formatDateTime(elem.scheduledTime, elem.liveEstimateTime) },
-      )}
+  const renderTimeValues = elem => (
+    <StyledText variant="body2" component="p">
+      {elem.liveEstimateTime
+        ? `${formatDateTime(elem.liveEstimateTime)} (${formatDateTime(elem.scheduledTime)})`
+        : `${formatDateTime(elem.scheduledTime)}`}
     </StyledText>
   );
 
@@ -92,9 +82,7 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
               {renderDestinations(train.timeTableRows)}
               {train.timeTableRows
                 .filter(elem => elem.stationShortCode === item.stationShortCode && elem.type === 'DEPARTURE')
-                .map(elem => (
-                  renderTimeValues(elem, 'mobilityPlatform.content.railways.train.departing')
-                ))}
+                .map(elem => renderTimeValues(elem))}
             </StyledTextContainer>
           ))}
         </div>
@@ -115,9 +103,7 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
               {renderDestinations(train.timeTableRows)}
               {train.timeTableRows
                 .filter(elem => elem.stationShortCode === item.stationShortCode && elem.type === 'ARRIVAL')
-                .map(elem => (
-                  renderTimeValues(elem, 'mobilityPlatform.content.railways.train.arriving')
-                ))}
+                .map(elem => renderTimeValues(elem))}
             </StyledTextContainer>
           ))}
         </div>
