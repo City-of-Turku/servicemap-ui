@@ -10,9 +10,24 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
 
   const formatDateTime = timeValue => format(new Date(timeValue), 'HH:mm');
 
+  const optionsToParams = options => {
+    const params = new URLSearchParams();
+    Object.entries({ ...options }).forEach(([key, value]) => {
+      params.set(key, value);
+    });
+    return params.toString();
+  };
+
   useEffect(() => {
+    const options = {
+      minutes_before_departure: 180,
+      minutes_after_departure: 15,
+      minutes_before_arrival: 180,
+      minutes_after_arrival: 15,
+      train_categories: 'Long-distance',
+    };
     const endpoint = `live-trains/station/${item.stationShortCode}`;
-    const params = 'minutes_before_departure=120&minutes_after_departure=20&minutes_before_arrival=120&minutes_after_arrival=20&train_categories=Long-distance';
+    const params = optionsToParams(options);
     const query = `${endpoint}?${params}`;
     fetchRailwaysData(query, setStationTrainsData);
   }, [item.stationShortCode]);
@@ -48,7 +63,7 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
 
   const renderTimeValues = elem => (
     <StyledText key={elem.scheduledTime} variant="body2" component="p">
-      {elem.liveEstimateTime
+      {elem.liveEstimateTime && elem.differenceInMinutes > 0
         ? `${formatDateTime(elem.liveEstimateTime)} (${formatDateTime(elem.scheduledTime)})`
         : `${formatDateTime(elem.scheduledTime)}`}
     </StyledText>
