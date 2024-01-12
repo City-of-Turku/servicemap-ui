@@ -298,7 +298,7 @@ const AirMonitoringContent = ({ intl, station }) => {
 
   const renderFixedDecimals = measurementVal => {
     if (!Number.isInteger(measurementVal)) {
-      return measurementVal.toFixed(2);
+      return `${measurementVal.toFixed(2)} µg/m3`;
     }
     return measurementVal;
   };
@@ -474,7 +474,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 const StyledColorBox = styled(Box)(({ theme }) => ({
   borderRadius: '10px',
-  width: '50%',
+  width: '65%',
   padding: theme.spacing(1),
   marginBottom: theme.spacing(1),
 }));
