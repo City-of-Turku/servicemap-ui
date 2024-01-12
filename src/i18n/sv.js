@@ -911,7 +911,7 @@ const translations = {
   'mobilityPlatform.info.gasFillingStations': 'Offentliga gastankstationer i Åboområdet. Informationen om gastankstationerna baseras på information som hämtas från webbplatsen om trafikläget https://liikennetilanne.fintraffic.fi,  som underhålls av Fintraffic.',
   'mobilityPlatform.info.rentalCars': 'Bilpool bilarna är hyrbilar. Kartan visar lediga bilar. Informationen om bilarna kommer från 24Rent.',
   'mobilityPlatform.info.parkingSpaces': 'Kartan visar Åbos allmänna parkeringsområden. Den röda färgen bredvid en parkeringsplats betyder att den är nästan full. För att se det exakta antalet lediga platser, klicka på parkeringsområdet på kartan.  Informationen om parkeringsområden kommer från Åbo parkeringscentral.',
-  'mobilityPlatform.info.chargingStations': 'Åboområdets allmänna billaddningsplatser. Informationen om laddningsplatser baserar sig på en kartläggning som gjordes 05/2022.',
+  'mobilityPlatform.info.chargingStations': 'Åboområdets allmänna billaddningsplatser. Informationen om laddningsplatser baserar sig på en kartläggning som gjordes 12/2023.',
   'mobilityPlatform.info.parkingChargeZones.paragraph.1': 'I Åbo finns tre olika zoner, som har olika timavgift för parkering.',
   'mobilityPlatform.info.parkingChargeZones.paragraph.2': 'Zon 3 omfattar området mellan gränserna för zon 2 och stadens gränser.',
   'mobilityPlatform.info.parkingChargeZones.paragraph.3': 'Avgiften bestäms dock alltid av de gällande trafikskyltarna och gäller Åbo gator och stadens egna områden, t.ex. marknadshuset och stadshuset.',

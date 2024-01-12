@@ -6,10 +6,10 @@ exports[`<InfoTextBox /> should work 1`] = `
     class="injectIntl(InfoTextBox)-container-1 injectIntl(InfoTextBox)-padding-3"
   >
     <p
-      aria-label="Turun alueen julkiset autojen sähkölatauspisteet. Latauspistetiedot perustuvat 05/2022 tehtyyn kartoitukseen."
+      aria-label="Turun alueen julkiset autojen sähkölatauspisteet. Latauspistetiedot perustuvat 12/2023 tehtyyn kartoitukseen."
       class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
     >
-      Turun alueen julkiset autojen sähkölatauspisteet. Latauspistetiedot perustuvat 05/2022 tehtyyn kartoitukseen.
+      Turun alueen julkiset autojen sähkölatauspisteet. Latauspistetiedot perustuvat 12/2023 tehtyyn kartoitukseen.
     </p>
   </div>
 </div>

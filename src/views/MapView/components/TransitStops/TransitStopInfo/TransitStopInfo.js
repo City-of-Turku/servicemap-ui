@@ -20,7 +20,7 @@ const TransitStopInfo = ({
   const externalTheme = config.themePKG;
   const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
 
-  const getAccessibilityIcon = (value) => {
+  const getAccessibilityIcon = value => {
     if (value === 'POSSIBLE') {
       return <Accessible className={classes.infoIcon} />;
     }
@@ -33,7 +33,7 @@ const TransitStopInfo = ({
   useEffect(() => {
     if (type === 'bikeStation') return;
     fetchStopData(stop)
-      .then((stopData) => {
+      .then(stopData => {
         if (stopData) {
           let departureTimes = stopData.data.stop.stoptimesWithoutPatterns;
           departureTimes.sort(
@@ -64,11 +64,14 @@ const TransitStopInfo = ({
       case 1: // Subway stops
         icon = <span className={`${classes.infoIcon} ${classes.metroIconColor} icon-icon-hsl-metro`} />;
         break;
-      case -999: case 4: // Ferry stops
+      case 4: // Ferry stops
         icon = <span className={`${classes.infoIcon} ${classes.ferryIconColor} icon-icon-hsl-ferry`} />;
         break;
-      default:
+      case -999:
         icon = <span className={`${classes.infoIcon} ${isExternalTheme ? classes.busIconColorDark : classes.busIconColor} icon-icon-hsl-bus`} />;
+        break;
+      default:
+        icon = <span className={`${classes.infoIcon} ${classes.busIconColor} icon-icon-hsl-bus`} />;
         break;
     }
 
@@ -99,7 +102,6 @@ const TransitStopInfo = ({
       });
     } return null;
   };
-
 
   return (
     <div aria-hidden className={classes.transitInfoContainer}>
