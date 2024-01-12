@@ -10,39 +10,39 @@ import {
 } from '@mui/material';
 import styled from '@emotion/styled';
 import {
-  getMonth, getWeek, getYear, format, subDays,
+  getMonth, getWeek, getYear, format, startOfMonth,
 } from 'date-fns';
 import { enGB, fi, sv } from 'date-fns/locale';
 import DatePicker, { registerLocale } from 'react-datepicker';
-import { fetchAirMonitoringDatas } from '../../../EnvironmentDataAPI/EnvironmentDataAPI';
+import { fetchObservationDatas } from '../../../EnvironmentDataAPI/EnvironmentDataAPI';
 import { formatDates, formatMonths } from '../../../../../EcoCounter/utils';
 import InputDate from '../../../../../EcoCounter/InputDate';
+import { StyledPopupInner, StyledContentHeader } from '../../../../styled/styled';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
-const AirMonitoringContent = ({ classes, intl, station }) => {
+const AirMonitoringContent = ({ intl, station }) => {
   const [airQualityDays, setAirQualityDays] = useState([]);
   const [airQualityWeeks, setAirQualityWeeks] = useState([]);
   const [airQualityMonths, setAirQualityMonths] = useState([]);
   const [airQualityYears, setAirQualityYears] = useState([]);
   const [currentTime, setCurrentTime] = useState('day');
   const [activeStep, setActiveStep] = useState(0);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(startOfMonth(new Date()));
 
   const stationId = station.id;
   const stationName = station.name;
 
-  const locale = useSelector((state) => state.user.locale);
+  const locale = useSelector(state => state.user.locale);
 
-  const isNarrow = false;
   const inputRef = useRef(null);
 
   // Initial values that are used to fetch data
-  const currentDate = new Date();
-  const initialDateFormat = format(subDays(currentDate, 1), 'MM-dd');
-  const initialWeek = getWeek(currentDate);
-  const initialMonth = getMonth(currentDate) + 1;
-  const initialYear = getYear(currentDate);
+  const initialDate = startOfMonth(new Date());
+  const initialDateFormat = format(initialDate, 'MM-dd');
+  const initialWeek = getWeek(initialDate);
+  const initialMonth = getMonth(initialDate) + 1;
+  const initialYear = getYear(initialDate);
 
   // Values that change based on the datepicker value
   const selectedDateFormat = format(selectedDate, 'MM-dd');
@@ -50,7 +50,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
   const selectedMonth = getMonth(selectedDate) + 1;
   const selectedYear = getYear(selectedDate);
 
-  const changeDate = (newDate) => {
+  const changeDate = newDate => {
     setSelectedDate(newDate);
   };
 
@@ -65,7 +65,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
 
   // Reset selectedDate value when the new popup is opened.
   useEffect(() => {
-    setSelectedDate(currentDate);
+    setSelectedDate(initialDate);
   }, [stationId]);
 
   // Initial values
@@ -77,7 +77,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       type: 'day',
       year: initialYear,
     };
-    fetchAirMonitoringDatas(options, setAirQualityDays);
+    fetchObservationDatas(options, setAirQualityDays);
   }, [stationId]);
 
   useEffect(() => {
@@ -88,7 +88,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       type: 'week',
       year: initialYear,
     };
-    fetchAirMonitoringDatas(options, setAirQualityWeeks);
+    fetchObservationDatas(options, setAirQualityWeeks);
   }, [stationId]);
 
   useEffect(() => {
@@ -99,7 +99,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       type: 'month',
       year: initialYear,
     };
-    fetchAirMonitoringDatas(options, setAirQualityMonths);
+    fetchObservationDatas(options, setAirQualityMonths);
   }, [stationId]);
 
   useEffect(() => {
@@ -109,7 +109,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       station_id: stationId,
       type: 'year',
     };
-    fetchAirMonitoringDatas(options, setAirQualityYears);
+    fetchObservationDatas(options, setAirQualityYears);
   }, [stationId]);
 
   // Selected values
@@ -121,7 +121,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       type: 'day',
       year: selectedYear,
     };
-    fetchAirMonitoringDatas(options, setAirQualityDays);
+    fetchObservationDatas(options, setAirQualityDays);
   }, [stationId, selectedDate]);
 
   useEffect(() => {
@@ -132,7 +132,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       type: 'week',
       year: selectedYear,
     };
-    fetchAirMonitoringDatas(options, setAirQualityWeeks);
+    fetchObservationDatas(options, setAirQualityWeeks);
   }, [stationId, selectedDate]);
 
   useEffect(() => {
@@ -143,7 +143,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       type: 'month',
       year: selectedYear,
     };
-    fetchAirMonitoringDatas(options, setAirQualityMonths);
+    fetchObservationDatas(options, setAirQualityMonths);
   }, [stationId, selectedDate]);
 
   useEffect(() => {
@@ -154,7 +154,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
       type: 'year',
       year: selectedYear,
     };
-    fetchAirMonitoringDatas(options, setAirQualityYears);
+    fetchObservationDatas(options, setAirQualityYears);
   }, [stationId, selectedDate]);
 
   // steps that determine which data is shown
@@ -185,7 +185,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     },
   ];
 
-  const getParameterText = (paramType) => {
+  const getParameterText = paramType => {
     if (paramType === 'SO2_PT1H_avg') {
       return 'mobilityPlatform.airMonitoring.SO2_PT1H_avg';
     }
@@ -205,28 +205,28 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
   };
 
   const renderParameterTypeText = () => (
-    <div className={classes.textContainer}>
-      <Typography variant="subtitle1" component="h4" className={classes.parameterTypeText}>
+    <StyledTextContainer>
+      <StyledParameterType variant="subtitle1" component="h4">
         {intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.airIndex' })}
-      </Typography>
-    </div>
+      </StyledParameterType>
+    </StyledTextContainer>
   );
 
   /**
-     * Set current step and active button index
-     * @param {*number} index
-     * @param {*date} timeValue
-     */
+   * Set current step and active button index
+   * @param {*number} index
+   * @param {*date} timeValue
+   */
   const setStepState = (index, timeValue) => {
     setActiveStep(index);
     setCurrentTime(timeValue);
   };
 
   /**
-     * Set active step into state
-     * @param {*string} title
-     * @param {*number} index
-     */
+   * Set active step into state
+   * @param {*string} title
+   * @param {*number} index
+   */
   const handleClick = (title, index) => {
     if (title === 'day') {
       setStepState(index, 'day');
@@ -255,7 +255,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     return null;
   };
 
-  const formatDate = (item) => {
+  const formatDate = item => {
     if (Object.hasOwn(item, 'date')) {
       return `${intl.formatMessage(
         { id: 'mobilityPlatform.airMonitoring.text.date' },
@@ -277,7 +277,7 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     return null;
   };
 
-  const renderThresholdValues = (measurementVal) => {
+  const renderThresholdValues = measurementVal => {
     if (measurementVal >= 0 && measurementVal <= 50) {
       return intl.formatMessage({ id: 'mobilityPlatform.airMonitoring.quality.good' });
     }
@@ -296,14 +296,14 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     return '';
   };
 
-  const renderFixedDecimals = (measurementVal) => {
+  const renderFixedDecimals = measurementVal => {
     if (!Number.isInteger(measurementVal)) {
       return measurementVal.toFixed(2);
     }
     return measurementVal;
   };
 
-  const getColorValues = (measurementVal) => {
+  const getColorValues = measurementVal => {
     if (measurementVal >= 0 && measurementVal <= 50) {
       return '#009966';
     }
@@ -322,45 +322,45 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
     return '#fff';
   };
 
-  const renderAirQuality = (measurement) => (
+  const renderAirQuality = measurement => (
     <StyledColorBox sx={{ bgcolor: getColorValues(measurement.value) }}>
-      <div className={classes.textContainer}>
+      <StyledTextContainer>
         <Typography key={measurement.id} variant="body2" component="p">
           {`${intl.formatMessage({ id: getParameterText(measurement.parameter) })}: ${renderFixedDecimals(
             measurement.value,
           )}`}
         </Typography>
-      </div>
-      <div className={classes.textContainer}>
+      </StyledTextContainer>
+      <StyledTextContainer>
         <Typography variant="body2" component="p">
           {renderThresholdValues(measurement.value)}
         </Typography>
-      </div>
+      </StyledTextContainer>
     </StyledColorBox>
   );
 
-  const renderConcentrations = (measurement) => (
-    <div className={classes.textContainer}>
+  const renderConcentrations = measurement => (
+    <StyledTextContainer>
       <Typography key={measurement.id} variant="body2" component="p">
         {`${intl.formatMessage({ id: getParameterText(measurement.parameter) })}: ${renderFixedDecimals(
           measurement.value,
         )}`}
       </Typography>
-    </div>
+    </StyledTextContainer>
   );
 
   const renderData = () => {
     const data = setRenderData();
-    return data.map((item) => (
+    return data.map(item => (
       <Card key={item.id} variant="outlined">
         <StyledBox>
-          <div className={classes.textContainer}>
+          <StyledTextContainer>
             <Typography variant="body2" component="p">
               {formatDate(item)}
             </Typography>
-          </div>
+          </StyledTextContainer>
           <div>
-            {item.measurements.map((measurement) => (
+            {item.measurements.map(measurement => (
               <div key={`${measurement.parameter}${measurement.value}`}>
                 {measurement.parameter === 'AQINDEX_PT1H_avg'
                   ? renderAirQuality(measurement)
@@ -374,15 +374,13 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
   };
 
   return (
-    <div className={classes.popupInner}>
-      <div className={`${classes.contentHeader} ${isNarrow ? classes.widthSm : classes.widthMd}`}>
-        <Typography component="h4" className={classes.headerSubtitle}>
-          {stationName}
-        </Typography>
-        <div className={classes.dateContainer}>
+    <StyledPopupInner>
+      <StyledContentHeader>
+        <StyledHeaderText component="h4">{stationName}</StyledHeaderText>
+        <StyledDateContainer>
           <DatePicker
             selected={selectedDate}
-            onChange={(newDate) => changeDate(newDate)}
+            onChange={newDate => changeDate(newDate)}
             locale={locale}
             dateFormat="P"
             showYearDropdown
@@ -391,31 +389,78 @@ const AirMonitoringContent = ({ classes, intl, station }) => {
             maxDate={new Date()}
             customInput={<CustomInput inputRef={inputRef} />}
           />
-        </div>
-      </div>
-      <div className={classes.parameterTitle}>{renderParameterTypeText()}</div>
+        </StyledDateContainer>
+      </StyledContentHeader>
+      <StyledParameterTitle>{renderParameterTypeText()}</StyledParameterTitle>
       <StyledContainer>{renderData()}</StyledContainer>
       <div>
-        <div className={classes.dateStepsContainer}>
+        <StyledDateSteps>
           {buttonSteps.map((timing, i) => (
-            <ButtonBase
+            <StyledButtonBase
               key={timing.step.type}
               type="button"
-              className={`${classes.button} ${classes.paddingWide} ${
-                i === activeStep ? classes.buttonActive : classes.buttonWhite
-              }`}
+              sx={{
+                backgroundColor: i === activeStep ? 'rgba(7, 44, 115, 255)' : '#fff',
+                color: i === activeStep ? '#fff' : '#000',
+              }}
               onClick={() => handleClick(timing.step.type, i)}
             >
-              <Typography variant="body2" className={classes.buttonText}>
+              <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
                 {timing.step.text}
               </Typography>
-            </ButtonBase>
+            </StyledButtonBase>
           ))}
-        </div>
+        </StyledDateSteps>
       </div>
-    </div>
+    </StyledPopupInner>
   );
 };
+
+const StyledDateContainer = styled.div(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  maxWidth: '32%',
+}));
+
+const StyledButtonBase = styled(ButtonBase)(({ theme }) => ({
+  border: '1px solid gray',
+  borderRadius: '5px',
+  cursor: 'pointer',
+  marginRight: theme.spacing(1.5),
+  padding: `${theme.spacing(0.5)} ${theme.spacing(1)}`,
+}));
+
+const StyledHeaderText = styled(Typography)(({ theme }) => ({
+  padding: '4px 0 5px',
+  fontWeight: 'bold',
+  marginBlockStart: theme.spacing(2),
+  marginBlockEnd: theme.spacing(0.2),
+}));
+
+const StyledParameterType = styled(Typography)(({ theme }) => ({
+  marginTop: theme.spacing(0.5),
+  marginLeft: theme.spacing(3),
+}));
+
+const StyledTextContainer = styled.div(({ theme }) => ({
+  paddingBottom: theme.spacing(1),
+}));
+
+const StyledParameterTitle = styled.div(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+  marginBottom: theme.spacing(1),
+}));
+
+const StyledDateSteps = styled.div(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-evenly',
+  alignItems: 'center',
+  padding: '1rem 0',
+}));
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   paddingLeft: theme.spacing(1.5),
@@ -435,7 +480,6 @@ const StyledColorBox = styled(Box)(({ theme }) => ({
 }));
 
 AirMonitoringContent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   intl: PropTypes.shape({
     formatMessage: PropTypes.func,
   }).isRequired,

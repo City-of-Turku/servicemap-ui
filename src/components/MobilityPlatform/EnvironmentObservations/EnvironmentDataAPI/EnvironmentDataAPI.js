@@ -8,7 +8,7 @@ const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
  * @param {*object} options
  * @returns {*string} params
  */
-const optionsToParams = (options) => {
+const optionsToParams = options => {
   const defaultOptions = {
     page_size: 200,
   };
@@ -23,7 +23,7 @@ const optionsToParams = (options) => {
  * Fetch air monitoring stations
  * @param {*function} setStations
  */
-const fetchAirMonitoringStations = async (type, setStations) => {
+const fetchObservationStations = async (type, setStations) => {
   try {
     const response = await fetch(`${isApiUrl}/stations?data_type=${type}&page_size=20`);
     const jsonData = await response.json();
@@ -37,7 +37,7 @@ const fetchAirMonitoringStations = async (type, setStations) => {
  * Fetch air quality related parameters
  * @param {*function} setData
  */
-const fetchAirMonitoringParameters = async (setData) => {
+const fetchObservationParameters = async setData => {
   try {
     const response = await fetch(`${isApiUrl}/parameters?page_size=10`);
     const jsonData = await response.json();
@@ -52,7 +52,7 @@ const fetchAirMonitoringParameters = async (setData) => {
  * @param {*object} options
  * @param {*function} setData
  */
-const fetchAirMonitoringDatas = async (options, setData) => {
+const fetchObservationDatas = async (options, setData) => {
   const params = optionsToParams(options);
   try {
     const response = await fetch(
@@ -66,7 +66,7 @@ const fetchAirMonitoringDatas = async (options, setData) => {
 };
 
 export {
-  fetchAirMonitoringStations,
-  fetchAirMonitoringParameters,
-  fetchAirMonitoringDatas,
+  fetchObservationStations,
+  fetchObservationParameters,
+  fetchObservationDatas,
 };

@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
-import ecoCounterIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ecocounter.svg';
-import ecoCounterIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ecocounter-bw.svg';
+import airMonitoringIcon from 'servicemap-ui-turku/assets/icons/icons-icon_air_monitoring_station.svg';
+import airMonitoringIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_air_monitoring_station-bw.svg';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
-import { fetchAirMonitoringStations } from '../EnvironmentDataAPI/EnvironmentDataAPI';
+import { fetchObservationStations } from '../EnvironmentDataAPI/EnvironmentDataAPI';
 import { isDataValid, createIcon } from '../../utils/utils';
 import AirMonitoringContent from './components/AirMonitoringContent';
 
@@ -22,20 +22,20 @@ const AirMonitoring = () => {
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
-  // TODO use correct icon
-  const customIcon = icon(createIcon(useContrast ? ecoCounterIconBw : ecoCounterIcon));
+  const customIcon = icon(createIcon(useContrast ? airMonitoringIconBw : airMonitoringIcon));
 
   useEffect(() => {
     if (showAirMonitoringStations) {
-      fetchAirMonitoringStations('AQ', setAirMonitoringStations);
+      fetchObservationStations('AQ', setAirMonitoringStations);
     }
   }, [showAirMonitoringStations]);
 
   /**
-   * Filter out temporary station, because it contains so little data.
+   * Filter out temporary stations, because they contain little data & are currently inactive.
    */
   const filteredAirMonitoringStations = airMonitoringStations.reduce((acc, curr) => {
-    if (curr.name !== 'Turku Kauppatori väliaikainen') {
+    const inactiveStations = ['Turku Kauppatori väliaikainen', 'Parainen Parainen'];
+    if (!inactiveStations.includes(curr.name)) {
       acc.push(curr);
     }
     return acc;
@@ -49,7 +49,7 @@ const AirMonitoring = () => {
    * @param {string} inputString
    * @returns {*array} coordinates
    */
-  const getCoordinates = (inputString) => {
+  const getCoordinates = inputString => {
     const regex = /POINT \((\d+\.\d+) (\d+\.\d+)\)/;
     const match = inputString.match(regex);
     if (match) {
@@ -62,7 +62,7 @@ const AirMonitoring = () => {
   const fitBounds = (isValid, data) => {
     if (isValid) {
       const bounds = [];
-      data.forEach((item) => {
+      data.forEach(item => {
         bounds.push([getCoordinates(item.location)]);
       });
       map.fitBounds(bounds);
@@ -74,7 +74,7 @@ const AirMonitoring = () => {
   }, [renderData]);
 
   return renderData
-    ? filteredAirMonitoringStations.map((item) => (
+    ? filteredAirMonitoringStations.map(item => (
       <Marker key={item.id} icon={customIcon} position={getCoordinates(item.location)}>
         <Popup className="ecocounter-popup">
           <AirMonitoringContent station={item} />
