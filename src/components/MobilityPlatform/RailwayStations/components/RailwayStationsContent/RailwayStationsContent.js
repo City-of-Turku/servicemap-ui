@@ -63,7 +63,7 @@ const RailwayStationsContent = ({ intl, item, stationsData }) => {
 
   const renderTimeValues = elem => (
     <StyledText key={elem.scheduledTime} variant="body2" component="p">
-      {elem.liveEstimateTime && elem.differenceInMinutes > 0
+      {elem.liveEstimateTime && elem.differenceInMinutes > 1
         ? `${formatDateTime(elem.liveEstimateTime)} (${formatDateTime(elem.scheduledTime)})`
         : `${formatDateTime(elem.scheduledTime)}`}
     </StyledText>

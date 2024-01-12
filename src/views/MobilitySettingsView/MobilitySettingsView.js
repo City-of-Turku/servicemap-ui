@@ -1691,6 +1691,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       type: 'busStopsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.busStops" />,
     },
+    {
+      visible: showRailwayStations,
+      type: 'railwayStationsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.railwayStations" />,
+    },
   ];
 
   /** Render infotext(s) if visible value is true
