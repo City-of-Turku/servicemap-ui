@@ -33,7 +33,7 @@ import {
   fetchInitialWeekDatas,
   fetchSelectedYearData,
 } from '../../EcoCounterRequests/ecoCounterRequests';
-import { formatDates, formatMonths } from '../../utils';
+import { formatDates, formatFullDates, formatMonths } from '../../utils';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
 
@@ -63,6 +63,9 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   const stationId = station.id;
   const stationName = station.name;
   const stationSource = station.csv_data_source;
+  const dataFrom = station.data_from_date;
+  const dataUntil = station.data_until_date;
+  const isActiveStation = station.is_active['30'];
 
   /** When all 3 user types are rendered, a reverse order is required where 'at' is placed last */
   const reverseUserTypes = () => {
@@ -494,6 +497,29 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     return input;
   };
 
+  /**
+   * Render text on 2 Telraam stations that are currently inactive and do not collect new data.
+   * @returns JSX element
+   */
+  const renderOldStationText = () => {
+    const dataFromFormat = formatDates(dataFrom);
+    const dataUntilFormat = formatFullDates(dataUntil);
+
+    if (!isActiveStation) {
+      return (
+        <div className={classes.missingDataText}>
+          <Typography variant="body2" sx={{ mb: '0.5rem', fontWeight: 'bold' }}>
+            {intl.formatMessage(
+              { id: 'ecocounter.station.active.period' },
+              { value1: dataFromFormat, value2: dataUntilFormat },
+            )}
+          </Typography>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <>
       <div className={`${classes.trafficCounterHeader} ${isNarrow ? classes.widthSm : classes.widthMd}`}>
@@ -508,8 +534,8 @@ const EcoCounterContent = ({ classes, intl, station }) => {
             dateFormat="P"
             showYearDropdown={stationSource !== 'TR'}
             dropdownMode="select"
-            minDate={stationSource === 'TR' ? new Date('2023-05-26') : new Date('2020-01-01')}
-            maxDate={new Date()}
+            minDate={new Date(dataFrom)}
+            maxDate={stationSource === 'TR' ? new Date(dataUntil) : new Date()}
             customInput={<CustomInput inputRef={inputRef} />}
           />
         </div>
@@ -523,6 +549,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
             </div>
           ))}
         </div>
+        {stationSource === 'TR' ? renderOldStationText() : null}
         <div className={classes.trafficCounterChart}>
           <LineChart
             labels={ecoCounterLabels}
@@ -573,6 +600,11 @@ EcoCounterContent.propTypes = {
     name: PropTypes.string,
     csv_data_source: PropTypes.string,
     sensor_types: PropTypes.arrayOf(PropTypes.string),
+    data_from_date: PropTypes.string,
+    data_until_date: PropTypes.string,
+    is_active: PropTypes.shape({
+      30: PropTypes.bool,
+    }),
   }),
 };
 
@@ -582,6 +614,9 @@ EcoCounterContent.defaultProps = {
     name: '',
     csv_data_source: '',
     sensor_types: [],
+    data_from_date: '',
+    data_until_date: '',
+    is_active: {},
   },
 };
 
