@@ -168,7 +168,7 @@ const StyledHeader = styled.div(({ theme }) => ({
   alignItems: 'flex-end',
   borderBottom: '2px solid gray',
   justifyContent: 'space-between',
-  width: '86%',
+  width: '80%',
 }));
 
 RailwayStationsContent.propTypes = {
