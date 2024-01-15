@@ -25,12 +25,12 @@ const RailwayStations = () => {
   const customIcon = icon(createIcon(useContrast ? railwayIconBw : railwayIcon));
 
   useEffect(() => {
-    if (showRailwayStations) {
+    if (showRailwayStations && !railwayStations.length) {
       fetchRailwaysData('metadata/stations', setRailwayStations);
     }
   }, [showRailwayStations]);
 
-  /** Separate railway stations of Turku, eg. main station and Kupittaa */
+  /** Separate railway stations of Turku, eg. Turku station and Kupittaa */
   const turkuStationCodes = ['TKU', 'KUT', 'TUS'];
   const railwayStationsTku = railwayStations.filter(curr => turkuStationCodes.includes(curr.stationShortCode));
 
