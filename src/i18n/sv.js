@@ -903,10 +903,10 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Ytterligare info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Övergångställe',
   'mobilityPlatform.content.railways.train': 'Tåg: {value1} {value2}',
-  'mobilityPlatform.content.departingTrains.title': 'Avgående tåg', // TODO verify
-  'mobilityPlatform.content.arrivingTrains.title': 'Ankomst tåg', // TODO verify
-  'mobilityPlatform.content.departingTrains.empty': 'No departing trains', // TODO translate
-  'mobilityPlatform.content.arrivingTrains.empty': 'No arriving trains', // TODO translate
+  'mobilityPlatform.content.departingTrains.title': 'Avgående tåg',
+  'mobilityPlatform.content.arrivingTrains.title': 'Inkommande tåg',
+  'mobilityPlatform.content.departingTrains.empty': 'Inga avgående tåg',
+  'mobilityPlatform.content.arrivingTrains.empty': 'Inga inkommande tåg',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',
@@ -960,7 +960,7 @@ const translations = {
   'mobilityPlatform.info.underAndOverpasses': 'Kartan visar gångtunnlar och gångbroar som ligger i Åbo stadsområdet.',
   'mobilityPlatform.info.rentalCarParking': 'Det finns totalt fem parkeringsplatser i Åbo som endast är avsedda för bilpool bilar.',
   'mobilityPlatform.info.publicBenches': 'Kartan visar allmänna bänkar i Åbo.',
-  'mobilityPlatform.info.railwayStations': 'Kartalla näkyvät Turun rautatieasemat ja juna-aikataulut seuraavan 3 tunnin ajalta. Junavuorot on jaettu asemalta lähteviin ja sinne saapuviin juniin. Tiedot tulevat Digitrafficin rajapinnasta.', // TODO translate
+  'mobilityPlatform.info.railwayStations': 'Kartan visar Åbo järnvägsstationer och tågtidtabeller för de kommande 3 timmarna. Tågtrafiken är uppdelad i tåg som avgår från och ankommer till stationen. Om tåget är försenat visas även den beräknade ankomsttiden och den gamla planerade ankomsttiden inom parentes. Uppgifterna kommer från Digitraffics gränssnitt.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',

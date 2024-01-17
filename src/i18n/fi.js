@@ -951,7 +951,7 @@ const translations = {
   'mobilityPlatform.info.underAndOverpasses': 'Kartalla näkyvät Turun alueella sijaitsevat alikulkutunnelit ja ylikulkukuväylät.',
   'mobilityPlatform.info.rentalCarParking': 'Turussa on yhteensä viisi vain yhteiskäyttöautoille tarkoitettua pysäköintipaikkaa.',
   'mobilityPlatform.info.publicBenches': 'Kartalla näkyvät Turussa sijaitsevat yleiset penkit.',
-  'mobilityPlatform.info.railwayStations': 'Kartalla näkyvät Turun rautatieasemat ja juna-aikataulut seuraavan 3 tunnin ajalta. Junavuorot on jaettu asemalta lähteviin ja sinne saapuviin juniin. Tiedot tulevat Digitrafficin rajapinnasta.', // TODO verify
+  'mobilityPlatform.info.railwayStations': 'Kartalla näkyvät Turun rautatieasemat ja juna-aikataulut seuraavan 3 tunnin ajalta. Junavuorot on jaettu asemalta lähteviin ja sinne saapuviin juniin. Jos juna on myöhässä, näytetään myös arvioitu saapumisaika ja vanha suunniteltu saapumisaika näkyy suluissa. Tiedot tulevat Digitrafficin rajapinnasta.', // TODO verify
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',
