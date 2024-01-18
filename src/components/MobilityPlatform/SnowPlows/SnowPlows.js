@@ -53,7 +53,7 @@ const SnowPlows = () => {
     },
   };
 
-  const getOption = (input) => {
+  const getOption = input => {
     switch (input) {
       case 'puhtaanapito':
         return options.green;
@@ -68,7 +68,7 @@ const SnowPlows = () => {
     }
   };
 
-  const getPathOptions = (input) => {
+  const getPathOptions = input => {
     const { rgba, pattern } = getOption(input);
     return {
       color: `rgba(${rgba})`,
@@ -85,7 +85,7 @@ const SnowPlows = () => {
     sandRemoval: 'hiekanpoisto',
   };
 
-  const getEvent = (input) => {
+  const getEvent = input => {
     switch (input) {
       case 'sanitation':
         return maintenanceEvents.sanitation;
@@ -108,7 +108,26 @@ const SnowPlows = () => {
   const sixHours = format(subHours(currentDate, 6), 'yyyy-MM-dd HH:mm:ss');
   const twelveHours = format(subHours(currentDate, 12), 'yyyy-MM-dd HH:mm:ss');
 
-  const createQuery = (type, dateItem) => `geometry_history?page_size=50000&event=${getEvent(type)}&start_date_time=${dateItem}`;
+  const optionsToParams = options => {
+    const defaultOptions = {
+      page_size: 50000,
+    };
+    const params = new URLSearchParams();
+    Object.entries({ ...defaultOptions, ...options }).forEach(([key, value]) => {
+      params.set(key, value);
+    });
+    return params.toString();
+  };
+
+  const createQuery = (type, dateItem) => {
+    const options = {
+      event: getEvent(type),
+      start_date_time: dateItem,
+    };
+    const baseUrl = 'geometry_history';
+    const params = optionsToParams(options);
+    return `${baseUrl}?${params}`;
+  };
 
   useEffect(() => {
     fetchStreetMaintenanceData(createQuery('sanitation', yesterDay), setStreetMaintenanceSanitation1Day);
@@ -179,14 +198,14 @@ const SnowPlows = () => {
     streetMaintenanceDeIcing12Hours,
   );
 
-  const validateData = (inputData) => inputData && inputData.length > 0;
+  const validateData = inputData => inputData && inputData.length > 0;
 
   let isDataValid = false;
 
-  const swapCoords = (coordsData) => {
+  const swapCoords = coordsData => {
     const isValid = validateData(coordsData);
     if (isValid) {
-      const swapped = coordsData.map((item) => [item[1], item[0]]);
+      const swapped = coordsData.map(item => [item[1], item[0]]);
       return swapped;
     }
     return coordsData;
@@ -198,7 +217,7 @@ const SnowPlows = () => {
     } else setIsActiveStreetMaintenance(true);
   }, [isDataValid, streetMaintenancePeriod, isActiveStreetMaintenance, setIsActiveStreetMaintenance]);
 
-  const renderData = (inputData) => {
+  const renderData = inputData => {
     const filtered = inputData.reduce((acc, curr) => {
       if (curr.geometry_type === 'LineString') {
         acc.push(curr);

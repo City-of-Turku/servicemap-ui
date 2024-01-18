@@ -12,7 +12,7 @@ const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
  * @returns {string}
  */
 
-const optionsToParams = (options) => {
+const optionsToParams = options => {
   const defaultOptions = {
     page_size: 100,
     srid: 4326,
@@ -35,7 +35,7 @@ const fetchMobilityMapData = async (options, setData) => {
   }
 };
 
-const fetchCultureRouteNames = async (setData) => {
+const fetchCultureRouteNames = async setData => {
   try {
     const response = await fetch(`${isApiUrl}/mobility_data/mobile_unit_groups/`);
     const jsonData = await response.json();
@@ -45,7 +45,7 @@ const fetchCultureRouteNames = async (setData) => {
   }
 };
 
-const fetchBicycleRouteNames = async (setData) => {
+const fetchBicycleRouteNames = async setData => {
   try {
     const response = await fetch(`${isApiUrl}/bicycle_network/bicycle_networks/`);
     const jsonData = await response.json();
@@ -55,7 +55,7 @@ const fetchBicycleRouteNames = async (setData) => {
   }
 };
 
-const fetchBicycleRoutesGeometry = async (setData) => {
+const fetchBicycleRoutesGeometry = async setData => {
   try {
     const response = await fetch(`${isApiUrl}/bicycle_network/bicycle_networkparts/?page_size=1000&latlon=true`);
     const jsonData = await response.json();
