@@ -50,7 +50,7 @@ const TransitStops = ({ mapObject, classes }) => {
 
   const fetchTransitStops = () => {
     fetchStops(map)
-      .then((stops) => {
+      .then(stops => {
         setTransitStops(stops);
       });
   };
@@ -73,7 +73,7 @@ const TransitStops = ({ mapObject, classes }) => {
     }
   }, []); */
 
-  const getTransitIcon = (type) => {
+  const getTransitIcon = type => {
     const { divIcon } = require('leaflet');
     let icon;
 
@@ -93,10 +93,10 @@ const TransitStops = ({ mapObject, classes }) => {
       case 7: // Bike stations
         icon = <span aria-hidden className={`${classes.transitIconMap} ${classes.bikeIconColor} icon-icon-hsl-bike`} />;
         break;
-      case -999: case 4: // Ferry stops
+      case 4: // Ferry stops
         icon = <spanz aria-hidden className={`${classes.transitIconMap} ${classes.ferryIconColor} icon-icon-hsl-ferry`} />;
         break;
-      default:
+      case -999:
         icon = (
           <span
             aria-hidden
@@ -105,6 +105,9 @@ const TransitStops = ({ mapObject, classes }) => {
             } icon-icon-hsl-bus`}
           />
         );
+        break;
+      default:
+        icon = <span aria-hidden className={`${classes.transitIconMap} ${classes.busIconColor} icon-icon-hsl-bus`} />;
         break;
     }
 
@@ -127,7 +130,7 @@ const TransitStops = ({ mapObject, classes }) => {
   if (!showTransitStops()) return null;
 
   return (
-    showTransitStops() ? transitStops.map((stop) => {
+    showTransitStops() ? transitStops.map(stop => {
       const icon = getTransitIcon(stop.vehicleType);
       return (
         <Marker

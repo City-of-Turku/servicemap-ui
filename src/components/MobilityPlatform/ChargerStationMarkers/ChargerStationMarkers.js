@@ -33,7 +33,7 @@ const ChargerStationMarkers = () => {
   useEffect(() => {
     const options = {
       type_name: 'ChargingStation',
-      page_size: 200,
+      page_size: 600,
     };
     if (showChargingStations || embedded) {
       fetchMobilityMapData(options, setChargerStations);
@@ -50,15 +50,13 @@ const ChargerStationMarkers = () => {
   }, [showChargingStations, chargerStations, embedded]);
 
   return (
-    <>
-      {renderData
-        ? chargerStations.map(item => (
-          <MarkerComponent key={item.id} item={item} icon={chargerStationIcon}>
-            <ChargerStationContent station={item} />
-          </MarkerComponent>
-        ))
-        : null}
-    </>
+    renderData
+      ? chargerStations.map(item => (
+        <MarkerComponent key={item.id} item={item} icon={chargerStationIcon}>
+          <ChargerStationContent station={item} />
+        </MarkerComponent>
+      ))
+      : null
   );
 };
 
