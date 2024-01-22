@@ -1450,18 +1450,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
         >
           {intl.formatMessage({ id: 'mobilityPlatform.menu.streetMaintenance.info' })}
         </Typography>
-        <div className={classes.infoText}>
-          {streetMaintenanceInfo(classes.blue, 'mobilityPlatform.menu.streetMaintenance.info.snowplow')}
-          {streetMaintenanceInfo(classes.purple, 'mobilityPlatform.menu.streetMaintenance.info.deicing')}
-          {streetMaintenanceInfo(classes.burgundy, 'mobilityPlatform.menu.streetMaintenance.info.sandRemoval')}
-          {streetMaintenanceInfo(classes.green, 'mobilityPlatform.menu.streetMaintenance.info.sanitation')}
-        </div>
         {!isActiveStreetMaintenance && streetMaintenancePeriod ? (
           <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.noActivity" reducePadding />
         ) : null}
       </div>
-      {streetMaintenanceSelections
-          && streetMaintenanceSelections.length > 0
+      {streetMaintenanceSelections?.length > 0
           && streetMaintenanceSelections.map(item => (
             <div key={item.type} className={classes.checkBoxItem}>
               <FormControlLabel
@@ -1481,6 +1474,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
               />
             </div>
           ))}
+      <div className={`${classes.paragraph} ${classes.border}`}>
+        <div className={classes.infoText}>
+          {streetMaintenanceInfo(classes.blue, 'mobilityPlatform.menu.streetMaintenance.info.snowplow')}
+          {streetMaintenanceInfo(classes.purple, 'mobilityPlatform.menu.streetMaintenance.info.deicing')}
+          {streetMaintenanceInfo(classes.burgundy, 'mobilityPlatform.menu.streetMaintenance.info.sandRemoval')}
+          {streetMaintenanceInfo(classes.green, 'mobilityPlatform.menu.streetMaintenance.info.sanitation')}
+        </div>
+      </div>
     </>
   ) : null);
 
