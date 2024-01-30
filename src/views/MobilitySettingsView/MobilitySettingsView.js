@@ -1399,6 +1399,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
         <div key={item.type} className={classes.checkBoxContainer}>
           <MobilityToggleButton
             msgId={item.msgId}
+            type={item.type}
             checkedValue={item.checkedValue}
             onChangeValue={item.onChangeValue}
             selectionSize={settingsData.length}

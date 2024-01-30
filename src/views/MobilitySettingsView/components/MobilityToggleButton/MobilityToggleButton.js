@@ -15,7 +15,7 @@ import { SMSwitch } from '../../../../components';
  */
 
 const MobilityToggleButton = ({
-  classes, intl, msgId, checkedValue, onChangeValue, selectionSize, inputProps, ...rest
+  classes, intl, msgId, type, checkedValue, onChangeValue, selectionSize, inputProps, ...rest
 }) => (
   <div className={classes.mobilityMapSwitch}>
     <SMSwitch
@@ -29,9 +29,9 @@ const MobilityToggleButton = ({
         role: 'button',
         'aria-setsize': selectionSize ? selectionSize.toString() : null,
         'aria-pressed': checkedValue,
-        'aria-labelledby': msgId,
+        'aria-labelledby': type,
       }}
-      onChange={(e) => onChangeValue(e)}
+      onChange={e => onChangeValue(e)}
       checked={checkedValue}
       {...rest}
     />
@@ -51,9 +51,12 @@ const MobilityToggleButton = ({
 );
 
 MobilityToggleButton.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func,
+  }).isRequired,
   msgId: PropTypes.string,
+  type: PropTypes.string,
   checkedValue: PropTypes.bool,
   onChangeValue: PropTypes.func.isRequired,
   selectionSize: PropTypes.number,
@@ -64,6 +67,7 @@ MobilityToggleButton.propTypes = {
 
 MobilityToggleButton.defaultProps = {
   msgId: '',
+  type: '',
   checkedValue: false,
   selectionSize: null,
   inputProps: {},
