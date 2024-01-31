@@ -796,6 +796,7 @@ const translations = {
   'mobilityPlatform.menu.show.rentalCarParking': 'Parking places for shared use cars',
   'mobilityPlatform.menu.show.publicBenches': 'Public benches (zoom in on the map)',
   'mobilityPlatform.embedded.label.publicBenches': 'Public benches (zoom in on the map to see benches)',
+  'mobilityPlatform.menu.show.railwayStations': 'Railway stations',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
@@ -897,6 +898,11 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Payment methods: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Additional info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Crosswalk',
+  'mobilityPlatform.content.railways.train': 'Train: {value1} {value2}',
+  'mobilityPlatform.content.departingTrains.title': 'Departing trains',
+  'mobilityPlatform.content.arrivingTrains.title': 'Incoming trains',
+  'mobilityPlatform.content.departingTrains.empty': 'No departing trains',
+  'mobilityPlatform.content.arrivingTrains.empty': 'No incoming trains',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Route description',
@@ -950,6 +956,7 @@ const translations = {
   'mobilityPlatform.info.underAndOverpasses': 'The map shows underpasses and overpasses located within the city of Turku.',
   'mobilityPlatform.info.rentalCarParking': 'There are total of five parking places in Turku intended only for shared use cars.',
   'mobilityPlatform.info.publicBenches': 'The map shows public benches that are located in the city of Turku.',
+  'mobilityPlatform.info.railwayStations': 'The map shows Turku railway stations and train timetables for the next 3 hours. Train traffic is divided into trains departing from and arriving at the station. If the train is delayed, the estimated time of arrival and the old scheduled time of arrival are also shown in parentheses. The data comes from the interface provided by Digitraffic.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',

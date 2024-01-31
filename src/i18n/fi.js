@@ -801,6 +801,7 @@ const translations = {
   'mobilityPlatform.menu.show.rentalCarParking': 'Yhteiskäyttöautojen pysäköintipaikat',
   'mobilityPlatform.menu.show.publicBenches': 'Yleiset penkit (tarkenna karttaa)',
   'mobilityPlatform.embedded.label.publicBenches': 'Yleiset penkit (tarkenna karttaa lähietäisyydelle, jotta penkit näkyvät)',
+  'mobilityPlatform.menu.show.railwayStations': 'Rautatieasemat',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',
@@ -892,6 +893,11 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Maksutavat: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Lisätietoja: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Suojatie',
+  'mobilityPlatform.content.railways.train': 'Juna: {value1} {value2}',
+  'mobilityPlatform.content.departingTrains.title': 'Lähtevät junat',
+  'mobilityPlatform.content.arrivingTrains.title': 'Saapuvat junat',
+  'mobilityPlatform.content.departingTrains.empty': 'Ei lähteviä junia',
+  'mobilityPlatform.content.arrivingTrains.empty': 'Ei saapuvia junia',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',
@@ -945,6 +951,7 @@ const translations = {
   'mobilityPlatform.info.underAndOverpasses': 'Kartalla näkyvät Turun alueella sijaitsevat alikulkutunnelit ja ylikulkukuväylät.',
   'mobilityPlatform.info.rentalCarParking': 'Turussa on yhteensä viisi vain yhteiskäyttöautoille tarkoitettua pysäköintipaikkaa.',
   'mobilityPlatform.info.publicBenches': 'Kartalla näkyvät Turussa sijaitsevat yleiset penkit.',
+  'mobilityPlatform.info.railwayStations': 'Kartalla näkyvät Turun rautatieasemat ja juna-aikataulut seuraavan 3 tunnin ajalta. Junavuorot on jaettu asemalta lähteviin ja sinne saapuviin juniin. Jos juna on myöhässä, näytetään myös arvioitu saapumisaika ja vanha suunniteltu saapumisaika näkyy suluissa. Tiedot tulevat Digitrafficin rajapinnasta.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',

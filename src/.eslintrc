@@ -5,7 +5,7 @@
         "no-shadow": 0,
         "no-console": ["error", { "allow": ["warn"] }],
         "no-param-reassign": ["error", { "props": false }],
-        "max-len": ["error", { "code": 150 }],
+        "max-len": ["error", { "code": 165 }],
         "arrow-parens": ["warn", "as-needed"],
         "react/function-component-definition": [
             "error",

@@ -162,6 +162,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowRentalCarParking,
     showPublicBenches,
     setShowPublicBenches,
+    showRailwayStations,
+    setShowRailwayStations,
   } = useMobilityPlatformContext();
 
   const locale = useSelector(state => state.user.locale);
@@ -440,7 +442,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   useEffect(() => {
     checkVisibilityValues(showBusStops, setOpenPublicTransportSettings);
-  }, [showBusStops]);
+    checkVisibilityValues(showRailwayStations, setOpenPublicTransportSettings);
+  }, [showBusStops, showRailwayStations]);
 
   const nameKeys = {
     fi: 'name',
@@ -779,6 +782,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const busStopsToggle = () => {
     setShowBusStops(current => !current);
+  };
+
+  const railwayStationsToggle = () => {
+    setShowRailwayStations(current => !current);
   };
 
   const cultureRouteListToggle = () => {
@@ -1279,6 +1286,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       checkedValue: showBusStops,
       onChangeValue: busStopsToggle,
     },
+    {
+      type: 'railwayStations',
+      msgId: 'mobilityPlatform.menu.show.railwayStations',
+      checkedValue: showRailwayStations,
+      onChangeValue: railwayStationsToggle,
+    },
   ];
 
   const boatingControlTypes = [
@@ -1679,6 +1692,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       visible: showBusStops,
       type: 'busStopsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.busStops" />,
+    },
+    {
+      visible: showRailwayStations,
+      type: 'railwayStationsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.railwayStations" />,
     },
   ];
 
