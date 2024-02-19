@@ -9,7 +9,7 @@ const digitransitApiHeaders = () => ({
 
 /* eslint-disable global-require */
 // Fetch list of stops
-const fetchStops = async (map) => {
+const fetchStops = async map => {
   const L = require('leaflet');
 
   const fetchBounds = map.getBounds();
@@ -63,7 +63,7 @@ const fetchStops = async (map) => {
       bbox: `${fetchBox}`,
     }),
   ])
-    .then((data) => {
+    .then(data => {
       // Handle subwaystops and return list of all stops
       const stops = data[0].data.stopsByBbox;
       const subwayStations = stops.filter(stop => stop.vehicleType === 1);
@@ -71,17 +71,17 @@ const fetchStops = async (map) => {
       // Remove subwaystations from stops list since they will be replaced with subway entrances
       const filteredStops = stops.filter(stop => stop.vehicleType !== 1);
 
-      const entrances = data[1].results;
+      const entrances = data[1] ? data[1].results : [];
 
       // Add subway entrances to the list of stops
-      entrances.forEach((entrance) => {
+      entrances.forEach(entrance => {
         const closest = {
           distance: null,
           stop: null,
         };
         if (subwayStations.length) {
         // Find the subwaystation closest to the entrance
-          subwayStations.forEach((stop) => {
+          subwayStations.forEach(stop => {
             if (!stop.gtfsId) return;
             const distance = Math.sqrt(
               ((stop.lat - entrance.location.coordinates[1]) ** 2)
@@ -116,7 +116,7 @@ const fetchStops = async (map) => {
 };
 
 // Fetch one stop data
-const fetchStopData = async (stop) => {
+const fetchStopData = async stop => {
   const requestBody = id => (`{
     stop(id: "${id}") {
       name
@@ -164,7 +164,6 @@ const fetchStopData = async (stop) => {
 
   return data;
 };
-
 
 const fetchBikeStations = async () => fetch(`${config.digitransitAPI.root}`, {
   method: 'post',

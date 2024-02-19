@@ -166,6 +166,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowPublicBenches,
     showRoadworks,
     setShowRoadworks,
+    showRailwayStations,
+    setShowRailwayStations,
   } = useMobilityPlatformContext();
 
   const locale = useSelector(state => state.user.locale);
@@ -446,7 +448,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   useEffect(() => {
     checkVisibilityValues(showBusStops, setOpenPublicTransportSettings);
-  }, [showBusStops]);
+    checkVisibilityValues(showRailwayStations, setOpenPublicTransportSettings);
+  }, [showBusStops, showRailwayStations]);
 
   const nameKeys = {
     fi: 'name',
@@ -797,6 +800,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowBusStops(current => !current);
   };
 
+  const railwayStationsToggle = () => {
+    setShowRailwayStations(current => !current);
+  };
+
+  const roadWorksToggle = () => {
+    setShowRoadworks(current => !current);
+  };
+
   const cultureRouteListToggle = () => {
     setOpenCultureRouteList(current => !current);
     if (cultureRouteId) {
@@ -863,10 +874,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const brushSaltedRouteToggle = () => {
     setShowBrushSaltedRoute(current => !current);
-  };
-
-  const roadworksToggle = () => {
-    setShowRoadworks(current => !current);
   };
 
   /**
@@ -1299,6 +1306,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       checkedValue: showBusStops,
       onChangeValue: busStopsToggle,
     },
+    {
+      type: 'railwayStations',
+      msgId: 'mobilityPlatform.menu.show.railwayStations',
+      checkedValue: showRailwayStations,
+      onChangeValue: railwayStationsToggle,
+    },
   ];
 
   const boatingControlTypes = [
@@ -1372,7 +1385,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       type: 'roadworks',
       msgId: 'mobilityPlatform.menu.show.roadworks',
       checkedValue: showRoadworks,
-      onChangeValue: roadworksToggle,
+      onChangeValue: roadWorksToggle,
     },
   ];
 
@@ -1466,18 +1479,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
         >
           {intl.formatMessage({ id: 'mobilityPlatform.menu.streetMaintenance.info' })}
         </Typography>
-        <div className={classes.infoText}>
-          {streetMaintenanceInfo(classes.blue, 'mobilityPlatform.menu.streetMaintenance.info.snowplow')}
-          {streetMaintenanceInfo(classes.purple, 'mobilityPlatform.menu.streetMaintenance.info.deicing')}
-          {streetMaintenanceInfo(classes.burgundy, 'mobilityPlatform.menu.streetMaintenance.info.sandRemoval')}
-          {streetMaintenanceInfo(classes.green, 'mobilityPlatform.menu.streetMaintenance.info.sanitation')}
-        </div>
         {!isActiveStreetMaintenance && streetMaintenancePeriod ? (
           <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.noActivity" reducePadding />
         ) : null}
       </div>
-      {streetMaintenanceSelections
-          && streetMaintenanceSelections.length > 0
+      {streetMaintenanceSelections?.length > 0
           && streetMaintenanceSelections.map(item => (
             <div key={item.type} className={classes.checkBoxItem}>
               <FormControlLabel
@@ -1497,6 +1503,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
               />
             </div>
           ))}
+      <div className={`${classes.paragraph} ${classes.border}`}>
+        <div className={classes.infoText}>
+          {streetMaintenanceInfo(classes.blue, 'mobilityPlatform.menu.streetMaintenance.info.snowplow')}
+          {streetMaintenanceInfo(classes.purple, 'mobilityPlatform.menu.streetMaintenance.info.deicing')}
+          {streetMaintenanceInfo(classes.burgundy, 'mobilityPlatform.menu.streetMaintenance.info.sandRemoval')}
+          {streetMaintenanceInfo(classes.green, 'mobilityPlatform.menu.streetMaintenance.info.sanitation')}
+        </div>
+      </div>
     </>
   ) : null);
 
@@ -1706,6 +1720,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       visible: showBusStops,
       type: 'busStopsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.busStops" />,
+    },
+    {
+      visible: showRailwayStations,
+      type: 'railwayStationsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.railwayStations" />,
     },
   ];
 

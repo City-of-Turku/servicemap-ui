@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RailwayStationsContent /> should match snapshot 1`] = `
+<div>
+  <div
+    class="css-zimvk6"
+  >
+    <div
+      class="css-yvy0cu"
+    >
+      <h4
+        class="MuiTypography-root MuiTypography-subtitle1 css-1im1a93-MuiTypography-root"
+      >
+        Kupittaa
+      </h4>
+    </div>
+    <div>
+      <div>
+        <div
+          class="css-jmbq56"
+        >
+          <h5
+            class="MuiTypography-root MuiTypography-subtitle1 css-1im1a93-MuiTypography-root"
+          >
+            Lähtevät junat
+          </h5>
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-qabfq1-MuiTypography-root"
+          >
+            Ei lähteviä junia
+          </p>
+        </div>
+      </div>
+      <div>
+        <div
+          class="css-jmbq56"
+        >
+          <h5
+            class="MuiTypography-root MuiTypography-subtitle1 css-1im1a93-MuiTypography-root"
+          >
+            Saapuvat junat
+          </h5>
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-qabfq1-MuiTypography-root"
+          >
+            Ei saapuvia junia
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -5,6 +5,9 @@ import config from '../../../../config';
 const apiUrl = config.mobilityPlatformAPI;
 const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
 
+const railwaysApiUrl = config.railwaysAPI;
+const isRailwaysApiUrl = !railwaysApiUrl || railwaysApiUrl === 'undefined' ? null : railwaysApiUrl;
+
 /**
  * Returns query options as a search params for URLs
  * @param {Object} options
@@ -117,6 +120,16 @@ const fetchParkingAreaStats = async (endpoint, setData, setError) => {
   }
 };
 
+const fetchRailwaysData = async (endpoint, setData) => {
+  try {
+    const response = await fetch(`${isRailwaysApiUrl}/${endpoint}`);
+    const jsonData = await response.json();
+    setData(jsonData);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 export {
   fetchMobilityMapData,
   fetchCultureRouteNames,
@@ -127,4 +140,5 @@ export {
   fetchStreetMaintenanceData,
   fetchParkingAreaGeometries,
   fetchParkingAreaStats,
+  fetchRailwaysData,
 };

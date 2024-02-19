@@ -86,12 +86,15 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showFitnessTrails, setShowFitnessTrails] = useState(false);
   const [fitnessTrailsObj, setFitnessTrailsObj] = useState({});
 
+  // public transport
+  const [showBusStops, setShowBusStops] = useState(false);
+  const [showRailwayStations, setShowRailwayStations] = useState(false);
+
   // other
   const [showOutdoorGymDevices, setShowOutdoorGymDevices] = useState(false);
   const [showLoadingPlaces, setShowLoadingPlaces] = useState(false);
   const [showPublicToilets, setShowPublicToilets] = useState(false);
   const [showCrossWalks, setShowCrossWalks] = useState(false);
-  const [showBusStops, setShowBusStops] = useState(false);
   const [showOverpasses, setShowOverpasses] = useState(false);
   const [showUnderpasses, setShowUnderpasses] = useState(false);
   const [showPublicBenches, setShowPublicBenches] = useState(false);
@@ -150,12 +153,14 @@ const MobilityPlatformContextProvider = ({ children }) => {
     natureTrailsObj,
     showFitnessTrails,
     fitnessTrailsObj,
+    // public transport
+    showBusStops,
+    showRailwayStations,
     // other
     showOutdoorGymDevices,
     showPublicToilets,
     showLoadingPlaces,
     showCrossWalks,
-    showBusStops,
     showOverpasses,
     showUnderpasses,
     showPublicBenches,
@@ -215,12 +220,14 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setNatureTrailsObj,
     setShowFitnessTrails,
     setFitnessTrailsObj,
+    // public transport
+    setShowBusStops,
+    setShowRailwayStations,
     // other
     setShowOutdoorGymDevices,
     setShowPublicToilets,
     setShowLoadingPlaces,
     setShowCrossWalks,
-    setShowBusStops,
     setShowUnderpasses,
     setShowOverpasses,
     setShowPublicBenches,
