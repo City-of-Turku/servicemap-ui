@@ -283,4 +283,6 @@ export default {
   "parkingSpacesURL": settings.PARKING_SPACES_URL,
   "parkingStatisticsURL": settings.PARKING_STATISTICS_URL,
   "airMonitoringAPI": settings.AIR_MONITORING_API,
+  "roadworksAPI": settings.ROADWORKS_API,
+  "railwaysAPI": settings.RAILWAYS_API,
 }

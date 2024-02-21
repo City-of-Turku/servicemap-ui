@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RoadworksContent /> does match snapshot 1`] = `
+<div>
+  <div
+    class="css-zimvk6"
+  >
+    <div
+      class="css-19od9cu"
+    >
+      <h4
+        class="MuiTypography-root MuiTypography-subtitle2 css-wfeqti-MuiTypography-root"
+      >
+        Test roadwork
+      </h4>
+    </div>
+    <div>
+      <div
+        class="css-jmbq56"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-qabfq1-MuiTypography-root"
+        >
+          Test desc
+        </p>
+      </div>
+      <div
+        class="css-jmbq56"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-qabfq1-MuiTypography-root"
+        >
+          Comment
+        </p>
+      </div>
+      <div
+        class="css-jmbq56"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Test limit: 50 km/h
+        </p>
+      </div>
+      <div
+        class="css-jmbq56"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-qabfq1-MuiTypography-root"
+        >
+          Aika: 05.11.2023 - 05.12.2023
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

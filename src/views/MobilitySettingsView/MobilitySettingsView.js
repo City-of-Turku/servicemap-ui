@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet';
 import { ReactSVG } from 'react-svg';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { Air } from '@mui/icons-material';
+import { Air, WarningAmber } from '@mui/icons-material';
 import iconBicycle from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle.svg';
 import iconBoat from 'servicemap-ui-turku/assets/icons/icons-icon_boating.svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
@@ -47,6 +47,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [openStreetMaintenanceSettings, setOpenStreetMaintenanceSettings] = useState(false);
   const [openPublicTransportSettings, setOpenPublicTransportSettings] = useState(false);
   const [openAirMonitoringSettings, setOpenAirMonitoringSettings] = useState(false);
+  const [openRoadworkSettings, setOpenRoadworkSettings] = useState(false);
   const [openCultureRouteList, setOpenCultureRouteList] = useState(false);
   const [cultureRouteList, setCultureRouteList] = useState([]);
   const [localizedCultureRoutes, setLocalizedCultureRoutes] = useState([]);
@@ -164,6 +165,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowRentalCarParking,
     showPublicBenches,
     setShowPublicBenches,
+    showRoadworks,
+    setShowRoadworks,
+    showRailwayStations,
+    setShowRailwayStations,
     showAirMonitoringStations,
     setShowAirMonitoringStations,
   } = useMobilityPlatformContext();
@@ -315,6 +320,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       setOpenStreetMaintenanceSettings(true);
     } else if (location.pathname.includes('weather')) {
       setOpenAirMonitoringSettings(true);
+    } else if (location.pathname.includes('roadworks')) {
+      setOpenRoadworkSettings(true);
     }
   }, [location]);
 
@@ -337,14 +344,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showUnderpasses, setOpenWalkSettings);
     checkVisibilityValues(showOverpasses, setOpenWalkSettings);
     checkVisibilityValues(showPublicBenches, setOpenWalkSettings);
-  }, [
-    showPublicToilets,
-    showOutdoorGymDevices,
-    showCrossWalks,
-    showUnderpasses,
-    showOverpasses,
-    showPublicBenches,
-  ]);
+  }, [showPublicToilets, showOutdoorGymDevices, showCrossWalks, showUnderpasses, showOverpasses, showPublicBenches]);
 
   useEffect(() => {
     checkVisibilityValues(showTrafficCounter.walking, setOpenWalkSettings);
@@ -453,7 +453,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   useEffect(() => {
     checkVisibilityValues(showBusStops, setOpenPublicTransportSettings);
-  }, [showBusStops]);
+    checkVisibilityValues(showRailwayStations, setOpenPublicTransportSettings);
+  }, [showBusStops, showRailwayStations]);
 
   useEffect(() => {
     checkVisibilityValues(showAirMonitoringStations, setOpenAirMonitoringSettings);
@@ -617,6 +618,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     }
   };
 
+  const roadworkSettingsToggle = () => {
+    setOpenRoadworkSettings(current => !current);
+    if (!openRoadworkSettings) {
+      navigator.push('mobilityPlatform', 'roadworks');
+      setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.roadworksMain' }));
+    }
+  };
+
   /** Reset page title if opened sections have been closed and page title is not initial value */
   useEffect(() => {
     if (
@@ -628,6 +637,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       && !openStreetMaintenanceSettings
       && !openPublicTransportSettings
       && !openAirMonitoringSettings
+      && !openRoadworkSettings
       && pageTitle
     ) {
       setPageTitle(null);
@@ -641,6 +651,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     openStreetMaintenanceSettings,
     openPublicTransportSettings,
     openAirMonitoringSettings,
+    openRoadworkSettings,
     pageTitle,
   ]);
 
@@ -810,6 +821,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   const busStopsToggle = () => {
     setShowBusStops(current => !current);
+  };
+
+  const railwayStationsToggle = () => {
+    setShowRailwayStations(current => !current);
+  };
+
+  const roadWorksToggle = () => {
+    setShowRoadworks(current => !current);
   };
 
   const cultureRouteListToggle = () => {
@@ -1310,6 +1329,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       checkedValue: showBusStops,
       onChangeValue: busStopsToggle,
     },
+    {
+      type: 'railwayStations',
+      msgId: 'mobilityPlatform.menu.show.railwayStations',
+      checkedValue: showRailwayStations,
+      onChangeValue: railwayStationsToggle,
+    },
   ];
 
   const boatingControlTypes = [
@@ -1384,6 +1409,15 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       msgId: 'mobilityPlatform.menu.show.airMonitoring',
       checkedValue: showAirMonitoringStations,
       onChangeValue: airMonitoringStationsToggle,
+    },
+  ];
+
+  const roadworksControlTypes = [
+    {
+      type: 'roadworks',
+      msgId: 'mobilityPlatform.menu.show.roadworks',
+      checkedValue: showRoadworks,
+      onChangeValue: roadWorksToggle,
     },
   ];
 
@@ -1477,18 +1511,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
         >
           {intl.formatMessage({ id: 'mobilityPlatform.menu.streetMaintenance.info' })}
         </Typography>
-        <div className={classes.infoText}>
-          {streetMaintenanceInfo(classes.blue, 'mobilityPlatform.menu.streetMaintenance.info.snowplow')}
-          {streetMaintenanceInfo(classes.purple, 'mobilityPlatform.menu.streetMaintenance.info.deicing')}
-          {streetMaintenanceInfo(classes.burgundy, 'mobilityPlatform.menu.streetMaintenance.info.sandRemoval')}
-          {streetMaintenanceInfo(classes.green, 'mobilityPlatform.menu.streetMaintenance.info.sanitation')}
-        </div>
         {!isActiveStreetMaintenance && streetMaintenancePeriod ? (
           <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.noActivity" reducePadding />
         ) : null}
       </div>
-      {streetMaintenanceSelections
-          && streetMaintenanceSelections.length > 0
+      {streetMaintenanceSelections?.length > 0
           && streetMaintenanceSelections.map(item => (
             <div key={item.type} className={classes.checkBoxItem}>
               <FormControlLabel
@@ -1508,6 +1535,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
               />
             </div>
           ))}
+      <div className={`${classes.paragraph} ${classes.border}`}>
+        <div className={classes.infoText}>
+          {streetMaintenanceInfo(classes.blue, 'mobilityPlatform.menu.streetMaintenance.info.snowplow')}
+          {streetMaintenanceInfo(classes.purple, 'mobilityPlatform.menu.streetMaintenance.info.deicing')}
+          {streetMaintenanceInfo(classes.burgundy, 'mobilityPlatform.menu.streetMaintenance.info.sandRemoval')}
+          {streetMaintenanceInfo(classes.green, 'mobilityPlatform.menu.streetMaintenance.info.sanitation')}
+        </div>
+      </div>
     </>
   ) : null);
 
@@ -1718,6 +1753,19 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       type: 'busStopsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.busStops" />,
     },
+    {
+      visible: showRailwayStations,
+      type: 'railwayStationsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.railwayStations" />,
+    },
+  ];
+
+  const infoTextsRoadworks = [
+    {
+      visible: showRoadworks,
+      type: 'roadworksInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.roadworks" />,
+    },
   ];
 
   /** Render infotext(s) if visible value is true
@@ -1841,14 +1889,19 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     </>
   );
 
-  const renderAirMonitoringSettings = () => (
-    renderSettings(openAirMonitoringSettings, airMonitoringControlTypes)
-  );
+  const renderAirMonitoringSettings = () => renderSettings(openAirMonitoringSettings, airMonitoringControlTypes);
 
   const renderAirQualityIcon = () => (
     <div className={classes.iconContainer}>
       <Air fontSize="large" />
     </div>
+  );
+
+  const renderRoadworkSettings = () => (
+    <>
+      {renderSettings(openRoadworkSettings, roadworksControlTypes)}
+      {renderInfoTexts(infoTextsRoadworks)}
+    </>
   );
 
   const categories = [
@@ -1907,6 +1960,13 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       icon: renderAirQualityIcon(),
       onClick: airMonitoringSettingsToggle,
       setState: openAirMonitoringSettings,
+    },
+    {
+      component: renderRoadworkSettings(),
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.roadworksMain' }),
+      icon: <WarningAmber fontSize="large" sx={{ padding: '0.6rem' }} />,
+      onClick: roadworkSettingsToggle,
+      setState: openRoadworkSettings,
     },
   ];
 

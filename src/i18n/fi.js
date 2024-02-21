@@ -738,6 +738,7 @@ const translations = {
   'mobilityPlatform.menu.title.streetMaintenance': 'Katujen kunnossapito',
   'mobilityPlatform.menu.title.public.transport': 'Joukkoliikenne',
   'mobilityPlatform.menu.title.airMonitoring': 'Sää ja ilmanlaatu',
+  'mobilityPlatform.menu.title.roadworksMain': 'Poikkeustilanteet',
   'mobilityPlatform.menu.showChargingStations': 'Sähkölatauspisteet',
   'mobilityPlatform.menu.showGasFillingStations': 'Kaasutankkausasemat',
   'mobilityPlatform.menu.showEcoCounter': 'Laskentapisteet',
@@ -802,6 +803,8 @@ const translations = {
   'mobilityPlatform.menu.show.rentalCarParking': 'Yhteiskäyttöautojen pysäköintipaikat',
   'mobilityPlatform.menu.show.publicBenches': 'Yleiset penkit (tarkenna karttaa)',
   'mobilityPlatform.embedded.label.publicBenches': 'Yleiset penkit (tarkenna karttaa lähietäisyydelle, jotta penkit näkyvät)',
+  'mobilityPlatform.menu.show.roadworks': 'Tietyömaat',
+  'mobilityPlatform.menu.show.railwayStations': 'Rautatieasemat',
   'mobilityPlatform.menu.show.airMonitoring': 'Ilmanlaadun mittauspisteet',
 
   // Content
@@ -850,9 +853,8 @@ const translations = {
   'mobilityPlatform.content.description.notAvailable': 'Kuvaustekstiä ei ole saatavilla.',
   'mobilityPlatform.content.cityBikes.title': 'Kaupunkipyöräasema',
   'mobilityPlatform.content.cityBikes.name': 'Asema: {value}',
-  'mobilityPlatform.content.cityBikes.capacity': 'Kapasiteetti: {value}',
+  'mobilityPlatform.content.cityBikes.vacantPlaces': 'Vapaita paikkoja: {value}',
   'mobilityPlatform.content.cityBikes.bikes.available': 'Pyöriä vapaana: {value}',
-  'mobilityPlatform.content.cityBikes.docks.available': 'Telineitä vapaana: {value}',
   'mobilityPlatform.content.cityBikes.virtualStation': 'Virtuaaliasema',
   'mobilityPlatform.content.cargoBikes.title': 'Tavarapyöräasema',
   'mobilityPlatform.content.cargoBikes.available': 'Tavarapyöriä on vapaana: {value}',
@@ -894,6 +896,11 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Maksutavat: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Lisätietoja: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Suojatie',
+  'mobilityPlatform.content.railways.train': 'Juna: {value1} {value2}',
+  'mobilityPlatform.content.departingTrains.title': 'Lähtevät junat',
+  'mobilityPlatform.content.arrivingTrains.title': 'Saapuvat junat',
+  'mobilityPlatform.content.departingTrains.empty': 'Ei lähteviä junia',
+  'mobilityPlatform.content.arrivingTrains.empty': 'Ei saapuvia junia',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',
@@ -947,6 +954,8 @@ const translations = {
   'mobilityPlatform.info.underAndOverpasses': 'Kartalla näkyvät Turun alueella sijaitsevat alikulkutunnelit ja ylikulkukuväylät.',
   'mobilityPlatform.info.rentalCarParking': 'Turussa on yhteensä viisi vain yhteiskäyttöautoille tarkoitettua pysäköintipaikkaa.',
   'mobilityPlatform.info.publicBenches': 'Kartalla näkyvät Turussa sijaitsevat yleiset penkit.',
+  'mobilityPlatform.info.roadworks': 'Kartalla näkyvät Turun alueen tietyömaat, joista aiheutuu liikenteelle ja liikkumiselle poikkeustilanteita. Merkityillä alueilla on voimassa alennetut nopeusrajoitukset ja tarvittaessa liikennettä voidaan ohjata. Tiedot tulevat Digitrafficin rajapinnasta.',
+  'mobilityPlatform.info.railwayStations': 'Kartalla näkyvät Turun rautatieasemat ja juna-aikataulut seuraavan 3 tunnin ajalta. Junavuorot on jaettu asemalta lähteviin ja sinne saapuviin juniin. Jos juna on myöhässä, näytetään myös arvioitu saapumisaika ja vanha suunniteltu saapumisaika näkyy suluissa. Tiedot tulevat Digitrafficin rajapinnasta.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',
