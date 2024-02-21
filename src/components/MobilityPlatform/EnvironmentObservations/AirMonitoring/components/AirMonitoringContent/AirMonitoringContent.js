@@ -323,7 +323,7 @@ const AirMonitoringContent = ({ intl, station }) => {
   };
 
   const renderAirQuality = measurement => (
-    <StyledColorBox sx={{ bgcolor: getColorValues(measurement.value) }}>
+    <div>
       <StyledTextContainer>
         <Typography key={measurement.id} variant="body2" component="p">
           {`${intl.formatMessage({ id: getParameterText(measurement.parameter) })}: ${renderFixedDecimals(
@@ -331,12 +331,15 @@ const AirMonitoringContent = ({ intl, station }) => {
           )}`}
         </Typography>
       </StyledTextContainer>
-      <StyledTextContainer>
-        <Typography variant="body2" component="p">
-          {renderThresholdValues(measurement.value)}
-        </Typography>
-      </StyledTextContainer>
-    </StyledColorBox>
+      <StyledFlexContainer>
+        <StyledTextContainer>
+          <Typography variant="body2" component="p">
+            {renderThresholdValues(measurement.value)}
+          </Typography>
+        </StyledTextContainer>
+        <StyledColorBox sx={{ bgcolor: getColorValues(measurement.value) }} />
+      </StyledFlexContainer>
+    </div>
   );
 
   const renderConcentrations = measurement => (
@@ -465,15 +468,21 @@ const StyledContainer = styled(Container)(({ theme }) => ({
   paddingRight: theme.spacing(1.5),
 }));
 
+const StyledFlexContainer = styled.div(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+}));
+
 const StyledBox = styled(Box)(({ theme }) => ({
   paddingLeft: theme.spacing(1),
   paddingTop: theme.spacing(1),
 }));
 
 const StyledColorBox = styled(Box)(({ theme }) => ({
-  borderRadius: '10px',
-  width: '65%',
-  padding: theme.spacing(1),
+  width: '25px',
+  height: '25px',
+  marginLeft: theme.spacing(1),
   marginBottom: theme.spacing(1),
 }));
 
