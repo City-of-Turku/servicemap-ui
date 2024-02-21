@@ -296,9 +296,9 @@ const AirMonitoringContent = ({ intl, station }) => {
     return '';
   };
 
-  const renderFixedDecimals = measurementVal => {
+  const renderFixedDecimals = (measurementVal, isConcentration) => {
     if (!Number.isInteger(measurementVal)) {
-      return `${measurementVal.toFixed(2)} µg/m3`;
+      return isConcentration ? `${measurementVal.toFixed(2)} µg/m3` : measurementVal.toFixed(2);
     }
     return measurementVal;
   };
@@ -342,9 +342,7 @@ const AirMonitoringContent = ({ intl, station }) => {
   const renderConcentrations = measurement => (
     <StyledTextContainer>
       <Typography key={measurement.id} variant="body2" component="p">
-        {`${intl.formatMessage({ id: getParameterText(measurement.parameter) })}: ${renderFixedDecimals(
-          measurement.value,
-        )}`}
+        {`${intl.formatMessage({ id: getParameterText(measurement.parameter) })}: ${renderFixedDecimals(measurement.value, true)}`}
       </Typography>
     </StyledTextContainer>
   );
