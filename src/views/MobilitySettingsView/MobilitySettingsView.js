@@ -1917,9 +1917,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     </>
   );
 
-  const renderAirQualityIcon = () => (
+  /**
+   * Render MUI icons inside a container
+   * @param {*} icon
+   * @returns JSX Element
+   */
+  const renderIcon = icon => (
     <div className={classes.iconContainer}>
-      <Air fontSize="large" />
+      {icon}
     </div>
   );
 
@@ -1983,14 +1988,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     {
       component: renderAirMonitoringSettings(),
       title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.airMonitoring' }),
-      icon: renderAirQualityIcon(),
+      icon: renderIcon(<Air fontSize="large" />),
       onClick: airMonitoringSettingsToggle,
       setState: openAirMonitoringSettings,
     },
     {
       component: renderRoadworkSettings(),
       title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.roadworksMain' }),
-      icon: <WarningAmber fontSize="large" sx={{ padding: '0.6rem' }} />,
+      icon: renderIcon(<WarningAmber fontSize="large" />),
       onClick: roadworkSettingsToggle,
       setState: openRoadworkSettings,
     },
