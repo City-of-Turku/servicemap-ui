@@ -53,11 +53,11 @@ AirMonitoringInfo.propTypes = {
     paragraph2: PropTypes.string,
     paragraph3: PropTypes.string,
     link: PropTypes.string,
-    url: {
+    url: PropTypes.shape({
       fi: PropTypes.string,
       en: PropTypes.string,
       sv: PropTypes.string,
-    },
+    }),
   }),
 };
 
