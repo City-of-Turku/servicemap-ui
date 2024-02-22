@@ -967,7 +967,7 @@ const translations = {
   'mobilityPlatform.info.railwayStations': 'Kartan visar Åbo järnvägsstationer och tågtidtabeller för de kommande 3 timmarna. Tågtrafiken är uppdelad i tåg som avgår från och ankommer till stationen. Om tåget är försenat visas även den beräknade ankomsttiden och den gamla planerade ankomsttiden inom parentes. Uppgifterna kommer från Digitraffics gränssnitt.',
   'mobilityPlatform.info.airMonitoring.paragraph.1': 'Luftkvalitetsdata visas för varje mätstation som en timme beräknad index och omfattar alla föroreningar som mäts vid respektive station. Luftkvaliteten klassificeras i fem kategorier: grön = bra, gul = tillfredsställande, orange = måttlig, röd = dålig, violett = mycket dålig.', // TODO verify
   'mobilityPlatform.info.airMonitoring.paragraph.2': 'Beräkningen tar hänsyn till svaveldioxid (SO2), kvävedioxid (NO2), inandningsbara partiklar (PM10), fina partiklar (PM2,5) och ozon (O3). När luftkvaliteten är dålig eller mycket dålig kan hälsopåverkan vara möjlig, särskilt för känsliga personer. Faktorer som försämrar luftkvaliteten inkluderar gatudamm, trafikutsläpp, vedeldning, energiproduktion och sporadiska fjärrtransporter.', // TODO verify
-  'mobilityPlatform.info.airMonitoring.paragraph.3': 'Luftkvalitetsinformationen på tjänstekartan erhålls från samarbetsgruppen för luftskydd i Åbo-regionen.', // TODO verify
+  'mobilityPlatform.info.airMonitoring.paragraph.3': 'Luftkvalitetsinformationen på Tjänstekartan erhålls från samarbetsgruppen för luftskydd i Åbo-regionen.', // TODO verify
   'mobilityPlatform.info.airMonitoring.link': 'Ytterligare info',
 
   // Bicycle routes
