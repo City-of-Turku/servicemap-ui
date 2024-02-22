@@ -36,6 +36,7 @@ import SMAccordion from '../../components/SMAccordion';
 import SpeedLimitZonesList from './components/SpeedLimitZonesList';
 import RouteList from './components/RouteList';
 import MobilityToggleButton from './components/MobilityToggleButton';
+import AirMonitoringInfo from './components/AirMonitoringInfo';
 
 const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [pageTitle, setPageTitle] = useState(null);
@@ -200,6 +201,18 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       fi: 'https://www.turku.fi/tavarapyorat',
       en: 'https://www.turku.fi/en/cargobikes',
       sv: 'https://www.turku.fi/sv/lastcyklar',
+    },
+  };
+
+  const airMonitoringTexts = {
+    paragraph1: 'mobilityPlatform.info.airMonitoring.paragraph.1',
+    paragraph2: 'mobilityPlatform.info.airMonitoring.paragraph.2',
+    paragraph3: 'mobilityPlatform.info.airMonitoring.paragraph.3',
+    link: 'mobilityPlatform.info.airMonitoring.link',
+    url: {
+      fi: 'https://www.ilmatieteenlaitos.fi/ilmanlaatu',
+      en: 'https://en.ilmatieteenlaitos.fi/air-quality',
+      sv: 'https://sv.ilmatieteenlaitos.fi/luftkvalitet',
     },
   };
 
@@ -1768,6 +1781,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     },
   ];
 
+  const infoTextsWeatherObservations = [
+    {
+      visible: showAirMonitoringStations,
+      type: 'airMonitoringInfo',
+      component: <AirMonitoringInfo infoTexts={airMonitoringTexts} />,
+    },
+  ];
+
   /** Render infotext(s) if visible value is true
    * @param {Array} textData
    * @return {Element}
@@ -1889,7 +1910,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     </>
   );
 
-  const renderAirMonitoringSettings = () => renderSettings(openAirMonitoringSettings, airMonitoringControlTypes);
+  const renderAirMonitoringSettings = () => (
+    <>
+      {renderSettings(openAirMonitoringSettings, airMonitoringControlTypes)}
+      {renderInfoTexts(infoTextsWeatherObservations)}
+    </>
+  );
 
   const renderAirQualityIcon = () => (
     <div className={classes.iconContainer}>

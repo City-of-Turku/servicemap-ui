@@ -965,6 +965,10 @@ const translations = {
   'mobilityPlatform.info.publicBenches': 'Kartan visar allmänna bänkar i Åbo.',
   'mobilityPlatform.info.roadworks': 'Kartan visar vägbyggen i Åboområdet som orsakar exceptionella situationer för trafiken och mobiliteten. Sänkta hastighetsbegränsningar gäller på markerade områden och vid behov kan trafiken ledas om. Uppgifterna kommer från Digitraffics gränssnitt.',
   'mobilityPlatform.info.railwayStations': 'Kartan visar Åbo järnvägsstationer och tågtidtabeller för de kommande 3 timmarna. Tågtrafiken är uppdelad i tåg som avgår från och ankommer till stationen. Om tåget är försenat visas även den beräknade ankomsttiden och den gamla planerade ankomsttiden inom parentes. Uppgifterna kommer från Digitraffics gränssnitt.',
+  'mobilityPlatform.info.airMonitoring.paragraph.1': 'Ilmansaastetiedot näytetään kullekin mittausasemalle tunnin välein laskettavana indeksinä, ja se kattaa kaikki ks. mittausasemalla mitatut saasteet. Ilmanlaatu luokitellaan viiteen luokkaan: vihreä=hyvä, keltainen=tyydyttävä, oranssi=välttävä, punainen=huono, violetti=erittäin huono.', // TODO translate
+  'mobilityPlatform.info.airMonitoring.paragraph.2': 'Laskennassa otetaan huomioon rikkidioksidi (SO2), typpidioksidi (NO2), hengitettävät hiukkaset (PM10), pienhiukkaset (PM2,5) sekä otsoni (O3). Kun ilmanlaatu on huono tai erittäin huono, terveysvaikutukset ovat mahdollisia herkillä ihmisillä. Ilmanlaatua heikentävät katupöly, liikenteen päästöt, puun pienpoltto, energiantuotanto sekä ajoittaiset kaukokulkeumat.', // TODO translate
+  'mobilityPlatform.info.airMonitoring.paragraph.3': 'Palvelukartan ilmanlaatutiedot saadaan Turun seudun ilmansuojelun yhteistyöryhmältä.', // TODO verify
+  'mobilityPlatform.info.airMonitoring.link': 'Ytterligare info',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',

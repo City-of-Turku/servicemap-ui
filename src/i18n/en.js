@@ -961,6 +961,10 @@ const translations = {
   'mobilityPlatform.info.publicBenches': 'The map shows public benches that are located in the city of Turku.',
   'mobilityPlatform.info.roadworks': 'The map shows road construction sites in the Turku area, which cause exceptional situations for traffic and mobility. Reduced speed limits apply in marked areas and, if necessary, traffic can be diverted. The data comes from the interface provided by Digitraffic.',
   'mobilityPlatform.info.railwayStations': 'The map shows Turku railway stations and train timetables for the next 3 hours. Train traffic is divided into trains departing from and arriving at the station. If the train is delayed, the estimated time of arrival and the old scheduled time of arrival are also shown in parentheses. The data comes from the interface provided by Digitraffic.',
+  'mobilityPlatform.info.airMonitoring.paragraph.1': 'Ilmansaastetiedot näytetään kullekin mittausasemalle tunnin välein laskettavana indeksinä, ja se kattaa kaikki ks. mittausasemalla mitatut saasteet. Ilmanlaatu luokitellaan viiteen luokkaan: vihreä=hyvä, keltainen=tyydyttävä, oranssi=välttävä, punainen=huono, violetti=erittäin huono.', // TODO translate
+  'mobilityPlatform.info.airMonitoring.paragraph.2': 'Laskennassa otetaan huomioon rikkidioksidi (SO2), typpidioksidi (NO2), hengitettävät hiukkaset (PM10), pienhiukkaset (PM2,5) sekä otsoni (O3). Kun ilmanlaatu on huono tai erittäin huono, terveysvaikutukset ovat mahdollisia herkillä ihmisillä. Ilmanlaatua heikentävät katupöly, liikenteen päästöt, puun pienpoltto, energiantuotanto sekä ajoittaiset kaukokulkeumat.', // TODO translate
+  'mobilityPlatform.info.airMonitoring.paragraph.3': 'Palvelukartan ilmanlaatutiedot saadaan Turun seudun ilmansuojelun yhteistyöryhmältä.', // TODO verify
+  'mobilityPlatform.info.airMonitoring.link': 'Additional info', // TODO verify
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',
