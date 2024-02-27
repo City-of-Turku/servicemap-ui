@@ -57,12 +57,12 @@ const LamCounterContent = ({ classes, intl, station }) => {
   const useMobileStatus = () => useMediaQuery('(max-width:768px)');
   const isNarrow = useMobileStatus();
 
-  const stationId = station.id;
-  const stationName = station.name;
-  const stationSource = station.csv_data_source;
-  const userTypes = station.sensor_types;
-  const dataFrom = station.data_from_date;
-  const dataUntil = station.data_until_date;
+  const stationId = station?.id;
+  const stationName = station?.name;
+  const stationSource = station?.csv_data_source;
+  const userTypes = station?.sensor_types;
+  const dataFrom = station?.data_from_date;
+  const dataUntil = station?.data_until_date;
 
   // steps that determine which data is shown on the chart
   const buttonSteps = [

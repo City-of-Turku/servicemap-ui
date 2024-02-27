@@ -60,12 +60,12 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   const useMobileStatus = () => useMediaQuery('(max-width:768px)');
   const isNarrow = useMobileStatus();
 
-  const stationId = station.id;
-  const stationName = station.name;
-  const stationSource = station.csv_data_source;
-  const dataFrom = station.data_from_date;
-  const dataUntil = station.data_until_date;
-  const isActiveStation = station.is_active['30'];
+  const stationId = station?.id;
+  const stationName = station?.name;
+  const stationSource = station?.csv_data_source;
+  const dataFrom = station?.data_from_date;
+  const dataUntil = station?.data_until_date;
+  const isActiveStation = station?.is_active?.['30'];
 
   /** When all 3 user types are rendered, a reverse order is required where 'at' is placed last */
   const reverseUserTypes = () => {
