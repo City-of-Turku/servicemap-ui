@@ -5,11 +5,12 @@ import { useMap } from 'react-leaflet';
 import chargerIcon from 'servicemap-ui-turku/assets/icons/icons-icon_charging_station.svg';
 import chargerIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_charging_station-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
-import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { useAccessibleMap, getCitySettings } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
   createIcon, isDataValid, fitToMapBounds, setRender, checkMapType,
 } from '../utils/utils';
+import config from '../../../../config';
 import { isEmbed } from '../../../utils/path';
 import MarkerComponent from '../MarkerComponent';
 import ChargerStationContent from './components/ChargerStationContent';
@@ -24,6 +25,7 @@ const ChargerStationMarkers = () => {
   const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
+  const citySettings = useSelector(getCitySettings);
 
   const url = new URL(window.location);
   const embedded = isEmbed({ url: url.toString() });
@@ -40,18 +42,37 @@ const ChargerStationMarkers = () => {
     }
   }, [showChargingStations, embedded]);
 
+  const checkCitySettings = citiesArray => {
+    if (citiesArray?.length > 0) {
+      return citiesArray;
+    }
+    return config.cities;
+  };
+
+  /** Separate roadworks of Turku from the rest */
+  const chargerStationsFiltered = chargerStations.reduce((acc, curr) => {
+    const selectedCities = config.cities.filter(c => citySettings[c]);
+    const cities = checkCitySettings(selectedCities);
+    if (
+      cities.includes(curr.municipality.toLowerCase())
+    ) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
   const paramValue = url.searchParams.get('charging_station') === '1';
-  const renderData = setRender(paramValue, embedded, showChargingStations, chargerStations, isDataValid);
+  const renderData = setRender(paramValue, embedded, showChargingStations, chargerStationsFiltered, isDataValid);
 
   useEffect(() => {
     if (!embedded) {
-      fitToMapBounds(renderData, chargerStations, map);
+      fitToMapBounds(renderData, chargerStationsFiltered, map);
     }
-  }, [showChargingStations, chargerStations, embedded]);
+  }, [showChargingStations, chargerStationsFiltered, embedded]);
 
   return (
     renderData
-      ? chargerStations.map(item => (
+      ? chargerStationsFiltered.map(item => (
         <MarkerComponent key={item.id} item={item} icon={chargerStationIcon}>
           <ChargerStationContent station={item} />
         </MarkerComponent>
