@@ -959,7 +959,7 @@ const translations = {
   'mobilityPlatform.info.airMonitoring.paragraph.1': 'Ilmansaastetiedot näytetään kullekin mittausasemalle tunnin välein laskettavana indeksinä, ja se kattaa kaikki ks. mittausasemalla mitatut saasteet. Ilmanlaatu luokitellaan viiteen luokkaan: vihreä=hyvä, keltainen=tyydyttävä, oranssi=välttävä, punainen=huono, violetti=erittäin huono.',
   'mobilityPlatform.info.airMonitoring.paragraph.2': 'Laskennassa otetaan huomioon rikkidioksidi (SO2), typpidioksidi (NO2), hengitettävät hiukkaset (PM10), pienhiukkaset (PM2,5) sekä otsoni (O3). Kun ilmanlaatu on huono tai erittäin huono, terveysvaikutukset ovat mahdollisia herkillä ihmisillä. Ilmanlaatua heikentävät katupöly, liikenteen päästöt, puun pienpoltto, energiantuotanto sekä ajoittaiset kaukokulkeumat.',
   'mobilityPlatform.info.airMonitoring.paragraph.3': 'Palvelukartan ilmanlaatutiedot saadaan Turun seudun ilmansuojelun yhteistyöryhmältä.',
-  'mobilityPlatform.info.airMonitoring.link': 'Lisätietoja',
+  'mobilityPlatform.info.airMonitoring.link': 'Lisätietoja saa osoitteesta https://www.ilmatieteenlaitos.fi/ilmanlaatu',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',

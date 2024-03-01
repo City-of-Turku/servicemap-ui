@@ -28,7 +28,7 @@ exports[`<AirMonitoringInfo /> should match snapshot 1`] = `
       <p
         class="MuiTypography-root MuiTypography-body2 css-1qxgxsz-MuiTypography-root"
       >
-        Lisätietoja
+        Lisätietoja saa osoitteesta https://www.ilmatieteenlaitos.fi/ilmanlaatu
       </p>
     </a>
   </div>

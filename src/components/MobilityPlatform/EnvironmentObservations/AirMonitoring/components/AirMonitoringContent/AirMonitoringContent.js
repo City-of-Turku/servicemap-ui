@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import styled from '@emotion/styled';
 import {
-  getMonth, getWeek, getYear, format, startOfMonth,
+  getMonth, getWeek, getYear, format, startOfMonth, subDays,
 } from 'date-fns';
 import { enGB, fi, sv } from 'date-fns/locale';
 import DatePicker, { registerLocale } from 'react-datepicker';
@@ -49,6 +49,8 @@ const AirMonitoringContent = ({ intl, station }) => {
   const selectedWeek = getWeek(selectedDate);
   const selectedMonth = getMonth(selectedDate) + 1;
   const selectedYear = getYear(selectedDate);
+
+  const yesterday = subDays(new Date(), 1);
 
   const changeDate = newDate => {
     setSelectedDate(newDate);
@@ -352,7 +354,7 @@ const AirMonitoringContent = ({ intl, station }) => {
 
   const renderData = () => {
     const data = setRenderData();
-    return data.map(item => (
+    return data?.map(item => (
       <Card key={item.id} variant="outlined">
         <StyledBox>
           <StyledTextContainer>
@@ -361,7 +363,7 @@ const AirMonitoringContent = ({ intl, station }) => {
             </Typography>
           </StyledTextContainer>
           <div>
-            {item.measurements.map(measurement => (
+            {item?.measurements?.map(measurement => (
               <div key={`${measurement.parameter}${measurement.value}`}>
                 {measurement.parameter === 'AQINDEX_PT1H_avg'
                   ? renderAirQuality(measurement)
@@ -386,8 +388,8 @@ const AirMonitoringContent = ({ intl, station }) => {
             dateFormat="P"
             showYearDropdown
             dropdownMode="select"
-            minDate={new Date('2015-01-01')}
-            maxDate={new Date()}
+            minDate={new Date('2011-01-01')}
+            maxDate={yesterday}
             customInput={<CustomInput inputRef={inputRef} />}
           />
         </StyledDateContainer>
@@ -396,7 +398,7 @@ const AirMonitoringContent = ({ intl, station }) => {
       <StyledContainer>{renderData()}</StyledContainer>
       <div>
         <StyledDateSteps>
-          {buttonSteps.map((timing, i) => (
+          {buttonSteps?.map((timing, i) => (
             <StyledButtonBase
               key={timing.step.type}
               type="button"
