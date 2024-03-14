@@ -801,6 +801,7 @@ const translations = {
   'mobilityPlatform.menu.show.roadworks': 'Roadworks',
   'mobilityPlatform.menu.show.railwayStations': 'Railway stations',
   'mobilityPlatform.menu.show.airMonitoring': 'Air quality stations',
+  'mobilityPlatform.menu.show.parkAndRideBikes': 'Park and ride stops for bicycles',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',

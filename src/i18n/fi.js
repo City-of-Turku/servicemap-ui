@@ -806,6 +806,7 @@ const translations = {
   'mobilityPlatform.menu.show.roadworks': 'Tietyömaat',
   'mobilityPlatform.menu.show.railwayStations': 'Rautatieasemat',
   'mobilityPlatform.menu.show.airMonitoring': 'Ilmanlaadun mittauspisteet',
+  'mobilityPlatform.menu.show.parkAndRideBikes': 'Liityntäpysäkit pyörille',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',

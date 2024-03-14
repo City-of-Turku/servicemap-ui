@@ -802,9 +802,10 @@ const translations = {
   'mobilityPlatform.menu.show.rentalCarParking': 'Bilpool bilars parkeringsplatser',
   'mobilityPlatform.menu.show.publicBenches': 'Allmänna bänkar (zooma in på kartan)',
   'mobilityPlatform.embedded.label.publicBenches': 'Allmänna bänkar (zooma in på kartan för att se bänkar)',
-  'mobilityPlatform.menu.show.airMonitoring': 'Stationer för luftkvalitet', // TODO verify
+  'mobilityPlatform.menu.show.airMonitoring': 'Stationer för luftkvalitet',
   'mobilityPlatform.menu.show.roadworks': 'Vägarbeten',
   'mobilityPlatform.menu.show.railwayStations': 'Järnvägsstationer',
+  'mobilityPlatform.menu.show.parkAndRideBikes': 'Infartsparkering för cyklar',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
