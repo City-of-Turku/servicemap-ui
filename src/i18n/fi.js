@@ -1026,7 +1026,7 @@ const translations = {
   'ecocounter.oct': 'Loka',
   'ecocounter.nov': 'Marras',
   'ecocounter.dec': 'Joulu',
-  'ecocounter.station.counts.period': 'Havaintodata on väliltä {value1} - {value2}', // TODO verify
+  'ecocounter.station.counts.period': 'Laskentatiedot ovat väliltä {value1} - {value2}',
   'trafficCounter.year.warning.text': 'Vuoden {value} lukuja ei ole saatavilla.',
 };
 
