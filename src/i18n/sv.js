@@ -1035,6 +1035,7 @@ const translations = {
   'ecocounter.nov': 'November',
   'ecocounter.dec': 'December',
   'ecocounter.station.active.period': 'Beräkningspunkt var i bruk {value1} - {value2}.',
+  'ecocounter.station.counts.period': 'Havaintodata on väliltä {value1} - {value2}', // TODO translate
   'trafficCounter.year.warning.text': 'Siffror från år {value} är inte tillgängliga.',
 };
 

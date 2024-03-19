@@ -33,6 +33,7 @@ import {
 import { formatDates, formatMonths } from '../../utils';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
+import CounterActiveText from '../CounterActiveText';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
@@ -416,6 +417,7 @@ const LamCounterContent = ({ classes, intl, station }) => {
             </Typography>
           </div>
         ) : null}
+        <CounterActiveText dataFrom={dataFrom} dataUntil={dataUntil} />
         <div className={classes.trafficCounterChart}>
           <LineChart
             labels={lamCounterLabels}
