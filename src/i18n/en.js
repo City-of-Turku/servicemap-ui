@@ -1031,7 +1031,6 @@ const translations = {
   'ecocounter.oct': 'October',
   'ecocounter.nov': 'November',
   'ecocounter.dec': 'December',
-  'ecocounter.station.active.period': 'Measurement point was in use {value1} - {value2}.',
   'ecocounter.station.counts.period': 'Havaintodata on väliltä {value1} - {value2}', // TODO translate
   'trafficCounter.year.warning.text': 'Numbers from the year {value} are not available.',
 };

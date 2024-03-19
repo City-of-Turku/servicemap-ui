@@ -33,9 +33,10 @@ import {
   fetchInitialWeekDatas,
   fetchSelectedYearData,
 } from '../../EcoCounterRequests/ecoCounterRequests';
-import { formatDates, formatFullDates, formatMonths } from '../../utils';
+import { formatDates, formatMonths } from '../../utils';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
+import CounterActiveText from '../CounterActiveText';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
@@ -65,7 +66,6 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   const stationSource = station?.csv_data_source;
   const dataFrom = station?.data_from_date;
   const dataUntil = station?.data_until_date;
-  const isActiveStation = station?.is_active?.['30'];
 
   /** When all 3 user types are rendered, a reverse order is required where 'at' is placed last */
   const reverseUserTypes = () => {
@@ -497,29 +497,6 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     return input;
   };
 
-  /**
-   * Render text on 2 Telraam stations that are currently inactive and do not collect new data.
-   * @returns JSX element
-   */
-  const renderOldStationText = () => {
-    const dataFromFormat = formatDates(dataFrom);
-    const dataUntilFormat = formatFullDates(dataUntil);
-
-    if (!isActiveStation) {
-      return (
-        <div className={classes.missingDataText}>
-          <Typography variant="body2" sx={{ mb: '0.5rem', fontWeight: 'bold' }}>
-            {intl.formatMessage(
-              { id: 'ecocounter.station.active.period' },
-              { value1: dataFromFormat, value2: dataUntilFormat },
-            )}
-          </Typography>
-        </div>
-      );
-    }
-    return null;
-  };
-
   return (
     <>
       <div className={`${classes.trafficCounterHeader} ${isNarrow ? classes.widthSm : classes.widthMd}`}>
@@ -549,7 +526,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
             </div>
           ))}
         </div>
-        {stationSource === 'TR' ? renderOldStationText() : null}
+        <CounterActiveText dataFrom={dataFrom} dataUntil={dataUntil} />
         <div className={classes.trafficCounterChart}>
           <LineChart
             labels={ecoCounterLabels}
