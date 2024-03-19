@@ -53,7 +53,6 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   const [currentType, setCurrentType] = useState('bicycle');
   const [currentTime, setCurrentTime] = useState('hour');
   const [activeStep, setActiveStep] = useState(0);
-  const [selectedDate, setSelectedDate] = useState(subDays(new Date(), 1));
 
   const locale = useSelector(state => state.user.locale);
   const inputRef = useRef(null);
@@ -66,6 +65,8 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   const stationSource = station?.csv_data_source;
   const dataFrom = station?.data_from_date;
   const dataUntil = station?.data_until_date;
+
+  const [selectedDate, setSelectedDate] = useState(subDays(new Date(dataUntil), 1));
 
   /** When all 3 user types are rendered, a reverse order is required where 'at' is placed last */
   const reverseUserTypes = () => {
@@ -235,8 +236,8 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   };
 
   // Initial values that are used to fetch data
-  const currentDate = new Date();
-  const yesterDay = subDays(currentDate, 1);
+  const initialDate = new Date(dataUntil);
+  const yesterDay = subDays(initialDate, 1);
   const yesterDayFormat = format(yesterDay, 'yyyy-MM-dd');
   const initialDateStart = format(startOfWeek(yesterDay, 1), 'yyyy-MM-dd');
   const initialDateEnd = format(endOfWeek(yesterDay, 1), 'yyyy-MM-dd');
@@ -251,19 +252,19 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   const selectedDateEnd = format(endOfWeek(selectedDate, 1), 'yyyy-MM-dd');
   const selectedWeekStart = checkWeekNumber(selectedDate);
   const selectedWeekEnd = getWeek(endOfMonth(selectedDate));
-  let selectedMonth = getMonth(currentDate);
+  let selectedMonth = getMonth(initialDate);
   const selectedYear = getYear(selectedDate);
 
   // This will show full year if available
   const checkYear = () => {
-    if (getYear(selectedDate) < getYear(currentDate)) {
+    if (getYear(selectedDate) < getYear(initialDate)) {
       selectedMonth = 12;
     }
   };
 
   // Reset selectedDate value when the new popup is opened.
   useEffect(() => {
-    setSelectedDate(subDays(currentDate, 1));
+    setSelectedDate(subDays(new Date(dataUntil), 1));
   }, [stationId]);
 
   useEffect(() => {
@@ -512,7 +513,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
             showYearDropdown={stationSource !== 'TR'}
             dropdownMode="select"
             minDate={new Date(dataFrom)}
-            maxDate={stationSource === 'TR' ? new Date(dataUntil) : new Date()}
+            maxDate={new Date(dataUntil)}
             customInput={<CustomInput inputRef={inputRef} />}
           />
         </div>
