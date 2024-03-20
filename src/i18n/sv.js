@@ -911,6 +911,7 @@ const translations = {
   'mobilityPlatform.content.arrivingTrains.title': 'Inkommande tåg',
   'mobilityPlatform.content.departingTrains.empty': 'Inga avgående tåg',
   'mobilityPlatform.content.arrivingTrains.empty': 'Inga inkommande tåg',
+  'mobilityPlatform.parkAndRide.content.subtitle': 'Infartspark for cyklarna',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',

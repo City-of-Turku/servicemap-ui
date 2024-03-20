@@ -907,6 +907,7 @@ const translations = {
   'mobilityPlatform.content.arrivingTrains.title': 'Incoming trains',
   'mobilityPlatform.content.departingTrains.empty': 'No departing trains',
   'mobilityPlatform.content.arrivingTrains.empty': 'No incoming trains',
+  'mobilityPlatform.parkAndRide.content.subtitle': 'Park and ride stop for bicycles',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Route description',

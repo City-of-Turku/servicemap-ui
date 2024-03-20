@@ -902,6 +902,7 @@ const translations = {
   'mobilityPlatform.content.arrivingTrains.title': 'Saapuvat junat',
   'mobilityPlatform.content.departingTrains.empty': 'Ei lähteviä junia',
   'mobilityPlatform.content.arrivingTrains.empty': 'Ei saapuvia junia',
+  'mobilityPlatform.parkAndRide.content.subtitle': 'Liityntäpysäkki pyörille',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',

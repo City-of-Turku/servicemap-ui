@@ -9,6 +9,7 @@ import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, fitToMapBounds } from '../../utils/utils';
 import MarkerComponent from '../../MarkerComponent';
+import ParkAndRideBikesContent from './components/ParkAndRideBikesContent';
 
 /**
  * Displays park and ride stops for bikes on the map in marker format.
@@ -46,7 +47,7 @@ const ParkAndRideBikes = () => {
     renderData
       ? parkAndRideBikesData.map(item => (
         <MarkerComponent key={item.id} item={item} icon={customIcon}>
-          <p>{item.name}</p>
+          <ParkAndRideBikesContent item={item} />
         </MarkerComponent>
       ))
       : null
