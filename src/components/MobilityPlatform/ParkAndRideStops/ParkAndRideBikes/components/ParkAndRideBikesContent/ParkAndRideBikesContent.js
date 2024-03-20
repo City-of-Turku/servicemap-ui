@@ -31,7 +31,7 @@ const ParkAndRideBikesContent = ({ item }) => {
     sv: `${item.address_sv}, ${item.address_zip} ${toSentenceCase(item.municipality)}`,
   };
 
-  const loadingPlaceInfo = (
+  const parkAndRideInfo = (
     <StyledContainer>
       <StyledHeaderContainer>
         <TextComponent textObj={itemName} isTitle />
@@ -49,7 +49,7 @@ const ParkAndRideBikesContent = ({ item }) => {
     </StyledContainer>
   );
 
-  return <StyledContainer>{loadingPlaceInfo}</StyledContainer>;
+  return <StyledContainer>{parkAndRideInfo}</StyledContainer>;
 };
 
 const StyledContainer = styled.div(({ theme }) => ({
