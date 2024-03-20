@@ -16,8 +16,8 @@ import {
   getYear,
   startOfWeek,
   endOfWeek,
-  subMonths,
   addWeeks,
+  subDays,
 } from 'date-fns';
 import { enGB, fi, sv } from 'date-fns/locale';
 import { ReactSVG } from 'react-svg';
@@ -33,6 +33,7 @@ import {
 import { formatDates, formatMonths } from '../../utils';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
+import CounterActiveText from '../CounterActiveText';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
@@ -49,7 +50,6 @@ const LamCounterContent = ({ classes, intl, station }) => {
   const [lamCounterLabels, setLamCounterLabels] = useState([]);
   const [currentTime, setCurrentTime] = useState('hour');
   const [activeStep, setActiveStep] = useState(0);
-  const [selectedDate, setSelectedDate] = useState(startOfMonth(subMonths(new Date(), 1)));
 
   const locale = useSelector(state => state.user.locale);
   const inputRef = useRef(null);
@@ -63,6 +63,8 @@ const LamCounterContent = ({ classes, intl, station }) => {
   const userTypes = station?.sensor_types;
   const dataFrom = station?.data_from_date;
   const dataUntil = station?.data_until_date;
+
+  const [selectedDate, setSelectedDate] = useState(subDays(new Date(dataUntil), 1));
 
   // steps that determine which data is shown on the chart
   const buttonSteps = [
@@ -151,15 +153,14 @@ const LamCounterContent = ({ classes, intl, station }) => {
   };
 
   // Initial values that are used to fetch data
-  const currentDate = new Date();
-  const lastMonth = subMonths(currentDate, 1);
-  const lastMonthFormat = format(lastMonth, 'yyyy-MM-dd');
-  const initialDateStart = format(startOfWeek(lastMonth), 'yyyy-MM-dd');
-  const initialDateEnd = format(endOfWeek(lastMonth), 'yyyy-MM-dd');
-  const initialWeekStart = checkWeekNumber(lastMonth);
-  const initialWeekEnd = getWeek(endOfMonth(lastMonth));
-  const initialMonth = getMonth(lastMonth);
-  const initialYear = getYear(lastMonth);
+  const initialDate = new Date(dataUntil);
+  const initialDateFormat = format(initialDate, 'yyyy-MM-dd');
+  const initialDateStart = format(startOfWeek(initialDate), 'yyyy-MM-dd');
+  const initialDateEnd = format(endOfWeek(initialDate), 'yyyy-MM-dd');
+  const initialWeekStart = checkWeekNumber(initialDate);
+  const initialWeekEnd = getWeek(endOfMonth(initialDate));
+  const initialMonth = getMonth(initialDate);
+  const initialYear = getYear(initialDate);
 
   // Values that change based on the datepicker value
   const selectedDateFormat = format(selectedDate, 'yyyy-MM-dd');
@@ -167,17 +168,17 @@ const LamCounterContent = ({ classes, intl, station }) => {
   const selectedDateEnd = format(endOfWeek(selectedDate, 1), 'yyyy-MM-dd');
   const selectedWeekStart = checkWeekNumber(selectedDate);
   const selectedWeekEnd = getWeek(endOfMonth(selectedDate));
-  let selectedMonth = getMonth(currentDate);
+  let selectedMonth = getMonth(initialDate);
   const selectedYear = getYear(selectedDate);
 
   // Reset selectedDate value when the new popup is opened.
   useEffect(() => {
-    setSelectedDate(startOfMonth(subMonths(currentDate, 1)));
+    setSelectedDate(subDays(new Date(dataUntil), 1));
   }, [stationId]);
 
   // This will show full year if available
   const checkYear = () => {
-    if (getYear(selectedDate) < getYear(currentDate)) {
+    if (getYear(selectedDate) < getYear(initialDate)) {
       selectedMonth = 12;
     }
   };
@@ -316,7 +317,7 @@ const LamCounterContent = ({ classes, intl, station }) => {
   // Fetch initial data based on the default date
   useEffect(() => {
     setLamCounterLabels(labelsHour);
-    fetchInitialHourData(lastMonthFormat, stationId, setLamCounterHour);
+    fetchInitialHourData(initialDateFormat, stationId, setLamCounterHour);
   }, [stationId]);
 
   useEffect(() => {
@@ -416,6 +417,7 @@ const LamCounterContent = ({ classes, intl, station }) => {
             </Typography>
           </div>
         ) : null}
+        <CounterActiveText dataFrom={dataFrom} dataUntil={dataUntil} />
         <div className={classes.trafficCounterChart}>
           <LineChart
             labels={lamCounterLabels}
