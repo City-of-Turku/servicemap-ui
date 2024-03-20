@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CounterActiveText /> should work 1`] = `
+<div>
+  <div
+    class="css-aavt1n"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body2 css-1bvqycf-MuiTypography-root"
+    >
+      Laskentatiedot ovat väliltä 01.01.2020 - 10.10.2023
+    </p>
+  </div>
+</div>
+`;
