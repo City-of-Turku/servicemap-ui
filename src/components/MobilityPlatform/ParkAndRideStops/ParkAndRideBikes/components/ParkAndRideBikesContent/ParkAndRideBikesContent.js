@@ -13,10 +13,22 @@ const ParkAndRideBikesContent = ({ item }) => {
     sv: item.name_sv,
   };
 
+  /**
+   * Take string (like kaarina) and return the same string with first character in uppercase.
+   * @param {*string} str
+   * @returns string
+   */
+  const toSentenceCase = str => {
+    if (str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+    return '';
+  };
+
   const itemAddress = {
-    fi: `${item.address_fi}, ${item.address_zip} ${item.municipality}`,
-    en: `${item.address_en}, ${item.address_zip} ${item.municipality}`,
-    sv: `${item.address_sv}, ${item.address_zip} ${item.municipality}`,
+    fi: `${item.address_fi}, ${item.address_zip} ${toSentenceCase(item.municipality)}`,
+    en: `${item.address_en}, ${item.address_zip} ${toSentenceCase(item.municipality)}`,
+    sv: `${item.address_sv}, ${item.address_zip} ${toSentenceCase(item.municipality)}`,
   };
 
   const loadingPlaceInfo = (
