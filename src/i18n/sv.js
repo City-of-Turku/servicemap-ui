@@ -1034,7 +1034,7 @@ const translations = {
   'ecocounter.oct': 'Oktober',
   'ecocounter.nov': 'November',
   'ecocounter.dec': 'December',
-  'ecocounter.station.counts.period': 'Beräkningsdata är mellan {value1} - {value2}',
+  'ecocounter.station.counts.period': 'Beräkningsdata är mellan {value1} och {value2}',
   'trafficCounter.year.warning.text': 'Siffror från år {value} är inte tillgängliga.',
 };
 
