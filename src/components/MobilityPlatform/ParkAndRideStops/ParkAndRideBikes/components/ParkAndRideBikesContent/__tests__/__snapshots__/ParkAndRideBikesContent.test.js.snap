@@ -12,7 +12,7 @@ exports[`<ParkAndRideBikesContent /> should work 1`] = `
         class="css-1dznbe2"
       >
         <div
-          class="injectIntl(TextComponent)-margin-1"
+          class="css-qpxa1n"
         >
           <p
             class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
@@ -34,7 +34,7 @@ exports[`<ParkAndRideBikesContent /> should work 1`] = `
           </p>
         </div>
         <div
-          class="injectIntl(TextComponent)-margin-1"
+          class="css-qpxa1n"
         >
           <p
             class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"

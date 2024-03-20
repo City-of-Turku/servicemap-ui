@@ -9,7 +9,7 @@ exports[`<PublicParkingContent /> does match snapshot 1`] = `
       class="injectIntl(PublicParkingContent)-headerContainer-2"
     >
       <div
-        class="injectIntl(TextComponent)-margin-5"
+        class="css-qpxa1n"
       >
         <p
           class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
@@ -22,7 +22,7 @@ exports[`<PublicParkingContent /> does match snapshot 1`] = `
       class="injectIntl(PublicParkingContent)-textContainer-3"
     >
       <div
-        class="injectIntl(TextComponent)-margin-5"
+        class="css-qpxa1n"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -49,7 +49,7 @@ exports[`<PublicParkingContent /> does match snapshot 1`] = `
         </p>
       </div>
       <div
-        class="injectIntl(TextComponent)-margin-5"
+        class="css-qpxa1n"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -58,7 +58,7 @@ exports[`<PublicParkingContent /> does match snapshot 1`] = `
         </p>
       </div>
       <div
-        class="injectIntl(TextComponent)-margin-5"
+        class="css-qpxa1n"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
