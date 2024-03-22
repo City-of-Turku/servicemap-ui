@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import flip from '@turf/flip';
 import dataVisualization from '../../utils/dataVisualization';
-import { getCitySettings } from './settings';
+import { selectCities } from './settings';
 import { getLocale } from './user';
 import { unitsSortAlphabetically } from '../../utils/units';
 
@@ -52,7 +52,7 @@ const calculateScaleAdjustedProportion = (proportion, scales) => {
 };
 
 export const getSelectedStatisticalDistricts = createSelector(
-  [getStatisticalDistrictSelection, getData, getCitySettings],
+  [getStatisticalDistrictSelection, getData, selectCities],
   (selection, data, citySettings) => {
     // Create array of selected cities
     const selectedCities = Object.keys(citySettings).filter(city => citySettings[city]);
@@ -62,7 +62,7 @@ export const getSelectedStatisticalDistricts = createSelector(
     if (typeof section === 'string' && section.length > 0 && data.length > 0) {
       selectedDivisions = data
         .filter(item => !!getSelectedValue(item, section, forecast))
-        .map((d) => {
+        .map(d => {
           const { value, proportion } = getSelectedValue(d, section, forecast);
           const selectedProportion = dataVisualization.isTotal(section) ? value : proportion;
           const selectedScaleAdjustedProportion = calculateScaleAdjustedProportion(
@@ -97,7 +97,7 @@ export const getSelectedStatisticalDistricts = createSelector(
 
 // Get city filtered district data
 export const getCityGroupedData = createSelector(
-  [getSelectedStatisticalDistricts, getCitySettings],
+  [getSelectedStatisticalDistricts, selectCities],
   (data, citySettings) => {
     const groupedData = data.reduce((acc, cur) => {
       const duplicate = acc.find(list => list[0].municipality === cur.municipality);
@@ -139,7 +139,7 @@ export const getServiceFilteredStatisticalDistrictUnits = createSelector(
   (districtUnits, selectedServices, selectedAreaBounds, locale) => {
     const serviceFilterKeys = Object.keys(selectedServices);
     if (serviceFilterKeys?.length) {
-      const units = districtUnits.filter((unit) => {
+      const units = districtUnits.filter(unit => {
         const unitCoords = unit?.location ? flip(unit.location) : false;
         return (
           (
@@ -157,7 +157,7 @@ export const getServiceFilteredStatisticalDistrictUnits = createSelector(
 );
 
 export const getOrderedStatisticalDistrictServices = createSelector(
-  [getStatisticalDistrictServices, getLocale, getCitySettings],
+  [getStatisticalDistrictServices, getLocale, selectCities],
   (services, locale, citySettings) => {
     if (services.length) {
       if (typeof locale !== 'string') {
@@ -166,7 +166,7 @@ export const getOrderedStatisticalDistrictServices = createSelector(
 
       const selectedCities = Object.keys(citySettings).filter(city => citySettings[city]);
       return services
-        .filter((s) => {
+        .filter(s => {
           // Filter services that have any units or with city
           // selections active if selected cities has units
           const selectedCitiesHasUnits = selectedCities.some(c => s?.unit_count?.municipality[c]);
@@ -189,19 +189,19 @@ export const getOrderedStatisticalDistrictServices = createSelector(
 
 export const getStatisticalDistrictCategories = createSelector(
   [getData],
-  (data) => {
+  data => {
     const categoryLayers = {};
     const ageCategories = [];
     const forecastCategories = [];
 
     // Go through data and populate age and forecast categories
-    data.forEach((district) => {
+    data.forEach(district => {
       // District statistical data
       const sData = district?.data;
       if (sData) {
         // All categories in district's statistical data
         const districtCategories = Object.keys(sData);
-        districtCategories.forEach((category) => {
+        districtCategories.forEach(category => {
           const yearByAge = dataVisualization.getYearByAge(category);
           const yearForecast = dataVisualization.getYearForecast(category);
           if (yearByAge && !ageCategories.some(c => c.category === category)) {

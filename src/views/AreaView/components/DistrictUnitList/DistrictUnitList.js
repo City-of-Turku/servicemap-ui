@@ -5,35 +5,35 @@ import { Divider, List, Typography } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { getAddressDistrict } from '../../../../redux/selectors/district';
+import { selectCities } from '../../../../redux/selectors/settings';
 import { formatDistanceObject } from '../../../../utils';
 import { getAddressFromUnit } from '../../../../utils/address';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { sortByOriginID } from '../../utils';
 import { DivisionItem } from '../../../../components';
 
-const DistrictUnitList = (props) => {
+const DistrictUnitList = props => {
   const {
     classes, intl, selectedAddress, district,
   } = props;
 
-  const citySettings = useSelector(state => state.settings.cities);
+  const citySettings = useSelector(selectCities);
   const addressDistrict = useSelector(state => getAddressDistrict(state));
   const districtsFetching = useSelector(state => state.districts.districtsFetching);
   const getLocaleText = useLocaleText();
 
-  const sortDistricts = (units) => {
+  const sortDistricts = units => {
     units.sort((a, b) => a.distance - b.distance);
   };
 
-  const distanceToAddress = (coord) => {
+  const distanceToAddress = coord => {
     if (coord && selectedAddress) {
       return Math.round(distance(coord, selectedAddress.location.coordinates) * 1000);
     }
     return null;
   };
 
-
-  const renderDistrictUnitItem = (unit) => {
+  const renderDistrictUnitItem = unit => {
     const streetAddress = getAddressFromUnit(unit, getLocaleText, intl);
     return (
       <DivisionItem
@@ -62,7 +62,6 @@ const DistrictUnitList = (props) => {
     </div>
   );
 
-
   const render = () => {
     if (districtsFetching.length) {
       return (
@@ -74,7 +73,6 @@ const DistrictUnitList = (props) => {
       );
     }
 
-
     const selectedCities = Object.values(citySettings).filter(city => city);
     const cityFilteredDistricts = !selectedCities.length
       ? district.data
@@ -85,7 +83,7 @@ const DistrictUnitList = (props) => {
     }
 
     let unitList = [];
-    cityFilteredDistricts.forEach((obj) => {
+    cityFilteredDistricts.forEach(obj => {
       let localArea = false;
       if (selectedAddress && addressDistrict?.id === obj.id) {
         localArea = true;
@@ -93,7 +91,7 @@ const DistrictUnitList = (props) => {
       if (obj.units?.length) {
         obj.units
           .filter(unit => typeof unit === 'object')
-          .forEach((unit) => {
+          .forEach(unit => {
             unit.localUnit = localArea;
           });
         unitList.push(...obj.units);
@@ -102,7 +100,7 @@ const DistrictUnitList = (props) => {
         unitList.push(obj.unit);
       }
       if (obj.overlapping) {
-        obj.overlapping.forEach((i) => {
+        obj.overlapping.forEach(i => {
           if (i.unit) {
             i.unit.localUnit = localArea;
             unitList.push(i.unit);
@@ -115,7 +113,7 @@ const DistrictUnitList = (props) => {
     unitList = unitList.filter(u => typeof u === 'object' && typeof u.id === 'number');
 
     if (selectedAddress && addressDistrict) {
-      unitList.forEach((unit) => {
+      unitList.forEach(unit => {
         unit.distance = distanceToAddress(unit.location?.coordinates);
       });
 

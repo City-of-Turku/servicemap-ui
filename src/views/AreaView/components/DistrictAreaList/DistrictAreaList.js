@@ -4,6 +4,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { Divider, List, Typography } from '@mui/material';
 import { getAddressDistrict } from '../../../../redux/selectors/district';
+import { selectCities } from '../../../../redux/selectors/settings';
 import { DistrictItem } from '../../../../components';
 import { sortByOriginID } from '../../utils';
 
@@ -13,7 +14,7 @@ export const DistrictAreaList = ({
   district,
 }) => {
   const intl = useIntl();
-  const citySettings = useSelector(state => state.settings.cities);
+  const citySettings = useSelector(selectCities);
   const addressDistrict = useSelector(state => getAddressDistrict(state));
   let sectionText = intl.formatMessage({ id: `area.services.all.${district.id}` });
 
@@ -63,12 +64,12 @@ export const DistrictAreaList = ({
     const otherDistricts = filteredData.filter(obj => obj.id !== addressDistrict.id);
 
     const localAreaDistricts = [];
-    localDistrict.forEach((district) => {
+    localDistrict.forEach(district => {
       const newValue = district;
       localAreaDistricts.push(newValue);
     });
     const otherAreaDistricts = [];
-    otherDistricts.forEach((district) => {
+    otherDistricts.forEach(district => {
       if (district.municipality === selectedAddress.municipality.id) {
         const newValue = district;
         otherAreaDistricts.push(newValue);

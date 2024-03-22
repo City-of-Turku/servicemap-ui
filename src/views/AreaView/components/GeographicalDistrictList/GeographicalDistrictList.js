@@ -9,19 +9,18 @@ import {
   setSelectedDistrictServices, setSelectedSubdistricts,
 } from '../../../../redux/actions/district';
 import { getDistrictsByType } from '../../../../redux/selectors/district';
+import { selectCities } from '../../../../redux/selectors/settings';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { panViewToBounds } from '../../../MapView/utils/mapActions';
 import { SMAccordion } from '../../../../components';
-
 
 const GeographicalDistrictList = ({ district, classes }) => {
   const dispatch = useDispatch();
   const getLocaleText = useLocaleText();
   const map = useSelector(state => state.mapRef);
-  const citySettings = useSelector(state => state.settings.cities);
+  const citySettings = useSelector(selectCities);
   const selectedSubdistricts = useSelector(state => state.districts.selectedSubdistricts);
   const selectedDistrictData = useSelector(state => getDistrictsByType(state));
-
 
   const handleCheckboxChange = (event, district) => {
     let newArray;
@@ -45,7 +44,6 @@ const GeographicalDistrictList = ({ district, classes }) => {
     }
     dispatch(setSelectedSubdistricts(newArray));
   };
-
 
   const districList = district.data;
   districList.sort((a, b) => getLocaleText(a.name).localeCompare(getLocaleText(b.name)));
@@ -88,7 +86,7 @@ const GeographicalDistrictList = ({ district, classes }) => {
           )
         }
       </div>
-      {cityFilteredData.map((data) => {
+      {cityFilteredData.map(data => {
         const { municipality } = data[0];
         return (
           <React.Fragment key={municipality}>

@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import config from '../../../../../config';
+import { selectCities } from '../../../../redux/selectors/settings';
 import { parseSearchParams } from '../../../../utils';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { geographicalDistricts, getCategoryDistricts } from '../../../AreaView/utils/districtDataHelper';
@@ -13,7 +14,6 @@ import swapCoordinates from '../../utils/swapCoordinates';
 import AddressMarker from '../AddressMarker';
 import UnitHelper from '../../../../utils/unitHelper';
 import ParkingAreas from './ParkingAreas';
-
 
 const Districts = ({
   highlightedDistrict,
@@ -39,7 +39,7 @@ const Districts = ({
   const useContrast = theme === 'dark';
   const location = useLocation();
   const getLocaleText = useLocaleText();
-  const citySettings = useSelector(state => state.settings.cities);
+  const citySettings = useSelector(selectCities);
   const selectedDistrictType = useSelector(state => state.districts.selectedDistrictType);
   const selectedParkingAreas = useSelector(state => state.districts.selectedParkingAreas);
   const [areaPopup, setAreaPopup] = useState(null);
@@ -75,7 +75,7 @@ const Districts = ({
     }
   };
 
-  const renderDistrictMarkers = (district) => {
+  const renderDistrictMarkers = district => {
     if (embedded && parseSearchParams(location.search).units === 'none') {
       return null;
     }
@@ -163,7 +163,7 @@ const Districts = ({
       filteredData = areasWithBoundary;
     }
 
-    return filteredData.map((district) => {
+    return filteredData.map(district => {
       let dimmed;
       if (geographicalDistricts.includes(district.type)) {
         if (selectedSubdistricts.length) {
@@ -213,14 +213,14 @@ const Districts = ({
             fillColor: dimmed ? '#000' : mainColor,
           }}
           eventHandlers={{
-            click: (e) => {
+            click: e => {
               districtOnClick(e, district);
             },
-            mouseover: (e) => {
+            mouseover: e => {
               e.target.openTooltip();
               e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
             },
-            mouseout: (e) => {
+            mouseout: e => {
               e.target.setStyle({ fillOpacity: dimmed ? '0.3' : '0' });
             },
           }}
@@ -252,11 +252,9 @@ const Districts = ({
     </Popup>
   );
 
-
   useEffect(() => {
     setAreaPopup(null);
   }, [selectedDistrictType]);
-
 
   if (highlightedDistrict) {
     return (

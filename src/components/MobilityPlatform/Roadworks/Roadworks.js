@@ -9,7 +9,7 @@ import { fetchParkingAreaGeometries } from '../mobilityPlatformRequests/mobility
 import {
   createIcon, isDataValid, grayOptionsBase, whiteOptionsBase,
 } from '../utils/utils';
-import { useAccessibleMap, getCitySettings } from '../../../redux/selectors/settings';
+import { useAccessibleMap, selectCities } from '../../../redux/selectors/settings';
 import config from '../../../../config';
 import RoadworksContent from './components/RoadworksContent';
 
@@ -25,7 +25,7 @@ const Roadworks = () => {
   const map = useMap();
 
   const useContrast = useSelector(useAccessibleMap);
-  const citySettings = useSelector(getCitySettings);
+  const citySettings = useSelector(selectCities);
 
   const roadworksUrl = config.roadworksAPI;
   const isRoadworksUrl = !roadworksUrl || roadworksUrl === 'undefined' ? null : roadworksUrl;
@@ -51,7 +51,7 @@ const Roadworks = () => {
 
   const roadworksDataFull = [].concat(roadworksData, trafficAnnouncementsData);
 
-  const checkCitySettings = (citiesArray) => {
+  const checkCitySettings = citiesArray => {
     if (citiesArray?.length > 0) {
       return citiesArray;
     }
@@ -61,7 +61,7 @@ const Roadworks = () => {
   /** Separate roadworks of Turku from the rest */
   const roadworksFiltered = roadworksDataFull.reduce((acc, curr) => {
     const roadWorkDetails = curr?.properties?.announcements[0];
-    const selectedCities = config.cities.filter((c) => citySettings[c]);
+    const selectedCities = config.cities.filter(c => citySettings[c]);
     const cities = checkCitySettings(selectedCities);
     if (
       cities.includes(roadWorkDetails?.locationDetails?.roadAddressLocation?.primaryPoint?.municipality.toLowerCase())
@@ -100,9 +100,9 @@ const Roadworks = () => {
    * @param {array} inputData
    * @returns array
    */
-  const swapCoords = (inputData) => {
+  const swapCoords = inputData => {
     if (inputData?.length > 0) {
-      return inputData.map((coordinates) => [coordinates[1], coordinates[0]]);
+      return inputData.map(coordinates => [coordinates[1], coordinates[0]]);
     }
     return inputData;
   };
@@ -112,9 +112,9 @@ const Roadworks = () => {
    * @param {array} inputData
    * @returns array
    */
-  const swapCoordsMulti = (inputData) => {
+  const swapCoordsMulti = inputData => {
     if (inputData?.length > 0) {
-      return inputData.map((innerArray) => innerArray.map((coordinates) => [coordinates[1], coordinates[0]]));
+      return inputData.map(innerArray => innerArray.map(coordinates => [coordinates[1], coordinates[0]]));
     }
     return inputData;
   };
@@ -126,26 +126,26 @@ const Roadworks = () => {
   useEffect(() => {
     if (areMultiLinesValid) {
       const bounds = [];
-      roadworksMultiLines.forEach((item) => {
+      roadworksMultiLines.forEach(item => {
         bounds.push(swapCoordsMulti(item.geometry.coordinates));
       });
       map.fitBounds(bounds);
     }
   }, [showRoadworks, roadworksMultiLines]);
 
-  const renderContent = (item) => (
+  const renderContent = item => (
     <Popup className="popup-w350">
       <RoadworksContent item={item} />
     </Popup>
   );
 
-  const getSingleCoordinates = (data) => {
+  const getSingleCoordinates = data => {
     const coords = data[0][0];
     return [coords[1], coords[0]];
   };
 
   const renderMarkers = () => (areMarkersValid
-    ? roadworksPoints.map((item) => (
+    ? roadworksPoints.map(item => (
       <Marker
         key={item.properties.situationId}
         icon={customIcon}
@@ -156,7 +156,7 @@ const Roadworks = () => {
     ))
     : null);
 
-  const renderLines = () => (areLinesValid ? roadworksLines.map((item) => (
+  const renderLines = () => (areLinesValid ? roadworksLines.map(item => (
     <Polyline
       key={item.properties.situationId}
       weight={useContrast ? 10 : 8}
@@ -168,7 +168,7 @@ const Roadworks = () => {
   )) : null);
 
   const renderMultiLines = () => (areMultiLinesValid ? (
-    roadworksMultiLines.map((item) => (
+    roadworksMultiLines.map(item => (
       <React.Fragment key={item.properties.situationId}>
         <Polyline
           weight={useContrast ? 10 : 8}
