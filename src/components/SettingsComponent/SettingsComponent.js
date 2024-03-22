@@ -7,6 +7,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSettingsAccordionCollapsed } from '../../redux/actions/settings';
+import { selectSettings } from '../../redux/selectors/settings';
 import SMAccordion from '../SMAccordion';
 import SettingsDropdowns from '../SettingsDropdowns';
 import constants from './constants';
@@ -14,12 +15,12 @@ import constants from './constants';
 const SettingsComponent = ({ variant, classes }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const settings = useSelector((state) => state.settings);
+  const settings = useSelector(selectSettings);
   // Format settings from redux to easier structure
   const settingsValues = constants.convertToSettingsValues(settings);
   const settingsVisible = !settings.settingsCollapsed;
 
-  const setSettingsCollapsed = (collapsed) => {
+  const setSettingsCollapsed = collapsed => {
     dispatch(setSettingsAccordionCollapsed(collapsed));
   };
 

@@ -24,7 +24,7 @@ import { getLocale } from '../../../../redux/selectors/locale';
 
 const suggestionCount = 8;
 
-const SuggestionBox = (props) => {
+const SuggestionBox = props => {
   const {
     closeMobileSuggestions,
     visible,
@@ -52,18 +52,17 @@ const SuggestionBox = (props) => {
   const listRef = useRef(null);
   const fetchController = useRef(null);
 
-  const citySettings = useSelector((state) => {
+  const selectedCities = useSelector(state => {
     const { cities } = state.settings;
     return config.cities.filter(c => cities[c]);
   });
 
-  const getAddressText = (item) => {
+  const getAddressText = item => {
     if (item.isExact) {
       return `${getLocaleText(item.name)}, ${getLocaleText(item.municipality.name)}`;
     }
     return `${getLocaleText(item.name)}, ${intl.formatMessage({ id: 'search.suggestions.addresses' })}`;
   };
-
 
   // Component mount action
   useEffect(() => (
@@ -74,18 +73,17 @@ const SuggestionBox = (props) => {
       }
     }), []);
 
-
   const resetSuggestions = () => {
     setSuggestions(null);
     setSuggestionError(false);
   };
 
-  const handleRemovePrevious = (suggestion) => {
+  const handleRemovePrevious = suggestion => {
     const callback = () => setHistory(getPreviousSearches());
     removeSearchFromHistory(suggestion, callback);
   };
 
-  const generateSuggestions = (query) => {
+  const generateSuggestions = query => {
     resetSuggestions();
 
     if (query && query.length > 1) {
@@ -100,10 +98,10 @@ const SuggestionBox = (props) => {
         query,
         fetchController.current,
         getLocaleText,
-        citySettings,
+        selectedCities,
         locale,
       ))
-        .then((data) => {
+        .then(data => {
           if (data === 'error') {
             return;
           }
@@ -127,19 +125,15 @@ const SuggestionBox = (props) => {
   };
 
   const renderNoResults = () => (
-    <>
-      <Typography align="left" className={classes.infoText}>
-        <FormattedMessage id="search.suggestions.error" />
-      </Typography>
-    </>
+    <Typography align="left" className={classes.infoText}>
+      <FormattedMessage id="search.suggestions.error" />
+    </Typography>
   );
 
   const renderLoading = () => (
-    <>
-      <Typography align="left" className={classes.infoText}>
-        <FormattedMessage id="search.suggestions.loading" />
-      </Typography>
-    </>
+    <Typography align="left" className={classes.infoText}>
+      <FormattedMessage id="search.suggestions.loading" />
+    </Typography>
   );
 
   const renderSuggestionList = (type = 'suggestion') => {
@@ -147,7 +141,7 @@ const SuggestionBox = (props) => {
       address: {
         text: item => getAddressText(item),
         icon: item => (item.isExact ? <LocationOn /> : <Search />),
-        onClick: (item) => {
+        onClick: item => {
           handleBlur();
           saveSearchToHistory(getAddressText(item), item);
           if (item.isExact) {
@@ -160,7 +154,7 @@ const SuggestionBox = (props) => {
       unit: {
         text: item => getLocaleText(item.name),
         icon: () => <UnitIcon />,
-        onClick: (item) => {
+        onClick: item => {
           saveSearchToHistory(getLocaleText(item.name), item);
           navigator.push('unit', { id: item.id });
         },
@@ -168,7 +162,7 @@ const SuggestionBox = (props) => {
       service: {
         text: item => getLocaleText(item.name),
         icon: () => getIcon('serviceDark'),
-        onClick: (item) => {
+        onClick: item => {
           handleBlur();
           saveSearchToHistory(getLocaleText(item.name), item);
           navigator.push('search', { service_id: item.id });
@@ -177,7 +171,7 @@ const SuggestionBox = (props) => {
       servicenode: {
         text: item => getLocaleText(item.name),
         icon: () => getIcon('serviceDark'),
-        onClick: (item) => {
+        onClick: item => {
           handleBlur();
           saveSearchToHistory(getLocaleText(item.name), item);
           navigator.push('search', { service_node: item.ids.join(',') });
@@ -186,7 +180,7 @@ const SuggestionBox = (props) => {
       searchHistory: {
         text: item => item.text,
         icon: () => <AccessTime />,
-        onClick: (item) => {
+        onClick: item => {
           handleBlur();
           handleSubmit(item.text);
         },
@@ -245,8 +239,7 @@ const SuggestionBox = (props) => {
               handleItemClick={() => conf.onClick(suggestion)}
               handleRemoveClick={type === 'history'
                 ? () => handleRemovePrevious(suggestion)
-                : null
-              }
+                : null}
               divider
               isMobile
               query={suggestionQuery}
@@ -265,11 +258,11 @@ const SuggestionBox = (props) => {
     return (
       <CloseSuggestionButton
         className={classes.minimizeLink}
-        onClick={(e) => {
+        onClick={e => {
           e.preventDefault();
           closeMobileSuggestions();
         }}
-        onKeyDown={(e) => {
+        onKeyDown={e => {
           e.preventDefault();
           keyboardHandler(closeMobileSuggestions, ['space', 'enter'])(e);
         }}
@@ -337,15 +330,13 @@ const SuggestionBox = (props) => {
       : `${classes.suggestionArea}`;
 
     return (
-      <>
-        <Paper elevation={20} className={containerStyles}>
-          <p className="sr-only" aria-live="polite">{srText}</p>
-          {
+      <Paper elevation={20} className={containerStyles}>
+        <p className="sr-only" aria-live="polite">{srText}</p>
+        {
             renderHideSuggestions()
           }
-          {component}
-        </Paper>
-      </>
+        {component}
+      </Paper>
     );
   }
   return <></>;

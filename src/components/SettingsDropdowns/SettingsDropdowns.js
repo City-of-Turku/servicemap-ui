@@ -7,6 +7,7 @@ import React, { useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import config from '../../../config';
+import { selectSettings } from '../../redux/selectors/settings';
 import { keyboardHandler } from '../../utils';
 import SMAutocomplete from '../SMAutocomplete';
 import constants from '../SettingsComponent/constants';
@@ -17,7 +18,7 @@ import {
 const SettingsDropdowns = ({ variant }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const settings = useSelector(state => state.settings);
+  const settings = useSelector(selectSettings);
   // Format settings from redux to easier structure
   const settingsValues = constants.convertToSettingsValues(settings);
   const [openSettings, setOpenSettings] = useState(null);
@@ -41,7 +42,7 @@ const SettingsDropdowns = ({ variant }) => {
     { id: city, title: intl.formatMessage({ id: `settings.city.${city}` }) }
   ));
 
-  const toggleSettingsBox = (id) => {
+  const toggleSettingsBox = id => {
     if (openSettings === id) setOpenSettings(null);
     else setOpenSettings(id);
   };
@@ -148,12 +149,11 @@ const SettingsDropdowns = ({ variant }) => {
               />
               <Typography>{option.title}</Typography>
             </ListItem>
-          ))
-        }
+          ))}
         renderInput={({ inputProps, ...rest }) => (
           <TextField
             label={label}
-            onClick={(e) => {
+            onClick={e => {
               e?.stopPropagation();
               toggleSettingsBox(label);
             }}
@@ -183,7 +183,6 @@ const SettingsDropdowns = ({ variant }) => {
     </>
   );
 };
-
 
 const StyledAutocomplete = styled(SMAutocomplete)(({ theme, ownsettings, colormode }) => {
   const whiteChip = {
