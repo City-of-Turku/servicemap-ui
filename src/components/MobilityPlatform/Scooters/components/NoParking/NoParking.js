@@ -42,10 +42,20 @@ const NoParking = () => {
 
   const map = useMap();
 
+  /**
+   * Filter point data from polygons. Polygons are an array and points are an object.
+   */
+  const noParkingFiltered = noParkingData.reduce((acc, curr) => {
+    if (Array.isArray(curr.geometry_coords)) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
   useEffect(() => {
     if (renderData) {
       const bounds = [];
-      noParkingData.forEach((item) => {
+      noParkingFiltered.forEach(item => {
         bounds.push(item.geometry_coords);
       });
       map.fitBounds(bounds);
@@ -53,23 +63,21 @@ const NoParking = () => {
   }, [showScooterNoParking, noParkingData, map]);
 
   return (
-    <>
-      {renderData
-        ? noParkingData.map(item => (
-          <PolygonComponent
-            key={item.id}
-            item={item}
-            useContrast={useContrast}
-            pathOptions={pathOptions}
-          >
-            <TextContent
-              titleId="mobilityPlatform.content.scooters.noParkingAreas.title"
-              translationId="mobilityPlatform.info.scooters.noParking"
-            />
-          </PolygonComponent>
-        ))
-        : null}
-    </>
+    renderData
+      ? noParkingFiltered.map(item => (
+        <PolygonComponent
+          key={item.id}
+          item={item}
+          useContrast={useContrast}
+          pathOptions={pathOptions}
+        >
+          <TextContent
+            titleId="mobilityPlatform.content.scooters.noParkingAreas.title"
+            translationId="mobilityPlatform.info.scooters.noParking"
+          />
+        </PolygonComponent>
+      ))
+      : null
   );
 };
 
