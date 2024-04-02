@@ -16,8 +16,8 @@ import {
   getYear,
   startOfWeek,
   endOfWeek,
-  subMonths,
   addWeeks,
+  subDays,
 } from 'date-fns';
 import { enGB, fi, sv } from 'date-fns/locale';
 import { ReactSVG } from 'react-svg';
@@ -33,6 +33,7 @@ import {
 import { formatDates, formatMonths } from '../../utils';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
+import CounterActiveText from '../CounterActiveText';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
@@ -49,20 +50,21 @@ const LamCounterContent = ({ classes, intl, station }) => {
   const [lamCounterLabels, setLamCounterLabels] = useState([]);
   const [currentTime, setCurrentTime] = useState('hour');
   const [activeStep, setActiveStep] = useState(0);
-  const [selectedDate, setSelectedDate] = useState(startOfMonth(subMonths(new Date(), 1)));
 
-  const locale = useSelector((state) => state.user.locale);
+  const locale = useSelector(state => state.user.locale);
   const inputRef = useRef(null);
 
   const useMobileStatus = () => useMediaQuery('(max-width:768px)');
   const isNarrow = useMobileStatus();
 
-  const stationId = station.id;
-  const stationName = station.name;
-  const stationSource = station.csv_data_source;
-  const userTypes = station.sensor_types;
-  const dataFrom = station.data_from_date;
-  const dataUntil = station.data_until_date;
+  const stationId = station?.id;
+  const stationName = station?.name;
+  const stationSource = station?.csv_data_source;
+  const userTypes = station?.sensor_types;
+  const dataFrom = station?.data_from_date;
+  const dataUntil = station?.data_until_date;
+
+  const [selectedDate, setSelectedDate] = useState(subDays(new Date(dataUntil), 1));
 
   // steps that determine which data is shown on the chart
   const buttonSteps = [
@@ -98,7 +100,7 @@ const LamCounterContent = ({ classes, intl, station }) => {
     },
   ];
 
-  const renderUserTypeText = (userType) => {
+  const renderUserTypeText = userType => {
     if (userType === 'at') {
       return (
         <div className={classes.textContainer}>
@@ -111,7 +113,7 @@ const LamCounterContent = ({ classes, intl, station }) => {
     return null;
   };
 
-  const renderUserTypeIcon = (userType) => {
+  const renderUserTypeIcon = userType => {
     if (userType === 'at') {
       return (
         <div className={classes.iconWrapper}>
@@ -122,7 +124,7 @@ const LamCounterContent = ({ classes, intl, station }) => {
     return null;
   };
 
-  const changeDate = (newDate) => {
+  const changeDate = newDate => {
     setSelectedDate(newDate);
   };
 
@@ -141,7 +143,7 @@ const LamCounterContent = ({ classes, intl, station }) => {
    * @param {*date} dateValue
    * @returns {*number}
    */
-  const checkWeekNumber = (dateValue) => {
+  const checkWeekNumber = dateValue => {
     const start = getWeek(startOfMonth(dateValue));
     const end = getWeek(endOfMonth(dateValue));
     if (start > end) {
@@ -151,15 +153,14 @@ const LamCounterContent = ({ classes, intl, station }) => {
   };
 
   // Initial values that are used to fetch data
-  const currentDate = new Date();
-  const lastMonth = subMonths(currentDate, 1);
-  const lastMonthFormat = format(lastMonth, 'yyyy-MM-dd');
-  const initialDateStart = format(startOfWeek(lastMonth), 'yyyy-MM-dd');
-  const initialDateEnd = format(endOfWeek(lastMonth), 'yyyy-MM-dd');
-  const initialWeekStart = checkWeekNumber(lastMonth);
-  const initialWeekEnd = getWeek(endOfMonth(lastMonth));
-  const initialMonth = getMonth(lastMonth);
-  const initialYear = getYear(lastMonth);
+  const initialDate = new Date(dataUntil);
+  const initialDateFormat = format(initialDate, 'yyyy-MM-dd');
+  const initialDateStart = format(startOfWeek(initialDate), 'yyyy-MM-dd');
+  const initialDateEnd = format(endOfWeek(initialDate), 'yyyy-MM-dd');
+  const initialWeekStart = checkWeekNumber(initialDate);
+  const initialWeekEnd = getWeek(endOfMonth(initialDate));
+  const initialMonth = getMonth(initialDate);
+  const initialYear = getYear(initialDate);
 
   // Values that change based on the datepicker value
   const selectedDateFormat = format(selectedDate, 'yyyy-MM-dd');
@@ -167,17 +168,17 @@ const LamCounterContent = ({ classes, intl, station }) => {
   const selectedDateEnd = format(endOfWeek(selectedDate, 1), 'yyyy-MM-dd');
   const selectedWeekStart = checkWeekNumber(selectedDate);
   const selectedWeekEnd = getWeek(endOfMonth(selectedDate));
-  let selectedMonth = getMonth(currentDate);
+  let selectedMonth = getMonth(initialDate);
   const selectedYear = getYear(selectedDate);
 
   // Reset selectedDate value when the new popup is opened.
   useEffect(() => {
-    setSelectedDate(startOfMonth(subMonths(currentDate, 1)));
+    setSelectedDate(subDays(new Date(dataUntil), 1));
   }, [stationId]);
 
   // This will show full year if available
   const checkYear = () => {
-    if (getYear(selectedDate) < getYear(currentDate)) {
+    if (getYear(selectedDate) < getYear(initialDate)) {
       selectedMonth = 12;
     }
   };
@@ -218,7 +219,7 @@ const LamCounterContent = ({ classes, intl, station }) => {
    * @param {date} weekValue
    * @returns {*string}
    */
-  const formatWeeks = (weekValue) => {
+  const formatWeeks = weekValue => {
     const startOfSelectedWeek = startOfWeek(new Date(selectedYear, 0, 1), { weekStartsOn: 1 });
     const targetWeekStartDate = addWeeks(startOfSelectedWeek, weekValue - 1);
     return format(targetWeekStartDate, 'dd.MM', { weekStartsOn: 1 });
@@ -234,9 +235,9 @@ const LamCounterContent = ({ classes, intl, station }) => {
 
   // Channel data is set inside this function to avoid duplicate code
   const setAllChannelCounts = (newValue1, newValue2, newValue3) => {
-    setChannel1Counts((channel1Counts) => [...channel1Counts, newValue1]);
-    setChannel2Counts((channel2Counts) => [...channel2Counts, newValue2]);
-    setChannelTotals((channelTotals) => [...channelTotals, newValue3]);
+    setChannel1Counts(channel1Counts => [...channel1Counts, newValue1]);
+    setChannel2Counts(channel2Counts => [...channel2Counts, newValue2]);
+    setChannelTotals(channelTotals => [...channelTotals, newValue3]);
   };
 
   /**
@@ -245,11 +246,11 @@ const LamCounterContent = ({ classes, intl, station }) => {
    * @param {function} labelFormatter
    */
   const processData = (data, labelFormatter) => {
-    data.forEach((el) => {
+    data.forEach(el => {
       if (el.station === stationId) {
         const countsArr = [el.value_ak, el.value_ap, el.value_at];
         setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
-        setLamCounterLabels((lamCounterLabels) => [...lamCounterLabels, labelFormatter(el)]);
+        setLamCounterLabels(lamCounterLabels => [...lamCounterLabels, labelFormatter(el)]);
       }
     });
   };
@@ -274,13 +275,13 @@ const LamCounterContent = ({ classes, intl, station }) => {
     if (currentTime === 'hour') {
       processHourData();
     } else if (currentTime === 'day') {
-      processData(lamCounterDay, (el) => formatDates(el.day_info.date));
+      processData(lamCounterDay, el => formatDates(el.day_info.date));
     } else if (currentTime === 'week') {
-      processData(lamCounterWeek, (el) => formatWeeks(el.week_info.week_number));
+      processData(lamCounterWeek, el => formatWeeks(el.week_info.week_number));
     } else if (currentTime === 'month') {
-      processData(lamCounterMonth, (el) => formatMonths(el.month_info.month_number, intl));
+      processData(lamCounterMonth, el => formatMonths(el.month_info.month_number, intl));
     } else if (currentTime === 'year') {
-      processData(lamCounterMultipleYears, (el) => el.year_info.year_number);
+      processData(lamCounterMultipleYears, el => el.year_info.year_number);
     }
   };
 
@@ -316,7 +317,7 @@ const LamCounterContent = ({ classes, intl, station }) => {
   // Fetch initial data based on the default date
   useEffect(() => {
     setLamCounterLabels(labelsHour);
-    fetchInitialHourData(lastMonthFormat, stationId, setLamCounterHour);
+    fetchInitialHourData(initialDateFormat, stationId, setLamCounterHour);
   }, [stationId]);
 
   useEffect(() => {
@@ -378,7 +379,7 @@ const LamCounterContent = ({ classes, intl, station }) => {
    * @param {string} name for example vt1_Kupittaa
    * @returns {string} for example Kupittaa
    */
-  const formatCounterName = (name) => name?.split('_').splice(1).join(' ');
+  const formatCounterName = name => name?.split('_').splice(1).join(' ');
 
   return (
     <>
@@ -389,7 +390,7 @@ const LamCounterContent = ({ classes, intl, station }) => {
         <div className={classes.dateContainer}>
           <DatePicker
             selected={selectedDate}
-            onChange={(newDate) => changeDate(newDate)}
+            onChange={newDate => changeDate(newDate)}
             locale={locale}
             dateFormat="P"
             showYearDropdown
@@ -402,7 +403,7 @@ const LamCounterContent = ({ classes, intl, station }) => {
       </div>
       <div className={classes.trafficCounterContent}>
         <div className={classes.trafficCounterUserTypes}>
-          {userTypes?.map((userType) => (
+          {userTypes?.map(userType => (
             <div key={userType} className={classes.container}>
               {renderUserTypeIcon(userType)}
               {renderUserTypeText(userType)}
@@ -416,6 +417,7 @@ const LamCounterContent = ({ classes, intl, station }) => {
             </Typography>
           </div>
         ) : null}
+        <CounterActiveText dataFrom={dataFrom} dataUntil={dataUntil} />
         <div className={classes.trafficCounterChart}>
           <LineChart
             labels={lamCounterLabels}

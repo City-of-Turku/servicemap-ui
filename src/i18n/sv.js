@@ -736,6 +736,8 @@ const translations = {
   'mobilityPlatform.menu.title.scooter': 'Elsparkcyklar',
   'mobilityPlatform.menu.title.streetMaintenance': 'Gatuunderhåll',
   'mobilityPlatform.menu.title.public.transport': 'Kollektivtrafik',
+  'mobilityPlatform.menu.title.airMonitoring': 'Väder och luftkvalitet',
+  'mobilityPlatform.menu.title.roadworksMain': 'Exceptionella situationer',
   'mobilityPlatform.menu.showChargingStations': 'Elladdningsstationer för bilar',
   'mobilityPlatform.menu.showGasFillingStations': 'Tankstationer med gas',
   'mobilityPlatform.menu.showEcoCounter': 'Beräkningspunkter',
@@ -800,7 +802,10 @@ const translations = {
   'mobilityPlatform.menu.show.rentalCarParking': 'Bilpool bilars parkeringsplatser',
   'mobilityPlatform.menu.show.publicBenches': 'Allmänna bänkar (zooma in på kartan)',
   'mobilityPlatform.embedded.label.publicBenches': 'Allmänna bänkar (zooma in på kartan för att se bänkar)',
-  'mobilityPlatform.menu.show.barbecuePlaces': 'Grillipaikat', // TODO translate
+  'mobilityPlatform.menu.show.airMonitoring': 'Stationer för luftkvalitet',
+  'mobilityPlatform.menu.show.roadworks': 'Vägarbeten',
+  'mobilityPlatform.menu.show.railwayStations': 'Järnvägsstationer',
+  'mobilityPlatform.menu.show.barbecuePlaces': 'Grilli- ja tulipaikat', // TODO translate
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
@@ -858,9 +863,8 @@ const translations = {
   'mobilityPlatform.content.description.notAvailable': 'Beskrivningstext är inte tillgänglig.',
   'mobilityPlatform.content.cityBikes.title': 'Stadscykelstation',
   'mobilityPlatform.content.cityBikes.name': 'Station: {value}',
-  'mobilityPlatform.content.cityBikes.capacity': 'Kapasitet: {value}',
+  'mobilityPlatform.content.cityBikes.vacantPlaces': 'Antal lediga utrymmen: {value}',
   'mobilityPlatform.content.cityBikes.bikes.available': 'Antal lediga cycklar kvar: {value}',
-  'mobilityPlatform.content.cityBikes.docks.available': 'Antal lediga cykelställ kvar: {value}',
   'mobilityPlatform.content.cityBikes.virtualStation': 'Virtual station',
   'mobilityPlatform.content.cargoBikes.title': 'Lastcyklarstation',
   'mobilityPlatform.content.cargoBikes.available': 'Antal lediga lastcyklar: {value}',
@@ -902,7 +906,12 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Betalningstyper: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Ytterligare info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Övergångställe',
-  'mobilityPlatform.content.barbecuePlace.title': 'Grillipaikka', // TODO translate
+  'mobilityPlatform.content.railways.train': 'Tåg: {value1} {value2}',
+  'mobilityPlatform.content.departingTrains.title': 'Avgående tåg',
+  'mobilityPlatform.content.arrivingTrains.title': 'Inkommande tåg',
+  'mobilityPlatform.content.departingTrains.empty': 'Inga avgående tåg',
+  'mobilityPlatform.content.arrivingTrains.empty': 'Inga inkommande tåg',
+  'mobilityPlatform.content.barbecuePlace.title': 'Grilli- tai tulipaikka', // TODO translate
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',
@@ -956,6 +965,12 @@ const translations = {
   'mobilityPlatform.info.underAndOverpasses': 'Kartan visar gångtunnlar och gångbroar som ligger i Åbo stadsområdet.',
   'mobilityPlatform.info.rentalCarParking': 'Det finns totalt fem parkeringsplatser i Åbo som endast är avsedda för bilpool bilar.',
   'mobilityPlatform.info.publicBenches': 'Kartan visar allmänna bänkar i Åbo.',
+  'mobilityPlatform.info.roadworks': 'Kartan visar vägbyggen i Åboområdet som orsakar exceptionella situationer för trafiken och mobiliteten. Sänkta hastighetsbegränsningar gäller på markerade områden och vid behov kan trafiken ledas om. Uppgifterna kommer från Digitraffics gränssnitt.',
+  'mobilityPlatform.info.railwayStations': 'Kartan visar Åbo järnvägsstationer och tågtidtabeller för de kommande 3 timmarna. Tågtrafiken är uppdelad i tåg som avgår från och ankommer till stationen. Om tåget är försenat visas även den beräknade ankomsttiden och den gamla planerade ankomsttiden inom parentes. Uppgifterna kommer från Digitraffics gränssnitt.',
+  'mobilityPlatform.info.airMonitoring.paragraph.1': 'Luftföroreningsdata visas för varje mätningsstation som ett index beräknat för varje timme och omfattar alla föroreningar som mäts vid resp. mätningsstation. Luftkvaliteten klassificeras i fem kategorier: grön=bra, gul=tillfredsställande, orange=nöjaktig, röd=dålig, lila=mycket dålig.',
+  'mobilityPlatform.info.airMonitoring.paragraph.2': 'Vid beräkningen beaktas svaveldioxid (SO2), kvävedioxid (NO2), inandningsbara partiklar (PM10), småpartiklar (PM2,5) samt ozon (O3). När luftkvaliteten är dålig eller mycket dålig kan hälsopåverkan förekomma hos känsliga personer. Luftkvaliteten försämras av gatudamm, trafikutsläpp, småskalig vedeldning, energiproduktion samt av sporadiskt förekommande långväga transport.',
+  'mobilityPlatform.info.airMonitoring.paragraph.3': 'Luftkvalitetsdata för Servicekartan erhålls från Åboregionens samarbetsgrupp för luftskydd.',
+  'mobilityPlatform.info.airMonitoring.link': 'För mer information besök: https://sv.ilmatieteenlaitos.fi/luftkvalitet',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',
@@ -973,6 +988,29 @@ const translations = {
   'mobilityPlatform.menu.bicycleRoutes.regionalTrail10': 'Åbo centrum - Kråkkärret - Pikis',
   'mobilityPlatform.menu.bicycleRoutes.regionalTrail11': 'Åbo centrum - St. Karins centrum - Pikis - Pemar',
   'mobilityPlatform.menu.bicycleRoutes.regionalTrail12': 'Åbo centrum - Hirvensalo - Kakskerta',
+
+  // Air monitoring
+  'mobilityPlatform.airMonitoring.airIndex': 'Luftkvalitet',
+  'mobilityPlatform.airMonitoring.quality.subTitle': 'koncentrationer:',
+  'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Luftkvalitetsindex',
+  'mobilityPlatform.airMonitoring.SO2_PT1H_avg': 'Svaveldioxid',
+  'mobilityPlatform.airMonitoring.NO2_PT1H_avg': 'Kvävedioxid',
+  'mobilityPlatform.airMonitoring.PM10_PT1H_avg': 'Inandningsbara partiklar',
+  'mobilityPlatform.airMonitoring.PM25_PT1H_avg': 'Finpartiklar',
+  'mobilityPlatform.airMonitoring.O3_PT1H_avg': 'Ozon',
+  'mobilityPlatform.airMonitoring.quality.good': 'Luftkvalitet är god.',
+  'mobilityPlatform.airMonitoring.quality.satisfactory': 'Luftkvalitet är tillfredsställande.',
+  'mobilityPlatform.airMonitoring.quality.fair': 'Luftkvalitet är nöjaktig.',
+  'mobilityPlatform.airMonitoring.quality.poor': 'Luftkvalitet är dålig.',
+  'mobilityPlatform.airMonitoring.quality.hazardous': 'Luftkvalitet är mycket dålig.',
+  'mobilityPlatform.airMonitoring.text.date': 'Datum: {value}',
+  'mobilityPlatform.airMonitoring.text.week': 'Vecka: {value}',
+  'mobilityPlatform.airMonitoring.text.month': 'Månad: {value}',
+  'mobilityPlatform.airMonitoring.text.year': 'År: {value}',
+  'mobilityPlatform.airMonitoring.button.day': 'Dag',
+  'mobilityPlatform.airMonitoring.button.week': 'Vecka',
+  'mobilityPlatform.airMonitoring.button.month': 'Månad',
+  'mobilityPlatform.airMonitoring.button.year': 'År',
 
   // Ecocounter
   'ecocounter.hour': 'Timmar',
@@ -998,7 +1036,7 @@ const translations = {
   'ecocounter.oct': 'Oktober',
   'ecocounter.nov': 'November',
   'ecocounter.dec': 'December',
-  'ecocounter.station.active.period': 'Beräkningspunkt var i bruk {value1} - {value2}.',
+  'ecocounter.station.counts.period': 'Beräkningsdata är mellan {value1} och {value2}',
   'trafficCounter.year.warning.text': 'Siffror från år {value} är inte tillgängliga.',
 };
 

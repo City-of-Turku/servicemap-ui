@@ -9,6 +9,7 @@ import { Helmet } from 'react-helmet';
 import { ReactSVG } from 'react-svg';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { Air, WarningAmber } from '@mui/icons-material';
 import iconBicycle from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle.svg';
 import iconBoat from 'servicemap-ui-turku/assets/icons/icons-icon_boating.svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
@@ -35,6 +36,7 @@ import SMAccordion from '../../components/SMAccordion';
 import SpeedLimitZonesList from './components/SpeedLimitZonesList';
 import RouteList from './components/RouteList';
 import MobilityToggleButton from './components/MobilityToggleButton';
+import AirMonitoringInfo from './components/AirMonitoringInfo';
 
 const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [pageTitle, setPageTitle] = useState(null);
@@ -45,6 +47,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   const [openScooterSettings, setOpenScooterSettings] = useState(false);
   const [openStreetMaintenanceSettings, setOpenStreetMaintenanceSettings] = useState(false);
   const [openPublicTransportSettings, setOpenPublicTransportSettings] = useState(false);
+  const [openAirMonitoringSettings, setOpenAirMonitoringSettings] = useState(false);
+  const [openRoadworkSettings, setOpenRoadworkSettings] = useState(false);
   const [openCultureRouteList, setOpenCultureRouteList] = useState(false);
   const [cultureRouteList, setCultureRouteList] = useState([]);
   const [localizedCultureRoutes, setLocalizedCultureRoutes] = useState([]);
@@ -162,11 +166,17 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowRentalCarParking,
     showPublicBenches,
     setShowPublicBenches,
+    showRoadworks,
+    setShowRoadworks,
+    showRailwayStations,
+    setShowRailwayStations,
+    showAirMonitoringStations,
+    setShowAirMonitoringStations,
     showBarbecuePlaces,
     setShowBarbecuePlaces,
   } = useMobilityPlatformContext();
 
-  const locale = useSelector((state) => state.user.locale);
+  const locale = useSelector(state => state.user.locale);
   const location = useLocation();
   const getLocaleText = useLocaleText();
 
@@ -193,6 +203,18 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       fi: 'https://www.turku.fi/tavarapyorat',
       en: 'https://www.turku.fi/en/cargobikes',
       sv: 'https://www.turku.fi/sv/lastcyklar',
+    },
+  };
+
+  const airMonitoringTexts = {
+    paragraph1: 'mobilityPlatform.info.airMonitoring.paragraph.1',
+    paragraph2: 'mobilityPlatform.info.airMonitoring.paragraph.2',
+    paragraph3: 'mobilityPlatform.info.airMonitoring.paragraph.3',
+    link: 'mobilityPlatform.info.airMonitoring.link',
+    url: {
+      fi: 'https://www.ilmatieteenlaitos.fi/ilmanlaatu',
+      en: 'https://en.ilmatieteenlaitos.fi/air-quality',
+      sv: 'https://sv.ilmatieteenlaitos.fi/luftkvalitet',
     },
   };
 
@@ -311,6 +333,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       setOpenBoatingSettings(true);
     } else if (location.pathname.includes('snowplows')) {
       setOpenStreetMaintenanceSettings(true);
+    } else if (location.pathname.includes('weather')) {
+      setOpenAirMonitoringSettings(true);
+    } else if (location.pathname.includes('roadworks')) {
+      setOpenRoadworkSettings(true);
     }
   }, [location]);
 
@@ -451,7 +477,16 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   useEffect(() => {
     checkVisibilityValues(showBusStops, setOpenPublicTransportSettings);
-  }, [showBusStops]);
+    checkVisibilityValues(showRailwayStations, setOpenPublicTransportSettings);
+  }, [showBusStops, showRailwayStations]);
+
+  useEffect(() => {
+    checkVisibilityValues(showAirMonitoringStations, setOpenAirMonitoringSettings);
+  }, [showAirMonitoringStations]);
+
+  useEffect(() => {
+    checkVisibilityValues(showRoadworks, setOpenRoadworkSettings);
+  }, [showRoadworks]);
 
   const nameKeys = {
     fi: 'name',
@@ -466,7 +501,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    */
   useEffect(() => {
     if (cultureRouteList && cultureRouteList.length > 0) {
-      setLocalizedCultureRoutes(cultureRouteList.filter((item) => item[nameKeys[locale]]));
+      setLocalizedCultureRoutes(cultureRouteList.filter(item => item[nameKeys[locale]]));
     }
   }, [cultureRouteList, locale]);
 
@@ -485,7 +520,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     }
   }, [cultureRouteList, localizedCultureRoutes, locale]);
 
-  const sortMarkedTrails = (data) => {
+  const sortMarkedTrails = data => {
     if (data && data.length > 0) {
       return data.sort((a, b) => a[nameKeys[locale]].split(': ').slice(-1)[0].localeCompare(b[nameKeys[locale]].split(': ').slice(-1)[0]));
     }
@@ -516,7 +551,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     }
   }, [bicycleRouteList, locale]);
 
-  const sortTrails = (data) => {
+  const sortTrails = data => {
     if (data && data.length > 0) {
       return data.sort((a, b) => a.name.localeCompare(b.name));
     }
@@ -529,7 +564,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    * @function reduce
    * @returns {Array}
    */
-  const getLocalTrails = (data) => data.reduce((acc, curr) => {
+  const getLocalTrails = data => data.reduce((acc, curr) => {
     if (curr.municipality === 'turku') {
       acc.push(curr);
     }
@@ -548,7 +583,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    * @returns {Boolean}
    */
   const walkSettingsToggle = () => {
-    setOpenWalkSettings((current) => !current);
+    setOpenWalkSettings(current => !current);
     if (!openWalkSettings) {
       navigator.push('mobilityPlatform', 'walking');
       setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.walk' }));
@@ -556,7 +591,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const bicycleSettingsToggle = () => {
-    setOpenBicycleSettings((current) => !current);
+    setOpenBicycleSettings(current => !current);
     if (!openBicycleSettings) {
       navigator.push('mobilityPlatform', 'cycling');
       setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.bicycle' }));
@@ -564,7 +599,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const carSettingsToggle = () => {
-    setOpenCarSettings((current) => !current);
+    setOpenCarSettings(current => !current);
     if (!openCarSettings) {
       navigator.push('mobilityPlatform', 'driving');
       setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.car' }));
@@ -572,7 +607,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const publicTransportSettingsToggle = () => {
-    setOpenPublicTransportSettings((current) => !current);
+    setOpenPublicTransportSettings(current => !current);
     if (!openPublicTransportSettings) {
       navigator.push('mobilityPlatform', 'transport');
       setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.public.transport' }));
@@ -580,7 +615,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const boatingSettingsToggle = () => {
-    setOpenBoatingSettings((current) => !current);
+    setOpenBoatingSettings(current => !current);
     if (!openBoatingSettings) {
       navigator.push('mobilityPlatform', 'boating');
       setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.boating' }));
@@ -588,7 +623,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const scooterSettingsToggle = () => {
-    setOpenScooterSettings((current) => !current);
+    setOpenScooterSettings(current => !current);
     if (!openScooterSettings) {
       navigator.push('mobilityPlatform', 'scooters');
       setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.scooter' }));
@@ -596,10 +631,26 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const streetMaintenanceSettingsToggle = () => {
-    setOpenStreetMaintenanceSettings((current) => !current);
+    setOpenStreetMaintenanceSettings(current => !current);
     if (!openStreetMaintenanceSettings) {
       navigator.push('mobilityPlatform', 'snowplows');
       setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.streetMaintenance' }));
+    }
+  };
+
+  const airMonitoringSettingsToggle = () => {
+    setOpenAirMonitoringSettings(current => !current);
+    if (!openAirMonitoringSettings) {
+      navigator.push('mobilityPlatform', 'weather');
+      setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.airMonitoring' }));
+    }
+  };
+
+  const roadworkSettingsToggle = () => {
+    setOpenRoadworkSettings(current => !current);
+    if (!openRoadworkSettings) {
+      navigator.push('mobilityPlatform', 'roadworks');
+      setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.roadworksMain' }));
     }
   };
 
@@ -613,6 +664,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       && !openScooterSettings
       && !openStreetMaintenanceSettings
       && !openPublicTransportSettings
+      && !openAirMonitoringSettings
+      && !openRoadworkSettings
       && pageTitle
     ) {
       setPageTitle(null);
@@ -625,6 +678,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     openScooterSettings,
     openStreetMaintenanceSettings,
     openPublicTransportSettings,
+    openAirMonitoringSettings,
+    openRoadworkSettings,
     pageTitle,
   ]);
 
@@ -635,7 +690,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    * @param {*function} setState
    */
   const toggleObjectValue = (key, state, setState) => {
-    setState((prevState) => ({
+    setState(prevState => ({
       ...prevState,
       [key]: !prevState[key],
     }));
@@ -674,130 +729,142 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    * @returns {boolean}
    */
   const bicycleStandsToggle = () => {
-    setShowBicycleStands((current) => !current);
+    setShowBicycleStands(current => !current);
   };
 
   const hullLockableStandsToggle = () => {
-    setShowHullLockableStands((current) => !current);
+    setShowHullLockableStands(current => !current);
   };
 
   const parkingSpacesToggle = () => {
-    setShowParkingSpaces((current) => !current);
+    setShowParkingSpaces(current => !current);
   };
 
   const rentalCarsToggle = () => {
-    setShowRentalCars((current) => !current);
+    setShowRentalCars(current => !current);
   };
 
   const gasFillingStationsToggle = () => {
-    setShowGasFillingStations((current) => !current);
+    setShowGasFillingStations(current => !current);
   };
 
   const chargingStationsToggle = () => {
-    setShowChargingStations((current) => !current);
+    setShowChargingStations(current => !current);
   };
 
   const bikeServiceStationsToggle = () => {
-    setShowBikeServiceStations((current) => !current);
+    setShowBikeServiceStations(current => !current);
   };
 
   const cityBikesToggle = () => {
-    setShowCityBikes((current) => !current);
+    setShowCityBikes(current => !current);
   };
 
   const cargoBikesToggle = () => {
-    setShowCargoBikes((current) => !current);
+    setShowCargoBikes(current => !current);
   };
 
   const marinasToggle = () => {
-    setShowMarinas((current) => !current);
+    setShowMarinas(current => !current);
   };
 
   const boatParkingToggle = () => {
-    setShowBoatParking((current) => !current);
+    setShowBoatParking(current => !current);
   };
 
   const guestHarbourToggle = () => {
-    setShowGuestHarbour((current) => !current);
+    setShowGuestHarbour(current => !current);
   };
 
   const publicToiletsToggle = () => {
-    setShowPublicToilets((current) => !current);
+    setShowPublicToilets(current => !current);
   };
 
   const publicBenchesToggle = () => {
-    setShowPublicBenches((current) => !current);
+    setShowPublicBenches(current => !current);
   };
 
   const noParkingToggle = () => {
-    setShowScooterNoParking((current) => !current);
+    setShowScooterNoParking(current => !current);
   };
 
   const parkingAreasToggle = () => {
-    setShowScooterParkingAreas((current) => !current);
+    setShowScooterParkingAreas(current => !current);
   };
 
   const parkingMachinesToggle = () => {
-    setShowParkingMachines((current) => !current);
+    setShowParkingMachines(current => !current);
   };
 
   const loadingPlacesToggle = () => {
-    setShowLoadingPlaces((current) => !current);
+    setShowLoadingPlaces(current => !current);
   };
 
   const outdoorGymDevicesToggle = () => {
-    setShowOutdoorGymDevices((current) => !current);
+    setShowOutdoorGymDevices(current => !current);
   };
 
   const crossWalksToggle = () => {
-    setShowCrossWalks((current) => !current);
+    setShowCrossWalks(current => !current);
   };
 
   const overPassesToggle = () => {
-    setShowOverpasses((current) => !current);
+    setShowOverpasses(current => !current);
   };
 
   const underPassesToggle = () => {
-    setShowUnderpasses((current) => !current);
+    setShowUnderpasses(current => !current);
   };
 
   const scooterSpeedLimitAreasToggle = () => {
-    setShowScooterSpeedLimitAreas((current) => !current);
+    setShowScooterSpeedLimitAreas(current => !current);
   };
 
   const scooterListToggle = () => {
-    setOpenScooterProviderList((current) => !current);
+    setOpenScooterProviderList(current => !current);
     if (showScootersRyde) {
       setShowScootersRyde(false);
     }
   };
 
   const scootersRydeToggle = () => {
-    setShowScootersRyde((current) => !current);
+    setShowScootersRyde(current => !current);
   };
 
   const disabledParkingToggle = () => {
-    setShowDisabledParking((current) => !current);
+    setShowDisabledParking(current => !current);
   };
 
   const publicParkingToggle = () => {
-    setShowPublicParking((current) => !current);
+    setShowPublicParking(current => !current);
   };
 
   const rentalCarParkingToggle = () => {
-    setShowRentalCarParking((current) => !current);
+    setShowRentalCarParking(current => !current);
+  };
+
+  const airMonitoringStationsToggle = () => {
+    setShowAirMonitoringStations(current => !current);
   };
 
   const busStopsToggle = () => {
-    setShowBusStops((current) => !current);
+    setShowBusStops(current => !current);
+  };
+
+  const railwayStationsToggle = () => {
+    setShowRailwayStations(current => !current);
+  };
+
+  const roadWorksToggle = () => {
+    setShowRoadworks(current => !current);
   };
 
   const barbecuePlacesToggle = () => {
-    setShowBarbecuePlaces((current) => !current);
+    setShowBarbecuePlaces(current => !current);
   };
 
   const cultureRouteListToggle = () => {
-    setOpenCultureRouteList((current) => !current);
+    setOpenCultureRouteList(current => !current);
     if (cultureRouteId) {
       setCultureRouteId(null);
     }
@@ -807,7 +874,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const bicycleRouteListToggle = () => {
-    setOpenBicycleRouteList((current) => !current);
+    setOpenBicycleRouteList(current => !current);
     if (bicycleRouteName) {
       setBicycleRouteName(null);
     }
@@ -817,7 +884,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const markedTrailListToggle = () => {
-    setOpenMarkedTrailsList((current) => !current);
+    setOpenMarkedTrailsList(current => !current);
     if (markedTrailsObj) {
       setMarkedTrailsObj({});
     }
@@ -827,7 +894,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const natureTrailListToggle = () => {
-    setOpenNatureTrailsList((current) => !current);
+    setOpenNatureTrailsList(current => !current);
     if (natureTrailsObj) {
       setNatureTrailsObj({});
     }
@@ -837,7 +904,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const fitnessTrailListToggle = () => {
-    setOpenFitnessTrailsList((current) => !current);
+    setOpenFitnessTrailsList(current => !current);
     if (fitnessTrailsObj) {
       setFitnessTrailsObj({});
     }
@@ -847,7 +914,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const streetMaintenanceListToggle = () => {
-    setOpenStreetMaintenanceSelectionList((current) => !current);
+    setOpenStreetMaintenanceSelectionList(current => !current);
     if (streetMaintenancePeriod) {
       setStreetMaintenancePeriod(null);
     }
@@ -857,11 +924,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const brushSandedRouteToggle = () => {
-    setShowBrushSandedRoute((current) => !current);
+    setShowBrushSandedRoute(current => !current);
   };
 
   const brushSaltedRouteToggle = () => {
-    setShowBrushSaltedRoute((current) => !current);
+    setShowBrushSaltedRoute(current => !current);
   };
 
   /**
@@ -878,7 +945,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    * Otherwise new values are set
    * @param {string} itemId
    */
-  const setCultureRouteState = (itemId) => {
+  const setCultureRouteState = itemId => {
     setCultureRouteId(itemId);
     setShowCultureRoutes(true);
     if (itemId === prevCultureRouteIdRef.current) {
@@ -903,7 +970,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   /**
    * @param {string} routeName
    */
-  const setBicycleRouteState = (routeName) => {
+  const setBicycleRouteState = routeName => {
     setBicycleRouteName(routeName);
     setShowBicycleRoutes(true);
     if (routeName === prevBicycleRouteNameRef.current) {
@@ -928,7 +995,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   /**
    * @param {obj}
    */
-  const setMarkedTrailState = (obj) => {
+  const setMarkedTrailState = obj => {
     setMarkedTrailsObj(obj);
     setShowMarkedTrails(true);
     if (obj === prevMarkedTrailObjRef.current) {
@@ -950,7 +1017,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   /**
    * @param {obj}
    */
-  const setNatureTrailState = (obj) => {
+  const setNatureTrailState = obj => {
     setNatureTrailsObj(obj);
     setShowNatureTrails(true);
     if (obj === prevNatureTrailObjRef.current) {
@@ -975,7 +1042,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   /**
    * @param {obj}
    */
-  const setFitnessTrailState = (obj) => {
+  const setFitnessTrailState = obj => {
     setFitnessTrailsObj(obj);
     setShowFitnessTrails(true);
     if (obj === prevFitnessTrailObjRef.current) {
@@ -985,22 +1052,22 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
   };
 
   const speedLimitZonesToggle = () => {
-    setOpenSpeedLimitList((current) => !current);
-    setShowSpeedLimitZones((current) => !current);
+    setOpenSpeedLimitList(current => !current);
+    setShowSpeedLimitZones(current => !current);
     if (speedLimitSelections && speedLimitSelections.length > 0) {
       setSpeedLimitSelections([]);
     }
   };
 
-  const setSpeedLimitState = (limitItem) => {
+  const setSpeedLimitState = limitItem => {
     if (!speedLimitSelections.includes(limitItem)) {
-      setSpeedLimitSelections((speedLimitSelections) => [...speedLimitSelections, limitItem]);
+      setSpeedLimitSelections(speedLimitSelections => [...speedLimitSelections, limitItem]);
       setShowSpeedLimitZones(true);
-    } else setSpeedLimitSelections(speedLimitSelections.filter((item) => item !== limitItem));
+    } else setSpeedLimitSelections(speedLimitSelections.filter(item => item !== limitItem));
   };
 
   const parkingChargeZonesListToggle = () => {
-    setOpenParkingChargeZoneList((current) => !current);
+    setOpenParkingChargeZoneList(current => !current);
     if (showParkingChargeZones) {
       setShowParkingChargeZones(false);
     }
@@ -1023,7 +1090,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    * Otherwise new values are set
    * @param {string} id
    */
-  const selectParkingChargeZone = (id) => {
+  const selectParkingChargeZone = id => {
     setParkingChargeZoneId(id);
     setShowParkingChargeZones(true);
     if (id === prevParkingChargeZoneIdRef.current) {
@@ -1041,7 +1108,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     prevStreetMaintenancePeriodRef.current = streetMaintenancePeriod;
   }, [streetMaintenancePeriod]);
 
-  const setStreetMaintenancePeriodSelection = (periodType) => {
+  const setStreetMaintenancePeriodSelection = periodType => {
     setStreetMaintenancePeriod(periodType);
     setShowStreetMaintenance(true);
     if (periodType === prevStreetMaintenancePeriodRef.current) {
@@ -1300,6 +1367,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       checkedValue: showBusStops,
       onChangeValue: busStopsToggle,
     },
+    {
+      type: 'railwayStations',
+      msgId: 'mobilityPlatform.menu.show.railwayStations',
+      checkedValue: showRailwayStations,
+      onChangeValue: railwayStationsToggle,
+    },
   ];
 
   const boatingControlTypes = [
@@ -1368,11 +1441,29 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     },
   ];
 
+  const airMonitoringControlTypes = [
+    {
+      type: 'airMonitoringStations',
+      msgId: 'mobilityPlatform.menu.show.airMonitoring',
+      checkedValue: showAirMonitoringStations,
+      onChangeValue: airMonitoringStationsToggle,
+    },
+  ];
+
+  const roadworksControlTypes = [
+    {
+      type: 'roadworks',
+      msgId: 'mobilityPlatform.menu.show.roadworks',
+      checkedValue: showRoadworks,
+      onChangeValue: roadWorksToggle,
+    },
+  ];
+
   /**
    * @param {Array} inputData
    * @return {JSX Element}
    */
-  const renderBicycleRoutes = (inputData) => (
+  const renderBicycleRoutes = inputData => (
     <RouteList
       openList={openBicycleRouteList}
       items={inputData}
@@ -1388,7 +1479,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    * @param {Array} inputData
    * @return {JSX Element}
    */
-  const renderCultureRoutes = (inputData) => (
+  const renderCultureRoutes = inputData => (
     <RouteList
       openList={openCultureRouteList}
       items={inputData}
@@ -1416,7 +1507,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
    */
   const renderSettings = (settingVisibility, settingsData) => {
     if (settingVisibility) {
-      return settingsData.map((item) => (
+      return settingsData.map(item => (
         <div key={item.type} className={classes.checkBoxContainer}>
           <MobilityToggleButton
             msgId={item.msgId}
@@ -1432,7 +1523,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
 
   // Create array of speed limit values from data and remove duplicates
   const speedLimitList = useMemo(
-    () => [...new Set(speedLimitZones.map((item) => item.extra.speed_limit))],
+    () => [...new Set(speedLimitZones.map(item => item.extra.speed_limit))],
     [speedLimitZones],
   );
 
@@ -1458,19 +1549,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
         >
           {intl.formatMessage({ id: 'mobilityPlatform.menu.streetMaintenance.info' })}
         </Typography>
-        <div className={classes.infoText}>
-          {streetMaintenanceInfo(classes.blue, 'mobilityPlatform.menu.streetMaintenance.info.snowplow')}
-          {streetMaintenanceInfo(classes.purple, 'mobilityPlatform.menu.streetMaintenance.info.deicing')}
-          {streetMaintenanceInfo(classes.burgundy, 'mobilityPlatform.menu.streetMaintenance.info.sandRemoval')}
-          {streetMaintenanceInfo(classes.green, 'mobilityPlatform.menu.streetMaintenance.info.sanitation')}
-        </div>
         {!isActiveStreetMaintenance && streetMaintenancePeriod ? (
           <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.noActivity" reducePadding />
         ) : null}
       </div>
-      {streetMaintenanceSelections
-          && streetMaintenanceSelections.length > 0
-          && streetMaintenanceSelections.map((item) => (
+      {streetMaintenanceSelections?.length > 0
+          && streetMaintenanceSelections.map(item => (
             <div key={item.type} className={classes.checkBoxItem}>
               <FormControlLabel
                 control={(
@@ -1489,6 +1573,14 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
               />
             </div>
           ))}
+      <div className={`${classes.paragraph} ${classes.border}`}>
+        <div className={classes.infoText}>
+          {streetMaintenanceInfo(classes.blue, 'mobilityPlatform.menu.streetMaintenance.info.snowplow')}
+          {streetMaintenanceInfo(classes.purple, 'mobilityPlatform.menu.streetMaintenance.info.deicing')}
+          {streetMaintenanceInfo(classes.burgundy, 'mobilityPlatform.menu.streetMaintenance.info.sandRemoval')}
+          {streetMaintenanceInfo(classes.green, 'mobilityPlatform.menu.streetMaintenance.info.sanitation')}
+        </div>
+      </div>
     </>
   ) : null);
 
@@ -1699,13 +1791,34 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       type: 'busStopsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.busStops" />,
     },
+    {
+      visible: showRailwayStations,
+      type: 'railwayStationsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.railwayStations" />,
+    },
+  ];
+
+  const infoTextsRoadworks = [
+    {
+      visible: showRoadworks,
+      type: 'roadworksInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.roadworks" />,
+    },
+  ];
+
+  const infoTextsWeatherObservations = [
+    {
+      visible: showAirMonitoringStations,
+      type: 'airMonitoringInfo',
+      component: <AirMonitoringInfo infoTexts={airMonitoringTexts} />,
+    },
   ];
 
   /** Render infotext(s) if visible value is true
    * @param {Array} textData
    * @return {Element}
    */
-  const renderInfoTexts = (textData) => textData.reduce((acc, curr) => {
+  const renderInfoTexts = textData => textData.reduce((acc, curr) => {
     if (curr.visible) {
       acc.push(<React.Fragment key={curr.type}>{curr.component}</React.Fragment>);
     }
@@ -1822,6 +1935,31 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     </>
   );
 
+  const renderAirMonitoringSettings = () => (
+    <>
+      {renderSettings(openAirMonitoringSettings, airMonitoringControlTypes)}
+      {renderInfoTexts(infoTextsWeatherObservations)}
+    </>
+  );
+
+  /**
+   * Render MUI icons inside a container
+   * @param {*} icon
+   * @returns JSX Element
+   */
+  const renderIcon = icon => (
+    <div className={classes.iconContainer}>
+      {icon}
+    </div>
+  );
+
+  const renderRoadworkSettings = () => (
+    <>
+      {renderSettings(openRoadworkSettings, roadworksControlTypes)}
+      {renderInfoTexts(infoTextsRoadworks)}
+    </>
+  );
+
   const categories = [
     {
       component: renderWalkSettings(),
@@ -1872,6 +2010,20 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       onClick: streetMaintenanceSettingsToggle,
       setState: openStreetMaintenanceSettings,
     },
+    {
+      component: renderAirMonitoringSettings(),
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.airMonitoring' }),
+      icon: renderIcon(<Air fontSize="large" />),
+      onClick: airMonitoringSettingsToggle,
+      setState: openAirMonitoringSettings,
+    },
+    {
+      component: renderRoadworkSettings(),
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.roadworksMain' }),
+      icon: renderIcon(<WarningAmber fontSize="large" />),
+      onClick: roadworkSettingsToggle,
+      setState: openRoadworkSettings,
+    },
   ];
 
   return (
@@ -1891,7 +2043,7 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
         <div className={classes.formControl}>
           <div className={classes.formGroup}>
             <List>
-              {categories.map((category) => (
+              {categories.map(category => (
                 <ListItem key={category.title} divider disableGutters className={`${classes.listItem}`}>
                   <SMAccordion
                     adornment={category.icon}

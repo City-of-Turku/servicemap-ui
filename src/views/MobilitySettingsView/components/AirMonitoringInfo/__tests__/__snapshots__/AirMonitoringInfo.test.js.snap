@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AirMonitoringInfo /> should match snapshot 1`] = `
+<div>
+  <div
+    class="css-1ouci0q"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body2 css-1qxgxsz-MuiTypography-root"
+    >
+      Ilmansaastetiedot näytetään kullekin mittausasemalle tunnin välein laskettavana indeksinä, ja se kattaa kaikki ks. mittausasemalla mitatut saasteet. Ilmanlaatu luokitellaan viiteen luokkaan: vihreä=hyvä, keltainen=tyydyttävä, oranssi=välttävä, punainen=huono, violetti=erittäin huono.
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 css-1qxgxsz-MuiTypography-root"
+    >
+      Laskennassa otetaan huomioon rikkidioksidi (SO2), typpidioksidi (NO2), hengitettävät hiukkaset (PM10), pienhiukkaset (PM2,5) sekä otsoni (O3). Kun ilmanlaatu on huono tai erittäin huono, terveysvaikutukset ovat mahdollisia herkillä ihmisillä. Ilmanlaatua heikentävät katupöly, liikenteen päästöt, puun pienpoltto, energiantuotanto sekä ajoittaiset kaukokulkeumat.
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 css-1qxgxsz-MuiTypography-root"
+    >
+      Palvelukartan ilmanlaatutiedot saadaan Turun seudun ilmansuojelun yhteistyöryhmältä.
+    </p>
+    <a
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-11g60ih-MuiTypography-root-MuiLink-root"
+      href="https://www.ilmatieteenlaitos.fi/ilmanlaatu"
+      target="_blank"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2 css-1qxgxsz-MuiTypography-root"
+      >
+        Lisätietoja saa osoitteesta https://www.ilmatieteenlaitos.fi/ilmanlaatu
+      </p>
+    </a>
+  </div>
+</div>
+`;

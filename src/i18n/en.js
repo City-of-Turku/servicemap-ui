@@ -732,6 +732,8 @@ const translations = {
   'mobilityPlatform.menu.title.scooter': 'Electric scooters',
   'mobilityPlatform.menu.title.streetMaintenance': 'Street maintenance',
   'mobilityPlatform.menu.title.public.transport': 'Public transport',
+  'mobilityPlatform.menu.title.airMonitoring': 'Weather and air quality',
+  'mobilityPlatform.menu.title.roadworksMain': 'Exceptional situations',
   'mobilityPlatform.menu.showChargingStations': 'Car e-charging points',
   'mobilityPlatform.menu.showGasFillingStations': 'Gas filling stations',
   'mobilityPlatform.menu.showEcoCounter': 'Measurement point',
@@ -796,6 +798,9 @@ const translations = {
   'mobilityPlatform.menu.show.rentalCarParking': 'Parking places for shared use cars',
   'mobilityPlatform.menu.show.publicBenches': 'Public benches (zoom in on the map)',
   'mobilityPlatform.embedded.label.publicBenches': 'Public benches (zoom in on the map to see benches)',
+  'mobilityPlatform.menu.show.roadworks': 'Roadworks',
+  'mobilityPlatform.menu.show.railwayStations': 'Railway stations',
+  'mobilityPlatform.menu.show.airMonitoring': 'Air quality stations',
   'mobilityPlatform.menu.show.barbecuePlaces': 'Barbecue places',
 
   // Content
@@ -854,9 +859,8 @@ const translations = {
   'mobilityPlatform.content.description.notAvailable': 'Description text is not available.',
   'mobilityPlatform.content.cityBikes.title': 'City bike station',
   'mobilityPlatform.content.cityBikes.name': 'Station: {value}',
-  'mobilityPlatform.content.cityBikes.capacity': 'Capacity: {value}',
+  'mobilityPlatform.content.cityBikes.vacantPlaces': 'Number of vacant places: {value}',
   'mobilityPlatform.content.cityBikes.bikes.available': 'Number of vacant bikes: {value}',
-  'mobilityPlatform.content.cityBikes.docks.available': 'Number of vacant docks: {value}',
   'mobilityPlatform.content.cityBikes.virtualStation': 'Virtual station',
   'mobilityPlatform.content.cargoBikes.title': 'Cargo bike station',
   'mobilityPlatform.content.cargoBikes.available': 'Number of  available cargo bikes: {value}',
@@ -898,6 +902,11 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Payment methods: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Additional info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Crosswalk',
+  'mobilityPlatform.content.railways.train': 'Train: {value1} {value2}',
+  'mobilityPlatform.content.departingTrains.title': 'Departing trains',
+  'mobilityPlatform.content.arrivingTrains.title': 'Incoming trains',
+  'mobilityPlatform.content.departingTrains.empty': 'No departing trains',
+  'mobilityPlatform.content.arrivingTrains.empty': 'No incoming trains',
   'mobilityPlatform.content.barbecuePlace.title': 'Barbecue place',
 
   // Info text
@@ -952,6 +961,12 @@ const translations = {
   'mobilityPlatform.info.underAndOverpasses': 'The map shows underpasses and overpasses located within the city of Turku.',
   'mobilityPlatform.info.rentalCarParking': 'There are total of five parking places in Turku intended only for shared use cars.',
   'mobilityPlatform.info.publicBenches': 'The map shows public benches that are located in the city of Turku.',
+  'mobilityPlatform.info.roadworks': 'The map shows road construction sites in the Turku area, which cause exceptional situations for traffic and mobility. Reduced speed limits apply in marked areas and, if necessary, traffic can be diverted. The data comes from the interface provided by Digitraffic.',
+  'mobilityPlatform.info.railwayStations': 'The map shows Turku railway stations and train timetables for the next 3 hours. Train traffic is divided into trains departing from and arriving at the station. If the train is delayed, the estimated time of arrival and the old scheduled time of arrival are also shown in parentheses. The data comes from the interface provided by Digitraffic.',
+  'mobilityPlatform.info.airMonitoring.paragraph.1': 'Air pollution data is displayed for each measuring station as an index calculated for each hour and covers all pollutants measured at the respective measuring station. The air quality is classified into five categories: green=good, yellow=satisfactory, orange=fair, red=poor, purple=very poor.',
+  'mobilityPlatform.info.airMonitoring.paragraph.2': 'The calculation takes into account sulfur dioxide (SO2), nitrogen dioxide (NO2), respirable particles (PM10), fine particles (PM2.5), and ozone (O3). When the air quality is poor or very poor, health effects may occur in sensitive individuals. Air quality is worsened by street dust, traffic emissions, small-scale wood combustion, energy production, and occasionally by long range transport.',
+  'mobilityPlatform.info.airMonitoring.paragraph.3': 'Air quality data for the service map is obtained from the Turku region air protection co-operative group.',
+  'mobilityPlatform.info.airMonitoring.link': 'For more information visit https://en.ilmatieteenlaitos.fi/air-quality',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',
@@ -969,6 +984,30 @@ const translations = {
   'mobilityPlatform.menu.bicycleRoutes.regionalTrail10': 'Turku City Center - Varissuo - Piikkiö',
   'mobilityPlatform.menu.bicycleRoutes.regionalTrail11': 'Turku City Center - Kaarina City Center - Piikkiö - Paimio',
   'mobilityPlatform.menu.bicycleRoutes.regionalTrail12': 'Turku City Center - Hirvensalo - Kakskerta',
+
+  // Air monitoring
+  'mobilityPlatform.airMonitoring.airIndex': 'Air quality',
+  'mobilityPlatform.airMonitoring.chart.week': 'Week',
+  'mobilityPlatform.airMonitoring.quality.subTitle': 'Concentrations:',
+  'mobilityPlatform.airMonitoring.AQINDEX_PT1H_avg': 'Air quality index',
+  'mobilityPlatform.airMonitoring.SO2_PT1H_avg': 'Sulphur dioxide',
+  'mobilityPlatform.airMonitoring.NO2_PT1H_avg': 'Nitrogen dioxide',
+  'mobilityPlatform.airMonitoring.PM10_PT1H_avg': 'Thoraric particles',
+  'mobilityPlatform.airMonitoring.PM25_PT1H_avg': 'Fine particles',
+  'mobilityPlatform.airMonitoring.O3_PT1H_avg': 'Ozone',
+  'mobilityPlatform.airMonitoring.quality.good': 'Air quality is good.',
+  'mobilityPlatform.airMonitoring.quality.satisfactory': 'Air quality is satisfactory.',
+  'mobilityPlatform.airMonitoring.quality.fair': 'Air quality is fair.',
+  'mobilityPlatform.airMonitoring.quality.poor': 'Air quality is poor.',
+  'mobilityPlatform.airMonitoring.quality.hazardous': 'Air quality is very poor.',
+  'mobilityPlatform.airMonitoring.text.date': 'Date: {value}',
+  'mobilityPlatform.airMonitoring.text.week': 'Week: {value}',
+  'mobilityPlatform.airMonitoring.text.month': 'Month: {value}',
+  'mobilityPlatform.airMonitoring.text.year': 'Year: {value}',
+  'mobilityPlatform.airMonitoring.button.day': 'Day',
+  'mobilityPlatform.airMonitoring.button.week': 'Week',
+  'mobilityPlatform.airMonitoring.button.month': 'Month',
+  'mobilityPlatform.airMonitoring.button.year': 'Year',
 
   // Ecocounter
   'ecocounter.hour': 'Hours',
@@ -994,7 +1033,7 @@ const translations = {
   'ecocounter.oct': 'October',
   'ecocounter.nov': 'November',
   'ecocounter.dec': 'December',
-  'ecocounter.station.active.period': 'Measurement point was in use {value1} - {value2}.',
+  'ecocounter.station.counts.period': 'Calculation data ranges from {value1} to {value2}',
   'trafficCounter.year.warning.text': 'Numbers from the year {value} are not available.',
 };
 

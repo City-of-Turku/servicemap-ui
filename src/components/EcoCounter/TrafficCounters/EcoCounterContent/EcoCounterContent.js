@@ -33,9 +33,10 @@ import {
   fetchInitialWeekDatas,
   fetchSelectedYearData,
 } from '../../EcoCounterRequests/ecoCounterRequests';
-import { formatDates, formatFullDates, formatMonths } from '../../utils';
+import { formatDates, formatMonths } from '../../utils';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
+import CounterActiveText from '../CounterActiveText';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
@@ -52,20 +53,20 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   const [currentType, setCurrentType] = useState('bicycle');
   const [currentTime, setCurrentTime] = useState('hour');
   const [activeStep, setActiveStep] = useState(0);
-  const [selectedDate, setSelectedDate] = useState(subDays(new Date(), 1));
 
-  const locale = useSelector((state) => state.user.locale);
+  const locale = useSelector(state => state.user.locale);
   const inputRef = useRef(null);
 
   const useMobileStatus = () => useMediaQuery('(max-width:768px)');
   const isNarrow = useMobileStatus();
 
-  const stationId = station.id;
-  const stationName = station.name;
-  const stationSource = station.csv_data_source;
-  const dataFrom = station.data_from_date;
-  const dataUntil = station.data_until_date;
-  const isActiveStation = station.is_active['30'];
+  const stationId = station?.id;
+  const stationName = station?.name;
+  const stationSource = station?.csv_data_source;
+  const dataFrom = station?.data_from_date;
+  const dataUntil = station?.data_until_date;
+
+  const [selectedDate, setSelectedDate] = useState(subDays(new Date(dataUntil), 1));
 
   /** When all 3 user types are rendered, a reverse order is required where 'at' is placed last */
   const reverseUserTypes = () => {
@@ -142,7 +143,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
    * @param {string} translationId
    * @returns JSX element
    */
-  const userTypeText = (translationId) => (
+  const userTypeText = translationId => (
     <div className={classes.textContainer}>
       <Typography variant="body2" className={classes.userTypeText}>
         {intl.formatMessage({ id: translationId })}
@@ -155,7 +156,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
    * @param {string} userType
    * @returns JSX element
    */
-  const renderUserTypeText = (userType) => {
+  const renderUserTypeText = userType => {
     if (userType === 'at') {
       return userTypeText('ecocounter.car');
     }
@@ -206,7 +207,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     return null;
   };
 
-  const changeDate = (newDate) => {
+  const changeDate = newDate => {
     setSelectedDate(newDate);
   };
 
@@ -225,7 +226,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
    * @param {*date} dateValue
    * @returns {*number}
    */
-  const checkWeekNumber = (dateValue) => {
+  const checkWeekNumber = dateValue => {
     const start = getWeek(startOfMonth(dateValue));
     const end = getWeek(endOfMonth(dateValue));
     if (start > end) {
@@ -235,8 +236,8 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   };
 
   // Initial values that are used to fetch data
-  const currentDate = new Date();
-  const yesterDay = subDays(currentDate, 1);
+  const initialDate = new Date(dataUntil);
+  const yesterDay = subDays(initialDate, 1);
   const yesterDayFormat = format(yesterDay, 'yyyy-MM-dd');
   const initialDateStart = format(startOfWeek(yesterDay, 1), 'yyyy-MM-dd');
   const initialDateEnd = format(endOfWeek(yesterDay, 1), 'yyyy-MM-dd');
@@ -251,19 +252,19 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   const selectedDateEnd = format(endOfWeek(selectedDate, 1), 'yyyy-MM-dd');
   const selectedWeekStart = checkWeekNumber(selectedDate);
   const selectedWeekEnd = getWeek(endOfMonth(selectedDate));
-  let selectedMonth = getMonth(currentDate);
+  let selectedMonth = getMonth(initialDate);
   const selectedYear = getYear(selectedDate);
 
   // This will show full year if available
   const checkYear = () => {
-    if (getYear(selectedDate) < getYear(currentDate)) {
+    if (getYear(selectedDate) < getYear(initialDate)) {
       selectedMonth = 12;
     }
   };
 
   // Reset selectedDate value when the new popup is opened.
   useEffect(() => {
-    setSelectedDate(subDays(currentDate, 1));
+    setSelectedDate(subDays(new Date(dataUntil), 1));
   }, [stationId]);
 
   useEffect(() => {
@@ -302,7 +303,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
    * @param {date} weekValue
    * @returns {*string}
    */
-  const formatWeeks = (weekValue) => {
+  const formatWeeks = weekValue => {
     const startOfSelectedWeek = startOfWeek(new Date(selectedYear, 0, 1), { weekStartsOn: 1 });
     const targetWeekStartDate = addWeeks(startOfSelectedWeek, weekValue - 1);
     return format(targetWeekStartDate, 'dd.MM', { weekStartsOn: 1 });
@@ -325,9 +326,9 @@ const EcoCounterContent = ({ classes, intl, station }) => {
    * @param {*object} newValue3
    */
   const setAllChannelCounts = (newValue1, newValue2, newValue3) => {
-    setChannel1Counts((channel1Counts) => [...channel1Counts, newValue1]);
-    setChannel2Counts((channel2Counts) => [...channel2Counts, newValue2]);
-    setChannelTotals((channelTotals) => [...channelTotals, newValue3]);
+    setChannel1Counts(channel1Counts => [...channel1Counts, newValue1]);
+    setChannel2Counts(channel2Counts => [...channel2Counts, newValue2]);
+    setChannelTotals(channelTotals => [...channelTotals, newValue3]);
   };
 
   /**
@@ -335,7 +336,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
    * @param {object} el
    * @returns {*Array}
    */
-  const getUserTypedata = (el) => {
+  const getUserTypedata = el => {
     switch (currentType) {
       case 'walking':
         return [el.value_jk, el.value_jp, el.value_jt];
@@ -354,11 +355,11 @@ const EcoCounterContent = ({ classes, intl, station }) => {
    * @param {function} labelFormatter
    */
   const processData = (data, labelFormatter) => {
-    data.forEach((el) => {
+    data.forEach(el => {
       if (el.station === stationId) {
         const countsArr = getUserTypedata(el);
         setAllChannelCounts(countsArr[0], countsArr[1], countsArr[2]);
-        setEcoCounterLabels((lamCounterLabels) => [...lamCounterLabels, labelFormatter(el)]);
+        setEcoCounterLabels(lamCounterLabels => [...lamCounterLabels, labelFormatter(el)]);
       }
     });
   };
@@ -393,13 +394,13 @@ const EcoCounterContent = ({ classes, intl, station }) => {
     if (currentTime === 'hour') {
       processHourData();
     } else if (currentTime === 'day') {
-      processData(ecoCounterDay, (el) => formatDates(el.day_info.date));
+      processData(ecoCounterDay, el => formatDates(el.day_info.date));
     } else if (currentTime === 'week') {
-      processData(ecoCounterWeek, (el) => formatWeeks(el.week_info.week_number));
+      processData(ecoCounterWeek, el => formatWeeks(el.week_info.week_number));
     } else if (currentTime === 'month') {
-      processData(ecoCounterMonth, (el) => formatMonths(el.month_info.month_number, intl));
+      processData(ecoCounterMonth, el => formatMonths(el.month_info.month_number, intl));
     } else if (currentTime === 'year') {
-      processData(ecoCounterMultipleYears, (el) => el.year_info.year_number);
+      processData(ecoCounterMultipleYears, el => el.year_info.year_number);
     }
   };
 
@@ -490,34 +491,11 @@ const EcoCounterContent = ({ classes, intl, station }) => {
    * @param {*string} input
    * @returns {*string}
    */
-  const renderStationName = (input) => {
+  const renderStationName = input => {
     if (input === 'Teatteri ranta') {
       return 'Teatteriranta';
     }
     return input;
-  };
-
-  /**
-   * Render text on 2 Telraam stations that are currently inactive and do not collect new data.
-   * @returns JSX element
-   */
-  const renderOldStationText = () => {
-    const dataFromFormat = formatDates(dataFrom);
-    const dataUntilFormat = formatFullDates(dataUntil);
-
-    if (!isActiveStation) {
-      return (
-        <div className={classes.missingDataText}>
-          <Typography variant="body2" sx={{ mb: '0.5rem', fontWeight: 'bold' }}>
-            {intl.formatMessage(
-              { id: 'ecocounter.station.active.period' },
-              { value1: dataFromFormat, value2: dataUntilFormat },
-            )}
-          </Typography>
-        </div>
-      );
-    }
-    return null;
   };
 
   return (
@@ -529,13 +507,13 @@ const EcoCounterContent = ({ classes, intl, station }) => {
         <div className={classes.dateContainer}>
           <DatePicker
             selected={selectedDate}
-            onChange={(newDate) => changeDate(newDate)}
+            onChange={newDate => changeDate(newDate)}
             locale={locale}
             dateFormat="P"
             showYearDropdown={stationSource !== 'TR'}
             dropdownMode="select"
             minDate={new Date(dataFrom)}
-            maxDate={stationSource === 'TR' ? new Date(dataUntil) : new Date()}
+            maxDate={new Date(dataUntil)}
             customInput={<CustomInput inputRef={inputRef} />}
           />
         </div>
@@ -549,7 +527,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
             </div>
           ))}
         </div>
-        {stationSource === 'TR' ? renderOldStationText() : null}
+        <CounterActiveText dataFrom={dataFrom} dataUntil={dataUntil} />
         <div className={classes.trafficCounterChart}>
           <LineChart
             labels={ecoCounterLabels}
@@ -569,7 +547,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
         </div>
         <div className={classes.trafficCounterSteps}>
           {buttonSteps
-            .filter((item) => item.step.visible)
+            .filter(item => item.step.visible)
             .map((timing, i) => (
               <ButtonBase
                 key={timing.step.type}

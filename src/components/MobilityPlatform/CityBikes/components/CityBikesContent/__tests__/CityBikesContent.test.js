@@ -44,7 +44,7 @@ describe('<CityBikesContent />', () => {
     expect(h3.textContent).toContain(finnishTranslations['mobilityPlatform.content.cityBikes.title']);
     expect(p[0].textContent).toContain(`Asema: ${mockProps.bikeStation.name}`);
     expect(p[1].textContent).toContain(finnishTranslations['mobilityPlatform.content.cityBikes.virtualStation']);
-    expect(p[2].textContent).toContain(`Kapasiteetti: ${mockProps.bikeStation.capacity}`);
+    expect(p[2].textContent).toContain('Vapaita paikkoja: 10');
     expect(p[3].textContent).toContain('Pyöriä vapaana: 10');
     expect(p[4].textContent).toContain(finnishTranslations['mobilityPlatform.content.general.rentalUris']);
     expect(link[0].textContent).toEqual('Android');

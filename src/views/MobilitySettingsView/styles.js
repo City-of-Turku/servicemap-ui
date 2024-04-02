@@ -33,6 +33,14 @@ const styles = (theme) => ({
   subtitle: {
     textTransform: 'none',
   },
+  iconContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '40px',
+    height: '40px',
+    marginRight: theme.spacing(1),
+  },
   icon: {
     fill: '#000',
     width: '40px',

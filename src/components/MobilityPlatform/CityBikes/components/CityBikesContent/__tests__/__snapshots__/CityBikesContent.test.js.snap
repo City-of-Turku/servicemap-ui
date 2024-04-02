@@ -38,7 +38,7 @@ exports[`<CityBikesContent /> should work 1`] = `
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
       >
-        Kapasiteetti: 20
+        Vapaita paikkoja: 10
       </p>
     </div>
     <div>

@@ -9,7 +9,7 @@ const CityBikesContent = ({
 
   const isCargoBike = getStationType();
 
-  const getStation = (data) => {
+  const getStation = data => {
     if (data && data.length > 0) {
       return data.find(item => item.station_id === bikeStation.station_id);
     }
@@ -20,14 +20,12 @@ const CityBikesContent = ({
 
   const renderText = (translationId, value) => (
     <div className={classes.paragraph}>
-      <Typography variant="body2">
-        {intl.formatMessage({ id: translationId }, { value })}
-      </Typography>
+      <Typography variant="body2">{intl.formatMessage({ id: translationId }, { value })}</Typography>
     </div>
   );
 
   /** Remove 'eCargo bikes' from station name before render  */
-  const formatStationName = (name) => {
+  const formatStationName = name => {
     const split = name.split(':');
     return split[1];
   };
@@ -53,6 +51,8 @@ const CityBikesContent = ({
     return null;
   };
 
+  const getNumberOfVacantPlaces = (capacity, numberOfBikes) => capacity - numberOfBikes;
+
   return (
     <div className={classes.popupInner}>
       <div className={classes.subtitle}>
@@ -66,7 +66,12 @@ const CityBikesContent = ({
         ? renderText('mobilityPlatform.content.cityBikes.name', formatStationName(bikeStation.name))
         : renderText('mobilityPlatform.content.cityBikes.name', bikeStation.name)}
       {renderStationType(bikeStation.is_virtual_station, 'mobilityPlatform.content.cityBikes.virtualStation')}
-      {!isCargoBike ? renderText('mobilityPlatform.content.cityBikes.capacity', bikeStation.capacity) : null}
+      {!isCargoBike
+        ? renderText(
+          'mobilityPlatform.content.cityBikes.vacantPlaces',
+          getNumberOfVacantPlaces(bikeStation.capacity, stationItem?.num_bikes_available),
+        )
+        : null}
       <div>
         {!isCargoBike
           ? renderText('mobilityPlatform.content.cityBikes.bikes.available', stationItem?.num_bikes_available)
@@ -94,10 +99,25 @@ const CityBikesContent = ({
 };
 
 CityBikesContent.propTypes = {
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  bikeStation: PropTypes.objectOf(PropTypes.any),
-  cityBikeStatistics: PropTypes.arrayOf(PropTypes.any),
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func,
+  }).isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  bikeStation: PropTypes.shape({
+    station_id: PropTypes.string,
+    name: PropTypes.string,
+    is_virtual_station: PropTypes.bool,
+    capacity: PropTypes.number,
+    rental_uris: PropTypes.shape({
+      android: PropTypes.string,
+      ios: PropTypes.string,
+    }),
+  }),
+  cityBikeStatistics: PropTypes.arrayOf(
+    PropTypes.shape({
+      station_id: PropTypes.string,
+    }),
+  ),
 };
 
 CityBikesContent.defaultProps = {

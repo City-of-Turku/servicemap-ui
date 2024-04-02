@@ -52,7 +52,7 @@ const ParkingSpaces = () => {
 
   const swapCoords = (inputData) => {
     if (inputData.length > 0) {
-      return inputData.map(item => item.map(v => v.map(j => [j[1], j[0]])));
+      return inputData.map((item) => item.map((v) => v.map((j) => [j[1], j[0]])));
     }
     return inputData;
   };
@@ -72,7 +72,7 @@ const ParkingSpaces = () => {
   }, [showParkingSpaces, parkingSpaces, fetchError]);
 
   const renderColor = (itemId, capacity) => {
-    const stats = parkingStatistics?.find(item => item.id === itemId);
+    const stats = parkingStatistics?.find((item) => item.id === itemId);
     const almostFull = capacity * 0.85;
     const parkingCount = stats?.current_parking_count;
     if (parkingCount >= almostFull) {
@@ -82,29 +82,27 @@ const ParkingSpaces = () => {
   };
 
   return (
-    <>
-      {!fetchError && renderData
-        ? parkingSpaces.map(item => (
-          <Polygon
-            key={item.id}
-            pathOptions={renderColor(item.id, item.properties.capacity_estimate)}
-            positions={swapCoords(item.geometry.coordinates)}
-            eventHandlers={{
-              mouseover: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.9' : '0.3' });
-              },
-              mouseout: (e) => {
-                e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.3' });
-              },
-            }}
-          >
-            <Popup>
-              <ParkingSpacesContent parkingSpace={item} parkingStatistics={parkingStatistics} />
-            </Popup>
-          </Polygon>
-        ))
-        : null}
-    </>
+    !fetchError && renderData
+      ? parkingSpaces.map((item) => (
+        <Polygon
+          key={item.id}
+          pathOptions={renderColor(item.id, item.properties.capacity_estimate)}
+          positions={swapCoords(item.geometry.coordinates)}
+          eventHandlers={{
+            mouseover: (e) => {
+              e.target.setStyle({ fillOpacity: useContrast ? '0.9' : '0.3' });
+            },
+            mouseout: (e) => {
+              e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.3' });
+            },
+          }}
+        >
+          <Popup>
+            <ParkingSpacesContent parkingSpace={item} parkingStatistics={parkingStatistics} />
+          </Popup>
+        </Polygon>
+      ))
+      : null
   );
 };
 
