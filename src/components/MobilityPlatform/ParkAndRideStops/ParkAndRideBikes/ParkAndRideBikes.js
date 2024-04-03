@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
-import bicycleStandIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle-stand.svg';
-import bicycleStandIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_bicycle_stand-bw.svg';
+import parkAndRideIcon from 'servicemap-ui-turku/assets/icons/icons-icon_park_and_ride_bicycle.svg';
+import parkAndRideIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_park_and_ride_bicycle-bw.svg';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
@@ -23,7 +23,7 @@ const ParkAndRideBikes = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const customIcon = icon(createIcon(useContrast ? bicycleStandIconBw : bicycleStandIcon));
+  const customIcon = icon(createIcon(useContrast ? parkAndRideIconBw : parkAndRideIcon));
 
   useEffect(() => {
     const options = {
