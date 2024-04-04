@@ -1646,6 +1646,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       component: <CityBikeInfo bikeInfo={cargoBikeInfo} />,
     },
     {
+      visible: showParkAndRideBikes,
+      type: 'parkAndRideBicyclesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.parkAndRideBicycles" />,
+    },
+    {
       visible: showBrushSaltedRoute || showBrushSandedRoute,
       type: 'brushedRoutes',
       component: <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.brushedRoads" />,

@@ -971,6 +971,7 @@ const translations = {
   'mobilityPlatform.info.airMonitoring.paragraph.2': 'Vid beräkningen beaktas svaveldioxid (SO2), kvävedioxid (NO2), inandningsbara partiklar (PM10), småpartiklar (PM2,5) samt ozon (O3). När luftkvaliteten är dålig eller mycket dålig kan hälsopåverkan förekomma hos känsliga personer. Luftkvaliteten försämras av gatudamm, trafikutsläpp, småskalig vedeldning, energiproduktion samt av sporadiskt förekommande långväga transport.',
   'mobilityPlatform.info.airMonitoring.paragraph.3': 'Luftkvalitetsdata för Servicekartan erhålls från Åboregionens samarbetsgrupp för luftskydd.',
   'mobilityPlatform.info.airMonitoring.link': 'För mer information besök: https://sv.ilmatieteenlaitos.fi/luftkvalitet',
+  'mobilityPlatform.info.parkAndRideBicycles': 'Infartsparkeringen erbjuder möjlighet att lämna din egen cykel på parkeringsplatsen och fortsätta resan med buss. Inom Föli-området finns flera infartsparkeringsplatser för cyklar. Infartsparkeringen är gratis och endast avsedd för dem som fortsätter sin resa med kollektivtrafik.', // TODO verify
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',
