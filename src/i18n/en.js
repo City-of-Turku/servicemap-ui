@@ -967,7 +967,7 @@ const translations = {
   'mobilityPlatform.info.airMonitoring.paragraph.2': 'The calculation takes into account sulfur dioxide (SO2), nitrogen dioxide (NO2), respirable particles (PM10), fine particles (PM2.5), and ozone (O3). When the air quality is poor or very poor, health effects may occur in sensitive individuals. Air quality is worsened by street dust, traffic emissions, small-scale wood combustion, energy production, and occasionally by long range transport.',
   'mobilityPlatform.info.airMonitoring.paragraph.3': 'Air quality data for the service map is obtained from the Turku region air protection co-operative group.',
   'mobilityPlatform.info.airMonitoring.link': 'For more information visit https://en.ilmatieteenlaitos.fi/air-quality',
-  'mobilityPlatform.info.parkAndRideBicycles': 'Park-and-ride arrangements provide the opportunity to leave your bicycle parked safely and hop on a bus to continue your journey. The Föli area boasts many park-and-ride sites for bicycles.  Park-and-ride parking is free and intended for those using public transport for connections.', // TODO verify
+  'mobilityPlatform.info.parkAndRideBicycles': 'Park-and-ride arrangements provide the opportunity to leave your bicycle parked safely and hop on a bus to continue your journey. The Föli area boasts many park-and-ride sites for bicycles.  Park-and-ride parking is free and intended for those using public transport for connections.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',
