@@ -1,17 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
-import { fetchMobilityMapData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import useMobilityDataFetch from '../../../utils/useMobilityDataFetch';
 import { isDataValid, fitPolygonsToBounds } from '../../../utils/utils';
 
 /* Display brush sanded and brush salted bicycle roads */
 
 const BrushedBicycleRoads = () => {
-  const [brushSandedRoutes, setBrushSandedRoutes] = useState([]);
-  const [brushSaltedRoutes, setBrushSaltedRoutes] = useState([]);
+  const optionsBrushSanded = {
+    type_name: 'BrushSandedBicycleNetwork',
+    latlon: true,
+  };
+  const optionsBrushSalted = {
+    type_name: 'BrushSaltedBicycleNetwork',
+    latlon: true,
+  };
 
   const { showBrushSandedRoute, showBrushSaltedRoute } = useMobilityPlatformContext();
 
@@ -48,28 +54,10 @@ const BrushedBicycleRoads = () => {
     weight: 4,
   };
 
-  useEffect(() => {
-    const options = {
-      type_name: 'BrushSandedBicycleNetwork',
-      latlon: true,
-    };
-    if (showBrushSandedRoute) {
-      fetchMobilityMapData(options, setBrushSandedRoutes);
-    }
-  }, [showBrushSandedRoute]);
-
-  useEffect(() => {
-    const options = {
-      type_name: 'BrushSaltedBicycleNetwork',
-      latlon: true,
-    };
-    if (showBrushSaltedRoute) {
-      fetchMobilityMapData(options, setBrushSaltedRoutes);
-    }
-  }, [showBrushSaltedRoute]);
-
   const map = useMap();
 
+  const { data: brushSaltedRoutes } = useMobilityDataFetch(optionsBrushSalted, showBrushSaltedRoute);
+  const { data: brushSandedRoutes } = useMobilityDataFetch(optionsBrushSanded, showBrushSandedRoute);
   const renderBrushSandedData = isDataValid(showBrushSandedRoute, brushSandedRoutes);
   const renderBrushSaltedData = isDataValid(showBrushSaltedRoute, brushSaltedRoutes);
 

@@ -1,18 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import useMobilityDataFetch from '../utils/useMobilityDataFetch';
 import {
   isDataValid, blueOptionsBase, whiteOptionsBase, blackOptionsBase,
 } from '../utils/utils';
 import CultureRouteUnits from './components/CultureRouteUnits';
 
 const CultureRoutes = () => {
-  const [cultureRoutesGeometry, setCultureRoutesGeometry] = useState([]);
-  const [cultureRouteUnits, setCultureRouteUnits] = useState([]);
+  const optionsGeometry = {
+    type_name: 'CultureRouteGeometry',
+    page_size: 50,
+  };
+  const optionsUnit = {
+    type_name: 'CultureRouteUnit',
+    page_size: 200,
+  };
 
   const { openMobilityPlatform, showCultureRoutes, cultureRouteId } = useMobilityPlatformContext();
 
@@ -24,27 +30,10 @@ const CultureRoutes = () => {
   const whiteOptions = whiteOptionsBase({ dashArray: !useContrast ? '1, 8' : null });
   const blackOptions = blackOptionsBase({ dashArray: '2 10 10 10' });
 
-  useEffect(() => {
-    const options = {
-      type_name: 'CultureRouteGeometry',
-      page_size: 50,
-    };
-    if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setCultureRoutesGeometry);
-    }
-  }, [openMobilityPlatform, setCultureRoutesGeometry]);
+  const { data: cultureRoutesGeometry } = useMobilityDataFetch(optionsGeometry, openMobilityPlatform);
+  const { data: cultureRouteUnits } = useMobilityDataFetch(optionsUnit, openMobilityPlatform);
 
-  useEffect(() => {
-    const options = {
-      type_name: 'CultureRouteUnit',
-      page_size: 200,
-    };
-    if (openMobilityPlatform) {
-      fetchMobilityMapData(options, setCultureRouteUnits);
-    }
-  }, [openMobilityPlatform, setCultureRouteUnits]);
-
-  const filterRoutes = (data) => {
+  const filterRoutes = data => {
     if (data && data.length > 0) {
       return data.filter(item => item.mobile_unit_group.id === cultureRouteId);
     }
@@ -53,7 +42,7 @@ const CultureRoutes = () => {
 
   const activeCultureRoute = filterRoutes(cultureRoutesGeometry);
 
-  const swapCoords = (inputData) => {
+  const swapCoords = inputData => {
     if (inputData && inputData.length > 0) {
       return inputData.map(item => [item[1], item[0]]);
     }
@@ -67,7 +56,7 @@ const CultureRoutes = () => {
   useEffect(() => {
     if (renderData) {
       const bounds = [];
-      activeCultureRoute.forEach((item) => {
+      activeCultureRoute.forEach(item => {
         bounds.push(swapCoords(item.geometry_coords));
       });
       map.fitBounds([bounds]);
