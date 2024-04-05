@@ -8,7 +8,7 @@ import bicycleStandIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bicycl
 import circleIcon from 'servicemap-ui-turku/assets/icons/icons-icon_circle_border.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import useMobilityDataFetch from '../utils/useMobilityDataFetch';
 import {
   isDataValid, fitToMapBounds, setRender, checkMapType,
 } from '../utils/utils';
@@ -17,7 +17,11 @@ import MarkerComponent from '../MarkerComponent';
 import BicycleStandContent from './components/BicycleStandContent';
 
 const BicycleStands = () => {
-  const [bicycleStands, setBicycleStands] = useState([]);
+  const options = {
+    type_name: 'BicycleStand',
+    page_size: 500,
+  };
+
   const [zoomLevel, setZoomLevel] = useState(13);
 
   const { showBicycleStands, showHullLockableStands } = useMobilityPlatformContext();
@@ -39,15 +43,8 @@ const BicycleStands = () => {
     iconSize: zoomLevel < 14 ? [20, 20] : [45, 45],
   });
 
-  useEffect(() => {
-    const options = {
-      type_name: 'BicycleStand',
-      page_size: 500,
-    };
-    if (showBicycleStands || showHullLockableStands || embedded) {
-      fetchMobilityMapData(options, setBicycleStands);
-    }
-  }, [showBicycleStands, showHullLockableStands, embedded]);
+  const getData = showBicycleStands || showHullLockableStands;
+  const { data } = useMobilityDataFetch(options, getData, embedded);
 
   const mapEvent = useMapEvents({
     zoomend() {
@@ -58,7 +55,7 @@ const BicycleStands = () => {
   const otherBicycleStands = [];
 
   /** Separate bicycle stands that are frame/hull lockable from those that are not */
-  const hullLockableBicycleStands = bicycleStands.reduce((acc, curr) => {
+  const hullLockableBicycleStands = data?.reduce((acc, curr) => {
     if (curr.extra.hull_lockable) {
       acc.push(curr);
     } else {
@@ -86,7 +83,7 @@ const BicycleStands = () => {
   }, [showHullLockableStands]);
 
   const renderBicycleStands = (isValid, data) => (isValid ? (
-    data.map(item => (
+    data?.map(item => (
       <MarkerComponent
         key={item.id}
         item={item}

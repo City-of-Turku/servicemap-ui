@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
-import { fetchMobilityMapData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import useMobilityDataFetch from '../../../utils/useMobilityDataFetch';
 import {
   isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase,
 } from '../../../utils/utils';
@@ -16,20 +16,13 @@ import TextContent from '../../../TextContent';
  */
 
 const SpeedLimitAreas = () => {
-  const [speedLimitAreas, setSpeedLimitAreas] = useState([]);
+  const options = {
+    type_name: 'ScooterSpeedLimitArea',
+    page_size: 100,
+    latlon: true,
+  };
 
   const { showScooterSpeedLimitAreas } = useMobilityPlatformContext();
-
-  useEffect(() => {
-    const options = {
-      type_name: 'ScooterSpeedLimitArea',
-      page_size: 100,
-      latlon: true,
-    };
-    if (showScooterSpeedLimitAreas) {
-      fetchMobilityMapData(options, setSpeedLimitAreas);
-    }
-  }, [showScooterSpeedLimitAreas]);
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -37,32 +30,31 @@ const SpeedLimitAreas = () => {
   const whiteOptions = whiteOptionsBase({ fillOpacity: 0.3, dashArray: '10 2 10' });
   const pathOptions = useContrast ? whiteOptions : blueOptions;
 
-  const renderData = isDataValid(showScooterSpeedLimitAreas, speedLimitAreas);
+  const { data } = useMobilityDataFetch(options, showScooterSpeedLimitAreas);
+  const renderData = isDataValid(showScooterSpeedLimitAreas, data);
 
   const map = useMap();
 
   useEffect(() => {
-    fitPolygonsToBounds(renderData, speedLimitAreas, map);
-  }, [showScooterSpeedLimitAreas, speedLimitAreas]);
+    fitPolygonsToBounds(renderData, data, map);
+  }, [showScooterSpeedLimitAreas, data]);
 
   return (
-    <>
-      {renderData
-        ? speedLimitAreas.map(item => (
-          <PolygonComponent
-            key={item.id}
-            item={item}
-            useContrast={useContrast}
-            pathOptions={pathOptions}
-          >
-            <TextContent
-              titleId="mobilityPlatform.content.scooters.speedLimitAreas.title"
-              translationId="mobilityPlatform.info.scooters.speedLimitAreas"
-            />
-          </PolygonComponent>
-        ))
-        : null}
-    </>
+    renderData
+      ? data.map(item => (
+        <PolygonComponent
+          key={item.id}
+          item={item}
+          useContrast={useContrast}
+          pathOptions={pathOptions}
+        >
+          <TextContent
+            titleId="mobilityPlatform.content.scooters.speedLimitAreas.title"
+            translationId="mobilityPlatform.info.scooters.speedLimitAreas"
+          />
+        </PolygonComponent>
+      ))
+      : null
   );
 };
 
