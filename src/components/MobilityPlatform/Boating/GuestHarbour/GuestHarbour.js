@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
-import { fetchMobilityMapData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
 import {
   fitPolygonsToBounds, isDataValid, blueOptionsBase, whiteOptionsBase,
 } from '../../utils/utils';
@@ -16,21 +16,14 @@ import TextContent from '../../TextContent';
  */
 
 const GuestHarbour = () => {
-  const [guestHarbourData, setGuestHarbourData] = useState([]);
+  const options = {
+    type_name: 'GuestMarina',
+    latlon: true,
+  };
 
   const { showGuestHarbour } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
-
-  useEffect(() => {
-    const options = {
-      type_name: 'GuestMarina',
-      latlon: true,
-    };
-    if (showGuestHarbour) {
-      fetchMobilityMapData(options, setGuestHarbourData);
-    }
-  }, [showGuestHarbour]);
 
   const blueOptions = blueOptionsBase({ weight: 5 });
   const whiteOptions = whiteOptionsBase({
@@ -42,30 +35,29 @@ const GuestHarbour = () => {
 
   const map = useMap();
 
-  const renderData = isDataValid(showGuestHarbour, guestHarbourData);
+  const { data } = useMobilityDataFetch(options, showGuestHarbour);
+  const renderData = isDataValid(showGuestHarbour, data);
 
   useEffect(() => {
-    fitPolygonsToBounds(renderData, guestHarbourData, map);
-  }, [showGuestHarbour, guestHarbourData]);
+    fitPolygonsToBounds(renderData, data, map);
+  }, [showGuestHarbour, data]);
 
   return (
-    <>
-      {renderData
-        ? guestHarbourData.map(item => (
-          <PolygonComponent
-            key={item.id}
-            item={item}
-            useContrast={useContrast}
-            pathOptions={pathOptions}
-          >
-            <TextContent
-              titleId="mobilityPlatform.content.guestHarbour.title"
-              translationId="mobilityPlatform.content.guestHarbour.info"
-            />
-          </PolygonComponent>
-        ))
-        : null}
-    </>
+    renderData
+      ? data.map(item => (
+        <PolygonComponent
+          key={item.id}
+          item={item}
+          useContrast={useContrast}
+          pathOptions={pathOptions}
+        >
+          <TextContent
+            titleId="mobilityPlatform.content.guestHarbour.title"
+            translationId="mobilityPlatform.content.guestHarbour.info"
+          />
+        </PolygonComponent>
+      ))
+      : null
   );
 };
 
