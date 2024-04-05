@@ -17,14 +17,13 @@ const GasFillingStationMarkers = () => {
   };
 
   const { showGasFillingStations } = useMobilityPlatformContext();
-  const { data } = useMobilityDataFetch(options, showGasFillingStations);
-
-  const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
 
+  const { icon } = global.L;
   const gasStationIcon = icon(createIcon(useContrast ? gasFillingIconBw : gasFillingIcon));
 
+  const { data } = useMobilityDataFetch(options, showGasFillingStations);
   const renderData = isDataValid(showGasFillingStations, data);
 
   const map = useMap();

@@ -12,7 +12,9 @@ import MarkerComponent from '../MarkerComponent';
 import BikeServiceStationContent from './components/BikeServiceStationContent';
 
 const BikeServiceStations = () => {
-  // const [bikeServiceStations, setBikeServiceStations] = useState([]);
+  const options = {
+    type_name: 'BikeServiceStation',
+  };
 
   const { showBikeServiceStations } = useMobilityPlatformContext();
 
@@ -21,24 +23,9 @@ const BikeServiceStations = () => {
   const useContrast = useSelector(useAccessibleMap);
 
   const { icon } = global.L;
-
-  const options = {
-    type_name: 'BikeServiceStation',
-  };
-
   const customIcon = icon(createIcon(useContrast ? bikeServiceIconBw : bikeServiceIcon));
 
   const { data } = useMobilityDataFetch(options, showBikeServiceStations);
-
-  /* useEffect(() => {
-    const options = {
-      type_name: 'BikeServiceStation',
-    };
-    if (showBikeServiceStations) {
-      fetchMobilityMapData(options, setBikeServiceStations);
-    }
-  }, [showBikeServiceStations]); */
-
   const renderData = isDataValid(showBikeServiceStations, data);
 
   useEffect(() => {
