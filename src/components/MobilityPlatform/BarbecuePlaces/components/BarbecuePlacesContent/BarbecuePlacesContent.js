@@ -1,22 +1,26 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Typography } from '@mui/material';
+import { useIntl } from 'react-intl';
 import styled from '@emotion/styled';
 
-const BarbecuePlacesContent = ({ intl, item }) => (
-  <StyledContainer>
-    <StyledHeader>
-      <Typography variant="subtitle2" component="h3">
-        {intl.formatMessage({ id: 'mobilityPlatform.content.barbecuePlace.title' })}
-      </Typography>
-    </StyledHeader>
-    <StyledText>
-      <Typography variant="body2" component="p">
-        {`${item.extra.malli.trim()} (${item.extra.valmistaja})`}
-      </Typography>
-    </StyledText>
-  </StyledContainer>
-);
+const BarbecuePlacesContent = ({ item }) => {
+  const intl = useIntl();
+  return (
+    <StyledContainer>
+      <StyledHeader>
+        <Typography variant="subtitle2" component="h3">
+          {intl.formatMessage({ id: 'mobilityPlatform.content.barbecuePlace.title' })}
+        </Typography>
+      </StyledHeader>
+      <StyledText>
+        <Typography variant="body2" component="p">
+          {`${item.extra.malli.trim()} (${item.extra.valmistaja})`}
+        </Typography>
+      </StyledText>
+    </StyledContainer>
+  );
+};
 
 const StyledContainer = styled.div(({ theme }) => ({
   margin: theme.spacing(1),
@@ -33,9 +37,6 @@ const StyledText = styled.div(({ theme }) => ({
 }));
 
 BarbecuePlacesContent.propTypes = {
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }).isRequired,
   item: PropTypes.shape({
     extra: PropTypes.shape({
       malli: PropTypes.string,
