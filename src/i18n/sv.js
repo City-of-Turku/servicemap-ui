@@ -806,7 +806,7 @@ const translations = {
   'mobilityPlatform.menu.show.roadworks': 'Vägarbeten',
   'mobilityPlatform.menu.show.railwayStations': 'Järnvägsstationer',
   'mobilityPlatform.menu.show.parkAndRideBikes': 'Infartsparkering för cyklar',
-  'mobilityPlatform.menu.show.barbecuePlaces': 'Grilli- ja tulipaikat', // TODO translate
+  'mobilityPlatform.menu.show.barbecuePlaces': 'Grillplatser',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
@@ -913,7 +913,7 @@ const translations = {
   'mobilityPlatform.content.departingTrains.empty': 'Inga avgående tåg',
   'mobilityPlatform.content.arrivingTrains.empty': 'Inga inkommande tåg',
   'mobilityPlatform.parkAndRide.content.subtitle': 'Infartspark for cyklarna',
-  'mobilityPlatform.content.barbecuePlace.title': 'Grilli- tai tulipaikka', // TODO translate
+  'mobilityPlatform.content.barbecuePlace.title': 'Grillplats',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',

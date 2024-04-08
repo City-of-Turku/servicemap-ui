@@ -807,7 +807,7 @@ const translations = {
   'mobilityPlatform.menu.show.railwayStations': 'Rautatieasemat',
   'mobilityPlatform.menu.show.airMonitoring': 'Ilmanlaadun mittauspisteet',
   'mobilityPlatform.menu.show.parkAndRideBikes': 'Liityntäpysäkit pyörille',
-  'mobilityPlatform.menu.show.barbecuePlaces': 'Grilli- ja tulipaikat',
+  'mobilityPlatform.menu.show.barbecuePlaces': 'Grillauspaikat',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',
@@ -904,7 +904,7 @@ const translations = {
   'mobilityPlatform.content.departingTrains.empty': 'Ei lähteviä junia',
   'mobilityPlatform.content.arrivingTrains.empty': 'Ei saapuvia junia',
   'mobilityPlatform.parkAndRide.content.subtitle': 'Liityntäpysäkki pyörille',
-  'mobilityPlatform.content.barbecuePlace.title': 'Grilli- tai tulipaikka',
+  'mobilityPlatform.content.barbecuePlace.title': 'Grillauspaikka',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',
