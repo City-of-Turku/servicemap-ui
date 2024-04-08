@@ -806,6 +806,7 @@ const translations = {
   'mobilityPlatform.menu.show.roadworks': 'Tietyömaat',
   'mobilityPlatform.menu.show.railwayStations': 'Rautatieasemat',
   'mobilityPlatform.menu.show.airMonitoring': 'Ilmanlaadun mittauspisteet',
+  'mobilityPlatform.menu.show.parkAndRideBikes': 'Liityntäpysäkit pyörille',
   'mobilityPlatform.menu.show.barbecuePlaces': 'Grilli- ja tulipaikat',
 
   // Content
@@ -902,6 +903,7 @@ const translations = {
   'mobilityPlatform.content.arrivingTrains.title': 'Saapuvat junat',
   'mobilityPlatform.content.departingTrains.empty': 'Ei lähteviä junia',
   'mobilityPlatform.content.arrivingTrains.empty': 'Ei saapuvia junia',
+  'mobilityPlatform.parkAndRide.content.subtitle': 'Liityntäpysäkki pyörille',
   'mobilityPlatform.content.barbecuePlace.title': 'Grilli- tai tulipaikka',
 
   // Info text
@@ -962,6 +964,7 @@ const translations = {
   'mobilityPlatform.info.airMonitoring.paragraph.2': 'Laskennassa otetaan huomioon rikkidioksidi (SO2), typpidioksidi (NO2), hengitettävät hiukkaset (PM10), pienhiukkaset (PM2,5) sekä otsoni (O3). Kun ilmanlaatu on huono tai erittäin huono, terveysvaikutukset ovat mahdollisia herkillä ihmisillä. Ilmanlaatua heikentävät katupöly, liikenteen päästöt, puun pienpoltto, energiantuotanto sekä ajoittaiset kaukokulkeumat.',
   'mobilityPlatform.info.airMonitoring.paragraph.3': 'Palvelukartan ilmanlaatutiedot saadaan Turun seudun ilmansuojelun yhteistyöryhmältä.',
   'mobilityPlatform.info.airMonitoring.link': 'Lisätietoja saa osoitteesta https://www.ilmatieteenlaitos.fi/ilmanlaatu',
+  'mobilityPlatform.info.parkAndRideBicycles': 'Liityntäpysäköinti tarjoaa mahdollisuuden jättää oma pyörä parkkiin ja jatkaa matkaa bussilla. Föli-alueella on useita liityntäpysäköintipaikkoja pyörille. Liityntäpysäköinti on maksutonta ja tarkoitettu vain joukkoliikennettä vaihtoyhteytenä käyttäville.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',

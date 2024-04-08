@@ -38,11 +38,14 @@ import LocaleUtility from './utils/locale';
 // General meta tags for app
 const MetaTags = () => {
   const intl = useIntl();
+  // If external theme (by Turku) is true, then can be used to select which app description to render.
+  const externalTheme = config.themePKG;
+  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
   return (
     <Helmet>
       <meta property="og:site_name" content={intl.formatMessage({ id: 'app.title' })} />
       {isClient() && <meta property="og:url" content={window.location} />}
-      <meta property="og:description" content={intl.formatMessage({ id: 'app.description' })} />
+      <meta property="og:description" content={intl.formatMessage({ id: isExternalTheme ? 'app.description.tku' : 'app.description' })} />
       <meta property="og:image" data-react-helmet="true" content={ogImage} />
       <meta name="twitter:card" data-react-helmet="true" content="summary" />
       <meta
@@ -93,7 +96,7 @@ class App extends React.Component {
 }
 
 // Listen to redux state
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const locale = getLocale(state);
   return {
     locale,
