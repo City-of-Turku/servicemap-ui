@@ -12,7 +12,6 @@ import TextContent from '../../../TextContent';
 /**
  * Displays no parking zones of scooters on the map in polygon format.
  */
-
 const NoParking = () => {
   const options = {
     type_name: 'ScooterNoParkingArea',
@@ -20,7 +19,6 @@ const NoParking = () => {
   };
 
   const { showScooterNoParking } = useMobilityPlatformContext();
-
   const useContrast = useSelector(useAccessibleMap);
 
   const redOptions = redOptionsBase({ weight: 5 });
@@ -30,11 +28,9 @@ const NoParking = () => {
     dashArray: '11 2 11',
   });
   const pathOptions = useContrast ? whiteOptions : redOptions;
+  const map = useMap();
 
   const { data } = useMobilityDataFetch(options, showScooterNoParking);
-  const renderData = isDataValid(showScooterNoParking, data);
-
-  const map = useMap();
 
   /**
    * Filter point data from polygons. Polygons are an array and points are an object.
@@ -45,6 +41,8 @@ const NoParking = () => {
     }
     return acc;
   }, []);
+
+  const renderData = isDataValid(showScooterNoParking, noParkingFiltered);
 
   useEffect(() => {
     if (renderData) {
