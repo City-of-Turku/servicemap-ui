@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
-const getPageDescriptions = (page, unit, address, getLocaleText, intl) => {
+const getPageDescriptions = (page, unit, address, getLocaleText, intl, isExternalTheme) => {
   switch (page) {
     case 'home': {
-      return intl.formatMessage({ id: 'app.description' });
+      return intl.formatMessage({ id: isExternalTheme ? 'app.description.tku' : 'app.description' });
     }
 
     case 'area': {
@@ -58,9 +58,8 @@ const getPageDescriptions = (page, unit, address, getLocaleText, intl) => {
     }
 
     default:
-      return intl.formatMessage({ id: 'app.description' });
+      return intl.formatMessage({ id: isExternalTheme ? 'app.description.tku' : 'app.description' });
   }
 };
-
 
 export default getPageDescriptions;

@@ -172,6 +172,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowRailwayStations,
     showAirMonitoringStations,
     setShowAirMonitoringStations,
+    showParkAndRideBikes,
+    setShowParkAndRideBikes,
   } = useMobilityPlatformContext();
 
   const locale = useSelector(state => state.user.locale);
@@ -377,7 +379,8 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     checkVisibilityValues(showBikeServiceStations, setOpenBicycleSettings);
     checkVisibilityValues(showCityBikes, setOpenBicycleSettings);
     checkVisibilityValues(showCargoBikes, setOpenBicycleSettings);
-  }, [showBicycleStands, showHullLockableStands, showBikeServiceStations, showCityBikes, showCargoBikes]);
+    checkVisibilityValues(showParkAndRideBikes, setOpenBicycleSettings);
+  }, [showBicycleStands, showHullLockableStands, showBikeServiceStations, showCityBikes, showCargoBikes, showParkAndRideBikes]);
 
   useEffect(() => {
     checkVisibilityValues(showBicycleRoutes, setOpenBicycleSettings);
@@ -848,6 +851,10 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
     setShowRoadworks(current => !current);
   };
 
+  const parkAndRideBikesToggle = () => {
+    setShowParkAndRideBikes(current => !current);
+  };
+
   const cultureRouteListToggle = () => {
     setOpenCultureRouteList(current => !current);
     if (cultureRouteId) {
@@ -1245,6 +1252,12 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       onChangeValue: bikeServiceStationsToggle,
     },
     {
+      type: 'parkAndRideBikeStops',
+      msgId: 'mobilityPlatform.menu.show.parkAndRideBikes',
+      checkedValue: showParkAndRideBikes,
+      onChangeValue: parkAndRideBikesToggle,
+    },
+    {
       type: 'brushSandedRoute',
       msgId: 'mobilityPlatform.menu.show.brushSandedRoute',
       checkedValue: showBrushSandedRoute,
@@ -1631,6 +1644,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       visible: showCargoBikes,
       type: 'cargoBikesInfo',
       component: <CityBikeInfo bikeInfo={cargoBikeInfo} />,
+    },
+    {
+      visible: showParkAndRideBikes,
+      type: 'parkAndRideBicyclesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.parkAndRideBicycles" />,
     },
     {
       visible: showBrushSaltedRoute || showBrushSandedRoute,

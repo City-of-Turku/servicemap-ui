@@ -5,6 +5,7 @@ import { uppercaseFirst } from '../../../utils';
 import useLocaleText from '../../../utils/useLocaleText';
 import getPageDescriptions from './pageDescriptions';
 import { isEmbed } from '../../../utils/path';
+import config from '../../../../config';
 
 const PageHandler = (props) => {
   const {
@@ -14,6 +15,10 @@ const PageHandler = (props) => {
   const getLocaleText = useLocaleText();
   const embed = isEmbed();
 
+  // If external theme (by Turku) is true, then can be used to select which app description to render.
+  const externalTheme = config.themePKG;
+  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
   useEffect(() => {
     // Save current page to redux
     setCurrentPage(page);
@@ -22,7 +27,7 @@ const PageHandler = (props) => {
   // Modify html head
   const message = messageId ? intl.formatMessage({ id: messageId }) : '';
   let pageMessage = '';
-  const pageDescription = getPageDescriptions(page, unit, address, getLocaleText, intl);
+  const pageDescription = getPageDescriptions(page, unit, address, getLocaleText, intl, isExternalTheme);
 
   // Add unit or service name to title if needed
   if ((page === 'unit' || page === 'eventList') && unit && unit.name) {

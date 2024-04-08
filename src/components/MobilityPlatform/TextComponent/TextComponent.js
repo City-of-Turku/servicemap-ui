@@ -1,26 +1,31 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
+import styled from '@emotion/styled';
 import useLocaleText from '../../../utils/useLocaleText';
 
 const TextComponent = ({
-  classes, intl, textObj, isTitle, messageId,
+  textObj, isTitle, messageId,
 }) => {
+  const intl = useIntl();
   const getLocaleText = useLocaleText();
   const wrapper = prop => (messageId ? intl.formatMessage({ id: messageId }, { value: prop }) : prop);
   return (
-    <div className={classes.margin}>
+    <StyledContainer>
       <Typography component="p" variant={isTitle ? 'subtitle1' : 'body2'}>
         {wrapper(getLocaleText(textObj))}
       </Typography>
-    </div>
+    </StyledContainer>
   );
 };
 
+const StyledContainer = styled.div(({ theme }) => ({
+  margin: theme.spacing(0.4),
+}));
+
 TextComponent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  textObj: PropTypes.objectOf(PropTypes.any),
+  textObj: PropTypes.objectOf(PropTypes.string),
   isTitle: PropTypes.bool,
   messageId: PropTypes.string,
 };
