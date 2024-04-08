@@ -52,7 +52,7 @@ const NoParking = () => {
       });
       map.fitBounds(bounds);
     }
-  }, [showScooterNoParking, data, map]);
+  }, [showScooterNoParking, noParkingFiltered, map]);
 
   return (
     renderData
