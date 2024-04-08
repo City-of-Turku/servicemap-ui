@@ -14,7 +14,6 @@ import TextContent from '../../../TextContent';
  */
 
 const NoParking = () => {
-  // const [noParkingData, setNoParkingData] = useState([]);
   const options = {
     type_name: 'ScooterNoParkingArea',
     latlon: true,
@@ -37,10 +36,20 @@ const NoParking = () => {
 
   const map = useMap();
 
+  /**
+   * Filter point data from polygons. Polygons are an array and points are an object.
+   */
+  const noParkingFiltered = data.reduce((acc, curr) => {
+    if (Array.isArray(curr.geometry_coords)) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
   useEffect(() => {
     if (renderData) {
       const bounds = [];
-      data.forEach(item => {
+      noParkingFiltered.forEach(item => {
         bounds.push(item.geometry_coords);
       });
       map.fitBounds(bounds);
@@ -49,7 +58,7 @@ const NoParking = () => {
 
   return (
     renderData
-      ? data.map(item => (
+      ? noParkingFiltered.map(item => (
         <PolygonComponent
           key={item.id}
           item={item}
