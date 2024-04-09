@@ -1,59 +1,49 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import parkingMachineIcon from 'servicemap-ui-turku/assets/icons/icons-icon_parking_machine.svg';
 import parkingMachineIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_parking_machine-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import useMobilityDataFetch from '../utils/useMobilityDataFetch';
 import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
 import MarkerComponent from '../MarkerComponent';
 import ParkingMachinesContent from './components/ParkingMachinesContent';
 
 const ParkingMachines = () => {
-  const [parkingMachinesData, setParkingMachinesData] = useState([]);
+  const options = {
+    type_name: 'ParkingMachine',
+    page_size: 500,
+  };
 
   const { showParkingMachines } = useMobilityPlatformContext();
 
   const map = useMap();
-
-  const { icon } = global.L;
-
   const useContrast = useSelector(useAccessibleMap);
 
+  const { icon } = global.L;
   const customIcon = icon(createIcon(useContrast ? parkingMachineIconContrast : parkingMachineIcon));
 
-  useEffect(() => {
-    const options = {
-      type_name: 'ParkingMachine',
-      page_size: 500,
-    };
-    if (showParkingMachines) {
-      fetchMobilityMapData(options, setParkingMachinesData);
-    }
-  }, [showParkingMachines]);
-
-  const renderData = isDataValid(showParkingMachines, parkingMachinesData);
+  const { data } = useMobilityDataFetch(options, showParkingMachines);
+  const renderData = isDataValid(showParkingMachines, data);
 
   useEffect(() => {
-    fitToMapBounds(renderData, parkingMachinesData, map);
-  }, [showParkingMachines, parkingMachinesData]);
+    fitToMapBounds(renderData, data, map);
+  }, [showParkingMachines, data]);
 
   return (
-    <>
-      {renderData ? (
-        parkingMachinesData.map(item => (
-          <MarkerComponent
-            key={item.id}
-            item={item}
-            icon={customIcon}
-          >
-            <ParkingMachinesContent item={item} />
-          </MarkerComponent>
-        ))
-      ) : null}
-    </>
+    renderData ? (
+      data.map(item => (
+        <MarkerComponent
+          key={item.id}
+          item={item}
+          icon={customIcon}
+        >
+          <ParkingMachinesContent item={item} />
+        </MarkerComponent>
+      ))
+    ) : null
   );
 };
 

@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
-import { fetchMobilityMapData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
 import {
   isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase,
 } from '../../utils/utils';
@@ -16,21 +16,13 @@ import MarinasContent from './components/MarinasContent';
  */
 
 const Marinas = () => {
-  const [marinasData, setMarinasData] = useState([]);
-
+  const options = {
+    type_name: 'Marina',
+    latlon: true,
+  };
   const { showMarinas } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
-
-  useEffect(() => {
-    const options = {
-      type_name: 'Marina',
-      latlon: true,
-    };
-    if (showMarinas) {
-      fetchMobilityMapData(options, setMarinasData);
-    }
-  }, [showMarinas]);
 
   const blueOptions = blueOptionsBase({ weight: 5 });
   const whiteOptions = whiteOptionsBase({
@@ -42,27 +34,26 @@ const Marinas = () => {
 
   const map = useMap();
 
-  const renderData = isDataValid(showMarinas, marinasData);
+  const { data } = useMobilityDataFetch(options, showMarinas);
+  const renderData = isDataValid(showMarinas, data);
 
   useEffect(() => {
-    fitPolygonsToBounds(renderData, marinasData, map);
-  }, [showMarinas, marinasData]);
+    fitPolygonsToBounds(renderData, data, map);
+  }, [showMarinas, data]);
 
   return (
-    <>
-      {renderData
-        ? marinasData.map(item => (
-          <PolygonComponent
-            key={item.id}
-            item={item}
-            useContrast={useContrast}
-            pathOptions={pathOptions}
-          >
-            <MarinasContent name={item.name} berthItem={item} />
-          </PolygonComponent>
-        ))
-        : null}
-    </>
+    renderData
+      ? data.map(item => (
+        <PolygonComponent
+          key={item.id}
+          item={item}
+          useContrast={useContrast}
+          pathOptions={pathOptions}
+        >
+          <MarinasContent name={item.name} berthItem={item} />
+        </PolygonComponent>
+      ))
+      : null
   );
 };
 

@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
-import { fetchMobilityMapData } from '../../mobilityPlatformRequests/mobilityPlatformRequests';
+import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
 import {
   isDataValid, blueOptionsBase, whiteOptionsBase, fitPolygonsToBounds,
 } from '../../utils/utils';
@@ -16,22 +16,14 @@ import PublicParkingContent from './components/PublicParkingContent';
  */
 
 const PublicParking = () => {
-  const [publicParkingData, setPublicParkingData] = useState([]);
-
+  const options = {
+    type_name: 'NoStaffParking',
+    page_size: 1000,
+    latlon: true,
+  };
   const { showPublicParking } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
-
-  useEffect(() => {
-    const options = {
-      type_name: 'NoStaffParking',
-      page_size: 1000,
-      latlon: true,
-    };
-    if (showPublicParking) {
-      fetchMobilityMapData(options, setPublicParkingData);
-    }
-  }, [showPublicParking]);
 
   const blueOptions = blueOptionsBase({ weight: 5 });
   const whiteOptions = whiteOptionsBase({ fillOpacity: 0.3, weight: 5, dashArray: '2 4 6' });
@@ -39,26 +31,20 @@ const PublicParking = () => {
 
   const map = useMap();
 
-  const renderData = isDataValid(showPublicParking, publicParkingData);
+  const { data } = useMobilityDataFetch(options, showPublicParking);
+  const renderData = isDataValid(showPublicParking, data);
 
   useEffect(() => {
-    fitPolygonsToBounds(renderData, publicParkingData, map);
-  }, [showPublicParking, publicParkingData, map]);
+    fitPolygonsToBounds(renderData, data, map);
+  }, [showPublicParking, data, map]);
 
   return (
-    <>
-      {renderData
-        && publicParkingData.map(item => (
-          <PolygonComponent
-            key={item.id}
-            item={item}
-            useContrast={useContrast}
-            pathOptions={pathOptions}
-          >
-            <PublicParkingContent item={item} />
-          </PolygonComponent>
-        ))}
-    </>
+    renderData
+    && data.map(item => (
+      <PolygonComponent key={item.id} item={item} useContrast={useContrast} pathOptions={pathOptions}>
+        <PublicParkingContent item={item} />
+      </PolygonComponent>
+    ))
   );
 };
 
