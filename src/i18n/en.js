@@ -802,7 +802,7 @@ const translations = {
   'mobilityPlatform.menu.show.railwayStations': 'Railway stations',
   'mobilityPlatform.menu.show.airMonitoring': 'Air quality stations',
   'mobilityPlatform.menu.show.parkAndRideBikes': 'Park and ride stops for bicycles',
-  'mobilityPlatform.menu.show.barbecuePlaces': 'Barbecue places',
+  'mobilityPlatform.menu.show.barbecuePlaces': 'Sites for barbequing & making fire',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
@@ -909,7 +909,7 @@ const translations = {
   'mobilityPlatform.content.departingTrains.empty': 'No departing trains',
   'mobilityPlatform.content.arrivingTrains.empty': 'No incoming trains',
   'mobilityPlatform.parkAndRide.content.subtitle': 'Park and ride stop for bicycles',
-  'mobilityPlatform.content.barbecuePlace.title': 'Barbecue place',
+  'mobilityPlatform.content.barbecuePlace.title': 'Site for barbequing or making fire',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Route description',
@@ -970,6 +970,7 @@ const translations = {
   'mobilityPlatform.info.airMonitoring.paragraph.3': 'Air quality data for the service map is obtained from the Turku region air protection co-operative group.',
   'mobilityPlatform.info.airMonitoring.link': 'For more information visit https://en.ilmatieteenlaitos.fi/air-quality',
   'mobilityPlatform.info.parkAndRideBicycles': 'Park-and-ride arrangements provide the opportunity to leave your bicycle parked safely and hop on a bus to continue your journey. The Föli area boasts many park-and-ride sites for bicycles.  Park-and-ride parking is free and intended for those using public transport for connections.',
+  'mobilityPlatform.info.barbecuePlaces': 'The map shows official sites for barbequing or making fire. Making a fire on the land administered by Turku City is allowed only on places designated for making an open flame. Making a fire on any other place than the official campfire and barbeque sites is always forbidden.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',

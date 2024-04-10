@@ -807,7 +807,7 @@ const translations = {
   'mobilityPlatform.menu.show.railwayStations': 'Rautatieasemat',
   'mobilityPlatform.menu.show.airMonitoring': 'Ilmanlaadun mittauspisteet',
   'mobilityPlatform.menu.show.parkAndRideBikes': 'Liityntäpysäkit pyörille',
-  'mobilityPlatform.menu.show.barbecuePlaces': 'Grillauspaikat',
+  'mobilityPlatform.menu.show.barbecuePlaces': 'Grillaus- ja tulentekopaikat',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',
@@ -904,7 +904,7 @@ const translations = {
   'mobilityPlatform.content.departingTrains.empty': 'Ei lähteviä junia',
   'mobilityPlatform.content.arrivingTrains.empty': 'Ei saapuvia junia',
   'mobilityPlatform.parkAndRide.content.subtitle': 'Liityntäpysäkki pyörille',
-  'mobilityPlatform.content.barbecuePlace.title': 'Grillauspaikka',
+  'mobilityPlatform.content.barbecuePlace.title': 'Grillaus- ja tulentekopaikka',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',
@@ -965,6 +965,7 @@ const translations = {
   'mobilityPlatform.info.airMonitoring.paragraph.3': 'Palvelukartan ilmanlaatutiedot saadaan Turun seudun ilmansuojelun yhteistyöryhmältä.',
   'mobilityPlatform.info.airMonitoring.link': 'Lisätietoja saa osoitteesta https://www.ilmatieteenlaitos.fi/ilmanlaatu',
   'mobilityPlatform.info.parkAndRideBicycles': 'Liityntäpysäköinti tarjoaa mahdollisuuden jättää oma pyörä parkkiin ja jatkaa matkaa bussilla. Föli-alueella on useita liityntäpysäköintipaikkoja pyörille. Liityntäpysäköinti on maksutonta ja tarkoitettu vain joukkoliikennettä vaihtoyhteytenä käyttäville.',
+  'mobilityPlatform.info.barbecuePlaces': 'Kartalla näkyvät Turun viralliset tulenteko- ja grillauspaikat. Turun kaupungin hallinnoimilla mailla tulenteko on sallittu ainoastaan avotulen tekoon tarkoitetuilla paikoilla. Muilla kuin virallisilla nuotio- ja grillauspaikoilla avotulen teko on aina kielletty.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',

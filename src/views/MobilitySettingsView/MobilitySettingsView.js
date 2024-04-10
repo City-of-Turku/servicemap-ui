@@ -1616,6 +1616,11 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       component: <InfoTextBox infoText="mobilityPlatform.info.publicBenches" />,
     },
     {
+      visible: showBarbecuePlaces,
+      type: 'barbecuePlacesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.barbecuePlaces" />,
+    },
+    {
       visible: openMarkedTrailsList,
       type: 'markedTrailsListInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.markedTrails" />,

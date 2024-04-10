@@ -806,7 +806,7 @@ const translations = {
   'mobilityPlatform.menu.show.roadworks': 'Vägarbeten',
   'mobilityPlatform.menu.show.railwayStations': 'Järnvägsstationer',
   'mobilityPlatform.menu.show.parkAndRideBikes': 'Infartsparkering för cyklar',
-  'mobilityPlatform.menu.show.barbecuePlaces': 'Grillplatser',
+  'mobilityPlatform.menu.show.barbecuePlaces': 'Grill- och eldningsplatser',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
@@ -913,7 +913,7 @@ const translations = {
   'mobilityPlatform.content.departingTrains.empty': 'Inga avgående tåg',
   'mobilityPlatform.content.arrivingTrains.empty': 'Inga inkommande tåg',
   'mobilityPlatform.parkAndRide.content.subtitle': 'Infartspark for cyklarna',
-  'mobilityPlatform.content.barbecuePlace.title': 'Grillplats',
+  'mobilityPlatform.content.barbecuePlace.title': 'Grill- och eldningplats',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',
@@ -974,6 +974,7 @@ const translations = {
   'mobilityPlatform.info.airMonitoring.paragraph.3': 'Luftkvalitetsdata för Servicekartan erhålls från Åboregionens samarbetsgrupp för luftskydd.',
   'mobilityPlatform.info.airMonitoring.link': 'För mer information besök: https://sv.ilmatieteenlaitos.fi/luftkvalitet',
   'mobilityPlatform.info.parkAndRideBicycles': 'Infartsparkeringen erbjuder möjlighet att lämna din egen cykel på parkeringsplatsen och fortsätta resan med buss. Inom Föli-området finns flera infartsparkeringsplatser för cyklar. Infartsparkeringen är gratis och endast avsedd för dem som fortsätter sin resa med kollektivtrafik.',
+  'mobilityPlatform.info.barbecuePlaces': 'Kartan visar eldnings- och grillplatser i Åbo. Det är tillåtet att göra upp öppen eld endast vid särskilt avsedda eldningsplatser. Att göra upp eld på andra platser är förbjudet.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',
