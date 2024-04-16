@@ -3,63 +3,59 @@
 exports[`<LoadingPlacesContent /> should match snapshot 1`] = `
 <div>
   <div
-    class="LoadingPlacesContent-container-1"
+    class="css-1ynyhby"
   >
     <div
-      class="LoadingPlacesContent-container-1"
+      class="css-1dznbe2"
     >
       <div
-        class="LoadingPlacesContent-headerContainer-2"
+        class="css-qpxa1n"
       >
-        <div
-          class="css-qpxa1n"
+        <p
+          class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
         >
-          <p
-            class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
-          >
-            Testi
-          </p>
-        </div>
+          Testi
+        </p>
+      </div>
+    </div>
+    <div
+      class="css-1fhgjcy"
+    >
+      <div
+        class="css-qpxa1n"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Osoite: Testikatu
+        </p>
       </div>
       <div
-        class="LoadingPlacesContent-textContainer-3"
+        class="css-qpxa1n"
       >
-        <div
-          class="css-qpxa1n"
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
-          <p
-            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
-          >
-            Osoite: Testikatu
-          </p>
-        </div>
-        <div
-          class="css-qpxa1n"
+          Testi
+        </p>
+      </div>
+      <div
+        class="css-qpxa1n"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
-          <p
-            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
-          >
-            Testi
-          </p>
-        </div>
-        <div
-          class="css-qpxa1n"
+          Testitieto
+        </p>
+      </div>
+      <div
+        class="css-qpxa1n"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
-          <p
-            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
-          >
-            Testitieto
-          </p>
-        </div>
-        <div
-          class="css-qpxa1n"
-        >
-          <p
-            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
-          >
-            Testitieto
-          </p>
-        </div>
+          Testitieto
+        </p>
       </div>
     </div>
   </div>

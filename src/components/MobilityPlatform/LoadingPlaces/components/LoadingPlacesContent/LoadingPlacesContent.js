@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from '@emotion/styled';
 import TextComponent from '../../../TextComponent';
+import { StyledContainer, StyledHeaderContainer } from '../../../styled/styled';
 
-const LoadingPlacesContent = ({ classes, item }) => {
+const LoadingPlacesContent = ({ item }) => {
   const loadingPlaceName = {
     fi: item.name_fi,
     en: item.name_en,
@@ -16,29 +18,42 @@ const LoadingPlacesContent = ({ classes, item }) => {
   };
 
   const loadingPlaceInfo = (
-    <div className={classes.container}>
-      <div className={classes.headerContainer}>
+    <StyledContainer>
+      <StyledHeaderContainer>
         <TextComponent textObj={loadingPlaceName} isTitle />
-      </div>
-      <div className={classes.textContainer}>
-        {item.address_fi !== '' ? <TextComponent messageId="mobilityPlatform.content.address" textObj={loadingPlaceAddress} /> : null}
+      </StyledHeaderContainer>
+      <StyledMargin>
+        {item.address_fi !== '' ? (
+          <TextComponent messageId="mobilityPlatform.content.address" textObj={loadingPlaceAddress} />
+        ) : null}
         <TextComponent textObj={item.extra.lastauspiste} />
         <TextComponent textObj={item.extra.Saavutettavuus} />
         <TextComponent textObj={item.extra.rajoitustyyppi} />
-      </div>
-    </div>
+      </StyledMargin>
+    </StyledContainer>
   );
 
-  return (
-    <div className={classes.container}>
-      {loadingPlaceInfo}
-    </div>
-  );
+  return loadingPlaceInfo;
 };
 
+const StyledMargin = styled.div(({ theme }) => ({
+  marginTop: theme.spacing(0.5),
+}));
+
 LoadingPlacesContent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  item: PropTypes.objectOf(PropTypes.any),
+  item: PropTypes.shape({
+    address_fi: PropTypes.string,
+    address_en: PropTypes.string,
+    address_sv: PropTypes.string,
+    name_fi: PropTypes.string,
+    name_en: PropTypes.string,
+    name_sv: PropTypes.string,
+    extra: PropTypes.shape({
+      lastauspiste: PropTypes.objectOf(PropTypes.string),
+      Saavutettavuus: PropTypes.objectOf(PropTypes.string),
+      rajoitustyyppi: PropTypes.objectOf(PropTypes.string),
+    }),
+  }),
 };
 
 LoadingPlacesContent.defaultProps = {
