@@ -3,10 +3,10 @@
 exports[`<OutdoorGymDevicesContent /> should match snapshot 1`] = `
 <div>
   <div
-    class="OutdoorGymDevicesContent-container-1"
+    class="css-1ynyhby"
   >
     <div
-      class="OutdoorGymDevicesContent-headerContainer-2"
+      class="css-1dznbe2"
     >
       <div
         class="css-qpxa1n"
@@ -19,7 +19,7 @@ exports[`<OutdoorGymDevicesContent /> should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="OutdoorGymDevicesContent-textContainer-3"
+      class="css-1fhgjcy"
     >
       <div
         class="css-qpxa1n"
