@@ -1,10 +1,12 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
+import { StyledContainer, StyledHeaderContainer, StyledTextContainer } from '../../../styled/styled';
 
-const BicycleStandContent = ({
-  classes, bicycleStand, intl,
-}) => {
+const BicycleStandContent = ({ bicycleStand }) => {
+  const intl = useIntl();
+
   const messageIds = {
     model: 'mobilityPlatform.content.bicycleStands.model',
     places: 'mobilityPlatform.content.bicycleStands.numOfPlaces',
@@ -17,96 +19,104 @@ const BicycleStandContent = ({
   };
 
   const titleTypo = () => (
-    <div className={classes.title}>
-      <Typography variant="subtitle1" component="h3" className={classes.titleText}>
+    <StyledHeaderContainer>
+      <Typography variant="subtitle1" component="h3">
         {bicycleStand.name}
       </Typography>
-    </div>
+    </StyledHeaderContainer>
   );
 
   const multiValueTypo = messages => (
-    <div className={classes.content}>
+    <div>
       {bicycleStand.extra.model ? (
-        <div className={classes.paragraph}>
+        <StyledTextContainer>
           <Typography component="p" variant="body2">
             {intl.formatMessage({
               id: messages.model,
             }, { value: bicycleStand.extra.model })}
           </Typography>
-        </div>
+        </StyledTextContainer>
       ) : null}
-      <div className={classes.paragraph}>
+      <StyledTextContainer>
         <Typography component="p" variant="body2">
           {intl.formatMessage({
             id: messages.places,
           }, { value: bicycleStand.extra.number_of_places })}
         </Typography>
-      </div>
-      <div className={classes.paragraph}>
+      </StyledTextContainer>
+      <StyledTextContainer>
         <Typography component="p" variant="body2">
           {intl.formatMessage({
             id: messages.stands,
           }, { value: bicycleStand.extra.number_of_stands })}
         </Typography>
-      </div>
+      </StyledTextContainer>
       {bicycleStand.extra.covered ? (
-        <div className={classes.paragraph}>
+        <StyledTextContainer>
           <Typography component="p" variant="body2" display="block">
             {intl.formatMessage({
               id: messages.covered,
             })}
           </Typography>
-        </div>
+        </StyledTextContainer>
       ) : (
-        <div className={classes.paragraph}>
+        <StyledTextContainer>
           <Typography component="p" variant="body2" display="block">
             {intl.formatMessage({
               id: messages.notCovered,
             })}
           </Typography>
-        </div>
+        </StyledTextContainer>
       )}
       {bicycleStand.extra.hull_lockable ? (
-        <div className={classes.paragraph}>
+        <StyledTextContainer>
           <Typography component="p" variant="body2" display="block">
             {intl.formatMessage({
               id: messages.lockable,
             })}
           </Typography>
-        </div>
+        </StyledTextContainer>
       ) : (
-        <div className={classes.paragraph}>
+        <StyledTextContainer>
           <Typography component="p" variant="body2" display="block">
             {intl.formatMessage({
               id: messages.notLockable,
             })}
           </Typography>
-        </div>
+        </StyledTextContainer>
       )}
       {bicycleStand.extra.maintained_by_turku ? (
-        <div className={classes.paragraph}>
+        <StyledTextContainer>
           <Typography component="p" variant="body2" display="block">
             {intl.formatMessage({
               id: messages.maintained,
             })}
           </Typography>
-        </div>
+        </StyledTextContainer>
       ) : null}
     </div>
   );
 
   return (
-    <div className={classes.padding}>
+    <StyledContainer>
       {titleTypo()}
       {multiValueTypo(messageIds)}
-    </div>
+    </StyledContainer>
   );
 };
 
 BicycleStandContent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  bicycleStand: PropTypes.objectOf(PropTypes.any),
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
+  bicycleStand: PropTypes.shape({
+    name: PropTypes.string,
+    extra: PropTypes.shape({
+      model: PropTypes.string,
+      number_of_places: PropTypes.number,
+      number_of_stands: PropTypes.number,
+      covered: PropTypes.bool,
+      hull_lockable: PropTypes.bool,
+      maintained_by_turku: PropTypes.bool,
+    }),
+  }),
 };
 
 BicycleStandContent.defaultProps = {

@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { StyledContainer, StyledHeaderContainer, StyledTextContainer } from '../../../styled/styled';
 import TextComponent from '../../../TextComponent';
 
-const BikeServiceStationContent = ({ classes, station }) => {
+const BikeServiceStationContent = ({ station }) => {
   const stationName = {
     fi: station.name,
     en: station.name_en,
@@ -22,27 +23,35 @@ const BikeServiceStationContent = ({ classes, station }) => {
   };
 
   const bikeServiceStationInfo = (
-    <div className={classes.container}>
-      <div className={classes.headerContainer}>
+    <StyledContainer>
+      <StyledHeaderContainer>
         <TextComponent textObj={stationName} isTitle />
-      </div>
-      <div className={classes.textContainer}>
+      </StyledHeaderContainer>
+      <StyledTextContainer>
         {station.address ? <TextComponent messageId="mobilityPlatform.content.address" textObj={stationAddress} /> : null}
         <TextComponent textObj={stationDesc} />
-      </div>
-    </div>
+      </StyledTextContainer>
+    </StyledContainer>
   );
 
   return (
-    <>
-      {bikeServiceStationInfo}
-    </>
+    bikeServiceStationInfo
   );
 };
 
 BikeServiceStationContent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  station: PropTypes.objectOf(PropTypes.any),
+  station: PropTypes.shape({
+    address: PropTypes.string,
+    address_fi: PropTypes.string,
+    address_en: PropTypes.string,
+    address_sv: PropTypes.string,
+    name: PropTypes.string,
+    name_en: PropTypes.string,
+    name_sv: PropTypes.string,
+    description: PropTypes.string,
+    description_en: PropTypes.string,
+    description_sv: PropTypes.string,
+  }),
 };
 
 BikeServiceStationContent.defaultProps = {

@@ -3,10 +3,10 @@
 exports[`<BikeServiceStationContent /> should match snapshot 1`] = `
 <div>
   <div
-    class="BikeServiceStationContent-container-1"
+    class="css-1ynyhby"
   >
     <div
-      class="BikeServiceStationContent-headerContainer-2"
+      class="css-1dznbe2"
     >
       <div
         class="css-qpxa1n"
@@ -19,7 +19,7 @@ exports[`<BikeServiceStationContent /> should match snapshot 1`] = `
       </div>
     </div>
     <div
-      class="BikeServiceStationContent-textContainer-3"
+      class="css-1fhgjcy"
     >
       <div
         class="css-qpxa1n"

@@ -3,20 +3,20 @@
 exports[`<BicycleStandContent /> should work 1`] = `
 <div>
   <div
-    class="injectIntl(BicycleStandContent)-padding-4"
+    class="css-1ynyhby"
   >
     <div
-      class="injectIntl(BicycleStandContent)-title-1"
+      class="css-1dznbe2"
     >
       <h3
-        class="MuiTypography-root MuiTypography-subtitle1 injectIntl(BicycleStandContent)-titleText-2 css-dlbwt1-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
       >
         Testinimi
       </h3>
     </div>
     <div>
       <div
-        class="injectIntl(BicycleStandContent)-paragraph-3"
+        class="css-1fhgjcy"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -25,7 +25,7 @@ exports[`<BicycleStandContent /> should work 1`] = `
         </p>
       </div>
       <div
-        class="injectIntl(BicycleStandContent)-paragraph-3"
+        class="css-1fhgjcy"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -34,7 +34,7 @@ exports[`<BicycleStandContent /> should work 1`] = `
         </p>
       </div>
       <div
-        class="injectIntl(BicycleStandContent)-paragraph-3"
+        class="css-1fhgjcy"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -43,7 +43,7 @@ exports[`<BicycleStandContent /> should work 1`] = `
         </p>
       </div>
       <div
-        class="injectIntl(BicycleStandContent)-paragraph-3"
+        class="css-1fhgjcy"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1rexknm-MuiTypography-root"
@@ -52,7 +52,7 @@ exports[`<BicycleStandContent /> should work 1`] = `
         </p>
       </div>
       <div
-        class="injectIntl(BicycleStandContent)-paragraph-3"
+        class="css-1fhgjcy"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1rexknm-MuiTypography-root"
@@ -61,7 +61,7 @@ exports[`<BicycleStandContent /> should work 1`] = `
         </p>
       </div>
       <div
-        class="injectIntl(BicycleStandContent)-paragraph-3"
+        class="css-1fhgjcy"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1rexknm-MuiTypography-root"
