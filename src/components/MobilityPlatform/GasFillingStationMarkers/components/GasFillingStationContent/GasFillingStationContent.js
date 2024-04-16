@@ -1,42 +1,53 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
+import {
+  StyledContainer, StyledHeaderContainer, StyledTextContainer, StyledMargin,
+} from '../../../styled/styled';
 
-const GasFillingStationContent = ({ classes, intl, station }) => {
-  const singleValTypo = (messageId, value, props = {}) => (
-    <div {...props}>
+const GasFillingStationContent = ({ station }) => {
+  const intl = useIntl();
+
+  const singleValTypo = (messageId, value) => (
+    <StyledMargin>
       <Typography variant="body2">
         {intl.formatMessage({ id: messageId }, { value })}
       </Typography>
-    </div>
+    </StyledMargin>
   );
 
   const gasFillingStationInfo = (
     <>
-      {singleValTypo('mobilityPlatform.content.address', station.address, { className: classes.margin })}
-      {singleValTypo('mobilityPlatform.content.gfsType', station.extra.lng_cng, { className: classes.margin })}
-      {singleValTypo('mobilityPlatform.content.operator', station.extra.operator, { className: classes.margin })}
+      {singleValTypo('mobilityPlatform.content.address', station.address)}
+      {singleValTypo('mobilityPlatform.content.gfsType', station.extra.lng_cng)}
+      {singleValTypo('mobilityPlatform.content.operator', station.extra.operator)}
     </>
   );
 
   return (
-    <div className={classes.container}>
-      <div className={classes.headerContainer}>
+    <StyledContainer>
+      <StyledHeaderContainer>
         <Typography variant="subtitle1" component="h3">
           {station.name}
         </Typography>
-      </div>
-      <div className={classes.textContainer}>
+      </StyledHeaderContainer>
+      <StyledTextContainer>
         {gasFillingStationInfo}
-      </div>
-    </div>
+      </StyledTextContainer>
+    </StyledContainer>
   );
 };
 
 GasFillingStationContent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  station: PropTypes.objectOf(PropTypes.any),
+  station: PropTypes.shape({
+    name: PropTypes.string,
+    address: PropTypes.string,
+    extra: PropTypes.shape({
+      operator: PropTypes.string,
+      lng_cng: PropTypes.string,
+    }),
+  }),
 };
 
 GasFillingStationContent.defaultProps = {

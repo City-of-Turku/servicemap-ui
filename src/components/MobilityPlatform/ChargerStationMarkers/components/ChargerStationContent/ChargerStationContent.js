@@ -1,25 +1,30 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from '@emotion/styled';
+import { useIntl } from 'react-intl';
+import {
+  StyledContainer, StyledHeaderContainer, StyledTextContainer, StyledMargin,
+} from '../../../styled/styled';
 import TextComponent from '../../../TextComponent';
 
-const ChargerStationContent = ({ classes, intl, station }) => {
-  const titleTypo = (messageId, props = {}) => (
-    <div {...props}>
+const ChargerStationContent = ({ station }) => {
+  const intl = useIntl();
+
+  const titleTypo = messageId => (
+    <StyledMargin>
       <Typography variant="subtitle2" component="h3">
         {intl.formatMessage({
           id: messageId,
         })}
         :
       </Typography>
-    </div>
+    </StyledMargin>
   );
 
-  const singleValTypo = (messageId, value, props = {}) => (
-    <div {...props}>
-      <Typography variant="body2">
-        {intl.formatMessage({ id: messageId }, { value })}
-      </Typography>
+  const singleValTypo = (messageId, value) => (
+    <div>
+      <Typography variant="body2">{intl.formatMessage({ id: messageId }, { value })}</Typography>
     </div>
   );
 
@@ -35,7 +40,7 @@ const ChargerStationContent = ({ classes, intl, station }) => {
     sv: station.address_sv,
   };
 
-  const renderAdministrator = (item) => {
+  const renderAdministrator = item => {
     const stationAdmin = {
       fi: item.fi,
       en: item.en,
@@ -45,10 +50,10 @@ const ChargerStationContent = ({ classes, intl, station }) => {
     return <TextComponent messageId="mobilityPlatform.chargerStations.content.admin" textObj={stationAdmin} />;
   };
 
-  const renderPayment = (paymentType, props = {}) => {
+  const renderPayment = paymentType => {
     const toLower = paymentType.toLowerCase();
     return (
-      <div {...props}>
+      <StyledMargin>
         <Typography variant="body2">
           {intl.formatMessage({
             id:
@@ -57,7 +62,7 @@ const ChargerStationContent = ({ classes, intl, station }) => {
                 : 'mobilityPlatform.chargerStations.content.free',
           })}
         </Typography>
-      </div>
+      </StyledMargin>
     );
   };
 
@@ -66,38 +71,60 @@ const ChargerStationContent = ({ classes, intl, station }) => {
     <>
       {station.address ? <TextComponent messageId="mobilityPlatform.content.address" textObj={stationAddress} /> : null}
       {station.extra.administrator.fi !== '' ? renderAdministrator(station.extra.administrator) : null}
-      {renderPayment(station.extra.payment, { className: classes.margin })}
-      {titleTypo('mobilityPlatform.content.chargersTitle', { className: classes.margin })}
+      {renderPayment(station.extra.payment)}
+      {titleTypo('mobilityPlatform.content.chargersTitle')}
       {station.extra.chargers && station.extra.chargers.length > 0
         ? station.extra.chargers.map(charger => (
-          <div key={`${charger.plug}${charger.power}${charger.number}`} className={classes.contentInner}>
+          <StyledContentInner key={`${charger.plug}${charger.power}${charger.number}`}>
             {singleValTypo('mobilityPlatform.content.cgsType', charger.plug)}
             {singleValTypo('mobilityPlatform.content.count', charger.number)}
             <Typography variant="body2">
               {intl.formatMessage({ id: 'mobilityPlatform.content.power' }, { value: charger.power })}
             </Typography>
-          </div>
+          </StyledContentInner>
         ))
         : null}
     </>
   );
 
   return (
-    <div className={classes.container}>
-      <div className={classes.headerContainer}>
+    <StyledContainer>
+      <StyledHeaderContainer>
         <TextComponent textObj={stationName} isTitle />
-      </div>
-      <div className={classes.textContainer}>
-        {chargerStationInfo}
-      </div>
-    </div>
+      </StyledHeaderContainer>
+      <StyledTextContainer>{chargerStationInfo}</StyledTextContainer>
+    </StyledContainer>
   );
 };
 
+const StyledContentInner = styled.div(({ theme }) => ({
+  marginLeft: theme.spacing(1),
+  marginBottom: theme.spacing(1),
+}));
+
 ChargerStationContent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  station: PropTypes.objectOf(PropTypes.any),
+  station: PropTypes.shape({
+    address: PropTypes.string,
+    address_fi: PropTypes.string,
+    address_en: PropTypes.string,
+    address_sv: PropTypes.string,
+    name: PropTypes.string,
+    name_en: PropTypes.string,
+    name_sv: PropTypes.string,
+    extra: PropTypes.shape({
+      payment: PropTypes.string,
+      administrator: PropTypes.shape({
+        fi: PropTypes.string,
+      }),
+      chargers: PropTypes.arrayOf(
+        PropTypes.shape({
+          plug: PropTypes.string,
+          number: PropTypes.string,
+          power: PropTypes.string,
+        }),
+      ),
+    }),
+  }),
 };
 
 ChargerStationContent.defaultProps = {

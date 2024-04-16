@@ -3,10 +3,10 @@
 exports[`<GasFillingStationContent /> should match snapshot 1`] = `
 <div>
   <div
-    class="injectIntl(GasFillingStationContent)-container-1"
+    class="css-1ynyhby"
   >
     <div
-      class="injectIntl(GasFillingStationContent)-headerContainer-2"
+      class="css-1dznbe2"
     >
       <h3
         class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
@@ -15,10 +15,10 @@ exports[`<GasFillingStationContent /> should match snapshot 1`] = `
       </h3>
     </div>
     <div
-      class="injectIntl(GasFillingStationContent)-textContainer-3"
+      class="css-1fhgjcy"
     >
       <div
-        class="injectIntl(GasFillingStationContent)-margin-5"
+        class="css-qpxa1n"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -27,7 +27,7 @@ exports[`<GasFillingStationContent /> should match snapshot 1`] = `
         </p>
       </div>
       <div
-        class="injectIntl(GasFillingStationContent)-margin-5"
+        class="css-qpxa1n"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -36,7 +36,7 @@ exports[`<GasFillingStationContent /> should match snapshot 1`] = `
         </p>
       </div>
       <div
-        class="injectIntl(GasFillingStationContent)-margin-5"
+        class="css-qpxa1n"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
