@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Typography } from '@mui/material';
 
 const StyledPopupInner = styled.div(({ theme }) => ({
   borderRadius: '3px',
@@ -37,6 +38,10 @@ const StyledMargin = styled.div(({ theme }) => ({
   margin: theme.spacing(0.4),
 }));
 
+const StyledBoldText = styled(Typography)(() => ({
+  fontWeight: 'bold',
+}));
+
 export {
   StyledPopupInner,
   StyledContentHeader,
@@ -44,4 +49,5 @@ export {
   StyledHeaderContainer,
   StyledTextContainer,
   StyledMargin,
+  StyledBoldText,
 };

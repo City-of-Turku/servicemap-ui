@@ -1,10 +1,14 @@
 import { Link, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
+import styled from '@emotion/styled';
+import {
+  StyledContainer, StyledHeaderContainer, StyledTextContainer, StyledBoldText,
+} from '../../../styled/styled';
 
-const CityBikesContent = ({
-  classes, intl, bikeStation, cityBikeStatistics,
-}) => {
+const CityBikesContent = ({ bikeStation, cityBikeStatistics }) => {
+  const intl = useIntl();
   const getStationType = () => bikeStation.name.includes('eCargo bikes');
 
   const isCargoBike = getStationType();
@@ -19,9 +23,9 @@ const CityBikesContent = ({
   const stationItem = getStation(cityBikeStatistics);
 
   const renderText = (translationId, value) => (
-    <div className={classes.paragraph}>
+    <StyledTextContainer>
       <Typography variant="body2">{intl.formatMessage({ id: translationId }, { value })}</Typography>
-    </div>
+    </StyledTextContainer>
   );
 
   /** Remove 'eCargo bikes' from station name before render  */
@@ -31,21 +35,21 @@ const CityBikesContent = ({
   };
 
   const renderLink = (linkUrl, text) => (
-    <div className={classes.paragraph}>
+    <StyledTextContainer>
       <Link target="_blank" href={linkUrl}>
-        <Typography className={classes.link} variant="body2">
+        <StyledLinkText variant="body2">
           {text}
-        </Typography>
+        </StyledLinkText>
       </Link>
-    </div>
+    </StyledTextContainer>
   );
 
   const renderStationType = (isVirtual, translationId) => {
     if (isVirtual) {
       return (
-        <div className={classes.paragraph}>
+        <StyledTextContainer>
           <Typography variant="body2">{intl.formatMessage({ id: translationId })}</Typography>
-        </div>
+        </StyledTextContainer>
       );
     }
     return null;
@@ -54,14 +58,14 @@ const CityBikesContent = ({
   const getNumberOfVacantPlaces = (capacity, numberOfBikes) => capacity - numberOfBikes;
 
   return (
-    <div className={classes.popupInner}>
-      <div className={classes.subtitle}>
+    <StyledContainer>
+      <StyledHeaderContainer>
         <Typography variant="subtitle1" component="h3">
           {intl.formatMessage({
             id: isCargoBike ? 'mobilityPlatform.content.cargoBikes.title' : 'mobilityPlatform.content.cityBikes.title',
           })}
         </Typography>
-      </div>
+      </StyledHeaderContainer>
       {isCargoBike
         ? renderText('mobilityPlatform.content.cityBikes.name', formatStationName(bikeStation.name))
         : renderText('mobilityPlatform.content.cityBikes.name', bikeStation.name)}
@@ -86,23 +90,24 @@ const CityBikesContent = ({
             ))
           : null}
       </div>
-      <div className={classes.paragraph}>
-        <Typography variant="body2" className={classes.bold}>
+      <StyledTextContainer>
+        <StyledBoldText variant="body2">
           {intl.formatMessage({ id: 'mobilityPlatform.content.general.rentalUris' })}
           :
-        </Typography>
-      </div>
+        </StyledBoldText>
+      </StyledTextContainer>
       {renderLink(bikeStation.rental_uris.android, 'Android')}
       {renderLink(bikeStation.rental_uris.ios, 'iOS')}
-    </div>
+    </StyledContainer>
   );
 };
 
+const StyledLinkText = styled(Typography)(({ theme }) => ({
+  color: theme.palette.link.main,
+  textDecoration: 'underline',
+}));
+
 CityBikesContent.propTypes = {
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }).isRequired,
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   bikeStation: PropTypes.shape({
     station_id: PropTypes.string,
     name: PropTypes.string,

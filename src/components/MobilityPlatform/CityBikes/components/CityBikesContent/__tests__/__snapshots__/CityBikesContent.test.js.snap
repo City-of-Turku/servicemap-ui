@@ -3,10 +3,10 @@
 exports[`<CityBikesContent /> should work 1`] = `
 <div>
   <div
-    class="injectIntl(CityBikesContent)-popupInner-1"
+    class="css-1ynyhby"
   >
     <div
-      class="injectIntl(CityBikesContent)-subtitle-2"
+      class="css-1dznbe2"
     >
       <h3
         class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
@@ -15,7 +15,7 @@ exports[`<CityBikesContent /> should work 1`] = `
       </h3>
     </div>
     <div
-      class="injectIntl(CityBikesContent)-paragraph-3"
+      class="css-1fhgjcy"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -24,7 +24,7 @@ exports[`<CityBikesContent /> should work 1`] = `
       </p>
     </div>
     <div
-      class="injectIntl(CityBikesContent)-paragraph-3"
+      class="css-1fhgjcy"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -33,7 +33,7 @@ exports[`<CityBikesContent /> should work 1`] = `
       </p>
     </div>
     <div
-      class="injectIntl(CityBikesContent)-paragraph-3"
+      class="css-1fhgjcy"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -43,7 +43,7 @@ exports[`<CityBikesContent /> should work 1`] = `
     </div>
     <div>
       <div
-        class="injectIntl(CityBikesContent)-paragraph-3"
+        class="css-1fhgjcy"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -53,17 +53,17 @@ exports[`<CityBikesContent /> should work 1`] = `
       </div>
     </div>
     <div
-      class="injectIntl(CityBikesContent)-paragraph-3"
+      class="css-1fhgjcy"
     >
       <p
-        class="MuiTypography-root MuiTypography-body2 injectIntl(CityBikesContent)-bold-4 css-1ak20dk-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body2 css-17kieg4-MuiTypography-root"
       >
         Varauslinkit
         :
       </p>
     </div>
     <div
-      class="injectIntl(CityBikesContent)-paragraph-3"
+      class="css-1fhgjcy"
     >
       <a
         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-11g60ih-MuiTypography-root-MuiLink-root"
@@ -71,14 +71,14 @@ exports[`<CityBikesContent /> should work 1`] = `
         target="_blank"
       >
         <p
-          class="MuiTypography-root MuiTypography-body2 injectIntl(CityBikesContent)-link-5 css-1ak20dk-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 css-77qfvr-MuiTypography-root"
         >
           Android
         </p>
       </a>
     </div>
     <div
-      class="injectIntl(CityBikesContent)-paragraph-3"
+      class="css-1fhgjcy"
     >
       <a
         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-11g60ih-MuiTypography-root-MuiLink-root"
@@ -86,7 +86,7 @@ exports[`<CityBikesContent /> should work 1`] = `
         target="_blank"
       >
         <p
-          class="MuiTypography-root MuiTypography-body2 injectIntl(CityBikesContent)-link-5 css-1ak20dk-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 css-77qfvr-MuiTypography-root"
         >
           iOS
         </p>
