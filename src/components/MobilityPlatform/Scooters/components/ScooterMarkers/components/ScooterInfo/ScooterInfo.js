@@ -1,79 +1,85 @@
 import { Link, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
+import {
+  StyledContainer, StyledHeaderContainer, StyledTextContainer, StyledBoldText, StyledLinkText,
+} from '../../../../../styled/styled';
 
-const ScooterInfo = ({ classes, intl, item }) => {
+const ScooterInfo = ({ item }) => {
+  const intl = useIntl();
+
   const titleTypo = messageId => (
-    <div>
-      <Typography variant="subtitle1" component="h3">
-        {intl.formatMessage({
-          id: messageId,
-        })}
-      </Typography>
-    </div>
+    <Typography variant="subtitle1" component="h3">
+      {intl.formatMessage({
+        id: messageId,
+      })}
+    </Typography>
   );
 
   const singleValTypo = (messageId, value) => (
-    <div className={classes.marginTop}>
+    <StyledTextContainer>
       <Typography variant="body2">
         {intl.formatMessage({ id: messageId }, { value })}
       </Typography>
-    </div>
+    </StyledTextContainer>
   );
 
-  const renderStatus = (scooterStatus) => {
+  const renderStatus = scooterStatus => {
     if (!scooterStatus) {
       return (
-        <div className={classes.marginTop}>
+        <StyledTextContainer>
           <Typography variant="body2">
             {intl.formatMessage({ id: 'mobilityPlatform.content.scooter.notReserved' })}
           </Typography>
-        </div>
+        </StyledTextContainer>
       );
     } return null;
   };
 
   const renderLink = (linkUrl, text) => (
-    <div className={classes.paragraph}>
+    <StyledTextContainer>
       <Link role="link" target="_blank" href={linkUrl}>
-        <Typography className={classes.link} variant="body2">
+        <StyledLinkText variant="body2">
           {text}
-        </Typography>
+        </StyledLinkText>
       </Link>
-    </div>
+    </StyledTextContainer>
   );
 
-  const formatRange = (range) => {
+  const formatRange = range => {
     const rangeKm = (range / 1000).toFixed(2);
     return `${rangeKm} km`;
   };
 
   return (
-    <div className={classes.container}>
-      <div className={classes.headerContainer}>
+    <StyledContainer>
+      <StyledHeaderContainer>
         {titleTypo('mobilityPlatform.content.scooter.title')}
-      </div>
-      <div className={classes.textContainer}>
+      </StyledHeaderContainer>
+      <div>
         {singleValTypo('mobilityPlatform.content.general.provider', 'Ryde')}
         {renderStatus(item.is_reserved)}
         {singleValTypo('mobilityPlatform.content.scooter.range', formatRange(item.current_range_meters))}
-        <div className={classes.paragraph}>
-          <Typography variant="body2" className={classes.bold}>
+        <StyledTextContainer>
+          <StyledBoldText variant="body2">
             {intl.formatMessage({ id: 'mobilityPlatform.content.general.rentalUris' })}
             :
-          </Typography>
-        </div>
+          </StyledBoldText>
+        </StyledTextContainer>
         {renderLink(item.rental_uris.android, 'Android')}
         {renderLink(item.rental_uris.ios, 'iOS')}
       </div>
-    </div>
+    </StyledContainer>
   );
 };
 
 ScooterInfo.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  item: PropTypes.objectOf(PropTypes.any),
+  item: PropTypes.shape({
+    is_reserved: PropTypes.bool,
+    current_range_meters: PropTypes.number,
+    rental_uris: PropTypes.objectOf(PropTypes.string),
+  }),
 };
 
 ScooterInfo.defaultProps = {

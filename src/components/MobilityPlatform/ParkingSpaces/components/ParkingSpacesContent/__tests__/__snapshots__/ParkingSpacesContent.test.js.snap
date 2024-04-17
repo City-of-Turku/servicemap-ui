@@ -3,10 +3,10 @@
 exports[`<ParkingSpacesContent /> should work 1`] = `
 <div>
   <div
-    class="injectIntl(ParkingSpacesContent)-container-1"
+    class="css-1ynyhby"
   >
     <div
-      class="injectIntl(ParkingSpacesContent)-title-2"
+      class="css-1dznbe2"
     >
       <h3
         class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
@@ -15,7 +15,7 @@ exports[`<ParkingSpacesContent /> should work 1`] = `
       </h3>
     </div>
     <div
-      class="injectIntl(ParkingSpacesContent)-text-3"
+      class="css-1fhgjcy"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -27,7 +27,7 @@ exports[`<ParkingSpacesContent /> should work 1`] = `
       </p>
     </div>
     <div
-      class="injectIntl(ParkingSpacesContent)-text-3"
+      class="css-1fhgjcy"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -39,7 +39,7 @@ exports[`<ParkingSpacesContent /> should work 1`] = `
       </p>
     </div>
     <div
-      class="injectIntl(ParkingSpacesContent)-text-3"
+      class="css-1fhgjcy"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
