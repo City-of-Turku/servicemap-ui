@@ -2,12 +2,12 @@
 
 exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
 <div>
-  <div
-    class="injectIntl(ParkingMachinesContent)-padding-1"
-  >
-    <div>
+  <div>
+    <div
+      class="css-1ynyhby"
+    >
       <div
-        class="injectIntl(ParkingMachinesContent)-headerContainer-2"
+        class="css-1dznbe2"
       >
         <h3
           class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
@@ -16,7 +16,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
         </h3>
       </div>
       <div
-        class="injectIntl(ParkingMachinesContent)-textContainer-3"
+        class="css-1fhgjcy"
       >
         <div
           class="css-qpxa1n"
@@ -37,7 +37,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           </p>
         </div>
         <div
-          class="injectIntl(ParkingMachinesContent)-margin-4"
+          class="css-1fhgjcy"
         >
           <p
             class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -55,7 +55,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           </p>
         </div>
         <div
-          class="injectIntl(ParkingMachinesContent)-margin-4"
+          class="css-1fhgjcy"
         >
           <p
             class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"

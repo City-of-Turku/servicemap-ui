@@ -1,16 +1,20 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
+import { StyledContainer, StyledHeaderContainer, StyledTextContainer } from '../../../styled/styled';
 import TextComponent from '../../../TextComponent';
 
-const ParkingMachinesContent = ({ classes, intl, item }) => {
+const ParkingMachinesContent = ({ item }) => {
+  const intl = useIntl();
+
   /** For values that are not objects and do not contain localized strings */
   const singleValText = (messageId, value) => (
-    <div className={classes.margin}>
+    <StyledTextContainer>
       <Typography component="p" variant="body2">
         {intl.formatMessage({ id: messageId }, { value })}
       </Typography>
-    </div>
+    </StyledTextContainer>
   );
 
   const machineAddress = {
@@ -22,33 +26,41 @@ const ParkingMachinesContent = ({ classes, intl, item }) => {
   const formatPrice = price => price.toString().replace('.', ',');
 
   const parkingMachineInfo = (
-    <div className={classes.container}>
-      <div className={classes.headerContainer}>
+    <StyledContainer>
+      <StyledHeaderContainer>
         <Typography variant="subtitle1" component="h3">
           {intl.formatMessage({ id: 'mobilityPlatform.content.parkingMachine.title' })}
         </Typography>
-      </div>
-      <div className={classes.textContainer}>
+      </StyledHeaderContainer>
+      <StyledTextContainer>
         {item.address_fi ? <TextComponent messageId="mobilityPlatform.content.address" textObj={machineAddress} /> : null}
         <TextComponent messageId="mobilityPlatform.content.parkingMachine.location" textObj={item.extra.Sijainti} />
         {singleValText('mobilityPlatform.content.parkingMachine.payment', formatPrice(item.extra['Taksa/h']))}
         <TextComponent messageId="mobilityPlatform.content.parkingMachine.paymentTypes" textObj={item.extra.Maksutapa} />
         {item.extra.Muuta ? singleValText('mobilityPlatform.content.parkingMachine.otherInfo', item.extra.Muuta) : null}
-      </div>
-    </div>
+      </StyledTextContainer>
+    </StyledContainer>
   );
 
   return (
-    <div className={classes.padding}>
+    <div>
       {parkingMachineInfo}
     </div>
   );
 };
 
 ParkingMachinesContent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  item: PropTypes.objectOf(PropTypes.any),
+  item: PropTypes.shape({
+    address_fi: PropTypes.string,
+    address_en: PropTypes.string,
+    address_sv: PropTypes.string,
+    extra: PropTypes.shape({
+      Sijainti: PropTypes.objectOf(PropTypes.string),
+      Maksutapa: PropTypes.objectOf(PropTypes.string),
+      'Taksa/h': PropTypes.string,
+      Muuta: PropTypes.string,
+    }),
+  }),
 };
 
 ParkingMachinesContent.defaultProps = {

@@ -1,48 +1,44 @@
 import { Typography } from '@mui/material';
-import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
+import { StyledContainer, StyledHeaderContainer, StyledTextContainer } from '../../../styled/styled';
 
-const PublicToiletsContent = ({ classes, intl }) => {
-  const titleTypo = (messageId, props = {}) => (
-    <div {...props}>
+const PublicToiletsContent = () => {
+  const intl = useIntl();
+
+  const titleTypo = messageId => (
+    <StyledTextContainer>
       <Typography variant="subtitle1" component="h3">
         {intl.formatMessage({
           id: messageId,
         })}
       </Typography>
-    </div>
+    </StyledTextContainer>
   );
 
-  const singleValTypo = (messageId, isSubtitle, props = {}) => (
-    <div {...props}>
+  const singleValTypo = (messageId, isSubtitle) => (
+    <StyledTextContainer>
       <Typography variant={isSubtitle ? 'subtitle2' : 'body2'} component={isSubtitle ? 'h4' : 'p'}>
         {intl.formatMessage({
           id: messageId,
         })}
       </Typography>
-    </div>
+    </StyledTextContainer>
   );
 
   return (
-    <div className={classes.container}>
-      <div className={classes.headerContainer}>{titleTypo('mobilityPlatform.content.publicToilets.title')}</div>
-      <div className={classes.textContainer}>
+    <StyledContainer>
+      <StyledHeaderContainer>{titleTypo('mobilityPlatform.content.publicToilets.title')}</StyledHeaderContainer>
+      <div>
         {singleValTypo('mobilityPlatform.content.publicToilets.openNormalTitle', true)}
         {singleValTypo('mobilityPlatform.content.publicToilets.openNormalDate')}
         {singleValTypo('mobilityPlatform.content.publicToilets.openNormal')}
-        {singleValTypo('mobilityPlatform.content.publicToilets.openSummerTitle', true, {
-          className: classes.marginTop,
-        })}
+        {singleValTypo('mobilityPlatform.content.publicToilets.openSummerTitle', true)}
         {singleValTypo('mobilityPlatform.content.publicToilets.openSummerDate')}
         {singleValTypo('mobilityPlatform.content.publicToilets.openSummer')}
       </div>
-    </div>
+    </StyledContainer>
   );
-};
-
-PublicToiletsContent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default PublicToiletsContent;

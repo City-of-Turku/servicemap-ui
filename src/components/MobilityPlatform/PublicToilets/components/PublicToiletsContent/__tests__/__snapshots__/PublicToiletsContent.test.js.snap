@@ -3,12 +3,14 @@
 exports[`<PublicToiletsContent /> should work 1`] = `
 <div>
   <div
-    class="injectIntl(PublicToiletsContent)-container-1"
+    class="css-1ynyhby"
   >
     <div
-      class="injectIntl(PublicToiletsContent)-headerContainer-2"
+      class="css-1dznbe2"
     >
-      <div>
+      <div
+        class="css-1fhgjcy"
+      >
         <h3
           class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
         >
@@ -16,24 +18,28 @@ exports[`<PublicToiletsContent /> should work 1`] = `
         </h3>
       </div>
     </div>
-    <div
-      class="injectIntl(PublicToiletsContent)-textContainer-3"
-    >
-      <div>
+    <div>
+      <div
+        class="css-1fhgjcy"
+      >
         <h4
           class="MuiTypography-root MuiTypography-subtitle2 css-chrj9w-MuiTypography-root"
         >
           Aukioloajat:
         </h4>
       </div>
-      <div>
+      <div
+        class="css-1fhgjcy"
+      >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
           Välillä: 1.10 - 30.4
         </p>
       </div>
-      <div>
+      <div
+        class="css-1fhgjcy"
+      >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
@@ -41,7 +47,7 @@ exports[`<PublicToiletsContent /> should work 1`] = `
         </p>
       </div>
       <div
-        class="injectIntl(PublicToiletsContent)-marginTop-5"
+        class="css-1fhgjcy"
       >
         <h4
           class="MuiTypography-root MuiTypography-subtitle2 css-chrj9w-MuiTypography-root"
@@ -49,14 +55,18 @@ exports[`<PublicToiletsContent /> should work 1`] = `
           Erityisaukioloajat:
         </h4>
       </div>
-      <div>
+      <div
+        class="css-1fhgjcy"
+      >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
           Välillä: 1.5 - 30.9
         </p>
       </div>
-      <div>
+      <div
+        class="css-1fhgjcy"
+      >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
