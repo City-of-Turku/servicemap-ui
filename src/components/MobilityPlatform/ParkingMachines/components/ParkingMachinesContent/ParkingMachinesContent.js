@@ -32,13 +32,13 @@ const ParkingMachinesContent = ({ item }) => {
           {intl.formatMessage({ id: 'mobilityPlatform.content.parkingMachine.title' })}
         </Typography>
       </StyledHeaderContainer>
-      <StyledTextContainer>
+      <div>
         {item.address_fi ? <TextComponent messageId="mobilityPlatform.content.address" textObj={machineAddress} /> : null}
         <TextComponent messageId="mobilityPlatform.content.parkingMachine.location" textObj={item.extra.Sijainti} />
         {singleValText('mobilityPlatform.content.parkingMachine.payment', formatPrice(item.extra['Taksa/h']))}
         <TextComponent messageId="mobilityPlatform.content.parkingMachine.paymentTypes" textObj={item.extra.Maksutapa} />
         {item.extra.Muuta ? singleValText('mobilityPlatform.content.parkingMachine.otherInfo', item.extra.Muuta) : null}
-      </StyledTextContainer>
+      </div>
     </StyledContainer>
   );
 
@@ -57,7 +57,7 @@ ParkingMachinesContent.propTypes = {
     extra: PropTypes.shape({
       Sijainti: PropTypes.objectOf(PropTypes.string),
       Maksutapa: PropTypes.objectOf(PropTypes.string),
-      'Taksa/h': PropTypes.string,
+      'Taksa/h': PropTypes.number,
       Muuta: PropTypes.string,
     }),
   }),

@@ -3,10 +3,10 @@
 exports[`<DisabledParkingContent /> does match snapshot 1`] = `
 <div>
   <div
-    class="injectIntl(DisabledParkingContent)-container-1"
+    class="css-1ynyhby"
   >
     <div
-      class="injectIntl(DisabledParkingContent)-headerContainer-2"
+      class="css-1dznbe2"
     >
       <h3
         class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
@@ -14,11 +14,9 @@ exports[`<DisabledParkingContent /> does match snapshot 1`] = `
         Pysäköintialue liikkumisesteisille
       </h3>
     </div>
-    <div
-      class="injectIntl(DisabledParkingContent)-textContainer-3"
-    >
+    <div>
       <div
-        class="injectIntl(DisabledParkingContent)-margin-4"
+        class="css-1fhgjcy"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -27,7 +25,7 @@ exports[`<DisabledParkingContent /> does match snapshot 1`] = `
         </p>
       </div>
       <div
-        class="injectIntl(DisabledParkingContent)-margin-4"
+        class="css-1fhgjcy"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -36,7 +34,7 @@ exports[`<DisabledParkingContent /> does match snapshot 1`] = `
         </p>
       </div>
       <div
-        class="injectIntl(DisabledParkingContent)-margin-4"
+        class="css-1fhgjcy"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -45,7 +43,7 @@ exports[`<DisabledParkingContent /> does match snapshot 1`] = `
         </p>
       </div>
       <div
-        class="injectIntl(DisabledParkingContent)-margin-4"
+        class="css-1fhgjcy"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"

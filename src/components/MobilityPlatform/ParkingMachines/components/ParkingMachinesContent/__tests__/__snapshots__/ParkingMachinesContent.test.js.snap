@@ -15,11 +15,9 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           Pysäköintiautomaatti
         </h3>
       </div>
-      <div
-        class="css-1fhgjcy"
-      >
+      <div>
         <div
-          class="css-qpxa1n"
+          class="css-1fhgjcy"
         >
           <p
             class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -28,7 +26,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           </p>
         </div>
         <div
-          class="css-qpxa1n"
+          class="css-1fhgjcy"
         >
           <p
             class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -46,7 +44,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           </p>
         </div>
         <div
-          class="css-qpxa1n"
+          class="css-1fhgjcy"
         >
           <p
             class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"

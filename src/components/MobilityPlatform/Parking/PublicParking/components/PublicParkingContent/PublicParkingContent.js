@@ -1,18 +1,22 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
+import { StyledContainer, StyledHeaderContainer, StyledTextContainer } from '../../../../styled/styled';
 import TextComponent from '../../../../TextComponent';
 
-const PublicParkingContent = ({ classes, intl, item }) => {
+const PublicParkingContent = ({ item }) => {
+  const intl = useIntl();
+
   const renderText = (msgId, value) => (
-    <div className={classes.margin}>
+    <StyledTextContainer>
       <Typography variant="body2">
         {value ? intl.formatMessage({ id: msgId }, { value }) : intl.formatMessage({ id: msgId })}
       </Typography>
-    </div>
+    </StyledTextContainer>
   );
 
-  const renderAccessInfo = (accessValue) => {
+  const renderAccessInfo = accessValue => {
     const accessValueLower = accessValue.toLowerCase();
     if (accessValueLower === 'vapaa paasy') {
       return renderText('mobilityPlatform.content.publicParking.access');
@@ -44,11 +48,11 @@ const PublicParkingContent = ({ classes, intl, item }) => {
   };
 
   return (
-    <div className={classes.container}>
-      <div className={classes.headerContainer}>
+    <StyledContainer>
+      <StyledHeaderContainer>
         <TextComponent textObj={names} isTitle />
-      </div>
-      <div className={classes.textContainer}>
+      </StyledHeaderContainer>
+      <div>
         <TextComponent messageId="mobilityPlatform.content.address" textObj={addressObj} />
         {renderText(translations.placesTotal, item.extra.paikkoja_y)}
         {item.extra.max_aika_h ? renderText(translations.totalTime, item.extra.max_aika_h) : null}
@@ -56,14 +60,26 @@ const PublicParkingContent = ({ classes, intl, item }) => {
         {item.extra.rajoit_lisat ? <TextComponent textObj={item.extra.rajoit_lisat} /> : null}
         {renderAccessInfo(item.extra.saavutettavuus.fi)}
       </div>
-    </div>
+    </StyledContainer>
   );
 };
 
 PublicParkingContent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  item: PropTypes.objectOf(PropTypes.any),
+  item: PropTypes.shape({
+    address_fi: PropTypes.string,
+    address_en: PropTypes.string,
+    address_sv: PropTypes.string,
+    name_fi: PropTypes.string,
+    name_en: PropTypes.string,
+    name_sv: PropTypes.string,
+    extra: PropTypes.shape({
+      paikkoja_y: PropTypes.number,
+      max_aika_h: PropTypes.number,
+      rajoitustyyppi: PropTypes.objectOf(PropTypes.string),
+      rajoit_lisat: PropTypes.objectOf(PropTypes.string),
+      saavutettavuus: PropTypes.objectOf(PropTypes.string),
+    }),
+  }),
 };
 
 PublicParkingContent.defaultProps = {

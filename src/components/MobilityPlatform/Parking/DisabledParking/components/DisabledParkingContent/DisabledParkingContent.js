@@ -1,34 +1,41 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
 import useLocaleText from '../../../../../../utils/useLocaleText';
+import { StyledContainer, StyledHeaderContainer, StyledTextContainer } from '../../../../styled/styled';
 
-const DisabledParkingContent = ({ classes, intl, item }) => {
+const DisabledParkingContent = ({ item }) => {
+  const intl = useIntl();
   const getLocaleText = useLocaleText();
 
-  const renderAccessInfo = (accessValue) => {
+  const renderAccessInfo = accessValue => {
     const accessValueLower = accessValue.toLowerCase();
     if (accessValueLower === 'vapaa paasy') {
       return (
-        <Typography variant="body2">
-          {intl.formatMessage({ id: 'mobilityPlatform.content.publicParking.access' })}
-        </Typography>
+        <StyledTextContainer>
+          <Typography variant="body2">
+            {intl.formatMessage({ id: 'mobilityPlatform.content.publicParking.access' })}
+          </Typography>
+        </StyledTextContainer>
       );
     }
     if (accessValueLower === 'portti') {
       return (
-        <Typography variant="body2">
-          {intl.formatMessage({ id: 'mobilityPlatform.content.publicParking.access.gate' })}
-        </Typography>
+        <StyledTextContainer>
+          <Typography variant="body2">
+            {intl.formatMessage({ id: 'mobilityPlatform.content.publicParking.access.gate' })}
+          </Typography>
+        </StyledTextContainer>
       );
     }
     return null;
   };
 
-  const renderText = (msgId, value, props = {}) => (
-    <div {...props}>
+  const renderText = (msgId, value) => (
+    <StyledTextContainer>
       <Typography variant="body2">{intl.formatMessage({ id: msgId }, { value })}</Typography>
-    </div>
+    </StyledTextContainer>
   );
 
   const parkingAreaAddress = {
@@ -37,33 +44,38 @@ const DisabledParkingContent = ({ classes, intl, item }) => {
     sv: item.address_sv,
   };
 
-  const renderAddress = () => renderText('mobilityPlatform.content.address', getLocaleText(parkingAreaAddress), { className: classes.margin });
+  const renderAddress = () => renderText('mobilityPlatform.content.address', getLocaleText(parkingAreaAddress));
 
   return (
-    <div className={classes.container}>
-      <div className={classes.headerContainer}>
+    <StyledContainer>
+      <StyledHeaderContainer>
         <Typography variant="subtitle1" component="h3">
           {intl.formatMessage({ id: 'mobilityPlatform.content.disabledParking.title' })}
         </Typography>
-      </div>
-      <div className={classes.textContainer}>
+      </StyledHeaderContainer>
+      <div>
         {renderAddress()}
-        {renderText('mobilityPlatform.content.disabledParking.amount', item.extra.invapaikkoja, {
-          className: classes.margin,
-        })}
-        <div className={classes.margin}>
+        {renderText('mobilityPlatform.content.disabledParking.amount', item.extra.invapaikkoja)}
+        <StyledTextContainer>
           <Typography variant="body2">{getLocaleText(item.extra.rajoitustyyppi)}</Typography>
-        </div>
-        <div className={classes.margin}>{renderAccessInfo(item.extra.saavutettavuus.fi)}</div>
+        </StyledTextContainer>
+        {renderAccessInfo(item.extra.saavutettavuus.fi)}
       </div>
-    </div>
+    </StyledContainer>
   );
 };
 
 DisabledParkingContent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  item: PropTypes.objectOf(PropTypes.any),
+  item: PropTypes.shape({
+    address_fi: PropTypes.string,
+    address_en: PropTypes.string,
+    address_sv: PropTypes.string,
+    extra: PropTypes.shape({
+      invapaikkoja: PropTypes.number,
+      rajoitustyyppi: PropTypes.objectOf(PropTypes.string),
+      saavutettavuus: PropTypes.objectOf(PropTypes.string),
+    }),
+  }),
 };
 
 DisabledParkingContent.defaultProps = {
