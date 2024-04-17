@@ -1,6 +1,3 @@
-import { withStyles } from '@mui/styles';
-import { injectIntl } from 'react-intl';
 import InfoTextBox from './InfoTextBox';
-import styles from './styles';
 
-export default withStyles(styles)(injectIntl(InfoTextBox));
+export default InfoTextBox;

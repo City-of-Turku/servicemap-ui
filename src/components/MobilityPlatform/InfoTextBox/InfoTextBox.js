@@ -1,36 +1,47 @@
 import { Link, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
+import styled from '@emotion/styled';
+import { StyledLinkText } from '../styled/styled';
 
 const InfoTextBox = ({
-  classes, intl, infoText, linkUrl, linkText, reducePadding,
-}) => (
-  <div className={`${classes.container} ${reducePadding ? classes.paddingSm : classes.padding}`}>
-    <Typography
-      variant="body2"
-      aria-label={intl.formatMessage({
-        id: infoText,
-      })}
-    >
-      {intl.formatMessage({
-        id: infoText,
-      })}
-    </Typography>
-    {linkUrl ? (
-      <Link target="_blank" href={linkUrl}>
-        <Typography className={classes.link} variant="body2" aria-label={linkUrl}>
-          {intl.formatMessage({
-            id: linkText,
-          })}
-        </Typography>
-      </Link>
-    ) : null}
-  </div>
-);
+  infoText, linkUrl, linkText, reducePadding,
+}) => {
+  const intl = useIntl();
+
+  return (
+    <StyledContainer reducePadding={reducePadding}>
+      <Typography
+        variant="body2"
+        aria-label={intl.formatMessage({
+          id: infoText,
+        })}
+      >
+        {intl.formatMessage({
+          id: infoText,
+        })}
+      </Typography>
+      {linkUrl ? (
+        <Link target="_blank" href={linkUrl}>
+          <StyledLinkText variant="body2" aria-label={linkUrl} sx={{ marginTop: '4px' }}>
+            {intl.formatMessage({
+              id: linkText,
+            })}
+          </StyledLinkText>
+        </Link>
+      ) : null}
+    </StyledContainer>
+  );
+};
+
+const StyledContainer = styled.div(({ reducePadding }) => ({
+  textAlign: 'left',
+  borderTop: '1px solid rgb(193, 193, 193)',
+  padding: reducePadding ? '0.5rem 0.5rem 0.5rem 0' : '1rem',
+}));
 
 InfoTextBox.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
   infoText: PropTypes.string,
   linkUrl: PropTypes.string,
   linkText: PropTypes.string,
