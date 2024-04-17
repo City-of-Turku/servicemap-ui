@@ -3,10 +3,10 @@
 exports[`<TextContent /> should work 1`] = `
 <div>
   <div
-    class="injectIntl(TextContent)-container-1"
+    class="css-1ynyhby"
   >
     <div
-      class="injectIntl(TextContent)-headerContainer-2"
+      class="css-1dznbe2"
     >
       <div>
         <h3
@@ -17,7 +17,7 @@ exports[`<TextContent /> should work 1`] = `
       </div>
     </div>
     <div
-      class="injectIntl(TextContent)-textContainer-3"
+      class="css-1fhgjcy"
     >
       <div>
         <p
