@@ -3,10 +3,10 @@
 exports[`<SpeedLimitZonesContent /> should match snapshot 1`] = `
 <div>
   <div
-    class="injectIntl(SpeedLimitZonesContent)-padding-1"
+    class="css-1ynyhby"
   >
     <div
-      class="injectIntl(SpeedLimitZonesContent)-subtitle-2"
+      class="css-1dznbe2"
     >
       <h3
         class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
@@ -14,11 +14,17 @@ exports[`<SpeedLimitZonesContent /> should match snapshot 1`] = `
         Nopeusrajoitusalue
       </h3>
     </div>
-    <p
-      class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
-    >
-      Nopeusrajoitus: 40 km/t
-    </p>
+    <div>
+      <div
+        class="css-1fhgjcy"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Nopeusrajoitus: 40 km/t
+        </p>
+      </div>
+    </div>
   </div>
 </div>
 `;

@@ -2,30 +2,36 @@ import { Link, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useIntl } from 'react-intl';
+import styled from '@emotion/styled';
+import {
+  StyledContainer, StyledHeaderContainer, StyledTextContainer, StyledLinkText,
+} from '../../../styled/styled';
 
-const RentalCarsContent = ({ classes, intl, car }) => {
+const RentalCarsContent = ({ car }) => {
+  const intl = useIntl();
   const locale = useSelector(state => state.user.locale);
 
-  const titleText = (messageId, props = {}) => (
-    <div className={classes.title}>
-      <Typography variant="subtitle1" component="h3" {...props}>
+  const titleText = messageId => (
+    <StyledHeaderContainer>
+      <Typography variant="subtitle1" component="h3">
         {intl.formatMessage({
           id: messageId,
         })}
       </Typography>
-    </div>
+    </StyledHeaderContainer>
   );
 
   const contentText = (messageId, value) => (
-    <div className={classes.text}>
+    <StyledTextContainer>
       <Typography variant="body2">
         {intl.formatMessage({ id: messageId }, { value })}
       </Typography>
-    </div>
+    </StyledTextContainer>
   );
 
   const renderCarInfo = (messageId, manufacturer, model) => (
-    <div className={classes.text}>
+    <StyledTextContainer>
       <Typography variant="body2">
         {intl.formatMessage({
           id: messageId,
@@ -36,12 +42,12 @@ const RentalCarsContent = ({ classes, intl, car }) => {
         {' '}
         {model}
       </Typography>
-    </div>
+    </StyledTextContainer>
   );
 
   const serviceProvider = '24Rent';
 
-  const getLink = (address) => {
+  const getLink = address => {
     if (locale === 'en') {
       return `https://www.24rent.fi/en/#/?city=${address}`;
     }
@@ -49,46 +55,59 @@ const RentalCarsContent = ({ classes, intl, car }) => {
   };
 
   return (
-    <div className={classes.container}>
+    <StyledContainer>
       {titleText('mobilityPlatform.content.rentalCars.title')}
       {contentText('mobilityPlatform.content.general.provider', serviceProvider)}
-      <div className={classes.linkContainer}>
+      <StyledLinkContainer>
         <Link role="link" target="_blank" href={getLink(car.homeLocationData.fullAddress)}>
-          <Typography className={classes.link} variant="body2">
+          <StyledLinkText variant="body2">
             {intl.formatMessage({
               id: 'mobilityPlatform.content.rentalCars.link',
             })}
-          </Typography>
+          </StyledLinkText>
         </Link>
-      </div>
+      </StyledLinkContainer>
       {renderCarInfo(
         'mobilityPlatform.content.rentalCars.carInfo',
         car.vehicleModelData.manufacturer,
         car.vehicleModelData.name,
       )}
-      <div className={classes.text}>
+      <StyledTextContainer>
         <Typography variant="body2">
           {car.availabilityData.available
             ? intl.formatMessage({ id: 'mobilityPlatform.content.rentalCars.available' })
             : intl.formatMessage({ id: 'mobilityPlatform.content.rentalCars.reserved' })}
         </Typography>
-      </div>
+      </StyledTextContainer>
       {contentText('mobilityPlatform.content.rentalCars.address', car.homeLocationData.fullAddress)}
       <div>
         <img src={`https://vehicles-cdn.24rent.fi/${car.id}_medium.jpeg`} alt="shared use car" />
       </div>
-    </div>
+    </StyledContainer>
   );
 };
 
+const StyledLinkContainer = styled.div(({ theme }) => ({
+  marginTop: theme.spacing(0.4),
+  width: '55%',
+}));
+
 RentalCarsContent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  car: PropTypes.objectOf(PropTypes.any),
+  car: PropTypes.shape({
+    id: PropTypes.string,
+    homeLocationData: PropTypes.shape({
+      fullAddress: PropTypes.string,
+    }),
+    vehicleModelData: PropTypes.shape({
+      manufacturer: PropTypes.string,
+      name: PropTypes.string,
+    }),
+    availabilityData: PropTypes.objectOf(PropTypes.bool),
+  }),
 };
 
 RentalCarsContent.defaultProps = {
-  car: null,
+  car: {},
 };
 
 export default RentalCarsContent;

@@ -3,10 +3,10 @@
 exports[`<RentalCarsContent /> should work 1`] = `
 <div>
   <div
-    class="injectIntl(RentalCarsContent)-container-1"
+    class="css-1ynyhby"
   >
     <div
-      class="injectIntl(RentalCarsContent)-title-2"
+      class="css-1dznbe2"
     >
       <h3
         class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
@@ -15,7 +15,7 @@ exports[`<RentalCarsContent /> should work 1`] = `
       </h3>
     </div>
     <div
-      class="injectIntl(RentalCarsContent)-text-3"
+      class="css-1fhgjcy"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -24,7 +24,7 @@ exports[`<RentalCarsContent /> should work 1`] = `
       </p>
     </div>
     <div
-      class="injectIntl(RentalCarsContent)-linkContainer-4"
+      class="css-1rfiv2g"
     >
       <a
         class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-11g60ih-MuiTypography-root-MuiLink-root"
@@ -33,14 +33,14 @@ exports[`<RentalCarsContent /> should work 1`] = `
         target="_blank"
       >
         <p
-          class="MuiTypography-root MuiTypography-body2 injectIntl(RentalCarsContent)-link-5 css-1ak20dk-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 css-77qfvr-MuiTypography-root"
         >
           https://www.24rent.fi
         </p>
       </a>
     </div>
     <div
-      class="injectIntl(RentalCarsContent)-text-3"
+      class="css-1fhgjcy"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -54,7 +54,7 @@ exports[`<RentalCarsContent /> should work 1`] = `
       </p>
     </div>
     <div
-      class="injectIntl(RentalCarsContent)-text-3"
+      class="css-1fhgjcy"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -63,7 +63,7 @@ exports[`<RentalCarsContent /> should work 1`] = `
       </p>
     </div>
     <div
-      class="injectIntl(RentalCarsContent)-text-3"
+      class="css-1fhgjcy"
     >
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"

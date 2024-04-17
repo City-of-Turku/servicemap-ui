@@ -38,6 +38,11 @@ const StyledMargin = styled.div(({ theme }) => ({
   margin: theme.spacing(0.4),
 }));
 
+const StyledLinkText = styled(Typography)(({ theme }) => ({
+  color: theme.palette.link.main,
+  textDecoration: 'underline',
+}));
+
 const StyledBoldText = styled(Typography)(() => ({
   fontWeight: 'bold',
 }));
@@ -49,5 +54,6 @@ export {
   StyledHeaderContainer,
   StyledTextContainer,
   StyledMargin,
+  StyledLinkText,
   StyledBoldText,
 };
