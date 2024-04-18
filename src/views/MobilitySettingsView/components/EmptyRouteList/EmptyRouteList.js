@@ -6,8 +6,6 @@ import styled from '@emotion/styled';
 
 /**
    * Check if route list is empty and render correct text
-   * @property {any} classes
-   * @property {any} intl
    * @property {Array} route
    * @return {JSX Element}
    */

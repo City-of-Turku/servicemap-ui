@@ -8,12 +8,10 @@ import { SMSwitch } from '../../../../components';
 
 /**
  * Render 1 or more switches inside form.
- * @property {any} classes
- * @property {any} intl
- * @property {string} keyVal
  * @property {string} msgId
  * @property {boolean} checkedValue
  * @property {Function} onChangeValue
+ * @property {number} selectionSize
  * @return {JSX Element}
  */
 
