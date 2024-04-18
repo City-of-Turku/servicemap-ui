@@ -9,7 +9,7 @@ const Description = ({ route }) => {
 
   // Hide references to sizes of audio files.
   // Only finnish and english descriptions have those.
-  const replaceWord = inputStr => inputStr.replace(/Latauskoko ~90M|koko ~43M|Size ~6MB/gi, '');
+  const replaceWord = inputStr => inputStr?.replace(/Latauskoko ~90M|koko ~43M|Size ~6MB/gi, '');
 
   const descriptions = {
     fi: replaceWord(route.description),

@@ -37,7 +37,7 @@ const StyledParagraph = styled.div(({ theme }) => ({
 
 EmptyRouteList.propTypes = {
   route: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
+    name: PropTypes.string,
   })),
 };
 

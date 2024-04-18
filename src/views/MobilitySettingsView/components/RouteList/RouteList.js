@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Checkbox, FormControlLabel, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { isDataValid } from '../../../../components/MobilityPlatform/utils/utils';
 import RouteLength from '../RouteLength';
@@ -8,7 +9,6 @@ import Description from '../Description';
 import Pagination from '../Pagination';
 
 const RouteList = ({
-  classes,
   openList,
   items,
   itemsPerPage,
@@ -23,7 +23,7 @@ const RouteList = ({
 
   const isListValid = isDataValid(openList, items);
 
-  const renderContent = (item) => {
+  const renderContent = item => {
     if (type === 'BicycleRoute') {
       return (
         item.name_fi === routeAttr ? <RouteLength key={item.id} route={item} /> : null
@@ -44,13 +44,12 @@ const RouteList = ({
 
     return isListValid
       ? paginatedItems.map(item => (
-        <div key={item.id} className={classes.checkBoxItem}>
+        <StyledCheckboxItem key={item.id}>
           <FormControlLabel
             control={(
               <Checkbox
                 checked={type === 'BicycleRoute' ? item.name_fi === routeAttr : item.id === routeAttr}
                 aria-checked={type === 'BicycleRoute' ? item.name_fi === routeAttr : item.id === routeAttr}
-                className={classes.margin}
                 onChange={() => setRouteState(type === 'BicycleRoute' ? item.name_fi : item.id)}
               />
           )}
@@ -61,14 +60,14 @@ const RouteList = ({
           )}
           />
           {renderContent(item)}
-        </div>
+        </StyledCheckboxItem>
       ))
       : null;
   };
 
   return (
     <div>
-      <div className={classes.listContainer}>{renderList()}</div>
+      <div>{renderList()}</div>
       {openList ? (
         <Pagination
           items={items}
@@ -81,10 +80,19 @@ const RouteList = ({
   );
 };
 
+const StyledCheckboxItem = styled.div(({ theme }) => ({
+  borderBottom: '1px solid rgb(193, 193, 193)',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'start',
+  paddingLeft: theme.spacing(3.5),
+}));
+
 RouteList.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   openList: PropTypes.bool,
-  items: PropTypes.arrayOf(PropTypes.any),
+  items: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+  })),
   itemsPerPage: PropTypes.number,
   routeAttr: PropTypes.string,
   type: PropTypes.string,
