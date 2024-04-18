@@ -42,15 +42,4 @@ describe('<CityBikeInfo />', () => {
     expect(link.textContent).toContain(finnishTranslations['mobilityPlatform.info.cityBikes.link']);
     expect(p[4].textContent).toContain(finnishTranslations['mobilityPlatform.info.cityBikes.apiInfo']);
   });
-
-  it('does contain aria-label attributes', () => {
-    const { container } = renderWithProviders(<CityBikeInfo {...mockProps} />);
-
-    const p = container.querySelectorAll('p');
-    expect(p[0].getAttribute('aria-label')).toContain(finnishTranslations['mobilityPlatform.info.cityBikes.paragraph.1']);
-    expect(p[1].getAttribute('aria-label')).toContain(finnishTranslations['mobilityPlatform.info.cityBikes.paragraph.2']);
-    expect(p[2].getAttribute('aria-label')).toContain(finnishTranslations['mobilityPlatform.info.cityBikes.subtitle']);
-    expect(p[3].getAttribute('aria-label')).toContain(finnishTranslations['mobilityPlatform.info.cityBikes.link']);
-    expect(p[4].getAttribute('aria-label')).toContain(finnishTranslations['mobilityPlatform.info.cityBikes.apiInfo']);
-  });
 });

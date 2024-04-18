@@ -15,7 +15,6 @@ const RouteList = ({
   routeAttr,
   type,
   setRouteState,
-  locale,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const getLocaleText = useLocaleText();
@@ -32,7 +31,7 @@ const RouteList = ({
     }
     if (type === 'CultureRoute') {
       return (
-        item.id === routeAttr ? <Description key={item.name} route={item} currentLocale={locale} /> : null
+        item.id === routeAttr ? <Description key={item.name} route={item} /> : null
       );
     }
     return null;
@@ -90,7 +89,6 @@ RouteList.propTypes = {
   routeAttr: PropTypes.string,
   type: PropTypes.string,
   setRouteState: PropTypes.func.isRequired,
-  locale: PropTypes.string,
 };
 
 RouteList.defaultProps = {
@@ -99,7 +97,6 @@ RouteList.defaultProps = {
   itemsPerPage: 5,
   routeAttr: '',
   type: '',
-  locale: 'fi',
 };
 
 export default RouteList;

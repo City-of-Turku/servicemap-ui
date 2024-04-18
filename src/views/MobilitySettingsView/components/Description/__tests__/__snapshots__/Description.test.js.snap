@@ -2,17 +2,14 @@
 
 exports[`<Description /> should work 1`] = `
 <div>
-  <div>
-    <div
-      class="injectIntl(Description)-paragraph-1"
+  <div
+    class="css-sl6zro"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
     >
-      <p
-        aria-label="testikuvaus"
-        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
-      >
-        testikuvaus
-      </p>
-    </div>
+      testikuvaus
+    </p>
   </div>
 </div>
 `;

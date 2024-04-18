@@ -1471,7 +1471,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       routeAttr={bicycleRouteName}
       type="BicycleRoute"
       setRouteState={setBicycleRouteState}
-      locale={locale}
     />
   );
 
@@ -1487,7 +1486,6 @@ const MobilitySettingsView = ({ classes, intl, navigator }) => {
       routeAttr={cultureRouteId}
       type="CultureRoute"
       setRouteState={setCultureRouteState}
-      locale={locale}
     />
   );
 

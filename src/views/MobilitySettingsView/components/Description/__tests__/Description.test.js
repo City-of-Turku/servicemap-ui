@@ -2,6 +2,7 @@
 import React from 'react';
 import Description from '../index';
 import { getRenderWithProviders } from '../../../../../../jestUtils';
+import { initialState } from '../../../../../redux/reducers/user';
 
 const mockProps = {
   route: {
@@ -11,7 +12,9 @@ const mockProps = {
   },
 };
 
-const renderWithProviders = getRenderWithProviders({});
+const renderWithProviders = getRenderWithProviders({
+  user: initialState,
+});
 
 describe('<Description />', () => {
   it('should work', () => {
@@ -24,12 +27,5 @@ describe('<Description />', () => {
 
     const p = container.querySelectorAll('p');
     expect(p[0].textContent).toEqual(mockProps.route.description);
-  });
-
-  it('does contain aria-label attribute', () => {
-    const { container } = renderWithProviders(<Description {...mockProps} />);
-
-    const p = container.querySelectorAll('p');
-    expect(p[0].getAttribute('aria-label')).toEqual(mockProps.route.description);
   });
 });
