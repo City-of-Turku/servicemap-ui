@@ -1,6 +1,9 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from '@emotion/styled';
+import { useIntl } from 'react-intl';
+import { css } from '@emotion/css';
 import { SMSwitch } from '../../../../components';
 
 /**
@@ -15,44 +18,65 @@ import { SMSwitch } from '../../../../components';
  */
 
 const MobilityToggleButton = ({
-  classes, intl, msgId, checkedValue, onChangeValue, selectionSize, inputProps, ...rest
-}) => (
-  <div className={classes.mobilityMapSwitch}>
-    <SMSwitch
-      color="primary"
-      classes={{ thumb: classes.switchBorder }}
-      size="small"
-      value={checkedValue}
-      className={classes.customSwitch}
-      inputProps={{
-        ...inputProps,
-        role: 'button',
-        'aria-setsize': selectionSize ? selectionSize.toString() : null,
-        'aria-pressed': checkedValue,
-        'aria-labelledby': msgId,
-      }}
-      onChange={(e) => onChangeValue(e)}
-      checked={checkedValue}
-      {...rest}
-    />
-    <div className={classes.labelContainer}>
-      <Typography
-        variant="body2"
-        aria-label={intl.formatMessage({
-          id: msgId,
-        })}
-      >
-        {intl.formatMessage({
-          id: msgId,
-        })}
-      </Typography>
-    </div>
-  </div>
-);
+  msgId, checkedValue, onChangeValue, selectionSize, inputProps, ...rest
+}) => {
+  const intl = useIntl();
+
+  const switchBorderClass = css({
+    border: '1px solid #949494',
+  });
+
+  return (
+    <StyledSwitchContainer>
+      <StyledSMSwitch
+        color="primary"
+        classes={{ thumb: switchBorderClass }}
+        size="small"
+        value={checkedValue}
+        inputProps={{
+          ...inputProps,
+          role: 'button',
+          'aria-setsize': selectionSize ? selectionSize.toString() : null,
+          'aria-pressed': checkedValue,
+          'aria-labelledby': msgId,
+        }}
+        onChange={e => onChangeValue(e)}
+        checked={checkedValue}
+        {...rest}
+      />
+      <StyledLabelContainer>
+        <Typography
+          variant="body2"
+          aria-label={intl.formatMessage({
+            id: msgId,
+          })}
+        >
+          {intl.formatMessage({
+            id: msgId,
+          })}
+        </Typography>
+      </StyledLabelContainer>
+    </StyledSwitchContainer>
+  );
+};
+
+const StyledSwitchContainer = styled.div(({ theme }) => ({
+  paddingLeft: theme.spacing(2),
+  display: 'inline-flex',
+  alignItems: 'center',
+  marginLeft: theme.spacing(2),
+  verticalAlign: 'middle',
+}));
+
+const StyledSMSwitch = styled(SMSwitch)(() => ({
+  overflow: 'visible',
+}));
+
+const StyledLabelContainer = styled.div(({ theme }) => ({
+  marginLeft: theme.spacing(2),
+}));
 
 MobilityToggleButton.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
   msgId: PropTypes.string,
   checkedValue: PropTypes.bool,
   onChangeValue: PropTypes.func.isRequired,

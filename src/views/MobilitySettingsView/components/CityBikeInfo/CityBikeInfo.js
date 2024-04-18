@@ -1,55 +1,56 @@
 import { Link, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
+import styled from '@emotion/styled';
+import { useIntl } from 'react-intl';
+import useLocaleText from '../../../../utils/useLocaleText';
 
-const CityBikeInfo = ({
-  classes, intl, bikeInfo,
-}) => {
-  const [url, setUrl] = useState(bikeInfo.url.fi);
-
-  const locale = useSelector(state => state.user.locale);
-
-  useEffect(() => {
-    if (locale === 'en') {
-      setUrl(bikeInfo.url.en);
-    }
-    if (locale === 'sv') {
-      setUrl(bikeInfo.url.sv);
-    }
-  }, [locale]);
+const CityBikeInfo = ({ bikeInfo }) => {
+  const intl = useIntl();
+  const getLocaleText = useLocaleText();
 
   const text = textValue => (
-    <Typography
-      variant="body2"
-      className={classes.margin}
-      aria-label={intl.formatMessage({
-        id: textValue,
-      })}
-    >
-      {intl.formatMessage({
-        id: textValue,
-      })}
-    </Typography>
+    <StyledTextMargin>
+      <Typography variant="body2">
+        {intl.formatMessage({
+          id: textValue,
+        })}
+      </Typography>
+    </StyledTextMargin>
   );
 
   return (
-    <div className={classes.container}>
+    <StyledContainer>
       {text(bikeInfo.paragraph1)}
       {text(bikeInfo.paragraph2)}
       {text(bikeInfo.subtitle)}
-      <Link target="_blank" href={url}>
+      <Link target="_blank" href={getLocaleText(bikeInfo.url)}>
         {text(bikeInfo.link)}
       </Link>
       {text(bikeInfo.apiInfo)}
-    </div>
+    </StyledContainer>
   );
 };
 
+const StyledContainer = styled.div(({ theme }) => ({
+  padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
+  textAlign: 'left',
+}));
+
+const StyledTextMargin = styled.div(({ theme }) => ({
+  marginBottom: theme.spacing(1),
+}));
+
 CityBikeInfo.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  bikeInfo: PropTypes.objectOf(PropTypes.any),
+  bikeInfo: PropTypes.shape({
+    paragraph1: PropTypes.string,
+    paragraph2: PropTypes.string,
+    paragraph3: PropTypes.string,
+    subtitle: PropTypes.string,
+    link: PropTypes.string,
+    apiInfo: PropTypes.string,
+    url: PropTypes.objectOf(PropTypes.string),
+  }),
 };
 
 CityBikeInfo.defaultProps = {
