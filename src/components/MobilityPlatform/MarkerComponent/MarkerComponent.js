@@ -1,26 +1,29 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 
-const MarkerComponent = ({
-  classes, item, icon, children,
-}) => {
+const MarkerComponent = ({ item, icon, children }) => {
   const { Marker, Popup } = global.rL;
 
   return (
     <Marker icon={icon} position={[item.geometry_coords.lat, item.geometry_coords.lon]}>
-      <div className={classes.popupWrapper}>
+      <StyledPopupWrapper>
         <Popup className="popup-w350">
-          <div className={classes.popupInner}>{children}</div>
+          <StyledPopupInner>{children}</StyledPopupInner>
         </Popup>
-      </div>
+      </StyledPopupWrapper>
     </Marker>
   );
 };
 
 MarkerComponent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  item: PropTypes.objectOf(PropTypes.any),
-  icon: PropTypes.objectOf(PropTypes.any).isRequired,
+  item: PropTypes.shape({
+    geometry_coords: PropTypes.objectOf(PropTypes.number),
+  }),
+  icon: PropTypes.shape({
+    path: PropTypes.string,
+    viewBox: PropTypes.string,
+  }).isRequired,
   children: PropTypes.node,
 };
 

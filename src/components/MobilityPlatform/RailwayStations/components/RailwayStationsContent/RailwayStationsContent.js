@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { Typography } from '@mui/material';
 import styled from '@emotion/styled';
 import { format } from 'date-fns';
+import { useIntl } from 'react-intl';
 import { fetchRailwaysData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 
-const RailwayStationsContent = ({ intl, item, stationsData }) => {
+const RailwayStationsContent = ({ item, stationsData }) => {
   const [stationTrainsData, setStationTrainsData] = useState([]);
 
+  const intl = useIntl();
   const formatDateTime = timeValue => format(new Date(timeValue), 'HH:mm');
 
   const optionsToParams = options => {
@@ -172,9 +174,6 @@ const StyledHeader = styled.div(({ theme }) => ({
 }));
 
 RailwayStationsContent.propTypes = {
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }).isRequired,
   item: PropTypes.shape({
     stationShortCode: PropTypes.string,
     stationName: PropTypes.string,

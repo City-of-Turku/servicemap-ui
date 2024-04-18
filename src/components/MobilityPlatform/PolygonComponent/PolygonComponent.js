@@ -1,8 +1,9 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 
 const PolygonComponent = ({
-  classes, item, useContrast, pathOptions, children,
+  item, useContrast, pathOptions, children,
 }) => {
   const { Polygon, Popup } = global.rL;
 
@@ -12,30 +13,33 @@ const PolygonComponent = ({
       pathOptions={pathOptions}
       positions={item.geometry_coords}
       eventHandlers={{
-        mouseover: (e) => {
+        mouseover: e => {
           e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
         },
-        mouseout: (e) => {
+        mouseout: e => {
           e.target.setStyle({ fillOpacity: useContrast ? '0.3' : '0.2' });
         },
       }}
     >
-      <div className={classes.popupWrapper}>
+      <StyledPopupWrapper>
         <Popup>
-          <div className={classes.popupInner}>
-            {children}
-          </div>
+          <StyledPopupInner>{children}</StyledPopupInner>
         </Popup>
-      </div>
+      </StyledPopupWrapper>
     </Polygon>
   );
 };
 
 PolygonComponent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  item: PropTypes.objectOf(PropTypes.any).isRequired,
+  item: PropTypes.shape({
+    id: PropTypes.string,
+    geometry_coords: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))),
+  }).isRequired,
   useContrast: PropTypes.bool,
-  pathOptions: PropTypes.objectOf(PropTypes.any).isRequired,
+  pathOptions: PropTypes.shape({
+    color: PropTypes.string,
+    weight: PropTypes.number,
+  }).isRequired,
   children: PropTypes.node,
 };
 

@@ -1,10 +1,17 @@
 import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
 
+const StyledPopupWrapper = styled.div(({ theme }) => ({
+  position: 'absolute',
+  textAlign: 'center',
+  marginBottom: theme.spacing(2),
+  width: '429px',
+}));
+
 const StyledPopupInner = styled.div(({ theme }) => ({
   borderRadius: '3px',
-  marginBottom: theme.spacing(1),
-  marginLeft: theme.spacing(1.2),
+  marginBottom: theme.spacing(0.5),
+  marginLeft: theme.spacing(0.8),
   lineHeight: 1.2,
   overflowX: 'hidden',
 }));
@@ -48,6 +55,7 @@ const StyledBoldText = styled(Typography)(() => ({
 }));
 
 export {
+  StyledPopupWrapper,
   StyledPopupInner,
   StyledContentHeader,
   StyledContainer,
