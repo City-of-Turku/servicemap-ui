@@ -3,58 +3,51 @@
 exports[`<ParkingChargeZoneContent /> should work 1`] = `
 <div>
   <div
-    class="injectIntl(ParkingChargeZoneContent)-padding-1"
+    class="css-hpgf8j"
   >
     <div
-      class="injectIntl(ParkingChargeZoneContent)-subtitle-2"
+      class="css-1dznbe2"
     >
       <h3
         class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
       >
-        Vyöhyke
-        :
-         
-        1
+        Vyöhyke: 1
       </h3>
     </div>
-    <div>
+    <div
+      class="css-1fhgjcy"
+    >
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
       >
-        Maksullisuus arkisin
-        :
-         
-        9 - 18
+        Maksullisuus arkisin: 9 - 18
       </p>
     </div>
-    <div>
+    <div
+      class="css-1fhgjcy"
+    >
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
       >
-        Maksullisuus lauantaisin
-        :
-         
-        9 - 15
+        Maksullisuus lauantaisin: 9 - 15
       </p>
     </div>
-    <div>
+    <div
+      class="css-1fhgjcy"
+    >
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
       >
-        Maksullisuus sunnuntaisin
-        :
-         
-        Maksuton
+        Maksullisuus sunnuntaisin: Maksuton
       </p>
     </div>
-    <div>
+    <div
+      class="css-1fhgjcy"
+    >
       <p
         class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
       >
-        Hinta
-        :
-         
-        3 €/h
+        Hinta: 3 €/h
       </p>
     </div>
   </div>

@@ -8,24 +8,20 @@ exports[`<TextContent /> should work 1`] = `
     <div
       class="css-1dznbe2"
     >
-      <div>
-        <h3
-          class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
-        >
-          Pysäköintikieltoalue
-        </h3>
-      </div>
+      <h3
+        class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
+      >
+        Pysäköintikieltoalue
+      </h3>
     </div>
     <div
       class="css-1fhgjcy"
     >
-      <div>
-        <p
-          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
-        >
-          Sähköpotkulautojen pysäköinti kartalla näkyville alueille on kielletty.
-        </p>
-      </div>
+      <p
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+      >
+        Sähköpotkulautojen pysäköinti kartalla näkyville alueille on kielletty.
+      </p>
     </div>
   </div>
 </div>

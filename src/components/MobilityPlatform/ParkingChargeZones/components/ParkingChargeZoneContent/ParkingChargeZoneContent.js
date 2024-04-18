@@ -1,40 +1,77 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
+import styled from '@emotion/styled';
+import { StyledHeaderContainer, StyledTextContainer } from '../../../styled/styled';
 
-const ParkingChargeZoneContent = ({ classes, intl, parkingChargeZone }) => {
-  const renderText = (msgId, objValue, isTitle) => (
-    <div className={isTitle ? classes.subtitle : classes.text}>
-      <Typography variant={isTitle ? 'subtitle1' : 'body2'} component={isTitle ? 'h3' : 'p'}>
-        {intl.formatMessage({
-          id: msgId,
-        })}
-        :
-        {' '}
-        {objValue}
+const ParkingChargeZoneContent = ({ parkingChargeZone }) => {
+  const intl = useIntl();
+
+  const renderTitle = (msgId, objValue) => (
+    <StyledHeaderContainer>
+      <Typography variant="subtitle1" component="h3">
+        {intl.formatMessage(
+          {
+            id: msgId,
+          },
+          { value: objValue },
+        )}
       </Typography>
-    </div>
+    </StyledHeaderContainer>
+  );
+
+  const renderText = (msgId, objValue) => (
+    <StyledTextContainer>
+      <Typography variant="body2" component="p">
+        {intl.formatMessage(
+          {
+            id: msgId,
+          },
+          { value: objValue },
+        )}
+      </Typography>
+    </StyledTextContainer>
   );
 
   return (
-    <div className={classes.padding}>
-      {renderText('mobilityPlatform.content.parkingChargeZones.zone', parkingChargeZone.extra.maksuvyohyke, true)}
-      {renderText('mobilityPlatform.content.parkingChargeZones.price.weekDays', parkingChargeZone.extra.maksullisuus_arki, false)}
-      {renderText('mobilityPlatform.content.parkingChargeZones.price.saturday', parkingChargeZone.extra.maksullisuus_lauantai, false)}
-      {renderText('mobilityPlatform.content.parkingChargeZones.price.sunday', parkingChargeZone.extra.maksullisuus_sunnuntai, false)}
-      {renderText('mobilityPlatform.content.parkingChargeZones.price', parkingChargeZone.extra.maksuvyohykehinta, false)}
-    </div>
+    <StyledPadding>
+      {renderTitle('mobilityPlatform.content.parkingChargeZones.zone', parkingChargeZone.extra.maksuvyohyke)}
+      {renderText(
+        'mobilityPlatform.content.parkingChargeZones.price.weekDays',
+        parkingChargeZone.extra.maksullisuus_arki,
+      )}
+      {renderText(
+        'mobilityPlatform.content.parkingChargeZones.price.saturday',
+        parkingChargeZone.extra.maksullisuus_lauantai,
+      )}
+      {renderText(
+        'mobilityPlatform.content.parkingChargeZones.price.sunday',
+        parkingChargeZone.extra.maksullisuus_sunnuntai,
+      )}
+      {renderText('mobilityPlatform.content.parkingChargeZones.price', parkingChargeZone.extra.maksuvyohykehinta)}
+    </StyledPadding>
   );
 };
 
+const StyledPadding = styled.div(({ theme }) => ({
+  padding: theme.spacing(1),
+}));
+
 ParkingChargeZoneContent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  parkingChargeZone: PropTypes.objectOf(PropTypes.any),
+  parkingChargeZone: PropTypes.shape({
+    extra: PropTypes.shape({
+      maksuvyohyke: PropTypes.number,
+      maksullisuus_arki: PropTypes.string,
+      maksullisuus_lauantai: PropTypes.string,
+      maksullisuus_sunnuntai: PropTypes.string,
+      maksuvyohykehinta: PropTypes.number,
+    }),
+  }),
 };
 
 ParkingChargeZoneContent.defaultProps = {
-  parkingChargeZone: null,
+  parkingChargeZone: {},
 };
 
 export default ParkingChargeZoneContent;

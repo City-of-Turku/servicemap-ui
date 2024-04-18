@@ -8,13 +8,11 @@ const TextContent = ({ titleId, translationId }) => {
   const intl = useIntl();
 
   const singleValTypo = (messageId, isTitle) => (
-    <div>
-      <Typography variant={isTitle ? 'subtitle1' : 'body2'} component={isTitle ? 'h3' : 'p'}>
-        {intl.formatMessage({
-          id: messageId,
-        })}
-      </Typography>
-    </div>
+    <Typography variant={isTitle ? 'subtitle1' : 'body2'} component={isTitle ? 'h3' : 'p'}>
+      {intl.formatMessage({
+        id: messageId,
+      })}
+    </Typography>
   );
 
   return (
