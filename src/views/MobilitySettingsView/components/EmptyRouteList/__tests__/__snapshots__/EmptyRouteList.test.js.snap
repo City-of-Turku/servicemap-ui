@@ -3,10 +3,9 @@
 exports[`<CityBikeInfo /> should work 1`] = `
 <div>
   <div
-    class="injectIntl(EmptyRouteList)-paragraph-1"
+    class="css-185xiph"
   >
     <p
-      aria-label="Reittejä ladataan."
       class="MuiTypography-root MuiTypography-subtitle2 css-chrj9w-MuiTypography-root"
     >
       Reittejä ladataan.

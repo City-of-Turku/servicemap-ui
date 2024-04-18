@@ -1,42 +1,62 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
+import styled from '@emotion/styled';
 
-const ExtendedInfo = ({ classes, intl, translations }) => {
-  const text = (message, props = {}) => (
-    <Typography
-      variant="body2"
-      aria-label={intl.formatMessage({
-        id: message,
-      })}
-      {...props}
-    >
-      {intl.formatMessage({
-        id: message,
-      })}
-    </Typography>
+const ExtendedInfo = ({ translations }) => {
+  const intl = useIntl();
+
+  const text = (message, isMargin) => (
+    <StyledTextContainer isMargin={isMargin}>
+      <Typography
+        variant="body2"
+      >
+        {intl.formatMessage({
+          id: message,
+        })}
+      </Typography>
+    </StyledTextContainer>
   );
 
   return (
-    <div className={classes.container}>
+    <StyledContainer>
       {text(translations.message1)}
-      <ul className={classes.list}>
+      <StyledList>
         {translations.zones.map(item => (
           <li key={item}>
             {text(item)}
           </li>
         ))}
-      </ul>
-      {text(translations.message2, { className: classes.margin })}
+      </StyledList>
+      {text(translations.message2, true)}
       {text(translations.message3)}
-    </div>
+    </StyledContainer>
   );
 };
 
+const StyledContainer = styled.div(({ theme }) => ({
+  margin: theme.spacing(2),
+  textAlign: 'left',
+  paddingBottom: theme.spacing(2),
+}));
+
+const StyledList = styled.ul(({ theme }) => ({
+  marginTop: theme.spacing(1),
+  marginBottom: theme.spacing(1),
+}));
+
+const StyledTextContainer = styled.div(({ theme, isMargin }) => ({
+  marginBottom: isMargin ? theme.spacing(1) : 0,
+}));
+
 ExtendedInfo.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  translations: PropTypes.objectOf(PropTypes.any),
+  translations: PropTypes.shape({
+    message1: PropTypes.string,
+    message2: PropTypes.string,
+    message3: PropTypes.string,
+    zones: PropTypes.arrayOf(PropTypes.string),
+  }),
 };
 
 ExtendedInfo.defaultProps = {

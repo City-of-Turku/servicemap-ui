@@ -38,16 +38,4 @@ describe('<ExtendedInfo />', () => {
     expect(list[1].textContent).toContain(finnishTranslations['mobilityPlatform.info.parkingChargeZones.zone.2']);
     expect(list[2].textContent).toContain(finnishTranslations['mobilityPlatform.info.parkingChargeZones.zone.3']);
   });
-
-  it('does contain aria-label attributes', () => {
-    const { container } = renderWithProviders(<ExtendedInfo {...mockProps} />);
-
-    const p = container.querySelectorAll('p');
-    expect(p[0].getAttribute('aria-label')).toContain(finnishTranslations['mobilityPlatform.info.parkingChargeZones.paragraph.1']);
-    expect(p[1].getAttribute('aria-label')).toContain(finnishTranslations['mobilityPlatform.info.parkingChargeZones.zone.1']);
-    expect(p[2].getAttribute('aria-label')).toContain(finnishTranslations['mobilityPlatform.info.parkingChargeZones.zone.2']);
-    expect(p[3].getAttribute('aria-label')).toContain(finnishTranslations['mobilityPlatform.info.parkingChargeZones.zone.3']);
-    expect(p[4].getAttribute('aria-label')).toContain(finnishTranslations['mobilityPlatform.info.parkingChargeZones.paragraph.2']);
-    expect(p[5].getAttribute('aria-label')).toContain(finnishTranslations['mobilityPlatform.info.parkingChargeZones.paragraph.3']);
-  });
 });
