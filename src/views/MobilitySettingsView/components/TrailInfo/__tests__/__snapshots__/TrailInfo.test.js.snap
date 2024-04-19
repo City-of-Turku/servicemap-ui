@@ -4,7 +4,7 @@ exports[`<TrailInfo /> should match snapshot 1`] = `
 <div>
   <div>
     <div
-      class="injectIntl(TrailInfo)-paragraph-1"
+      class="css-1oj37t6"
     >
       <p
         aria-label="Reitin pituus: 5 km"

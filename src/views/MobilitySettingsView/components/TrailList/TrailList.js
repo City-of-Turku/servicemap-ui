@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormControlLabel, Checkbox, Typography } from '@mui/material';
+import styled from '@emotion/styled';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { isDataValid } from '../../../../components/MobilityPlatform/utils/utils';
 import TrailInfo from '../TrailInfo';
 import Pagination from '../Pagination';
 
 const TrailList = ({
-  classes, openList, itemsPerPage, items, trailsObj, setTrailState,
+  openList, itemsPerPage, items, trailsObj, setTrailState,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -26,7 +27,7 @@ const TrailList = ({
     return split.slice(-1);
   };
 
-  const renderName = (item) => {
+  const renderName = item => {
     if (item.content_types[0].type_name === 'PaavonPolku') {
       return fixRouteName(item.name_fi, item.name_en, item.name_sv);
     }
@@ -40,13 +41,12 @@ const TrailList = ({
 
     return isListValid
       ? paginatedItems.map(item => (
-        <div key={item.id} className={classes.checkBoxItem}>
+        <StyledCheckboxItem key={item.id}>
           <FormControlLabel
             control={(
               <Checkbox
                 checked={item.id === trailsObj.id}
                 aria-checked={item.id === trailsObj.id}
-                className={classes.margin}
                 onChange={() => setTrailState(item)}
               />
               )}
@@ -57,14 +57,14 @@ const TrailList = ({
               )}
           />
           {item.id === trailsObj.id ? <TrailInfo item={item} /> : null}
-        </div>
+        </StyledCheckboxItem>
       ))
       : null;
   };
 
   return (
     <div>
-      <div className={classes.listContainer}>{renderList()}</div>
+      <div>{renderList()}</div>
       {openList ? (
         <Pagination
           items={items}
@@ -77,12 +77,23 @@ const TrailList = ({
   );
 };
 
+const StyledCheckboxItem = styled.div(({ theme }) => ({
+  borderBottom: '1px solid rgb(193, 193, 193)',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'start',
+  paddingLeft: theme.spacing(3.5),
+}));
+
 TrailList.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   openList: PropTypes.bool,
-  items: PropTypes.arrayOf(PropTypes.any),
+  items: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+  })),
   itemsPerPage: PropTypes.number,
-  trailsObj: PropTypes.objectOf(PropTypes.any),
+  trailsObj: PropTypes.shape({
+    id: PropTypes.string,
+  }),
   setTrailState: PropTypes.func.isRequired,
 };
 
