@@ -3,7 +3,7 @@
 exports[`<SpeedLimitZonesList /> should work 1`] = `
 <div>
   <div
-    class="injectIntl(SpeedLimitZonesList)-paragraph-1 injectIntl(SpeedLimitZonesList)-border-2"
+    class="css-7tluc9"
   >
     <p
       aria-label="Voit valintojen avulla näyttää nopeusrajoitusalueita kartalla."
@@ -13,17 +13,17 @@ exports[`<SpeedLimitZonesList /> should work 1`] = `
     </p>
   </div>
   <div
-    class="injectIntl(SpeedLimitZonesList)-buttonList-4"
+    class="css-e69bo8"
   >
     <div
-      class="injectIntl(SpeedLimitZonesList)-checkBoxContainer-5"
+      class="css-gt3ah"
     >
       <label
         class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
       >
         <span
           aria-checked="true"
-          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary injectIntl(SpeedLimitZonesList)-margin-3 css-1ov5m8d-MuiButtonBase-root-MuiCheckbox-root"
+          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary css-f8y338-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
             checked=""
@@ -52,14 +52,14 @@ exports[`<SpeedLimitZonesList /> should work 1`] = `
       </label>
     </div>
     <div
-      class="injectIntl(SpeedLimitZonesList)-checkBoxContainer-5"
+      class="css-gt3ah"
     >
       <label
         class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
       >
         <span
           aria-checked="false"
-          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary injectIntl(SpeedLimitZonesList)-margin-3 css-1ov5m8d-MuiButtonBase-root-MuiCheckbox-root"
+          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-f8y338-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
             class="PrivateSwitchBase-input css-1m9pwf3"
@@ -87,14 +87,14 @@ exports[`<SpeedLimitZonesList /> should work 1`] = `
       </label>
     </div>
     <div
-      class="injectIntl(SpeedLimitZonesList)-checkBoxContainer-5"
+      class="css-gt3ah"
     >
       <label
         class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
       >
         <span
           aria-checked="false"
-          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary injectIntl(SpeedLimitZonesList)-margin-3 css-1ov5m8d-MuiButtonBase-root-MuiCheckbox-root"
+          class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-root MuiCheckbox-colorPrimary css-f8y338-MuiButtonBase-root-MuiCheckbox-root"
         >
           <input
             class="PrivateSwitchBase-input css-1m9pwf3"

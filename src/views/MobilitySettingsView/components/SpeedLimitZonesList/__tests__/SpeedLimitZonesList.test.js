@@ -28,14 +28,4 @@ describe('<SpeedLimitZonesList />', () => {
     expect(p[2].textContent).toContain(`${mockProps.speedLimitListAsc[1]} km/t`);
     expect(p[3].textContent).toContain(`${mockProps.speedLimitListAsc[2]} km/t`);
   });
-
-  it('does contain aria-label attribute', () => {
-    const { container } = renderWithProviders(<SpeedLimitZonesList {...mockProps} />);
-
-    const p = container.querySelectorAll('p');
-    expect(p[0].getAttribute('aria-label')).toContain(finnishTranslations['mobilityPlatform.menu.speedLimitZones.select']);
-    expect(p[1].getAttribute('aria-label')).toContain(`${mockProps.speedLimitListAsc[0]} km/t`);
-    expect(p[2].getAttribute('aria-label')).toContain(`${mockProps.speedLimitListAsc[1]} km/t`);
-    expect(p[3].getAttribute('aria-label')).toContain(`${mockProps.speedLimitListAsc[2]} km/t`);
-  });
 });
