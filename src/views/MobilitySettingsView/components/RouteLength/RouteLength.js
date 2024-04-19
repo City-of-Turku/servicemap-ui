@@ -1,98 +1,101 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
+import styled from '@emotion/styled';
 
-const RouteLength = ({ classes, intl, route }) => {
+const RouteLength = ({ route }) => {
+  const intl = useIntl();
+
   const formatRoutelength = inputLength => Math.round(inputLength / 1000);
 
-  const renderRouteText = (routeName) => {
+  const renderRouteText = routeName => {
     switch (routeName) {
       case 'EuroVelo':
         return (
-          <Typography
+          <StyledTypography
             component="p"
             variant="body2"
-            aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.bicycleRoutes.euroVelo' })}
-            className={classes.margin}
           >
             {intl.formatMessage({ id: 'mobilityPlatform.menu.bicycleRoutes.euroVelo' })}
-          </Typography>
+          </StyledTypography>
         );
       case 'Saariston rengastie':
         return (
-          <Typography
+          <StyledTypography
             component="p"
             variant="body2"
-            aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.bicycleRoutes.archipelagoTrail' })}
-            className={classes.margin}
           >
             {intl.formatMessage({ id: 'mobilityPlatform.menu.bicycleRoutes.archipelagoTrail' })}
-          </Typography>
+          </StyledTypography>
         );
       case 'Aurajoentie':
         return (
-          <Typography
+          <StyledTypography
             component="p"
             variant="body2"
-            aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.bicycleRoutes.auraRiverTrail' })}
-            className={classes.margin}
           >
             {intl.formatMessage({ id: 'mobilityPlatform.menu.bicycleRoutes.auraRiverTrail' })}
-          </Typography>
+          </StyledTypography>
         );
       default:
         return null;
     }
   };
 
-  const generateTranslations = (routeName) => {
+  const generateTranslations = routeName => {
     const split = routeName.split(' ');
     const [a, b] = split;
     if (a === 'Seutureitti') {
       return (
-        <Typography
+        <StyledTypography
           component="p"
           variant="body2"
-          aria-label={intl.formatMessage({ id: `mobilityPlatform.menu.bicycleRoutes.regionalTrail${b}` })}
-          className={classes.margin}
         >
           {intl.formatMessage({ id: `mobilityPlatform.menu.bicycleRoutes.regionalTrail${b}` })}
-        </Typography>
+        </StyledTypography>
       );
     }
     return renderRouteText(routeName);
   };
 
   return (
-    <div className={classes.container}>
-      <div className={classes.paragraph}>
-        <Typography
-          component="p"
-          variant="body2"
-          aria-label={`${intl.formatMessage({ id: 'mobilityPlatform.menu.bicycleRoutes.length' })} ${formatRoutelength(
-            route.length,
-          )} km.`}
-        >
-          {intl.formatMessage({ id: 'mobilityPlatform.menu.bicycleRoutes.length' })}
-          {' '}
-          {formatRoutelength(route.length)}
-          {' '}
-          km.
-        </Typography>
-        {generateTranslations(route.name_fi)}
-      </div>
-    </div>
+    <StyledContainer>
+      <Typography
+        component="p"
+        variant="body2"
+      >
+        {intl.formatMessage({ id: 'mobilityPlatform.menu.bicycleRoutes.length' })}
+        {' '}
+        {formatRoutelength(route.length)}
+        {' '}
+        km.
+      </Typography>
+      {generateTranslations(route.name_fi)}
+    </StyledContainer>
   );
 };
 
+const StyledTypography = styled(Typography)(({ theme }) => ({
+  marginTop: theme.spacing(1),
+}));
+
+const StyledContainer = styled.div(({ theme }) => ({
+  textAlign: 'left',
+  padding: theme.spacing(1.5),
+  width: '85%',
+  marginLeft: theme.spacing(3),
+}));
+
 RouteLength.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  route: PropTypes.objectOf(PropTypes.any),
+  route: PropTypes.shape({
+    name_fi: PropTypes.string,
+    length: PropTypes.number,
+  }),
 };
 
 RouteLength.defaultProps = {
-  route: null,
+  route: {},
 };
 
 export default RouteLength;

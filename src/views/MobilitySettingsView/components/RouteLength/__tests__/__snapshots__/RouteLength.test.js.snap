@@ -2,27 +2,23 @@
 
 exports[`<RouteLength /> should work 1`] = `
 <div>
-  <div>
-    <div
-      class="injectIntl(RouteLength)-paragraph-1"
+  <div
+    class="css-1oj37t6"
+  >
+    <p
+      class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
     >
-      <p
-        aria-label="Reitin pituus: 100 km."
-        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
-      >
-        Reitin pituus:
-         
-        100
-         
-        km.
-      </p>
-      <p
-        aria-label="EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein."
-        class="MuiTypography-root MuiTypography-body2 injectIntl(RouteLength)-margin-2 css-1ak20dk-MuiTypography-root"
-      >
-        EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.
-      </p>
-    </div>
+      Reitin pituus:
+       
+      100
+       
+      km.
+    </p>
+    <p
+      class="MuiTypography-root MuiTypography-body2 css-vkqgf3-MuiTypography-root"
+    >
+      EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.
+    </p>
   </div>
 </div>
 `;
