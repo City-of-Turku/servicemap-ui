@@ -1,33 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, FormControlLabel, Typography } from '@mui/material';
+import { useIntl } from 'react-intl';
 import { isDataValid } from '../../../../components/MobilityPlatform/utils/utils';
+import { StyledCheckboxItem } from '../styled/styled';
 
 const ParkingChargeZoneList = ({
-  intl, classes, openZoneList, parkingChargeZones, zoneId, selectZone,
+  openZoneList, parkingChargeZones, zoneId, selectZone,
 }) => {
+  const intl = useIntl();
   const renderData = isDataValid(openZoneList, parkingChargeZones);
 
   return (
     renderData
       ? parkingChargeZones.map(item => (
-        <div key={item.id} className={classes.checkBoxContainer}>
+        <StyledCheckboxItem key={item.id}>
           <FormControlLabel
             control={(
               <Checkbox
                 checked={item.id === zoneId}
                 aria-checked={item.id === zoneId}
-                className={classes.margin}
                 onChange={() => selectZone(item.id)}
               />
               )}
             label={(
               <Typography
                 variant="body2"
-                aria-label={intl.formatMessage(
-                  { id: 'mobilityPlatform.menu.parkingChargeZones.subtitle' },
-                  { value: item.extra.maksuvyohyke },
-                )}
               >
                 {intl.formatMessage(
                   { id: 'mobilityPlatform.menu.parkingChargeZones.subtitle' },
@@ -36,17 +34,17 @@ const ParkingChargeZoneList = ({
               </Typography>
               )}
           />
-        </div>
+        </StyledCheckboxItem>
       ))
       : null
   );
 };
 
 ParkingChargeZoneList.propTypes = {
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   openZoneList: PropTypes.bool,
-  parkingChargeZones: PropTypes.arrayOf(PropTypes.object),
+  parkingChargeZones: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+  })),
   zoneId: PropTypes.string,
   selectZone: PropTypes.func.isRequired,
 };

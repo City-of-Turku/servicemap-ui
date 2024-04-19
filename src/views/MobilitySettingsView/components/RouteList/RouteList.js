@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Checkbox, FormControlLabel, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import styled from '@emotion/styled';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { isDataValid } from '../../../../components/MobilityPlatform/utils/utils';
+import { StyledCheckboxItem } from '../styled/styled';
 import RouteLength from '../RouteLength';
 import Description from '../Description';
 import Pagination from '../Pagination';
@@ -79,14 +79,6 @@ const RouteList = ({
     </div>
   );
 };
-
-const StyledCheckboxItem = styled.div(({ theme }) => ({
-  borderBottom: '1px solid rgb(193, 193, 193)',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'start',
-  paddingLeft: theme.spacing(3.5),
-}));
 
 RouteList.propTypes = {
   openList: PropTypes.bool,

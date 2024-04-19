@@ -61,11 +61,11 @@ const StyledPadding = styled.div(({ theme }) => ({
 ParkingChargeZoneContent.propTypes = {
   parkingChargeZone: PropTypes.shape({
     extra: PropTypes.shape({
-      maksuvyohyke: PropTypes.number,
+      maksuvyohyke: PropTypes.string,
       maksullisuus_arki: PropTypes.string,
       maksullisuus_lauantai: PropTypes.string,
       maksullisuus_sunnuntai: PropTypes.string,
-      maksuvyohykehinta: PropTypes.number,
+      maksuvyohykehinta: PropTypes.string,
     }),
   }),
 };

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormControlLabel, Checkbox, Typography } from '@mui/material';
-import styled from '@emotion/styled';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { isDataValid } from '../../../../components/MobilityPlatform/utils/utils';
+import { StyledCheckboxItem } from '../styled/styled';
 import TrailInfo from '../TrailInfo';
 import Pagination from '../Pagination';
 
@@ -76,14 +76,6 @@ const TrailList = ({
     </div>
   );
 };
-
-const StyledCheckboxItem = styled.div(({ theme }) => ({
-  borderBottom: '1px solid rgb(193, 193, 193)',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'start',
-  paddingLeft: theme.spacing(3.5),
-}));
 
 TrailList.propTypes = {
   openList: PropTypes.bool,

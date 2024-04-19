@@ -25,11 +25,4 @@ describe('<TrailInfo />', () => {
     const p = container.querySelectorAll('p');
     expect(p[0].textContent).toEqual('Reitin pituus: 5 km');
   });
-
-  it('does contain aria-label attribute', () => {
-    const { container } = renderWithProviders(<TrailInfo {...mockProps} />);
-
-    const p = container.querySelectorAll('p');
-    expect(p[0].getAttribute('aria-label')).toEqual('Reitin pituus: 5 km');
-  });
 });
