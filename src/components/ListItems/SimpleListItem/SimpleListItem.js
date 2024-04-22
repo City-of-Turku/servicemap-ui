@@ -7,7 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { visuallyHidden } from '@mui/utils';
 import { keyboardHandler } from '../../../utils';
 
-const SimpleListItem = (props) => {
+const SimpleListItem = props => {
   const {
     button,
     dark,
@@ -25,7 +25,7 @@ const SimpleListItem = (props) => {
   } = props;
   const isLinkOrButton = button || link;
   return (
-    <React.Fragment>
+    <>
       <ListItem
         className={`${className} ${dark ? 'dark' : ''}`}
         button={!!link || button}
@@ -68,7 +68,7 @@ const SimpleListItem = (props) => {
           <Divider className={classes.divider} />
         </li>
       )}
-    </React.Fragment>
+    </>
   );
 };
 
