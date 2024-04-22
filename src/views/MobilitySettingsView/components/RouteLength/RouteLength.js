@@ -13,28 +13,19 @@ const RouteLength = ({ route }) => {
     switch (routeName) {
       case 'EuroVelo':
         return (
-          <StyledTypography
-            component="p"
-            variant="body2"
-          >
+          <StyledTypography component="p" variant="body2">
             {intl.formatMessage({ id: 'mobilityPlatform.menu.bicycleRoutes.euroVelo' })}
           </StyledTypography>
         );
       case 'Saariston rengastie':
         return (
-          <StyledTypography
-            component="p"
-            variant="body2"
-          >
+          <StyledTypography component="p" variant="body2">
             {intl.formatMessage({ id: 'mobilityPlatform.menu.bicycleRoutes.archipelagoTrail' })}
           </StyledTypography>
         );
       case 'Aurajoentie':
         return (
-          <StyledTypography
-            component="p"
-            variant="body2"
-          >
+          <StyledTypography component="p" variant="body2">
             {intl.formatMessage({ id: 'mobilityPlatform.menu.bicycleRoutes.auraRiverTrail' })}
           </StyledTypography>
         );
@@ -48,10 +39,7 @@ const RouteLength = ({ route }) => {
     const [a, b] = split;
     if (a === 'Seutureitti') {
       return (
-        <StyledTypography
-          component="p"
-          variant="body2"
-        >
+        <StyledTypography component="p" variant="body2">
           {intl.formatMessage({ id: `mobilityPlatform.menu.bicycleRoutes.regionalTrail${b}` })}
         </StyledTypography>
       );
@@ -61,15 +49,11 @@ const RouteLength = ({ route }) => {
 
   return (
     <StyledContainer>
-      <Typography
-        component="p"
-        variant="body2"
-      >
-        {intl.formatMessage({ id: 'mobilityPlatform.menu.bicycleRoutes.length' })}
-        {' '}
-        {formatRoutelength(route.length)}
-        {' '}
-        km.
+      <Typography component="p" variant="body2">
+        {intl.formatMessage(
+          { id: 'mobilityPlatform.menu.bicycleRoutes.length' },
+          { value: formatRoutelength(route.length) },
+        )}
       </Typography>
       {generateTranslations(route.name_fi)}
     </StyledContainer>

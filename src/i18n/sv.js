@@ -748,7 +748,7 @@ const translations = {
   'mobilityPlatform.menu.routes.info': 'Du kan välja rutten från nedanstående listan.',
   'mobilityPlatform.menu.routes.emptyList': 'Rutter håller på att laddas.',
   'mobilityPlatform.menu.bicycleRoutes.title': 'Information om rutten.',
-  'mobilityPlatform.menu.bicycleRoutes.length': 'Ruttlängd:',
+  'mobilityPlatform.menu.bicycleRoutes.length': 'Ruttlängd: {value} km.',
   'mobilityPlatform.menu.routes.name': 'Rutt',
   'mobilityPlatform.menu.showRentalCars': 'Bil för delad användning',
   'mobilityPlatform.menu.showParkingSpaces': 'Parkeringsplatser',

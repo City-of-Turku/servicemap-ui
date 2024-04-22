@@ -23,7 +23,7 @@ describe('<RouteLength />', () => {
     const { container } = renderWithProviders(<RouteLength {...mockProps} />);
 
     const p = container.querySelectorAll('p');
-    expect(p[0].textContent).toContain(`${finnishTranslations['mobilityPlatform.menu.bicycleRoutes.length']} 100 km.`);
+    expect(p[0].textContent).toContain(`${finnishTranslations['mobilityPlatform.menu.bicycleRoutes.length'].replace('{value}', '100')}`);
     expect(p[1]).toBeInTheDocument();
   });
 });

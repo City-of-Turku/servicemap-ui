@@ -7,7 +7,6 @@ import { ButtonBase } from '@mui/material';
 /** Basic pagination functional component.
  * Renders number on buttons based on the length of items array and items per page value.
  * */
-
 const Pagination = ({
   items, itemsPerPage, currentPage, setCurrentPage,
 }) => {
@@ -56,9 +55,11 @@ const StyledButton = styled(({ isActive, ...props }) => <ButtonBase {...props} /
 }));
 
 Pagination.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-  })),
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+    }),
+  ),
   itemsPerPage: PropTypes.number,
   currentPage: PropTypes.number,
   setCurrentPage: PropTypes.func.isRequired,

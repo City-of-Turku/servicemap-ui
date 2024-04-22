@@ -749,7 +749,7 @@ const translations = {
   'mobilityPlatform.menu.routes.info': 'Valitse reitti oheisesta listasta.',
   'mobilityPlatform.menu.routes.emptyList': 'Reittejä ladataan.',
   'mobilityPlatform.menu.bicycleRoutes.title': 'Tietoja reitistä.',
-  'mobilityPlatform.menu.bicycleRoutes.length': 'Reitin pituus:',
+  'mobilityPlatform.menu.bicycleRoutes.length': 'Reitin pituus: {value} km.',
   'mobilityPlatform.menu.routes.name': 'Reitti',
   'mobilityPlatform.menu.showRentalCars': 'Yhteiskäyttöautot',
   'mobilityPlatform.menu.showParkingSpaces': 'Pysäköintialueet',

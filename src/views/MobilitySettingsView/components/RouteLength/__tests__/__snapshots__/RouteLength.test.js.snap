@@ -8,11 +8,7 @@ exports[`<RouteLength /> should work 1`] = `
     <p
       class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
     >
-      Reitin pituus:
-       
-      100
-       
-      km.
+      Reitin pituus: 100 km.
     </p>
     <p
       class="MuiTypography-root MuiTypography-body2 css-vkqgf3-MuiTypography-root"

@@ -744,7 +744,7 @@ const translations = {
   'mobilityPlatform.menu.routes.info': 'You can select a route from the list below.',
   'mobilityPlatform.menu.routes.emptyList': 'Routes are loading.',
   'mobilityPlatform.menu.bicycleRoutes.title': 'Info about the route.',
-  'mobilityPlatform.menu.bicycleRoutes.length': 'Route length:',
+  'mobilityPlatform.menu.bicycleRoutes.length': 'Route length: {value} km.',
   'mobilityPlatform.menu.routes.name': 'Route name',
   'mobilityPlatform.menu.showRentalCars': 'Shared use cars',
   'mobilityPlatform.menu.showParkingSpaces': 'Parking spaces',
