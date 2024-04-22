@@ -193,12 +193,6 @@ const MobilitySettingsView = ({ navigator }) => {
     marginRight: theme.spacing(1),
   });
 
-  const listItemClass = css({
-    padding: 0,
-    minHeight: theme.spacing(7),
-    color: 'rgba(0, 0, 0, 255)',
-  });
-
   const bikeInfo = {
     paragraph1: 'mobilityPlatform.info.cityBikes.paragraph.1',
     paragraph2: 'mobilityPlatform.info.cityBikes.paragraph.2',
@@ -2031,7 +2025,7 @@ const MobilitySettingsView = ({ navigator }) => {
           <StyledListMargin>
             <List>
               {categories.map(category => (
-                <ListItem key={category.title} divider disableGutters classes={{ root: listItemClass }}>
+                <ListItem key={category.title} divider disableGutters style={{ padding: '0px' }}>
                   <SMAccordion
                     adornment={category.icon}
                     defaultOpen={category.setState}
