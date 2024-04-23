@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { PropTypes } from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useMap, useMapEvents } from 'react-leaflet';
 import { useSelector } from 'react-redux';
@@ -11,9 +10,10 @@ import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, setRender, checkMapType } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
+import { StyledPopupInner } from '../styled/styled';
 import RentalCarsContent from './components/RentalCarsContent';
 
-const RentalCars = ({ classes }) => {
+const RentalCars = () => {
   const [rentalCarsData, setRentalCarsData] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
@@ -54,7 +54,7 @@ const RentalCars = ({ classes }) => {
   useEffect(() => {
     if (renderData && !embedded) {
       const bounds = [];
-      rentalCarsData.forEach((item) => {
+      rentalCarsData.forEach(item => {
         bounds.push([item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]);
       });
       map.fitBounds(bounds);
@@ -62,32 +62,26 @@ const RentalCars = ({ classes }) => {
   }, [showRentalCars, rentalCarsData]);
 
   return (
-    <>
-      {renderData ? (
-        rentalCarsData.filter(item => item.availabilityData.available).map(item => (
-          <Marker
-            key={item.id}
-            icon={customIcon}
-            position={[item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]}
-          >
-            <div className={classes.popupWrapper}>
-              <Popup className="rental-cars-popup">
-                <div className={classes.popupInner}>
-                  <RentalCarsContent
-                    car={item}
-                  />
-                </div>
-              </Popup>
-            </div>
-          </Marker>
-        ))
-      ) : null}
-    </>
+    renderData ? (
+      rentalCarsData.filter(item => item.availabilityData.available).map(item => (
+        <Marker
+          key={item.id}
+          icon={customIcon}
+          position={[item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]}
+        >
+          <div>
+            <Popup className="rental-cars-popup">
+              <StyledPopupInner>
+                <RentalCarsContent
+                  car={item}
+                />
+              </StyledPopupInner>
+            </Popup>
+          </div>
+        </Marker>
+      ))
+    ) : null
   );
-};
-
-RentalCars.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default RentalCars;

@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from '@emotion/styled';
 import { Typography } from '@mui/material';
 import { useIntl } from 'react-intl';
+import { StyledContainer, StyledHeaderContainer, StyledTextContainer } from '../../../../styled/styled';
 import TextComponent from '../../../../TextComponent';
 
 const ParkAndRideBikesContent = ({ item }) => {
@@ -36,39 +36,21 @@ const ParkAndRideBikesContent = ({ item }) => {
       <StyledHeaderContainer>
         <TextComponent textObj={itemName} isTitle />
       </StyledHeaderContainer>
-      <StyledTextContainer>
-        <StyledMargin>
+      <div>
+        <StyledTextContainer>
           <Typography variant="body2" component="p">
             {intl.formatMessage({ id: 'mobilityPlatform.parkAndRide.content.subtitle' })}
           </Typography>
-        </StyledMargin>
+        </StyledTextContainer>
         {item.address_fi !== '' ? (
           <TextComponent messageId="mobilityPlatform.content.address" textObj={itemAddress} />
         ) : null}
-      </StyledTextContainer>
+      </div>
     </StyledContainer>
   );
 
   return <StyledContainer>{parkAndRideInfo}</StyledContainer>;
 };
-
-const StyledContainer = styled.div(({ theme }) => ({
-  margin: theme.spacing(1),
-}));
-
-const StyledHeaderContainer = styled.div(({ theme }) => ({
-  width: '85%',
-  borderBottom: '1px solid #000',
-  paddingBottom: theme.spacing(0.5),
-}));
-
-const StyledTextContainer = styled.div(({ theme }) => ({
-  marginTop: theme.spacing(0.5),
-}));
-
-const StyledMargin = styled.div(({ theme }) => ({
-  margin: theme.spacing(0.4),
-}));
 
 ParkAndRideBikesContent.propTypes = {
   item: PropTypes.shape({
