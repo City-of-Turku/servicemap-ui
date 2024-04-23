@@ -4,8 +4,11 @@ import React, {
   useEffect, useState, forwardRef, useRef,
 } from 'react';
 import { useSelector } from 'react-redux';
-import { ButtonBase, Typography, useMediaQuery } from '@mui/material';
+import { Typography, useMediaQuery } from '@mui/material';
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
+import { css } from '@emotion/css';
+import styled from '@emotion/styled';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import {
   endOfMonth,
@@ -34,10 +37,21 @@ import { formatDates, formatMonths } from '../../utils';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
 import CounterActiveText from '../CounterActiveText';
+import {
+  StyledButtonBase,
+  StyledChartContainer,
+  StyledContentHeader,
+  StyledDateContainer,
+  StyledHeaderSubtitle,
+  StyledIconContainer,
+  StyledStepsContainer,
+  StyledUserTypeText,
+  StyledUserTypesContainer,
+} from '../../styled/styled';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
-const LamCounterContent = ({ classes, intl, station }) => {
+const LamCounterContent = ({ station }) => {
   const [lamCounterHour, setLamCounterHour] = useState([]);
   const [lamCounterDay, setLamCounterDay] = useState([]);
   const [lamCounterWeek, setLamCounterWeek] = useState([]);
@@ -51,6 +65,7 @@ const LamCounterContent = ({ classes, intl, station }) => {
   const [currentTime, setCurrentTime] = useState('hour');
   const [activeStep, setActiveStep] = useState(0);
 
+  const intl = useIntl();
   const locale = useSelector(state => state.user.locale);
   const inputRef = useRef(null);
 
@@ -65,6 +80,12 @@ const LamCounterContent = ({ classes, intl, station }) => {
   const dataUntil = station?.data_until_date;
 
   const [selectedDate, setSelectedDate] = useState(subDays(new Date(dataUntil), 1));
+
+  const iconClass = css({
+    fill: 'rgb(255, 255, 255)',
+    width: '40px',
+    height: '40px',
+  });
 
   // steps that determine which data is shown on the chart
   const buttonSteps = [
@@ -103,10 +124,10 @@ const LamCounterContent = ({ classes, intl, station }) => {
   const renderUserTypeText = userType => {
     if (userType === 'at') {
       return (
-        <div className={classes.textContainer}>
-          <Typography variant="body2" className={classes.userTypeText}>
+        <div>
+          <StyledUserTypeText variant="body2">
             {intl.formatMessage({ id: 'ecocounter.car' })}
-          </Typography>
+          </StyledUserTypeText>
         </div>
       );
     }
@@ -116,9 +137,9 @@ const LamCounterContent = ({ classes, intl, station }) => {
   const renderUserTypeIcon = userType => {
     if (userType === 'at') {
       return (
-        <div className={classes.iconWrapper}>
-          <ReactSVG className={classes.iconActive} src={iconCar} />
-        </div>
+        <StyledIconContainer>
+          <ReactSVG className={iconClass} src={iconCar} />
+        </StyledIconContainer>
       );
     }
     return null;
@@ -383,11 +404,11 @@ const LamCounterContent = ({ classes, intl, station }) => {
 
   return (
     <>
-      <div className={`${classes.trafficCounterHeader} ${isNarrow ? classes.widthSm : classes.widthMd}`}>
-        <Typography component="h4" className={classes.headerSubtitle}>
+      <StyledContentHeader isNarrow={isNarrow}>
+        <StyledHeaderSubtitle component="h4">
           {stationSource === 'LC' ? formatCounterName(stationName) : stationName}
-        </Typography>
-        <div className={classes.dateContainer}>
+        </StyledHeaderSubtitle>
+        <StyledDateContainer>
           <DatePicker
             selected={selectedDate}
             onChange={newDate => changeDate(newDate)}
@@ -399,26 +420,26 @@ const LamCounterContent = ({ classes, intl, station }) => {
             maxDate={new Date(dataUntil)}
             customInput={<CustomInput inputRef={inputRef} />}
           />
-        </div>
-      </div>
-      <div className={classes.trafficCounterContent}>
-        <div className={classes.trafficCounterUserTypes}>
+        </StyledDateContainer>
+      </StyledContentHeader>
+      <div>
+        <StyledUserTypesContainer>
           {userTypes?.map(userType => (
-            <div key={userType} className={classes.container}>
+            <div key={userType}>
               {renderUserTypeIcon(userType)}
               {renderUserTypeText(userType)}
             </div>
           ))}
-        </div>
+        </StyledUserTypesContainer>
         {lamCounterYear?.value_at === 0 ? (
-          <div className={classes.missingDataText}>
+          <StyledMissingDataText>
             <Typography component="p" variant="body2">
               {intl.formatMessage({ id: 'trafficCounter.year.warning.text' }, { value: selectedYear })}
             </Typography>
-          </div>
+          </StyledMissingDataText>
         ) : null}
         <CounterActiveText dataFrom={dataFrom} dataUntil={dataUntil} />
-        <div className={classes.trafficCounterChart}>
+        <StyledChartContainer>
           <LineChart
             labels={lamCounterLabels}
             labelChannel1={intl.formatMessage({
@@ -434,33 +455,36 @@ const LamCounterContent = ({ classes, intl, station }) => {
             channel1Data={channel1Counts}
             channel2Data={channel2Counts}
           />
-        </div>
-        <div className={classes.trafficCounterSteps}>
+        </StyledChartContainer>
+        <StyledStepsContainer>
           {buttonSteps.map((timing, i) => (
-            <ButtonBase
+            <StyledButtonBase
               key={timing.step.type}
               type="button"
-              className={`${classes.button} ${classes.paddingWide} ${
-                i === activeStep ? classes.buttonActive : classes.buttonWhite
-              }`}
+              sx={
+                i === activeStep
+                  ? { backgroundColor: 'rgba(7, 44, 115, 255)', color: 'rgb(255, 255, 255)', padding: '4px 8px' }
+                  : { color: 'rgb(0, 0, 0)', padding: '4px 8px' }
+              }
               onClick={() => handleClick(timing.step.type, i)}
             >
-              <Typography variant="body2" className={classes.buttonText}>
+              <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
                 {timing.step.text}
               </Typography>
-            </ButtonBase>
+            </StyledButtonBase>
           ))}
-        </div>
+        </StyledStepsContainer>
       </div>
     </>
   );
 };
 
+const StyledMissingDataText = styled.div(({ theme }) => ({
+  textAlign: 'center',
+  margin: `${theme.spacing(1)} 0`,
+}));
+
 LamCounterContent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }).isRequired,
   station: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,

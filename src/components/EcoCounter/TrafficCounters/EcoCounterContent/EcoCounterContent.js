@@ -38,7 +38,7 @@ import {
 import { formatDates, formatMonths } from '../../utils';
 import {
   StyledButtonText,
-  StyledCharContainer,
+  StyledChartContainer,
   StyledContentHeader,
   StyledDateContainer,
   StyledHeaderSubtitle,
@@ -555,7 +555,7 @@ const EcoCounterContent = ({ station }) => {
           ))}
         </StyledUserTypesContainer>
         <CounterActiveText dataFrom={dataFrom} dataUntil={dataUntil} />
-        <StyledCharContainer>
+        <StyledChartContainer>
           <LineChart
             labels={ecoCounterLabels}
             labelChannel1={intl.formatMessage({
@@ -571,7 +571,7 @@ const EcoCounterContent = ({ station }) => {
             channel1Data={channel1Counts}
             channel2Data={channel2Counts}
           />
-        </StyledCharContainer>
+        </StyledChartContainer>
         <StyledStepsContainer>
           {buttonSteps
             .filter(item => item.step.visible)

@@ -53,7 +53,7 @@ const StyledButtonText = styled.div(() => ({
   alignItems: 'center',
 }));
 
-const StyledCharContainer = styled.div(() => ({
+const StyledChartContainer = styled.div(() => ({
   margin: 0,
 }));
 
@@ -65,6 +65,15 @@ const StyledStepsContainer = styled.div(() => ({
   padding: '1rem 0',
 }));
 
+const StyledIconContainer = styled.div(({ theme }) => ({
+  backgroundColor: 'rgba(7, 44, 115, 255)',
+  color: 'rgba(255, 255, 255, 255)',
+  border: '1px solid gray',
+  borderRadius: '5px',
+  marginRight: theme.spacing(1.5),
+  padding: theme.spacing(0.5),
+}));
+
 export {
   StyledContentHeader,
   StyledHeaderSubtitle,
@@ -73,6 +82,7 @@ export {
   StyledDateContainer,
   StyledUserTypesContainer,
   StyledButtonText,
-  StyledCharContainer,
+  StyledChartContainer,
   StyledStepsContainer,
+  StyledIconContainer,
 };
