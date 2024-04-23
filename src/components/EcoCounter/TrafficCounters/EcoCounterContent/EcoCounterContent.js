@@ -1,11 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ButtonBase, Typography, useMediaQuery } from '@mui/material';
+import { Typography, useMediaQuery } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, {
   useEffect, useState, useRef, forwardRef,
 } from 'react';
 import { useSelector } from 'react-redux';
+import { useIntl } from 'react-intl';
+import { css } from '@emotion/css';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import {
   endOfMonth,
@@ -34,13 +36,24 @@ import {
   fetchSelectedYearData,
 } from '../../EcoCounterRequests/ecoCounterRequests';
 import { formatDates, formatMonths } from '../../utils';
+import {
+  StyledButtonText,
+  StyledCharContainer,
+  StyledContentHeader,
+  StyledDateContainer,
+  StyledHeaderSubtitle,
+  StyledUserTypeText,
+  StyledStepsContainer,
+  StyledUserTypesContainer,
+  StyledButtonBase,
+} from '../../styled/styled';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
 import CounterActiveText from '../CounterActiveText';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
-const EcoCounterContent = ({ classes, intl, station }) => {
+const EcoCounterContent = ({ station }) => {
   const [ecoCounterHour, setEcoCounterHour] = useState([]);
   const [ecoCounterDay, setEcoCounterDay] = useState([]);
   const [ecoCounterWeek, setEcoCounterWeek] = useState([]);
@@ -54,6 +67,7 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   const [currentTime, setCurrentTime] = useState('hour');
   const [activeStep, setActiveStep] = useState(0);
 
+  const intl = useIntl();
   const locale = useSelector(state => state.user.locale);
   const inputRef = useRef(null);
 
@@ -67,6 +81,18 @@ const EcoCounterContent = ({ classes, intl, station }) => {
   const dataUntil = station?.data_until_date;
 
   const [selectedDate, setSelectedDate] = useState(subDays(new Date(dataUntil), 1));
+
+  const iconClass = css({
+    fill: 'rgba(0, 0, 0, 255)',
+    width: '40px',
+    height: '40px',
+  });
+
+  const iconActiveClass = css({
+    fill: 'rgba(255, 255, 255, 255)',
+    width: '40px',
+    height: '40px',
+  });
 
   /** When all 3 user types are rendered, a reverse order is required where 'at' is placed last */
   const reverseUserTypes = () => {
@@ -144,10 +170,8 @@ const EcoCounterContent = ({ classes, intl, station }) => {
    * @returns JSX element
    */
   const userTypeText = translationId => (
-    <div className={classes.textContainer}>
-      <Typography variant="body2" className={classes.userTypeText}>
-        {intl.formatMessage({ id: translationId })}
-      </Typography>
+    <div>
+      <StyledUserTypeText variant="body2">{intl.formatMessage({ id: translationId })}</StyledUserTypeText>
     </div>
   );
 
@@ -177,16 +201,19 @@ const EcoCounterContent = ({ classes, intl, station }) => {
    * @returns JSX Element
    */
   const userTypeButton = (userType, iconValue, i) => (
-    <ButtonBase
-      className={`${classes.button} ${classes.paddingNarrow} ${
-        i === activeType ? classes.buttonActive : classes.buttonWhite
-      }`}
+    <StyledButtonBase
+      role="button"
+      sx={
+        i === activeType
+          ? { backgroundColor: 'rgba(7, 44, 115, 255)', color: 'rgb(255, 255, 255)', padding: '4px' }
+          : { color: 'rgb(0, 0, 0)', padding: '4px' }
+      }
       onClick={() => setUserTypes(userType, i)}
     >
       <div>
-        <ReactSVG className={i === activeType ? `${classes.iconActive}` : `${classes.icon}`} src={iconValue} />
+        <ReactSVG className={i === activeType ? `${iconActiveClass}` : `${iconClass}`} src={iconValue} />
       </div>
-    </ButtonBase>
+    </StyledButtonBase>
   );
 
   /**
@@ -500,11 +527,11 @@ const EcoCounterContent = ({ classes, intl, station }) => {
 
   return (
     <>
-      <div className={`${classes.trafficCounterHeader} ${isNarrow ? classes.widthSm : classes.widthMd}`}>
-        <Typography component="h4" className={classes.headerSubtitle}>
+      <StyledContentHeader isNarrow={isNarrow}>
+        <StyledHeaderSubtitle component="h4">
           {stationSource === 'TR' ? 'Telraam' : renderStationName(stationName)}
-        </Typography>
-        <div className={classes.dateContainer}>
+        </StyledHeaderSubtitle>
+        <StyledDateContainer>
           <DatePicker
             selected={selectedDate}
             onChange={newDate => changeDate(newDate)}
@@ -516,19 +543,19 @@ const EcoCounterContent = ({ classes, intl, station }) => {
             maxDate={new Date(dataUntil)}
             customInput={<CustomInput inputRef={inputRef} />}
           />
-        </div>
-      </div>
-      <div className={classes.trafficCounterContent}>
-        <div className={classes.trafficCounterUserTypes}>
+        </StyledDateContainer>
+      </StyledContentHeader>
+      <div>
+        <StyledUserTypesContainer>
           {userTypes?.map((userType, i) => (
-            <div key={userType} className={classes.buttonAndTextContainer}>
+            <StyledButtonText key={userType}>
               {renderUserTypeIcon(userType, i)}
               {renderUserTypeText(userType)}
-            </div>
+            </StyledButtonText>
           ))}
-        </div>
+        </StyledUserTypesContainer>
         <CounterActiveText dataFrom={dataFrom} dataUntil={dataUntil} />
-        <div className={classes.trafficCounterChart}>
+        <StyledCharContainer>
           <LineChart
             labels={ecoCounterLabels}
             labelChannel1={intl.formatMessage({
@@ -544,35 +571,33 @@ const EcoCounterContent = ({ classes, intl, station }) => {
             channel1Data={channel1Counts}
             channel2Data={channel2Counts}
           />
-        </div>
-        <div className={classes.trafficCounterSteps}>
+        </StyledCharContainer>
+        <StyledStepsContainer>
           {buttonSteps
             .filter(item => item.step.visible)
             .map((timing, i) => (
-              <ButtonBase
+              <StyledButtonBase
                 key={timing.step.type}
                 type="button"
-                className={`${classes.button} ${classes.paddingWide} ${
-                  i === activeStep ? classes.buttonActive : classes.buttonWhite
-                }`}
+                sx={
+                  i === activeStep
+                    ? { backgroundColor: 'rgba(7, 44, 115, 255)', color: 'rgb(255, 255, 255)', padding: '4px 8px' }
+                    : { color: 'rgb(0, 0, 0)', padding: '4px 8px' }
+                }
                 onClick={() => handleClick(timing.step.type, i)}
               >
-                <Typography variant="body2" className={classes.buttonText}>
+                <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
                   {timing.step.text}
                 </Typography>
-              </ButtonBase>
+              </StyledButtonBase>
             ))}
-        </div>
+        </StyledStepsContainer>
       </div>
     </>
   );
 };
 
 EcoCounterContent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }).isRequired,
   station: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,

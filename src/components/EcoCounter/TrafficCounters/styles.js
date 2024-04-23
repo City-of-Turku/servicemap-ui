@@ -1,4 +1,4 @@
-const styles = (theme) => ({
+const styles = theme => ({
   buttonTransparent: {
     backgroundColor: '#fff',
     border: 'none',
