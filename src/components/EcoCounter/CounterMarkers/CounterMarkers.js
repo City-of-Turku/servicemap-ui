@@ -1,14 +1,13 @@
 import { PropTypes } from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import styled from '@emotion/styled';
 import ecoCounterIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ecocounter.svg';
 import ecoCounterIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ecocounter-bw.svg';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { createIcon } from '../../MobilityPlatform/utils/utils';
 
-const CounterMarkers = ({
-  classes, counterStation, children,
-}) => {
+const CounterMarkers = ({ counterStation, children }) => {
   const useContrast = useSelector(useAccessibleMap);
 
   const { Marker, Popup } = global.rL;
@@ -18,22 +17,33 @@ const CounterMarkers = ({
 
   return (
     <Marker icon={customIcon} position={[counterStation.lat, counterStation.lon]}>
-      <div className={classes.popupWrapper}>
+      <StyledWrapper>
         <Popup className="ecocounter-popup">
-          <div className={classes.popupInner}>
+          <StyledContentInner>
             {children}
-          </div>
+          </StyledContentInner>
         </Popup>
-      </div>
+      </StyledWrapper>
     </Marker>
   );
 };
 
+const StyledWrapper = styled.div(({ theme }) => ({
+  position: 'absolute',
+  textAlign: 'center',
+  marginBottom: theme.spacing(2),
+  width: '429px',
+}));
+
+const StyledContentInner = styled.div(({ theme }) => ({
+  borderRadius: '3px',
+  marginBottom: theme.spacing(1),
+  marginLeft: theme.spacing(1.2),
+  lineHeight: 1.2,
+  overflowX: 'hidden',
+}));
+
 CounterMarkers.propTypes = {
-  classes: PropTypes.shape({
-    popupWrapper: PropTypes.string,
-    popupInner: PropTypes.string,
-  }).isRequired,
   counterStation: PropTypes.shape({
     lat: PropTypes.number,
     lon: PropTypes.number,
