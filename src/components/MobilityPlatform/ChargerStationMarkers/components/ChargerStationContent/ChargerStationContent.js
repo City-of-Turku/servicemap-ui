@@ -4,7 +4,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { useIntl } from 'react-intl';
 import {
-  StyledContainer, StyledHeaderContainer, StyledTextContainer, StyledMargin,
+  StyledContainer, StyledHeaderContainer, StyledTextContainer,
 } from '../../../styled/styled';
 import TextComponent from '../../../TextComponent';
 
@@ -12,20 +12,20 @@ const ChargerStationContent = ({ station }) => {
   const intl = useIntl();
 
   const titleTypo = messageId => (
-    <StyledMargin>
+    <StyledTextContainer>
       <Typography variant="subtitle2" component="h3">
         {intl.formatMessage({
           id: messageId,
         })}
         :
       </Typography>
-    </StyledMargin>
+    </StyledTextContainer>
   );
 
   const singleValTypo = (messageId, value) => (
-    <div>
+    <StyledTextContainer>
       <Typography variant="body2">{intl.formatMessage({ id: messageId }, { value })}</Typography>
-    </div>
+    </StyledTextContainer>
   );
 
   const stationName = {
@@ -53,7 +53,7 @@ const ChargerStationContent = ({ station }) => {
   const renderPayment = paymentType => {
     const toLower = paymentType.toLowerCase();
     return (
-      <StyledMargin>
+      <StyledTextContainer>
         <Typography variant="body2">
           {intl.formatMessage({
             id:
@@ -62,7 +62,7 @@ const ChargerStationContent = ({ station }) => {
                 : 'mobilityPlatform.chargerStations.content.free',
           })}
         </Typography>
-      </StyledMargin>
+      </StyledTextContainer>
     );
   };
 
@@ -92,7 +92,7 @@ const ChargerStationContent = ({ station }) => {
       <StyledHeaderContainer>
         <TextComponent textObj={stationName} isTitle />
       </StyledHeaderContainer>
-      <StyledTextContainer>{chargerStationInfo}</StyledTextContainer>
+      <div>{chargerStationInfo}</div>
     </StyledContainer>
   );
 };

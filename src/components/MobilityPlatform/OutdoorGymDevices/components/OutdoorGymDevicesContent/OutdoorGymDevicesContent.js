@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { StyledContainer, StyledHeaderContainer, StyledTextContainer } from '../../../styled/styled';
+import { StyledContainer, StyledHeaderContainer } from '../../../styled/styled';
 import TextComponent from '../../../TextComponent';
 
 const OutdoorGymDevicesContent = ({ item }) => {
@@ -27,10 +27,10 @@ const OutdoorGymDevicesContent = ({ item }) => {
       <StyledHeaderContainer>
         <TextComponent textObj={deviceName} isTitle />
       </StyledHeaderContainer>
-      <StyledTextContainer>
+      <div>
         {item.address_fi !== '' ? <TextComponent messageId="mobilityPlatform.content.address" textObj={deviceAddress} /> : null}
         <TextComponent textObj={deviceDescription} />
-      </StyledTextContainer>
+      </div>
     </StyledContainer>
   );
 };

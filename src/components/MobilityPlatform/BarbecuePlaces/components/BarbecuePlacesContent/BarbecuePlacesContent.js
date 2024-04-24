@@ -2,34 +2,36 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Typography } from '@mui/material';
 import { useIntl } from 'react-intl';
-import { StyledContainer, StyledContentHeader, StyledTextContainer } from '../../../styled/styled';
+import { StyledContainer, StyledHeaderContainer, StyledTextContainer } from '../../../styled/styled';
 
 const BarbecuePlacesContent = ({ item }) => {
   const intl = useIntl();
 
   return (
     <StyledContainer>
-      <StyledContentHeader>
+      <StyledHeaderContainer>
         <Typography variant="subtitle1" component="p">
           {intl.formatMessage({ id: 'mobilityPlatform.content.barbecuePlace.title' })}
         </Typography>
-      </StyledContentHeader>
-      <StyledTextContainer>
-        <Typography variant="body2" component="p">
-          {intl.formatMessage(
-            { id: 'mobilityPlatform.content.barbecuePlace.manufacturer' },
-            { value: item.extra.valmistaja },
-          )}
-        </Typography>
-      </StyledTextContainer>
-      <StyledTextContainer>
-        <Typography variant="body2" component="p">
-          {intl.formatMessage(
-            { id: 'mobilityPlatform.content.barbecuePlace.model' },
-            { value: item.extra.malli.trim() },
-          )}
-        </Typography>
-      </StyledTextContainer>
+      </StyledHeaderContainer>
+      <div>
+        <StyledTextContainer>
+          <Typography variant="body2" component="p">
+            {intl.formatMessage(
+              { id: 'mobilityPlatform.content.barbecuePlace.manufacturer' },
+              { value: item.extra.valmistaja },
+            )}
+          </Typography>
+        </StyledTextContainer>
+        <StyledTextContainer>
+          <Typography variant="body2" component="p">
+            {intl.formatMessage(
+              { id: 'mobilityPlatform.content.barbecuePlace.model' },
+              { value: item.extra.malli.trim() },
+            )}
+          </Typography>
+        </StyledTextContainer>
+      </div>
     </StyledContainer>
   );
 };

@@ -6,7 +6,7 @@ exports[`<BarbecuePlacesContent /> should work 1`] = `
     class="css-1ynyhby"
   >
     <div
-      class="css-1ip4nzh"
+      class="css-1dznbe2"
     >
       <p
         class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
@@ -14,23 +14,25 @@ exports[`<BarbecuePlacesContent /> should work 1`] = `
         Grillaus- ja tulentekopaikka
       </p>
     </div>
-    <div
-      class="css-1fhgjcy"
-    >
-      <p
-        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+    <div>
+      <div
+        class="css-1fhgjcy"
       >
-        Valmistaja: Testi
-      </p>
-    </div>
-    <div
-      class="css-1fhgjcy"
-    >
-      <p
-        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Valmistaja: Testi
+        </p>
+      </div>
+      <div
+        class="css-1fhgjcy"
       >
-        Malli: Testigrilli
-      </p>
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Malli: Testigrilli
+        </p>
+      </div>
     </div>
   </div>
 </div>

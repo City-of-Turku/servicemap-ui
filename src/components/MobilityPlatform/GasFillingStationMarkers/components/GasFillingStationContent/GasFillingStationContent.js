@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import {
-  StyledContainer, StyledHeaderContainer, StyledTextContainer, StyledMargin,
+  StyledContainer, StyledHeaderContainer, StyledTextContainer,
 } from '../../../styled/styled';
 
 const GasFillingStationContent = ({ station }) => {
   const intl = useIntl();
 
   const singleValTypo = (messageId, value) => (
-    <StyledMargin>
+    <StyledTextContainer>
       <Typography variant="body2">
         {intl.formatMessage({ id: messageId }, { value })}
       </Typography>
-    </StyledMargin>
+    </StyledTextContainer>
   );
 
   const gasFillingStationInfo = (
@@ -32,9 +32,9 @@ const GasFillingStationContent = ({ station }) => {
           {station.name}
         </Typography>
       </StyledHeaderContainer>
-      <StyledTextContainer>
+      <div>
         {gasFillingStationInfo}
-      </StyledTextContainer>
+      </div>
     </StyledContainer>
   );
 };
