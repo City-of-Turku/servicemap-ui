@@ -6,16 +6,28 @@ import styled from '@emotion/styled';
 
 const BarbecuePlacesContent = ({ item }) => {
   const intl = useIntl();
+
   return (
     <StyledContainer>
       <StyledHeader>
-        <Typography variant="subtitle2" component="h3">
+        <Typography variant="subtitle1" component="p">
           {intl.formatMessage({ id: 'mobilityPlatform.content.barbecuePlace.title' })}
         </Typography>
       </StyledHeader>
       <StyledText>
         <Typography variant="body2" component="p">
-          {`${item.extra.malli.trim()} (${item.extra.valmistaja})`}
+          {intl.formatMessage(
+            { id: 'mobilityPlatform.content.barbecuePlace.manufacturer' },
+            { value: item.extra.valmistaja },
+          )}
+        </Typography>
+      </StyledText>
+      <StyledText>
+        <Typography variant="body2" component="p">
+          {intl.formatMessage(
+            { id: 'mobilityPlatform.content.barbecuePlace.model' },
+            { value: item.extra.malli.trim() },
+          )}
         </Typography>
       </StyledText>
     </StyledContainer>

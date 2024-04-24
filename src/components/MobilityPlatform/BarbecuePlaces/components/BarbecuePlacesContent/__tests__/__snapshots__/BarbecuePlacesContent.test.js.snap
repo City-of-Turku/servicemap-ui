@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BarbecuePlacesContent /> should work 1`] = `
+<div>
+  <div
+    class="css-1ynyhby"
+  >
+    <div
+      class="css-1dznbe2"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
+      >
+        Grillaus- ja tulentekopaikka
+      </p>
+    </div>
+    <div
+      class="css-1fhgjcy"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+      >
+        Valmistaja: Testi
+      </p>
+    </div>
+    <div
+      class="css-1fhgjcy"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+      >
+        Malli: Testigrilli
+      </p>
+    </div>
+  </div>
+</div>
+`;

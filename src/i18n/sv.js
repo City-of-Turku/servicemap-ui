@@ -914,6 +914,8 @@ const translations = {
   'mobilityPlatform.content.arrivingTrains.empty': 'Inga inkommande tåg',
   'mobilityPlatform.parkAndRide.content.subtitle': 'Infartspark for cyklarna',
   'mobilityPlatform.content.barbecuePlace.title': 'Grill- och eldningplats',
+  'mobilityPlatform.content.barbecuePlace.manufacturer': 'Tillverkare: {value}',
+  'mobilityPlatform.content.barbecuePlace.model': 'Modell: {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',

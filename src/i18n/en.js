@@ -910,6 +910,8 @@ const translations = {
   'mobilityPlatform.content.arrivingTrains.empty': 'No incoming trains',
   'mobilityPlatform.parkAndRide.content.subtitle': 'Park and ride stop for bicycles',
   'mobilityPlatform.content.barbecuePlace.title': 'Site for barbequing or making fire',
+  'mobilityPlatform.content.barbecuePlace.manufacturer': 'Manufacturer: {value}',
+  'mobilityPlatform.content.barbecuePlace.model': 'Model: {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Route description',

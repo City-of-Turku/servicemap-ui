@@ -905,6 +905,8 @@ const translations = {
   'mobilityPlatform.content.arrivingTrains.empty': 'Ei saapuvia junia',
   'mobilityPlatform.parkAndRide.content.subtitle': 'Liityntäpysäkki pyörille',
   'mobilityPlatform.content.barbecuePlace.title': 'Grillaus- ja tulentekopaikka',
+  'mobilityPlatform.content.barbecuePlace.manufacturer': 'Valmistaja: {value}',
+  'mobilityPlatform.content.barbecuePlace.model': 'Malli: {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',
