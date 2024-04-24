@@ -2,51 +2,37 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Typography } from '@mui/material';
 import { useIntl } from 'react-intl';
-import styled from '@emotion/styled';
+import { StyledContainer, StyledContentHeader, StyledTextContainer } from '../../../styled/styled';
 
 const BarbecuePlacesContent = ({ item }) => {
   const intl = useIntl();
 
   return (
     <StyledContainer>
-      <StyledHeader>
+      <StyledContentHeader>
         <Typography variant="subtitle1" component="p">
           {intl.formatMessage({ id: 'mobilityPlatform.content.barbecuePlace.title' })}
         </Typography>
-      </StyledHeader>
-      <StyledText>
+      </StyledContentHeader>
+      <StyledTextContainer>
         <Typography variant="body2" component="p">
           {intl.formatMessage(
             { id: 'mobilityPlatform.content.barbecuePlace.manufacturer' },
             { value: item.extra.valmistaja },
           )}
         </Typography>
-      </StyledText>
-      <StyledText>
+      </StyledTextContainer>
+      <StyledTextContainer>
         <Typography variant="body2" component="p">
           {intl.formatMessage(
             { id: 'mobilityPlatform.content.barbecuePlace.model' },
             { value: item.extra.malli.trim() },
           )}
         </Typography>
-      </StyledText>
+      </StyledTextContainer>
     </StyledContainer>
   );
 };
-
-const StyledContainer = styled.div(({ theme }) => ({
-  margin: theme.spacing(1),
-}));
-
-const StyledHeader = styled.div(({ theme }) => ({
-  width: '85%',
-  borderBottom: '1px solid #000',
-  paddingBottom: theme.spacing(0.5),
-}));
-
-const StyledText = styled.div(({ theme }) => ({
-  marginTop: theme.spacing(0.5),
-}));
 
 BarbecuePlacesContent.propTypes = {
   item: PropTypes.shape({
