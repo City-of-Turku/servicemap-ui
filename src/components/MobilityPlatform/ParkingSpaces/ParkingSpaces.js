@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
-import { fetchParkingAreaGeometries, fetchParkingAreaStats } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchAreaGeometries, fetchParkingAreaStats } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isObjValid } from '../utils/utils';
 import config from '../../../../config';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
@@ -44,15 +44,18 @@ const ParkingSpaces = () => {
   const isParkingStatisticsUrl = !parkingStatisticsUrl || parkingStatisticsUrl === 'undefined' ? null : parkingStatisticsUrl;
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     if (showParkingSpaces && isParkingSpacesUrl && isParkingStatisticsUrl) {
-      fetchParkingAreaGeometries(isParkingSpacesUrl, setParkingSpaces, setFetchError);
-      fetchParkingAreaStats(isParkingStatisticsUrl, setParkingStatistics, setFetchError);
+      fetchAreaGeometries(isParkingSpacesUrl, setParkingSpaces, setFetchError, signal);
+      fetchParkingAreaStats(isParkingStatisticsUrl, setParkingStatistics, setFetchError, signal);
     }
+    return () => controller.abort();
   }, [showParkingSpaces]);
 
-  const swapCoords = (inputData) => {
+  const swapCoords = inputData => {
     if (inputData.length > 0) {
-      return inputData.map((item) => item.map((v) => v.map((j) => [j[1], j[0]])));
+      return inputData.map(item => item.map(v => v.map(j => [j[1], j[0]])));
     }
     return inputData;
   };
@@ -64,7 +67,7 @@ const ParkingSpaces = () => {
   useEffect(() => {
     if (!fetchError && renderData) {
       const bounds = [];
-      parkingSpaces.forEach((item) => {
+      parkingSpaces.forEach(item => {
         bounds.push(swapCoords(item.geometry.coordinates));
       });
       map.fitBounds(bounds);
@@ -72,7 +75,7 @@ const ParkingSpaces = () => {
   }, [showParkingSpaces, parkingSpaces, fetchError]);
 
   const renderColor = (itemId, capacity) => {
-    const stats = parkingStatistics?.find((item) => item.id === itemId);
+    const stats = parkingStatistics?.find(item => item.id === itemId);
     const almostFull = capacity * 0.85;
     const parkingCount = stats?.current_parking_count;
     if (parkingCount >= almostFull) {
@@ -83,16 +86,16 @@ const ParkingSpaces = () => {
 
   return (
     !fetchError && renderData
-      ? parkingSpaces.map((item) => (
+      ? parkingSpaces.map(item => (
         <Polygon
           key={item.id}
           pathOptions={renderColor(item.id, item.properties.capacity_estimate)}
           positions={swapCoords(item.geometry.coordinates)}
           eventHandlers={{
-            mouseover: (e) => {
+            mouseover: e => {
               e.target.setStyle({ fillOpacity: useContrast ? '0.9' : '0.3' });
             },
-            mouseout: (e) => {
+            mouseout: e => {
               e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.3' });
             },
           }}

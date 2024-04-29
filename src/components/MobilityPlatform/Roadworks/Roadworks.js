@@ -5,7 +5,7 @@ import { useMap } from 'react-leaflet';
 import roadworksIcon from 'servicemap-ui-turku/assets/icons/icons-icon_roadworks.svg';
 import roadworksIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_roadworks-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
-import { fetchParkingAreaGeometries } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchAreaGeometries } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
   createIcon, isDataValid, grayOptionsBase, whiteOptionsBase,
 } from '../utils/utils';
@@ -35,18 +35,24 @@ const Roadworks = () => {
   const grayOptions = grayOptionsBase({ dashArray: '2, 5, 8' });
   const whiteOptions = whiteOptionsBase({ dashArray: !useContrast ? '1, 8' : null });
 
+  const controller = new AbortController();
+
   useEffect(() => {
+    const { signal } = controller;
     const endpoint = `${isRoadworksUrl}?inactiveHours=0&includeAreaGeometry=true&situationType=ROAD_WORK`;
     if (showRoadworks && isRoadworksUrl) {
-      fetchParkingAreaGeometries(endpoint, setRoadworksData);
+      fetchAreaGeometries(endpoint, setRoadworksData, signal);
     }
+    return () => controller.abort();
   }, [showRoadworks]);
 
   useEffect(() => {
+    const { signal } = controller;
     const endpoint = `${isRoadworksUrl}?inactiveHours=0&includeAreaGeometry=true&situationType=TRAFFIC_ANNOUNCEMENT`;
     if (showRoadworks && isRoadworksUrl) {
-      fetchParkingAreaGeometries(endpoint, setTrafficAnnouncementsData);
+      fetchAreaGeometries(endpoint, setTrafficAnnouncementsData, signal);
     }
+    return () => controller.abort();
   }, [showRoadworks]);
 
   const roadworksDataFull = [].concat(roadworksData, trafficAnnouncementsData);

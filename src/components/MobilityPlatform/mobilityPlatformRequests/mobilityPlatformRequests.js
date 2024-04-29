@@ -98,9 +98,9 @@ const fetchStreetMaintenanceData = async (endpoint, setData) => {
   }
 };
 
-const fetchParkingAreaGeometries = async (endpoint, setData, setError) => {
+const fetchAreaGeometries = async (endpoint, setData, setError, signal) => {
   try {
-    const response = await fetch(endpoint);
+    const response = await fetch(endpoint, signal);
     const jsonData = await response.json();
     setData(jsonData.features);
   } catch (err) {
@@ -109,9 +109,9 @@ const fetchParkingAreaGeometries = async (endpoint, setData, setError) => {
   }
 };
 
-const fetchParkingAreaStats = async (endpoint, setData, setError) => {
+const fetchParkingAreaStats = async (endpoint, setData, setError, signal) => {
   try {
-    const response = await fetch(endpoint);
+    const response = await fetch(endpoint, signal);
     const jsonData = await response.json();
     setData(jsonData.results);
   } catch (err) {
@@ -138,7 +138,7 @@ export {
   fetchIotData,
   fetchCityBikesData,
   fetchStreetMaintenanceData,
-  fetchParkingAreaGeometries,
+  fetchAreaGeometries,
   fetchParkingAreaStats,
   fetchRailwaysData,
 };
