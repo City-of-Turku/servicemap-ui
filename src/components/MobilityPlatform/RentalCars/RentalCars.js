@@ -41,9 +41,12 @@ const RentalCars = () => {
   });
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     if (showRentalCars || embedded) {
-      fetchIotData('R24', setRentalCarsData);
+      fetchIotData('R24', setRentalCarsData, false, signal);
     }
+    return () => controller.abort();
   }, [showRentalCars, embedded]);
 
   const map = useMap();

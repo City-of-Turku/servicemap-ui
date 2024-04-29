@@ -39,12 +39,15 @@ const ScooterMarkers = ({ mapObject }) => {
   });
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     if (showScootersRyde) {
-      fetchIotData('SDR', setScooterData, true);
+      fetchIotData('SDR', setScooterData, true, signal);
     }
+    return () => controller.abort();
   }, [showScootersRyde]);
 
-  const filterByBounds = (data) => {
+  const filterByBounds = data => {
     if (data && data.length > 0) {
       return data.filter(item => map.getBounds().contains([item.lat, item.lon]));
     }
@@ -56,21 +59,19 @@ const ScooterMarkers = ({ mapObject }) => {
   const renderData = isDataValid(showScootersRyde, filteredScooters) && isDetailZoom;
 
   return (
-    <>
-      {renderData ? (
-        filteredScooters.map(item => (
-          <Marker
-            key={item.bike_id}
-            icon={customIcon}
-            position={[item.lat, item.lon]}
-          >
-            <Popup>
-              <ScooterInfo item={item} />
-            </Popup>
-          </Marker>
-        ))
-      ) : null}
-    </>
+    renderData ? (
+      filteredScooters.map(item => (
+        <Marker
+          key={item.bike_id}
+          icon={customIcon}
+          position={[item.lat, item.lon]}
+        >
+          <Popup>
+            <ScooterInfo item={item} />
+          </Popup>
+        </Marker>
+      ))
+    ) : null
   );
 };
 
