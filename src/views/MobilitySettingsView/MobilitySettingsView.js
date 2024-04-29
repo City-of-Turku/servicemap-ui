@@ -275,26 +275,32 @@ const MobilitySettingsView = ({ navigator }) => {
     }
   }, [openBicycleSettings]);
 
+  const controller = new AbortController();
+
   useEffect(() => {
+    const { signal } = controller;
     const options = {
       type_name: 'SpeedLimitZone',
       page_size: 1000,
       latlon: true,
     };
     if (openCarSettings) {
-      fetchMobilityMapData(options, setSpeedLimitZones);
+      fetchMobilityMapData(options, setSpeedLimitZones, signal);
     }
+    return () => controller.abort();
   }, [openCarSettings, setSpeedLimitZones]);
 
   useEffect(() => {
+    const { signal } = controller;
     const options = {
       type_name: 'PaymentZone',
       page_size: 10,
       latlon: true,
     };
     if (openCarSettings) {
-      fetchMobilityMapData(options, setParkingChargeZones);
+      fetchMobilityMapData(options, setParkingChargeZones, signal);
     }
+    return () => controller.abort();
   }, [openCarSettings, setParkingChargeZones]);
 
   const optionsPaavoTrails = {

@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useMap, useMapEvents } from 'react-leaflet';
@@ -59,8 +59,10 @@ const CrossWalks = ({ mapObject }) => {
   const fetchBox = MapUtility.getBboxFromBounds(wideBounds, true);
 
   const isDetailZoom = zoomLevel >= mapObject.options.detailZoom;
+  const controller = new AbortController();
 
   const handleCrossWalks = () => {
+    const { signal } = controller;
     const options = {
       type_name: 'CrossWalkSign',
       page_size: 3000,
@@ -70,9 +72,11 @@ const CrossWalks = ({ mapObject }) => {
       (openMobilityPlatform && isDetailZoom)
       || (embedded && isDetailZoom)
     ) {
-      fetchMobilityMapData(options, setCrossWalksData);
+      fetchMobilityMapData(options, setCrossWalksData, signal);
     }
   };
+
+  useEffect(() => () => controller.abort(), []);
 
   const mapEvent = useMapEvents({
     zoomend() {
@@ -87,18 +91,16 @@ const CrossWalks = ({ mapObject }) => {
   const renderData = isDetailZoom && setRender(paramValue, embedded, showCrossWalks, crossWalksData, isDataValid);
 
   return (
-    <>
-      {renderData
-        ? crossWalksData.map(item => (
-          <MarkerComponent key={item.id} item={item} icon={customIcon}>
-            <TextContent
-              titleId="mobilityPlatform.content.crosswalks.title"
-              translationId="mobilityPlatform.info.short.crosswalks"
-            />
-          </MarkerComponent>
-        ))
-        : null}
-    </>
+    renderData
+      ? crossWalksData.map(item => (
+        <MarkerComponent key={item.id} item={item} icon={customIcon}>
+          <TextContent
+            titleId="mobilityPlatform.content.crosswalks.title"
+            translationId="mobilityPlatform.info.short.crosswalks"
+          />
+        </MarkerComponent>
+      ))
+      : null
   );
 };
 

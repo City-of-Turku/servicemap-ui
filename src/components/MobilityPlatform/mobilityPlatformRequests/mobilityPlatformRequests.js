@@ -27,10 +27,10 @@ const optionsToParams = options => {
   return params.toString();
 };
 
-const fetchMobilityMapData = async (options, setData) => {
+const fetchMobilityMapData = async (options, setData, signal) => {
   const params = optionsToParams(options);
   try {
-    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?${params}`);
+    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?${params}`, { signal });
     const jsonData = await response.json();
     setData(jsonData.results);
   } catch (err) {
