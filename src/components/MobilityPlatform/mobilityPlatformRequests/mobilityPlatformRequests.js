@@ -120,9 +120,9 @@ const fetchParkingAreaStats = async (endpoint, setData, setError) => {
   }
 };
 
-const fetchRailwaysData = async (endpoint, setData) => {
+const fetchRailwaysData = async (endpoint, setData, signal) => {
   try {
-    const response = await fetch(`${isRailwaysApiUrl}/${endpoint}`);
+    const response = await fetch(`${isRailwaysApiUrl}/${endpoint}`, { signal });
     const jsonData = await response.json();
     setData(jsonData);
   } catch (err) {
