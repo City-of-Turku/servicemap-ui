@@ -11,7 +11,7 @@ import ScooterInfo from './components/ScooterInfo';
 import { isDataValid } from '../../../utils/utils';
 
 const ScooterMarkers = ({ mapObject }) => {
-  const [scooterData, setScooterData] = useState([]);
+  const [scooterIoTData, setScooterIoTData] = useState([]);
 
   const { showScootersRyde } = useMobilityPlatformContext();
 
@@ -42,10 +42,12 @@ const ScooterMarkers = ({ mapObject }) => {
     const controller = new AbortController();
     const { signal } = controller;
     if (showScootersRyde) {
-      fetchIotData('SDR', setScooterData, true, signal);
+      fetchIotData('SDR', setScooterIoTData, signal);
     }
     return () => controller.abort();
   }, [showScootersRyde]);
+
+  const scooterData = scooterIoTData?.data?.bikes;
 
   const filterByBounds = data => {
     if (data && data.length > 0) {
@@ -76,7 +78,11 @@ const ScooterMarkers = ({ mapObject }) => {
 };
 
 ScooterMarkers.propTypes = {
-  mapObject: PropTypes.objectOf(PropTypes.any).isRequired,
+  mapObject: PropTypes.shape({
+    options: PropTypes.shape({
+      detailZoom: PropTypes.number,
+    }),
+  }).isRequired,
 };
 
 export default ScooterMarkers;

@@ -44,7 +44,7 @@ const RentalCars = () => {
     const controller = new AbortController();
     const { signal } = controller;
     if (showRentalCars || embedded) {
-      fetchIotData('R24', setRentalCarsData, false, signal);
+      fetchIotData('R24', setRentalCarsData, signal);
     }
     return () => controller.abort();
   }, [showRentalCars, embedded]);
