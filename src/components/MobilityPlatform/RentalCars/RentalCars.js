@@ -10,7 +10,7 @@ import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, setRender, checkMapType } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
-import { StyledPopupInner } from '../styled/styled';
+import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import RentalCarsContent from './components/RentalCarsContent';
 
 const RentalCars = () => {
@@ -72,7 +72,7 @@ const RentalCars = () => {
           icon={customIcon}
           position={[item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]}
         >
-          <div>
+          <StyledPopupWrapper>
             <Popup className="rental-cars-popup">
               <StyledPopupInner>
                 <RentalCarsContent
@@ -80,7 +80,7 @@ const RentalCars = () => {
                 />
               </StyledPopupInner>
             </Popup>
-          </div>
+          </StyledPopupWrapper>
         </Marker>
       ))
     ) : null

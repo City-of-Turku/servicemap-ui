@@ -9,6 +9,7 @@ import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchIotData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import ScooterInfo from './components/ScooterInfo';
 import { isDataValid } from '../../../utils/utils';
+import { StyledPopupWrapper, StyledPopupInner } from '../../../styled/styled';
 
 const ScooterMarkers = ({ mapObject }) => {
   const [scooterIoTData, setScooterIoTData] = useState([]);
@@ -68,9 +69,13 @@ const ScooterMarkers = ({ mapObject }) => {
           icon={customIcon}
           position={[item.lat, item.lon]}
         >
-          <Popup>
-            <ScooterInfo item={item} />
-          </Popup>
+          <StyledPopupWrapper>
+            <Popup>
+              <StyledPopupInner>
+                <ScooterInfo item={item} />
+              </StyledPopupInner>
+            </Popup>
+          </StyledPopupWrapper>
         </Marker>
       ))
     ) : null
