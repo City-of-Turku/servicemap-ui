@@ -38,9 +38,9 @@ const fetchMobilityMapData = async (options, setData, signal) => {
   }
 };
 
-const fetchCultureRouteNames = async setData => {
+const fetchCultureRouteNames = async (setData, signal) => {
   try {
-    const response = await fetch(`${isApiUrl}/mobility_data/mobile_unit_groups/`);
+    const response = await fetch(`${isApiUrl}/mobility_data/mobile_unit_groups/`, { signal });
     const jsonData = await response.json();
     setData(jsonData.results);
   } catch (err) {
@@ -48,9 +48,9 @@ const fetchCultureRouteNames = async setData => {
   }
 };
 
-const fetchBicycleRouteNames = async setData => {
+const fetchBicycleRouteNames = async (setData, signal) => {
   try {
-    const response = await fetch(`${isApiUrl}/bicycle_network/bicycle_networks/`);
+    const response = await fetch(`${isApiUrl}/bicycle_network/bicycle_networks/`, { signal });
     const jsonData = await response.json();
     setData(jsonData.results);
   } catch (err) {
@@ -58,9 +58,9 @@ const fetchBicycleRouteNames = async setData => {
   }
 };
 
-const fetchBicycleRoutesGeometry = async setData => {
+const fetchBicycleRoutesGeometry = async (setData, signal) => {
   try {
-    const response = await fetch(`${isApiUrl}/bicycle_network/bicycle_networkparts/?page_size=1000&latlon=true`);
+    const response = await fetch(`${isApiUrl}/bicycle_network/bicycle_networkparts/?page_size=1000&latlon=true`, { signal });
     const jsonData = await response.json();
     setData(jsonData.results);
   } catch (err) {
@@ -100,7 +100,7 @@ const fetchStreetMaintenanceData = async (endpoint, setData) => {
 
 const fetchAreaGeometries = async (endpoint, setData, setError, signal) => {
   try {
-    const response = await fetch(endpoint, signal);
+    const response = await fetch(endpoint, { signal });
     const jsonData = await response.json();
     setData(jsonData.features);
   } catch (err) {
@@ -111,7 +111,7 @@ const fetchAreaGeometries = async (endpoint, setData, setError, signal) => {
 
 const fetchParkingAreaStats = async (endpoint, setData, setError, signal) => {
   try {
-    const response = await fetch(endpoint, signal);
+    const response = await fetch(endpoint, { signal });
     const jsonData = await response.json();
     setData(jsonData.results);
   } catch (err) {

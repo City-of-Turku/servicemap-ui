@@ -264,20 +264,25 @@ const MobilitySettingsView = ({ navigator }) => {
    * @returns {Array} and sets it into state
    */
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     if (openWalkSettings) {
-      fetchCultureRouteNames(setCultureRouteList);
+      fetchCultureRouteNames(setCultureRouteList, signal);
     }
+    return () => controller.abort();
   }, [openWalkSettings]);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     if (openBicycleSettings) {
-      fetchBicycleRouteNames(setBicycleRouteList);
+      fetchBicycleRouteNames(setBicycleRouteList, signal);
     }
+    return () => controller.abort();
   }, [openBicycleSettings]);
 
-  const controller = new AbortController();
-
   useEffect(() => {
+    const controller = new AbortController();
     const { signal } = controller;
     const options = {
       type_name: 'SpeedLimitZone',
@@ -291,6 +296,7 @@ const MobilitySettingsView = ({ navigator }) => {
   }, [openCarSettings, setSpeedLimitZones]);
 
   useEffect(() => {
+    const controller = new AbortController();
     const { signal } = controller;
     const options = {
       type_name: 'PaymentZone',

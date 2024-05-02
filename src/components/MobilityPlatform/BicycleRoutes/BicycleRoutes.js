@@ -23,12 +23,15 @@ const BicycleRoutes = () => {
   const blackOptions = blackOptionsBase({ dashArray: '2 10 10 10' });
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     if (openMobilityPlatform) {
-      fetchBicycleRoutesGeometry(setBicycleRoutes);
+      fetchBicycleRoutesGeometry(setBicycleRoutes, signal);
     }
+    return () => controller.abort();
   }, [openMobilityPlatform, setBicycleRoutes]);
 
-  const getActiveRoutes = (data) => {
+  const getActiveRoutes = data => {
     if (data && data.length > 0) {
       return data.filter(item => item.bicycle_network_name === bicycleRouteName);
     }
@@ -45,24 +48,22 @@ const BicycleRoutes = () => {
   }, [showBicycleRoutes, activeBicycleRoute]);
 
   return (
-    <>
-      {renderData
-        ? activeBicycleRoute.map(item => (
-          <React.Fragment key={item.id}>
-            <Polyline
-              weight={useContrast ? 10 : 8}
-              pathOptions={useContrast ? whiteOptions : blueOptions}
-              positions={item.geometry_coords}
-            />
-            <Polyline
-              weight={useContrast ? 6 : 4}
-              pathOptions={useContrast ? blackOptions : whiteOptions}
-              positions={item.geometry_coords}
-            />
-          </React.Fragment>
-        ))
-        : null}
-    </>
+    renderData
+      ? activeBicycleRoute.map(item => (
+        <React.Fragment key={item.id}>
+          <Polyline
+            weight={useContrast ? 10 : 8}
+            pathOptions={useContrast ? whiteOptions : blueOptions}
+            positions={item.geometry_coords}
+          />
+          <Polyline
+            weight={useContrast ? 6 : 4}
+            pathOptions={useContrast ? blackOptions : whiteOptions}
+            positions={item.geometry_coords}
+          />
+        </React.Fragment>
+      ))
+      : null
   );
 };
 
