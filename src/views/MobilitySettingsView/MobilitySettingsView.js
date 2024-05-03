@@ -20,14 +20,12 @@ import iconSnowplow from 'servicemap-ui-turku/assets/icons/icons-icon_street_mai
 import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import iconPublicTransport from 'servicemap-ui-turku/assets/icons/icons-icon_public_transport.svg';
 import InfoTextBox from '../../components/MobilityPlatform/InfoTextBox';
-import {
-  fetchBicycleRouteNames,
-  fetchCultureRouteNames,
-  fetchMobilityMapData,
-} from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchMobilityMapData } from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
 import useMobilityDataFetch from '../../components/MobilityPlatform/utils/useMobilityDataFetch';
 import useLocaleText from '../../utils/useLocaleText';
 import { useMobilityPlatformContext } from '../../context/MobilityPlatformContext';
+import useCultureRouteFetch from './hooks/useCultureRouteFetch';
+import useBicycleRouteFetch from './hooks/useBicycleRouteFetch';
 import TitleBar from '../../components/TitleBar';
 import CityBikeInfo from './components/CityBikeInfo';
 import EmptyRouteList from './components/EmptyRouteList';
@@ -54,9 +52,6 @@ const MobilitySettingsView = ({ navigator }) => {
   const [openAirMonitoringSettings, setOpenAirMonitoringSettings] = useState(false);
   const [openRoadworkSettings, setOpenRoadworkSettings] = useState(false);
   const [openCultureRouteList, setOpenCultureRouteList] = useState(false);
-  const [cultureRouteList, setCultureRouteList] = useState([]);
-  const [localizedCultureRoutes, setLocalizedCultureRoutes] = useState([]);
-  const [bicycleRouteList, setBicycleRouteList] = useState([]);
   const [openBicycleRouteList, setOpenBicycleRouteList] = useState(false);
   const [openSpeedLimitList, setOpenSpeedLimitList] = useState(false);
   const [openParkingChargeZoneList, setOpenParkingChargeZoneList] = useState(false);
@@ -258,28 +253,8 @@ const MobilitySettingsView = ({ navigator }) => {
     setOpenMobilityPlatform(true);
   }, [setOpenMobilityPlatform]);
 
-  /**
-   * Fetch list of routes
-   * @param {('react').SetStateAction}
-   * @returns {Array} and sets it into state
-   */
-  useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
-    if (openWalkSettings) {
-      fetchCultureRouteNames(setCultureRouteList, signal);
-    }
-    return () => controller.abort();
-  }, [openWalkSettings]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
-    if (openBicycleSettings) {
-      fetchBicycleRouteNames(setBicycleRouteList, signal);
-    }
-    return () => controller.abort();
-  }, [openBicycleSettings]);
+  const { sortedCultureRoutes, sortedLocalizedCultureRoutes } = useCultureRouteFetch(openWalkSettings, locale);
+  const { sortedBicycleRoutes } = useBicycleRouteFetch(openBicycleSettings, locale);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -516,32 +491,6 @@ const MobilitySettingsView = ({ navigator }) => {
     sv: 'name_sv',
   };
 
-  /**
-   * @var {(Array|locale)}
-   * @function filter array
-   * @returns {(Array|('react').SetStateAction)}
-   */
-  useEffect(() => {
-    if (cultureRouteList && cultureRouteList.length > 0) {
-      setLocalizedCultureRoutes(cultureRouteList.filter(item => item[nameKeys[locale]]));
-    }
-  }, [cultureRouteList, locale]);
-
-  /**
-   * Sort routes in alphapethical order based on current locale.
-   * If locale is not finnish the filtered list is used.
-   * @param {Array && locale}
-   * @function sort
-   * @returns {Array}
-   */
-  useEffect(() => {
-    if (cultureRouteList && cultureRouteList.length > 0 && locale === 'fi') {
-      cultureRouteList.sort((a, b) => a[nameKeys[locale]].localeCompare(b[nameKeys[locale]]));
-    } else if (localizedCultureRoutes && localizedCultureRoutes.length > 0 && locale !== 'fi') {
-      localizedCultureRoutes.sort((a, b) => a[nameKeys[locale]].localeCompare(b[nameKeys[locale]]));
-    }
-  }, [cultureRouteList, localizedCultureRoutes, locale]);
-
   const sortMarkedTrails = data => {
     if (data && data.length > 0) {
       return data.sort((a, b) => a[nameKeys[locale]].split(': ').slice(-1)[0].localeCompare(b[nameKeys[locale]].split(': ').slice(-1)[0]));
@@ -550,28 +499,6 @@ const MobilitySettingsView = ({ navigator }) => {
   };
 
   const markedTrailsSorted = sortMarkedTrails(markedTrailsList);
-
-  /**
-   * Sort routes in alphapethical order.
-   * @param {Array && locale}
-   * @function sort
-   * @returns {Array}
-   */
-
-  useEffect(() => {
-    const objKeys = {
-      fi: 'name_fi',
-      en: 'name_en',
-      sv: 'name_sv',
-    };
-
-    if (bicycleRouteList) {
-      bicycleRouteList.sort((a, b) => a[objKeys[locale]].localeCompare(b[objKeys[locale]], undefined, {
-        numeric: true,
-        sensivity: 'base',
-      }));
-    }
-  }, [bicycleRouteList, locale]);
 
   const sortTrails = data => {
     if (data && data.length > 0) {
@@ -1837,12 +1764,12 @@ const MobilitySettingsView = ({ navigator }) => {
     <>
       {renderSettings(openWalkSettings, walkingControlTypes)}
       <StyledBorderBottom isVisible={openCultureRouteList}>
-        {openCultureRouteList && !cultureRouteId ? <EmptyRouteList route={cultureRouteList} /> : null}
+        {openCultureRouteList && !cultureRouteId ? <EmptyRouteList route={sortedCultureRoutes} /> : null}
       </StyledBorderBottom>
       {openCultureRouteList && (locale === 'en' || locale === 'sv')
-        ? renderCultureRoutes(localizedCultureRoutes)
+        ? renderCultureRoutes(sortedLocalizedCultureRoutes)
         : null}
-      {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
+      {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(sortedCultureRoutes) : null}
       {renderSelectTrailText(openMarkedTrailsList, markedTrailsObj, markedTrailsList)}
       <TrailList
         openList={openMarkedTrailsList}
@@ -1875,9 +1802,9 @@ const MobilitySettingsView = ({ navigator }) => {
     <>
       {renderSettings(openBicycleSettings, bicycleControlTypes)}
       <StyledBorderBottom isVisible={openBicycleRouteList}>
-        {openBicycleRouteList && !bicycleRouteName ? <EmptyRouteList route={bicycleRouteList} /> : null}
+        {openBicycleRouteList && !bicycleRouteName ? <EmptyRouteList route={sortedBicycleRoutes} /> : null}
       </StyledBorderBottom>
-      {renderBicycleRoutes(bicycleRouteList)}
+      {renderBicycleRoutes(sortedBicycleRoutes)}
       {renderInfoTexts(infoTextsCycling)}
     </>
   );
