@@ -20,13 +20,13 @@ import iconSnowplow from 'servicemap-ui-turku/assets/icons/icons-icon_street_mai
 import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import iconPublicTransport from 'servicemap-ui-turku/assets/icons/icons-icon_public_transport.svg';
 import InfoTextBox from '../../components/MobilityPlatform/InfoTextBox';
-import { fetchMobilityMapData } from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
 import useMobilityDataFetch from '../../components/MobilityPlatform/utils/useMobilityDataFetch';
 import useLocaleText from '../../utils/useLocaleText';
 import { useMobilityPlatformContext } from '../../context/MobilityPlatformContext';
 import useCultureRouteFetch from './hooks/useCultureRouteFetch';
 import useBicycleRouteFetch from './hooks/useBicycleRouteFetch';
 import useSpeedLimitZoneFetch from './hooks/useSpeedLimitZoneFetch';
+import useParkingChargeZoneFetch from './hooks/useParkingChargeZoneFetch';
 import TitleBar from '../../components/TitleBar';
 import CityBikeInfo from './components/CityBikeInfo';
 import EmptyRouteList from './components/EmptyRouteList';
@@ -89,8 +89,6 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowChargingStations,
     showParkingSpaces,
     setShowParkingSpaces,
-    parkingChargeZones,
-    setParkingChargeZones,
     parkingChargeZoneId,
     setParkingChargeZoneId,
     showParkingChargeZones,
@@ -255,20 +253,7 @@ const MobilitySettingsView = ({ navigator }) => {
   const { sortedCultureRoutes, sortedLocalizedCultureRoutes } = useCultureRouteFetch(openWalkSettings, locale);
   const { sortedBicycleRoutes } = useBicycleRouteFetch(openBicycleSettings, locale);
   const { speedLimitListAsc } = useSpeedLimitZoneFetch(openCarSettings);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
-    const options = {
-      type_name: 'PaymentZone',
-      page_size: 10,
-      latlon: true,
-    };
-    if (openCarSettings) {
-      fetchMobilityMapData(options, setParkingChargeZones, signal);
-    }
-    return () => controller.abort();
-  }, [openCarSettings, setParkingChargeZones]);
+  const { parkingChargeZonesSorted } = useParkingChargeZoneFetch(openCarSettings);
 
   const optionsPaavoTrails = {
     type_name: 'PaavonPolku',
@@ -1790,7 +1775,7 @@ const MobilitySettingsView = ({ navigator }) => {
       {renderSettings(openCarSettings, carControlTypes)}
       <ParkingChargeZoneList
         openZoneList={openParkingChargeZoneList}
-        parkingChargeZones={parkingChargeZones}
+        parkingChargeZones={parkingChargeZonesSorted}
         zoneId={parkingChargeZoneId}
         selectZone={selectParkingChargeZone}
       />
