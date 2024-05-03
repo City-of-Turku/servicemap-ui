@@ -1,7 +1,7 @@
 import { Typography, List, ListItem } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, {
-  useEffect, useMemo, useRef, useState,
+  useEffect, useRef, useState,
 } from 'react';
 import { Helmet } from 'react-helmet';
 import { ReactSVG } from 'react-svg';
@@ -26,6 +26,7 @@ import useLocaleText from '../../utils/useLocaleText';
 import { useMobilityPlatformContext } from '../../context/MobilityPlatformContext';
 import useCultureRouteFetch from './hooks/useCultureRouteFetch';
 import useBicycleRouteFetch from './hooks/useBicycleRouteFetch';
+import useSpeedLimitZoneFetch from './hooks/useSpeedLimitZoneFetch';
 import TitleBar from '../../components/TitleBar';
 import CityBikeInfo from './components/CityBikeInfo';
 import EmptyRouteList from './components/EmptyRouteList';
@@ -110,8 +111,6 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowSpeedLimitZones,
     speedLimitSelections,
     setSpeedLimitSelections,
-    speedLimitZones,
-    setSpeedLimitZones,
     showPublicToilets,
     setShowPublicToilets,
     showScooterNoParking,
@@ -255,20 +254,7 @@ const MobilitySettingsView = ({ navigator }) => {
 
   const { sortedCultureRoutes, sortedLocalizedCultureRoutes } = useCultureRouteFetch(openWalkSettings, locale);
   const { sortedBicycleRoutes } = useBicycleRouteFetch(openBicycleSettings, locale);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
-    const options = {
-      type_name: 'SpeedLimitZone',
-      page_size: 1000,
-      latlon: true,
-    };
-    if (openCarSettings) {
-      fetchMobilityMapData(options, setSpeedLimitZones, signal);
-    }
-    return () => controller.abort();
-  }, [openCarSettings, setSpeedLimitZones]);
+  const { speedLimitListAsc } = useSpeedLimitZoneFetch(openCarSettings);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -1477,16 +1463,6 @@ const MobilitySettingsView = ({ navigator }) => {
     }
     return null;
   };
-
-  // Create array of speed limit values from data and remove duplicates
-  const speedLimitList = useMemo(
-    () => [...new Set(speedLimitZones.map(item => item.extra.speed_limit))],
-    [speedLimitZones],
-  );
-
-  // Sort in ascending order, because entries can be in random order
-  // This list will be displayed for users
-  const speedLimitListAsc = speedLimitList.sort((a, b) => a - b);
 
   const renderMaintenanceSelectionList = () => (
     <StreetMaintenanceList
