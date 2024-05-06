@@ -10,7 +10,7 @@ import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, setRender, checkMapType } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
-import { StyledPopupInner } from '../styled/styled';
+import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import RentalCarsContent from './components/RentalCarsContent';
 
 const RentalCars = () => {
@@ -41,9 +41,12 @@ const RentalCars = () => {
   });
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     if (showRentalCars || embedded) {
-      fetchIotData('R24', setRentalCarsData);
+      fetchIotData('R24', setRentalCarsData, signal);
     }
+    return () => controller.abort();
   }, [showRentalCars, embedded]);
 
   const map = useMap();
@@ -69,7 +72,7 @@ const RentalCars = () => {
           icon={customIcon}
           position={[item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]}
         >
-          <div>
+          <StyledPopupWrapper>
             <Popup className="rental-cars-popup">
               <StyledPopupInner>
                 <RentalCarsContent
@@ -77,7 +80,7 @@ const RentalCars = () => {
                 />
               </StyledPopupInner>
             </Popup>
-          </div>
+          </StyledPopupWrapper>
         </Marker>
       ))
     ) : null

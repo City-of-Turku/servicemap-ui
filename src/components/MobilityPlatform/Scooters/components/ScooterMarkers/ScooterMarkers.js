@@ -9,9 +9,10 @@ import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { fetchIotData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
 import ScooterInfo from './components/ScooterInfo';
 import { isDataValid } from '../../../utils/utils';
+import { StyledPopupWrapper, StyledPopupInner } from '../../../styled/styled';
 
 const ScooterMarkers = ({ mapObject }) => {
-  const [scooterData, setScooterData] = useState([]);
+  const [scooterIoTData, setScooterIoTData] = useState([]);
 
   const { showScootersRyde } = useMobilityPlatformContext();
 
@@ -39,12 +40,17 @@ const ScooterMarkers = ({ mapObject }) => {
   });
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     if (showScootersRyde) {
-      fetchIotData('SDR', setScooterData, true);
+      fetchIotData('SDR', setScooterIoTData, signal);
     }
+    return () => controller.abort();
   }, [showScootersRyde]);
 
-  const filterByBounds = (data) => {
+  const scooterData = scooterIoTData?.data?.bikes;
+
+  const filterByBounds = data => {
     if (data && data.length > 0) {
       return data.filter(item => map.getBounds().contains([item.lat, item.lon]));
     }
@@ -56,26 +62,32 @@ const ScooterMarkers = ({ mapObject }) => {
   const renderData = isDataValid(showScootersRyde, filteredScooters) && isDetailZoom;
 
   return (
-    <>
-      {renderData ? (
-        filteredScooters.map(item => (
-          <Marker
-            key={item.bike_id}
-            icon={customIcon}
-            position={[item.lat, item.lon]}
-          >
+    renderData ? (
+      filteredScooters.map(item => (
+        <Marker
+          key={item.bike_id}
+          icon={customIcon}
+          position={[item.lat, item.lon]}
+        >
+          <StyledPopupWrapper>
             <Popup>
-              <ScooterInfo item={item} />
+              <StyledPopupInner>
+                <ScooterInfo item={item} />
+              </StyledPopupInner>
             </Popup>
-          </Marker>
-        ))
-      ) : null}
-    </>
+          </StyledPopupWrapper>
+        </Marker>
+      ))
+    ) : null
   );
 };
 
 ScooterMarkers.propTypes = {
-  mapObject: PropTypes.objectOf(PropTypes.any).isRequired,
+  mapObject: PropTypes.shape({
+    options: PropTypes.shape({
+      detailZoom: PropTypes.number,
+    }),
+  }).isRequired,
 };
 
 export default ScooterMarkers;

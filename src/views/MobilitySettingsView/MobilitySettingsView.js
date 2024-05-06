@@ -1,7 +1,7 @@
 import { Typography, List, ListItem } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, {
-  useEffect, useMemo, useRef, useState,
+  useEffect, useRef, useState,
 } from 'react';
 import { Helmet } from 'react-helmet';
 import { ReactSVG } from 'react-svg';
@@ -20,14 +20,13 @@ import iconSnowplow from 'servicemap-ui-turku/assets/icons/icons-icon_street_mai
 import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import iconPublicTransport from 'servicemap-ui-turku/assets/icons/icons-icon_public_transport.svg';
 import InfoTextBox from '../../components/MobilityPlatform/InfoTextBox';
-import {
-  fetchBicycleRouteNames,
-  fetchCultureRouteNames,
-  fetchMobilityMapData,
-} from '../../components/MobilityPlatform/mobilityPlatformRequests/mobilityPlatformRequests';
 import useMobilityDataFetch from '../../components/MobilityPlatform/utils/useMobilityDataFetch';
 import useLocaleText from '../../utils/useLocaleText';
 import { useMobilityPlatformContext } from '../../context/MobilityPlatformContext';
+import useCultureRouteFetch from './hooks/useCultureRouteFetch';
+import useBicycleRouteFetch from './hooks/useBicycleRouteFetch';
+import useSpeedLimitZoneFetch from './hooks/useSpeedLimitZoneFetch';
+import useParkingChargeZoneFetch from './hooks/useParkingChargeZoneFetch';
 import TitleBar from '../../components/TitleBar';
 import CityBikeInfo from './components/CityBikeInfo';
 import EmptyRouteList from './components/EmptyRouteList';
@@ -54,9 +53,6 @@ const MobilitySettingsView = ({ navigator }) => {
   const [openAirMonitoringSettings, setOpenAirMonitoringSettings] = useState(false);
   const [openRoadworkSettings, setOpenRoadworkSettings] = useState(false);
   const [openCultureRouteList, setOpenCultureRouteList] = useState(false);
-  const [cultureRouteList, setCultureRouteList] = useState([]);
-  const [localizedCultureRoutes, setLocalizedCultureRoutes] = useState([]);
-  const [bicycleRouteList, setBicycleRouteList] = useState([]);
   const [openBicycleRouteList, setOpenBicycleRouteList] = useState(false);
   const [openSpeedLimitList, setOpenSpeedLimitList] = useState(false);
   const [openParkingChargeZoneList, setOpenParkingChargeZoneList] = useState(false);
@@ -93,8 +89,6 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowChargingStations,
     showParkingSpaces,
     setShowParkingSpaces,
-    parkingChargeZones,
-    setParkingChargeZones,
     parkingChargeZoneId,
     setParkingChargeZoneId,
     showParkingChargeZones,
@@ -115,8 +109,6 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowSpeedLimitZones,
     speedLimitSelections,
     setSpeedLimitSelections,
-    speedLimitZones,
-    setSpeedLimitZones,
     showPublicToilets,
     setShowPublicToilets,
     showScooterNoParking,
@@ -258,44 +250,10 @@ const MobilitySettingsView = ({ navigator }) => {
     setOpenMobilityPlatform(true);
   }, [setOpenMobilityPlatform]);
 
-  /**
-   * Fetch list of routes
-   * @param {('react').SetStateAction}
-   * @returns {Array} and sets it into state
-   */
-  useEffect(() => {
-    if (openWalkSettings) {
-      fetchCultureRouteNames(setCultureRouteList);
-    }
-  }, [openWalkSettings]);
-
-  useEffect(() => {
-    if (openBicycleSettings) {
-      fetchBicycleRouteNames(setBicycleRouteList);
-    }
-  }, [openBicycleSettings]);
-
-  useEffect(() => {
-    const options = {
-      type_name: 'SpeedLimitZone',
-      page_size: 1000,
-      latlon: true,
-    };
-    if (openCarSettings) {
-      fetchMobilityMapData(options, setSpeedLimitZones);
-    }
-  }, [openCarSettings, setSpeedLimitZones]);
-
-  useEffect(() => {
-    const options = {
-      type_name: 'PaymentZone',
-      page_size: 10,
-      latlon: true,
-    };
-    if (openCarSettings) {
-      fetchMobilityMapData(options, setParkingChargeZones);
-    }
-  }, [openCarSettings, setParkingChargeZones]);
+  const { sortedCultureRoutes, sortedLocalizedCultureRoutes } = useCultureRouteFetch(openWalkSettings, locale);
+  const { sortedBicycleRoutes } = useBicycleRouteFetch(openBicycleSettings, locale);
+  const { speedLimitListAsc } = useSpeedLimitZoneFetch(openCarSettings);
+  const { parkingChargeZonesSorted } = useParkingChargeZoneFetch(openCarSettings);
 
   const optionsPaavoTrails = {
     type_name: 'PaavonPolku',
@@ -504,32 +462,6 @@ const MobilitySettingsView = ({ navigator }) => {
     sv: 'name_sv',
   };
 
-  /**
-   * @var {(Array|locale)}
-   * @function filter array
-   * @returns {(Array|('react').SetStateAction)}
-   */
-  useEffect(() => {
-    if (cultureRouteList && cultureRouteList.length > 0) {
-      setLocalizedCultureRoutes(cultureRouteList.filter(item => item[nameKeys[locale]]));
-    }
-  }, [cultureRouteList, locale]);
-
-  /**
-   * Sort routes in alphapethical order based on current locale.
-   * If locale is not finnish the filtered list is used.
-   * @param {Array && locale}
-   * @function sort
-   * @returns {Array}
-   */
-  useEffect(() => {
-    if (cultureRouteList && cultureRouteList.length > 0 && locale === 'fi') {
-      cultureRouteList.sort((a, b) => a[nameKeys[locale]].localeCompare(b[nameKeys[locale]]));
-    } else if (localizedCultureRoutes && localizedCultureRoutes.length > 0 && locale !== 'fi') {
-      localizedCultureRoutes.sort((a, b) => a[nameKeys[locale]].localeCompare(b[nameKeys[locale]]));
-    }
-  }, [cultureRouteList, localizedCultureRoutes, locale]);
-
   const sortMarkedTrails = data => {
     if (data && data.length > 0) {
       return data.sort((a, b) => a[nameKeys[locale]].split(': ').slice(-1)[0].localeCompare(b[nameKeys[locale]].split(': ').slice(-1)[0]));
@@ -538,28 +470,6 @@ const MobilitySettingsView = ({ navigator }) => {
   };
 
   const markedTrailsSorted = sortMarkedTrails(markedTrailsList);
-
-  /**
-   * Sort routes in alphapethical order.
-   * @param {Array && locale}
-   * @function sort
-   * @returns {Array}
-   */
-
-  useEffect(() => {
-    const objKeys = {
-      fi: 'name_fi',
-      en: 'name_en',
-      sv: 'name_sv',
-    };
-
-    if (bicycleRouteList) {
-      bicycleRouteList.sort((a, b) => a[objKeys[locale]].localeCompare(b[objKeys[locale]], undefined, {
-        numeric: true,
-        sensivity: 'base',
-      }));
-    }
-  }, [bicycleRouteList, locale]);
 
   const sortTrails = data => {
     if (data && data.length > 0) {
@@ -1539,16 +1449,6 @@ const MobilitySettingsView = ({ navigator }) => {
     return null;
   };
 
-  // Create array of speed limit values from data and remove duplicates
-  const speedLimitList = useMemo(
-    () => [...new Set(speedLimitZones.map(item => item.extra.speed_limit))],
-    [speedLimitZones],
-  );
-
-  // Sort in ascending order, because entries can be in random order
-  // This list will be displayed for users
-  const speedLimitListAsc = speedLimitList.sort((a, b) => a - b);
-
   const renderMaintenanceSelectionList = () => (
     <StreetMaintenanceList
       openStreetMaintenanceList={openStreetMaintenanceSelectionList}
@@ -1825,12 +1725,12 @@ const MobilitySettingsView = ({ navigator }) => {
     <>
       {renderSettings(openWalkSettings, walkingControlTypes)}
       <StyledBorderBottom isVisible={openCultureRouteList}>
-        {openCultureRouteList && !cultureRouteId ? <EmptyRouteList route={cultureRouteList} /> : null}
+        {openCultureRouteList && !cultureRouteId ? <EmptyRouteList route={sortedCultureRoutes} /> : null}
       </StyledBorderBottom>
       {openCultureRouteList && (locale === 'en' || locale === 'sv')
-        ? renderCultureRoutes(localizedCultureRoutes)
+        ? renderCultureRoutes(sortedLocalizedCultureRoutes)
         : null}
-      {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(cultureRouteList) : null}
+      {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(sortedCultureRoutes) : null}
       {renderSelectTrailText(openMarkedTrailsList, markedTrailsObj, markedTrailsList)}
       <TrailList
         openList={openMarkedTrailsList}
@@ -1863,9 +1763,9 @@ const MobilitySettingsView = ({ navigator }) => {
     <>
       {renderSettings(openBicycleSettings, bicycleControlTypes)}
       <StyledBorderBottom isVisible={openBicycleRouteList}>
-        {openBicycleRouteList && !bicycleRouteName ? <EmptyRouteList route={bicycleRouteList} /> : null}
+        {openBicycleRouteList && !bicycleRouteName ? <EmptyRouteList route={sortedBicycleRoutes} /> : null}
       </StyledBorderBottom>
-      {renderBicycleRoutes(bicycleRouteList)}
+      {renderBicycleRoutes(sortedBicycleRoutes)}
       {renderInfoTexts(infoTextsCycling)}
     </>
   );
@@ -1875,7 +1775,7 @@ const MobilitySettingsView = ({ navigator }) => {
       {renderSettings(openCarSettings, carControlTypes)}
       <ParkingChargeZoneList
         openZoneList={openParkingChargeZoneList}
-        parkingChargeZones={parkingChargeZones}
+        parkingChargeZones={parkingChargeZonesSorted}
         zoneId={parkingChargeZoneId}
         selectZone={selectParkingChargeZone}
       />

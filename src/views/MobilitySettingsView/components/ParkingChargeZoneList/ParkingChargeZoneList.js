@@ -44,6 +44,9 @@ ParkingChargeZoneList.propTypes = {
   openZoneList: PropTypes.bool,
   parkingChargeZones: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
+    extra: PropTypes.shape({
+      maksuvyohyke: PropTypes.string,
+    }),
   })),
   zoneId: PropTypes.string,
   selectZone: PropTypes.func.isRequired,

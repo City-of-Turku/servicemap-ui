@@ -15,6 +15,7 @@ import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchCityBikesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isDataValid, setRender, checkMapType } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
+import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import CityBikesContent from './components/CityBikesContent';
 
 const CityBikes = () => {
@@ -55,15 +56,13 @@ const CityBikes = () => {
   });
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     if (showCityBikes || showCargoBikes || embedded) {
-      fetchCityBikesData('CBI', setCityBikeStationsData);
+      fetchCityBikesData('CBI', setCityBikeStationsData, signal);
+      fetchCityBikesData('CBS', setCityBikeStatistics, signal);
     }
-  }, [showCityBikes, showCargoBikes, embedded]);
-
-  useEffect(() => {
-    if (showCityBikes || showCargoBikes || embedded) {
-      fetchCityBikesData('CBS', setCityBikeStatistics);
-    }
+    return () => controller.abort();
   }, [showCityBikes, showCargoBikes, embedded]);
 
   const cityBikeStations = [];
@@ -86,7 +85,7 @@ const CityBikes = () => {
   const fitBounds = (renderData, data) => {
     if (renderData) {
       const bounds = [];
-      data.forEach((item) => {
+      data.forEach(item => {
         bounds.push([item.lat, item.lon]);
       });
       map.fitBounds(bounds);
@@ -101,15 +100,19 @@ const CityBikes = () => {
   }, [showCityBikes, showCargoBikes]);
 
   const renderCityBikeMarkers = (isValid, data, icon) => (isValid ? (
-    data.map((item) => (
+    data.map(item => (
       <Marker
         key={item.station_id}
         icon={icon}
         position={[item.lat, item.lon]}
       >
-        <Popup>
-          <CityBikesContent bikeStation={item} cityBikeStatistics={cityBikeStatistics} />
-        </Popup>
+        <StyledPopupWrapper>
+          <Popup>
+            <StyledPopupInner>
+              <CityBikesContent bikeStation={item} cityBikeStatistics={cityBikeStatistics} />
+            </StyledPopupInner>
+          </Popup>
+        </StyledPopupWrapper>
       </Marker>
     ))
   ) : null);

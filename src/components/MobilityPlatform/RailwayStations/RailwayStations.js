@@ -25,9 +25,12 @@ const RailwayStations = () => {
   const customIcon = icon(createIcon(useContrast ? railwayIconBw : railwayIcon));
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     if (showRailwayStations && !railwayStations.length) {
-      fetchRailwaysData('metadata/stations', setRailwayStations);
+      fetchRailwaysData('metadata/stations', setRailwayStations, signal);
     }
+    return () => controller.abort();
   }, [showRailwayStations]);
 
   /** Separate railway stations of Turku, eg. Turku station and Kupittaa */

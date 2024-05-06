@@ -1,5 +1,5 @@
 /* eslint-disable global-require */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useMap, useMapEvents } from 'react-leaflet';
@@ -58,17 +58,21 @@ const PublicBenches = ({ mapObject }) => {
   const fetchBox = MapUtility.getBboxFromBounds(wideBounds, true);
 
   const isDetailZoom = zoomLevel >= mapObject.options.detailZoom;
+  const controller = new AbortController();
 
   const handlePublicBenches = () => {
+    const { signal } = controller;
     const options = {
       type_name: 'PublicBench',
       page_size: 1000,
       bbox: fetchBox,
     };
     if ((showPublicBenches && isDetailZoom) || (embedded && isDetailZoom)) {
-      fetchMobilityMapData(options, setPublicBenchesData);
+      fetchMobilityMapData(options, setPublicBenchesData, signal);
     }
   };
+
+  useEffect(() => () => controller.abort(), []);
 
   const mapEvent = useMapEvents({
     zoomend() {
@@ -83,7 +87,7 @@ const PublicBenches = ({ mapObject }) => {
   const renderData = isDetailZoom && setRender(paramValue, embedded, showPublicBenches, publicBenchesData, isDataValid);
 
   return renderData
-    ? publicBenchesData.map((item) => (
+    ? publicBenchesData.map(item => (
       <Marker key={item.id} icon={customIcon} position={[item.geometry_coords.lat, item.geometry_coords.lon]} />
     ))
     : null;
