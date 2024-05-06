@@ -167,6 +167,9 @@ const translations = {
   'area.list.statistic.30-49': 'Ålder 30-49 år',
   'area.list.statistic.50-64': 'Ålder 50-64 år',
   'area.list.statistic.65+': 'Ålder över 65 år',
+  'area.tab.mobilityTest.results': 'Liikkumistestin tulokset', // TODO verify & translate
+  'area.mobilityResults.title': 'Näytä Turun Liikkumisprofiilit', // TODO verify & translate
+  'area.mobilityResults.toggle': 'Liikkumisprofiilit', // TODO verify & translate
 
   // TODO: translate all
   'parkingArea.popup.residentName': 'Zon {letter}',

@@ -27,14 +27,13 @@ import {
   getServiceFilteredStatisticalDistrictUnits,
 } from '../../../../redux/selectors/statisticalDistrict';
 
-
 // Custom uncontrolled checkbox that allows default value
 const UnitCheckbox = ({
   handleUnitCheckboxChange, id, defaultChecked, classes, inputProps,
 }) => {
   const [checked, setChecked] = useState(defaultChecked);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setChecked(!checked);
     handleUnitCheckboxChange(e, id);
   };
@@ -50,7 +49,6 @@ const UnitCheckbox = ({
   );
 };
 
-
 const StatisticalDistrictUnitListComponent = ({
   classes,
   handleUnitCheckboxChange,
@@ -64,7 +62,7 @@ const StatisticalDistrictUnitListComponent = ({
   const [initialCheckedItems] = useState(selectedServices || []);
   const [filterValue, setFilterValue] = useState('');
   const services = useSelector(getOrderedStatisticalDistrictServices);
-  const filteredServiceList = services.filter((category) => {
+  const filteredServiceList = services.filter(category => {
     if (filterValue === '') return true;
     if (selectedServices[category.id]) return true;
     return getLocaleText(category.name).includes(filterValue);
@@ -137,7 +135,7 @@ const StatisticalDistrictUnitListComponent = ({
         }
       </Typography>
       <List disablePadding>
-        {filteredServiceList.map((service) => {
+        {filteredServiceList.map(service => {
           const units = statisticalDistrictUnits
             .filter(u => u?.services?.some(s => s.id === service.id));
           const disableUnitAccordion = !selectedServices[service.id] || units.length === 0;
@@ -212,7 +210,6 @@ UnitCheckbox.defaultProps = {
 };
 
 export default StatisticalDistrictUnitListComponent;
-
 
 const StyledRowContainer = styled('div')`
   display: flex;

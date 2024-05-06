@@ -164,6 +164,9 @@ const translations = {
   'area.list.statistic.30-49': 'Age 30-49 years',
   'area.list.statistic.50-64': 'Age 50-64 years',
   'area.list.statistic.65+': 'Age over 64 years',
+  'area.tab.mobilityTest.results': 'Liikkumistestin tulokset', // TODO verify & translate
+  'area.mobilityResults.title': 'Näytä Turun Liikkumisprofiilit', // TODO verify & translate
+  'area.mobilityResults.toggle': 'Liikkumisprofiilit', // TODO verify & translate
 
   'parkingArea.popup.residentName': 'Zone {letter}',
   'parkingArea.popup.payment1': 'Free parking',
