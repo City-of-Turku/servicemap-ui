@@ -23,6 +23,7 @@ const createSuggestions = (
     service_limit: serviceLimit,
     address_limit: addressLimit,
     servicenode_limit: servicenodeLimit,
+    municipality: citySettings.join(','),
     language: locale,
   };
 
