@@ -806,6 +806,7 @@ const translations = {
   'mobilityPlatform.menu.show.airMonitoring': 'Air quality stations',
   'mobilityPlatform.menu.show.parkAndRideBikes': 'Park and ride stops for bicycles',
   'mobilityPlatform.menu.show.barbecuePlaces': 'Sites for barbequing & making fire',
+  'mobilityPlatform.menu.show.airPorts': 'Airport',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
@@ -907,14 +908,26 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Additional info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Crosswalk',
   'mobilityPlatform.content.railways.train': 'Train: {value1} {value2}',
-  'mobilityPlatform.content.departingTrains.title': 'Departing trains',
-  'mobilityPlatform.content.arrivingTrains.title': 'Incoming trains',
+  'mobilityPlatform.content.departingTrains.title': 'Departing trains:',
+  'mobilityPlatform.content.arrivingTrains.title': 'Incoming trains:',
   'mobilityPlatform.content.departingTrains.empty': 'No departing trains',
   'mobilityPlatform.content.arrivingTrains.empty': 'No incoming trains',
   'mobilityPlatform.parkAndRide.content.subtitle': 'Park and ride stop for bicycles',
   'mobilityPlatform.content.barbecuePlace.title': 'Site for barbequing or making fire',
   'mobilityPlatform.content.barbecuePlace.manufacturer': 'Manufacturer: {value}',
   'mobilityPlatform.content.barbecuePlace.model': 'Model: {value}',
+  'mobilityPlatform.content.airport.title': 'Turku airport',
+  'mobilityPlatform.content.airport.arrivals': 'Incoming flights:',
+  'mobilityPlatform.content.airport.departees': 'Departing flights:',
+  'mobilityPlatform.content.airport.departees.empty': 'No departing flights.',
+  'mobilityPlatform.content.airport.arrivals.empty': 'No incoming flights.',
+  'mobilityPlatform.content.airport.cities.turku': 'To Turku',
+  'mobilityPlatform.content.airport.cities.stockholm': 'To Stockholm',
+  'mobilityPlatform.content.airport.cities.mariehamn': 'To Mariehamn',
+  'mobilityPlatform.content.airport.cities.riga': 'To Riga',
+  'mobilityPlatform.content.airport.cities.gdansk': 'To Gdańsk',
+  'mobilityPlatform.content.airport.cities.rome': 'To Rome',
+  'mobilityPlatform.content.airport.cities.rhodes': 'To Rhodes',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Route description',
@@ -976,6 +989,7 @@ const translations = {
   'mobilityPlatform.info.airMonitoring.link': 'For more information visit https://en.ilmatieteenlaitos.fi/air-quality',
   'mobilityPlatform.info.parkAndRideBicycles': 'Park-and-ride arrangements provide the opportunity to leave your bicycle parked safely and hop on a bus to continue your journey. The Föli area boasts many park-and-ride sites for bicycles.  Park-and-ride parking is free and intended for those using public transport for connections.',
   'mobilityPlatform.info.barbecuePlaces': 'The map shows official sites for barbequing or making fire. Making a fire on the land administered by Turku City is allowed only on places designated for making an open flame. Making a fire on any other place than the official campfire and barbeque sites is always forbidden.',
+  'mobilityPlatform.info.airport': 'The map shows Turku airport and information about flights for the current day. Flight traffic has been divided into incoming and departing flights. The data comes from the interface provided by Finavia.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',

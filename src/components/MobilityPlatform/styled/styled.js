@@ -37,6 +37,16 @@ const StyledHeaderContainer = styled.div(({ theme }) => ({
   paddingBottom: theme.spacing(0.5),
 }));
 
+const StyledFlexContainer = styled.div(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginTop: theme.spacing(0.5),
+  marginBottom: theme.spacing(0.75),
+  width: '93%',
+}));
+
 const StyledTextContainer = styled.div(({ theme }) => ({
   marginTop: theme.spacing(0.5),
 }));
@@ -60,6 +70,7 @@ export {
   StyledContentHeader,
   StyledContainer,
   StyledHeaderContainer,
+  StyledFlexContainer,
   StyledTextContainer,
   StyledMargin,
   StyledLinkText,

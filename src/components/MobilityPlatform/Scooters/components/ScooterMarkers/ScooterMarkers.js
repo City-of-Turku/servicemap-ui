@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useMap, useMapEvents } from 'react-leaflet';
@@ -6,14 +6,12 @@ import rydeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ryde.svg';
 import rydeIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ryde-bw.svg';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
-import { fetchIotData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import useIotDataFetch from '../../../utils/useIotDataFetch';
 import ScooterInfo from './components/ScooterInfo';
 import { isDataValid } from '../../../utils/utils';
 import { StyledPopupWrapper, StyledPopupInner } from '../../../styled/styled';
 
 const ScooterMarkers = ({ mapObject }) => {
-  const [scooterIoTData, setScooterIoTData] = useState([]);
-
   const { showScootersRyde } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
@@ -31,7 +29,6 @@ const ScooterMarkers = ({ mapObject }) => {
   });
 
   const isDetailZoom = zoomLevel >= mapObject.options.detailZoom;
-
   const setProviderIcon = useContrast ? rydeIconBw : rydeIcon;
 
   const customIcon = icon({
@@ -39,26 +36,16 @@ const ScooterMarkers = ({ mapObject }) => {
     iconSize: [40, 40],
   });
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
-    if (showScootersRyde) {
-      fetchIotData('SDR', setScooterIoTData, signal);
-    }
-    return () => controller.abort();
-  }, [showScootersRyde]);
-
-  const scooterData = scooterIoTData?.data?.bikes;
+  const { iotData: scooterData } = useIotDataFetch('SDR', showScootersRyde);
 
   const filterByBounds = data => {
-    if (data && data.length > 0) {
-      return data.filter(item => map.getBounds().contains([item.lat, item.lon]));
+    if (data?.length) {
+      return data?.filter(item => map.getBounds().contains([item.lat, item.lon]));
     }
     return [];
   };
 
   const filteredScooters = filterByBounds(scooterData);
-
   const renderData = isDataValid(showScootersRyde, filteredScooters) && isDetailZoom;
 
   return (

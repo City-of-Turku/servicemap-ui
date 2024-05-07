@@ -811,6 +811,7 @@ const translations = {
   'mobilityPlatform.menu.show.airMonitoring': 'Ilmanlaadun mittauspisteet',
   'mobilityPlatform.menu.show.parkAndRideBikes': 'Liityntäpysäkit pyörille',
   'mobilityPlatform.menu.show.barbecuePlaces': 'Grillaus- ja tulentekopaikat',
+  'mobilityPlatform.menu.show.airPorts': 'Lentoasema',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',
@@ -902,14 +903,26 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Lisätietoja: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Suojatie',
   'mobilityPlatform.content.railways.train': 'Juna: {value1} {value2}',
-  'mobilityPlatform.content.departingTrains.title': 'Lähtevät junat',
-  'mobilityPlatform.content.arrivingTrains.title': 'Saapuvat junat',
+  'mobilityPlatform.content.departingTrains.title': 'Lähtevät junat:',
+  'mobilityPlatform.content.arrivingTrains.title': 'Saapuvat junat:',
   'mobilityPlatform.content.departingTrains.empty': 'Ei lähteviä junia',
   'mobilityPlatform.content.arrivingTrains.empty': 'Ei saapuvia junia',
   'mobilityPlatform.parkAndRide.content.subtitle': 'Liityntäpysäkki pyörille',
   'mobilityPlatform.content.barbecuePlace.title': 'Grillaus- ja tulentekopaikka',
   'mobilityPlatform.content.barbecuePlace.manufacturer': 'Valmistaja: {value}',
   'mobilityPlatform.content.barbecuePlace.model': 'Malli: {value}',
+  'mobilityPlatform.content.airport.title': 'Turun lentoasema',
+  'mobilityPlatform.content.airport.arrivals': 'Saapuvat lennot:',
+  'mobilityPlatform.content.airport.departees': 'Lähtevät lennot:',
+  'mobilityPlatform.content.airport.departees.empty': 'Ei lähteviä lentoja.',
+  'mobilityPlatform.content.airport.arrivals.empty': 'Ei saapuvia lentoja.',
+  'mobilityPlatform.content.airport.cities.turku': 'Turkuun',
+  'mobilityPlatform.content.airport.cities.stockholm': 'Tukholmaan',
+  'mobilityPlatform.content.airport.cities.mariehamn': 'Maarianhaminaan',
+  'mobilityPlatform.content.airport.cities.riga': 'Riikaan',
+  'mobilityPlatform.content.airport.cities.gdansk': 'Gdańskiin',
+  'mobilityPlatform.content.airport.cities.rome': 'Roomaan',
+  'mobilityPlatform.content.airport.cities.rhodes': 'Ródokselle',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',
@@ -971,6 +984,7 @@ const translations = {
   'mobilityPlatform.info.airMonitoring.link': 'Lisätietoja saa osoitteesta https://www.ilmatieteenlaitos.fi/ilmanlaatu',
   'mobilityPlatform.info.parkAndRideBicycles': 'Liityntäpysäköinti tarjoaa mahdollisuuden jättää oma pyörä parkkiin ja jatkaa matkaa bussilla. Föli-alueella on useita liityntäpysäköintipaikkoja pyörille. Liityntäpysäköinti on maksutonta ja tarkoitettu vain joukkoliikennettä vaihtoyhteytenä käyttäville.',
   'mobilityPlatform.info.barbecuePlaces': 'Kartalla näkyvät Turun viralliset tulenteko- ja grillauspaikat. Turun kaupungin hallinnoimilla mailla tulenteko on sallittu ainoastaan avotulen tekoon tarkoitetuilla paikoilla. Muilla kuin virallisilla nuotio- ja grillauspaikoilla avotulen teko on aina kielletty.',
+  'mobilityPlatform.info.airport': 'Kartalla näkyvät Turun lentoasema ja lentojen tiedot kuluvan vuorokauden ajalta. Lennot on jaettu saapuviin ja lähteviin lentoihin. Tiedot ovat peräisin Finavian rajapinnasta.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',
