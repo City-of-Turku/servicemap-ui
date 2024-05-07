@@ -36,7 +36,7 @@ export default class ServiceMapAPI extends HttpClient {
     };
 
     return this.getConcurrent('search', options);
-  }
+  };
 
   searchSuggestions = async (query, additionalOptions) => {
     if (typeof query !== 'string') {
@@ -50,7 +50,7 @@ export default class ServiceMapAPI extends HttpClient {
     };
 
     return this.getSinglePage('search', options);
-  }
+  };
 
   serviceNodeSearch = async (idList, additionalOptions) => {
     if (typeof idList !== 'string') {
@@ -67,7 +67,7 @@ export default class ServiceMapAPI extends HttpClient {
     };
 
     return this.getConcurrent('unit', options);
-  }
+  };
 
   serviceUnitSearch = async (serviceId, additionalOptions) => {
     if (typeof serviceId !== 'string') {
@@ -84,7 +84,7 @@ export default class ServiceMapAPI extends HttpClient {
     };
 
     return this.getConcurrent('unit', options);
-  }
+  };
 
   // Fetch units of multiple services concurrently
   serviceUnits = async (idList, additionalOptions) => {
@@ -101,9 +101,9 @@ export default class ServiceMapAPI extends HttpClient {
     };
 
     return this.getConcurrent('unit', options);
-  }
+  };
 
-  serviceNames = async (idList) => {
+  serviceNames = async idList => {
     if (typeof idList !== 'string') {
       throw new APIFetchError('Invalid idList string provided to ServiceMapAPI serviceNames method');
     }
@@ -113,7 +113,7 @@ export default class ServiceMapAPI extends HttpClient {
       page_size: '1000',
     };
     return this.get('service_node', options);
-  }
+  };
 
   // Fetch list of all services
   services = async () => {
@@ -122,7 +122,7 @@ export default class ServiceMapAPI extends HttpClient {
       page_size: '500',
     };
     return this.getConcurrent('service', options);
-  }
+  };
 
   statisticalGeometry = async () => {
     const options = {
@@ -132,7 +132,7 @@ export default class ServiceMapAPI extends HttpClient {
       type: 'statistical_district',
     };
     return this.getConcurrent('administrative_division', options);
-  }
+  };
 
   areas = async (idList, geometry, additionalOptions) => {
     if (typeof idList !== 'string') {
@@ -146,7 +146,7 @@ export default class ServiceMapAPI extends HttpClient {
       ...additionalOptions,
     };
     return this.getConcurrent('administrative_division', options);
-  }
+  };
 
   areaGeometry = async (id, additionalOptions) => {
     if (typeof id !== 'string') {
@@ -161,9 +161,9 @@ export default class ServiceMapAPI extends HttpClient {
       ...additionalOptions,
     };
     return this.getConcurrent('administrative_division', options);
-  }
+  };
 
-  areaUnits = async (nodeID) => {
+  areaUnits = async nodeID => {
     if (typeof nodeID !== 'string') {
       throw new APIFetchError('Invalid nodeID string provided to ServiceMapAPI area unit fetch method');
     }
@@ -177,9 +177,9 @@ export default class ServiceMapAPI extends HttpClient {
     };
 
     return this.getConcurrent('unit', options);
-  }
+  };
 
-  parkingAreaInfo = async (params) => {
+  parkingAreaInfo = async params => {
     const options = {
       page: 1,
       page_size: 1,
@@ -189,9 +189,9 @@ export default class ServiceMapAPI extends HttpClient {
     };
 
     return this.getSinglePage('administrative_division', options);
-  }
+  };
 
-  units = async (additionalOptions) => {
+  units = async additionalOptions => {
     const options = {
       page_size: 200,
       only: 'street_address,location,name,municipality,accessibility_shortcoming_count,service_nodes,contract_type',
@@ -201,9 +201,9 @@ export default class ServiceMapAPI extends HttpClient {
     };
 
     return this.getConcurrent('unit', options);
-  }
+  };
 
-  sendStats = async (data) => {
+  sendStats = async data => {
     if (typeof data.embed === 'undefined' || typeof data.mobile_device === 'undefined') {
       throw new APIFetchError('Invalid data provided for ServiceMapAPI sendStats fetch method');
     }
@@ -217,5 +217,5 @@ export default class ServiceMapAPI extends HttpClient {
     const baseUrlOverride = config.serviceMapAPI.root;
 
     return this.post('stats', data, baseUrlOverride);
-  }
+  };
 }
