@@ -8,7 +8,6 @@ import { isEmbed } from '../../utils/path';
 // Actions
 const { isFetching, fetchSuccess, fetchProgressUpdateConcurrent } = searchResults;
 
-
 const smFetch = (dispatch, options) => {
   let results = [];
   const smAPI = new ServiceMapAPI();
@@ -51,10 +50,13 @@ const smFetch = (dispatch, options) => {
   return results;
 };
 
+const getCities = citiesObj => Object.keys(citiesObj).filter(key => citiesObj[key] === true);
 
 const fetchSearchResults = (options = null) => async (dispatch, getState) => {
   const searchFetchState = getState().searchResults;
   const { locale } = getState().user;
+  const { cities } = getState().settings;
+  const citySettings = getCities(cities);
 
   const searchQuery = options.q
     || options.address
@@ -79,6 +81,7 @@ const fetchSearchResults = (options = null) => async (dispatch, getState) => {
   ];
   const fetchOptions = {
     ...options,
+    municipality: citySettings.join(','),
     language: locale,
     include: isEmbed() ? extraFields : null,
   };
@@ -93,7 +96,7 @@ const fetchSearchResults = (options = null) => async (dispatch, getState) => {
     }
     // Handle unit results that have no object_type
     if (options.service_node || options.service_id || options.id || options.level) {
-      results.forEach((item) => {
+      results.forEach(item => {
         item.object_type = 'unit';
       });
     }
@@ -102,7 +105,7 @@ const fetchSearchResults = (options = null) => async (dispatch, getState) => {
       const isExactAddress = /\d/.test(options.address); // If address has a number specified, we can assume it is exact address instead of street
       let addressData = results[0];
       const unitData = results[1];
-      unitData.forEach((unit) => { unit.object_type = 'unit'; });
+      unitData.forEach(unit => { unit.object_type = 'unit'; });
       if (isExactAddress) {
         addressData = addressData.filter(
           res => getLocaleString(locale, res.name) === options.address,
@@ -112,7 +115,7 @@ const fetchSearchResults = (options = null) => async (dispatch, getState) => {
     }
     // Handle event search results
     if (options.events) {
-      results.forEach((event) => {
+      results.forEach(event => {
         event.object_type = 'event';
         const eventUnit = event.location;
         if (eventUnit) {

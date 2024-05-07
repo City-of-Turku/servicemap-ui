@@ -14,6 +14,7 @@ import useMobileStatus from '../../utils/isMobile';
 import ServiceMapAPI from '../../utils/newFetch/ServiceMapAPI';
 import useLocaleText from '../../utils/useLocaleText';
 import { getAddressText } from '../../utils/address';
+import { getCitySettings } from '../../redux/selectors/settings';
 import { focusToPosition } from '../../views/MapView/utils/mapActions';
 
 const AddressSearchBar = ({ title, intl, handleAddressChange }) => {
@@ -24,6 +25,7 @@ const AddressSearchBar = ({ title, intl, handleAddressChange }) => {
   const map = useSelector(state => state.mapRef);
   const customPosition = useSelector(state => state.user.customPosition);
   const position = useSelector(state => state.user.position);
+  const citySettings = useSelector(getCitySettings);
 
   const defaultAddress = position.addressData || customPosition.addressData;
 
@@ -36,12 +38,13 @@ const AddressSearchBar = ({ title, intl, handleAddressChange }) => {
   const suggestionCount = 5;
   const inputRef = useRef();
 
-  const fetchAddressResults = async (text) => {
+  const fetchAddressResults = async text => {
     const smAPI = new ServiceMapAPI();
     const fetchOptions = {
       page_size: suggestionCount,
       type: 'address',
       address_limit: suggestionCount,
+      municipality: citySettings.join(','),
       language: locale,
     };
     setIsFetching(true);
@@ -50,7 +53,7 @@ const AddressSearchBar = ({ title, intl, handleAddressChange }) => {
     return results;
   };
 
-  const handleAddressSelect = (address) => {
+  const handleAddressSelect = address => {
     if (!addressResults.length) return;
     if (inputRef.current) {
       inputRef.current.focus();
@@ -64,7 +67,7 @@ const AddressSearchBar = ({ title, intl, handleAddressChange }) => {
     focusToPosition(map, address.location?.coordinates);
   };
 
-  const handleSearchBarKeyPress = (e) => {
+  const handleSearchBarKeyPress = e => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       if (resultIndex === null || resultIndex === addressResults.length - 1) {
@@ -82,14 +85,14 @@ const AddressSearchBar = ({ title, intl, handleAddressChange }) => {
     }
   };
 
-  const clearSuggestions = (e) => {
+  const clearSuggestions = e => {
     e.preventDefault();
     setTimeout(() => {
       setAddressResults([]);
     }, 200);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     if (resultIndex !== null) {
       handleAddressSelect(addressResults[resultIndex]);
     } else {
@@ -98,7 +101,7 @@ const AddressSearchBar = ({ title, intl, handleAddressChange }) => {
     clearSuggestions(e);
   };
 
-  const handleInputChange = (text) => {
+  const handleInputChange = text => {
     // Reset cleared text
     if (cleared) {
       setCleared(false);
@@ -108,7 +111,7 @@ const AddressSearchBar = ({ title, intl, handleAddressChange }) => {
       if (currentLocation) {
         setCurrentLocation(null);
       }
-      fetchAddressResults(text).then((data) => {
+      fetchAddressResults(text).then(data => {
         if (!isFetching) setAddressResults(data);
       });
     } else if (addressResults.length) setAddressResults([]);
