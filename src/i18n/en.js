@@ -167,6 +167,8 @@ const translations = {
   'area.tab.mobilityTest.results': 'Liikkumistestin tulokset', // TODO verify & translate
   'area.mobilityResults.title': 'Näytä Turun Liikkumisprofiilit', // TODO verify & translate
   'area.mobilityResults.toggle': 'Liikkumisprofiilit', // TODO verify & translate
+  'area.mobilityResults.postCodeArea': 'Postcode area: {value}',
+  'area.mobilityResults.empty': 'Liikkumisprofiileja ei löytynyt.', // TODO verify & translate
 
   'parkingArea.popup.residentName': 'Zone {letter}',
   'parkingArea.popup.payment1': 'Free parking',

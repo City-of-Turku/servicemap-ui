@@ -170,6 +170,8 @@ const translations = {
   'area.tab.mobilityTest.results': 'Liikkumistestin tulokset', // TODO verify
   'area.mobilityResults.title': 'Näytä Turun Liikkumisprofiilit', // TODO verify
   'area.mobilityResults.toggle': 'Liikkumisprofiilit', // TODO verify
+  'area.mobilityResults.postCodeArea': 'Postinumeroalue: {value}',
+  'area.mobilityResults.empty': 'Liikkumisprofiileja ei löytynyt.', // TODO verify
 
   'parkingArea.popup.residentName': 'Alue {letter}',
   'parkingArea.popup.payment1': 'Ilmainen pysäköinti',

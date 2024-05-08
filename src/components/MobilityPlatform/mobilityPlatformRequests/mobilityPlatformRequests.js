@@ -145,7 +145,7 @@ const fetchPostCodeAreas = async (setData, signal) => {
 
 const fetchMobilityProfilesData = async (setData, signal) => {
   try {
-    const response = await fetch(`${isMobilityTestApiUrl}/`, { signal });
+    const response = await fetch(`${isMobilityTestApiUrl}/?page_size=300`, { signal });
     const jsonData = await response.json();
     setData(jsonData.results);
   } catch (err) {

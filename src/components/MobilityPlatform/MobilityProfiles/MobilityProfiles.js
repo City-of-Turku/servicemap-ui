@@ -3,12 +3,15 @@ import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { isDataValid } from '../utils/utils';
-import { fetchPostCodeAreas } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { fetchPostCodeAreas, fetchMobilityProfilesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
+import MobilityProfilesContent from './components/MobilityProfilesContent';
 
 // TODO Fetch data about mobility profiles and show relevant info.
 
 const MobilityProfiles = () => {
   const [postCodeAreas, setPostCodeAreas] = useState([]);
+  const [mobilityProfilesData, setMobilityProfilesData] = useState([]);
 
   const { showMobilityResults } = useMobilityPlatformContext();
 
@@ -21,6 +24,7 @@ const MobilityProfiles = () => {
     const { signal } = controller;
     if (showMobilityResults) {
       fetchPostCodeAreas(setPostCodeAreas, signal);
+      fetchMobilityProfilesData(setMobilityProfilesData, signal);
     }
     return () => controller.abort();
   }, [showMobilityResults]);
@@ -54,9 +58,13 @@ const MobilityProfiles = () => {
           pathOptions={pathOptions}
           positions={swapCoords(item.boundary.coordinates)}
         >
-          <Popup>
-            <p>{item.name.fi}</p>
-          </Popup>
+          <StyledPopupWrapper>
+            <Popup>
+              <StyledPopupInner>
+                <MobilityProfilesContent postcodeArea={item} mobilityProfiles={mobilityProfilesData} />
+              </StyledPopupInner>
+            </Popup>
+          </StyledPopupWrapper>
         </Polygon>
       ))
       : null
