@@ -4,12 +4,12 @@ import { Typography } from '@mui/material';
 import { useIntl } from 'react-intl';
 import { ReactSVG } from 'react-svg';
 import { css } from '@emotion/css';
-import moose from 'servicemap-ui-turku/assets/icons/icons-icon_moose.svg';
-import fox from 'servicemap-ui-turku/assets/icons/icons-icon_fox.svg';
-import deer from 'servicemap-ui-turku/assets/icons/icons-icon_deer.svg';
-import rabbit from 'servicemap-ui-turku/assets/icons/icons-icon_rabbit.svg';
-import marten from 'servicemap-ui-turku/assets/icons/icons-icon_marten.svg';
-import capercaillie from 'servicemap-ui-turku/assets/icons/icons-icon_capercaillie.svg';
+import moose from 'servicemap-ui-turku/assets/icons/icons-icon_moose-v2.svg';
+import fox from 'servicemap-ui-turku/assets/icons/icons-icon_fox-v2.svg';
+import deer from 'servicemap-ui-turku/assets/icons/icons-icon_deer-v2.svg';
+import rabbit from 'servicemap-ui-turku/assets/icons/icons-icon_rabbit-v2.svg';
+import marten from 'servicemap-ui-turku/assets/icons/icons-icon_marten-v2.svg';
+import capercaillie from 'servicemap-ui-turku/assets/icons/icons-icon_capercaillie-v2.svg';
 import {
   StyledContainer,
   StyledFlexContainer,
