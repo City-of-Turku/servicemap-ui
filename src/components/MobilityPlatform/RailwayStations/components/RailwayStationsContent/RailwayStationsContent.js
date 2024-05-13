@@ -5,6 +5,9 @@ import styled from '@emotion/styled';
 import { format } from 'date-fns';
 import { useIntl } from 'react-intl';
 import { fetchRailwaysData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import {
+  StyledContainer, StyledHeaderContainer, StyledFlexContainer, StyledTextContainer,
+} from '../../../styled/styled';
 
 const RailwayStationsContent = ({ item, stationsData }) => {
   const [stationTrainsData, setStationTrainsData] = useState([]);
@@ -56,43 +59,51 @@ const RailwayStationsContent = ({ item, stationsData }) => {
     const lastIdx = data.slice(-1)[0];
     const arrivalStation = findStation(stationsData, lastIdx.stationShortCode);
     return (
-      <StyledText variant="body2" component="p">
-        {arrivalStation.stationName}
-      </StyledText>
+      <StyledTextContainer>
+        <Typography variant="body2" component="p">
+          {arrivalStation.stationName}
+        </Typography>
+      </StyledTextContainer>
     );
   };
 
   const renderTrainInfo = train => (
-    <StyledText variant="body2" component="p">{`${train.trainType} ${train.trainNumber}`}</StyledText>
+    <StyledTextContainer>
+      <Typography variant="body2" component="p">{`${train.trainType} ${train.trainNumber}`}</Typography>
+    </StyledTextContainer>
   );
 
   const renderTimeValues = elem => (
-    <StyledText key={elem.scheduledTime} variant="body2" component="p">
-      {elem.liveEstimateTime && elem.differenceInMinutes > 1
-        ? `${formatDateTime(elem.liveEstimateTime)} (${formatDateTime(elem.scheduledTime)})`
-        : `${formatDateTime(elem.scheduledTime)}`}
-    </StyledText>
+    <StyledTextContainer>
+      <Typography key={elem.scheduledTime} variant="body2" component="p">
+        {elem.liveEstimateTime && elem.differenceInMinutes > 1
+          ? `${formatDateTime(elem.liveEstimateTime)} (${formatDateTime(elem.scheduledTime)})`
+          : `${formatDateTime(elem.scheduledTime)}`}
+      </Typography>
+    </StyledTextContainer>
   );
 
   return (
-    <StyledPopupInner>
-      <StyledHeader>
-        <StyledText variant="subtitle1" component="h4">
+    <StyledContainer>
+      <StyledHeaderContainer>
+        <Typography variant="subtitle1" component="h4">
           {item?.stationName}
-        </StyledText>
-      </StyledHeader>
+        </Typography>
+      </StyledHeaderContainer>
       <div>
         <div>
           <StyledTextContainer>
-            <StyledText variant="subtitle1" component="h5">
+            <Typography variant="subtitle1" component="h5">
               {intl.formatMessage({ id: 'mobilityPlatform.content.departingTrains.title' })}
-            </StyledText>
-            {!departingTrains?.length ? (
-              <StyledText variant="body2" component="p">
-                {intl.formatMessage({ id: 'mobilityPlatform.content.departingTrains.empty' })}
-              </StyledText>
-            ) : null}
+            </Typography>
           </StyledTextContainer>
+          {!departingTrains?.length ? (
+            <StyledTextContainer>
+              <Typography variant="body2" component="p">
+                {intl.formatMessage({ id: 'mobilityPlatform.content.departingTrains.empty' })}
+              </Typography>
+            </StyledTextContainer>
+          ) : null}
           {departingTrains?.map(train => (
             <StyledFlexContainer key={train.trainNumber}>
               <TrainIcon color="rgba(7, 44, 115, 255)" className="icon-icon-hsl-train" />
@@ -106,15 +117,17 @@ const RailwayStationsContent = ({ item, stationsData }) => {
         </div>
         <div>
           <StyledTextContainer>
-            <StyledText variant="subtitle1" component="h5">
+            <Typography variant="subtitle1" component="h5">
               {intl.formatMessage({ id: 'mobilityPlatform.content.arrivingTrains.title' })}
-            </StyledText>
-            {!arrivingTrains?.length ? (
-              <StyledText variant="body2" component="p">
-                {intl.formatMessage({ id: 'mobilityPlatform.content.arrivingTrains.empty' })}
-              </StyledText>
-            ) : null}
+            </Typography>
           </StyledTextContainer>
+          {!arrivingTrains?.length ? (
+            <StyledTextContainer>
+              <Typography variant="body2" component="p">
+                {intl.formatMessage({ id: 'mobilityPlatform.content.arrivingTrains.empty' })}
+              </Typography>
+            </StyledTextContainer>
+          ) : null}
           {arrivingTrains?.map(train => (
             <StyledFlexContainer key={train.trainNumber}>
               <TrainIcon color="rgba(7, 44, 115, 255)" className="icon-icon-hsl-train" />
@@ -127,53 +140,19 @@ const RailwayStationsContent = ({ item, stationsData }) => {
           ))}
         </div>
       </div>
-    </StyledPopupInner>
+    </StyledContainer>
   );
 };
 
 const TrainIcon = styled.span(({ color }) => ({
   fontSize: 20,
-  width: 20,
-  height: 20,
+  width: '20px',
+  height: '20px',
   lineHeight: '21px',
-  marginLeft: 6,
-  marginRight: 4,
+  marginLeft: '6px',
+  marginRight: '4px',
+  marginTop: '8px',
   color,
-}));
-
-const StyledText = styled(Typography)(({ theme }) => ({
-  marginBottom: theme.spacing(0.5),
-}));
-
-const StyledTextContainer = styled.div(({ theme }) => ({
-  marginBottom: theme.spacing(0.75),
-}));
-
-const StyledFlexContainer = styled.div(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  marginBottom: theme.spacing(0.75),
-  width: '90%',
-}));
-
-const StyledPopupInner = styled.div(({ theme }) => ({
-  borderRadius: '3px',
-  marginBottom: theme.spacing(1),
-  marginLeft: theme.spacing(1.2),
-  lineHeight: 1.2,
-  overflowX: 'hidden',
-}));
-
-const StyledHeader = styled.div(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  marginTop: theme.spacing(0.5),
-  marginBottom: theme.spacing(1),
-  alignItems: 'flex-end',
-  borderBottom: '2px solid gray',
-  justifyContent: 'space-between',
-  width: '80%',
 }));
 
 RailwayStationsContent.propTypes = {

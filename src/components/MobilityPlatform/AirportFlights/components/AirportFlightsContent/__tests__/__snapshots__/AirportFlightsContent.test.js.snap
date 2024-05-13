@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AirportFlightsContent /> should match snapshot 1`] = `
+<div>
+  <div
+    class="css-1ynyhby"
+  >
+    <div
+      class="css-1dznbe2"
+    >
+      <h4
+        class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
+      >
+        Turun lentoasema
+      </h4>
+    </div>
+    <div>
+      <div
+        class="css-1fhgjcy"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
+        >
+          Lähtevät lennot:
+        </p>
+      </div>
+      <div
+        class="css-1fhgjcy"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Ei lähteviä lentoja.
+        </p>
+      </div>
+    </div>
+    <div>
+      <div
+        class="css-1fhgjcy"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
+        >
+          Saapuvat lennot:
+        </p>
+      </div>
+      <div
+        class="css-1fhgjcy"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Ei saapuvia lentoja.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

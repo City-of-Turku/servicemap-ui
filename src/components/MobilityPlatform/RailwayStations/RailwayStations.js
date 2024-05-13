@@ -9,6 +9,7 @@ import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchRailwaysData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid } from '../utils/utils';
 import RailwayStationsContent from './components/RailwayStationsContent';
+import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 
 const RailwayStations = () => {
   const [railwayStations, setRailwayStations] = useState([]);
@@ -52,9 +53,13 @@ const RailwayStations = () => {
   return renderData
     ? railwayStationsTku.map(item => (
       <Marker key={item.stationName} icon={customIcon} position={[item.latitude, item.longitude]}>
-        <Popup>
-          <RailwayStationsContent item={item} stationsData={railwayStations} />
-        </Popup>
+        <StyledPopupWrapper>
+          <Popup className="popup-w350">
+            <StyledPopupInner>
+              <RailwayStationsContent item={item} stationsData={railwayStations} />
+            </StyledPopupInner>
+          </Popup>
+        </StyledPopupWrapper>
       </Marker>
     ))
     : null;

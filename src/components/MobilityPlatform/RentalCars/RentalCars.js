@@ -7,14 +7,13 @@ import providerIcon from 'servicemap-ui-turku/assets/icons/icons-icon_24rent.svg
 import rentalCarIcon from 'servicemap-ui-turku/assets/icons/icons-icon_rental_car.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchIotData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import useIotDataFetch from '../utils/useIotDataFetch';
 import { isDataValid, setRender, checkMapType } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import RentalCarsContent from './components/RentalCarsContent';
 
 const RentalCars = () => {
-  const [rentalCarsData, setRentalCarsData] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
   const { showRentalCars } = useMobilityPlatformContext();
@@ -40,14 +39,7 @@ const RentalCars = () => {
     iconSize: zoomLevel < 14 ? [45, 45] : [50, 56],
   });
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
-    if (showRentalCars || embedded) {
-      fetchIotData('R24', setRentalCarsData, signal);
-    }
-    return () => controller.abort();
-  }, [showRentalCars, embedded]);
+  const { iotData: rentalCarsData } = useIotDataFetch('R24', showRentalCars, embedded);
 
   const map = useMap();
 

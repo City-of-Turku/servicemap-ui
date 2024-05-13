@@ -12,15 +12,13 @@ import cargoBikesIconProvider from 'servicemap-ui-turku/assets/icons/icons-icon_
 import cargoBikesIconProviderBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_cargo_bikes_provider-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { fetchCityBikesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
+import useIotDataFetch from '../utils/useIotDataFetch';
 import { isDataValid, setRender, checkMapType } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import CityBikesContent from './components/CityBikesContent';
 
 const CityBikes = () => {
-  const [cityBikeStationsData, setCityBikeStationsData] = useState([]);
-  const [cityBikeStatistics, setCityBikeStatistics] = useState([]);
   const [zoomLevel, setZoomLevel] = useState(13);
 
   const { showCityBikes, showCargoBikes } = useMobilityPlatformContext();
@@ -55,20 +53,15 @@ const CityBikes = () => {
     iconSize: zoomLevel < 14 ? [45, 45] : [35, 35],
   });
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
-    if (showCityBikes || showCargoBikes || embedded) {
-      fetchCityBikesData('CBI', setCityBikeStationsData, signal);
-      fetchCityBikesData('CBS', setCityBikeStatistics, signal);
-    }
-    return () => controller.abort();
-  }, [showCityBikes, showCargoBikes, embedded]);
+  const fetchData = showCityBikes || showCargoBikes;
+
+  const { iotData: cityBikeStationsData } = useIotDataFetch('CBI', fetchData, embedded);
+  const { iotData: cityBikeStatistics } = useIotDataFetch('CBS', fetchData, embedded);
 
   const cityBikeStations = [];
 
   /** Separate cargo bike stations from city bike stations */
-  const cargoBikeStations = cityBikeStationsData.reduce((acc, curr) => {
+  const cargoBikeStations = cityBikeStationsData?.reduce((acc, curr) => {
     if (curr.name.includes('eCargo bikes')) {
       acc.push(curr);
     } else {

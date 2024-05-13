@@ -807,6 +807,7 @@ const translations = {
   'mobilityPlatform.menu.show.railwayStations': 'Järnvägsstationer',
   'mobilityPlatform.menu.show.parkAndRideBikes': 'Infartsparkering för cyklar',
   'mobilityPlatform.menu.show.barbecuePlaces': 'Grill- och eldningsplatser',
+  'mobilityPlatform.menu.show.airPorts': 'Flygplats',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
@@ -908,14 +909,26 @@ const translations = {
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Ytterligare info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Övergångställe',
   'mobilityPlatform.content.railways.train': 'Tåg: {value1} {value2}',
-  'mobilityPlatform.content.departingTrains.title': 'Avgående tåg',
-  'mobilityPlatform.content.arrivingTrains.title': 'Inkommande tåg',
+  'mobilityPlatform.content.departingTrains.title': 'Avgående tåg:',
+  'mobilityPlatform.content.arrivingTrains.title': 'Inkommande tåg:',
   'mobilityPlatform.content.departingTrains.empty': 'Inga avgående tåg',
   'mobilityPlatform.content.arrivingTrains.empty': 'Inga inkommande tåg',
   'mobilityPlatform.parkAndRide.content.subtitle': 'Infartspark for cyklarna',
   'mobilityPlatform.content.barbecuePlace.title': 'Grill- och eldningplats',
   'mobilityPlatform.content.barbecuePlace.manufacturer': 'Tillverkare: {value}',
   'mobilityPlatform.content.barbecuePlace.model': 'Modell: {value}',
+  'mobilityPlatform.content.airport.title': 'Åbo flygplats',
+  'mobilityPlatform.content.airport.arrivals': 'Ankommande flygningar:',
+  'mobilityPlatform.content.airport.departees': 'Avgående flygningar:',
+  'mobilityPlatform.content.airport.departees.empty': 'Inga avgående flygningar.',
+  'mobilityPlatform.content.airport.arrivals.empty': 'Inga inkommande flygningar.',
+  'mobilityPlatform.content.airport.cities.turku': 'Till Åbo',
+  'mobilityPlatform.content.airport.cities.stockholm': 'Till Stockholm',
+  'mobilityPlatform.content.airport.cities.mariehamn': 'Till Mariehamn',
+  'mobilityPlatform.content.airport.cities.riga': 'Till Riga',
+  'mobilityPlatform.content.airport.cities.gdansk': 'Till Gdańsk',
+  'mobilityPlatform.content.airport.cities.rome': 'Till Rom',
+  'mobilityPlatform.content.airport.cities.rhodes': 'Till Rhodos',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',
@@ -977,6 +990,7 @@ const translations = {
   'mobilityPlatform.info.airMonitoring.link': 'För mer information besök: https://sv.ilmatieteenlaitos.fi/luftkvalitet',
   'mobilityPlatform.info.parkAndRideBicycles': 'Infartsparkeringen erbjuder möjlighet att lämna din egen cykel på parkeringsplatsen och fortsätta resan med buss. Inom Föli-området finns flera infartsparkeringsplatser för cyklar. Infartsparkeringen är gratis och endast avsedd för dem som fortsätter sin resa med kollektivtrafik.',
   'mobilityPlatform.info.barbecuePlaces': 'Kartan visar eldnings- och grillplatser i Åbo. Det är tillåtet att göra upp öppen eld endast vid särskilt avsedda eldningsplatser. Att göra upp eld på andra platser är förbjudet.',
+  'mobilityPlatform.info.airport': 'Kartan visar Åbo flygplats och flygtidtabeller för den aktuella dagen. Flygtrafiken är uppdelad i flyg som avgår från och ankommer till flygplatsen. Uppgifterna kommer från Finavias gränssnitt.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',

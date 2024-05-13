@@ -78,16 +78,6 @@ const fetchIotData = async (sourceName, setData, signal) => {
   }
 };
 
-const fetchCityBikesData = async (sourceName, setData, signal) => {
-  try {
-    const response = await fetch(`${isApiUrl}/iot?source_name=${sourceName}`, { signal });
-    const jsonData = await response.json();
-    setData(jsonData.results[0].data.data.stations);
-  } catch (err) {
-    console.warn(err.message);
-  }
-};
-
 const fetchStreetMaintenanceData = async (endpoint, setData) => {
   try {
     const response = await fetch(`${isApiUrl}/street_maintenance/${endpoint}`);
@@ -136,7 +126,6 @@ export {
   fetchBicycleRouteNames,
   fetchBicycleRoutesGeometry,
   fetchIotData,
-  fetchCityBikesData,
   fetchStreetMaintenanceData,
   fetchAreaGeometries,
   fetchParkingAreaStats,
