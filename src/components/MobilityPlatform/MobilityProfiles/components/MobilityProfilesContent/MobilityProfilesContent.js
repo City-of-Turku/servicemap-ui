@@ -4,12 +4,12 @@ import { Typography } from '@mui/material';
 import { useIntl } from 'react-intl';
 import { ReactSVG } from 'react-svg';
 import { css } from '@emotion/css';
-import moose from 'servicemap-ui-turku/assets/icons/icons-icon_moose-v2.svg';
-import fox from 'servicemap-ui-turku/assets/icons/icons-icon_fox-v2.svg';
-import deer from 'servicemap-ui-turku/assets/icons/icons-icon_deer-v2.svg';
-import rabbit from 'servicemap-ui-turku/assets/icons/icons-icon_rabbit-v2.svg';
-import marten from 'servicemap-ui-turku/assets/icons/icons-icon_marten-v2.svg';
-import capercaillie from 'servicemap-ui-turku/assets/icons/icons-icon_capercaillie-v2.svg';
+import moose from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_moose-bw-v2.svg';
+import fox from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_fox-bw-v2.svg';
+import deer from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_deer-bw-v2.svg';
+import rabbit from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_rabbit-bw-v2.svg';
+import marten from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_marten-bw-v2.svg';
+import capercaillie from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_capercaillie-bw-v2.svg';
 import {
   StyledContainer,
   StyledFlexContainer,
@@ -21,7 +21,7 @@ const MobilityProfilesContent = ({ postcodeArea, mobilityProfiles }) => {
   const intl = useIntl();
 
   const filteredMobilityProfiles = mobilityProfiles.filter(
-    item => item.postal_code_string === postcodeArea.name.fi && item.postal_code_type_string === 'Home',
+    item => item.postal_code_string === postcodeArea.name.fi && item.postal_code_type_string === 'Home' && item.count >= 1,
   );
 
   const iconClass = css({
