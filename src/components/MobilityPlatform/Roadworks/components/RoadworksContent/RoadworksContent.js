@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { format } from 'date-fns';
+import { StyledContainer, StyledHeaderContainer, StyledTextContainer } from '../../../styled/styled';
 
 const RoadworksContent = ({ item }) => {
   const roadworkDetails = item?.announcements[0];
@@ -78,12 +79,12 @@ const RoadworksContent = ({ item }) => {
   };
 
   return (
-    <StyledPopupInner>
-      <StyledHeader>
+    <StyledContainer>
+      <StyledHeaderContainer>
         <StyledText variant="subtitle2" component="h4">
           {roadworkDetails?.title}
         </StyledText>
-      </StyledHeader>
+      </StyledHeaderContainer>
       <div>
         <StyledTextContainer>
           <StyledText variant="body2">{roadworkDetails?.description}</StyledText>
@@ -97,35 +98,12 @@ const RoadworksContent = ({ item }) => {
         {renderExtraFeatures()}
         {renderDateValues()}
       </div>
-    </StyledPopupInner>
+    </StyledContainer>
   );
 };
 
 const StyledText = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(0.5),
-}));
-
-const StyledTextContainer = styled.div(({ theme }) => ({
-  marginBottom: theme.spacing(0.75),
-}));
-
-const StyledPopupInner = styled.div(({ theme }) => ({
-  borderRadius: '3px',
-  marginBottom: theme.spacing(1),
-  marginLeft: theme.spacing(1.2),
-  lineHeight: 1.2,
-  overflowX: 'hidden',
-}));
-
-const StyledHeader = styled.div(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  marginTop: theme.spacing(0.5),
-  marginBottom: theme.spacing(1),
-  alignItems: 'flex-end',
-  borderBottom: '2px solid gray',
-  justifyContent: 'space-between',
-  width: '86%',
 }));
 
 RoadworksContent.propTypes = {
@@ -134,12 +112,13 @@ RoadworksContent.propTypes = {
     announcements: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string,
-        location: PropTypes.shape({
-          description: PropTypes.string,
-        }),
-        timeAndDuration: PropTypes.shape({
-          startTime: PropTypes.string,
-          endTime: PropTypes.string,
+        description: PropTypes.string,
+        comment: PropTypes.string,
+        additional_info: PropTypes.shape({
+          timeAndDuration: PropTypes.shape({
+            startTime: PropTypes.string,
+            endTime: PropTypes.string,
+          }),
         }),
       }),
     ),

@@ -3,10 +3,10 @@
 exports[`<RoadworksContent /> does match snapshot 1`] = `
 <div>
   <div
-    class="css-zimvk6"
+    class="css-1ynyhby"
   >
     <div
-      class="css-19od9cu"
+      class="css-1dznbe2"
     >
       <h4
         class="MuiTypography-root MuiTypography-subtitle2 css-wfeqti-MuiTypography-root"
@@ -16,7 +16,7 @@ exports[`<RoadworksContent /> does match snapshot 1`] = `
     </div>
     <div>
       <div
-        class="css-jmbq56"
+        class="css-1fhgjcy"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-qabfq1-MuiTypography-root"
@@ -25,7 +25,7 @@ exports[`<RoadworksContent /> does match snapshot 1`] = `
         </p>
       </div>
       <div
-        class="css-jmbq56"
+        class="css-1fhgjcy"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-qabfq1-MuiTypography-root"
@@ -34,7 +34,7 @@ exports[`<RoadworksContent /> does match snapshot 1`] = `
         </p>
       </div>
       <div
-        class="css-jmbq56"
+        class="css-1fhgjcy"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
@@ -43,7 +43,7 @@ exports[`<RoadworksContent /> does match snapshot 1`] = `
         </p>
       </div>
       <div
-        class="css-jmbq56"
+        class="css-1fhgjcy"
       >
         <p
           class="MuiTypography-root MuiTypography-body2 css-qabfq1-MuiTypography-root"
