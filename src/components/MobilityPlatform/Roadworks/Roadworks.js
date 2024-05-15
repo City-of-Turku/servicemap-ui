@@ -61,7 +61,7 @@ const Roadworks = () => {
     const selectedCities = config.cities.filter(c => citySettings[c]);
     const cities = checkCitySettings(selectedCities);
     if (
-      cities.includes(roadWorkDetails?.location?.details?.primaryPoint?.municipality.toLowerCase())
+      cities.includes(roadWorkDetails?.locations[0]?.details?.primaryPoint?.municipality.toLowerCase())
     ) {
       acc.push(curr);
     }
@@ -70,7 +70,7 @@ const Roadworks = () => {
 
   /** Separate roadworks that contain Point type geometry from the rest */
   const roadworksPoints = roadworksFiltered.reduce((acc, curr) => {
-    if (curr?.announcements[0]?.location?.geometry?.includes('POINT')) {
+    if (curr?.announcements[0]?.locations[0]?.geometry?.includes('POINT')) {
       acc.push(curr);
     }
     return acc;
@@ -78,7 +78,7 @@ const Roadworks = () => {
 
   /** Separate roadworks that contain MultiLineString type geometry from the rest */
   const roadworksMultiLines = roadworksFiltered.reduce((acc, curr) => {
-    if (curr?.announcements[0]?.location?.geometry?.includes('MULTILINESTRING')) {
+    if (curr?.announcements[0]?.locations[0]?.geometry?.includes('MULTILINESTRING')) {
       acc.push(curr);
     }
     return acc;
@@ -127,7 +127,7 @@ const Roadworks = () => {
     if (areMultiLinesValid) {
       const bounds = [];
       roadworksMultiLines.forEach(item => {
-        bounds.push(getMultiLineCoordinates(item.announcements[0].location.geometry));
+        bounds.push(getMultiLineCoordinates(item?.announcements[0]?.locations[0]?.geometry));
       });
       map.fitBounds(bounds);
     }
@@ -144,7 +144,7 @@ const Roadworks = () => {
       <Marker
         key={item.situation_id}
         icon={customIcon}
-        position={getPointCoordinates(item.announcements[0].location.geometry)}
+        position={getPointCoordinates(item?.announcements[0]?.locations[0]?.geometry)}
       >
         {renderContent(item)}
       </Marker>
@@ -157,11 +157,11 @@ const Roadworks = () => {
         <Polyline
           weight={useContrast ? 10 : 8}
           pathOptions={useContrast ? whiteOptions : grayOptions}
-          positions={getMultiLineCoordinates(item.announcements[0].location.geometry)}
+          positions={getMultiLineCoordinates(item?.announcements[0]?.locations[0]?.geometry)}
         />
         <Marker
           icon={customIcon}
-          position={parseAndGetSingleCoordinates(item.announcements[0].location.geometry)}
+          position={parseAndGetSingleCoordinates(item?.announcements[0]?.locations[0]?.geometry)}
         >
           {renderContent(item)}
         </Marker>
