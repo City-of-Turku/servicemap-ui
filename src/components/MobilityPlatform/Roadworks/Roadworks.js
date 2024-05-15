@@ -14,19 +14,13 @@ import useRoadworksDataFetch from '../utils/useRoadworksDataFetch';
 import RoadworksContent from './components/RoadworksContent';
 
 const Roadworks = () => {
-  const optionsMain = {
-    page_size: 200,
-    is_active: true,
-  };
-
-  const optionsRoadworks = {
-    ...optionsMain,
-    situation_type_str: 'ROAD_WORK',
-  };
-
-  const optionsTrafficAnnouncements = {
-    ...optionsMain,
-    situation_type_str: 'TRAFFIC_ANNOUNCEMENT',
+  const getOptions = typeStr => {
+    const options = {
+      page_size: 200,
+      is_active: true,
+      situation_type_str: typeStr,
+    };
+    return options;
   };
 
   const { showRoadworks } = useMobilityPlatformContext();
@@ -44,8 +38,8 @@ const Roadworks = () => {
   const grayOptions = grayOptionsBase({ dashArray: '2, 5, 8' });
   const whiteOptions = whiteOptionsBase({ dashArray: !useContrast ? '1, 8' : null });
 
-  const { data: roadworksData } = useRoadworksDataFetch(optionsRoadworks, showRoadworks);
-  const { data: trafficAnnouncementsData } = useRoadworksDataFetch(optionsTrafficAnnouncements, showRoadworks);
+  const { data: roadworksData } = useRoadworksDataFetch(getOptions('ROAD_WORK'), showRoadworks);
+  const { data: trafficAnnouncementsData } = useRoadworksDataFetch(getOptions('TRAFFIC_ANNOUNCEMENT'), showRoadworks);
   const roadworksDataFull = [].concat(roadworksData, trafficAnnouncementsData);
 
   const checkCitySettings = citiesArray => {
