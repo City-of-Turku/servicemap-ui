@@ -8,6 +8,9 @@ const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
 const railwaysApiUrl = config.railwaysAPI;
 const isRailwaysApiUrl = !railwaysApiUrl || railwaysApiUrl === 'undefined' ? null : railwaysApiUrl;
 
+const roadworksApiUrl = config.roadworksAPI;
+const isRoadworksApiUrl = !roadworksApiUrl || roadworksApiUrl === 'undefined' ? null : roadworksApiUrl;
+
 /**
  * Returns query options as a search params for URLs
  * @param {Object} options
@@ -120,6 +123,17 @@ const fetchRailwaysData = async (endpoint, setData, signal) => {
   }
 };
 
+const fetchRoadworksData = async (options, setData, signal) => {
+  const params = optionsToParams(options);
+  try {
+    const response = await fetch(`${isRoadworksApiUrl}/situation/?${params}`, { signal });
+    const jsonData = await response.json();
+    setData(jsonData.results);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 export {
   fetchMobilityMapData,
   fetchCultureRouteNames,
@@ -130,4 +144,5 @@ export {
   fetchAreaGeometries,
   fetchParkingAreaStats,
   fetchRailwaysData,
+  fetchRoadworksData,
 };

@@ -5,23 +5,23 @@ import styled from '@emotion/styled';
 import { format } from 'date-fns';
 
 const RoadworksContent = ({ item }) => {
-  const roadworkDetails = item?.properties?.announcements[0];
+  const roadworkDetails = item?.announcements[0];
 
-  const formatDate = (dateTimeValue) => format(new Date(dateTimeValue), 'dd.MM.yyyy');
+  const formatDate = dateTimeValue => format(new Date(dateTimeValue), 'dd.MM.yyyy');
 
-  const filterRestrictions = (restrictionsData) => {
+  const filterRestrictions = restrictionsData => {
     const restrictionTypes = ['SPEED_LIMIT', 'SPEED_LIMIT_LENGTH'];
     if (restrictionsData?.length > 0) {
-      return restrictionsData.filter((restriction) => restrictionTypes.includes(restriction.type));
+      return restrictionsData.filter(restriction => restrictionTypes.includes(restriction.type));
     }
     return [];
   };
 
-  const roadWorksRestrictions = filterRestrictions(roadworkDetails.roadWorkPhases[0]?.restrictions);
+  const roadWorksRestrictions = filterRestrictions(roadworkDetails.additional_info?.restrictions);
 
   const renderRestrictions = () => (
     roadWorksRestrictions?.length > 0 ? (
-      roadWorksRestrictions.map((limitItem) => (
+      roadWorksRestrictions.map(limitItem => (
         <StyledTextContainer key={limitItem.restriction.quantity}>
           <Typography variant="body2">
             {`${limitItem.restriction.name}: ${limitItem.restriction.quantity} ${limitItem.restriction.unit}`}
@@ -33,7 +33,7 @@ const RoadworksContent = ({ item }) => {
 
   const renderExtraFeatures = () => (
     roadworkDetails.features?.length > 0 ? (
-      roadworkDetails.features.map((feature) => (
+      roadworkDetails.features.map(feature => (
         <React.Fragment key={feature.name}>
           {feature.quantity && feature.unit ? (
             <StyledTextContainer>
@@ -54,22 +54,22 @@ const RoadworksContent = ({ item }) => {
   );
 
   const renderDateValues = () => {
-    if (roadworkDetails?.timeAndDuration.startTime && roadworkDetails?.timeAndDuration.endTime) {
+    if (roadworkDetails?.additional_info?.timeAndDuration?.startTime && roadworkDetails?.additional_info.timeAndDuration.endTime) {
       return (
         <StyledTextContainer>
           <StyledText variant="body2">
-            {`Aika: ${formatDate(roadworkDetails?.timeAndDuration.startTime)} - ${formatDate(
-              roadworkDetails?.timeAndDuration.endTime,
+            {`Aika: ${formatDate(roadworkDetails?.additional_info?.timeAndDuration?.startTime)} - ${formatDate(
+              roadworkDetails?.additional_info?.timeAndDuration?.endTime,
             )}`}
           </StyledText>
         </StyledTextContainer>
       );
     }
-    if (roadworkDetails.timeAndDuration.startTime) {
+    if (roadworkDetails?.additional_info?.timeAndDuration?.startTime) {
       return (
         <StyledTextContainer>
           <StyledText variant="body2">
-            {`Työ alkoi: ${formatDate(roadworkDetails?.timeAndDuration.startTime)}`}
+            {`Työ alkoi: ${formatDate(roadworkDetails?.additional_info?.timeAndDuration?.startTime)}`}
           </StyledText>
         </StyledTextContainer>
       );
@@ -86,7 +86,7 @@ const RoadworksContent = ({ item }) => {
       </StyledHeader>
       <div>
         <StyledTextContainer>
-          <StyledText variant="body2">{roadworkDetails?.location?.description}</StyledText>
+          <StyledText variant="body2">{roadworkDetails?.description}</StyledText>
         </StyledTextContainer>
         {roadworkDetails.comment ? (
           <StyledTextContainer>
@@ -130,21 +130,19 @@ const StyledHeader = styled.div(({ theme }) => ({
 
 RoadworksContent.propTypes = {
   item: PropTypes.shape({
-    properties: PropTypes.shape({
-      situationType: PropTypes.string,
-      announcements: PropTypes.arrayOf(
-        PropTypes.shape({
-          title: PropTypes.string,
-          location: PropTypes.shape({
-            description: PropTypes.string,
-          }),
-          timeAndDuration: PropTypes.shape({
-            startTime: PropTypes.string,
-            endTime: PropTypes.string,
-          }),
+    situationType: PropTypes.string,
+    announcements: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string,
+        location: PropTypes.shape({
+          description: PropTypes.string,
         }),
-      ),
-    }),
+        timeAndDuration: PropTypes.shape({
+          startTime: PropTypes.string,
+          endTime: PropTypes.string,
+        }),
+      }),
+    ),
   }),
 };
 

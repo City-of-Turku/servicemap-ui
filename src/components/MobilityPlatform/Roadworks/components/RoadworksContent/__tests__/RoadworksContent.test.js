@@ -7,35 +7,29 @@ import RoadworksContent from '../index';
 
 const mockProps = {
   item: {
-    properties: {
-      announcements: [
-        {
-          title: 'Test roadwork',
-          location: {
-            description: 'Test desc',
-          },
-          comment: 'Comment',
-          timeAndDuration: {
-            startTime: '2023-11-05T10:00:00z',
-            endTime: '2023-12-05T17:00:00z',
-          },
-          roadWorkPhases: [
+    announcements: [
+      {
+        title: 'Test roadwork',
+        description: 'Test desc',
+        comment: 'Comment',
+        additional_info: {
+          restrictions: [
             {
-              restrictions: [
-                {
-                  type: 'SPEED_LIMIT',
-                  restriction: {
-                    name: 'Test limit',
-                    quantity: '50',
-                    unit: 'km/h',
-                  },
-                },
-              ],
+              type: 'SPEED_LIMIT',
+              restriction: {
+                name: 'Test limit',
+                quantity: '50',
+                unit: 'km/h',
+              },
             },
           ],
+          timeAndDuration: {
+            startTime: '2024-04-10T10:00:00z',
+            endTime: '2024-06-05T17:00:00z',
+          },
         },
-      ],
-    },
+      },
+    ],
   },
 };
 
@@ -54,14 +48,14 @@ describe('<RoadworksContent />', () => {
 
     const h4 = container.querySelectorAll('h4');
     const p = container.querySelectorAll('p');
-    const roadworkDetails = mockProps.item.properties.announcements[0];
-    const restrictionsArray = roadworkDetails.roadWorkPhases[0].restrictions[0];
+    const roadworkDetails = mockProps.item.announcements[0];
+    const restrictionsArray = roadworkDetails.additional_info.restrictions[0];
     expect(h4[0].textContent).toContain(roadworkDetails.title);
-    expect(p[0].textContent).toContain(roadworkDetails.location.description);
+    expect(p[0].textContent).toContain(roadworkDetails.description);
     expect(p[1].textContent).toContain(roadworkDetails.comment);
     expect(p[2].textContent).toContain(
       `${restrictionsArray.restriction.name}: ${restrictionsArray.restriction.quantity} ${restrictionsArray.restriction.unit}`,
     );
-    expect(p[3].textContent).toEqual('Aika: 05.11.2023 - 05.12.2023');
+    expect(p[3].textContent).toEqual('Aika: 10.04.2024 - 05.06.2024');
   });
 });
