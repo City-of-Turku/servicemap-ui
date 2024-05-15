@@ -14,13 +14,18 @@ import useRoadworksDataFetch from '../utils/useRoadworksDataFetch';
 import RoadworksContent from './components/RoadworksContent';
 
 const Roadworks = () => {
-  const optionsRoadworks = {
+  const optionsMain = {
     page_size: 200,
+    is_active: true,
+  };
+
+  const optionsRoadworks = {
+    ...optionsMain,
     situation_type_str: 'ROAD_WORK',
   };
 
   const optionsTrafficAnnouncements = {
-    page_size: 200,
+    ...optionsMain,
     situation_type_str: 'TRAFFIC_ANNOUNCEMENT',
   };
 
