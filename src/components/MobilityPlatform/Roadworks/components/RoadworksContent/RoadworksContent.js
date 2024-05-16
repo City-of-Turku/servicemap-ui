@@ -21,7 +21,7 @@ const RoadworksContent = ({ item }) => {
   const roadWorksRestrictions = filterRestrictions(roadworkDetails.additional_info?.restrictions);
 
   const renderRestrictions = () => (
-    roadWorksRestrictions?.length > 0 ? (
+    roadWorksRestrictions?.length ? (
       roadWorksRestrictions.map(limitItem => (
         <StyledTextContainer key={limitItem.restriction.quantity}>
           <Typography variant="body2">
@@ -33,7 +33,7 @@ const RoadworksContent = ({ item }) => {
   );
 
   const renderExtraFeatures = () => (
-    roadworkDetails.features?.length > 0 ? (
+    roadworkDetails.features?.length ? (
       roadworkDetails.features.map(feature => (
         <React.Fragment key={feature.name}>
           {feature.quantity && feature.unit ? (
