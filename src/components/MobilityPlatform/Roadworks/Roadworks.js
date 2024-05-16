@@ -80,7 +80,7 @@ const Roadworks = () => {
   }, []);
 
   /**
-   * Gets coordinate values from string, for example 'SRID=4326;POINT (22.37835 60.40831)'.
+   * Gets coordinates from string, for example 'SRID=4326;POINT (22.37835 60.40831)'.
    * Use regex to get numerical values and place those inside an array
    * @param {string} inputString
    * @returns {*array} coordinates
@@ -95,6 +95,12 @@ const Roadworks = () => {
     return [];
   };
 
+  /**
+   * Get coordinates from string that includes geometry in multilinestring format.
+   * Remove letters and special characters and return nested array from numbers.
+   * @param {string} inputString
+   * @returns array
+   */
   const getMultiLineCoordinates = inputString => {
     const multiLineStrings = inputString.replace(/^SRID=\d+;MULTILINESTRING \((.*)\)$/, '$1').split('), ');
     const nestedCoordinates = multiLineStrings.map(lineString => {
