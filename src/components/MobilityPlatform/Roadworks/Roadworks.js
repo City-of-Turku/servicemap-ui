@@ -11,6 +11,7 @@ import {
 import { useAccessibleMap, getCitySettings } from '../../../redux/selectors/settings';
 import config from '../../../../config';
 import useRoadworksDataFetch from '../utils/useRoadworksDataFetch';
+import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import RoadworksContent from './components/RoadworksContent';
 
 const Roadworks = () => {
@@ -128,9 +129,13 @@ const Roadworks = () => {
   }, [showRoadworks, roadworksMultiLines]);
 
   const renderContent = item => (
-    <Popup className="popup-w350">
-      <RoadworksContent item={item} />
-    </Popup>
+    <StyledPopupWrapper>
+      <Popup className="popup-w350">
+        <StyledPopupInner>
+          <RoadworksContent item={item} />
+        </StyledPopupInner>
+      </Popup>
+    </StyledPopupWrapper>
   );
 
   const renderMarkers = () => (areMarkersValid
