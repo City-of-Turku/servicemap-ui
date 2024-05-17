@@ -20,7 +20,7 @@ const MobilityProfiles = () => {
   const { showMobilityResults } = useMobilityPlatformContext();
 
   const { Marker, Polygon, Popup } = global.rL;
-  const { icon } = global.L;
+  const { icon, polygon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -34,6 +34,11 @@ const MobilityProfiles = () => {
     return () => controller.abort();
   }, [showMobilityResults]);
 
+  /**
+   * Swap coordinates to be correct Leaflet format.
+   * @param {array} inputData
+   * @returns array
+   */
   const swapCoords = inputData => {
     if (inputData?.length) {
       return inputData.map(item => item.map(v => v.map(j => [j[1], j[0]])));
@@ -56,6 +61,11 @@ const MobilityProfiles = () => {
   const areResultsValid = isDataValid(showMobilityResults, mobilityProfilesData);
   const renderMarkers = renderData && areResultsValid;
 
+  /**
+   * Get icon by result value which is either object or in some cases 1.
+   * @param {object} resultValue
+   * @returns Leaflet icon
+   */
   const getIconByResult = resultValue => {
     const isObject = typeof resultValue;
     const result = isObject ? resultValue.result : 1;
@@ -77,6 +87,13 @@ const MobilityProfiles = () => {
     }
   };
 
+  /**
+   * Filter data to be contain result of only that specific postal code area.
+   * Get highest count value and call function to set icon.
+   * @param {string} nameValue
+   * @param {array} mobilityProfiles
+   * @returns leaflet icon
+   */
   const getCorrectIcon = (nameValue, mobilityProfiles) => {
     const filteredMobilityProfiles = mobilityProfiles?.filter(item => item.postal_code_string === nameValue);
     const maxCount = filteredMobilityProfiles?.reduce(
@@ -86,12 +103,25 @@ const MobilityProfiles = () => {
     return getIconByResult(maxCount);
   };
 
-  const getSingleCoordinates = data => data[0][0][0];
+  /**
+   * Get center coordinates of the polygon shape.
+   * @param {array} coordinates
+   * @returns object
+   */
+  const getCenter = coordinates => {
+    const leafletPolygon = polygon(coordinates);
+    return leafletPolygon.getBounds().getCenter();
+  };
 
+  /**
+   * Swap coordinates and then get center value of the polygon.
+   * @param {array} coordinatesData
+   * @returns array of lat and lng values
+   */
   const swapAndGetCoordinates = coordinatesData => {
     const swapped = swapCoords(coordinatesData);
-    const coords = getSingleCoordinates(swapped);
-    return coords;
+    const center = getCenter(swapped);
+    return [center.lat, center.lng];
   };
 
   const renderMarkersData = (showData, data) => (showData
