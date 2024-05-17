@@ -10,6 +10,7 @@ import deer from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_deer-bw-v
 import rabbit from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_rabbit-bw-v2.svg';
 import marten from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_marten-bw-v2.svg';
 import capercaillie from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_capercaillie-bw-v2.svg';
+import useLocaleText from '../../../../../utils/useLocaleText';
 import {
   StyledContainer,
   StyledFlexContainer,
@@ -19,6 +20,7 @@ import {
 
 const MobilityProfilesContent = ({ postcodeArea, mobilityProfiles }) => {
   const intl = useIntl();
+  const getLocaleText = useLocaleText();
 
   const filteredMobilityProfiles = mobilityProfiles.filter(
     item => item.postal_code_string === postcodeArea.name.fi && item.postal_code_type_string === 'Home' && item.count >= 1,
@@ -71,7 +73,7 @@ const MobilityProfilesContent = ({ postcodeArea, mobilityProfiles }) => {
             </StyledTextContainer>
             <StyledTextContainer>
               <Typography variant="body2" component="p">
-                {item.result_topic_en}
+                {getLocaleText(item.result_topics)}
               </Typography>
             </StyledTextContainer>
             <StyledTextContainer>
