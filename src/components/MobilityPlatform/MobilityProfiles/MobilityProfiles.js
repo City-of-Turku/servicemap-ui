@@ -35,6 +35,15 @@ const MobilityProfiles = () => {
   }, [showMobilityResults]);
 
   /**
+   * Filter postal codes based on what areas are included on the results data. Also filter areas with 0 result count.
+   * @param {array} data1
+   * @param {array} data2
+   * @returns array of objects
+   */
+  const filterPostCodes = (data1, data2) => data1.filter(item => data2.some(el => el.postal_code_string === item.name.fi && el.count >= 1));
+  const filteredPostCodes = filterPostCodes(postCodeAreas, mobilityProfilesData);
+
+  /**
    * Swap coordinates to be correct Leaflet format.
    * @param {array} inputData
    * @returns array
@@ -154,13 +163,12 @@ const MobilityProfiles = () => {
         </StyledPopupWrapper>
       </Polygon>
     ))
-    : null
-  );
+    : null);
 
   return (
     <>
-      {renderMarkersData(renderMarkers, postCodeAreas)}
-      {renderPostCodeAreas(renderData, postCodeAreas)}
+      {renderMarkersData(renderMarkers, filteredPostCodes)}
+      {renderPostCodeAreas(renderData, filteredPostCodes)}
     </>
   );
 };
