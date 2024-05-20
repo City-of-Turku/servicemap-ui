@@ -6,12 +6,12 @@ import styled from '@emotion/styled';
 import { StyledLinkText } from '../styled/styled';
 
 const InfoTextBox = ({
-  infoText, linkUrl, linkText, reducePadding,
+  infoText, linkUrl, linkText, reducePadding, removeBorder,
 }) => {
   const intl = useIntl();
 
   return (
-    <StyledContainer reducePadding={reducePadding}>
+    <StyledContainer reducePadding={reducePadding} removeBorder={removeBorder}>
       <Typography
         variant="body2"
         aria-label={intl.formatMessage({
@@ -35,9 +35,9 @@ const InfoTextBox = ({
   );
 };
 
-const StyledContainer = styled.div(({ reducePadding }) => ({
+const StyledContainer = styled.div(({ reducePadding, removeBorder }) => ({
   textAlign: 'left',
-  borderTop: '1px solid rgb(193, 193, 193)',
+  borderTop: removeBorder ? 'none' : '1px solid rgb(193, 193, 193)',
   padding: reducePadding ? '0.5rem 0.5rem 0.5rem 0' : '1rem',
 }));
 
@@ -46,6 +46,7 @@ InfoTextBox.propTypes = {
   linkUrl: PropTypes.string,
   linkText: PropTypes.string,
   reducePadding: PropTypes.bool,
+  removeBorder: PropTypes.bool,
 };
 
 InfoTextBox.defaultProps = {
@@ -53,6 +54,7 @@ InfoTextBox.defaultProps = {
   linkUrl: '',
   linkText: '',
   reducePadding: false,
+  removeBorder: false,
 };
 
 export default InfoTextBox;

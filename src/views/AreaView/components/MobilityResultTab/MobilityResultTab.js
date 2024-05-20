@@ -32,6 +32,7 @@ const MobilityResultTab = () => {
               infoText="area.mobilityResults.info.text"
               linkUrl="https://liikkumistesti.turku.fi"
               linkText="area.mobilityResults.link.text"
+              removeBorder
             />
           </StyledContainer>
         </ListItem>
