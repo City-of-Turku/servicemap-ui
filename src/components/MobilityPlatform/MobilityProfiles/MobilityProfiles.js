@@ -6,6 +6,12 @@ import deer from 'servicemap-ui-turku/assets/icons/icons-icon_deer.svg';
 import rabbit from 'servicemap-ui-turku/assets/icons/icons-icon_rabbit.svg';
 import marten from 'servicemap-ui-turku/assets/icons/icons-icon_marten.svg';
 import capercaillie from 'servicemap-ui-turku/assets/icons/icons-icon_capercaillie.svg';
+import mooseContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_moose-bw.svg';
+import foxContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_fox-bw.svg';
+import deerContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_deer-bw.svg';
+import rabbitContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_rabbit-bw.svg';
+import martenContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_marten-bw.svg';
+import capercaillieContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_capercaillie-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { isDataValid, createIcon } from '../utils/utils';
@@ -61,8 +67,8 @@ const MobilityProfiles = () => {
   };
   const whiteColor = {
     color: 'rgba(255, 255, 255, 255)',
-    fillOpacity: 0.6,
-    dashArray: '10 2 10',
+    fillOpacity: 0.5,
+    dashArray: '10 4 10',
   };
 
   const pathOptions = useContrast ? whiteColor : blueColor;
@@ -80,19 +86,19 @@ const MobilityProfiles = () => {
     const result = isObject ? resultValue.result : 1;
     switch (result) {
       case 1:
-        return icon(createIcon(moose));
+        return icon(createIcon(useContrast ? mooseContrast : moose));
       case 2:
-        return icon(createIcon(fox));
+        return icon(createIcon(useContrast ? foxContrast : fox));
       case 3:
-        return icon(createIcon(rabbit));
+        return icon(createIcon(useContrast ? rabbitContrast : rabbit));
       case 4:
-        return icon(createIcon(marten));
+        return icon(createIcon(useContrast ? martenContrast : marten));
       case 5:
-        return icon(createIcon(deer));
+        return icon(createIcon(useContrast ? deerContrast : deer));
       case 6:
-        return icon(createIcon(capercaillie));
+        return icon(createIcon(useContrast ? capercaillieContrast : capercaillie));
       default:
-        return icon(createIcon(moose));
+        return icon(createIcon(useContrast ? mooseContrast : moose));
     }
   };
 
