@@ -167,11 +167,12 @@ const translations = {
   'area.list.statistic.30-49': 'Ålder 30-49 år',
   'area.list.statistic.50-64': 'Ålder 50-64 år',
   'area.list.statistic.65+': 'Ålder över 65 år',
-  'area.tab.mobilityTest.results': 'Liikkumistestin tulokset', // TODO verify & translate
-  'area.mobilityResults.title': 'Näytä Turun Liikkumisprofiilit', // TODO verify & translate
-  'area.mobilityResults.toggle': 'Liikkumisprofiilit', // TODO verify & translate
+  'area.tab.mobilityTest.results': 'Åbo mobilitetsprofiler', // TODO verify
+  'area.mobilityResults.toggle': 'Mobilitetsprofiler', // TODO verify
   'area.mobilityResults.postCodeArea': 'Postnummerområd: {value}',
-  'area.mobilityResults.empty': 'Liikkumisprofiileja ei löytynyt.', // TODO verify & translate
+  'area.mobilityResults.empty': 'Inga mobilitetsprofiler hittades.',
+  'area.mobilityResults.info.text': 'The map shows general information about mobility profiles (for example Hassle-free Hare) in Turku region, divided by postcode areas. You can find out your mobility profile by taking the mobility survey of Turku. You will also receive useful tips about the mobility options that interest you.', // TODO verify
+  'area.mobilityResults.link.text': 'Take the mobility test (opens in a new tab)', // TODO translate
 
   // TODO: translate all
   'parkingArea.popup.residentName': 'Zon {letter}',

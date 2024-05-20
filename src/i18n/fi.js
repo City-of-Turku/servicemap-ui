@@ -167,11 +167,12 @@ const translations = {
   'area.list.statistic.30-49': 'Ikä 30-49 vuotta',
   'area.list.statistic.50-64': 'Ikä 50-64 vuotta',
   'area.list.statistic.65+': 'Ikä yli 65 vuotta',
-  'area.tab.mobilityTest.results': 'Liikkumistestin tulokset', // TODO verify
-  'area.mobilityResults.title': 'Näytä Turun Liikkumisprofiilit', // TODO verify
+  'area.tab.mobilityTest.results': 'Turun liikkumisprofiilit', // TODO verify
   'area.mobilityResults.toggle': 'Liikkumisprofiilit', // TODO verify
   'area.mobilityResults.postCodeArea': 'Postinumeroalue: {value}',
   'area.mobilityResults.empty': 'Liikkumisprofiileja ei löytynyt.', // TODO verify
+  'area.mobilityResults.info.text': 'Kartalla näet yleistä tietoa Turun alueen liikkumisprofiileista (esimerkiksi Joustava Jänis) postinumeroalueittain jaettuna. Vastaamalla Turun liikkumistestiin, voit selvittää millainen liikkuja olet. Saat samalla myös hyödyllisiä vinkkejä sinua kiinnostavista liikkumisvaihtoehdoista.', // TODO verify
+  'area.mobilityResults.link.text': 'Tee liikkumistesti (aukeaa uuteen välilehteen)', // TODO verify
 
   'parkingArea.popup.residentName': 'Alue {letter}',
   'parkingArea.popup.payment1': 'Ilmainen pysäköinti',
