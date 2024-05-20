@@ -16,6 +16,9 @@ const isServiceMapApiUrl = !serviceMapApiUrlBase || serviceMapApiUrlBase === 'un
 const mobilityTestApiUrl = config.mobilityTestAPI;
 const isMobilityTestApiUrl = !mobilityTestApiUrl || mobilityTestApiUrl === 'undefined' ? null : mobilityTestApiUrl;
 
+const roadworksApiUrl = config.roadworksAPI;
+const isRoadworksApiUrl = !roadworksApiUrl || roadworksApiUrl === 'undefined' ? null : roadworksApiUrl;
+
 /**
  * Returns query options as a search params for URLs
  * @param {Object} options
@@ -130,6 +133,17 @@ const fetchRailwaysData = async (endpoint, setData, signal) => {
   }
 };
 
+const fetchRoadworksData = async (options, setData, signal) => {
+  const params = optionsToParams(options);
+  try {
+    const response = await fetch(`${isRoadworksApiUrl}/situation/?${params}`, { signal });
+    const jsonData = await response.json();
+    setData(jsonData.results);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 const fetchPostCodeAreas = async (setData, signal) => {
   try {
     const response = await fetch(
@@ -163,6 +177,7 @@ export {
   fetchAreaGeometries,
   fetchParkingAreaStats,
   fetchRailwaysData,
+  fetchRoadworksData,
   fetchPostCodeAreas,
   fetchMobilityProfilesData,
 };
