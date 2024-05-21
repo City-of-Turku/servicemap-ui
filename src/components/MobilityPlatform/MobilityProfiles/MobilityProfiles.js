@@ -43,12 +43,14 @@ const MobilityProfiles = () => {
   }, [showMobilityResults]);
 
   /**
-   * Filter postal codes based on what areas are included on the results data. Also filter areas with 0 result count.
+   * Filter postal codes based on what areas include results data. Also filter areas with 0 result count.
    * @param {array} data1
    * @param {array} data2
    * @returns array of objects
    */
-  const filterPostCodes = (data1, data2) => data1.filter(item => data2.some(el => el.postal_code_string === item.name.fi && el.count >= 1));
+  const filterPostCodes = (data1, data2) => data1.filter(item => data2.some(
+    el => el.postal_code_string === item.name.fi && el.postal_code_type_string === 'Home' && el.count >= 1,
+  ));
   const filteredPostCodes = filterPostCodes(postCodeAreas, mobilityProfilesData);
 
   /**
@@ -105,7 +107,7 @@ const MobilityProfiles = () => {
   };
 
   /**
-   * Filter data to be contain result of only that specific postal code area.
+   * Filter data to be contain results of only that specific postal code area.
    * Get highest count value and call function to set icon.
    * @param {string} nameValue
    * @param {array} mobilityProfiles
