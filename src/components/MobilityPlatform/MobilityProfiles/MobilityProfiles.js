@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useMap } from 'react-leaflet';
 import moose from 'servicemap-ui-turku/assets/icons/icons-icon_moose.svg';
 import fox from 'servicemap-ui-turku/assets/icons/icons-icon_fox.svg';
 import deer from 'servicemap-ui-turku/assets/icons/icons-icon_deer.svg';
@@ -28,6 +29,7 @@ const MobilityProfiles = () => {
   const { Marker, Polygon, Popup } = global.rL;
   const { icon, polygon } = global.L;
 
+  const map = useMap();
   const useContrast = useSelector(useAccessibleMap);
 
   useEffect(() => {
@@ -50,7 +52,7 @@ const MobilityProfiles = () => {
   const filteredPostCodes = filterPostCodes(postCodeAreas, mobilityProfilesData);
 
   /**
-   * Swap coordinates to be correct Leaflet format.
+   * Swap coordinates to be in correct Leaflet format.
    * @param {array} inputData
    * @returns array
    */
@@ -72,7 +74,7 @@ const MobilityProfiles = () => {
   };
 
   const pathOptions = useContrast ? whiteColor : blueColor;
-  const renderData = isDataValid(showMobilityResults, postCodeAreas);
+  const renderData = isDataValid(showMobilityResults, filteredPostCodes);
   const areResultsValid = isDataValid(showMobilityResults, mobilityProfilesData);
   const renderMarkers = renderData && areResultsValid;
 
@@ -138,6 +140,16 @@ const MobilityProfiles = () => {
     const center = getCenter(swapped);
     return [center.lat, center.lng];
   };
+
+  useEffect(() => {
+    if (renderData) {
+      const bounds = [];
+      filteredPostCodes.forEach(item => {
+        bounds.push(swapCoords(item.boundary.coordinates));
+      });
+      map.fitBounds(bounds);
+    }
+  }, [renderData, filteredPostCodes, map]);
 
   const renderMarkersData = (showData, data) => (showData
     ? data.map(item => (
