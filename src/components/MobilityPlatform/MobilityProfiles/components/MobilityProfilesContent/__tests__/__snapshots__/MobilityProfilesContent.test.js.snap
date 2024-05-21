@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MobilityProfilesContent /> should match snapshot 1`] = `
+<div>
+  <div
+    class="css-1ynyhby"
+  >
+    <div
+      class="css-1dznbe2"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
+      >
+        Postinumeroalue: 20210
+      </p>
+    </div>
+    <div
+      class="css-1do907m"
+    >
+      <div
+        class="css-1fhgjcy"
+      >
+        <div
+          class="css-c2uxn6"
+        >
+          <div>
+            <div
+              data-src="test-file-stub"
+              src=""
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="css-1fhgjcy"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Joustava Jänis
+        </p>
+      </div>
+      <div
+        class="css-1fhgjcy"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          10
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
