@@ -71,6 +71,13 @@ const Roadworks = () => {
     return acc;
   }, []);
 
+  const roadworksLines = roadworksFiltered.reduce((acc, curr) => {
+    if (curr?.announcements[0]?.location?.geometry?.includes(';LINESTRING')) {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
   /** Separate roadworks that contain MultiLineString type geometry from the rest */
   const roadworksMultiLines = roadworksFiltered.reduce((acc, curr) => {
     if (curr?.announcements[0]?.location?.geometry?.includes('MULTILINESTRING')) {
@@ -98,6 +105,19 @@ const Roadworks = () => {
   /**
    * Get coordinates from string that includes geometry in multilinestring format.
    * Remove letters and special characters and return nested array from numbers.
+   * @param {string} lineString
+   * @returns array
+   */
+  const getLineCoordinates = lineString => {
+    const coordinatesString = lineString.replace(/^SRID=\d+;LINESTRING \((.*)\)$/, '$1');
+    const coordinatePairs = coordinatesString.split(', ').map(pair => pair.split(' '));
+    const coordinates = coordinatePairs.map(pair => [parseFloat(pair[1]), parseFloat(pair[0])]);
+    return coordinates;
+  };
+
+  /**
+   * Get coordinates from string that includes geometry in multilinestring format.
+   * Remove letters and special characters and return nested array from numbers.
    * @param {string} inputString
    * @returns array
    */
@@ -111,17 +131,23 @@ const Roadworks = () => {
     return nestedCoordinates;
   };
 
-  const getSingleCoordinates = data => {
-    const coords = data[0][0];
+  const getSingleCoordinates = (data, isMulti) => {
+    const coords = isMulti ? data[0][0] : data[0];
     return [coords[0], coords[1]];
   };
 
-  const parseAndGetSingleCoordinates = multilineStr => {
+  const parseMultiAndGetSingleCoordinates = multilineStr => {
     const coordinates = getMultiLineCoordinates(multilineStr);
-    return getSingleCoordinates(coordinates);
+    return getSingleCoordinates(coordinates, true);
+  };
+
+  const parseLineAndGetSingleCoordinates = lineStr => {
+    const coordinates = getLineCoordinates(lineStr);
+    return getSingleCoordinates(coordinates, false);
   };
 
   const areMarkersValid = isDataValid(showRoadworks, roadworksPoints);
+  const areLinesValid = isDataValid(showRoadworks, roadworksLines);
   const areMultiLinesValid = isDataValid(showRoadworks, roadworksMultiLines);
 
   useEffect(() => {
@@ -156,6 +182,24 @@ const Roadworks = () => {
     ))
     : null);
 
+  const renderLines = () => (areLinesValid ? (
+    roadworksLines.map(item => (
+      <React.Fragment key={item.id}>
+        <Polyline
+          weight={useContrast ? 10 : 8}
+          pathOptions={useContrast ? whiteOptions : grayOptions}
+          positions={getLineCoordinates(item?.announcements[0]?.location?.geometry)}
+        />
+        <Marker
+          icon={customIcon}
+          position={parseLineAndGetSingleCoordinates(item?.announcements[0]?.location?.geometry)}
+        >
+          {renderContent(item)}
+        </Marker>
+      </React.Fragment>
+    ))
+  ) : null);
+
   const renderMultiLines = () => (areMultiLinesValid ? (
     roadworksMultiLines.map(item => (
       <React.Fragment key={item.id}>
@@ -166,7 +210,7 @@ const Roadworks = () => {
         />
         <Marker
           icon={customIcon}
-          position={parseAndGetSingleCoordinates(item?.announcements[0]?.location?.geometry)}
+          position={parseMultiAndGetSingleCoordinates(item?.announcements[0]?.location?.geometry)}
         >
           {renderContent(item)}
         </Marker>
@@ -177,6 +221,7 @@ const Roadworks = () => {
   return (
     <>
       {renderMarkers()}
+      {renderLines()}
       {renderMultiLines()}
     </>
   );
