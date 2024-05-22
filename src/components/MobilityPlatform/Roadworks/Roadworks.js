@@ -63,28 +63,22 @@ const Roadworks = () => {
     return acc;
   }, []);
 
-  /** Separate roadworks that contain Point type geometry from the rest */
-  const roadworksPoints = roadworksFiltered.reduce((acc, curr) => {
-    if (curr?.announcements[0]?.location?.geometry?.includes('POINT')) {
+  /**
+   * Separate roadworks from the rest by geometry type (eg. POINT or LINESTRING)
+   * @param {array} data
+   * @param {string} geomType
+   * @returns array
+   */
+  const filterRoadworksByGeometry = (data, geomType) => data.reduce((acc, curr) => {
+    if (curr?.announcements[0]?.location?.geometry?.includes(geomType)) {
       acc.push(curr);
     }
     return acc;
   }, []);
 
-  const roadworksLines = roadworksFiltered.reduce((acc, curr) => {
-    if (curr?.announcements[0]?.location?.geometry?.includes(';LINESTRING')) {
-      acc.push(curr);
-    }
-    return acc;
-  }, []);
-
-  /** Separate roadworks that contain MultiLineString type geometry from the rest */
-  const roadworksMultiLines = roadworksFiltered.reduce((acc, curr) => {
-    if (curr?.announcements[0]?.location?.geometry?.includes('MULTILINESTRING')) {
-      acc.push(curr);
-    }
-    return acc;
-  }, []);
+  const roadworksPoints = filterRoadworksByGeometry(roadworksFiltered, 'POINT');
+  const roadworksLines = filterRoadworksByGeometry(roadworksFiltered, ';LINESTRING');
+  const roadworksMultiLines = filterRoadworksByGeometry(roadworksFiltered, 'MULTILINESTRING');
 
   /**
    * Gets coordinates from string, for example 'SRID=4326;POINT (22.37835 60.40831)'.
@@ -131,6 +125,12 @@ const Roadworks = () => {
     return nestedCoordinates;
   };
 
+  /**
+   * Get single pair of coordinates from nested arrays (2 or 3 levels).
+   * @param {array} data
+   * @param {boolean} isMulti
+   * @returns array
+   */
   const getSingleCoordinates = (data, isMulti) => {
     const coords = isMulti ? data[0][0] : data[0];
     return [coords[0], coords[1]];
