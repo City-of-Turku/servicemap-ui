@@ -97,7 +97,7 @@ const Roadworks = () => {
   };
 
   /**
-   * Get coordinates from string that includes geometry in multilinestring format.
+   * Get coordinates from string that includes geometry in linestring format.
    * Remove letters and special characters and return nested array from numbers.
    * @param {string} lineString
    * @returns array
