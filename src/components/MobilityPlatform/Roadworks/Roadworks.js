@@ -1,21 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import roadworksIcon from 'servicemap-ui-turku/assets/icons/icons-icon_roadworks.svg';
 import roadworksIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_roadworks-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
-import { fetchAreaGeometries } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
   createIcon, isDataValid, grayOptionsBase, whiteOptionsBase,
 } from '../utils/utils';
 import { useAccessibleMap, getCitySettings } from '../../../redux/selectors/settings';
 import config from '../../../../config';
+import useRoadworksDataFetch from '../utils/useRoadworksDataFetch';
+import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import RoadworksContent from './components/RoadworksContent';
 
 const Roadworks = () => {
-  const [roadworksData, setRoadworksData] = useState([]);
-  const [trafficAnnouncementsData, setTrafficAnnouncementsData] = useState([]);
+  const getOptions = typeStr => {
+    const options = {
+      page_size: 200,
+      is_active: true,
+      situation_type_str: typeStr,
+    };
+    return options;
+  };
 
   const { showRoadworks } = useMobilityPlatformContext();
 
@@ -27,37 +34,16 @@ const Roadworks = () => {
   const useContrast = useSelector(useAccessibleMap);
   const citySettings = useSelector(getCitySettings);
 
-  const roadworksUrl = config.roadworksAPI;
-  const isRoadworksUrl = !roadworksUrl || roadworksUrl === 'undefined' ? null : roadworksUrl;
-
   const customIcon = icon(createIcon(useContrast ? roadworksIconBw : roadworksIcon));
 
   const grayOptions = grayOptionsBase({ dashArray: '2, 5, 8' });
   const whiteOptions = whiteOptionsBase({ dashArray: !useContrast ? '1, 8' : null });
 
-  const controller = new AbortController();
-
-  useEffect(() => {
-    const { signal } = controller;
-    const endpoint = `${isRoadworksUrl}?inactiveHours=0&includeAreaGeometry=true&situationType=ROAD_WORK`;
-    if (showRoadworks && isRoadworksUrl) {
-      fetchAreaGeometries(endpoint, setRoadworksData, signal);
-    }
-    return () => controller.abort();
-  }, [showRoadworks]);
-
-  useEffect(() => {
-    const { signal } = controller;
-    const endpoint = `${isRoadworksUrl}?inactiveHours=0&includeAreaGeometry=true&situationType=TRAFFIC_ANNOUNCEMENT`;
-    if (showRoadworks && isRoadworksUrl) {
-      fetchAreaGeometries(endpoint, setTrafficAnnouncementsData, signal);
-    }
-    return () => controller.abort();
-  }, [showRoadworks]);
-
+  const { data: roadworksData } = useRoadworksDataFetch(getOptions('ROAD_WORK'), showRoadworks);
+  const { data: trafficAnnouncementsData } = useRoadworksDataFetch(getOptions('TRAFFIC_ANNOUNCEMENT'), showRoadworks);
   const roadworksDataFull = [].concat(roadworksData, trafficAnnouncementsData);
 
-  const checkCitySettings = (citiesArray) => {
+  const checkCitySettings = citiesArray => {
     if (citiesArray?.length > 0) {
       return citiesArray;
     }
@@ -66,63 +52,98 @@ const Roadworks = () => {
 
   /** Separate roadworks of Turku from the rest */
   const roadworksFiltered = roadworksDataFull.reduce((acc, curr) => {
-    const roadWorkDetails = curr?.properties?.announcements[0];
-    const selectedCities = config.cities.filter((c) => citySettings[c]);
+    const roadWorkDetails = curr?.announcements[0];
+    const selectedCities = config.cities.filter(c => citySettings[c]);
     const cities = checkCitySettings(selectedCities);
     if (
-      cities.includes(roadWorkDetails?.locationDetails?.roadAddressLocation?.primaryPoint?.municipality.toLowerCase())
+      cities.includes(roadWorkDetails?.location?.details?.primaryPoint?.municipality.toLowerCase())
     ) {
       acc.push(curr);
     }
     return acc;
   }, []);
 
-  /** Separate roadworks that contain Point type geometry from the rest */
-  const roadworksPoints = roadworksFiltered.reduce((acc, curr) => {
-    if (curr.geometry.type === 'Point') {
-      acc.push(curr);
-    }
-    return acc;
-  }, []);
-
-  /** Separate roadworks that contain LineString type geometry from the rest */
-  const roadworksLines = roadworksFiltered.reduce((acc, curr) => {
-    if (curr.geometry.type === 'LineString') {
-      acc.push(curr);
-    }
-    return acc;
-  }, []);
-
-  /** Separate roadworks that contain MultiLineString type geometry from the rest */
-  const roadworksMultiLines = roadworksFiltered.reduce((acc, curr) => {
-    if (curr.geometry.type === 'MultiLineString') {
-      acc.push(curr);
-    }
-    return acc;
-  }, []);
-
   /**
-   * Swap coordinates of linestrings
-   * @param {array} inputData
+   * Separate roadworks from the rest by geometry type (eg. POINT or LINESTRING)
+   * @param {array} data
+   * @param {string} geomType
    * @returns array
    */
-  const swapCoords = (inputData) => {
-    if (inputData?.length > 0) {
-      return inputData.map((coordinates) => [coordinates[1], coordinates[0]]);
+  const filterRoadworksByGeometry = (data, geomType) => data.reduce((acc, curr) => {
+    if (curr?.announcements[0]?.location?.geometry?.includes(geomType)) {
+      acc.push(curr);
     }
-    return inputData;
+    return acc;
+  }, []);
+
+  const roadworksPoints = filterRoadworksByGeometry(roadworksFiltered, 'POINT');
+  const roadworksLines = filterRoadworksByGeometry(roadworksFiltered, ';LINESTRING');
+  const roadworksMultiLines = filterRoadworksByGeometry(roadworksFiltered, 'MULTILINESTRING');
+
+  /**
+   * Gets coordinates from string, for example 'SRID=4326;POINT (22.37835 60.40831)'.
+   * Use regex to get numerical values and place those inside an array
+   * @param {string} inputString
+   * @returns {*array} coordinates
+   */
+  const getPointCoordinates = inputString => {
+    const regex = /POINT \((\d+\.\d+) (\d+\.\d+)\)/;
+    const match = inputString.match(regex);
+    if (match) {
+      const coordinates = [parseFloat(match[2]), parseFloat(match[1])];
+      return coordinates;
+    }
+    return [];
   };
 
   /**
-   * Swap coordinates of multi linestring
-   * @param {array} inputData
+   * Get coordinates from string that includes geometry in linestring format.
+   * Remove letters and special characters and return nested array from numbers.
+   * @param {string} lineString
    * @returns array
    */
-  const swapCoordsMulti = (inputData) => {
-    if (inputData?.length > 0) {
-      return inputData.map((innerArray) => innerArray.map((coordinates) => [coordinates[1], coordinates[0]]));
-    }
-    return inputData;
+  const getLineCoordinates = lineString => {
+    const coordinatesString = lineString.replace(/^SRID=\d+;LINESTRING \((.*)\)$/, '$1');
+    const coordinatePairs = coordinatesString.split(', ').map(pair => pair.split(' '));
+    const coordinates = coordinatePairs.map(pair => [parseFloat(pair[1]), parseFloat(pair[0])]);
+    return coordinates;
+  };
+
+  /**
+   * Get coordinates from string that includes geometry in multilinestring format.
+   * Remove letters and special characters and return nested array from numbers.
+   * @param {string} inputString
+   * @returns array
+   */
+  const getMultiLineCoordinates = inputString => {
+    const multiLineStrings = inputString.replace(/^SRID=\d+;MULTILINESTRING \((.*)\)$/, '$1').split('), ');
+    const nestedCoordinates = multiLineStrings.map(lineString => {
+      const cleanedLineString = lineString.replace(/^\(/, '').replace(/\)$/, '');
+      const coordinatePairs = cleanedLineString.split(', ').map(pair => pair.split(' '));
+      return coordinatePairs.map(pair => [parseFloat(pair[1]), parseFloat(pair[0])]);
+    });
+    return nestedCoordinates;
+  };
+
+  /**
+   * Get single pair of coordinates from nested arrays (2 or 3 levels).
+   * @param {array} data
+   * @param {boolean} isMulti
+   * @returns array
+   */
+  const getSingleCoordinates = (data, isMulti) => {
+    const coords = isMulti ? data[0][0] : data[0];
+    return [coords[0], coords[1]];
+  };
+
+  const parseMultiAndGetSingleCoordinates = multilineStr => {
+    const coordinates = getMultiLineCoordinates(multilineStr);
+    return getSingleCoordinates(coordinates, true);
+  };
+
+  const parseLineAndGetSingleCoordinates = lineStr => {
+    const coordinates = getLineCoordinates(lineStr);
+    return getSingleCoordinates(coordinates, false);
   };
 
   const areMarkersValid = isDataValid(showRoadworks, roadworksPoints);
@@ -132,58 +153,64 @@ const Roadworks = () => {
   useEffect(() => {
     if (areMultiLinesValid) {
       const bounds = [];
-      roadworksMultiLines.forEach((item) => {
-        bounds.push(swapCoordsMulti(item.geometry.coordinates));
+      roadworksMultiLines.forEach(item => {
+        bounds.push(getMultiLineCoordinates(item?.announcements[0]?.location?.geometry));
       });
       map.fitBounds(bounds);
     }
   }, [showRoadworks, roadworksMultiLines]);
 
-  const renderContent = (item) => (
-    <Popup className="popup-w350">
-      <RoadworksContent item={item} />
-    </Popup>
+  const renderContent = item => (
+    <StyledPopupWrapper>
+      <Popup className="popup-w350">
+        <StyledPopupInner>
+          <RoadworksContent item={item} />
+        </StyledPopupInner>
+      </Popup>
+    </StyledPopupWrapper>
   );
 
-  const getSingleCoordinates = (data) => {
-    const coords = data[0][0];
-    return [coords[1], coords[0]];
-  };
-
   const renderMarkers = () => (areMarkersValid
-    ? roadworksPoints.map((item) => (
+    ? roadworksPoints.map(item => (
       <Marker
-        key={item.properties.situationId}
+        key={item.situation_id}
         icon={customIcon}
-        position={[item?.geometry?.coordinates[1], item?.geometry?.coordinates[0]]}
+        position={getPointCoordinates(item?.announcements[0]?.location?.geometry)}
       >
         {renderContent(item)}
       </Marker>
     ))
     : null);
 
-  const renderLines = () => (areLinesValid ? roadworksLines.map((item) => (
-    <Polyline
-      key={item.properties.situationId}
-      weight={useContrast ? 10 : 8}
-      pathOptions={useContrast ? whiteOptions : grayOptions}
-      positions={swapCoords(item.geometry.coordinates)}
-    >
-      {renderContent(item)}
-    </Polyline>
-  )) : null);
-
-  const renderMultiLines = () => (areMultiLinesValid ? (
-    roadworksMultiLines.map((item) => (
-      <React.Fragment key={item.properties.situationId}>
+  const renderLines = () => (areLinesValid ? (
+    roadworksLines.map(item => (
+      <React.Fragment key={item.id}>
         <Polyline
           weight={useContrast ? 10 : 8}
           pathOptions={useContrast ? whiteOptions : grayOptions}
-          positions={swapCoordsMulti(item.geometry.coordinates)}
+          positions={getLineCoordinates(item?.announcements[0]?.location?.geometry)}
         />
         <Marker
           icon={customIcon}
-          position={getSingleCoordinates(item.geometry.coordinates)}
+          position={parseLineAndGetSingleCoordinates(item?.announcements[0]?.location?.geometry)}
+        >
+          {renderContent(item)}
+        </Marker>
+      </React.Fragment>
+    ))
+  ) : null);
+
+  const renderMultiLines = () => (areMultiLinesValid ? (
+    roadworksMultiLines.map(item => (
+      <React.Fragment key={item.id}>
+        <Polyline
+          weight={useContrast ? 10 : 8}
+          pathOptions={useContrast ? whiteOptions : grayOptions}
+          positions={getMultiLineCoordinates(item?.announcements[0]?.location?.geometry)}
+        />
+        <Marker
+          icon={customIcon}
+          position={parseMultiAndGetSingleCoordinates(item?.announcements[0]?.location?.geometry)}
         >
           {renderContent(item)}
         </Marker>
