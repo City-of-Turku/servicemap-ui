@@ -67,11 +67,13 @@ const MobilityProfiles = () => {
 
   const blueColor = {
     color: 'rgba(7, 44, 115, 255)',
+    weight: 5,
     fillOpacity: 0.2,
   };
   const whiteColor = {
     color: 'rgba(255, 255, 255, 255)',
-    fillOpacity: 0.5,
+    fillOpacity: 0.3,
+    weight: 5,
     dashArray: '10 4 10',
   };
 
