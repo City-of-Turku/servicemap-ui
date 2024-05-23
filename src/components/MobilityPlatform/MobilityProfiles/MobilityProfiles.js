@@ -15,7 +15,9 @@ import martenContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon
 import capercaillieContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_capercaillie-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { isDataValid, createIcon } from '../utils/utils';
+import {
+  isDataValid, createIcon, blueOptionsBase, whiteOptionsBase,
+} from '../utils/utils';
 import { fetchPostCodeAreas, fetchMobilityProfilesData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import MobilityProfilesContent from './components/MobilityProfilesContent';
@@ -65,17 +67,15 @@ const MobilityProfiles = () => {
     return inputData;
   };
 
-  const blueColor = {
-    color: 'rgba(7, 44, 115, 255)',
+  const blueColor = blueOptionsBase({
     weight: 5,
     fillOpacity: 0.2,
-  };
-  const whiteColor = {
-    color: 'rgba(255, 255, 255, 255)',
+  });
+  const whiteColor = whiteOptionsBase({
     fillOpacity: 0.3,
     weight: 5,
     dashArray: '10 4 10',
-  };
+  });
 
   const pathOptions = useContrast ? whiteColor : blueColor;
   const renderData = isDataValid(showMobilityResults, filteredPostCodes);
