@@ -26,6 +26,9 @@ const MobilityProfilesContent = ({ postcodeArea, mobilityProfiles }) => {
     item => item.postal_code_string === postcodeArea.name.fi && item.postal_code_type_string === 'Home' && item.count >= 1,
   );
 
+  const sortByCount = data => data.slice().sort((a, b) => b.count - a.count);
+  const sortedMobilityProfiles = sortByCount(filteredMobilityProfiles);
+
   const iconClass = css({
     width: '30px',
     height: '30px',
@@ -65,8 +68,8 @@ const MobilityProfilesContent = ({ postcodeArea, mobilityProfiles }) => {
           {intl.formatMessage({ id: 'area.mobilityResults.postCodeArea' }, { value: postcodeArea.name.fi })}
         </Typography>
       </StyledHeaderContainer>
-      {filteredMobilityProfiles?.length
-        ? filteredMobilityProfiles.map(item => (
+      {sortedMobilityProfiles?.length
+        ? sortedMobilityProfiles.map(item => (
           <StyledFlexContainer key={item.id}>
             <StyledTextContainer>
               <ReactSVG src={getIconByTopic(item.result)} className={iconClass} />
