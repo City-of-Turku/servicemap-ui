@@ -72,7 +72,7 @@ const MobilityProfiles = () => {
     fillOpacity: 0.2,
   });
   const whiteColor = whiteOptionsBase({
-    fillOpacity: 0.3,
+    fillOpacity: 0.5,
     weight: 5,
     dashArray: '10 4 10',
   });
