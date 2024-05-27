@@ -169,7 +169,7 @@ const translations = {
   'area.mobilityResults.postCodeArea': 'Postcode area: {value}',
   'area.mobilityResults.empty': 'No mobility profiles were found.',
   'area.mobilityResults.info.text': 'The map shows general information about mobility profiles (for example Hassle-free Hare) in the Turku region divided by postcode areas. The information will be displayed when there are at least five responses in each profile. You can find out your mobility profile by taking the Turku mobility survey.',
-  'area.mobilityResults.link.text': 'turku.fi/mobilitytest (new tab)',
+  'area.mobilityResults.link.text': 'liikkumistesti.turku.fi (new tab)',
 
   'parkingArea.popup.residentName': 'Zone {letter}',
   'parkingArea.popup.payment1': 'Free parking',

@@ -172,7 +172,7 @@ const translations = {
   'area.mobilityResults.postCodeArea': 'Postnummerområd: {value}',
   'area.mobilityResults.empty': 'Inga mobilitetsprofiler hittades.',
   'area.mobilityResults.info.text': 'Kartan visas information om mobilitetsprofiler (till exempel Hinderfri Hare) i Åbo-området uppdelat efter postnummerområden. Informationen visas när det finns minst fem svar i varje profil. Genom att göra Åbos mobilitetsprofiltest kan du ta reda på vilken typ av rörlig person du är.',
-  'area.mobilityResults.link.text': 'turku.fi/mobilitetstest (ny flik)',
+  'area.mobilityResults.link.text': 'liikkumistesti.turku.fi (ny flik)',
 
   // TODO: translate all
   'parkingArea.popup.residentName': 'Zon {letter}',

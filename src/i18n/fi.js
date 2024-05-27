@@ -172,7 +172,7 @@ const translations = {
   'area.mobilityResults.postCodeArea': 'Postinumeroalue: {value}',
   'area.mobilityResults.empty': 'Liikkumisprofiileja ei löytynyt.',
   'area.mobilityResults.info.text': 'Kartalla näet tietoa Turun alueen liikkumisprofiileista (esimerkiksi Joustava Jänis) postinumeroalueittain jaettuna. Tiedot tulevat näkyviin, kun kussakin profiilissa on vähintään viisi vastausta. Vastaamalla Turun liikkumistestiin, voit selvittää millainen liikkuja olet.',
-  'area.mobilityResults.link.text': 'turku.fi/liikkumistesti (uusi välilehti)',
+  'area.mobilityResults.link.text': 'liikkumistesti.turku.fi (uusi välilehti)',
 
   'parkingArea.popup.residentName': 'Alue {letter}',
   'parkingArea.popup.payment1': 'Ilmainen pysäköinti',
