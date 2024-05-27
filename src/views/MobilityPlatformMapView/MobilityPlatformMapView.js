@@ -41,6 +41,7 @@ import ParkAndRideBikes from '../../components/MobilityPlatform/ParkAndRideStops
 import BarbecuePlaces from '../../components/MobilityPlatform/BarbecuePlaces';
 import AirportFlights from '../../components/MobilityPlatform/AirportFlights';
 import MobilityProfiles from '../../components/MobilityPlatform/MobilityProfiles';
+import PortInfo from '../../components/MobilityPlatform/PortInfo';
 
 const MobilityPlatformMapView = ({ mapObject }) => (
   <>
@@ -85,6 +86,7 @@ const MobilityPlatformMapView = ({ mapObject }) => (
     <BarbecuePlaces />
     <AirportFlights />
     <MobilityProfiles />
+    <PortInfo />
   </>
 );
 

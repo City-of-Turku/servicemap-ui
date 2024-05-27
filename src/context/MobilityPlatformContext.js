@@ -94,6 +94,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showBusStops, setShowBusStops] = useState(false);
   const [showRailwayStations, setShowRailwayStations] = useState(false);
   const [showAirports, setShowAirports] = useState(false);
+  const [showPortInfo, setShowPortInfo] = useState(false);
 
   // other
   const [showOutdoorGymDevices, setShowOutdoorGymDevices] = useState(false);
@@ -167,6 +168,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     showBusStops,
     showRailwayStations,
     showAirports,
+    showPortInfo,
     // other
     showOutdoorGymDevices,
     showPublicToilets,
@@ -240,6 +242,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setShowBusStops,
     setShowRailwayStations,
     setShowAirports,
+    setShowPortInfo,
     // other
     setShowOutdoorGymDevices,
     setShowPublicToilets,

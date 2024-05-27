@@ -19,6 +19,9 @@ const isMobilityTestApiUrl = !mobilityTestApiUrl || mobilityTestApiUrl === 'unde
 const roadworksApiUrl = config.roadworksAPI;
 const isRoadworksApiUrl = !roadworksApiUrl || roadworksApiUrl === 'undefined' ? null : roadworksApiUrl;
 
+const portNetApiUrl = config.portnetAPI;
+const isPortNetApiUrl = !portNetApiUrl || portNetApiUrl === 'undefined' ? null : portNetApiUrl;
+
 /**
  * Returns query options as a search params for URLs
  * @param {Object} options
@@ -167,6 +170,16 @@ const fetchMobilityProfilesData = async (setData, signal) => {
   }
 };
 
+const fetchPortNetData = async (endpoint, setData, signal) => {
+  try {
+    const response = await fetch(`${isPortNetApiUrl}/${endpoint}`, { signal });
+    const jsonData = await response.json();
+    setData(jsonData);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 export {
   fetchMobilityMapData,
   fetchCultureRouteNames,
@@ -180,4 +193,5 @@ export {
   fetchRoadworksData,
   fetchPostCodeAreas,
   fetchMobilityProfilesData,
+  fetchPortNetData,
 };

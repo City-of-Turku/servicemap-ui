@@ -814,6 +814,7 @@ const translations = {
   'mobilityPlatform.menu.show.parkAndRideBikes': 'Infartsparkering för cyklar',
   'mobilityPlatform.menu.show.barbecuePlaces': 'Grill- och eldningsplatser',
   'mobilityPlatform.menu.show.airPorts': 'Flygplats',
+  'mobilityPlatform.menu.show.portInfo': 'Åbo Hamn',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
