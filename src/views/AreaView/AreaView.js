@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { List, ListItem, Typography } from '@mui/material';
 import {
-  BusinessCenter, EscalatorWarning, LocationCity, Map,
+  BusinessCenter, DirectionsWalk, EscalatorWarning, LocationCity, Map,
 } from '@mui/icons-material';
 import { visuallyHidden } from '@mui/utils';
 import { focusDistrict, focusDistricts, useMapFocusDisabled } from '../MapView/utils/mapActions';
@@ -31,6 +31,7 @@ import StatisticalDistrictList from './components/StatisticalDistrictList';
 import useMobileStatus from '../../utils/isMobile';
 import MapUtility from '../../utils/mapUtility';
 import config from '../../../config';
+import MobilityResultTab from './components/MobilityResultTab';
 
 const AreaView = ({
   setSelectedDistrictType,
@@ -59,10 +60,10 @@ const AreaView = ({
   const history = useHistory();
   const isMobile = useMobileStatus();
   const addressDistrict = useSelector(getAddressDistrict);
-  const selectedDistrictType = useSelector((state) => state.districts.selectedDistrictType);
-  const districtsFetching = useSelector((state) => state.districts.districtsFetching);
+  const selectedDistrictType = useSelector(state => state.districts.selectedDistrictType);
+  const districtsFetching = useSelector(state => state.districts.districtsFetching);
   const getLocaleText = useLocaleText();
-  const openItems = useSelector((state) => state.districts.openItems);
+  const openItems = useSelector(state => state.districts.openItems);
   const selectedDistrictGeometry = selectedDistrictData[0]?.boundary;
 
   const searchParams = parseSearchParams(location.search);
@@ -76,8 +77,8 @@ const AreaView = ({
   const getInitialOpenItems = () => {
     if (selectedAreaType) {
       const category = dataStructure.find(
-        (data) => data.id === selectedAreaType
-        || data.districts.some((obj) => obj.id === selectedAreaType),
+        data => data.id === selectedAreaType
+        || data.districts.some(obj => obj.id === selectedAreaType),
       );
       return [category?.id];
     } return openItems;
@@ -89,7 +90,7 @@ const AreaView = ({
   // Pending request to focus map to districts. Executed once district data is loaded
   const [focusTo, setFocusTo] = useState(null);
 
-  const focusMapToDistrict = (district) => {
+  const focusMapToDistrict = district => {
     if (!mapFocusDisabled && map && district?.boundary) {
       focusDistrict(map, district.boundary.coordinates);
     }
@@ -101,12 +102,12 @@ const AreaView = ({
       lon: `${selectedAddress.location.coordinates[0]}`,
       page: 1,
       page_size: 200,
-      type: `${dataStructure.map((item) => item.districts.map((obj) => obj.id)).join(',')}`,
+      type: `${dataStructure.map(item => item.districts.map(obj => obj.id)).join(',')}`,
       geometry: true,
       unit_include: 'name,location',
     };
     await districtFetch(options)
-      .then((data) => {
+      .then(data => {
         setDistrictAddressData({
           address: selectedAddress,
           districts: data.results,
@@ -152,10 +153,10 @@ const AreaView = ({
   }, [selectedAddress]);
 
   useEffect(() => {
-    selectedSubdistricts.forEach((district) => {
+    selectedSubdistricts.forEach(district => {
       // Fetch geographical districts unless currently fetching or already fetched
       if (!unitsFetching.includes(district)
-        && !subdistrictUnits.some((unit) => unit.division_id === district)) {
+        && !subdistrictUnits.some(unit => unit.division_id === district)) {
         fetchDistrictUnitList(district);
       }
     });
@@ -172,7 +173,7 @@ const AreaView = ({
       } else if (focusTo === 'subdistricts') {
         if (selectedDistrictGeometry) {
           const filtetedDistricts = selectedDistrictData.filter(
-            (i) => selectedSubdistricts.includes(i.ocd_id),
+            i => selectedSubdistricts.includes(i.ocd_id),
           );
           setFocusTo(null);
           focusDistricts(map, filtetedDistricts);
@@ -209,11 +210,11 @@ const AreaView = ({
       }
 
       // Fetch and select area from url parameters
-      if (selectedArea && !dataStructure.some((obj) => obj.id === selectedArea)) {
+      if (selectedArea && !dataStructure.some(obj => obj.id === selectedArea)) {
         fetchDistricts(selectedAreaType);
         if (!embed) {
           const category = dataStructure.find(
-            (data) => data.districts.some((obj) => obj.id === selectedAreaType),
+            data => data.districts.some(obj => obj.id === selectedAreaType),
           );
           dispatch(handleOpenItems(category.id));
         } else {
@@ -228,7 +229,7 @@ const AreaView = ({
       if (searchParams.parkingSpaces) {
         const parkingAreas = searchParams.parkingSpaces.split(',');
         setSelectedParkingAreas(parkingAreas);
-        parkingAreas.forEach((area) => {
+        parkingAreas.forEach(area => {
           dispatch(fetchParkingAreaGeometry(area));
         });
       }
@@ -245,14 +246,14 @@ const AreaView = ({
       // Set selected geographical services from url parameters
       if (searchParams.services) {
         const services = searchParams.services.split(',');
-        const convertedServices = services.map((service) => parseInt(service, 10));
+        const convertedServices = services.map(service => parseInt(service, 10));
         setSelectedDistrictServices(convertedServices);
       }
 
       // Set address from url paramters
       if (searchParams.lat && searchParams.lng) {
         fetchAddress({ lat: searchParams.lat, lng: searchParams.lng })
-          .then((data) => setSelectedAddress(data));
+          .then(data => setSelectedAddress(data));
       }
     } else if (!districtData.length) { // Arriving to page first time, without url parameters
       fetchDistricts();
@@ -282,6 +283,10 @@ const AreaView = ({
     />
   );
 
+  const renderMobilityResultTab = () => (
+    <MobilityResultTab />
+  );
+
   const areaSectionSelection = (open, i) => {
     setAreaSelection(!open ? i : null);
     if (selectedDistrictType) {
@@ -308,7 +313,7 @@ const AreaView = ({
   const externalTheme = config.themePKG;
   const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
 
-  const filterCategories = (data) => data.reduce((acc, curr) => {
+  const filterCategories = data => data.reduce((acc, curr) => {
     if (curr.type !== 'statistic') {
       acc.push(curr);
     }
@@ -328,6 +333,12 @@ const AreaView = ({
         title: intl.formatMessage({ id: 'area.tab.geographical' }),
         icon: <LocationCity className={classes.icon} />,
         type: 'geographic',
+      },
+      {
+        component: renderMobilityResultTab(),
+        title: intl.formatMessage({ id: 'area.tab.mobilityTest.results' }),
+        icon: <DirectionsWalk className={classes.icon} />,
+        type: 'mobilityResults',
       },
       {
         component: <StatisticalDistrictList />,

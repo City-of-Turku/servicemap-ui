@@ -273,6 +273,7 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, emotionCss,
         window.nodeEnvSettings.ROADWORKS_API = "${process.env.ROADWORKS_API}";
         window.nodeEnvSettings.RAILWAYS_API = "${process.env.RAILWAYS_API}";
         window.nodeEnvSettings.AIR_MONITORING_API = "${process.env.AIR_MONITORING_API}";
+        window.nodeEnvSettings.MOBILITY_TEST_API = "${process.env.MOBILITY_TEST_API}";
         window.nodeEnvSettings.FEATURE_SERVICEMAP_PAGE_TRACKING = "${process.env.FEATURE_SERVICEMAP_PAGE_TRACKING}";
 
         window.appVersion = {};

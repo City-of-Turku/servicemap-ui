@@ -164,6 +164,12 @@ const translations = {
   'area.list.statistic.30-49': 'Age 30-49 years',
   'area.list.statistic.50-64': 'Age 50-64 years',
   'area.list.statistic.65+': 'Age over 64 years',
+  'area.tab.mobilityTest.results': 'Mobility profiles of Turku region',
+  'area.mobilityResults.toggle': 'Mobility profiles',
+  'area.mobilityResults.postCodeArea': 'Postcode area: {value}',
+  'area.mobilityResults.empty': 'No mobility profiles were found.',
+  'area.mobilityResults.info.text': 'The map shows general information about mobility profiles (for example Hassle-free Hare) in the Turku region divided by postcode areas. The information will be displayed when there are at least five responses in each profile. You can find out your mobility profile by taking the Turku mobility survey.',
+  'area.mobilityResults.link.text': 'liikkumistesti.turku.fi (new tab)',
 
   'parkingArea.popup.residentName': 'Zone {letter}',
   'parkingArea.popup.payment1': 'Free parking',

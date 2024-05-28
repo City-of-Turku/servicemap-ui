@@ -33,7 +33,6 @@ import {
 import StatisticalDistrictUnitList from '../StatisticalDistrictUnitList';
 import StatisticalDistrictListContent from './StatisticalDistrictListContent';
 
-
 const StatisticalDistrictListComponent = ({
   classes,
 }) => {
@@ -85,12 +84,12 @@ const StatisticalDistrictListComponent = ({
     }
   };
 
-  const renderLayers = (category) => {
+  const renderLayers = category => {
     let component = null;
     if (category?.layers) {
       const isForecast = category?.type === 'forecast';
       component = (
-        category.layers.map((layer) => {
+        category.layers.map(layer => {
           const selected = section === layer;
           const serviceTitle = formatMessage({ id: 'area.statisticalDistrict.service.filter' });
           const disableServicesAccordion = !Object.keys(selectedAreas).some(a => selectedAreas[a]);
@@ -174,7 +173,7 @@ const StatisticalDistrictListComponent = ({
       return (
         <List className={`${classes.listNoPadding} ${classes.listLevelTwo}`}>
           {
-            layerCategoryKeys.map((key) => {
+            layerCategoryKeys.map(key => {
               const layerCategory = layerCategories[key];
               const selected = layerCategory.type === selectedCategory;
               const titleText = `${formatMessage({ id: `area.list.statistic.${layerCategory.type}` })} ${layerCategory.year}`;
@@ -215,24 +214,21 @@ const StatisticalDistrictListComponent = ({
   };
 
   return (
-    <>
-      { isFetchingDistricts
-        ? (
-          <StyledLoadingContainer>
-            <Loading
-              reducer={{
-                isFetching: isFetchingDistricts,
-              }}
-            />
-          </StyledLoadingContainer>
-        ) : renderLayerCategories()
-      }
-    </>
+    isFetchingDistricts
+      ? (
+        <StyledLoadingContainer>
+          <Loading
+            reducer={{
+              isFetching: isFetchingDistricts,
+            }}
+          />
+        </StyledLoadingContainer>
+      ) : renderLayerCategories()
   );
 };
 
 StatisticalDistrictListComponent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default StatisticalDistrictListComponent;

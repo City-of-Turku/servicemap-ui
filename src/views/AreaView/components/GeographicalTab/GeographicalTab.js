@@ -43,8 +43,7 @@ const GeographicalTab = ({
     useSelector(state => state.districts.openItems).find(item => geographicalDistricts.includes(item)) || [],
   );
 
-
-  const setRadioButtonValue = (district) => {
+  const setRadioButtonValue = district => {
     if (!district.data.some(obj => obj.boundary)) {
       dispatch(fetchDistrictGeometry(district.name));
     }
@@ -58,7 +57,7 @@ const GeographicalTab = ({
     }
   };
 
-  const handleCategoryOpen = (id) => {
+  const handleCategoryOpen = id => {
     setOpenCategory(id);
     dispatch(handleOpenGeographicalCategory(id));
   };
@@ -93,7 +92,6 @@ const GeographicalTab = ({
     }
   }, [selectedDistrictType]);
 
-
   const renderAddressInfo = useCallback(() => {
     const localPostArea = localAddressData.districts.find(obj => obj.type === 'postcode_area');
     const localNeighborhood = localAddressData.districts.find(obj => obj.type === 'neighborhood');
@@ -118,7 +116,6 @@ const GeographicalTab = ({
     );
   }, [localAddressData]);
 
-
   const render = () => {
     const districtItems = districtData.filter(obj => geographicalDistricts.includes(obj.id));
     return (
@@ -130,7 +127,7 @@ const GeographicalTab = ({
           <FormattedMessage id="area.list" />
         </Typography>
         <List className={`${classes.listNoPadding} ${classes.listLevelTwo}`}>
-          {districtItems.map((district) => {
+          {districtItems.map(district => {
             const opened = openCategory === district.id;
             const selected = selectedDistrictType === district.id;
             return (

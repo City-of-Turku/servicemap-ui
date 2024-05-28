@@ -8,6 +8,14 @@ const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
 const railwaysApiUrl = config.railwaysAPI;
 const isRailwaysApiUrl = !railwaysApiUrl || railwaysApiUrl === 'undefined' ? null : railwaysApiUrl;
 
+const serviceMapApiUrlBase = config.serviceMapAPI.root;
+const serviceMapApiUrlVersion = config.serviceMapAPI.version;
+const serviceMapApiUrl = `${serviceMapApiUrlBase}${serviceMapApiUrlVersion}`;
+const isServiceMapApiUrl = !serviceMapApiUrlBase || serviceMapApiUrlBase === 'undefined' ? null : serviceMapApiUrl;
+
+const mobilityTestApiUrl = config.mobilityTestAPI;
+const isMobilityTestApiUrl = !mobilityTestApiUrl || mobilityTestApiUrl === 'undefined' ? null : mobilityTestApiUrl;
+
 const roadworksApiUrl = config.roadworksAPI;
 const isRoadworksApiUrl = !roadworksApiUrl || roadworksApiUrl === 'undefined' ? null : roadworksApiUrl;
 
@@ -63,7 +71,9 @@ const fetchBicycleRouteNames = async (setData, signal) => {
 
 const fetchBicycleRoutesGeometry = async (setData, signal) => {
   try {
-    const response = await fetch(`${isApiUrl}/bicycle_network/bicycle_networkparts/?page_size=1000&latlon=true`, { signal });
+    const response = await fetch(`${isApiUrl}/bicycle_network/bicycle_networkparts/?page_size=1000&latlon=true`, {
+      signal,
+    });
     const jsonData = await response.json();
     setData(jsonData.results);
   } catch (err) {
@@ -134,6 +144,29 @@ const fetchRoadworksData = async (options, setData, signal) => {
   }
 };
 
+const fetchPostCodeAreas = async (setData, signal) => {
+  try {
+    const response = await fetch(
+      `${isServiceMapApiUrl}/administrative_division/?type=postcode_area&geometry=true&page_size=100`,
+      { signal },
+    );
+    const jsonData = await response.json();
+    setData(jsonData.results);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
+const fetchMobilityProfilesData = async (setData, signal) => {
+  try {
+    const response = await fetch(`${isMobilityTestApiUrl}/?page_size=300`, { signal });
+    const jsonData = await response.json();
+    setData(jsonData.results);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 export {
   fetchMobilityMapData,
   fetchCultureRouteNames,
@@ -145,4 +178,6 @@ export {
   fetchParkingAreaStats,
   fetchRailwaysData,
   fetchRoadworksData,
+  fetchPostCodeAreas,
+  fetchMobilityProfilesData,
 };

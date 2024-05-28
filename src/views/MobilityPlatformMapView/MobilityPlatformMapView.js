@@ -40,6 +40,7 @@ import AirMonitoring from '../../components/MobilityPlatform/EnvironmentObservat
 import ParkAndRideBikes from '../../components/MobilityPlatform/ParkAndRideStops/ParkAndRideBikes';
 import BarbecuePlaces from '../../components/MobilityPlatform/BarbecuePlaces';
 import AirportFlights from '../../components/MobilityPlatform/AirportFlights';
+import MobilityProfiles from '../../components/MobilityPlatform/MobilityProfiles';
 
 const MobilityPlatformMapView = ({ mapObject }) => (
   <>
@@ -83,6 +84,7 @@ const MobilityPlatformMapView = ({ mapObject }) => (
     <ParkAndRideBikes />
     <BarbecuePlaces />
     <AirportFlights />
+    <MobilityProfiles />
   </>
 );
 
