@@ -4,6 +4,7 @@ import ServiceMapAPI from '../../utils/newFetch/ServiceMapAPI';
 import { getLocaleString } from '../selectors/locale';
 import { searchResults } from './fetchDataActions';
 import { isEmbed } from '../../utils/path';
+import config from '../../../config';
 
 // Actions
 const { isFetching, fetchSuccess, fetchProgressUpdateConcurrent } = searchResults;
@@ -57,6 +58,7 @@ const fetchSearchResults = (options = null) => async (dispatch, getState) => {
   const { locale } = getState().user;
   const { cities } = getState().settings;
   const citySettings = getCities(cities);
+  const municipalities = citySettings?.length ? citySettings?.join(',') : config.cities;
 
   const searchQuery = options.q
     || options.address
@@ -81,7 +83,7 @@ const fetchSearchResults = (options = null) => async (dispatch, getState) => {
   ];
   const fetchOptions = {
     ...options,
-    municipality: citySettings.join(','),
+    municipality: municipalities,
     language: locale,
     include: isEmbed() ? extraFields : null,
   };

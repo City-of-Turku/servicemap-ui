@@ -16,6 +16,7 @@ import useLocaleText from '../../utils/useLocaleText';
 import { getAddressText } from '../../utils/address';
 import { getCitySettings } from '../../redux/selectors/settings';
 import { focusToPosition } from '../../views/MapView/utils/mapActions';
+import config from '../../../config';
 
 const AddressSearchBar = ({ title, intl, handleAddressChange }) => {
   const getLocaleText = useLocaleText();
@@ -40,11 +41,12 @@ const AddressSearchBar = ({ title, intl, handleAddressChange }) => {
 
   const fetchAddressResults = async text => {
     const smAPI = new ServiceMapAPI();
+    const municipalities = citySettings?.length ? citySettings?.join(',') : config.cities;
     const fetchOptions = {
       page_size: suggestionCount,
       type: 'address',
       address_limit: suggestionCount,
-      municipality: citySettings.join(','),
+      municipality: municipalities,
       language: locale,
     };
     setIsFetching(true);
