@@ -25,10 +25,7 @@ import EmbedHTML from './components/EmbedHTML';
 import TopBar from '../../components/TopBar';
 import { CloseButton, SMButton } from '../../components';
 
-const hideCitiesIn = [
-  paths.unit.regex,
-  paths.address.regex,
-];
+const hideCitiesIn = [paths.unit.regex, paths.address.regex];
 
 const hideServicesIn = [
   paths.search.regex,
@@ -84,7 +81,18 @@ const EmbedderView = ({
   const getLocaleText = useLocaleText();
   const userLocale = useUserLocale();
 
-  const { showAccessibilityAreas, accessibilityAreasData } = useMobilityPlatformContext();
+  const {
+    showAccessibilityAreas,
+    accessibilityAreasData,
+    showChargingStations,
+    showBicycleStands,
+    showHullLockableStands,
+    showCityBikes,
+    showCargoBikes,
+    showRentalCars,
+    showOverpasses,
+    showUnderpasses,
+  } = useMobilityPlatformContext();
   const hasAccessibilityAreas = accessibilityAreasData.some(item => item?.extra?.kohde_ID === selectedUnit?.id);
 
   // States
@@ -92,9 +100,7 @@ const EmbedderView = ({
   const [map, setMap] = useState(defaultMap);
   const [city, setCity] = useState(defaultCities);
   const [service, setService] = useState(defaultService);
-  const [customWidth, setCustomWidth] = useState(
-    embedderConfig.DEFAULT_CUSTOM_WIDTH || 100,
-  );
+  const [customWidth, setCustomWidth] = useState(embedderConfig.DEFAULT_CUSTOM_WIDTH || 100);
   const [widthMode, setWidthMode] = useState('auto');
   const [fixedHeight, setFixedHeight] = useState(defaultFixedHeight);
   const [ratioHeight, setRatioHeight] = useState(initialRatio);
@@ -103,15 +109,15 @@ const EmbedderView = ({
   const [showUnits, setShowUnits] = useState(true);
   const [restrictBounds, setRestrictBounds] = useState(true);
   const [showUnitList, setShowUnitList] = useState('none');
-  const [chargingStation, setChargingStation] = useState(false);
-  const [cityBikes, setCityBikes] = useState(false);
-  const [cargoBikes, setCargoBikes] = useState(false);
-  const [rentalCars, setRentalCars] = useState(false);
-  const [bicycleStands, setBicycleStands] = useState(false);
-  const [frameLockable, setFrameLockable] = useState(false);
+  const [chargingStation, setChargingStation] = useState(showChargingStations);
+  const [cityBikes, setCityBikes] = useState(showCityBikes);
+  const [cargoBikes, setCargoBikes] = useState(showCargoBikes);
+  const [rentalCars, setRentalCars] = useState(showRentalCars);
+  const [bicycleStands, setBicycleStands] = useState(showBicycleStands);
+  const [frameLockable, setFrameLockable] = useState(showHullLockableStands);
   const [crossWalks, setCrossWalks] = useState(false);
-  const [underPass, setUnderpass] = useState(false);
-  const [overPass, setOverPass] = useState(false);
+  const [underPass, setUnderpass] = useState(showUnderpasses);
+  const [overPass, setOverPass] = useState(showOverpasses);
   const [publicBenches, setPublicBenches] = useState(false);
   const [accessibilityAreas, setAccessibilityAreas] = useState(showAccessibilityAreas.all);
   const [accessibilityAreasWalk, setAccessibilityAreasWalk] = useState(showAccessibilityAreas.walking);
@@ -212,50 +218,43 @@ const EmbedderView = ({
   };
 
   // Figure out embed html
-  const createEmbedHTML = useCallback(url => {
-    const showListBottom = showUnitList === 'bottom';
-    if (!url) {
-      return '';
-    }
-    const renderWrapperStyle = () => (showListBottom
-      ? `position: relative; width:100%; padding-bottom: max(${ratioHeight}%, ${minHeightWithBottomList});`
-      : `position: relative; width:100%; padding-bottom:${ratioHeight}%;`
-    );
-    let height;
-    let html;
-    if (heightMode === 'fixed') {
-      height = fixedHeight;
-    }
-    if (heightMode === 'ratio') {
-      if (widthMode === 'auto') {
-        html = `<div style="${renderWrapperStyle()}"><iframe title="${iframeTitle}" style="position: absolute; top: 0; left: 0; border: none; width: 100%; height: 100%;" src="${url}"></iframe></div>`;
-      } else {
-        height = parseInt(parseInt(customWidth, 10) * (parseInt(ratioHeight, 10) / 100.0), 10);
+  const createEmbedHTML = useCallback(
+    url => {
+      const showListBottom = showUnitList === 'bottom';
+      if (!url) {
+        return '';
       }
-    }
+      const renderWrapperStyle = () => (showListBottom
+        ? `position: relative; width:100%; padding-bottom: max(${ratioHeight}%, ${minHeightWithBottomList});`
+        : `position: relative; width:100%; padding-bottom:${ratioHeight}%;`);
+      let height;
+      let html;
+      if (heightMode === 'fixed') {
+        height = fixedHeight;
+      }
+      if (heightMode === 'ratio') {
+        if (widthMode === 'auto') {
+          html = `<div style="${renderWrapperStyle()}"><iframe title="${iframeTitle}" style="position: absolute; top: 0; left: 0; border: none; width: 100%; height: 100%;" src="${url}"></iframe></div>`;
+        } else {
+          height = parseInt(parseInt(customWidth, 10) * (parseInt(ratioHeight, 10) / 100.0), 10);
+        }
+      }
 
-    if (height) {
-      const width = widthMode !== 'custom'
-        ? iframeConfig.style
-            && iframeConfig.style.width
-            && iframeConfig.style.width
-        : customWidth;
-      const widthUnit = width !== '100%' ? 'px' : '';
-      const heightValue = showListBottom ? `height: max(${height}px, ${minHeightWithBottomList})` : `height: ${height}px`;
-      html = `<iframe title="${iframeTitle}" style="border: none; width: ${width}${widthUnit}; ${heightValue};"
+      if (height) {
+        const width = widthMode !== 'custom'
+          ? iframeConfig.style && iframeConfig.style.width && iframeConfig.style.width
+          : customWidth;
+        const widthUnit = width !== '100%' ? 'px' : '';
+        const heightValue = showListBottom
+          ? `height: max(${height}px, ${minHeightWithBottomList})`
+          : `height: ${height}px`;
+        html = `<iframe title="${iframeTitle}" style="border: none; width: ${width}${widthUnit}; ${heightValue};"
                   src="${url}"></iframe>`;
-    }
-    return html;
-  }, [
-    customWidth,
-    fixedHeight,
-    heightMode,
-    iframeTitle,
-    widthMode,
-    ratioHeight,
-    iframeConfig.style,
-    showUnitList,
-  ]);
+      }
+      return html;
+    },
+    [customWidth, fixedHeight, heightMode, iframeTitle, widthMode, ratioHeight, iframeConfig.style, showUnitList],
+  );
 
   const showCities = embedUrl => {
     if (typeof embedUrl !== 'string') {
@@ -292,9 +291,7 @@ const EmbedderView = ({
     const description = locale => intl.formatMessage({ id: `embedder.language.description.${locale}` });
     const languageControls = generateLabel => Object.keys(embedderConfig.LANGUAGES).map(lang => ({
       value: lang,
-      label: `${uppercaseFirst(
-        embedderConfig.LANGUAGES[userLocale][lang],
-      )}. ${generateLabel(lang)}`,
+      label: `${uppercaseFirst(embedderConfig.LANGUAGES[userLocale][lang])}. ${generateLabel(lang)}`,
     }));
 
     return (
@@ -479,22 +476,25 @@ const EmbedderView = ({
     );
   };
 
-  const renderMapControls = useCallback(() => (
-    <div className={classes.mapControlContainer}>
-      {/* Map bounds */}
-      <FormControlLabel
-        control={(
-          <Checkbox
-            color="primary"
-            checked={!!restrictBounds}
-            value="bounds"
-            onChange={() => setRestrictBounds(!restrictBounds)}
-          />
-        )}
-        label={(<FormattedMessage id="embedder.options.label.bbox" />)}
-      />
-    </div>
-  ), [restrictBounds]);
+  const renderMapControls = useCallback(
+    () => (
+      <div className={classes.mapControlContainer}>
+        {/* Map bounds */}
+        <FormControlLabel
+          control={(
+            <Checkbox
+              color="primary"
+              checked={!!restrictBounds}
+              value="bounds"
+              onChange={() => setRestrictBounds(!restrictBounds)}
+            />
+          )}
+          label={<FormattedMessage id="embedder.options.label.bbox" />}
+        />
+      </div>
+    ),
+    [restrictBounds],
+  );
 
   const renderMarkerOptionsControl = () => {
     const controls = [
@@ -638,8 +638,8 @@ const EmbedderView = ({
   };
 
   /**
- * Render unit list controls
- */
+   * Render unit list controls
+   */
   const renderListOptionsControl = () => {
     const controls = [
       { label: intl.formatMessage({ id: 'embedder.options.label.list.none' }), value: 'none' },
@@ -678,9 +678,7 @@ const EmbedderView = ({
     <>
       <TopBar smallScreen={false} hideButtons />
       <div ref={dialogRef}>
-        {
-          renderHeadInfo()
-        }
+        {renderHeadInfo()}
         <div className={classes.container}>
           <div className={classes.titleContainer}>
             <CloseButton
@@ -708,33 +706,15 @@ const EmbedderView = ({
               </Typography>
               <br />
               <form>
-                {
-                renderLanguageControl()
-              }
-                {
-                renderServiceControl()
-              }
-                {
-                renderMapTypeControl()
-              }
-                {
-                renderCityControl()
-              }
-                {
-                renderWidthControl()
-              }
-                {
-                renderHeightControl()
-              }
-                {
-                renderMarkerOptionsControl()
-              }
-                {
-                isExternalTheme ? renderMobilityDataControls() : null
-              }
-                {
-                renderListOptionsControl()
-              }
+                {renderLanguageControl()}
+                {renderServiceControl()}
+                {renderMapTypeControl()}
+                {renderCityControl()}
+                {renderWidthControl()}
+                {renderHeightControl()}
+                {renderMarkerOptionsControl()}
+                {isExternalTheme ? renderMobilityDataControls() : null}
+                {renderListOptionsControl()}
               </form>
             </div>
             <div>
