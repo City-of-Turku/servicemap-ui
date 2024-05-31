@@ -43,10 +43,12 @@ import { parseSearchParams } from '../../utils';
 import { fetchServiceUnits } from '../../redux/actions/services';
 import MapView from '../MapView';
 import Util from '../../utils/mapUtility';
+import useMobilityDataFetch from '../../components/MobilityPlatform/utils/useMobilityDataFetch';
+import { useMobilityPlatformContext } from '../../context/MobilityPlatformContext';
+import AccessibilityAreasInfo from './components/AccessibilityAreasInfo';
 
-const UnitView = (props) => {
+const UnitView = props => {
   const {
-    distance,
     stateUnit,
     intl,
     classes,
@@ -77,6 +79,45 @@ const UnitView = (props) => {
   const getLocaleText = useLocaleText();
   const dispatch = useDispatch();
 
+  // If external theme (by Turku) is true, then can be used to select which content to render
+  const externalTheme = config.themePKG;
+  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
+  const { setAccessibilityAreasData } = useMobilityPlatformContext();
+
+  const options = {
+    type_name: 'SchoolAndKindergartenAccessibilityArea',
+    latlon: true,
+    page_size: 150,
+  };
+
+  const isBasicEducation = unit?.service_names_en?.includes('Basic education');
+  const fetchAccessibiliyAreas = isExternalTheme && isBasicEducation;
+
+  /**
+   * Fetch unit (school) accessibility areas data
+   */
+  const { data: accessibilityAreas } = useMobilityDataFetch(options, fetchAccessibiliyAreas);
+
+  /**
+   * Filter unit accessibility areas based on unit id.
+   */
+  const filteredAreas = accessibilityAreas.filter(item => item?.extra?.kohde_ID === unit?.id);
+
+  /**
+   * Set unit accessibility areas data into state
+   */
+  useEffect(() => {
+    if (filteredAreas?.length) {
+      setAccessibilityAreasData(filteredAreas);
+    }
+  }, [filteredAreas.length]);
+
+  /**
+   * Check if unit id exists in accessibility areas data and return boolean value.
+   */
+  const hasAccessibilityAreas = accessibilityAreas.some(item => item?.extra?.kohde_ID === unit?.id);
+
   const map = useSelector(state => state.mapRef);
 
   const getImageAlt = () => `${intl.formatMessage({ id: 'unit.picture' })}${getLocaleText(unit.name)}`;
@@ -98,7 +139,7 @@ const UnitView = (props) => {
 
   const initializePTVAccessibilitySentences = () => {
     if (unit) {
-      unit.identifiers.forEach((element) => {
+      unit.identifiers.forEach(element => {
         if (element.namespace === 'ptv') {
           const ptvId = element.value;
           fetchAccessibilitySentences(ptvId);
@@ -112,7 +153,7 @@ const UnitView = (props) => {
     const unitId = params.unit;
     // If no selected unit data, or selected unit data is old, fetch new data
     if (!stateUnit || !checkCorrectUnit(stateUnit) || !stateUnit.complete) {
-      fetchSelectedUnit(unitId, (unit) => {
+      fetchSelectedUnit(unitId, unit => {
         setUnit(unit);
         if (unit?.keywords?.fi?.includes('kuuluvuuskartta')) {
           fetchHearingMaps(unitId);
@@ -355,6 +396,16 @@ const UnitView = (props) => {
     );
   };
 
+  const renderAccessibilityAreasTab = () => {
+    if (!unit || !unit.complete) {
+      return null;
+    }
+
+    return (
+      <AccessibilityAreasInfo />
+    );
+  };
+
   const renderHead = () => {
     if (!unit || !unit.complete) {
       return null;
@@ -392,7 +443,7 @@ const UnitView = (props) => {
         className={classes.mapButton}
         aria-label={intl.formatMessage({ id: 'map.button.expand.aria' })}
         icon={<StyledMapIcon />}
-        onClick={(e) => {
+        onClick={e => {
           e.preventDefault();
           if (navigator) {
             navigator.openMap();
@@ -409,6 +460,17 @@ const UnitView = (props) => {
     </div>
   );
 
+  /**
+   * Filter out the accessibility areas object from tabs if unit doesn't have them.
+   * @param {*} tabsData
+   * @returns array
+   */
+  const getTabsData = tabsData => {
+    if (hasAccessibilityAreas) {
+      return tabsData;
+    }
+    return tabsData.filter(item => item.id !== 'accessibilityZones');
+  };
 
   const render = () => {
     const title = unit && unit.name ? getLocaleText(unit.name) : '';
@@ -486,6 +548,14 @@ const UnitView = (props) => {
           itemsPerPage: null,
           title: intl.formatMessage({ id: 'service.tab' }),
         },
+        {
+          id: 'accessibilityZones',
+          ariaLabel: intl.formatMessage({ id: 'unit.accessibilityAreas' }),
+          component: renderAccessibilityAreasTab(),
+          data: null,
+          itemsPerPage: null,
+          title: intl.formatMessage({ id: 'unit.accessibilityAreas' }),
+        },
       ];
       return (
         <div>
@@ -506,7 +576,7 @@ const UnitView = (props) => {
             renderHead()
           }
           <TabLists
-            data={tabs}
+            data={getTabsData(tabs)}
             headerComponents={(
               <>
                 {TopArea}

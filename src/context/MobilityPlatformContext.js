@@ -22,6 +22,12 @@ const trafficCountersInitial = {
   driving: false,
 };
 
+const accessibilityAreasInitial = {
+  all: false,
+  walking: false,
+  cycling: false,
+};
+
 const MobilityPlatformContextProvider = ({ children }) => {
   // Check if mobility platform is open or not
   const [openMobilityPlatform, setOpenMobilityPlatform] = useState(false);
@@ -96,6 +102,10 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showAirports, setShowAirports] = useState(false);
   const [showPortInfo, setShowPortInfo] = useState(false);
 
+  // units
+  const [showAccessibilityAreas, setShowAccessibilityAreas] = useState(accessibilityAreasInitial);
+  const [accessibilityAreasData, setAccessibilityAreasData] = useState([]);
+
   // other
   const [showOutdoorGymDevices, setShowOutdoorGymDevices] = useState(false);
   const [showLoadingPlaces, setShowLoadingPlaces] = useState(false);
@@ -169,6 +179,9 @@ const MobilityPlatformContextProvider = ({ children }) => {
     showRailwayStations,
     showAirports,
     showPortInfo,
+    // units
+    showAccessibilityAreas,
+    accessibilityAreasData,
     // other
     showOutdoorGymDevices,
     showPublicToilets,
@@ -243,6 +256,9 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setShowRailwayStations,
     setShowAirports,
     setShowPortInfo,
+    // units
+    setShowAccessibilityAreas,
+    setAccessibilityAreasData,
     // other
     setShowOutdoorGymDevices,
     setShowPublicToilets,

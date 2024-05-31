@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { List, ListItem, Typography } from '@mui/material';
 import {
-  BikeScooter, BusinessCenter, EscalatorWarning, LocationCity, Map,
+  BusinessCenter, DirectionsWalk, EscalatorWarning, LocationCity, Map,
 } from '@mui/icons-material';
 import { visuallyHidden } from '@mui/utils';
 import { focusDistrict, focusDistricts, useMapFocusDisabled } from '../MapView/utils/mapActions';
@@ -337,7 +337,7 @@ const AreaView = ({
       {
         component: renderMobilityResultTab(),
         title: intl.formatMessage({ id: 'area.tab.mobilityTest.results' }),
-        icon: <BikeScooter className={classes.icon} />,
+        icon: <DirectionsWalk className={classes.icon} />,
         type: 'mobilityResults',
       },
       {

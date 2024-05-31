@@ -14,9 +14,9 @@ const isDataValid = (visibilityValue, data) => visibilityValue && data && data.l
  */
 const isObjValid = (visibilityValue, obj) => visibilityValue && obj && Object.entries(obj).length > 0;
 
-const createIcon = (icon) => ({
+const createIcon = (icon, isSmall) => ({
   iconUrl: icon,
-  iconSize: [45, 45],
+  iconSize: isSmall ? [35, 35] : [45, 45],
 });
 
 const whiteOptionsBase = (attrs = {}) => ({ color: 'rgba(255, 255, 255, 255)', ...attrs });
@@ -24,6 +24,7 @@ const blackOptionsBase = (attrs = {}) => ({ color: 'rgba(0, 0, 0, 255)', ...attr
 const blueOptionsBase = (attrs = {}) => ({ color: 'rgba(7, 44, 115, 255)', ...attrs });
 const redOptionsBase = (attrs = {}) => ({ color: 'rgba(251, 5, 21, 255)', ...attrs });
 const grayOptionsBase = (attrs = {}) => ({ color: 'rgba(64, 64, 64, 255)', ...attrs });
+const greenOptionsBase = (attrs = {}) => ({ color: 'rgba(15, 115, 6, 255)', ...attrs });
 
 /**
  * Return arrays of coordinates that fit markers inside map bounds
@@ -35,7 +36,7 @@ const grayOptionsBase = (attrs = {}) => ({ color: 'rgba(64, 64, 64, 255)', ...at
 const fitToMapBounds = (renderData, data, map) => {
   if (renderData) {
     const bounds = [];
-    data.forEach((item) => {
+    data.forEach(item => {
       bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
     });
     map.fitBounds(bounds);
@@ -52,7 +53,7 @@ const fitToMapBounds = (renderData, data, map) => {
 const fitPolygonsToBounds = (renderData, data, map) => {
   if (renderData) {
     const bounds = [];
-    data.forEach((item) => {
+    data.forEach(item => {
       bounds.push(item.geometry_coords);
     });
     map.fitBounds(bounds);
@@ -100,6 +101,7 @@ export {
   blueOptionsBase,
   redOptionsBase,
   grayOptionsBase,
+  greenOptionsBase,
   fitToMapBounds,
   fitPolygonsToBounds,
   setRender,

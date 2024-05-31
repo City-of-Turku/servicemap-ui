@@ -48,7 +48,7 @@ const CustomInput = withStyles(customStyles)(({
     setValue(initialValue);
   }, [initialValue]);
 
-  const inputOnChange = (e) => {
+  const inputOnChange = e => {
     setValue(e.target.value);
     if (onChange) {
       onChange(e, e.target.value);
@@ -81,7 +81,7 @@ const CustomInput = withStyles(customStyles)(({
               aria-label={buttonText}
               color="primary"
               className={classes.iconButton}
-              onClick={(e) => { buttonClick(e, value); }}
+              onClick={e => { buttonClick(e, value); }}
               variant="contained"
             >
               {buttonText}
@@ -121,10 +121,9 @@ const EmbedController = ({
       return null;
     }
     return (
-      <>
-        <FormGroup row role="group" aria-labelledby={checkboxLabelledBy}>
-          <List className={classes.list}>
-            {
+      <FormGroup row role="group" aria-labelledby={checkboxLabelledBy}>
+        <List className={classes.list}>
+          {
               checkboxControls.map(item => (
                 <ListItem className={classes.checkbox} key={item.key}>
                   <FormControlLabel
@@ -152,9 +151,8 @@ const EmbedController = ({
                 </ListItem>
               ))
             }
-          </List>
-        </FormGroup>
-      </>
+        </List>
+      </FormGroup>
     );
   };
 
