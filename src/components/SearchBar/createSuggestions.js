@@ -1,4 +1,5 @@
 import ServiceMapAPI from '../../utils/newFetch/ServiceMapAPI';
+import config from '../../../config';
 
 const createSuggestions = (
   query,
@@ -15,6 +16,7 @@ const createSuggestions = (
   const addressLimit = 1;
   const servicenodeLimit = 10;
   const pageSize = unitLimit + serviceLimit + addressLimit + servicenodeLimit;
+  const municipalities = citySettings?.length ? citySettings?.join(',') : config.cities;
 
   const additionalOptions = {
     page_size: pageSize,
@@ -23,6 +25,7 @@ const createSuggestions = (
     service_limit: serviceLimit,
     address_limit: addressLimit,
     servicenode_limit: servicenodeLimit,
+    municipality: municipalities,
     language: locale,
   };
 
@@ -32,10 +35,10 @@ const createSuggestions = (
 
   // Filter services with city settings
   if (citySettings.length) {
-    filteredResults = filteredResults.filter((result) => {
+    filteredResults = filteredResults.filter(result => {
       if (result.object_type === 'service' || result.object_type === 'servicenode') {
         let totalResultCount = 0;
-        citySettings.forEach((city) => {
+        citySettings.forEach(city => {
           if (result.unit_count?.municipality[city]) {
             totalResultCount += result.unit_count.municipality[city];
           }
@@ -46,9 +49,8 @@ const createSuggestions = (
     });
   }
 
-
   // Handle address results
-  filteredResults.forEach((item) => {
+  filteredResults.forEach(item => {
     if (item.object_type === 'address') {
       if (getLocaleText(item.name).toLowerCase() !== query.toLowerCase()) {
         item.name = item.street.name;

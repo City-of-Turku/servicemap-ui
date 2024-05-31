@@ -1,6 +1,6 @@
 // Link.react.test.js
 import React from 'react';
-import BarbecuePlacesContent from '../BarbecuePlacesContent';
+import BarbecuePlacesContent from '../index';
 import { getRenderWithProviders } from '../../../../../../../jestUtils';
 import finnishTranslations from '../../../../../../i18n/fi';
 

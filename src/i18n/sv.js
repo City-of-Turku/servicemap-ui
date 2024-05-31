@@ -245,6 +245,9 @@ const translations = {
   'embedder.map.aria.label': 'Välj bakgrundskarta',
   'embedder.options.title': 'Visa på kartan',
   'embedder.options.label.units': 'Visa verksamhetsställen',
+  'embedder.options.label.units.accessibilityAreas': 'Visa tillgänglighetsområden',
+  'embedder.options.label.units.accessibilityAreas.walk': 'Visa tillgänglighetsområden (promenad)',
+  'embedder.options.label.units.accessibilityAreas.bicycle': 'Visa tillgänglighetsområden (cykling)',
   'embedder.options.list.title': 'List med verksamhetsställen',
   'embedder.options.label.list.none': 'Ta bort listan med verksamhetsställen',
   'embedder.options.label.list.side': 'Visa verksamhetsställen som en lista (intill kartan)',
@@ -471,7 +474,7 @@ const translations = {
   'unit.details.notFound': 'Verksamhetsställets uppgifter finns inte att tillgå.',
   'unit.plural': 'Verksamhetsställen',
   'unit.distance': 'Avstånd',
-
+  'unit.accessibilityAreas': 'Tillgänglighetsområden',
   'unit.contact.info': 'Kontaktuppgifter',
   'unit.links': 'På webben',
   'unit.eServices': 'E-tjänster',
@@ -536,6 +539,14 @@ const translations = {
   'unit.outdoorLink': 'Kolla skicket på en motionsplats i tjänsten ulkoliikunta.fi',
   'unit.seo.description': 'Se läget på kartan',
   'unit.seo.description.accessibility': 'Se tillgänglighetsuppgifterna och läget på kartan',
+  'unit.accessibilityAreas.title': 'Tillgänglighetsområdena av skolor och daghem',
+  'unit.accessibilityAreas.description': 'Tillgänglighetsområdena berättar hur lång tid det tar att gå eller cykla till destinationen. Tiderna har beräknats med genomsnittliga barnhastigheter (gång 4 km/h, cykling 10 km/h).',
+  'unit.accessibilityAreas.all.label': 'Alla tillgänglighetsområdena',
+  'unit.accessibilityAreas.walking.label': 'Tillgänglighetsområdena (promenad)',
+  'unit.accessibilityAreas.cycling.label': 'Tillgänglighetsområdena (cykling)',
+  'unit.accessibilityAreas.content.subtitle': 'Tillgänglighetsområd:',
+  'unit.accessibilityAreas.content.transport': 'Transportsätt: {value}',
+  'unit.accessibilityAreas.content.duration': 'Beräknad varaktighet: {value} minuter',
 
   // Search
   'search': 'Sök',

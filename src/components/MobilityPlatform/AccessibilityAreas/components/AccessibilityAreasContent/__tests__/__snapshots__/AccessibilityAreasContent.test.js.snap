@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AccessibilityAreasContent /> should work 1`] = `
+<div>
+  <div>
+    <div
+      class="css-1ynyhby"
+    >
+      <div
+        class="css-1dznbe2"
+      >
+        <h4
+          class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
+        />
+      </div>
+      <div>
+        <div
+          class="css-1fhgjcy"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-subtitle2 css-chrj9w-MuiTypography-root"
+          >
+            Lähestymisalue:
+          </p>
+        </div>
+        <div
+          class="css-1fhgjcy"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+          >
+            Kulkumuto: Kävely
+          </p>
+        </div>
+        <div
+          class="css-1fhgjcy"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+          >
+            Arvioitu aika: 10 minuuttia
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

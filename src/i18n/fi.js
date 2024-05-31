@@ -244,6 +244,9 @@ const translations = {
   'embedder.map.aria.label': 'Valitse taustakartta',
   'embedder.options.title': 'Näytä kartalla',
   'embedder.options.label.units': 'Näytä toimipisteet',
+  'embedder.options.label.units.accessibilityAreas': 'Näytä lähestymisalueet',
+  'embedder.options.label.units.accessibilityAreas.walk': 'Näytä lähestymisalueet (kävely)',
+  'embedder.options.label.units.accessibilityAreas.bicycle': 'Näytä lähestymisalueet (pyöräily)',
   'embedder.options.list.title': 'Toimipistelista',
   'embedder.options.label.list.none': 'Piilota toimipistelista',
   'embedder.options.label.list.side': 'Näytä toimipisteet listana (kartan vieressä)',
@@ -470,7 +473,7 @@ const translations = {
   'unit.details.notFound': 'Toimipisteen tietoja ei saatavilla.',
   'unit.plural': 'Toimipisteet',
   'unit.distance': 'Etäisyys: ',
-
+  'unit.accessibilityAreas': 'Lähestymisalueet',
   'unit.contact.info': 'Yhteystiedot',
   'unit.links': 'Verkossa',
   'unit.eServices': 'Sähköinen asiointi',
@@ -536,6 +539,14 @@ const translations = {
   'unit.outdoorLink': 'Katso liikuntapaikan kunto ulkoliikunta.fi palvelusta',
   'unit.seo.description': 'Katso sijainti kartalla',
   'unit.seo.description.accessibility': 'Katso esteettömyystiedot ja sijainti kartalla',
+  'unit.accessibilityAreas.title': 'Koulujen ja päiväkotien lähestymisalueet',
+  'unit.accessibilityAreas.description': 'Lähestymisalueet kertovat, kuinka pitkä ajallinen etäisyys kohteeseen on kävellen tai pyöräillen. Ajat on laskettu keskimääräisillä lasten nopeuksilla (kävely 4 km/h, pyöräily 10 km/h).',
+  'unit.accessibilityAreas.all.label': 'Kaikki lähestymisalueet',
+  'unit.accessibilityAreas.walking.label': 'Lähestymisalueet (kävely)',
+  'unit.accessibilityAreas.cycling.label': 'Lähestymisalueet (pyöräily)',
+  'unit.accessibilityAreas.content.subtitle': 'Lähestymisalue:',
+  'unit.accessibilityAreas.content.transport': 'Kulkumuto: {value}',
+  'unit.accessibilityAreas.content.duration': 'Arvioitu aika: {value} minuuttia',
 
   // Search
   'search': 'Hae',

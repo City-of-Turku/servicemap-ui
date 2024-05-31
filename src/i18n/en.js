@@ -242,6 +242,9 @@ const translations = {
   'embedder.preview.title': 'Map preview',
   'embedder.options.title': 'Show on the map',
   'embedder.options.label.units': 'Show service points',
+  'embedder.options.label.units.accessibilityAreas': 'Show accessibility zones',
+  'embedder.options.label.units.accessibilityAreas.walk': 'Show accessibility zones (walking)',
+  'embedder.options.label.units.accessibilityAreas.bicycle': 'Show accessibility zones (cycling)',
   'embedder.options.list.title': 'List of service points',
   'embedder.options.label.list.none': 'Hide the list of service points',
   'embedder.options.label.list.side': 'Show service points as a list (beside the map)',
@@ -467,7 +470,7 @@ const translations = {
   'unit.details.notFound': 'Service point info not available.',
   'unit.plural': 'Service points',
   'unit.distance': 'Distance',
-
+  'unit.accessibilityAreas': 'Accessibility zones',
   'unit.contact.info': 'Contact information',
   'unit.links': 'Web sites',
   'unit.eServices': 'Electronic services',
@@ -532,6 +535,14 @@ const translations = {
   'unit.outdoorLink': 'Check the condition of an exercise location in the ulkoliikunta.fi service',
   'unit.seo.description': 'View service point on the map',
   'unit.seo.description.accessibility': 'View accessibility info and service point on the map',
+  'unit.accessibilityAreas.title': 'Accessibility zones of schools and daycares',
+  'unit.accessibilityAreas.description': 'Accessibility zones indicate how long it takes to reach a destination by walking or cycling. The times are calculated based on average speeds of children (walking 4 km/h, cycling 10 km/h).',
+  'unit.accessibilityAreas.all.label': 'All accessibility zones',
+  'unit.accessibilityAreas.walking.label': 'Accessibility zones (walking)',
+  'unit.accessibilityAreas.cycling.label': 'Accessibility zones (cycling)',
+  'unit.accessibilityAreas.content.subtitle': 'Accessibility zone:',
+  'unit.accessibilityAreas.content.transport': 'Mode of transport: {value}',
+  'unit.accessibilityAreas.content.duration': 'Estimated duration: {value} minutes',
 
   // Search
   'search': 'Search',
