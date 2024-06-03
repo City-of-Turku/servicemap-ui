@@ -31,7 +31,7 @@ exports[`<ParkingMachinesContent /> should match snapshot 1`] = `
           <p
             class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
           >
-            Maksu: 0,5 €/h €/t
+            Maksu: 0,5 €/h
           </p>
         </div>
         <div
