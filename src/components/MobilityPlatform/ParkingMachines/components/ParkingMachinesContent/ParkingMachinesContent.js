@@ -67,7 +67,7 @@ ParkingMachinesContent.propTypes = {
       maksutapa_fi: PropTypes.string,
       maksutapa_en: PropTypes.string,
       maksutapa_sv: PropTypes.string,
-      taksa: PropTypes.number,
+      taksa: PropTypes.string,
       muu_tieto_fi: PropTypes.string,
       muu_tieto_en: PropTypes.string,
       muu_tieto_sv: PropTypes.string,
