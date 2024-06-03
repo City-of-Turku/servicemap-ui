@@ -826,6 +826,7 @@ const translations = {
   'mobilityPlatform.menu.show.parkAndRideBikes': 'Liityntäpysäkit pyörille',
   'mobilityPlatform.menu.show.barbecuePlaces': 'Grillaus- ja tulentekopaikat',
   'mobilityPlatform.menu.show.airPorts': 'Lentoasema',
+  'mobilityPlatform.menu.show.parkingGarages': 'Pysäköintihallit',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',

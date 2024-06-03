@@ -174,6 +174,8 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowBarbecuePlaces,
     showAirports,
     setShowAirports,
+    showParkingGarages,
+    setShowParkingGarages,
   } = useMobilityPlatformContext();
 
   const locale = useSelector(state => state.user.locale);
@@ -405,6 +407,7 @@ const MobilitySettingsView = ({ navigator }) => {
     checkVisibilityValues(showParkingMachines, setOpenCarSettings);
     checkVisibilityValues(showPublicParking, setOpenCarSettings);
     checkVisibilityValues(showRentalCarParking, setOpenCarSettings);
+    checkVisibilityValues(showParkingGarages, setOpenCarSettings);
   }, [
     showRentalCars,
     showGasFillingStations,
@@ -416,6 +419,7 @@ const MobilitySettingsView = ({ navigator }) => {
     showParkingMachines,
     showPublicParking,
     showRentalCarParking,
+    showParkingGarages,
   ]);
 
   useEffect(() => {
@@ -792,6 +796,10 @@ const MobilitySettingsView = ({ navigator }) => {
 
   const barbecuePlacesToggle = () => {
     setShowBarbecuePlaces(current => !current);
+  };
+
+  const parkingGaragesToggle = () => {
+    setShowParkingGarages(current => !current);
   };
 
   const cultureRouteListToggle = () => {
@@ -1258,6 +1266,12 @@ const MobilitySettingsView = ({ navigator }) => {
       msgId: 'mobilityPlatform.menu.show.publicParking',
       checkedValue: showPublicParking,
       onChangeValue: publicParkingToggle,
+    },
+    {
+      type: 'parkingGarages',
+      msgId: 'mobilityPlatform.menu.show.parkingGarages',
+      checkedValue: showParkingGarages,
+      onChangeValue: parkingGaragesToggle,
     },
     {
       type: 'disabledParking',
