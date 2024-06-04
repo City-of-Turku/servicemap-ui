@@ -2,8 +2,8 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
-import parkingMachineIcon from 'servicemap-ui-turku/assets/icons/icons-icon_parking_machine.svg';
-import parkingMachineIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_parking_machine-bw.svg';
+import parkingSpaceIcon from 'servicemap-ui-turku/assets/icons/icons-icon_parking_space.svg';
+import parkingSpaceIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_parking_space-bw.svg';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
@@ -11,8 +11,7 @@ import { createIcon, isDataValid, fitToMapBounds } from '../../utils/utils';
 import MarkerComponent from '../../MarkerComponent';
 import ParkingGarageContent from './components/ParkingGarageContent';
 
-// TODO Change icon
-
+/** Shows parking garages on the map in marker form */
 const ParkingGarages = () => {
   const options = {
     type_name: 'ParkingGarage',
@@ -25,7 +24,7 @@ const ParkingGarages = () => {
   const useContrast = useSelector(useAccessibleMap);
 
   const { icon } = global.L;
-  const customIcon = icon(createIcon(useContrast ? parkingMachineIconContrast : parkingMachineIcon));
+  const customIcon = icon(createIcon(useContrast ? parkingSpaceIconContrast : parkingSpaceIcon));
 
   const { data } = useMobilityDataFetch(options, showParkingGarages);
   const renderData = isDataValid(showParkingGarages, data);
