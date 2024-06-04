@@ -42,7 +42,7 @@ import BarbecuePlaces from '../../components/MobilityPlatform/BarbecuePlaces';
 import AirportFlights from '../../components/MobilityPlatform/AirportFlights';
 import MobilityProfiles from '../../components/MobilityPlatform/MobilityProfiles';
 import AccessibilityAreas from '../../components/MobilityPlatform/AccessibilityAreas';
-import ParkingGarages from '../../components/MobilityPlatform/ParkingGarages';
+import ParkingGarages from '../../components/MobilityPlatform/Parking/ParkingGarages';
 
 const MobilityPlatformMapView = ({ mapObject }) => (
   <>
