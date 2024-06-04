@@ -9,8 +9,9 @@ import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
 import { createIcon, isDataValid, fitToMapBounds } from '../../utils/utils';
 import MarkerComponent from '../../MarkerComponent';
+import ParkingGarageContent from './components/ParkingGarageContent';
 
-// TODO Change icon & render relevant info
+// TODO Change icon
 
 const ParkingGarages = () => {
   const options = {
@@ -41,7 +42,7 @@ const ParkingGarages = () => {
           item={item}
           icon={customIcon}
         >
-          <p>{item.name}</p>
+          <ParkingGarageContent item={item} />
         </MarkerComponent>
       ))
     ) : null
