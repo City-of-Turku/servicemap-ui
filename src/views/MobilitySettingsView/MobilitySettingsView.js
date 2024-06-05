@@ -1603,6 +1603,11 @@ const MobilitySettingsView = ({ navigator }) => {
       component: <InfoTextBox infoText="mobilityPlatform.info.publicParkingSpaces" />,
     },
     {
+      visible: showParkingGarages,
+      type: 'parkingGaragesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.parkingGarages" />,
+    },
+    {
       visible: showDisabledParking,
       type: 'disabledParking',
       component: <InfoTextBox infoText="mobilityPlatform.info.disabledParking" />,

@@ -1012,6 +1012,7 @@ const translations = {
   'mobilityPlatform.info.parkAndRideBicycles': 'Infartsparkeringen erbjuder möjlighet att lämna din egen cykel på parkeringsplatsen och fortsätta resan med buss. Inom Föli-området finns flera infartsparkeringsplatser för cyklar. Infartsparkeringen är gratis och endast avsedd för dem som fortsätter sin resa med kollektivtrafik.',
   'mobilityPlatform.info.barbecuePlaces': 'Kartan visar eldnings- och grillplatser i Åbo. Det är tillåtet att göra upp öppen eld endast vid särskilt avsedda eldningsplatser. Att göra upp eld på andra platser är förbjudet.',
   'mobilityPlatform.info.airport': 'Kartan visar Åbo flygplats och flygtidtabeller för den aktuella dagen. Flygtrafiken är uppdelad i flyg som avgår från och ankommer till flygplatsen. Uppgifterna kommer från Finavias gränssnitt.',
+  'mobilityPlatform.info.parkingGarages': 'Allmänna parkeringsgaragen visas på kartan. Det finns dock ingen information om deras utnyttjandegrad. Mer detaljerad information om det valda parkeringsgarage kan läsas genom att trycka på ikon på kartan.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',
