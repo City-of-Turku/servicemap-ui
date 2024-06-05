@@ -918,7 +918,7 @@ const translations = {
   'mobilityPlatform.content.publicParking.totalTime': 'Parking time limit: {value} hours',
   'mobilityPlatform.content.parkingMachine.title': 'Parking machine',
   'mobilityPlatform.content.parkingMachine.location': 'Location: {value}',
-  'mobilityPlatform.content.parkingMachine.payment': 'Charge: {value} €/h',
+  'mobilityPlatform.content.parkingMachine.payment': 'Charge: {value}',
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Payment methods: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Additional info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Crosswalk',

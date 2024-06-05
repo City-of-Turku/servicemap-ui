@@ -23,7 +23,17 @@ const ParkingMachinesContent = ({ item }) => {
     sv: item.address_sv,
   };
 
-  const formatPrice = price => price.toString().replace('.', ',');
+  const paymentType = {
+    fi: item.extra.maksutapa_fi,
+    en: item.extra.maksutapa_en,
+    sv: item.extra.maksutapa_sv,
+  };
+
+  const otherInfo = {
+    fi: item.extra.muu_tieto_fi,
+    en: item.extra.muu_tieto_en,
+    sv: item.extra.muu_tieto_sv,
+  };
 
   const parkingMachineInfo = (
     <StyledContainer>
@@ -33,11 +43,10 @@ const ParkingMachinesContent = ({ item }) => {
         </Typography>
       </StyledHeaderContainer>
       <div>
-        {item.address_fi ? <TextComponent messageId="mobilityPlatform.content.address" textObj={machineAddress} /> : null}
-        <TextComponent messageId="mobilityPlatform.content.parkingMachine.location" textObj={item.extra.Sijainti} />
-        {singleValText('mobilityPlatform.content.parkingMachine.payment', formatPrice(item.extra['Taksa/h']))}
-        <TextComponent messageId="mobilityPlatform.content.parkingMachine.paymentTypes" textObj={item.extra.Maksutapa} />
-        {item.extra.Muuta ? singleValText('mobilityPlatform.content.parkingMachine.otherInfo', item.extra.Muuta) : null}
+        {item?.address_fi ? <TextComponent messageId="mobilityPlatform.content.address" textObj={machineAddress} /> : null}
+        {singleValText('mobilityPlatform.content.parkingMachine.payment', item?.extra?.taksa)}
+        <TextComponent messageId="mobilityPlatform.content.parkingMachine.paymentTypes" textObj={paymentType} />
+        {item?.extra?.muu_tieto_fi ? <TextComponent messageId="mobilityPlatform.content.parkingMachine.otherInfo" textObj={otherInfo} /> : null}
       </div>
     </StyledContainer>
   );
@@ -55,10 +64,13 @@ ParkingMachinesContent.propTypes = {
     address_en: PropTypes.string,
     address_sv: PropTypes.string,
     extra: PropTypes.shape({
-      Sijainti: PropTypes.objectOf(PropTypes.string),
-      Maksutapa: PropTypes.objectOf(PropTypes.string),
-      'Taksa/h': PropTypes.number,
-      Muuta: PropTypes.string,
+      maksutapa_fi: PropTypes.string,
+      maksutapa_en: PropTypes.string,
+      maksutapa_sv: PropTypes.string,
+      taksa: PropTypes.string,
+      muu_tieto_fi: PropTypes.string,
+      muu_tieto_en: PropTypes.string,
+      muu_tieto_sv: PropTypes.string,
     }),
   }),
 };

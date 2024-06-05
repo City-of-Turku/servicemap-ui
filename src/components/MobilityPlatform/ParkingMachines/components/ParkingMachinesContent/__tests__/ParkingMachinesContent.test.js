@@ -11,18 +11,13 @@ const mockProps = {
     address_en: 'address',
     address_sv: 'addres',
     extra: {
-      Sijainti: {
-        en: 'On-street',
-        fi: 'Katuosa',
-        sv: 'Gata',
-      },
-      'Taksa/h': '1.8',
-      Maksutapa: {
-        en: 'Coin, card, contactless',
-        fi: 'Kolikko, kortti, lähimaksu',
-        sv: 'Mynt, kort, kontaktlös',
-      },
-      Muuta: 'Testiteksti',
+      taksa: '0,5 €/h',
+      maksutapa_en: 'Coin, card, contactless',
+      maksutapa_fi: 'Kolikko, kortti, lähimaksu',
+      maksutapa_sv: 'Mynt, kort, kontaktlös',
+      muu_tieto_en: 'Tariff 0,5 €/h first 8h, 0,2 €/h time over 8h',
+      muu_tieto_fi: 'Taksa 0,5€/h ensimmäiset 8h, 0,2€/h aika yli 8h',
+      muu_tieto_sv: 'Taxa 0,5 €/t första 8t, 0,2 €/t efter 8t',
     },
   },
 };
@@ -44,9 +39,8 @@ describe('<ParkingMachinesContent />', () => {
     const p = container.querySelectorAll('p');
     expect(h3[0].textContent).toContain(finnishTranslations['mobilityPlatform.content.parkingMachine.title']);
     expect(p[0].textContent).toContain(`Osoite: ${mockProps.item.address_fi}`);
-    expect(p[1].textContent).toContain(`Sijainti: ${mockProps.item.extra.Sijainti.fi}`);
-    expect(p[2].textContent).toContain('Maksu: 1,8 €/t');
-    expect(p[3].textContent).toContain(`Maksutavat: ${mockProps.item.extra.Maksutapa.fi}`);
-    expect(p[4].textContent).toContain(`Lisätietoja: ${mockProps.item.extra.Muuta}`);
+    expect(p[1].textContent).toContain('Maksu: 0,5 €/h');
+    expect(p[2].textContent).toContain(`Maksutavat: ${mockProps.item.extra.maksutapa_fi}`);
+    expect(p[3].textContent).toContain(`Lisätietoja: ${mockProps.item.extra.muu_tieto_fi}`);
   });
 });

@@ -922,7 +922,7 @@ const translations = {
   'mobilityPlatform.content.publicParking.totalTime': 'Parkeringstidsgräns: {value} timmar',
   'mobilityPlatform.content.parkingMachine.title': 'Parkeringsautomat',
   'mobilityPlatform.content.parkingMachine.location': 'Plats: {value}',
-  'mobilityPlatform.content.parkingMachine.payment': 'För en avgift: {value} €/h',
+  'mobilityPlatform.content.parkingMachine.payment': 'För en avgift: {value}',
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Betalningstyper: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Ytterligare info: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Övergångställe',

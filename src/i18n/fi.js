@@ -913,7 +913,7 @@ const translations = {
   'mobilityPlatform.content.publicParking.totalTime': 'Pysäköinnin enimmäisaika: {value} tuntia',
   'mobilityPlatform.content.parkingMachine.title': 'Pysäköintiautomaatti',
   'mobilityPlatform.content.parkingMachine.location': 'Sijainti: {value}',
-  'mobilityPlatform.content.parkingMachine.payment': 'Maksu: {value} €/t',
+  'mobilityPlatform.content.parkingMachine.payment': 'Maksu: {value}',
   'mobilityPlatform.content.parkingMachine.paymentTypes': 'Maksutavat: {value}',
   'mobilityPlatform.content.parkingMachine.otherInfo': 'Lisätietoja: {value}',
   'mobilityPlatform.content.crosswalks.title': 'Suojatie',
