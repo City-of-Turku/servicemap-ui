@@ -938,6 +938,8 @@ const translations = {
   'mobilityPlatform.content.airport.cities.gdansk': 'Gdańskiin',
   'mobilityPlatform.content.airport.cities.rome': 'Roomaan',
   'mobilityPlatform.content.airport.cities.rhodes': 'Ródokselle',
+  'mobilityPlatform.content.portInfo.arrivals': 'Saapuvat laivat:',
+  'mobilityPlatform.content.portInfo.departing': 'Lähtevät laivat:',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',

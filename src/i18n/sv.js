@@ -947,6 +947,8 @@ const translations = {
   'mobilityPlatform.content.airport.cities.gdansk': 'Till Gdańsk',
   'mobilityPlatform.content.airport.cities.rome': 'Till Rom',
   'mobilityPlatform.content.airport.cities.rhodes': 'Till Rhodos',
+  'mobilityPlatform.content.portInfo.arrivals': 'Ankommande fartyg:',
+  'mobilityPlatform.content.portInfo.departing': 'Avgående fartyg:',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',

@@ -943,6 +943,8 @@ const translations = {
   'mobilityPlatform.content.airport.cities.gdansk': 'To Gdańsk',
   'mobilityPlatform.content.airport.cities.rome': 'To Rome',
   'mobilityPlatform.content.airport.cities.rhodes': 'To Rhodes',
+  'mobilityPlatform.content.portInfo.arrivals': 'Incoming ships:',
+  'mobilityPlatform.content.portInfo.departing': 'Departing ships:',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Route description',

@@ -9,9 +9,11 @@ import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchPortNetData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid } from '../utils/utils';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
+import PortInfoContent from './components/PortInfoContent';
 
 const PortInfo = () => {
   const [portInfoData, setPortInfoData] = useState({});
+  const [portVisitsDataObj, setPortVisitsDataObj] = useState({});
 
   const { showPortInfo } = useMobilityPlatformContext();
 
@@ -21,7 +23,6 @@ const PortInfo = () => {
   const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
-
   const customIcon = icon(createIcon(useContrast ? ferryIconBw : ferryIcon));
 
   useEffect(() => {
@@ -29,12 +30,16 @@ const PortInfo = () => {
     const { signal } = controller;
     if (showPortInfo) {
       fetchPortNetData('ports/FITKU', setPortInfoData, signal);
+      fetchPortNetData('port-calls', setPortVisitsDataObj, signal);
     }
     return () => controller.abort();
   }, [showPortInfo]);
 
+  const portName = 'Matkustajasatama';
   const portAreasData = portInfoData?.portAreas?.features;
-  const portAreasDataTku = portAreasData?.filter(item => item?.properties?.portAreaName === 'Matkustajasatama');
+  const portAreasDataTku = portAreasData?.filter(item => item?.properties?.portAreaName === portName);
+  const portCallsData = portVisitsDataObj?.portCalls;
+  const portCallsDataTku = portCallsData?.filter(item => item?.portAreaDetails[0]?.portAreaName === portName);
 
   const renderData = isDataValid(showPortInfo, portAreasDataTku);
 
@@ -58,9 +63,7 @@ const PortInfo = () => {
         <StyledPopupWrapper>
           <Popup className="popup-w350">
             <StyledPopupInner>
-              <p>
-                {item?.properties?.portAreaName}
-              </p>
+              <PortInfoContent portItem={item} portCalls={portCallsDataTku} />
             </StyledPopupInner>
           </Popup>
         </StyledPopupWrapper>
