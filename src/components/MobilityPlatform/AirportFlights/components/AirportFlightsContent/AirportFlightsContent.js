@@ -38,7 +38,7 @@ const AirportFlightsContent = ({ arrivals, departees }) => {
         return intl.formatMessage({ id: 'mobilityPlatform.content.airport.cities.gdansk' });
       case 'Rome':
         return intl.formatMessage({ id: 'mobilityPlatform.content.airport.cities.rome' });
-      case 'Rhodes':
+      case 'Rhodos':
         return intl.formatMessage({ id: 'mobilityPlatform.content.airport.cities.rhodes' });
       default:
         return cityStr;
