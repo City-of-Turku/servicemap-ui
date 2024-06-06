@@ -13,26 +13,30 @@ const PortInfoContent = ({ portItem, portCalls }) => {
 
   const formatDateTime = dateTimeValue => format(new Date(dateTimeValue), 'dd.MM (HH:mm)');
 
+  const renderText = msgId => (
+    <StyledTextContainer>
+      <Typography variant="subtitle1" component="h5">
+        {intl.formatMessage({ id: msgId })}
+      </Typography>
+    </StyledTextContainer>
+  );
+
+  const renderValue = value => (
+    <StyledTextContainer>
+      <Typography variant="body2" component="p">
+        {value}
+      </Typography>
+    </StyledTextContainer>
+  );
+
   const renderArrivals = () => (
     <div>
-      <StyledTextContainer>
-        <Typography variant="subtitle1" component="h5">
-          {intl.formatMessage({ id: 'mobilityPlatform.content.portInfo.arrivals' })}
-        </Typography>
-      </StyledTextContainer>
+      {renderText('mobilityPlatform.content.portInfo.arrivals')}
       {portCalls?.map(item => (
-        <StyledFlexContainer>
+        <StyledFlexContainer key={item.portCallTimestamp}>
           <FerryIcon color="rgba(7, 44, 115, 255)" className="icon-icon-hsl-ferry" />
-          <StyledTextContainer>
-            <Typography variant="body2" component="p">
-              {item.vesselName}
-            </Typography>
-          </StyledTextContainer>
-          <StyledTextContainer>
-            <Typography variant="body2" component="p">
-              {formatDateTime(item.portAreaDetails[0].eta)}
-            </Typography>
-          </StyledTextContainer>
+          {renderValue(item.vesselName)}
+          {renderValue(formatDateTime(item.portAreaDetails[0].eta))}
         </StyledFlexContainer>
       ))}
     </div>
@@ -40,24 +44,12 @@ const PortInfoContent = ({ portItem, portCalls }) => {
 
   const renderDeparting = () => (
     <div>
-      <StyledTextContainer>
-        <Typography variant="subtitle1" component="h5">
-          {intl.formatMessage({ id: 'mobilityPlatform.content.portInfo.departing' })}
-        </Typography>
-      </StyledTextContainer>
+      {renderText('mobilityPlatform.content.portInfo.departing')}
       {portCalls?.map(item => (
-        <StyledFlexContainer>
+        <StyledFlexContainer key={item.portCallId}>
           <FerryIcon color="rgba(7, 44, 115, 255)" className="icon-icon-hsl-ferry" />
-          <StyledTextContainer>
-            <Typography variant="body2" component="p">
-              {item.vesselName}
-            </Typography>
-          </StyledTextContainer>
-          <StyledTextContainer>
-            <Typography variant="body2" component="p">
-              {formatDateTime(item.portAreaDetails[0].etd)}
-            </Typography>
-          </StyledTextContainer>
+          {renderValue(item.vesselName)}
+          {renderValue(formatDateTime(item.portAreaDetails[0].etd))}
         </StyledFlexContainer>
       ))}
     </div>
@@ -96,7 +88,13 @@ PortInfoContent.propTypes = {
     }),
   }),
   portCalls: PropTypes.arrayOf(PropTypes.shape({
+    portCallId: PropTypes.number,
+    portCallTimestamp: PropTypes.string,
     vesselName: PropTypes.string,
+    portAreaDetails: PropTypes.arrayOf(PropTypes.shape({
+      eta: PropTypes.string,
+      etd: PropTypes.string,
+    })),
   })),
 };
 
