@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
+import { subDays, addDays, format } from 'date-fns';
 import ferryIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ferry.svg';
 import ferryIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ferry-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
@@ -25,12 +26,21 @@ const PortInfo = () => {
   const useContrast = useSelector(useAccessibleMap);
   const customIcon = icon(createIcon(useContrast ? ferryIconBw : ferryIcon));
 
+  const yesterday = subDays(new Date(), 1);
+  const tomorrow = addDays(new Date(), 1);
+  const yesterdayStr = format(yesterday, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+  const tomorrowStr = format(tomorrow, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
   useEffect(() => {
     const controller = new AbortController();
     const { signal } = controller;
     if (showPortInfo) {
       fetchPortNetData('ports/FITKU', setPortInfoData, signal);
-      fetchPortNetData('port-calls', setPortVisitsDataObj, signal);
+      fetchPortNetData(
+        `port-calls?from=${yesterdayStr}&to=${tomorrowStr}&vesselTypeCode=20`,
+        setPortVisitsDataObj,
+        signal,
+      );
     }
     return () => controller.abort();
   }, [showPortInfo]);
