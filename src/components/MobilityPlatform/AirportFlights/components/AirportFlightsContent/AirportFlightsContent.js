@@ -9,6 +9,7 @@ import planeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_airplane-squa
 import {
   StyledContainer, StyledHeaderContainer, StyledFlexContainer, StyledTextContainer,
 } from '../../../styled/styled';
+import DateTimeText from '../../../DateTimeText';
 
 const AirportFlightsContent = ({ arrivals, departees }) => {
   const intl = useIntl();
@@ -21,7 +22,6 @@ const AirportFlightsContent = ({ arrivals, departees }) => {
 
   const currentDate = new Date();
   const formatDate = dateValue => format(new Date(dateValue), 'MM-dd');
-  const formatDateTime = dateTimeValue => format(new Date(dateTimeValue), 'dd.MM HH:mm');
 
   const filterArrivals = arrivals.filter(item => item.sdt.includes(formatDate(currentDate)));
   const filterDepartees = departees.filter(item => item.sdt.includes(formatDate(currentDate)));
@@ -53,6 +53,14 @@ const AirportFlightsContent = ({ arrivals, departees }) => {
     </StyledTextContainer>
   );
 
+  const renderValueText = value => (
+    <StyledTextContainer>
+      <Typography variant="body2" component="p">
+        {value}
+      </Typography>
+    </StyledTextContainer>
+  );
+
   return (
     <StyledContainer>
       <StyledHeaderContainer>
@@ -70,21 +78,9 @@ const AirportFlightsContent = ({ arrivals, departees }) => {
             <StyledTextContainer>
               <ReactSVG src={planeIcon} className={iconClass} />
             </StyledTextContainer>
-            <StyledTextContainer>
-              <Typography variant="body2" component="p">
-                {item.fltnr}
-              </Typography>
-            </StyledTextContainer>
-            <StyledTextContainer>
-              <Typography variant="body2" component="p">
-                {getLocalizedCities(item.route_n_1)}
-              </Typography>
-            </StyledTextContainer>
-            <StyledTextContainer>
-              <Typography variant="body2" component="p">
-                {formatDateTime(item.sdt)}
-              </Typography>
-            </StyledTextContainer>
+            {renderValueText(item.fltnr)}
+            {renderValueText(getLocalizedCities(item.route_n_1))}
+            <DateTimeText dateTimeText={item.sdt} />
           </StyledFlexContainer>
         ))}
       </div>
@@ -98,21 +94,9 @@ const AirportFlightsContent = ({ arrivals, departees }) => {
             <StyledTextContainer>
               <ReactSVG src={planeIcon} className={iconClass} />
             </StyledTextContainer>
-            <StyledTextContainer>
-              <Typography variant="body2" component="p">
-                {item.fltnr}
-              </Typography>
-            </StyledTextContainer>
-            <StyledTextContainer>
-              <Typography variant="body2" component="p">
-                {intl.formatMessage({ id: 'mobilityPlatform.content.airport.cities.turku' })}
-              </Typography>
-            </StyledTextContainer>
-            <StyledTextContainer>
-              <Typography variant="body2" component="p">
-                {formatDateTime(item.sdt)}
-              </Typography>
-            </StyledTextContainer>
+            {renderValueText(item.fltnr)}
+            {renderText('mobilityPlatform.content.airport.cities.turku')}
+            <DateTimeText dateTimeText={item.sdt} />
           </StyledFlexContainer>
         ))}
       </div>
