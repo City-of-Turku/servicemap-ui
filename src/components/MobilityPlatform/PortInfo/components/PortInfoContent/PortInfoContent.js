@@ -2,16 +2,14 @@ import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { format } from 'date-fns';
 import styled from '@emotion/styled';
 import {
   StyledContainer, StyledFlexContainer, StyledHeaderContainer, StyledTextContainer,
 } from '../../../styled/styled';
+import DateTimeText from '../../../DateTimeText';
 
 const PortInfoContent = ({ portItem, portCalls }) => {
   const intl = useIntl();
-
-  const formatDateTime = dateTimeValue => format(new Date(dateTimeValue), 'dd.MM (HH:mm)');
 
   const renderText = msgId => (
     <StyledTextContainer>
@@ -36,7 +34,7 @@ const PortInfoContent = ({ portItem, portCalls }) => {
         <StyledFlexContainer key={item.portCallTimestamp}>
           <FerryIcon color="rgba(7, 44, 115, 255)" className="icon-icon-hsl-ferry" />
           {renderValue(item.vesselName)}
-          {renderValue(formatDateTime(item.portAreaDetails[0].eta))}
+          <DateTimeText dateTimeText={item.portAreaDetails[0].eta} />
         </StyledFlexContainer>
       ))}
     </div>
@@ -49,7 +47,7 @@ const PortInfoContent = ({ portItem, portCalls }) => {
         <StyledFlexContainer key={item.portCallId}>
           <FerryIcon color="rgba(7, 44, 115, 255)" className="icon-icon-hsl-ferry" />
           {renderValue(item.vesselName)}
-          {renderValue(formatDateTime(item.portAreaDetails[0].etd))}
+          <DateTimeText dateTimeText={item.portAreaDetails[0].etd} />
         </StyledFlexContainer>
       ))}
     </div>
