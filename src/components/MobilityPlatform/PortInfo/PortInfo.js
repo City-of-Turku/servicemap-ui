@@ -51,7 +51,7 @@ const PortInfo = () => {
   const portNames = ['Matkustajasatama', 'Kantasatama'];
   const portAreasData = [].concat(portsDataTku, portsDataNli);
   const portAreasFiltered = portAreasData?.filter(item => portNames.includes(item?.properties?.portAreaName));
-  const portCallsDataFiltered = portCallsData?.filter(item => portNames.includes(item?.portAreaDetails[0]?.portAreaName));
+  const filterByPortName = (data, portName) => data?.filter(item => item?.portAreaDetails[0]?.portAreaName === portName);
 
   const renderData = isDataValid(showPortInfo, portAreasFiltered);
 
@@ -75,7 +75,7 @@ const PortInfo = () => {
         <StyledPopupWrapper>
           <Popup className="popup-w350">
             <StyledPopupInner>
-              <PortInfoContent portItem={item} portCalls={portCallsDataFiltered} />
+              <PortInfoContent portItem={item} portCalls={filterByPortName(portCallsData, item?.properties?.portAreaName)} />
             </StyledPopupInner>
           </Popup>
         </StyledPopupWrapper>

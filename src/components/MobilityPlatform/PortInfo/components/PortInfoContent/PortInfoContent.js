@@ -11,8 +11,6 @@ import DateTimeText from '../../../DateTimeText';
 const PortInfoContent = ({ portItem, portCalls }) => {
   const intl = useIntl();
 
-  const portCallsFiltered = portCalls?.filter(item => item?.portAreaDetails[0]?.portAreaName === portItem?.properties?.portAreaName);
-
   const renderText = msgId => (
     <StyledTextContainer>
       <Typography variant="subtitle1" component="h5">
@@ -32,7 +30,7 @@ const PortInfoContent = ({ portItem, portCalls }) => {
   const renderArrivals = () => (
     <div>
       {renderText('mobilityPlatform.content.portInfo.arrivals')}
-      {portCallsFiltered?.map(item => (
+      {portCalls?.map(item => (
         <StyledFlexContainer key={item.portCallTimestamp}>
           <FerryIcon color="rgba(7, 44, 115, 255)" className="icon-icon-hsl-ferry" />
           {renderValue(item.vesselName)}
@@ -45,7 +43,7 @@ const PortInfoContent = ({ portItem, portCalls }) => {
   const renderDeparting = () => (
     <div>
       {renderText('mobilityPlatform.content.portInfo.departing')}
-      {portCallsFiltered?.map(item => (
+      {portCalls?.map(item => (
         <StyledFlexContainer key={item.portCallId}>
           <FerryIcon color="rgba(7, 44, 115, 255)" className="icon-icon-hsl-ferry" />
           {renderValue(item.vesselName)}
