@@ -1002,6 +1002,7 @@ const translations = {
   'mobilityPlatform.info.parkAndRideBicycles': 'Liityntäpysäköinti tarjoaa mahdollisuuden jättää oma pyörä parkkiin ja jatkaa matkaa bussilla. Föli-alueella on useita liityntäpysäköintipaikkoja pyörille. Liityntäpysäköinti on maksutonta ja tarkoitettu vain joukkoliikennettä vaihtoyhteytenä käyttäville.',
   'mobilityPlatform.info.barbecuePlaces': 'Kartalla näkyvät Turun viralliset tulenteko- ja grillauspaikat. Turun kaupungin hallinnoimilla mailla tulenteko on sallittu ainoastaan avotulen tekoon tarkoitetuilla paikoilla. Muilla kuin virallisilla nuotio- ja grillauspaikoilla avotulen teko on aina kielletty.',
   'mobilityPlatform.info.airport': 'Kartalla näkyvät Turun lentoasema ja lentojen tiedot kuluvan vuorokauden ajalta. Lennot on jaettu saapuviin ja lähteviin lentoihin. Tiedot ovat peräisin Finavian rajapinnasta.',
+  'mobilityPlatform.info.portInfo': 'Kartalla näkyvät Turun ja Naantalin satamat sekä matkustajalaivojen aikataulut kahden vuorokauden ajalta. Matkustajaliikenne on jaettu satamista lähteviin ja sinne saapuviin aluksiin. Tiedot tulevat Digitrafficin rajapinnasta.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',

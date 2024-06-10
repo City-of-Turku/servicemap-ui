@@ -1711,6 +1711,11 @@ const MobilitySettingsView = ({ navigator }) => {
       type: 'airportInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.airport" />,
     },
+    {
+      visible: showPortInfo,
+      type: 'portInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.portInfo" />,
+    },
   ];
 
   const infoTextsRoadworks = [
