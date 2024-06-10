@@ -821,7 +821,7 @@ const translations = {
   'mobilityPlatform.menu.show.parkAndRideBikes': 'Park and ride stops for bicycles',
   'mobilityPlatform.menu.show.barbecuePlaces': 'Sites for barbequing & making fire',
   'mobilityPlatform.menu.show.airPorts': 'Airport',
-  'mobilityPlatform.menu.show.portInfo': 'Port of Turku',
+  'mobilityPlatform.menu.show.portInfo': 'Passenger ships',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
