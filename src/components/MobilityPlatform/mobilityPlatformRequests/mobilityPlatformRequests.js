@@ -170,11 +170,11 @@ const fetchMobilityProfilesData = async (setData, signal) => {
   }
 };
 
-const fetchPortNetData = async (endpoint, setData, signal) => {
+const fetchPortNetData = async (endpoint, setData, isPortCalls, signal) => {
   try {
     const response = await fetch(`${isPortNetApiUrl}/${endpoint}`, { signal });
     const jsonData = await response.json();
-    setData(jsonData);
+    setData(isPortCalls ? jsonData?.portCalls : jsonData?.portAreas?.features);
   } catch (err) {
     console.warn(err.message);
   }

@@ -13,8 +13,9 @@ import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import PortInfoContent from './components/PortInfoContent';
 
 const PortInfo = () => {
-  const [portInfoData, setPortInfoData] = useState({});
-  const [portVisitsDataObj, setPortVisitsDataObj] = useState({});
+  const [portsDataTku, setPortsDataTku] = useState([]);
+  const [portsDataNli, setPortsDataNli] = useState([]);
+  const [portCallsData, setPortCallsData] = useState([]);
 
   const { showPortInfo } = useMobilityPlatformContext();
 
@@ -35,45 +36,46 @@ const PortInfo = () => {
     const controller = new AbortController();
     const { signal } = controller;
     if (showPortInfo) {
-      fetchPortNetData('ports/FITKU', setPortInfoData, signal);
+      fetchPortNetData('ports/FITKU', setPortsDataTku, false, signal);
+      fetchPortNetData('ports/FINLI', setPortsDataNli, false, signal);
       fetchPortNetData(
         `port-calls?from=${yesterdayStr}&to=${tomorrowStr}&vesselTypeCode=20`,
-        setPortVisitsDataObj,
+        setPortCallsData,
+        true,
         signal,
       );
     }
     return () => controller.abort();
   }, [showPortInfo]);
 
-  const portName = 'Matkustajasatama';
-  const portAreasData = portInfoData?.portAreas?.features;
-  const portAreasDataTku = portAreasData?.filter(item => item?.properties?.portAreaName === portName);
-  const portCallsData = portVisitsDataObj?.portCalls;
-  const portCallsDataTku = portCallsData?.filter(item => item?.portAreaDetails[0]?.portAreaName === portName);
+  const portNames = ['Matkustajasatama', 'Kantasatama'];
+  const portAreasData = [].concat(portsDataTku, portsDataNli);
+  const portAreasFiltered = portAreasData?.filter(item => portNames.includes(item?.properties?.portAreaName));
+  const portCallsDataFiltered = portCallsData?.filter(item => portNames.includes(item?.portAreaDetails[0]?.portAreaName));
 
-  const renderData = isDataValid(showPortInfo, portAreasDataTku);
+  const renderData = isDataValid(showPortInfo, portAreasFiltered);
 
   useEffect(() => {
     if (renderData) {
       const bounds = [];
-      portAreasDataTku.forEach(item => {
-        bounds.push([item.geometry.coordinates[1], item.geometry.coordinates[0]]);
+      portAreasFiltered.forEach(item => {
+        bounds.push([item?.geometry?.coordinates[1], item?.geometry?.coordinates[0]]);
       });
       map.fitBounds(bounds);
     }
-  }, [showPortInfo, portAreasDataTku]);
+  }, [showPortInfo, portAreasFiltered]);
 
   return renderData
-    ? portAreasDataTku.map(item => (
+    ? portAreasFiltered.map(item => (
       <Marker
         key={item.portAreaCode}
         icon={customIcon}
-        position={[item.geometry.coordinates[1], item.geometry.coordinates[0]]}
+        position={[item?.geometry?.coordinates[1], item?.geometry?.coordinates[0]]}
       >
         <StyledPopupWrapper>
           <Popup className="popup-w350">
             <StyledPopupInner>
-              <PortInfoContent portItem={item} portCalls={portCallsDataTku} />
+              <PortInfoContent portItem={item} portCalls={portCallsDataFiltered} />
             </StyledPopupInner>
           </Popup>
         </StyledPopupWrapper>
