@@ -14,7 +14,7 @@ import ParkingMachinesContent from './components/ParkingMachinesContent';
 const ParkingMachines = () => {
   const options = {
     type_name: 'ParkingMachine',
-    page_size: 500,
+    page_size: 200,
   };
 
   const { showParkingMachines } = useMobilityPlatformContext();
