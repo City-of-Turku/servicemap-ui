@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ParkingGarageContent /> does match snapshot 1`] = `
+<div>
+  <div
+    class="css-1ynyhby"
+  >
+    <div
+      class="css-1dznbe2"
+    >
+      <div
+        class="css-1fhgjcy"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
+        >
+          Pysäköintihalli
+        </p>
+      </div>
+    </div>
+    <div>
+      <div
+        class="css-1fhgjcy"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Osoite: Testikatu 1
+        </p>
+      </div>
+      <div
+        class="css-1fhgjcy"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Parkkipaikkojen määrä: 620
+        </p>
+      </div>
+      <div
+        class="css-1fhgjcy"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Invapaikkojen määrä: 2
+        </p>
+      </div>
+      <div
+        class="css-1fhgjcy"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Sähkölatauspaikat: 1 x Type 2 22 kW
+        </p>
+      </div>
+      <div
+        class="css-1fhgjcy"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Sähköauton latauspiste, kameravalvonta
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

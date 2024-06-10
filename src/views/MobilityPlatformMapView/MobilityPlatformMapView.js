@@ -42,6 +42,7 @@ import BarbecuePlaces from '../../components/MobilityPlatform/BarbecuePlaces';
 import AirportFlights from '../../components/MobilityPlatform/AirportFlights';
 import MobilityProfiles from '../../components/MobilityPlatform/MobilityProfiles';
 import AccessibilityAreas from '../../components/MobilityPlatform/AccessibilityAreas';
+import ParkingGarages from '../../components/MobilityPlatform/Parking/ParkingGarages';
 import PortInfo from '../../components/MobilityPlatform/PortInfo';
 
 const MobilityPlatformMapView = ({ mapObject }) => (
@@ -88,6 +89,7 @@ const MobilityPlatformMapView = ({ mapObject }) => (
     <AirportFlights />
     <MobilityProfiles />
     <AccessibilityAreas />
+    <ParkingGarages />
     <PortInfo />
   </>
 );

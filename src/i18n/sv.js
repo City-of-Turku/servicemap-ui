@@ -825,6 +825,7 @@ const translations = {
   'mobilityPlatform.menu.show.parkAndRideBikes': 'Infartsparkering för cyklar',
   'mobilityPlatform.menu.show.barbecuePlaces': 'Grill- och eldningsplatser',
   'mobilityPlatform.menu.show.airPorts': 'Flygplats',
+  'mobilityPlatform.menu.show.parkingGarages': 'Parkeringsgaragen',
   'mobilityPlatform.menu.show.portInfo': 'Passagerarfartyg',
 
   // Content
@@ -875,6 +876,9 @@ const translations = {
   'mobilityPlatform.content.parkingSpaces.type': 'Typ av betalning',
   'mobilityPlatform.content.parkingSpaces.paid': 'Avgiftsbelagd',
   'mobilityPlatform.content.parkingSpaces.empty': 'Inga lediga platser kvar: {value} / {capacity}',
+  'mobilityPlatform.content.parking.capacity': 'Kapacitet: {value}',
+  'mobilityPlatform.content.parking.disabled.capacity': 'Antal inva-parkeringplatser: {value}',
+  'mobilityPlatform.content.parking.chargers.capacity': 'Elladdningsstationer: {value}',
   'mobilityPlatform.content.parkingChargeZones.zone': 'Zon: {value}',
   'mobilityPlatform.content.parkingChargeZones.price': 'Avgift: {value}',
   'mobilityPlatform.content.parkingChargeZones.price.weekDays': 'Avgiftsbelagd vardagar: {value}',
@@ -1011,6 +1015,7 @@ const translations = {
   'mobilityPlatform.info.parkAndRideBicycles': 'Infartsparkeringen erbjuder möjlighet att lämna din egen cykel på parkeringsplatsen och fortsätta resan med buss. Inom Föli-området finns flera infartsparkeringsplatser för cyklar. Infartsparkeringen är gratis och endast avsedd för dem som fortsätter sin resa med kollektivtrafik.',
   'mobilityPlatform.info.barbecuePlaces': 'Kartan visar eldnings- och grillplatser i Åbo. Det är tillåtet att göra upp öppen eld endast vid särskilt avsedda eldningsplatser. Att göra upp eld på andra platser är förbjudet.',
   'mobilityPlatform.info.airport': 'Kartan visar Åbo flygplats och flygtidtabeller för den aktuella dagen. Flygtrafiken är uppdelad i flyg som avgår från och ankommer till flygplatsen. Uppgifterna kommer från Finavia gränssnitt.',
+  'mobilityPlatform.info.parkingGarages': 'Allmänna parkeringsgaragen visas på kartan. Det finns dock ingen information om deras utnyttjandegrad. Mer detaljerad information om det valda parkeringsgarage kan läsas genom att trycka på ikon på kartan.',
   'mobilityPlatform.info.portInfo': 'Kartan visar hamnarna i Åbo och Nådendal och fartygets tidtabeller för de två dagarna. Passagerartrafiken är uppdelad på fartyg som avgår från och ankommer till hamnarna. Uppgifterna kommer från Digitraffic gränssnitt.',
 
   // Bicycle routes
