@@ -403,7 +403,7 @@ const translations = {
   'home.buttons.closeByServices': 'Visa närtjänster',
   'home.buttons.instructions': 'Tips för användning av servicekartan',
   'home.buttons.area': 'Se hälsovårds-, rådgivnings-, elevupptagnings-, förskole-, befolkningsskydds- och naturskyddsområdena samt stadsdelarna',
-  'home.buttons.area.tku': 'Se elevupptagnings-, postnummer- och röstningområdena samt stadsdelarna.',
+  'home.buttons.area.tku': 'Se stadsdelarna, elevupptagnings-, postnummer- och röstningområdena samt mobilitetsprofiler.',
   'home.example.search': 'Sök med sökord',
   'home.message': 'Hälsningar av servicekartans utvecklare',
   'home.send.feedback': 'Skicka respons',
