@@ -8,6 +8,7 @@ import {
 } from '../../../styled/styled';
 import DateTimeText from '../../../DateTimeText';
 
+/** Show incoming and departing ships of the selected port */
 const PortInfoContent = ({ portItem, portCalls }) => {
   const intl = useIntl();
 

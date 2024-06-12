@@ -12,6 +12,7 @@ import { createIcon, isDataValid, optionsToParams } from '../utils/utils';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import PortInfoContent from './components/PortInfoContent';
 
+/** Show ports of Turku and Naantali on the map */
 const PortInfo = () => {
   const [portsDataTku, setPortsDataTku] = useState([]);
   const [portsDataNli, setPortsDataNli] = useState([]);
