@@ -8,7 +8,7 @@ import ferryIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_fe
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchPortNetData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
-import { createIcon, isDataValid } from '../utils/utils';
+import { createIcon, isDataValid, optionsToParams } from '../utils/utils';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import PortInfoContent from './components/PortInfoContent';
 
@@ -32,18 +32,20 @@ const PortInfo = () => {
   const yesterdayStr = format(yesterday, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
   const tomorrowStr = format(tomorrow, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
+  const options = {
+    from: yesterdayStr,
+    to: tomorrowStr,
+    vesselTypeCode: 20,
+  };
+
   useEffect(() => {
     const controller = new AbortController();
     const { signal } = controller;
+    const params = optionsToParams(options);
     if (showPortInfo) {
       fetchPortNetData('ports/FITKU', setPortsDataTku, false, signal);
       fetchPortNetData('ports/FINLI', setPortsDataNli, false, signal);
-      fetchPortNetData(
-        `port-calls?from=${yesterdayStr}&to=${tomorrowStr}&vesselTypeCode=20`,
-        setPortCallsData,
-        true,
-        signal,
-      );
+      fetchPortNetData(`port-calls?${params}`, setPortCallsData, true, signal);
     }
     return () => controller.abort();
   }, [showPortInfo]);
@@ -75,7 +77,10 @@ const PortInfo = () => {
         <StyledPopupWrapper>
           <Popup className="popup-w350">
             <StyledPopupInner>
-              <PortInfoContent portItem={item} portCalls={filterByPortName(portCallsData, item?.properties?.portAreaName)} />
+              <PortInfoContent
+                portItem={item}
+                portCalls={filterByPortName(portCallsData, item?.properties?.portAreaName)}
+              />
             </StyledPopupInner>
           </Popup>
         </StyledPopupWrapper>
