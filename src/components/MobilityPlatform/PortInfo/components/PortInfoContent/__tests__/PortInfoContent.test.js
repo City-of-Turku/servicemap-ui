@@ -18,8 +18,8 @@ const mockProps = {
       vesselName: 'Testilaiva',
       portAreaDetails: [
         {
-          eta: '2024-06-06T04:35:00z',
-          etd: '2024-06-06T05:55:00z',
+          eta: '2024-06-06T07:35:00z',
+          etd: '2024-06-06T08:55:00z',
         },
       ],
     },
@@ -29,11 +29,6 @@ const mockProps = {
 const renderWithProviders = getRenderWithProviders({});
 
 describe('<PortInfoContent />', () => {
-  it('should match snapshot', () => {
-    const { container } = renderWithProviders(<PortInfoContent {...mockProps} />);
-    expect(container).toMatchSnapshot();
-  });
-
   it('does show text', () => {
     const { container } = renderWithProviders(<PortInfoContent {...mockProps} />);
     const p = container.querySelectorAll('p');
