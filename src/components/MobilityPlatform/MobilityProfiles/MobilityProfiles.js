@@ -116,7 +116,9 @@ const MobilityProfiles = () => {
    * @returns leaflet icon
    */
   const getCorrectIcon = (nameValue, mobilityProfiles) => {
-    const filteredMobilityProfiles = mobilityProfiles?.filter(item => item.postal_code_string === nameValue);
+    const filteredMobilityProfiles = mobilityProfiles?.filter(
+      item => item.postal_code_string === nameValue && item.postal_code_type_string === 'Home',
+    );
     const maxCount = filteredMobilityProfiles?.reduce(
       (prev, current) => (prev.count > current.count ? prev : current),
       1,
