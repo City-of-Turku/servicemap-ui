@@ -1,11 +1,12 @@
 import AbortController from 'abort-controller';
 import config from '../../../config';
+import APIFetchError from './APIFetchError';
 
 export const hearingMapAPIName = 'hearingmap';
 export const serviceMapAPIName = 'servicemap';
 export const LinkedEventsAPIName = 'linkedEvens';
 
-export class APIFetchError extends Error {
+/* export class APIFetchError extends Error {
   constructor(props) {
     super(props);
     // Maintains proper stack trace for where our error was thrown (only available on V8)
@@ -17,7 +18,7 @@ export class APIFetchError extends Error {
     // Custom debugging information
     this.date = new Date();
   }
-}
+} */
 
 export default class HttpClient {
   timeoutTimer = config?.searchTimeout || 10000;
@@ -37,13 +38,13 @@ export default class HttpClient {
     this.apiName = apiName;
   }
 
-  optionsToSearchParams = (options) => {
+  optionsToSearchParams = options => {
     if (typeof options !== 'object') {
       throw APIFetchError('Invalid options provided for HttpClient optionsToSearchParams method');
     }
 
     const params = new URLSearchParams();
-    Object.keys(options).forEach((key) => {
+    Object.keys(options).forEach(key => {
       if (Object.prototype.hasOwnProperty.call(options, key)) {
         const value = options[key];
         if (value) {
@@ -53,7 +54,7 @@ export default class HttpClient {
     });
 
     return params.toString();
-  }
+  };
 
   fetchNext = async (query, results) => {
     const signal = this.abortController?.signal || null;
@@ -64,7 +65,7 @@ export default class HttpClient {
 
     return fetch(query, { signal })
       .then(response => response.json())
-      .then(async (response) => {
+      .then(async response => {
         const combinedResults = [...results, ...response.results];
         if (this.onProgressUpdate) {
           this.onProgressUpdate(combinedResults.length, response.count);
@@ -74,7 +75,7 @@ export default class HttpClient {
         }
         return combinedResults;
       });
-  }
+  };
 
   handleServiceMapResults = async (response, type) => {
     if (type && type === 'post') {
@@ -96,7 +97,7 @@ export default class HttpClient {
       return this.fetchNext(response.next, response.results);
     }
     return response.results;
-  }
+  };
 
   handleLinkedEventsResults = async (response, type) => {
     if (type && type === 'count') {
@@ -113,7 +114,7 @@ export default class HttpClient {
     }
 
     return response.data;
-  }
+  };
 
   handleResults = async (response, type) => {
     if (this.apiName === serviceMapAPIName) {
@@ -125,7 +126,7 @@ export default class HttpClient {
 
     // Default to given response
     return response;
-  }
+  };
 
   handleFetch = async (endpoint, url, options = {}, type) => {
     if (!this.abortController) {
@@ -150,24 +151,24 @@ export default class HttpClient {
 
     // Preform fetch
     return promise
-      .then((response) => {
+      .then(response => {
         if (type === 'post') return response;
         return response.json();
       })
-      .then(async (data) => {
+      .then(async data => {
         const results = await this.handleResults(data, type);
         this.clearTimeout();
         this.status = 'done';
         return results;
       })
-      .catch((e) => {
+      .catch(e => {
         if (e.name === 'AbortError') {
           this.throwAPIError(`Error ${endpoint} fetch aborted`, e);
         } else {
           this.throwAPIError(`Error while fetching ${endpoint}: ${e.message}`, e);
         }
       });
-  }
+  };
 
   // Create a POST fetch request to given endpoint with given data.
   // Base url may be overridden since this was needed for sending stats
@@ -184,7 +185,7 @@ export default class HttpClient {
       body: new URLSearchParams(data).toString(),
     };
     return this.handleFetch(endpoint, `${overrideBaseUrl || this.baseURL}/${endpoint}`, postOptions, 'post');
-  }
+  };
 
   // Fetch with GET
   fetch = async (endpoint, searchParams, type) => {
@@ -197,9 +198,9 @@ export default class HttpClient {
     const fetchOptions = {};
 
     return this.handleFetch(endpoint, `${this.baseURL}/${endpoint}?${searchParams}`, fetchOptions, type);
-  }
+  };
 
-  post = async (endpoint, data, overrideBaseUrl) => this.postFetch(endpoint, data, overrideBaseUrl)
+  post = async (endpoint, data, overrideBaseUrl) => this.postFetch(endpoint, data, overrideBaseUrl);
 
   get = async (endpoint, options) => this.fetch(endpoint, this.optionsToSearchParams(options));
 
@@ -212,7 +213,7 @@ export default class HttpClient {
       page_size: 1,
     };
     return this.fetch(endpoint, this.optionsToSearchParams(newOptions, true), 'count');
-  }
+  };
 
   getConcurrent = async (endpoint, options) => {
     if (!options?.page_size) {
@@ -233,7 +234,7 @@ export default class HttpClient {
     for (let i = 1; i <= numberOfPages; i += 1) {
       options.page = i;
       const promise = this.getSinglePage(endpoint, options);
-      promises.push(promise.then((results) => {
+      promises.push(promise.then(results => {
         this.clearTimeout();
         return results;
       }));
@@ -241,7 +242,7 @@ export default class HttpClient {
 
     const results = await Promise.all(promises);
     return results.flat();
-  }
+  };
 
   throwAPIError = (msg, e) => {
     this.status = 'error';
@@ -260,40 +261,40 @@ export default class HttpClient {
     }
     this.clearTimeout();
     this.abortController.abort();
-  }
+  };
 
   createTimeout = () => {
     this.timeout = setTimeout(() => {
       this.abort();
     }, this.timeoutTimer);
-  }
+  };
 
   clearTimeout = () => {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
-  }
+  };
 
-  setOnProgressUpdate = (onProgressUpdate) => {
+  setOnProgressUpdate = onProgressUpdate => {
     if (typeof onProgressUpdate !== 'function') {
       throw new APIFetchError('Invalid onProgressUpdate provided for HTTPClient');
     }
     this.onProgressUpdate = onProgressUpdate;
-  }
+  };
 
-  setOnError = (onError) => {
+  setOnError = onError => {
     if (typeof onError !== 'function') {
       throw new APIFetchError('Invalid onError provided for HTTPClient');
     }
     this.onError = onError;
-  }
+  };
 
-  setAbortController = (controller) => {
+  setAbortController = controller => {
     if (typeof controller !== 'object') {
       throw new APIFetchError('Invalid abort controller provided for HTTPClient');
     }
     this.abortController = controller;
-  }
+  };
 
   isFetching = () => this.status === 'fetching';
 }

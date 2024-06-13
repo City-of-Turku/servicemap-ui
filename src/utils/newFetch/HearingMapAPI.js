@@ -1,5 +1,6 @@
 import config from '../../../config';
-import HttpClient, { APIFetchError, hearingMapAPIName } from './HTTPClient';
+import HttpClient, { hearingMapAPIName } from './HTTPClient';
+import APIFetchError from './APIFetchError';
 
 export default class HearingMapAPI extends HttpClient {
   constructor() {
@@ -12,12 +13,12 @@ export default class HearingMapAPI extends HttpClient {
     super(config.hearingMapAPI.root, hearingMapAPIName);
   }
 
-  hearingMaps = async (unitID) => {
+  hearingMaps = async unitID => {
     if (typeof unitID !== 'string' && typeof unitID !== 'number') {
       throw new APIFetchError('HearingMapAPI: Invalid unitID provided to hearingMaps fetch method');
     }
     const options = {};
 
     return this.get(`${unitID}`, options);
-  }
+  };
 }

@@ -1,5 +1,6 @@
 import config from '../../../config';
-import HttpClient, { APIFetchError, serviceMapAPIName } from './HTTPClient';
+import HttpClient, { serviceMapAPIName } from './HTTPClient';
+import APIFetchError from './APIFetchError';
 
 export default class ServiceMapAPI extends HttpClient {
   constructor() {

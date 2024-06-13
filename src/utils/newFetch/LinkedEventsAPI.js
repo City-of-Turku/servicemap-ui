@@ -1,5 +1,6 @@
 import config from '../../../config';
-import HttpClient, { APIFetchError, LinkedEventsAPIName } from './HTTPClient';
+import HttpClient, { LinkedEventsAPIName } from './HTTPClient';
+import APIFetchError from './APIFetchError';
 
 export default class LinkedEventsAPI extends HttpClient {
   constructor() {
@@ -12,7 +13,7 @@ export default class LinkedEventsAPI extends HttpClient {
     super(config.eventsAPI.root, LinkedEventsAPIName);
   }
 
-  eventsByKeyword = async (keyword) => {
+  eventsByKeyword = async keyword => {
     if (typeof keyword !== 'string') {
       throw new APIFetchError('LinkedEventsAPI: Invalid keyword provided to events fetch method');
     }
@@ -26,5 +27,5 @@ export default class LinkedEventsAPI extends HttpClient {
     };
 
     return this.getConcurrent('event', options);
-  }
+  };
 }
