@@ -30,8 +30,8 @@ const PortInfo = () => {
 
   const yesterday = subDays(new Date(), 1);
   const tomorrow = addDays(new Date(), 1);
-  const yesterdayStr = format(yesterday, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-  const tomorrowStr = format(tomorrow, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+  const yesterdayStr = format(yesterday, "yyyy-MM-dd'T'00:00:00.SSS'Z'");
+  const tomorrowStr = format(tomorrow, "yyyy-MM-dd'T'23:59:00.SSS'Z'");
 
   const options = {
     from: yesterdayStr,
@@ -54,7 +54,20 @@ const PortInfo = () => {
   const portNames = ['Matkustajasatama', 'Kantasatama'];
   const portAreasData = [].concat(portsDataTku, portsDataNli);
   const portAreasFiltered = portAreasData?.filter(item => portNames.includes(item?.properties?.portAreaName));
-  const filterByPortName = (data, portName) => data?.filter(item => item?.portAreaDetails[0]?.portAreaName === portName);
+
+  /**
+   * Filter data using port name and specified datetime values (yesterday & tomorrow).
+   * Sometimes datetime values in data may initially be outside the range.
+   * This filter will avoid long list of future or past dates.
+   * @param {array} data
+   * @param {string} portName
+   * @returns array of objects
+   */
+  const filterByPortNameAndDates = (data, portName) => data.filter(item => {
+    const eta = new Date(item.portAreaDetails[0].eta);
+    const name = item?.portAreaDetails[0]?.portAreaName;
+    return name === portName && eta >= yesterday && eta <= tomorrow;
+  });
 
   const renderData = isDataValid(showPortInfo, portAreasFiltered);
 
@@ -80,7 +93,7 @@ const PortInfo = () => {
             <StyledPopupInner>
               <PortInfoContent
                 portItem={item}
-                portCalls={filterByPortName(portCallsData, item?.properties?.portAreaName)}
+                portCalls={filterByPortNameAndDates(portCallsData, item?.properties?.portAreaName)}
               />
             </StyledPopupInner>
           </Popup>
