@@ -64,6 +64,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showParkingMachines, setShowParkingMachines] = useState(false);
   const [showPublicParking, setShowPublicParking] = useState(false);
   const [showRentalCarParking, setShowRentalCarParking] = useState(false);
+  const [showParkingGarages, setShowParkingGarages] = useState(false);
 
   // boating
   const [showMarinas, setShowMarinas] = useState(false);
@@ -100,6 +101,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showBusStops, setShowBusStops] = useState(false);
   const [showRailwayStations, setShowRailwayStations] = useState(false);
   const [showAirports, setShowAirports] = useState(false);
+  const [showPortInfo, setShowPortInfo] = useState(false);
 
   // units
   const [showAccessibilityAreas, setShowAccessibilityAreas] = useState(accessibilityAreasInitial);
@@ -147,6 +149,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     parkingChargeZoneId,
     showDisabledParking,
     showRentalCarParking,
+    showParkingGarages,
     // boating
     showMarinas,
     showBoatParking,
@@ -177,6 +180,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     showBusStops,
     showRailwayStations,
     showAirports,
+    showPortInfo,
     // units
     showAccessibilityAreas,
     accessibilityAreasData,
@@ -223,6 +227,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setParkingChargeZoneId,
     setShowDisabledParking,
     setShowRentalCarParking,
+    setShowParkingGarages,
     // boating
     setShowMarinas,
     setShowBoatParking,
@@ -253,6 +258,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setShowBusStops,
     setShowRailwayStations,
     setShowAirports,
+    setShowPortInfo,
     // units
     setShowAccessibilityAreas,
     setAccessibilityAreasData,

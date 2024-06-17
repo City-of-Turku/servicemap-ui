@@ -174,6 +174,10 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowBarbecuePlaces,
     showAirports,
     setShowAirports,
+    showParkingGarages,
+    setShowParkingGarages,
+    showPortInfo,
+    setShowPortInfo,
   } = useMobilityPlatformContext();
 
   const locale = useSelector(state => state.user.locale);
@@ -405,6 +409,7 @@ const MobilitySettingsView = ({ navigator }) => {
     checkVisibilityValues(showParkingMachines, setOpenCarSettings);
     checkVisibilityValues(showPublicParking, setOpenCarSettings);
     checkVisibilityValues(showRentalCarParking, setOpenCarSettings);
+    checkVisibilityValues(showParkingGarages, setOpenCarSettings);
   }, [
     showRentalCars,
     showGasFillingStations,
@@ -416,6 +421,7 @@ const MobilitySettingsView = ({ navigator }) => {
     showParkingMachines,
     showPublicParking,
     showRentalCarParking,
+    showParkingGarages,
   ]);
 
   useEffect(() => {
@@ -449,7 +455,8 @@ const MobilitySettingsView = ({ navigator }) => {
     checkVisibilityValues(showBusStops, setOpenPublicTransportSettings);
     checkVisibilityValues(showRailwayStations, setOpenPublicTransportSettings);
     checkVisibilityValues(showAirports, setOpenPublicTransportSettings);
-  }, [showBusStops, showRailwayStations, showAirports]);
+    checkVisibilityValues(showPortInfo, setOpenPublicTransportSettings);
+  }, [showBusStops, showRailwayStations, showAirports, showPortInfo]);
 
   useEffect(() => {
     checkVisibilityValues(showAirMonitoringStations, setOpenAirMonitoringSettings);
@@ -782,6 +789,10 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowAirports(current => !current);
   };
 
+  const portInfoToggle = () => {
+    setShowPortInfo(current => !current);
+  };
+
   const roadWorksToggle = () => {
     setShowRoadworks(current => !current);
   };
@@ -792,6 +803,10 @@ const MobilitySettingsView = ({ navigator }) => {
 
   const barbecuePlacesToggle = () => {
     setShowBarbecuePlaces(current => !current);
+  };
+
+  const parkingGaragesToggle = () => {
+    setShowParkingGarages(current => !current);
   };
 
   const cultureRouteListToggle = () => {
@@ -1260,6 +1275,12 @@ const MobilitySettingsView = ({ navigator }) => {
       onChangeValue: publicParkingToggle,
     },
     {
+      type: 'parkingGarages',
+      msgId: 'mobilityPlatform.menu.show.parkingGarages',
+      checkedValue: showParkingGarages,
+      onChangeValue: parkingGaragesToggle,
+    },
+    {
       type: 'disabledParking',
       msgId: 'mobilityPlatform.menu.show.disabledParking',
       checkedValue: showDisabledParking,
@@ -1315,6 +1336,12 @@ const MobilitySettingsView = ({ navigator }) => {
       msgId: 'mobilityPlatform.menu.show.airPorts',
       checkedValue: showAirports,
       onChangeValue: airPortsToggle,
+    },
+    {
+      type: 'portInfo',
+      msgId: 'mobilityPlatform.menu.show.portInfo',
+      checkedValue: showPortInfo,
+      onChangeValue: portInfoToggle,
     },
   ];
 
@@ -1589,6 +1616,11 @@ const MobilitySettingsView = ({ navigator }) => {
       component: <InfoTextBox infoText="mobilityPlatform.info.publicParkingSpaces" />,
     },
     {
+      visible: showParkingGarages,
+      type: 'parkingGaragesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.parkingGarages" />,
+    },
+    {
       visible: showDisabledParking,
       type: 'disabledParking',
       component: <InfoTextBox infoText="mobilityPlatform.info.disabledParking" />,
@@ -1697,6 +1729,11 @@ const MobilitySettingsView = ({ navigator }) => {
       visible: showAirports,
       type: 'airportInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.airport" />,
+    },
+    {
+      visible: showPortInfo,
+      type: 'portInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.portInfo" />,
     },
   ];
 

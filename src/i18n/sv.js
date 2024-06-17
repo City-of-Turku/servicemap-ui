@@ -403,7 +403,7 @@ const translations = {
   'home.buttons.closeByServices': 'Visa närtjänster',
   'home.buttons.instructions': 'Tips för användning av servicekartan',
   'home.buttons.area': 'Se hälsovårds-, rådgivnings-, elevupptagnings-, förskole-, befolkningsskydds- och naturskyddsområdena samt stadsdelarna',
-  'home.buttons.area.tku': 'Se elevupptagnings-, postnummer- och röstningområdena samt stadsdelarna.',
+  'home.buttons.area.tku': 'Se stadsdelarna, elevupptagnings-, postnummer- och röstningområdena samt mobilitetsprofiler av Åbo område.',
   'home.example.search': 'Sök med sökord',
   'home.message': 'Hälsningar av servicekartans utvecklare',
   'home.send.feedback': 'Skicka respons',
@@ -825,6 +825,8 @@ const translations = {
   'mobilityPlatform.menu.show.parkAndRideBikes': 'Infartsparkering för cyklar',
   'mobilityPlatform.menu.show.barbecuePlaces': 'Grill- och eldningsplatser',
   'mobilityPlatform.menu.show.airPorts': 'Flygplats',
+  'mobilityPlatform.menu.show.parkingGarages': 'Parkeringsgaragen',
+  'mobilityPlatform.menu.show.portInfo': 'Passagerarfartyg',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
@@ -874,6 +876,9 @@ const translations = {
   'mobilityPlatform.content.parkingSpaces.type': 'Typ av betalning',
   'mobilityPlatform.content.parkingSpaces.paid': 'Avgiftsbelagd',
   'mobilityPlatform.content.parkingSpaces.empty': 'Inga lediga platser kvar: {value} / {capacity}',
+  'mobilityPlatform.content.parking.capacity': 'Kapacitet: {value}',
+  'mobilityPlatform.content.parking.disabled.capacity': 'Antal inva-parkeringplatser: {value}',
+  'mobilityPlatform.content.parking.chargers.capacity': 'Elladdningsstationer: {value}',
   'mobilityPlatform.content.parkingChargeZones.zone': 'Zon: {value}',
   'mobilityPlatform.content.parkingChargeZones.price': 'Avgift: {value}',
   'mobilityPlatform.content.parkingChargeZones.price.weekDays': 'Avgiftsbelagd vardagar: {value}',
@@ -946,6 +951,8 @@ const translations = {
   'mobilityPlatform.content.airport.cities.gdansk': 'Till Gdańsk',
   'mobilityPlatform.content.airport.cities.rome': 'Till Rom',
   'mobilityPlatform.content.airport.cities.rhodes': 'Till Rhodos',
+  'mobilityPlatform.content.portInfo.arrivals': 'Ankommande fartyg:',
+  'mobilityPlatform.content.portInfo.departing': 'Avgående fartyg:',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',
@@ -999,15 +1006,17 @@ const translations = {
   'mobilityPlatform.info.underAndOverpasses': 'Kartan visar gångtunnlar och gångbroar som ligger i Åbo stadsområdet.',
   'mobilityPlatform.info.rentalCarParking': 'Det finns totalt fem parkeringsplatser i Åbo som endast är avsedda för bilpool bilar.',
   'mobilityPlatform.info.publicBenches': 'Kartan visar allmänna bänkar i Åbo.',
-  'mobilityPlatform.info.roadworks': 'Kartan visar vägbyggen i Åboområdet som orsakar exceptionella situationer för trafiken och mobiliteten. Sänkta hastighetsbegränsningar gäller på markerade områden och vid behov kan trafiken ledas om. Uppgifterna kommer från Digitraffics gränssnitt.',
-  'mobilityPlatform.info.railwayStations': 'Kartan visar Åbo järnvägsstationer och tågtidtabeller för de kommande 3 timmarna. Tågtrafiken är uppdelad i tåg som avgår från och ankommer till stationen. Om tåget är försenat visas även den beräknade ankomsttiden och den gamla planerade ankomsttiden inom parentes. Uppgifterna kommer från Digitraffics gränssnitt.',
+  'mobilityPlatform.info.roadworks': 'Kartan visar vägbyggen i Åboområdet som orsakar exceptionella situationer för trafiken och mobiliteten. Sänkta hastighetsbegränsningar gäller på markerade områden och vid behov kan trafiken ledas om. Uppgifterna kommer från Digitraffic gränssnitt.',
+  'mobilityPlatform.info.railwayStations': 'Kartan visar Åbo järnvägsstationer och tågtidtabeller för de kommande 3 timmarna. Tågtrafiken är uppdelad i tåg som avgår från och ankommer till stationen. Om tåget är försenat visas även den beräknade ankomsttiden och den gamla planerade ankomsttiden inom parentes. Uppgifterna kommer från Digitraffic gränssnitt.',
   'mobilityPlatform.info.airMonitoring.paragraph.1': 'Luftföroreningsdata visas för varje mätningsstation som ett index beräknat för varje timme och omfattar alla föroreningar som mäts vid resp. mätningsstation. Luftkvaliteten klassificeras i fem kategorier: grön=bra, gul=tillfredsställande, orange=nöjaktig, röd=dålig, lila=mycket dålig.',
   'mobilityPlatform.info.airMonitoring.paragraph.2': 'Vid beräkningen beaktas svaveldioxid (SO2), kvävedioxid (NO2), inandningsbara partiklar (PM10), småpartiklar (PM2,5) samt ozon (O3). När luftkvaliteten är dålig eller mycket dålig kan hälsopåverkan förekomma hos känsliga personer. Luftkvaliteten försämras av gatudamm, trafikutsläpp, småskalig vedeldning, energiproduktion samt av sporadiskt förekommande långväga transport.',
   'mobilityPlatform.info.airMonitoring.paragraph.3': 'Luftkvalitetsdata för Servicekartan erhålls från Åboregionens samarbetsgrupp för luftskydd.',
   'mobilityPlatform.info.airMonitoring.link': 'För mer information besök: https://sv.ilmatieteenlaitos.fi/luftkvalitet',
   'mobilityPlatform.info.parkAndRideBicycles': 'Infartsparkeringen erbjuder möjlighet att lämna din egen cykel på parkeringsplatsen och fortsätta resan med buss. Inom Föli-området finns flera infartsparkeringsplatser för cyklar. Infartsparkeringen är gratis och endast avsedd för dem som fortsätter sin resa med kollektivtrafik.',
   'mobilityPlatform.info.barbecuePlaces': 'Kartan visar eldnings- och grillplatser i Åbo. Det är tillåtet att göra upp öppen eld endast vid särskilt avsedda eldningsplatser. Att göra upp eld på andra platser är förbjudet.',
-  'mobilityPlatform.info.airport': 'Kartan visar Åbo flygplats och flygtidtabeller för den aktuella dagen. Flygtrafiken är uppdelad i flyg som avgår från och ankommer till flygplatsen. Uppgifterna kommer från Finavias gränssnitt.',
+  'mobilityPlatform.info.airport': 'Kartan visar Åbo flygplats och flygtidtabeller för den aktuella dagen. Flygtrafiken är uppdelad i flyg som avgår från och ankommer till flygplatsen. Uppgifterna kommer från Finavia gränssnitt.',
+  'mobilityPlatform.info.parkingGarages': 'Allmänna parkeringsgaragen visas på kartan. Det finns dock ingen information om deras utnyttjandegrad. Mer detaljerad information om det valda parkeringsgarage kan läsas genom att trycka på ikon på kartan.',
+  'mobilityPlatform.info.portInfo': 'Kartan visar hamnarna i Åbo och Nådendal och fartygets tidtabeller för de två dagarna. Passagerartrafiken är uppdelad på fartyg som avgår från och ankommer till hamnarna. Uppgifterna kommer från Digitraffic gränssnitt.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',

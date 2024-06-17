@@ -92,6 +92,14 @@ const checkMapType = (embedded, useContrast, url) => {
   return useContrast;
 };
 
+const optionsToParams = options => {
+  const params = new URLSearchParams();
+  Object.entries({ ...options }).forEach(([key, value]) => {
+    params.set(key, value);
+  });
+  return params.toString();
+};
+
 export {
   isDataValid,
   isObjValid,
@@ -106,4 +114,5 @@ export {
   fitPolygonsToBounds,
   setRender,
   checkMapType,
+  optionsToParams,
 };

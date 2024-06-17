@@ -286,4 +286,5 @@ export default {
   "roadworksAPI": settings.ROADWORKS_API,
   "railwaysAPI": settings.RAILWAYS_API,
   "mobilityTestAPI": settings.MOBILITY_TEST_API,
+  "portnetAPI": settings.PORTNET_API,
 }
