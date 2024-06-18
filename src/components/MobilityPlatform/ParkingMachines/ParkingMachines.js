@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useMap } from 'react-leaflet';
 import parkingMachineIcon from 'servicemap-ui-turku/assets/icons/icons-icon_parking_machine.svg';
 import parkingMachineIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_parking_machine-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { selectMapRef } from '../../../redux/selectors/general';
 import useMobilityDataFetch from '../utils/useMobilityDataFetch';
 import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
 import MarkerComponent from '../MarkerComponent';
@@ -19,7 +19,7 @@ const ParkingMachines = () => {
 
   const { showParkingMachines } = useMobilityPlatformContext();
 
-  const map = useMap();
+  const map = useSelector(selectMapRef);
   const useContrast = useSelector(useAccessibleMap);
 
   const { icon } = global.L;

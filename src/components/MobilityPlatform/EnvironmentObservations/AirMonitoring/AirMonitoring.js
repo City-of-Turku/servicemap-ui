@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useMap } from 'react-leaflet';
 import airMonitoringIcon from 'servicemap-ui-turku/assets/icons/icons-icon_air_monitoring_station.svg';
 import airMonitoringIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_air_monitoring_station-bw.svg';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
+import { selectMapRef } from '../../../../redux/selectors/general';
 import { fetchObservationStations } from '../EnvironmentDataAPI/EnvironmentDataAPI';
 import { isDataValid, createIcon } from '../../utils/utils';
 import AirMonitoringContent from './components/AirMonitoringContent';
@@ -16,8 +16,7 @@ const AirMonitoring = () => {
   const { showAirMonitoringStations } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
-
-  const map = useMap();
+  const map = useSelector(selectMapRef);
 
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;

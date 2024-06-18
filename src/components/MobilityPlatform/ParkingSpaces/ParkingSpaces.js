@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useMap } from 'react-leaflet';
 import { fetchAreaGeometries, fetchParkingAreaStats } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isObjValid } from '../utils/utils';
 import config from '../../../../config';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { selectMapRef } from '../../../redux/selectors/general';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import ParkingSpacesContent from './components/ParkingSpacesContent';
 
@@ -17,6 +17,7 @@ const ParkingSpaces = () => {
   const { showParkingSpaces } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
+  const map = useSelector(selectMapRef);
 
   const { Polygon, Popup } = global.rL;
 
@@ -59,8 +60,6 @@ const ParkingSpaces = () => {
     }
     return inputData;
   };
-
-  const map = useMap();
 
   const renderData = isObjValid(showParkingSpaces, parkingSpaces);
 

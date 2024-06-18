@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import parkAndRideIcon from 'servicemap-ui-turku/assets/icons/icons-icon_park_and_ride_bicycle.svg';
 import parkAndRideIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_park_and_ride_bicycle-bw.svg';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
+import { selectMapRef } from '../../../../redux/selectors/general';
 import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
 import { createIcon, isDataValid, fitToMapBounds } from '../../utils/utils';
 import MarkerComponent from '../../MarkerComponent';
@@ -25,10 +25,9 @@ const ParkAndRideBikes = () => {
   const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
+  const map = useSelector(selectMapRef);
 
   const customIcon = icon(createIcon(useContrast ? parkAndRideIconBw : parkAndRideIcon));
-
-  const map = useMap();
 
   const { data } = useMobilityDataFetch(options, showParkAndRideBikes);
   const renderData = isDataValid(showParkAndRideBikes, data);

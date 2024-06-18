@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { useMap, useMapEvents } from 'react-leaflet';
+import { useMapEvents } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import rentalCarIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_rental_car-bw.svg';
 import providerIcon from 'servicemap-ui-turku/assets/icons/icons-icon_24rent.svg';
 import rentalCarIcon from 'servicemap-ui-turku/assets/icons/icons-icon_rental_car.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { selectMapRef } from '../../../redux/selectors/general';
 import useIotDataFetch from '../utils/useIotDataFetch';
 import { isDataValid, setRender, checkMapType } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
@@ -22,6 +23,7 @@ const RentalCars = () => {
   const embedded = isEmbed({ url: url.toString() });
 
   const useContrast = useSelector(useAccessibleMap);
+  const map = useSelector(selectMapRef);
 
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
@@ -40,8 +42,6 @@ const RentalCars = () => {
   });
 
   const { iotData: rentalCarsData } = useIotDataFetch('R24', showRentalCars, embedded);
-
-  const map = useMap();
 
   const paramValue = url.searchParams.get('rental_cars') === '1';
   const renderData = setRender(paramValue, embedded, showRentalCars, rentalCarsData, isDataValid);

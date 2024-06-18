@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useMap } from 'react-leaflet';
 import { subDays, addDays, format } from 'date-fns';
 import ferryIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ferry.svg';
 import ferryIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ferry-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { selectMapRef } from '../../../redux/selectors/general';
 import { fetchPortNetData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid, optionsToParams } from '../utils/utils';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
@@ -20,12 +20,11 @@ const PortInfo = () => {
 
   const { showPortInfo } = useMobilityPlatformContext();
 
-  const map = useMap();
-
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
+  const map = useSelector(selectMapRef);
   const customIcon = icon(createIcon(useContrast ? ferryIconBw : ferryIcon));
 
   const yesterday = subDays(new Date(), 1);

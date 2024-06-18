@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import disabledParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_disabled_parking.svg';
 import disabledParkingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_disabled_parking-bw.svg';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
+import { selectMapRef } from '../../../../redux/selectors/general';
 import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
 import { createIcon, isDataValid, fitPolygonsToBounds } from '../../utils/utils';
 import DisabledParkingContent from './components/DisabledParkingContent';
@@ -26,10 +26,9 @@ const DisabledParking = () => {
   const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
+  const map = useSelector(selectMapRef);
 
   const customIcon = icon(createIcon(useContrast ? disabledParkingIconBw : disabledParkingIcon));
-
-  const map = useMap();
 
   const { data } = useMobilityDataFetch(options, showDisabledParking);
   const renderData = isDataValid(showDisabledParking, data);

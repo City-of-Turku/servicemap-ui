@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { useMap } from 'react-leaflet';
+import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { isDataValid } from '../../MobilityPlatform/utils/utils';
+import { selectMapRef } from '../../../redux/selectors/general';
 import { fetchTrafficCounterStationsByType } from '../EcoCounterRequests/ecoCounterRequests';
 import CounterMarkers from '../CounterMarkers';
 import EcoCounterContent from './EcoCounterContent';
@@ -16,6 +17,8 @@ const TrafficCounters = () => {
   const [carCounterStations, setCarCounterStations] = useState([]);
 
   const { showTrafficCounter } = useMobilityPlatformContext();
+
+  const map = useSelector(selectMapRef);
 
   useEffect(() => {
     if (showTrafficCounter.walking && !pedestrianCounterStations.length) {
@@ -34,8 +37,6 @@ const TrafficCounters = () => {
       fetchTrafficCounterStationsByType('a', setCarCounterStations);
     }
   }, [showTrafficCounter.driving]);
-
-  const map = useMap();
 
   const renderPedestrianCounters = isDataValid(showTrafficCounter.walking, pedestrianCounterStations);
   const renderBicycleCounters = isDataValid(showTrafficCounter.cycling, bicycleCounterStations);

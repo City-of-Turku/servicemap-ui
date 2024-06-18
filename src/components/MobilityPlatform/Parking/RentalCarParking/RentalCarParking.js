@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import rentalCarParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_rental_car_parking.svg';
 import rentalCarParkingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_rental_car_parking-bw.svg';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
+import { selectMapRef } from '../../../../redux/selectors/general';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
 import { isDataValid, fitPolygonsToBounds, createIcon } from '../../utils/utils';
@@ -24,13 +24,12 @@ const RentalCarParking = () => {
   const { showRentalCarParking } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
+  const map = useSelector(selectMapRef);
 
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
   const customIcon = icon(createIcon(useContrast ? rentalCarParkingIconBw : rentalCarParkingIcon));
-
-  const map = useMap();
 
   const { data } = useMobilityDataFetch(options, showRentalCarParking);
   const renderData = isDataValid(showRentalCarParking, data);

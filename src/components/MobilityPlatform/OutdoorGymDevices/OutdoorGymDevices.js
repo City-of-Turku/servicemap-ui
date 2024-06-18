@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import sportIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_outdoor_gym-bw.svg';
 import sportIcon from 'servicemap-ui-turku/assets/icons/icons-icon_outdoor_gym.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { selectMapRef } from '../../../redux/selectors/general';
 import { isDataValid, fitToMapBounds, createIcon } from '../utils/utils';
 import useMobilityDataFetch from '../utils/useMobilityDataFetch';
 import MarkerComponent from '../MarkerComponent';
@@ -19,8 +19,7 @@ const OutdoorGymDevices = () => {
   const { showOutdoorGymDevices } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
-
-  const map = useMap();
+  const map = useSelector(selectMapRef);
 
   const { icon } = global.L;
 
