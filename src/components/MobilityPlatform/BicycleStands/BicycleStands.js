@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { useMap, useMapEvents } from 'react-leaflet';
+import { useMapEvents } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import bicycleStandIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_bicycle_stand-bw.svg';
 import circleIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_circle_border-bw.svg';
@@ -8,6 +8,7 @@ import bicycleStandIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bicycl
 import circleIcon from 'servicemap-ui-turku/assets/icons/icons-icon_circle_border.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { selectMapRef } from '../../../redux/selectors/general';
 import useMobilityDataFetch from '../utils/useMobilityDataFetch';
 import {
   isDataValid, fitToMapBounds, setRender, checkMapType,
@@ -27,8 +28,7 @@ const BicycleStands = () => {
   const { showBicycleStands, showHullLockableStands } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
-
-  const map = useMap();
+  const map = useSelector(selectMapRef);
 
   const url = new URL(window.location);
   const embedded = isEmbed({ url: url.toString() });

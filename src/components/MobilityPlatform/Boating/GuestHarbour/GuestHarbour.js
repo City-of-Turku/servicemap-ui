@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
+import { selectMapRef } from '../../../../redux/selectors/general';
 import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
 import {
   fitPolygonsToBounds, isDataValid, blueOptionsBase, whiteOptionsBase,
@@ -24,6 +24,7 @@ const GuestHarbour = () => {
   const { showGuestHarbour } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
+  const map = useSelector(selectMapRef);
 
   const blueOptions = blueOptionsBase({ weight: 5 });
   const whiteOptions = whiteOptionsBase({
@@ -32,8 +33,6 @@ const GuestHarbour = () => {
     dashArray: '8 2 8',
   });
   const pathOptions = useContrast ? whiteOptions : blueOptions;
-
-  const map = useMap();
 
   const { data } = useMobilityDataFetch(options, showGuestHarbour);
   const renderData = isDataValid(showGuestHarbour, data);

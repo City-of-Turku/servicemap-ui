@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import bikeServiceIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_bike_service_station-bw.svg';
 import bikeServiceIcon from 'servicemap-ui-turku/assets/icons/icons-icon_bike_service_station.svg';
+import { selectMapRef } from '../../../redux/selectors/general';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import useMobilityDataFetch from '../utils/useMobilityDataFetch';
@@ -18,8 +18,7 @@ const BikeServiceStations = () => {
 
   const { showBikeServiceStations } = useMobilityPlatformContext();
 
-  const map = useMap();
-
+  const map = useSelector(selectMapRef);
   const useContrast = useSelector(useAccessibleMap);
 
   const { icon } = global.L;

@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import barbecuePlaceIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_barbecue_place-bw.svg';
 import barbecuePlaceIcon from 'servicemap-ui-turku/assets/icons/icons-icon_barbecue_place.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { selectMapRef } from '../../../redux/selectors/general';
 import useMobilityDataFetch from '../utils/useMobilityDataFetch';
 import { createIcon, isDataValid, fitToMapBounds } from '../utils/utils';
 import MarkerComponent from '../MarkerComponent';
@@ -18,8 +18,7 @@ const BarbecuePlaces = () => {
 
   const { showBarbecuePlaces } = useMobilityPlatformContext();
 
-  const map = useMap();
-
+  const map = useSelector(selectMapRef);
   const useContrast = useSelector(useAccessibleMap);
 
   const { icon } = global.L;

@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useMap } from 'react-leaflet';
 import chargerIcon from 'servicemap-ui-turku/assets/icons/icons-icon_charging_station.svg';
 import chargerIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_charging_station-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { selectMapRef } from '../../../redux/selectors/general';
 import {
   createIcon, isDataValid, fitToMapBounds, setRender, checkMapType,
 } from '../utils/utils';
@@ -22,11 +22,11 @@ const ChargerStationMarkers = () => {
 
   const { showChargingStations } = useMobilityPlatformContext();
 
-  const map = useMap();
+  const map = useSelector(selectMapRef);
+  const useContrast = useSelector(useAccessibleMap);
 
   const { icon } = global.L;
 
-  const useContrast = useSelector(useAccessibleMap);
   const url = new URL(window.location);
   const embedded = isEmbed({ url: url.toString() });
 
