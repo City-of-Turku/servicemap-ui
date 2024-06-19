@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import scooterParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_scooter_parking.svg';
 import scooterParkingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_scooter_parking-bw.svg';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
+import { selectMapRef } from '../../../../../redux/selectors/general';
 import useMobilityDataFetch from '../../../utils/useMobilityDataFetch';
 import { createIcon, isDataValid, fitToMapBounds } from '../../../utils/utils';
 import TextContent from '../../../TextContent';
@@ -16,8 +16,7 @@ const ParkingAreas = () => {
   };
   const { showScooterParkingAreas } = useMobilityPlatformContext();
 
-  const map = useMap();
-
+  const map = useSelector(selectMapRef);
   const useContrast = useSelector(useAccessibleMap);
 
   const { Marker, Popup } = global.rL;

@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useMap } from 'react-leaflet';
 import roadworksIcon from 'servicemap-ui-turku/assets/icons/icons-icon_roadworks.svg';
 import roadworksIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_roadworks-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
@@ -9,6 +8,7 @@ import {
   createIcon, isDataValid, grayOptionsBase, whiteOptionsBase,
 } from '../utils/utils';
 import { useAccessibleMap, getCitySettings } from '../../../redux/selectors/settings';
+import { selectMapRef } from '../../../redux/selectors/general';
 import config from '../../../../config';
 import useRoadworksDataFetch from '../utils/useRoadworksDataFetch';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
@@ -29,8 +29,7 @@ const Roadworks = () => {
   const { icon } = global.L;
   const { Marker, Polyline, Popup } = global.rL;
 
-  const map = useMap();
-
+  const map = useSelector(selectMapRef);
   const useContrast = useSelector(useAccessibleMap);
   const citySettings = useSelector(getCitySettings);
 

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { useMap } from 'react-leaflet';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { selectMapRef } from '../../../redux/selectors/general';
 import { isObjValid, whiteOptionsBase, blackOptionsBase } from '../utils/utils';
 
 /* Show selected trail on the map */
@@ -13,6 +13,7 @@ const TrailsComponent = ({
   const { Polyline } = global.rL;
 
   const useContrast = useSelector(useAccessibleMap);
+  const map = useSelector(selectMapRef);
 
   const pathOptions = { color };
   const blackOptions = blackOptionsBase({ dashArray: pattern });
@@ -24,31 +25,30 @@ const TrailsComponent = ({
 
   const renderData = isObjValid(showTrail, trailsObj);
 
-  const map = useMap();
-
   useEffect(() => {
     if (renderData) {
       const bounds = [];
       bounds.push(trailsObj.geometry_coords);
       map.fitBounds([bounds]);
     }
-  }, [showTrail, trailsObj]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [renderData, trailsObj]);
 
-  return (
+  return renderData ? (
     <>
-      {renderData ? (
-        <>
-          <Polyline weight={8} pathOptions={finalPathOptions.first} positions={trailsObj.geometry_coords} />
-          <Polyline weight={4} pathOptions={finalPathOptions.second} positions={trailsObj.geometry_coords} />
-        </>
-      ) : null}
+      <Polyline weight={8} pathOptions={finalPathOptions.first} positions={trailsObj.geometry_coords} />
+      <Polyline weight={4} pathOptions={finalPathOptions.second} positions={trailsObj.geometry_coords} />
     </>
-  );
+  ) : null;
 };
 
 TrailsComponent.propTypes = {
   showTrail: PropTypes.bool,
-  trailsObj: PropTypes.objectOf(PropTypes.any),
+  trailsObj: PropTypes.shape({
+    geometry_coords: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(
+      PropTypes.number,
+    ))),
+  }),
   color: PropTypes.string,
   pattern: PropTypes.string,
 };

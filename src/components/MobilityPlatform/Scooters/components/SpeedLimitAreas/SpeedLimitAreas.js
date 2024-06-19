@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useMap } from 'react-leaflet';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
+import { selectMapRef } from '../../../../../redux/selectors/general';
 import useMobilityDataFetch from '../../../utils/useMobilityDataFetch';
 import {
   isDataValid, fitPolygonsToBounds, blueOptionsBase, whiteOptionsBase,
@@ -25,6 +25,7 @@ const SpeedLimitAreas = () => {
   const { showScooterSpeedLimitAreas } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
+  const map = useSelector(selectMapRef);
 
   const blueOptions = blueOptionsBase();
   const whiteOptions = whiteOptionsBase({ fillOpacity: 0.3, dashArray: '10 2 10' });
@@ -32,8 +33,6 @@ const SpeedLimitAreas = () => {
 
   const { data } = useMobilityDataFetch(options, showScooterSpeedLimitAreas);
   const renderData = isDataValid(showScooterSpeedLimitAreas, data);
-
-  const map = useMap();
 
   useEffect(() => {
     fitPolygonsToBounds(renderData, data, map);

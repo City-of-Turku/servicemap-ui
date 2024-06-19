@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
+import { selectMapRef } from '../../../../../redux/selectors/general';
 import useMobilityDataFetch from '../../../utils/useMobilityDataFetch';
 import { isDataValid, fitPolygonsToBounds } from '../../../utils/utils';
 
@@ -24,6 +24,7 @@ const BrushedBicycleRoads = () => {
   const { Polyline } = global.rL;
 
   const useContrast = useSelector(useAccessibleMap);
+  const map = useSelector(selectMapRef);
 
   const white = 'rgba(255, 255, 255, 255)';
   const black = 'rgba(0, 0, 0, 255)';
@@ -53,8 +54,6 @@ const BrushedBicycleRoads = () => {
     lineCap: 'round',
     weight: 4,
   };
-
-  const map = useMap();
 
   const { data: brushSaltedRoutes } = useMobilityDataFetch(optionsBrushSalted, showBrushSaltedRoute);
   const { data: brushSandedRoutes } = useMobilityDataFetch(optionsBrushSanded, showBrushSandedRoute);

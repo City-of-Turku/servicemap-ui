@@ -3,13 +3,13 @@ import { Close } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import routeUnitIcon from 'servicemap-ui-turku/assets/icons/icons-icon_culture_route.svg';
 import routeUnitIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_culture_route-bw.svg';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
+import { selectMapRef } from '../../../../../redux/selectors/general';
 import { createIcon } from '../../../utils/utils';
 import useLocaleText from '../../../../../utils/useLocaleText';
 
@@ -20,11 +20,11 @@ const CultureRouteUnits = ({ cultureRouteUnits }) => {
 
   const locale = useSelector(state => state.user.locale);
   const getLocaleText = useLocaleText();
-  const map = useMap();
 
   const { Marker, Popup } = global.rL;
   const { icon } = global.L;
 
+  const map = useSelector(selectMapRef);
   const useContrast = useSelector(useAccessibleMap);
 
   const customIcon = icon(createIcon(useContrast ? routeUnitIconBw : routeUnitIcon));

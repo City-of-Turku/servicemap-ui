@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import airPlaneIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_airplane-bw.svg';
 import airPlaneIcon from 'servicemap-ui-turku/assets/icons/icons-icon_airplane.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { selectMapRef } from '../../../redux/selectors/general';
 import { createIcon } from '../utils/utils';
 import useIotDataFetch from '../utils/useIotDataFetch';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
@@ -14,8 +14,7 @@ import AirportFlightsContent from './components/AirportFlightsContent';
 const AirportFlights = () => {
   const { showAirports } = useMobilityPlatformContext();
 
-  const map = useMap();
-
+  const map = useSelector(selectMapRef);
   const useContrast = useSelector(useAccessibleMap);
 
   const { Marker, Popup } = global.rL;

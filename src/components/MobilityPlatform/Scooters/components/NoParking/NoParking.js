@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import useMobilityDataFetch from '../../../utils/useMobilityDataFetch';
 import { isDataValid, whiteOptionsBase, redOptionsBase } from '../../../utils/utils';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
+import { selectMapRef } from '../../../../../redux/selectors/general';
 import PolygonComponent from '../../../PolygonComponent';
 import TextContent from '../../../TextContent';
 
@@ -20,6 +20,7 @@ const NoParking = () => {
 
   const { showScooterNoParking } = useMobilityPlatformContext();
   const useContrast = useSelector(useAccessibleMap);
+  const map = useSelector(selectMapRef);
 
   const redOptions = redOptionsBase({ weight: 5 });
   const whiteOptions = whiteOptionsBase({
@@ -28,7 +29,6 @@ const NoParking = () => {
     dashArray: '11 2 11',
   });
   const pathOptions = useContrast ? whiteOptions : redOptions;
-  const map = useMap();
 
   const { data } = useMobilityDataFetch(options, showScooterNoParking);
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useMap } from 'react-leaflet';
 import moose from 'servicemap-ui-turku/assets/icons/icons-icon_moose.svg';
 import fox from 'servicemap-ui-turku/assets/icons/icons-icon_fox.svg';
 import deer from 'servicemap-ui-turku/assets/icons/icons-icon_deer.svg';
@@ -15,6 +14,7 @@ import martenContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon
 import capercaillieContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_capercaillie-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { selectMapRef } from '../../../redux/selectors/general';
 import {
   isDataValid, createIcon, blueOptionsBase, whiteOptionsBase,
 } from '../utils/utils';
@@ -31,7 +31,7 @@ const MobilityProfiles = () => {
   const { Marker, Polygon, Popup } = global.rL;
   const { icon, polygon } = global.L;
 
-  const map = useMap();
+  const map = useSelector(selectMapRef);
   const useContrast = useSelector(useAccessibleMap);
 
   useEffect(() => {
