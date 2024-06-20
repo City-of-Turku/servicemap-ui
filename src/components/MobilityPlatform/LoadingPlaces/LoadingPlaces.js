@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import loadingPlaceIcon from 'servicemap-ui-turku/assets/icons/icons-icon_loading_place.svg';
@@ -32,7 +31,7 @@ const LoadingPlaces = () => {
 
   useEffect(() => {
     fitPolygonsToBounds(renderData, data, map);
-  }, [showLoadingPlaces, data]);
+  }, [renderData, data, map]);
 
   const getSingleCoordinates = data => data[0][0];
 

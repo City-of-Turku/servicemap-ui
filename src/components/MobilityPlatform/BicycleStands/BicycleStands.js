@@ -74,13 +74,13 @@ const BicycleStands = () => {
     if (!embedded) {
       fitToMapBounds(validBicycleStands, otherBicycleStands, map);
     }
-  }, [showBicycleStands]);
+  }, [validBicycleStands, map]);
 
   useEffect(() => {
     if (!embedded) {
       fitToMapBounds(validHulllockableStands, hullLockableBicycleStands, map);
     }
-  }, [showHullLockableStands]);
+  }, [validHulllockableStands, map]);
 
   const renderBicycleStands = (isValid, data) => (isValid ? (
     data?.map(item => (

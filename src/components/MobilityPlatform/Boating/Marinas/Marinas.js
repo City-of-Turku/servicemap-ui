@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
@@ -14,7 +13,6 @@ import MarinasContent from './components/MarinasContent';
 /**
  * Displays marinas on the map in polygon format.
  */
-
 const Marinas = () => {
   const options = {
     type_name: 'Marina',
@@ -38,7 +36,7 @@ const Marinas = () => {
 
   useEffect(() => {
     fitPolygonsToBounds(renderData, data, map);
-  }, [showMarinas, data]);
+  }, [renderData, data, map]);
 
   return (
     renderData

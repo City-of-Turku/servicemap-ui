@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
@@ -62,11 +61,11 @@ const BrushedBicycleRoads = () => {
 
   useEffect(() => {
     fitPolygonsToBounds(renderBrushSandedData, brushSandedRoutes, map);
-  }, [showBrushSandedRoute, brushSandedRoutes]);
+  }, [renderBrushSandedData, brushSandedRoutes, map]);
 
   useEffect(() => {
     fitPolygonsToBounds(renderBrushSaltedData, brushSaltedRoutes, map);
-  }, [showBrushSaltedRoute, brushSaltedRoutes]);
+  }, [renderBrushSaltedData, brushSaltedRoutes, map]);
 
   const renderRoutes = (renderData, data, isBrushSanded) => renderData
     && data.map(item => (

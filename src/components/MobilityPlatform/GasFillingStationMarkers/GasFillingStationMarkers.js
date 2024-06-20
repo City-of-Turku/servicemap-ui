@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import gasFillingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_gas_station.svg';
@@ -29,7 +28,7 @@ const GasFillingStationMarkers = () => {
 
   useEffect(() => {
     fitToMapBounds(renderData, data, map);
-  }, [showGasFillingStations, data]);
+  }, [renderData, data, map]);
 
   return (
     renderData

@@ -76,9 +76,9 @@ const PortInfo = () => {
       portAreasFiltered.forEach(item => {
         bounds.push([item?.geometry?.coordinates[1], item?.geometry?.coordinates[0]]);
       });
-      map.fitBounds(bounds);
+      map?.fitBounds(bounds);
     }
-  }, [showPortInfo, portAreasFiltered]);
+  }, [renderData, portAreasFiltered, map]);
 
   return renderData
     ? portAreasFiltered.map(item => (

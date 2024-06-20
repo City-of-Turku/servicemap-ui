@@ -45,9 +45,9 @@ const RailwayStations = () => {
       railwayStationsTku.forEach(item => {
         bounds.push([item.latitude, item.longitude]);
       });
-      map.fitBounds(bounds);
+      map?.fitBounds(bounds);
     }
-  }, [showRailwayStations, railwayStationsTku]);
+  }, [renderData, railwayStationsTku, map]);
 
   return renderData
     ? railwayStationsTku.map(item => (

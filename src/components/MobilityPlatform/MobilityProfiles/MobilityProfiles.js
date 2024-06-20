@@ -153,7 +153,7 @@ const MobilityProfiles = () => {
       filteredPostCodes.forEach(item => {
         bounds.push(swapCoords(item.boundary.coordinates));
       });
-      map.fitBounds(bounds);
+      map?.fitBounds(bounds);
     }
   }, [renderData, filteredPostCodes, map]);
 

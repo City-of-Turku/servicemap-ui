@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import publicToiletIcon from 'servicemap-ui-turku/assets/icons/icons-icon_toilet.svg';
@@ -30,7 +29,7 @@ const PublicToilets = () => {
 
   useEffect(() => {
     fitToMapBounds(renderData, data, map);
-  }, [showPublicToilets, data]);
+  }, [renderData, data, map]);
 
   return (
     renderData

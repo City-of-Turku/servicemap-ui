@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import bikeServiceIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_bike_service_station-bw.svg';
@@ -29,7 +28,7 @@ const BikeServiceStations = () => {
 
   useEffect(() => {
     fitToMapBounds(renderData, data, map);
-  }, [showBikeServiceStations, data]);
+  }, [renderData, data, map]);
 
   return (
     renderData

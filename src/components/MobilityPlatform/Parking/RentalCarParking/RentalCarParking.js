@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import rentalCarParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_rental_car_parking.svg';
@@ -36,7 +35,7 @@ const RentalCarParking = () => {
 
   useEffect(() => {
     fitPolygonsToBounds(renderData, data, map);
-  }, [showRentalCarParking, data, map]);
+  }, [renderData, data, map]);
 
   const getSingleCoordinates = data => data[0][0];
 

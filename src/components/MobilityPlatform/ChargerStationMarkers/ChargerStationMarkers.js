@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import chargerIcon from 'servicemap-ui-turku/assets/icons/icons-icon_charging_station.svg';
@@ -41,7 +40,7 @@ const ChargerStationMarkers = () => {
     if (!embedded) {
       fitToMapBounds(renderData, data, map);
     }
-  }, [showChargingStations, data, embedded]);
+  }, [renderData, data, embedded, map]);
 
   return (
     renderData

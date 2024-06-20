@@ -64,13 +64,13 @@ const AirMonitoring = () => {
       data.forEach(item => {
         bounds.push([getCoordinates(item.location)]);
       });
-      map.fitBounds(bounds);
+      map?.fitBounds(bounds);
     }
   };
 
   useEffect(() => {
     fitBounds(renderData, filteredAirMonitoringStations);
-  }, [renderData]);
+  }, [renderData, map]);
 
   return renderData
     ? filteredAirMonitoringStations.map(item => (

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import sportIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_outdoor_gym-bw.svg';
@@ -30,7 +29,7 @@ const OutdoorGymDevices = () => {
 
   useEffect(() => {
     fitToMapBounds(renderData, data, map);
-  }, [showOutdoorGymDevices, data]);
+  }, [renderData, data, map]);
 
   return (
     renderData ? (

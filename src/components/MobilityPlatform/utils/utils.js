@@ -39,7 +39,7 @@ const fitToMapBounds = (renderData, data, map) => {
     data.forEach(item => {
       bounds.push([item.geometry_coords.lat, item.geometry_coords.lon]);
     });
-    map.fitBounds(bounds);
+    map?.fitBounds(bounds);
   }
 };
 
@@ -56,7 +56,7 @@ const fitPolygonsToBounds = (renderData, data, map) => {
     data.forEach(item => {
       bounds.push(item.geometry_coords);
     });
-    map.fitBounds(bounds);
+    map?.fitBounds(bounds);
   }
 };
 

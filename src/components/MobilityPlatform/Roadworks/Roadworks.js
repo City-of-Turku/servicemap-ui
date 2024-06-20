@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import roadworksIcon from 'servicemap-ui-turku/assets/icons/icons-icon_roadworks.svg';
@@ -155,9 +154,9 @@ const Roadworks = () => {
       roadworksMultiLines.forEach(item => {
         bounds.push(getMultiLineCoordinates(item?.announcements[0]?.location?.geometry));
       });
-      map.fitBounds(bounds);
+      map?.fitBounds(bounds);
     }
-  }, [showRoadworks, roadworksMultiLines]);
+  }, [areMultiLinesValid, roadworksMultiLines, map]);
 
   const renderContent = item => (
     <StyledPopupWrapper>

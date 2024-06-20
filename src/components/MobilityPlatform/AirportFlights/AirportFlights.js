@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import airPlaneIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_airplane-bw.svg';
@@ -32,9 +31,9 @@ const AirportFlights = () => {
     if (showAirports) {
       const bounds = [];
       bounds.push([airportData.lat, airportData.lon]);
-      map.fitBounds(bounds);
+      map?.fitBounds(bounds);
     }
-  }, [showAirports]);
+  }, [showAirports, airportData.lat, airportData.lon, map]);
 
   const { iotData: arrivalsData } = useIotDataFetch('FAA', showAirports);
   const { iotData: departeesData } = useIotDataFetch('FAD', showAirports);

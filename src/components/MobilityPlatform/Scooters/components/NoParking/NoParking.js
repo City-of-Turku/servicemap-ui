@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
@@ -52,7 +51,7 @@ const NoParking = () => {
       });
       map.fitBounds(bounds);
     }
-  }, [showScooterNoParking, noParkingFiltered, map]);
+  }, [renderData, noParkingFiltered, map]);
 
   return (
     renderData

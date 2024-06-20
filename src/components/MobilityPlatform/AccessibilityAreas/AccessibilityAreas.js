@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useMap } from 'react-leaflet';
 import walkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_walking_area.svg';
 import walkingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_walking_area-bw.svg';
 import cyclingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_cycling_area.svg';
 import cyclingIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_cycling_area-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { selectMapRef } from '../../../redux/selectors/general';
 import {
   isDataValid,
   createIcon,
@@ -30,12 +30,13 @@ const AccessibilityAreas = () => {
 
   const selectedUnit = useSelector(state => state.selectedUnit?.unit?.data);
   const unitId = selectedUnit?.id;
+
+  const map = useSelector(selectMapRef);
   const useContrast = useSelector(useAccessibleMap);
 
   const url = new URL(window.location);
   const embedded = isEmbed({ url: url.toString() });
 
-  const map = useMap();
   const { Marker, Polygon, Popup } = global.rL;
   const { icon } = global.L;
 
@@ -112,19 +113,19 @@ const AccessibilityAreas = () => {
     if (!embedded) {
       fitPolygonsToBounds(renderAll, accessibilityAreasData, map);
     }
-  }, [showAccessibilityAreas.all, accessibilityAreasData]);
+  }, [renderAll, accessibilityAreasData, map]);
 
   useEffect(() => {
     if (!embedded) {
       fitPolygonsToBounds(renderWalking, filteredAreasWalking, map);
     }
-  }, [showAccessibilityAreas.walking, filteredAreasWalking]);
+  }, [renderWalking, filteredAreasWalking, map]);
 
   useEffect(() => {
     if (!embedded) {
       fitPolygonsToBounds(renderCycling, filteredAreasCycling, map);
     }
-  }, [showAccessibilityAreas.cycling, filteredAreasCycling]);
+  }, [renderCycling, filteredAreasCycling, map]);
 
   const getSingleCoordinates = data => data[0][0];
 

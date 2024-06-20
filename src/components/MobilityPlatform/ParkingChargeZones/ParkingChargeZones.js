@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { isObjValid, blackOptionsBase, whiteOptionsBase } from '../utils/utils';
@@ -25,9 +24,9 @@ const ParkingChargeZones = () => {
   useEffect(() => {
     if (showParkingChargeZones && parkingChargeZone) {
       const bounds = parkingChargeZone.geometry_coords;
-      map.fitBounds(bounds);
+      map?.fitBounds(bounds);
     }
-  }, [showParkingChargeZones, parkingChargeZone]);
+  }, [showParkingChargeZones, parkingChargeZone, map]);
 
   return (renderOneParkingChargeZone ? (
     <PolygonComponent

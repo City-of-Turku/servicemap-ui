@@ -1,9 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { selectMapRef } from '../../../redux/selectors/general';
 import { fetchBicycleRoutesGeometry } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
   fitPolygonsToBounds, isDataValid, blueOptionsBase, whiteOptionsBase, blackOptionsBase,
@@ -17,6 +16,7 @@ const BicycleRoutes = () => {
   const { Polyline } = global.rL;
 
   const useContrast = useSelector(useAccessibleMap);
+  const map = useSelector(selectMapRef);
 
   const blueOptions = blueOptionsBase();
   const whiteOptions = whiteOptionsBase({ dashArray: !useContrast ? '10' : null });
@@ -41,11 +41,9 @@ const BicycleRoutes = () => {
   const activeBicycleRoute = getActiveRoutes(bicycleRoutes);
   const renderData = isDataValid(showBicycleRoutes, activeBicycleRoute);
 
-  const map = useMap();
-
   useEffect(() => {
     fitPolygonsToBounds(renderData, activeBicycleRoute, map);
-  }, [showBicycleRoutes, activeBicycleRoute]);
+  }, [renderData, activeBicycleRoute, map]);
 
   return (
     renderData

@@ -54,15 +54,15 @@ const TrafficCounters = () => {
 
   useEffect(() => {
     fitToMapBounds(renderPedestrianCounters, pedestrianCounterStations);
-  }, [renderPedestrianCounters, pedestrianCounterStations]);
+  }, [renderPedestrianCounters, pedestrianCounterStations, map]);
 
   useEffect(() => {
     fitToMapBounds(renderBicycleCounters, bicycleCounterStations);
-  }, [renderBicycleCounters, bicycleCounterStations]);
+  }, [renderBicycleCounters, bicycleCounterStations, map]);
 
   useEffect(() => {
     fitToMapBounds(renderCarCounters, carCounterStations);
-  }, [renderCarCounters, carCounterStations]);
+  }, [renderCarCounters, carCounterStations, map]);
 
   const renderContent = item => {
     const csvSource = item.csv_data_source;

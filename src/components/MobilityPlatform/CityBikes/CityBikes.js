@@ -82,7 +82,7 @@ const CityBikes = () => {
       data.forEach(item => {
         bounds.push([item.lat, item.lon]);
       });
-      map.fitBounds(bounds);
+      map?.fitBounds(bounds);
     }
   };
 
@@ -91,7 +91,7 @@ const CityBikes = () => {
       fitBounds(renderCityBikes, cityBikeStations);
       fitBounds(renderCargoBikes, cargoBikeStations);
     }
-  }, [showCityBikes, showCargoBikes]);
+  }, [renderCityBikes, renderCargoBikes, map]);
 
   const renderCityBikeMarkers = (isValid, data, icon) => (isValid ? (
     data.map(item => (

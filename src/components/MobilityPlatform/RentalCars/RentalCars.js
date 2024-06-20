@@ -50,11 +50,13 @@ const RentalCars = () => {
     if (renderData && !embedded) {
       const bounds = [];
       rentalCarsData.forEach(item => {
-        bounds.push([item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]);
+        const lat = item.homeLocationData.coordinates.latitude;
+        const lon = item.homeLocationData.coordinates.longitude;
+        bounds.push([lat, lon]);
       });
-      map.fitBounds(bounds);
+      map?.fitBounds(bounds);
     }
-  }, [showRentalCars, rentalCarsData]);
+  }, [renderData, rentalCarsData, map]);
 
   return (
     renderData ? (

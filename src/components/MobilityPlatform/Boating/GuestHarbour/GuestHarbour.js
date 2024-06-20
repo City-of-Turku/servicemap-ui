@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
@@ -14,7 +13,6 @@ import TextContent from '../../TextContent';
 /**
  * Displays quest harbour on the map in polygon format.
  */
-
 const GuestHarbour = () => {
   const options = {
     type_name: 'GuestMarina',
@@ -39,7 +37,7 @@ const GuestHarbour = () => {
 
   useEffect(() => {
     fitPolygonsToBounds(renderData, data, map);
-  }, [showGuestHarbour, data]);
+  }, [renderData, data, map]);
 
   return (
     renderData

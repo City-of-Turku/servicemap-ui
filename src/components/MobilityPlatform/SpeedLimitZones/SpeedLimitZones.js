@@ -11,7 +11,7 @@ const SpeedLimitZones = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const filterZones = (data) => {
+  const filterZones = data => {
     if (data && data.length > 0) {
       return data.filter(item => speedLimitSelections.includes(item.extra.speed_limit));
     }
@@ -55,7 +55,7 @@ const SpeedLimitZones = () => {
     },
   };
 
-  const getOption = (input) => {
+  const getOption = input => {
     switch (input) {
       case 20:
         return options.brown;
@@ -80,7 +80,7 @@ const SpeedLimitZones = () => {
     }
   };
 
-  const getPathOptions = (input) => {
+  const getPathOptions = input => {
     const { rgba, pattern } = getOption(input);
     return {
       color: useContrast ? whiteOptions : `rgba(${rgba})`,
@@ -92,21 +92,18 @@ const SpeedLimitZones = () => {
 
   const renderData = isDataValid(showSpeedLimitZones, filteredSpeedLimitZones);
 
-  return (
-    <>
-      {renderData ? (
-        filteredSpeedLimitZones.map(item => (
-          <PolygonComponent
-            key={item.id}
-            item={item}
-            useContrast={useContrast}
-            pathOptions={getPathOptions(item.extra.speed_limit)}
-          >
-            <SpeedLimitZonesContent item={item} />
-          </PolygonComponent>
-        ))
-      ) : null}
-    </>
+  return (renderData ? (
+    filteredSpeedLimitZones.map(item => (
+      <PolygonComponent
+        key={item.id}
+        item={item}
+        useContrast={useContrast}
+        pathOptions={getPathOptions(item.extra.speed_limit)}
+      >
+        <SpeedLimitZonesContent item={item} />
+      </PolygonComponent>
+    ))
+  ) : null
   );
 };
 

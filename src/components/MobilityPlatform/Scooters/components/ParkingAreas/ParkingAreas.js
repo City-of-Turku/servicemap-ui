@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import scooterParkingIcon from 'servicemap-ui-turku/assets/icons/icons-icon_scooter_parking.svg';
@@ -29,7 +28,7 @@ const ParkingAreas = () => {
 
   useEffect(() => {
     fitToMapBounds(renderData, data, map);
-  }, [showScooterParkingAreas, data]);
+  }, [renderData, data, map]);
 
   return (
     renderData ? (

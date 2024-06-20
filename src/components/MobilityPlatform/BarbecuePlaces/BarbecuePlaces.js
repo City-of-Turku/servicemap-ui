@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import barbecuePlaceIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_barbecue_place-bw.svg';
@@ -30,7 +29,7 @@ const BarbecuePlaces = () => {
 
   useEffect(() => {
     fitToMapBounds(renderData, data, map);
-  }, [showBarbecuePlaces, data]);
+  }, [renderData, data, map]);
 
   return (renderData
     ? data.map(item => (

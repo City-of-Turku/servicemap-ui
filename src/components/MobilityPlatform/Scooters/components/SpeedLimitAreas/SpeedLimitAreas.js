@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
@@ -36,7 +35,7 @@ const SpeedLimitAreas = () => {
 
   useEffect(() => {
     fitPolygonsToBounds(renderData, data, map);
-  }, [showScooterSpeedLimitAreas, data]);
+  }, [renderData, data, map]);
 
   return (
     renderData

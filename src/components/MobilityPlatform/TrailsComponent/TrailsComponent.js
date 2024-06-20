@@ -29,10 +29,9 @@ const TrailsComponent = ({
     if (renderData) {
       const bounds = [];
       bounds.push(trailsObj.geometry_coords);
-      map.fitBounds([bounds]);
+      map?.fitBounds([bounds]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [renderData, trailsObj]);
+  }, [renderData, trailsObj, map]);
 
   return renderData ? (
     <>

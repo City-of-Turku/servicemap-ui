@@ -1,9 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import { selectMapRef } from '../../../redux/selectors/general';
 import useMobilityDataFetch from '../utils/useMobilityDataFetch';
 import {
   isDataValid, blueOptionsBase, whiteOptionsBase, blackOptionsBase,
@@ -25,6 +24,7 @@ const CultureRoutes = () => {
   const { Polyline } = global.rL;
 
   const useContrast = useSelector(useAccessibleMap);
+  const map = useSelector(selectMapRef);
 
   const blueOptions = blueOptionsBase();
   const whiteOptions = whiteOptionsBase({ dashArray: !useContrast ? '1, 8' : null });
@@ -51,17 +51,15 @@ const CultureRoutes = () => {
 
   const renderData = isDataValid(showCultureRoutes, activeCultureRoute);
 
-  const map = useMap();
-
   useEffect(() => {
     if (renderData) {
       const bounds = [];
       activeCultureRoute.forEach(item => {
         bounds.push(swapCoords(item.geometry_coords));
       });
-      map.fitBounds([bounds]);
+      map?.fitBounds([bounds]);
     }
-  }, [showCultureRoutes, activeCultureRoute]);
+  }, [renderData, activeCultureRoute, map]);
 
   return (
     <>

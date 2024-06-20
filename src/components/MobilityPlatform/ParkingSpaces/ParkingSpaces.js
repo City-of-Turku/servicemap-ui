@@ -69,9 +69,9 @@ const ParkingSpaces = () => {
       parkingSpaces.forEach(item => {
         bounds.push(swapCoords(item.geometry.coordinates));
       });
-      map.fitBounds(bounds);
+      map?.fitBounds(bounds);
     }
-  }, [showParkingSpaces, parkingSpaces, fetchError]);
+  }, [renderData, parkingSpaces, fetchError, map]);
 
   const renderColor = (itemId, capacity) => {
     const stats = parkingStatistics?.find(item => item.id === itemId);

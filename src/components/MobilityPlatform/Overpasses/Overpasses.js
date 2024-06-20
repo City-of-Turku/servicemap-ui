@@ -13,7 +13,6 @@ import { isEmbed } from '../../../utils/path';
 /**
  * Displays underpasses and overpasses on the map in polygon format.
  */
-
 const Overpasses = () => {
   const optionsOverpass = {
     type_name: 'Overpass',
@@ -56,13 +55,13 @@ const Overpasses = () => {
     if (!embedded) {
       fitPolygonsToBounds(renderOverpassData, overpassData, map);
     }
-  }, [showOverpasses, overpassData]);
+  }, [renderOverpassData, overpassData, map]);
 
   useEffect(() => {
     if (!embedded) {
       fitPolygonsToBounds(renderUnderpassData, underpassData, map);
     }
-  }, [showUnderpasses, underpassData]);
+  }, [renderUnderpassData, underpassData, map]);
 
   return (
     <>
