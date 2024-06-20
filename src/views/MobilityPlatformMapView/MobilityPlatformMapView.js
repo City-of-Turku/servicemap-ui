@@ -95,7 +95,11 @@ const MobilityPlatformMapView = ({ mapObject }) => (
 );
 
 MobilityPlatformMapView.propTypes = {
-  mapObject: PropTypes.objectOf(PropTypes.any).isRequired,
+  mapObject: PropTypes.shape({
+    options: PropTypes.shape({
+      detailZoom: PropTypes.number,
+    }),
+  }).isRequired,
 };
 
 export default MobilityPlatformMapView;

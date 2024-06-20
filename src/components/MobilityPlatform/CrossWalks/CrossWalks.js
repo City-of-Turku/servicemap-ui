@@ -105,7 +105,11 @@ const CrossWalks = ({ mapObject }) => {
 };
 
 CrossWalks.propTypes = {
-  mapObject: PropTypes.objectOf(PropTypes.any).isRequired,
+  mapObject: PropTypes.shape({
+    options: PropTypes.shape({
+      detailZoom: PropTypes.number,
+    }),
+  }).isRequired,
 };
 
 export default CrossWalks;
