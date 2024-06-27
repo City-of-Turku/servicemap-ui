@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const getPageDescriptions = (page, unit, addressAdminDistricts, getLocaleText, intl) => {
+const getPageDescriptions = (page, unit, addressAdminDistricts, getLocaleText, intl, isExternalTheme) => {
   switch (page) {
     case 'home': {
       return intl.formatMessage({ id: isExternalTheme ? 'app.description.tku' : 'app.description' });

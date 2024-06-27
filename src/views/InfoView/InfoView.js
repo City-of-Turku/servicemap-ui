@@ -1,15 +1,14 @@
 /* eslint-disable max-len */
 import styled from '@emotion/styled';
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import {
   ButtonBase, Link, NoSsr, Typography,
 } from '@mui/material';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import config from '../../../config';
-import useMobileStatus from '../../utils/isMobile';
 import TitleBar from '../../components/TitleBar';
+import useMobileStatus from '../../utils/isMobile';
 import OptionalText from './components/OptionalText';
 
 function InfoView({ locale }) {

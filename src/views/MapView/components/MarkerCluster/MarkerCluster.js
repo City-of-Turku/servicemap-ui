@@ -44,7 +44,7 @@ const popupOptions = isMobile => ({
 });
 
 // Cluster icon size handler
-const getClusterIconSize = (count) => {
+const getClusterIconSize = count => {
   let iconSize;
   if (count >= 1000) iconSize = 45;
   else if (count >= 100) iconSize = 35;
@@ -232,11 +232,11 @@ const MarkerCluster = ({
     borderRadius: 0,
   });
   // Get highlighted unit's marker or cluster marker
-  const getHighlightedMarker = (layerSet) => {
+  const getHighlightedMarker = layerSet => {
     const layers = layerSet || cluster?._featureGroup?._layers;
     const { highlightedUnit } = clusterData;
     if (layers && highlightedUnit?.id) {
-      const mIndex = Object.keys(layers).find((m) => {
+      const mIndex = Object.keys(layers).find(m => {
         const current = layers[m];
         if (current instanceof global.L.MarkerCluster) {
           const clusterMarkers = current.getAllChildMarkers();
@@ -298,7 +298,7 @@ const MarkerCluster = ({
   );
 
   // Closure function for handling unit based popup content
-  const getUnitPopupContent = (unit) => {
+  const getUnitPopupContent = unit => {
     const distance = getDistance(unit);
     return createPopupContent(
       unit,
@@ -307,12 +307,12 @@ const MarkerCluster = ({
   };
 
   // Open highlighted units' popup
-  const openHighlightUnitPopup = (mapLayers) => {
+  const openHighlightUnitPopup = mapLayers => {
     if (disableInteraction) return;
     const highlightedMarker = getHighlightedMarker(mapLayers);
     if (highlightedMarker && UnitHelper.isUnitPage()) {
       // Close all open popups
-      map.eachLayer((layer) => {
+      map.eachLayer(layer => {
         layer.closePopup();
       });
       if (highlightedMarker instanceof global.L.MarkerCluster) {
@@ -345,28 +345,28 @@ const MarkerCluster = ({
       zoomToBoundsOnClick: true,
     });
 
-    clusterLayer.on('clustermouseover', (a) => {
+    clusterLayer.on('clustermouseover', a => {
       if (clusterMouseover && !isEmbed()) clusterMouseover(a);
     });
     // Add click events as alternative way to trigger hover events on mobile
-    clusterLayer.on('clusterclick', (a) => {
+    clusterLayer.on('clusterclick', a => {
       if (clusterMouseover && showListOfUnits()) {
         clusterMouseover(a);
       }
     });
 
     // Hide clusters and markers from keyboard after clustering animations are done
-    clusterLayer.on('animationend', (a) => {
+    clusterLayer.on('animationend', a => {
       if (clusterAnimationend) clusterAnimationend(a);
 
-      document.querySelectorAll('.leaflet-marker-icon').forEach((item) => {
+      document.querySelectorAll('.leaflet-marker-icon').forEach(item => {
         item.setAttribute('tabindex', '-1');
         item.setAttribute('aria-hidden', 'true');
       });
     });
 
     // Run clustermouseout function
-    clusterLayer.on('clustermouseout', (a) => {
+    clusterLayer.on('clustermouseout', a => {
       if (clusterMouseout) clusterMouseout(a);
     });
 
@@ -384,8 +384,7 @@ const MarkerCluster = ({
               <p className={unitTooltipSubtitleClass}>
                 {typeof unit.street_address === 'string'
                   ? unit.street_address
-                  : getLocaleText(unit.street_address)
-                }
+                  : getLocaleText(unit.street_address)}
               </p>
             )
           }
@@ -404,14 +403,13 @@ const MarkerCluster = ({
   );
 
   // Parse unitData from clusterMarker
-  const parseUnitData = (marker) => {
+  const parseUnitData = marker => {
     if (!(marker instanceof global.L.MarkerCluster)) {
       return null;
     }
     return marker.getAllChildMarkers()
       .map(marker => marker?.options?.customUnitData)
       .filter(unitData => !!unitData);
-
   };
 
   // Function for creating custom icon for cluster group
@@ -445,7 +443,7 @@ const MarkerCluster = ({
   };
 
   // Remove popup from old marker and set new highligted marker
-  const setNewHighlightedMarker = (marker) => {
+  const setNewHighlightedMarker = marker => {
     if (!marker) return;
     const { highlightedMarker } = clusterData;
     // Open popoup on marker click even if it is already highlighted unit.
@@ -468,13 +466,13 @@ const MarkerCluster = ({
     title: intl.formatMessage({ id: 'unit.plural' }),
     info: count => intl.formatMessage({ id: 'map.unit.cluster.popup.info' }, { count }),
   };
-  const onClusterItemClick = (unit) => {
+  const onClusterItemClick = unit => {
     UnitHelper.unitElementClick(navigator, unit);
   };
   const showListOfUnits = () => (map.getZoom() > clusterPopupVisibility);
 
   // Cluster popup content
-  const clusterPopupContent = (units) => {
+  const clusterPopupContent = units => {
     // Create container and title
     const container = document.createElement('div');
     container.className = unitTooltipContainerClass;
@@ -504,7 +502,7 @@ const MarkerCluster = ({
 
     // Add units to list
     units.filter(unit => unit?.name)
-      .forEach((unit) => {
+      .forEach(unit => {
         const listItem = document.createElement('li');
         // Create span for interactive list item content
         const span = document.createElement('span');
@@ -543,7 +541,7 @@ const MarkerCluster = ({
   };
 
   // Function for cluster mouseout event
-  const clusterMouseout = (a) => {
+  const clusterMouseout = a => {
     if (embeded) {
       return;
     }
@@ -556,7 +554,7 @@ const MarkerCluster = ({
     }
   };
 
-  const clusterMouseover = (a) => {
+  const clusterMouseover = a => {
     const cluster = a?.layer;
     // Don't open new cluster if cluster already has popup that is open
     if (cluster.isPopupOpen()) {
@@ -573,7 +571,7 @@ const MarkerCluster = ({
     }).openPopup();
   };
 
-  const clusterAnimationEnd = (a) => {
+  const clusterAnimationEnd = a => {
     // Handle highlighted marker's popup opening when clusters change
     const mapLayers = a?.target?._map?._layers;
     openHighlightUnitPopup(mapLayers);
@@ -638,7 +636,7 @@ const MarkerCluster = ({
 
     // Add unit markers to clusterlayer
     unitListFiltered.filter(unit => unit?.location)
-      .forEach((unit) => {
+      .forEach(unit => {
         // Distance
         const distance = getDistance(unit);
         const tooltipContent = createTooltipContent(
@@ -671,10 +669,12 @@ const MarkerCluster = ({
         );
 
         if (isMobile) {
-          markerElem.on('popupopen', (e) => {
+          markerElem.on('popupopen', e => {
             // Bind click event to popup when popup is opened
-            e.popup.getElement().addEventListener('click',
-              () => UnitHelper.unitElementClick(navigator, unit));
+            e.popup.getElement().addEventListener(
+              'click',
+              () => UnitHelper.unitElementClick(navigator, unit),
+            );
           });
         }
 
@@ -705,7 +705,7 @@ const MarkerCluster = ({
     cluster.addLayers(markers);
 
     // Hide all markers from screen readers
-    document.querySelectorAll('.leaflet-marker-icon').forEach((item) => {
+    document.querySelectorAll('.leaflet-marker-icon').forEach(item => {
       item.setAttribute('tabindex', '-1');
       item.setAttribute('aria-hidden', 'true');
       // Remove marker interaction when using measuring tool or if interactions are disabled
@@ -716,7 +716,7 @@ const MarkerCluster = ({
   const removeMarkerInteraction = useCallback(() => {
     /* Remove interactions from markers during measuring mode.
      Use callback is used so that cluster.off() works correctly */
-    document.querySelectorAll('.leaflet-marker-icon').forEach((item) => {
+    document.querySelectorAll('.leaflet-marker-icon').forEach(item => {
       item.classList.remove('leaflet-interactive');
     });
   }, []);

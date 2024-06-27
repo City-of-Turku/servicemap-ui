@@ -1,11 +1,11 @@
 import { LinearProgress, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import styled from '@emotion/styled';
 import config from '../../../config';
 
-const Loading = (props) => {
+const Loading = props => {
   const {
     children, hideNumbers, text, progress, reducer,
   } = props;

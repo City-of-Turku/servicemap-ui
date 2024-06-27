@@ -15,6 +15,7 @@ import { transitIconSize } from '../../config/mapConfig';
 import { fetchBikeStations, fetchStops } from '../../utils/transitFetch';
 import TransitStopInfo from './TransitStopInfo';
 import getTypeAndClass from './util/util';
+import config from '../../../../../config';
 
 const StyledTransitIconMap = styled.span(({ color }) => ({
   fontSize: transitIconSize,

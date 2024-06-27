@@ -20,7 +20,7 @@ import {
 import { selectMapRef } from '../../redux/selectors/general';
 import { getServiceUnits, selectServiceDataSet } from '../../redux/selectors/service';
 import { selectCustomPositionCoordinates } from '../../redux/selectors/user';
-import coordinateIsActive from '../../utils/coordinate';
+import { coordinateIsActive } from '../../utils/mapUtility';
 import { applyCityAndOrganizationFilter } from '../../utils/filters';
 import { applySortingParams } from '../../utils/orderUnits';
 import useLocaleText from '../../utils/useLocaleText';
@@ -30,7 +30,7 @@ const StyledTitleBar = styled(TitleBar)(({ theme }) => ({
   background: theme.palette.primary.main,
 }));
 
-const ServiceView = (props) => {
+const ServiceView = props => {
   const {
     match,
     fetchService,
@@ -54,7 +54,7 @@ const ServiceView = (props) => {
     return !isFetching && (!current || `${current.id}` !== match.params?.service);
   };
 
-  const focusMap = (unit) => {
+  const focusMap = unit => {
     if (!map || !map.options.maxZoom || mapMoved) {
       return;
     }
@@ -89,7 +89,6 @@ const ServiceView = (props) => {
       focusMap(unitData);
     }
   }, [unitData]);
-
 
   if (embed) {
     return null;

@@ -50,7 +50,7 @@ const parseBboxFromLocation = location => {
   return isValidBboxString(bbox) ? bbox.split(',') : undefined;
 };
 
-const mapHasMapPane = (leafLetMap) => {
+const mapHasMapPane = leafLetMap => {
   // `getCenter()` call requires existence of mapPane (what ever that means). So check for that
   // before calling it. Just another null check.
   const panes = leafLetMap.getPanes();

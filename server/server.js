@@ -1,6 +1,6 @@
-import { ServerStyleSheets } from '@mui/styles';
 import { CacheProvider } from '@emotion/react';
 import createEmotionServer from '@emotion/server/create-instance';
+import { ServerStyleSheets } from '@mui/styles';
 import express from 'express';
 import IntlPolyfill from 'intl';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
@@ -20,8 +20,8 @@ import App from '../src/App';
 import ogImage from '../src/assets/images/servicemap-meta-img.png';
 import { setLocale } from '../src/redux/actions/user';
 import rootReducer from '../src/redux/rootReducer';
+import createEmotionCache from './createEmotionCache';
 import { fetchEventData, fetchSelectedUnitData } from './dataFetcher';
-import { appDynamicsTrackingCode, cookieHubCode } from './externalScripts';
 import ieHandler from './ieMiddleware';
 import legacyRedirector from './legacyRedirector';
 import { generateSitemap, getRobotsFile, getSitemap } from './sitemapMiddlewares';
@@ -33,8 +33,6 @@ import {
   sitemapActive,
   unitRedirect,
 } from './utils';
-import { getLastCommit, getVersion } from './version';
-import createEmotionCache from './createEmotionCache';
 
 // Get sentry dsn from environtment variables
 const sentryDSN = process.env.SENTRY_DSN_SERVER;

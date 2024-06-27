@@ -12,7 +12,7 @@ import {
   createIcon, isDataValid, setRender, checkMapType,
 } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
-import MapUtility from '../../../utils/mapUtility';
+import { getBboxFromBounds } from '../../../utils/mapUtility';
 import MarkerComponent from '../MarkerComponent';
 import TextContent from '../TextContent';
 
@@ -56,7 +56,7 @@ const CrossWalks = ({ mapObject }) => {
   const wideBounds = L.latLngBounds(cornerTop, cornerBottom);
 
   // Bounds used in fetch
-  const fetchBox = MapUtility.getBboxFromBounds(wideBounds, true);
+  const fetchBox = getBboxFromBounds(wideBounds, true);
 
   const isDetailZoom = zoomLevel >= mapObject.options.detailZoom;
   const controller = new AbortController();

@@ -14,7 +14,7 @@ import useLocaleText from '../../../utils/useLocaleText';
 import getPageDescriptions from './pageDescriptions';
 import config from '../../../../config';
 
-const PageHandler = (props) => {
+const PageHandler = props => {
   const {
     page, messageId,
   } = props;

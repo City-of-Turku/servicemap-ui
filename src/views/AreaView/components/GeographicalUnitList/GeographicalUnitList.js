@@ -1,6 +1,8 @@
 import { Checkbox, List, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { UnitItem } from '../../../../components';
 import {
@@ -16,7 +18,6 @@ import { getLocale } from '../../../../redux/selectors/user';
 import { uppercaseFirst } from '../../../../utils';
 import { orderUnits } from '../../../../utils/orderUnits';
 import useLocaleText from '../../../../utils/useLocaleText';
-import { UnitItem } from '../../../../components';
 import {
   StyledAccordionServiceTitle,
   StyledCaptionText,
@@ -32,7 +33,7 @@ const UnitCheckbox = ({
 }) => {
   const [checked, setChecked] = useState(defaultChecked);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setChecked(!checked);
     handleUnitCheckboxChange(e, id);
   };
@@ -48,7 +49,6 @@ const UnitCheckbox = ({
   );
 };
 
-
 const GeographicalUnitList = ({ initialOpenItems }) => {
   const dispatch = useDispatch();
   const getLocaleText = useLocaleText();
@@ -58,7 +58,6 @@ const GeographicalUnitList = ({ initialOpenItems }) => {
   const [serviceList, setServiceList] = useState([]);
   const [initialCheckedItems] = useState(selectedServices);
 
-
   const handleUnitCheckboxChange = useCallback((event, id) => {
     if (event.target.checked) {
       dispatch(addSelectedDistrictService(id));
@@ -67,18 +66,15 @@ const GeographicalUnitList = ({ initialOpenItems }) => {
     }
   }, []);
 
-  const sortUnitCategories = (categories) => {
-    return orderUnits(categories, { locale, direction: 'desc', order: 'alphabetical' });
-  };
-
+  const sortUnitCategories = categories => orderUnits(categories, { locale, direction: 'desc', order: 'alphabetical' });
 
   const createServiceCategories = () => {
     const servicesArray = [];
     const educationServicesArray = [];
 
-    filteredSubdistrictUnits.forEach((unit) => {
+    filteredSubdistrictUnits.forEach(unit => {
       const categories = unit.services;
-      categories.forEach((category) => {
+      categories.forEach(category => {
         let serviceList;
         if (category.period) { // Add educational services to own list.
           serviceList = educationServicesArray;
@@ -104,7 +100,7 @@ const GeographicalUnitList = ({ initialOpenItems }) => {
       ...sortUnitCategories(servicesArray),
       ...sortUnitCategories(educationServicesArray),
     ];
-    serviceList.forEach((service) => {
+    serviceList.forEach(service => {
       service.units = sortUnitCategories(service.units);
     });
 
@@ -116,11 +112,9 @@ const GeographicalUnitList = ({ initialOpenItems }) => {
     setServiceList(serviceList);
   };
 
-
   useEffect(() => {
     createServiceCategories();
   }, [filteredSubdistrictUnits]);
-
 
   // Render list of units for neighborhood and postcode-area subdistricts
   const renderUnitList = useMemo(() => (

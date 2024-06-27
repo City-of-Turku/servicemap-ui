@@ -7,7 +7,7 @@ import { selectTracker } from '../../redux/selectors/general';
 import { getLocale } from '../../redux/selectors/user';
 import { COOKIE_MODAL_ROOT_ID } from '../../utils/constants';
 import { isEmbed } from '../../utils/path';
-import { getMatomoTracker } from '../../utils/tracking';
+import getMatomoTracker from '../../utils/tracking';
 
 function SMCookies() {
   const intl = useIntl();
