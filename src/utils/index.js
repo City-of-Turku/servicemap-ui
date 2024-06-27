@@ -30,7 +30,7 @@ export const parseSearchParams = (searchParams) => {
     try {
       const key = decodeURIComponent(keyValuePair[0]);
       const value = decodeURIComponent(keyValuePair[1]);
-      searchParamsObject[key] = value;
+      searchParamsObject[key] = key === 'q' ? value.replace('+', ' ') : value;
     } catch (e) {
       console.warn('Failed to decode URI component');
     }
@@ -136,13 +136,19 @@ export const valuesHaveChanged = (obj1, obj2, keys = []) => {
   return hasChanged;
 };
 
+export const alphabeticCompare = (a, b) => {
+  if (a !== b) {
+    return a < b ? -1 : 1;
+  }
+  return 0;
+};
+
 export const arraysEqual = (a, b) => {
   if (a === b) return true;
   if (a == null || b == null) return false;
   if (a.length !== b.length) return false;
 
-
-  for (let i = 0; i < a.length; i + 1) {
+  for (let i = 0; i < a.length; i += 1) {
     if (a[i] !== b[i]) return false;
   }
   return true;
@@ -150,8 +156,7 @@ export const arraysEqual = (a, b) => {
 
 export const getSearchParam = (location, key) => {
   const searchParams = parseSearchParams(location.search);
-  const param = searchParams[key];
-  return param;
+  return searchParams[key];
 };
 
 /**

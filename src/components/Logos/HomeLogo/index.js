@@ -1,25 +1,25 @@
+import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { withStyles } from '@mui/styles';
-import logoNormal from '../../../assets/images/service-map-logo-fi.svg';
-import logoContrast from '../../../assets/images/service-map-logo-contrast.svg';
-import logoNormalDev from '../../../assets/images/service-map-logo-fi-dev.svg';
-import logoContrastDev from '../../../assets/images/service-map-logo-contrast-dev.svg';
-import logoEN from '../../../assets/images/Logo-ENG.svg';
+import { useSelector } from 'react-redux';
+import config from '../../../../config';
+import IconPalvelukarttaContrast from '../../../assets/icons/IconPalvelukarttaContrast.svg';
+import IconPalvelukarttaPrimary from '../../../assets/icons/IconPalvelukarttaPrimary.svg';
 import logoENContrast from '../../../assets/images/Logo-ENG-Contrast.svg';
+import logoEN from '../../../assets/images/Logo-ENG.svg';
 import logoSVContrast from '../../../assets/images/Logo-SWE-Contrast.svg';
 import logoSV from '../../../assets/images/Logo-SWE.svg';
-import IconPalvelukarttaPrimary from '../../../assets/icons/IconPalvelukarttaPrimary.svg';
-import IconPalvelukarttaContrast from '../../../assets/icons/IconPalvelukarttaContrast.svg';
-import config from '../../../../config';
-import { useUserLocale } from '../../../utils/user';
-import styles from './styles';
+import logoContrastDev from '../../../assets/images/service-map-logo-contrast-dev.svg';
+import logoContrast from '../../../assets/images/service-map-logo-contrast.svg';
+import logoNormalDev from '../../../assets/images/service-map-logo-fi-dev.svg';
+import logoNormal from '../../../assets/images/service-map-logo-fi.svg';
+import { getLocale } from '../../../redux/selectors/user';
 
 const HomeLogo = React.forwardRef((props, ref) => {
   const {
-    contrast, classes, small, ...rest
+    contrast, small, ...rest
   } = props;
-  const locale = useUserLocale();
+  const locale = useSelector(getLocale);
 
   const getSmallLogo = contrast => (
     contrast ? IconPalvelukarttaContrast : IconPalvelukarttaPrimary
@@ -53,13 +53,16 @@ const HomeLogo = React.forwardRef((props, ref) => {
 
   return (
     <div ref={ref} role="img" {...rest}>
-      <img src={logo} alt="" className={classes.icon} />
+      <StyledImage src={logo} alt="" />
     </div>
   );
 });
 
+const StyledImage = styled('img')(() => ({
+  height: 'inherit',
+}));
+
 HomeLogo.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   contrast: PropTypes.bool,
   small: PropTypes.bool,
 };
@@ -69,4 +72,4 @@ HomeLogo.defaultProps = {
   small: false,
 };
 
-export default withStyles(styles)(HomeLogo);
+export default HomeLogo;

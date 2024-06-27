@@ -1,40 +1,86 @@
-import { Checkbox, List, Typography } from '@mui/material';
+import { css } from '@emotion/css';
+import styled from '@emotion/styled';
 import { Search } from '@mui/icons-material';
+import { Checkbox, List, Typography } from '@mui/material';
+import { useTheme } from '@mui/styles';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import styled from '@emotion/styled';
+import { useDispatch, useSelector } from 'react-redux';
 import config from '../../../config';
-import useLocaleText from '../../utils/useLocaleText';
 import { SMAccordion, SMButton, TitleBar } from '../../components';
+import { setMobilityTree } from '../../redux/actions/mobilityTree';
+import { setServiceTree } from '../../redux/actions/serviceTree';
+import { selectNavigator } from '../../redux/selectors/general';
+import { selectSelectedCities, selectSelectedOrganizations } from '../../redux/selectors/settings';
+import {
+  selectMobilityTreeOpened,
+  selectMobilityTreeSelected,
+  selectMobilityTreeServices,
+  selectServiceTreeOpened,
+  selectServiceTreeSelected,
+  selectServiceTreeServices,
+} from '../../redux/selectors/tree';
 import useMobileStatus from '../../utils/isMobile';
+import ServiceMapAPI from '../../utils/newFetch/ServiceMapAPI';
+import useLocaleText from '../../utils/useLocaleText';
 
-const ServiceTreeView = (props) => {
+const SERVICE_TREE = 'ServiceTree';
+const MOBILITY_TREE = 'MobilityTree';
+
+const getVariantDependentVariables = (variant, serviceTreeServices, mobilityTreeServices) => {
+  if (variant === SERVICE_TREE) {
+    return {
+      ...serviceTreeServices,
+      serviceApi: `${config.serviceMapAPI.root}${config.serviceMapAPI.version}/service_node/`,
+      titleKey: 'general.pageTitles.serviceTree.title',
+      guidanceKey: 'services.info',
+    };
+  }
+  return {
+    ...mobilityTreeServices,
+    serviceApi: `${config.serviceMapAPI.root}${config.serviceMapAPI.version}/mobility/`,
+    titleKey: 'general.pageTitles.mobilityTree.title',
+    guidanceKey: 'mobilityTree.info',
+  };
+};
+
+const ServiceTreeView = ({ intl, variant }) => {
+  const navigator = useSelector(selectNavigator);
+  const citySettings = useSelector(selectSelectedCities);
+  const organizationSettings = useSelector(selectSelectedOrganizations);
+  const serviceTreeServices = {
+    prevServices: useSelector(selectServiceTreeServices),
+    prevSelected: useSelector(selectServiceTreeSelected),
+    prevOpened: useSelector(selectServiceTreeOpened),
+  };
+  const mobilityTreeServices = {
+    prevServices: useSelector(selectMobilityTreeServices),
+    prevSelected: useSelector(selectMobilityTreeSelected),
+    prevOpened: useSelector(selectMobilityTreeOpened),
+  };
+  const dispatch = useDispatch();
+  const getLocaleText = useLocaleText();
+  const isMobile = useMobileStatus();
+  const theme = useTheme();
   const {
-    classes,
-    navigator,
-    intl,
-    setTreeState,
+    serviceApi,
+    titleKey,
+    guidanceKey,
     prevServices,
     prevSelected,
     prevOpened,
-    settings,
-  } = props;
-  const getLocaleText = useLocaleText();
-  const isMobile = useMobileStatus();
+  } = getVariantDependentVariables(variant, serviceTreeServices, mobilityTreeServices);
 
   // State
   const [services, setServices] = useState(prevServices);
   const [opened, setOpened] = useState(prevOpened);
   const [selected, setSelected] = useState(prevSelected);
+  const [unitCounts, setUnitCounts] = useState([]);
 
-  let citySettings = [];
-  config.cities.forEach((city) => {
-    citySettings.push(...settings.cities[city] ? [city] : []);
-  });
-
-  if (citySettings.length === config.cities.length) {
-    citySettings = [];
-  }
+  useEffect(() => {
+    setOpened(prevOpened);
+    setSelected(prevSelected);
+  }, [prevSelected, prevOpened]);
 
   const checkChildNodes = (node, nodes = []) => {
     // Find all visible child nodes, so they can be selected when the parent checkbox is selected
@@ -54,23 +100,57 @@ const ServiceTreeView = (props) => {
 
   const fetchRootNodes = () => (
     // Fetch all top level 0 nodes (root nodes)
-    fetch(`${config.serviceMapAPI.root}${config.serviceMapAPI.version}/service_node/?level=0&page=1&page_size=100`)
-      .then((response) => response.json())
-      .then((data) => data.results)
+    fetch(`${serviceApi}?level=0&page=1&page_size=100`)
+      .then(response => response.json())
+      .then(data => data.results)
   );
+
+  const fetchNodeCounts = async (nodes, fullSearch) => {
+    const idList = nodes.map(node => node.id);
+    // Do not fetch unit counts again for nodes that have the data, unless specified by fullSearch
+    const filteredIdList = fullSearch ? idList : idList.filter(id => !unitCounts.some(count => count.id === id))
+    const smAPI = new ServiceMapAPI();
+    const fetchOptions = {};
+    if (organizationSettings.length) {
+      fetchOptions.organization = organizationSettings.map(setting => setting.id);
+      fetchOptions.no_private_services = true;
+    }
+    if (citySettings.length) {
+      fetchOptions.municipality = citySettings;
+    }
+    const counts = await Promise.all(
+      filteredIdList.map(async (id) => {
+        const count = await smAPI.serviceNodeSearch(variant, id, fetchOptions, true);
+        return { id, count };
+      }),
+    );
+    if (fullSearch) {
+      setUnitCounts(counts)
+    } else {
+      setUnitCounts([...unitCounts, ...counts])
+    }
+  }
 
   const setInitialServices = () => {
     // Fetch initially shown service nodes when first entering the pag
     fetchRootNodes()
-      .then((data) => setServices(data));
+      .then(data => {
+        setServices(data);
+        if (variant === SERVICE_TREE) {
+          fetchNodeCounts(data);
+        }
+      });
   };
 
   const fetchChildServices = async (service) => {
     // Fetch and set to state the child nodes of the opened node
-    fetch(`${config.serviceMapAPI.root}${config.serviceMapAPI.version}/service_node/?parent=${service}&page=1&page_size=1000`)
-      .then((response) => response.json())
+    fetch(`${serviceApi}?parent=${service}&page=1&page_size=1000`)
+      .then(response => response.json())
       .then((data) => {
         setServices([...services, ...data.results]);
+        if (variant === SERVICE_TREE) {
+          fetchNodeCounts(data.results);
+        }
         // Expand the opened parent node once the child nodes have been fetched
         setOpened([...opened, service]);
         if (selected.find((e) => e.id === service)) {
@@ -101,7 +181,7 @@ const ServiceTreeView = (props) => {
     if (typeof item === 'number') {
       child = selected.find((e) => e.id === item);
     }
-    if (child && child.children) {
+    if (child?.children) {
       data.push(...child.children);
       child.children.forEach((c) => {
         getSelectedChildNodes(c, data);
@@ -140,8 +220,8 @@ const ServiceTreeView = (props) => {
       let newState = [item, ...checkChildNodes(item)];
 
       // If all other sibling nodes are selected too, select parent node as well
-      const parent = services.find((service) => service.id === item.parent);
-      if (parent && parent.children.every((child) => [...selected, item].some((i) => i.id === child))) {
+      const parent = services.find(service => service.id === item.parent);
+      if (parent?.children.every(child => [...selected, item].some(i => i.id === child))) {
         newState = [...newState, parent];
       }
 
@@ -167,9 +247,9 @@ const ServiceTreeView = (props) => {
     const line = paths.join(' ');
 
     return (
-      <svg key={`innerLine${id}`} className={classes.checkBoxLines}>
+      <StyledCheckboxLines key={`innerLine${id}`}>
         <path d={line} stroke={strokeColor} fill="transparent" />
-      </svg>
+      </StyledCheckboxLines>
     );
   };
 
@@ -189,9 +269,9 @@ const ServiceTreeView = (props) => {
 
   const drawOuterLines = (level, last, id) => (
     [...Array(level)].map((none, i) => (
-      <svg key={`outerLine${level + i}`} className={classes.outerLines}>
+      <StyledOuterLines key={`outerLine${level + i}`}>
         {generateDrawPath(last, level === i + 1, i, id)}
-      </svg>
+      </StyledOuterLines>
     ))
   );
 
@@ -201,20 +281,28 @@ const ServiceTreeView = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (variant === SERVICE_TREE) {
+      setUnitCounts([]);
+      fetchNodeCounts(services, true);
+    }
+  }, [citySettings, organizationSettings]);
+
+  function calculateTitle(item) {
+    if (variant === MOBILITY_TREE) {
+      return getLocaleText(item.name);
+    }
+
+    // Calculate count
+    const countItem = unitCounts.find(countItem => countItem.id === item.id)
+    return `${getLocaleText(item.name)} ${countItem !== null && countItem !== undefined ? `(${countItem.count})` : ''}`;
+  }
+
   const expandingComponent = (item, level, last = []) => {
     const hasChildren = item.children.length;
     const isOpen = opened.includes(item.id);
-    const children = hasChildren ? services.filter((e) => e.parent === item.id) : null;
-
-    let resultCount = 0;
-
-    if (!citySettings.length || citySettings.length === config.cities.length) {
-      resultCount = item.unit_count.total;
-    } else {
-      config.cities.forEach((city) => {
-        resultCount += (settings.cities[city] ? item.unit_count.municipality[city] || 0 : 0);
-      });
-    }
+    const children = hasChildren ? services.filter(e => e.parent === item.id) : null;
+    const titleText = calculateTitle(item);
 
     const checkboxSrTitle = `${intl.formatMessage({ id: 'services.tree.level' })} ${level + 1} ${getLocaleText(item.name)} ${intl.formatMessage({ id: 'services.category.select' })}`;
     const itemSrTitle = `${getLocaleText(item.name)} ${intl.formatMessage({ id: 'services.category.open' })}`;
@@ -225,38 +313,42 @@ const ServiceTreeView = (props) => {
     const childIsSelected = checkChildNodes(item)
       .some((node) => selected.some((item) => item.id === node.id));
 
+    const checkBoxFocusClass = css({
+      boxShadow: `inset 0 0 0 4px ${theme.palette.primary.main} !important`,
+    });
+
     return (
       <li key={item.id}>
-        <SMAccordion
-          className={`${classes.listItem} ${classes[`level${level}`]}`}
+        <StyledAccordion
+          level={level}
           onOpen={hasChildren ? () => handleExpand(item, isOpen) : () => null}
           simpleItem={!hasChildren}
-          defaultOpen={isOpen}
+          isOpen={isOpen}
           openButtonSrText={itemSrTitle}
           adornment={(
             <>
               {level > 0 && (drawOuterLines(level, last, item.id))}
-              <div className={classes.checkBox}>
+              <StyledCheckBox>
                 {drawCheckboxLines(isOpen, level, item.id)}
                 <Checkbox
-                  focusVisibleClassName={classes.checkboxFocus}
+                  focusVisibleClassName={checkBoxFocusClass}
                   inputProps={{ title: checkboxSrTitle }}
-                  onClick={(e) => handleCheckboxClick(e, item)}
-                  icon={<span className={classes.checkBoxIcon} />}
+                  onClick={e => handleCheckboxClick(e, item)}
+                  icon={<StyledCheckBoxIcon />}
                   color="primary"
                   checked={isSelected}
                   indeterminate={childIsSelected && !isSelected}
                 />
-              </div>
+              </StyledCheckBox>
             </>
           )}
           titleContent={(
-            <Typography aria-hidden className={classes.text}>
-              {`${getLocaleText(item.name)} (${resultCount})`}
-            </Typography>
+            <StyledText aria-hidden>
+              {titleText}
+            </StyledText>
           )}
           collapseContent={
-            children && children.length ? (
+            children?.length ? (
               <List disablePadding>
                 {children.map((child, i) => (
                   expandingComponent(
@@ -278,7 +370,7 @@ const ServiceTreeView = (props) => {
 
   const renderServiceNodeList = () => (
     <List role="list" disablePadding>
-      {services && services.map((service) => (
+      {services?.map(service => (
         !service.parent && (
           expandingComponent(service, 0)
         )
@@ -298,27 +390,31 @@ const ServiceTreeView = (props) => {
 
   return (
     <StyledFlexContainer>
-      <TitleBar
-        title={intl.formatMessage({ id: 'general.pageTitles.serviceTree.title' })}
+      <StyledTitleBar
+        title={intl.formatMessage({ id: titleKey })}
         titleComponent="h3"
         backButton={!isMobile}
-        className={classes.topBarColor}
       />
-      <Typography className={classes.guidanceInfoText} variant="body2">{intl.formatMessage({ id: 'services.info' })}</Typography>
-      <div className={classes.mainContent}>
+      <StyledGuidanceInfoText variant="body2">{intl.formatMessage({ id: guidanceKey })}</StyledGuidanceInfoText>
+      <StyledMainContent>
         {renderServiceNodeList()}
-      </div>
+      </StyledMainContent>
       <StyledFloatingDiv>
-        <SMButton
+        <StyledSearchButton
           id="ServiceTreeSearchButton"
-          className={classes.searchButton}
           color="primary"
           disabled={!ids.length}
           icon={<Search />}
           messageID="services.search"
           onClick={() => {
-            setTreeState({ services, selected, opened });
-            navigator.push('search', { service_node: ids });
+            const stateVariables = { services, selected, opened };
+            if (variant === SERVICE_TREE) {
+              dispatch(setServiceTree(stateVariables));
+              navigator.push('search', { service_node: ids });
+            } else {
+              dispatch(setMobilityTree(stateVariables));
+              navigator.push('search', { mobility_node: ids });
+            }
           }}
         />
       </StyledFloatingDiv>
@@ -344,22 +440,94 @@ const StyledFloatingDiv = styled.div(({ theme }) => ({
   boxShadow: '0px -4px 4px rgba(0, 0, 0, 0.36)',
 }));
 
-ServiceTreeView.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  navigator: PropTypes.objectOf(PropTypes.any),
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  setTreeState: PropTypes.func.isRequired,
-  prevServices: PropTypes.arrayOf(PropTypes.any),
-  prevSelected: PropTypes.arrayOf(PropTypes.any),
-  prevOpened: PropTypes.arrayOf(PropTypes.any),
-  settings: PropTypes.objectOf(PropTypes.any).isRequired,
-};
+const StyledCheckboxLines = styled.svg(() => ({
+  height: 'inherit',
+  width: 'inherit',
+  position: 'absolute',
+}));
 
-ServiceTreeView.defaultProps = {
-  navigator: null,
-  prevServices: [],
-  prevSelected: [],
-  prevOpened: [],
+const StyledOuterLines = styled.svg(() => ({
+  height: '100%',
+  width: 26,
+  flexShrink: 0,
+}));
+
+const StyledMainContent = styled.div(() => ({
+  textAlign: 'left',
+}));
+
+const StyledTitleBar = styled(TitleBar)(({ theme }) => ({
+  background: theme.palette.primary.main,
+}));
+
+const StyledSearchButton = styled(SMButton)(() => ({
+  flexGrow: 1,
+  marginRight: 0,
+}));
+
+const StyledGuidanceInfoText = styled(Typography)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  padding: `${theme.spacing(3)} ${theme.spacing(2)}`,
+  paddingTop: theme.spacing(1),
+  color: '#fff',
+  textAlign: 'left',
+}));
+
+const StyledCheckBoxIcon = styled('span')(() => ({
+  margin: -1,
+  width: 15,
+  height: 15,
+  backgroundColor: '#fff',
+  border: '1px solid #323232;',
+  borderRadius: 1,
+}));
+
+const StyledCheckBox = styled('div')(() => ({
+  width: 40,
+  height: '100%',
+  alignItems: 'center',
+  justifyContent: 'center',
+  display: 'flex',
+  position: 'relative',
+  flexShrink: 0,
+}));
+
+const StyledText = styled(Typography)(() => ({
+  fontSize: '0.938rem',
+  lineHeight: '1.125rem',
+}));
+
+const StyledAccordion = styled(SMAccordion)(({ level }) => {
+  switch (level) {
+    case 0:
+      return {
+        borderBottom: '0.5px solid rgba(151, 151, 151, 0.5)',
+        backgroundColor: '#fff',
+        '& p': {
+          fontWeight: 'bold',
+        },
+      };
+    case 1:
+      return {
+        backgroundColor: '#e3f3ff',
+        borderBottom: '0.5px solid #fff',
+        '& p': {
+          fontWeight: 'bold',
+        },
+      };
+    case 2:
+      return {
+        borderBottom: '0.5px solid #fff',
+        backgroundColor: '#f5f5f5',
+      };
+    default:
+      return {};
+  }
+});
+
+ServiceTreeView.propTypes = {
+  intl: PropTypes.objectOf(PropTypes.any).isRequired,
+  variant: PropTypes.oneOf([SERVICE_TREE, MOBILITY_TREE]).isRequired,
 };
 
 export default ServiceTreeView;

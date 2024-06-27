@@ -1,45 +1,52 @@
 /* eslint-disable */
 import { Selector } from 'testcafe';
 import { waitForReact } from 'testcafe-react-selectors';
-import config from '../config';
+import { getBaseUrl } from '../utility';
+import {
+  cityDropdown,
+  mapToolsButton,
+  mobilityDropdown,
+  organisationDropdown,
+  sensesDropdown,
+} from '../utility/pageObjects';
 
-const { server } = config;
-
+const sensesDropdownSelector = Selector(sensesDropdown)
+const mobilityDropdownSelector = Selector(mobilityDropdown)
+const cityDropdownSelector = Selector(cityDropdown)
+const organisationDropdownSelector = Selector(organisationDropdown)
 
 fixture`Settings view tests`
-  .page`http://${server.address}:${server.port}/fi/`
+  .page`${getBaseUrl()}/fi/`
   .beforeEach(async () => {
     await waitForReact();
   });
 
 test('Settings does opens and closes correctly', async (t) => {
   await t
-    .expect(Selector('#senses-setting-dropdown').visible).ok()
-    .expect(Selector('#mobility-setting-dropdown').visible).ok()
-    .expect(Selector('#cities-setting-dropdown').visible).ok()
-    // .expect(Selector('#organizations-setting-dropdown').visible).ok()
+    .expect(sensesDropdownSelector.visible).notOk()
+    .expect(mobilityDropdownSelector.visible).notOk()
+    .expect(cityDropdownSelector.visible).notOk()
+    .expect(organisationDropdownSelector.visible).notOk()
   ;
 
   await t
-    .click(Selector('#settings-accordion'))
+    .click(Selector('[data-sm="SettingsMenuButton"]'))
   ;
 
   await t
-    .expect(Selector('#senses-setting-dropdown').visible).notOk()
-    .expect(Selector('#mobility-setting-dropdown').visible).notOk()
-    .expect(Selector('#cities-setting-dropdown').visible).notOk()
-    // .expect(Selector('#organizations-setting-dropdown').visible).notOk()
+    .expect(sensesDropdownSelector.visible).ok()
+    .expect(mobilityDropdownSelector.visible).ok()
+    .expect(cityDropdownSelector.visible).ok()
+    .expect(organisationDropdownSelector.visible).ok()
   ;
+});
 
+test('Map tool menu should contain 3d map link', async (t) => {
+  const mapLink = Selector('[data-sm="3dMapLink"]');
   await t
-    .click(Selector('#settings-accordion'))
-  ;
-
-  await t
-    .expect(Selector('#senses-setting-dropdown').visible).ok()
-    .expect(Selector('#mobility-setting-dropdown').visible).ok()
-    .expect(Selector('#cities-setting-dropdown').visible).ok()
-    // .expect(Selector('#organizations-setting-dropdown').visible).ok()
+    .expect(mapLink.visible).notOk()
+    .click(mapToolsButton)
+    .expect(mapLink.visible).ok()
   ;
 });
 

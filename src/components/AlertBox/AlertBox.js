@@ -1,8 +1,11 @@
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import { css } from '@emotion/css';
+import styled from '@emotion/styled';
 import { Button, Typography } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import { FormattedMessage } from 'react-intl';
+import React, { useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
+import { selectErrors } from '../../redux/selectors/alerts';
 import { focusToViewTitle } from '../../utils/accessibility';
 import LocalStorageUtility from '../../utils/localStorage';
 import useLocaleText from '../../utils/useLocaleText';
@@ -11,16 +14,17 @@ import { getIcon } from '../SMIcon';
 // LocalStorage key for alert message
 const lsKey = 'alertMessage';
 
-const AlertBox = ({ classes, intl, errors }) => {
+const AlertBox = () => {
+  const intl = useIntl();
   const getLocaleText = useLocaleText();
 
   const [visible, setVisible] = useState(true);
-  const abData = errors;
+  const abData = useSelector(selectErrors)?.data;
   const savedMessage = LocalStorageUtility.getItem(lsKey);
 
   if (
     !visible
-    || !abData.length
+    || !abData?.length
     || JSON.stringify(abData[0].title) === savedMessage
   ) {
     return null;
@@ -29,12 +33,20 @@ const AlertBox = ({ classes, intl, errors }) => {
   const setMessageAsWatched = () => {
     LocalStorageUtility.saveItem(lsKey, JSON.stringify(abData[0].title));
   };
+  const iconClass = css({
+    width: 32,
+    height: 32,
+  });
+
+  const endIconClass = css({
+    marginLeft: 4,
+  });
 
   const { title, lead_paragraph: leadParagraph } = abData[0];
   const tTitle = getLocaleText(title);
   const tLeadParagraph = getLocaleText(leadParagraph);
   const icon = getIcon('servicemapLogoIcon', {
-    className: classes.icon,
+    className: iconClass,
   });
   const closeButtonIcon = getIcon('closeIcon');
   const closeButtonText = intl.formatMessage({ id: 'general.close' });
@@ -48,57 +60,77 @@ const AlertBox = ({ classes, intl, errors }) => {
   };
 
   return (
-    <section className={classes.container}>
+    <StyledSection>
       <Typography style={visuallyHidden} component="h2">
         <FormattedMessage id="general.news.alert.title" />
       </Typography>
-      <Button
+      <StyledCloseButton
         aria-label={closeButtonTextAria}
         color="inherit"
         classes={{
-          endIcon: classes.endIcon,
+          endIcon: endIconClass,
         }}
-        className={classes.closeButton}
         endIcon={closeButtonIcon}
         onClick={closeButtonClick}
       >
         {closeButtonText}
-      </Button>
+      </StyledCloseButton>
       {icon}
-      <div className={classes.textContent}>
-        <Typography
-          className={classes.title}
+      <StyledTextContent>
+        <StyledTitle
           component="h3"
           variant="subtitle1"
           color="inherit"
         >
           {tTitle}
-        </Typography>
-        <Typography className={classes.messageText} color="inherit">
+        </StyledTitle>
+        <StyledMessageText color="inherit">
           {tLeadParagraph}
-        </Typography>
-      </div>
-      <div className={classes.padder} />
-    </section>
+        </StyledMessageText>
+      </StyledTextContent>
+      <StyledPadder />
+    </StyledSection>
   );
 };
 
-/* TODO: Once the alert text is received properly,
-(not by inseting to code) these props should be changed to isRequired */
+const StyledSection = styled('section')(({ theme }) => ({
+  padding: theme.spacing(3),
+  color: '#fff',
+  display: 'flex',
+  backgroundColor: theme.palette.primary.main,
+  borderBottom: '1px solid',
+  borderColor: theme.palette.primary.contrastColor,
+}));
 
-AlertBox.propTypes = {
-  errors: PropTypes.arrayOf(
-    PropTypes.shape({
-      lead_paragraph: PropTypes.shape({
-        fi: PropTypes.string,
-      }),
-      title: PropTypes.shape({
-        fi: PropTypes.string,
-      }),
-    }),
-  ).isRequired,
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-};
+const StyledTextContent = styled('div')(() => ({
+  textAlign: 'left',
+  paddingLeft: 10,
+  paddingRight: 8,
+}));
+
+const StyledCloseButton = styled(Button)(({ theme }) => ({
+  textTransform: 'initial',
+  fontSize: '0.75rem',
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  margin: 8,
+  '&:hover': {
+    backgroundColor: theme.palette.primary.dark,
+  },
+}));
+
+const StyledTitle = styled(Typography)(() => ({
+  paddingBottom: 4,
+}));
+
+const StyledMessageText = styled(Typography)(() => ({
+  lineHeight: 'normal',
+  whiteSpace: 'pre-wrap',
+}));
+
+const StyledPadder = styled('div')(() => ({
+  width: 100,
+}));
 
 export default AlertBox;

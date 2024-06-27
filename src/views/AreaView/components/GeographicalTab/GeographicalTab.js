@@ -1,46 +1,57 @@
+import styled from '@emotion/styled';
+import { FormatListBulleted } from '@mui/icons-material';
+import { Typography } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { List, Typography, ListItem } from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
-import { FormatListBulleted, LocationOn } from '@mui/icons-material';
+import { SMAccordion } from '../../../../components';
+import AddressInfo from '../../../../components/AddressInfo/AddressInfo';
 import {
   fetchDistrictGeometry,
+  fetchDistricts,
   handleOpenGeographicalCategory,
   setSelectedDistrictServices,
   setSelectedDistrictType,
   setSelectedSubdistricts,
 } from '../../../../redux/actions/district';
-import { getFilteredSubdistrictServices } from '../../../../redux/selectors/district';
+import {
+  getDistrictOpenItems, getFilteredSubdistrictServices, selectDistrictAddressData,
+  selectDistrictData,
+  selectDistrictsFetching,
+  selectSelectedDistrictType
+} from '../../../../redux/selectors/district';
+import { selectMapRef } from '../../../../redux/selectors/general';
 import { geographicalDistricts } from '../../utils/districtDataHelper';
 import DistrictToggleButton from '../DistrictToggleButton';
 import GeographicalDistrictList from '../GeographicalDistrictList';
 import GeographicalUnitList from '../GeographicalUnitList';
-import useLocaleText from '../../../../utils/useLocaleText';
-import { getAddressText } from '../../../../utils/address';
 import {
-  SMAccordion,
-} from '../../../../components';
+  StyledCaptionText,
+  StyledDistrictServiceListLevelThree,
+  StyledListItem,
+  StyledListNoPaddingLevelTwo,
+  StyledLoadingText,
+  StyledUnitsAccordion,
+} from '../styled/styled';
 
 const GeographicalTab = ({
   initialOpenItems,
   clearRadioButtonValue,
-  classes,
 }) => {
   const dispatch = useDispatch();
   const filteredSubdistrictUnitsLength = useSelector(
     state => getFilteredSubdistrictServices(state).length,
   );
-  const districtsFetching = useSelector(state => state.districts.districtsFetching);
-  const localAddressData = useSelector(state => state.districts.districtAddressData);
-  const selectedDistrictType = useSelector(state => state.districts.selectedDistrictType);
-  const districtData = useSelector(state => state.districts.districtData);
-  const map = useSelector(state => state.mapRef);
-  const getLocaleText = useLocaleText();
+  const districtsFetching = useSelector(selectDistrictsFetching);
+  const localAddressData = useSelector(selectDistrictAddressData);
+  const selectedDistrictType = useSelector(selectSelectedDistrictType);
+  const districtData = useSelector(selectDistrictData);
+  const map = useSelector(selectMapRef);
 
   const [openCategory, setOpenCategory] = useState(
-    useSelector(state => state.districts.openItems).find(item => geographicalDistricts.includes(item)) || [],
+    useSelector(getDistrictOpenItems).find(item => geographicalDistricts.includes(item)) || [],
   );
 
   const setRadioButtonValue = district => {
@@ -85,6 +96,12 @@ const GeographicalTab = ({
   };
 
   useEffect(() => {
+    if (!districtData.length) { // Arriving to page first time
+      dispatch(fetchDistricts());
+    }
+  }, []);
+
+  useEffect(() => {
     if (!selectedDistrictType || !geographicalDistricts.includes(selectedDistrictType)) {
       dispatch(setSelectedSubdistricts([]));
       dispatch(setSelectedDistrictServices([]));
@@ -92,54 +109,30 @@ const GeographicalTab = ({
     }
   }, [selectedDistrictType]);
 
-  const renderAddressInfo = useCallback(() => {
-    const localPostArea = localAddressData.districts.find(obj => obj.type === 'postcode_area');
-    const localNeighborhood = localAddressData.districts.find(obj => obj.type === 'neighborhood');
-    return (
-      <div className={classes.addressInfoContainer}>
-        <Typography component="h3" className={classes.addressInfoText}><FormattedMessage id="area.localAddress.title" /></Typography>
-        <div className={classes.addressInfoIconArea}>
-          <LocationOn color="primary" className={classes.addressInfoIcon} />
-          <Typography component="p" variant="subtitle1">{getAddressText(localAddressData.address, getLocaleText)}</Typography>
-        </div>
-        {localPostArea ? (
-          <Typography className={classes.addressInfoText}>
-            <FormattedMessage id="area.localAddress.postCode" values={{ area: getLocaleText(localPostArea.name) }} />
-          </Typography>
-        ) : null}
-        {localNeighborhood ? (
-          <Typography className={classes.addressInfoText}>
-            <FormattedMessage id="area.localAddress.neighborhood" values={{ area: getLocaleText(localNeighborhood.name) }} />
-          </Typography>
-        ) : null}
-      </div>
-    );
-  }, [localAddressData]);
-
   const render = () => {
     const districtItems = districtData.filter(obj => geographicalDistricts.includes(obj.id));
     return (
       <>
         {localAddressData?.address && localAddressData.districts?.length && (
-          renderAddressInfo()
+          <AddressInfo address={localAddressData.address} districts={localAddressData.districts} />
         )}
         <Typography style={visuallyHidden} component="h3">
           <FormattedMessage id="area.list" />
         </Typography>
-        <List className={`${classes.listNoPadding} ${classes.listLevelTwo}`}>
-          {districtItems.map(district => {
+        <StyledListNoPaddingLevelTwo>
+          {districtItems.map((district) => {
             const opened = openCategory === district.id;
             const selected = selectedDistrictType === district.id;
             return (
-              <ListItem
+              <StyledListItem
                 // divider
                 disableGutters
                 key={district.id}
-                className={`${classes.listItem} ${district.id}`}
+                className={`${district.id}`}
               >
-                <SMAccordion // Top level categories (neighborhood and postcode area)
+                <StyledCategoryListAccordion
+                  // Top level categories (neighborhood and postcode area)
                   defaultOpen={initialOpenItems.includes(district.id)}
-                  className={classes.geographicalCategoryListAccordion}
                   onOpen={(e, open) => handleAccordionToggle(district, !open)}
                   isOpen={opened}
                   elevated={opened}
@@ -157,19 +150,18 @@ const GeographicalTab = ({
                     </Typography>
                   )}
                   collapseContent={(
-                    <div className={`${classes.districtServiceList} ${classes.listLevelThree}`}>
-                      <SMAccordion // Unit list accordion
+                    <StyledDistrictServiceListLevelThree>
+                      <StyledUnitsAccordion // Unit list accordion
                         defaultOpen={initialOpenItems.some(item => typeof item === 'number')}
                         disabled={!filteredSubdistrictUnitsLength}
-                        className={classes.unitsAccordion}
-                        adornment={<FormatListBulleted className={classes.iconPadding} />}
+                        adornment={<StyledFormatListBulleted />}
                         titleContent={(
-                          <Typography className={classes.captionText} variant="caption">
+                          <StyledCaptionText variant="caption">
                             <FormattedMessage
                               id={`area.geographicalServices.${district.id}`}
                               values={{ length: filteredSubdistrictUnitsLength }}
                             />
-                          </Typography>
+                          </StyledCaptionText>
                         )}
                         collapseContent={(
                           <GeographicalUnitList
@@ -181,32 +173,39 @@ const GeographicalTab = ({
                         district={district}
                         map={map}
                       />
-                    </div>
+                    </StyledDistrictServiceListLevelThree>
                   )}
                 />
-              </ListItem>
+              </StyledListItem>
             );
           })}
-        </List>
+        </StyledListNoPaddingLevelTwo>
       </>
     );
   };
 
-  if (!districtData.length && districtsFetching) {
+  if (!districtData.length && districtsFetching?.length) {
     return (
-      <div className={classes.loadingText}>
+      <StyledLoadingText>
         <Typography aria-hidden>
           <FormattedMessage id="general.loading" />
         </Typography>
-      </div>
+      </StyledLoadingText>
     );
   }
 
   return render();
 };
+const StyledCategoryListAccordion = styled(SMAccordion)(({ theme }) => ({
+  paddingLeft: theme.spacing(7),
+}));
+
+const StyledFormatListBulleted = styled(FormatListBulleted)(({ theme }) => ({
+  padding: theme.spacing(2.5),
+  paddingLeft: theme.spacing(7),
+}));
 
 GeographicalTab.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   initialOpenItems: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
 };
 

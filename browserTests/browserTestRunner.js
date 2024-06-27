@@ -3,34 +3,36 @@ const createTestCafe = require('testcafe');
 
 let testcafe = null;
 
-createTestCafe('localhost')
-  .then(tc => {
+createTestCafe({ hostname: 'localhost', configFile: './.testcaferc.js' })
+  .then((tc) => {
     testcafe = tc;
     const runner = testcafe.createRunner();
 
-    return (
-      runner
-        .src([
-          'browserTests/generic/accessibilityTest.js',
-          'browserTests/views/addressTest.js',
-          'browserTests/views/areaTest.js',
-          'browserTests/generic/browserTest.js',
-          // 'browserTests/views/divisionTest.js',
-          'browserTests/views/mobilityPlatformTest.js',
-          'browserTests/views/embedTest.js',
-          'browserTests/generic/generalTest.js',
-          'browserTests/views/searchTest.js',
-          'browserTests/views/serviceTest.js',
-          'browserTests/views/settingsTest.js',
-          // 'browserTests/titleBarTest.js',
-          'browserTests/views/unitPageTest.js',
-          // 'browserTests/views/unitListPageTest.js',
-          'browserTests/views/unitPageExtendedDataTest.js',
-        ])
-        .browsers(['chrome:headless'])
-        // .reporter('list')
-        .run()
-    );
+    return runner
+      .src([
+        'browserTests/generic/accessibilityTest.js',
+        'browserTests/generic/browserTest.js',
+        'browserTests/generic/generalTest.js',
+        'browserTests/generic/mapTest.js',
+        'browserTests/generic/navigationTest.js',
+        'browserTests/views/addressTest.js',
+        'browserTests/views/areaTest.js',
+        'browserTests/views/embeddedViewsTest.js',
+        'browserTests/views/homeTest.js',
+        'browserTests/views/mobilityPlatformTest.js',
+        // 'browserTests/views/mobilityTreeTest.js',
+        'browserTests/views/searchTest.js',
+        'browserTests/views/serviceTest.js',
+        'browserTests/views/serviceTreeTest.js',
+        'browserTests/views/settingsTest.js',
+        'browserTests/views/unitPageExtendedDataTest.js',
+        'browserTests/views/unitPageTest.js',
+      ])
+      .browsers(['chrome:headless'])
+      // .reporter('list')
+      .run({
+        disableNativeAutomation: true,
+      });
   })
   .then(failedCount => {
     console.log(`Tests failed: ${failedCount}`);

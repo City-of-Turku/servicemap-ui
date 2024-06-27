@@ -48,7 +48,9 @@ const getPreloadedState = () => {
   state.settings = settings;
 
   // Set correct theme from localStorage
-  const theme = LocalStorageUtility.getItem('theme');
+  // TODO dark mode is broken after refresh
+  // const theme = LocalStorageUtility.getItem('theme');
+  const theme = 'default';
   if (theme) {
     state.user.theme = theme;
   }

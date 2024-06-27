@@ -1,14 +1,42 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
-import { breadcrumbPush, breadcrumbPop, breadcrumbReplace } from '../../redux/actions/breadcrumb';
-import { generatePath, isEmbed } from '../../utils/path';
 import config from '../../../config';
-import SettingsUtility from '../../utils/settings';
-import matomoTracker from '../../utils/tracking';
+import { breadcrumbPop, breadcrumbPush, breadcrumbReplace } from '../../redux/actions/breadcrumb';
+import { selectBreadcrumb, selectTracker } from '../../redux/selectors/general';
+import { selectResultsPreviousSearch } from '../../redux/selectors/results';
+import { selectMobility, selectSenses } from '../../redux/selectors/settings';
+import { generatePath, isEmbed } from '../../utils/path';
+import { servicemapTrackPageView } from '../../utils/tracking';
+
+const getHelsinkiCookie = () => {
+  const pairs = document.cookie.split(';');
+  const cookies = {};
+  pairs.forEach(item => {
+    const pair = item.split('=');
+    const key = (`${pair[0]}`).trim();
+    const string = pair.slice(1).join('=');
+    cookies[key] = decodeURIComponent(string);
+  });
+  const helsinkiCookie = cookies?.['city-of-helsinki-cookie-consents'];
+  return helsinkiCookie ? JSON.parse(helsinkiCookie) : null;
+};
+
+const shouldSentAnalytics = () => {
+  if (typeof window === 'undefined' || isEmbed()) {
+    return false;
+  }
+  return getHelsinkiCookie()?.matomo;
+};
 
 class Navigator extends React.Component {
   unlisten = null;
+
+  /**
+   * To prevent situation where setting an url param triggers history.listen callback resulting
+   * in multiple sent "stats" calls
+   */
+  prevPathName = null;
 
   componentDidMount() {
     const {
@@ -17,15 +45,14 @@ class Navigator extends React.Component {
       senses,
     } = this.props;
 
+    this.prevPathName = history.location.pathname;
     // Initial pageView tracking on first load
     this.trackPageView({ mobility, senses });
     if (this.unlisten) {
       this.unlisten();
     }
     // Add event listener to listen history changes and track new pages
-    this.unlisten = history.listen(() => {
-      this.trackPageView({ mobility, senses });
-    });
+    this.unlisten = history.listen(this.historyCallBack(mobility, senses));
   }
 
   // We need to update history tracking event when settings change
@@ -39,9 +66,7 @@ class Navigator extends React.Component {
     if (this.unlisten) {
       this.unlisten();
     }
-    this.unlisten = history.listen(() => {
-      this.trackPageView({ mobility, senses });
-    });
+    this.unlisten = history.listen(this.historyCallBack(mobility, senses));
   }
 
   componentWillUnmount() {
@@ -51,39 +76,53 @@ class Navigator extends React.Component {
     }
   }
 
-  trackPageView = (settings) => {
-    if (matomoTracker) {
-      const mobility = settings?.mobility;
-      const senses = settings?.senses;
+  trackPageView = ({ mobility, senses }) => {
+    const { tracker } = this.props;
+
+    // Simple custom servicemap page view tracking
+    servicemapTrackPageView();
+    if (tracker && shouldSentAnalytics()) {
       setTimeout(() => {
-        matomoTracker.trackPageView({
+        tracker.trackPageView({
           documentTitle: document.title,
           customDimensions: [
-            {
-              id: config.matomoMobilityDimensionID,
-              value: mobility || '',
-            },
-            {
-              id: config.matomoSensesDimensionID,
-              value: senses && senses.join(','),
-            },
+            { id: config.matomoMobilityDimensionID, value: mobility || '' },
+            { id: config.matomoSensesDimensionID, value: senses?.join(',') },
           ],
         });
       }, 400);
     }
-  }
+  };
+
+  trackNoResultsPage = (noResultsQuery) => {
+    const { tracker } = this.props;
+    if (tracker && shouldSentAnalytics()) {
+      this.unlisten = null;
+      setTimeout(() => {
+        tracker.trackPageView({
+          documentTitle: document.title,
+          customDimensions: [
+            { id: config.matomoNoResultsDimensionID, value: noResultsQuery },
+          ],
+        });
+      }, 400);
+    }
+  };
 
   /**
    * Generate url based on path string and data
    * @param target - Key string for path config
    * @param data - Data for path used if target is path key
+   * @param embed - Override isEmbed() check
    */
-  generatePath = (target, data) => {
+  generatePath = (target, data, embed) => {
     const { match } = this.props;
     const { params } = match;
     const locale = params && params.lng;
 
-    return generatePath(target, locale, data, isEmbed());
+    const embedValue = typeof embed !== 'undefined' ? embed : isEmbed();
+
+    return generatePath(target, locale, data, embedValue);
   }
 
 
@@ -96,18 +135,14 @@ class Navigator extends React.Component {
       breadcrumbPop,
       history,
       location,
-      mobility,
-      senses,
     } = this.props;
 
     // If breadcrumb has values go back else take user to home
     if (breadcrumb && breadcrumb.length > 0) {
       history.goBack();
-      // History listen doesn't detect goBack so we need to manually track page
-      this.trackPageView({ mobility, senses });
       breadcrumbPop();
     } else {
-      history.push(this.generatePath('home'));
+      history.push(this.generatePath('home', null, false));
       breadcrumbPush({ location });
     }
   }
@@ -213,6 +248,16 @@ class Navigator extends React.Component {
     history.replace(url.pathname + url.search);
   }
 
+  historyCallBack(mobility, senses) {
+    return (a) => {
+      if (this.prevPathName === a.pathname) {
+        return;
+      }
+      this.prevPathName = a.pathname;
+      this.trackPageView({ mobility, senses });
+    };
+  }
+
   render = () => null;
 }
 
@@ -225,29 +270,23 @@ Navigator.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
   senses: PropTypes.arrayOf(PropTypes.string),
   mobility: PropTypes.string,
+  tracker: PropTypes.objectOf(PropTypes.any),
 };
 
 Navigator.defaultProps = {
   senses: null,
   mobility: null,
+  tracker: null,
 };
 
 // Listen to redux state
-const mapStateToProps = (state) => {
-  const {
-    breadcrumb,
-    searchResults,
-    settings,
-  } = state;
-
-  const { previousSearch } = searchResults;
-  return {
-    breadcrumb,
-    previousSearch,
-    mobility: settings.mobility,
-    senses: SettingsUtility.accessibilityImpairmentKeys.filter(key => settings[key]),
-  };
-};
+const mapStateToProps = state => ({
+  breadcrumb: selectBreadcrumb(state),
+  previousSearch: selectResultsPreviousSearch(state),
+  mobility: selectMobility(state),
+  senses: selectSenses(state),
+  tracker: selectTracker(state),
+});
 
 export default connect(
   mapStateToProps,

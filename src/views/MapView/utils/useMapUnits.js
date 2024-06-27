@@ -1,42 +1,42 @@
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import distance from '@turf/distance';
 import flip from '@turf/flip';
-import { getDistrictPrimaryUnits, getFilteredSubdistrictUnits, getParkingUnits } from '../../../redux/selectors/district';
-import { getOrderedData } from '../../../redux/selectors/results';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import { selectAddressAdminDistricts, selectAddressUnits } from '../../../redux/selectors/address';
+import {
+  getDistrictPrimaryUnits,
+  getFilteredSubDistrictUnits,
+  selectParkingUnitUnits,
+} from '../../../redux/selectors/district';
+import {
+  getOrderedSearchResultData,
+  selectResultsIsFetching,
+} from '../../../redux/selectors/results';
 import { getSelectedUnit } from '../../../redux/selectors/selectedUnit';
-import { getServiceUnits } from '../../../redux/selectors/service';
+import { getServiceUnits, selectServiceIsFetching } from '../../../redux/selectors/service';
+import {
+  getServiceFilteredStatisticalDistrictUnits,
+} from '../../../redux/selectors/statisticalDistrict';
+import { getLocale, getPage } from '../../../redux/selectors/user';
+import { orderUnits } from '../../../utils/orderUnits';
 import { useEmbedStatus } from '../../../utils/path';
-import { getServiceFilteredStatisticalDistrictUnits } from '../../../redux/selectors/statisticalDistrict';
 
 // Helper function to handle address view units
 const handleAdrressUnits = (addressToRender, adminDistricts, addressUnits) => {
-  let mapUnits = [];
   switch (addressToRender) {
     case 'adminDistricts':
-      mapUnits = adminDistricts ? adminDistricts
-        .filter(d => d.unit)
-        .reduce((unique, o) => {
-          // Ignore districts without unit
-          if (!o.unit) {
-            return unique;
-          }
-          // Add only unique units
-          if (!unique.some(obj => obj.id === o.unit.id)) {
-            unique.push(o.unit);
-          }
-          return unique;
-        }, [])
-        : [];
-      break;
+      return adminDistricts
+        .flatMap(d => [d.unit, ...(d.units || [])])
+        .filter(x => !!x)
+        .filter(
+          (unit, index, self) => index
+            === self.findIndex(x => x.id === unit.id),
+        );
     case 'units':
-      mapUnits = addressUnits;
-      break;
+      return addressUnits;
     default:
-      mapUnits = [];
+      return [];
   }
-
-  return mapUnits;
 };
 
 // Helper function to add additional service units to unit page if specified on Url parameters
@@ -81,20 +81,21 @@ const handleServiceUnitsFromUrl = (mapUnits, serviceUnits, location) => {
 const useMapUnits = () => {
   const embedded = useEmbedStatus();
   const location = useLocation();
-  const searchResults = useSelector(state => getOrderedData(state));
-  const currentPage = useSelector(state => state.user.page);
+  const searchResults = useSelector(getOrderedSearchResultData);
+  const currentPage = useSelector(getPage);
   const addressToRender = useSelector(state => state.address.toRender);
-  const adminDistricts = useSelector(state => state.address.adminDistricts);
-  const addressUnits = useSelector(state => state.address.units);
-  const serviceUnits = useSelector(state => getServiceUnits(state));
-  const districtPrimaryUnits = useSelector(state => getDistrictPrimaryUnits(state));
-  const districtServiceUnits = useSelector(state => getFilteredSubdistrictUnits(state));
+  const adminDistricts = useSelector(selectAddressAdminDistricts);
+  const addressUnits = useSelector(selectAddressUnits);
+  const serviceUnits = useSelector(getServiceUnits);
+  const districtPrimaryUnits = useSelector(getDistrictPrimaryUnits);
+  const districtServiceUnits = useSelector(getFilteredSubDistrictUnits);
   const statisticalDistrictUnits = useSelector(getServiceFilteredStatisticalDistrictUnits);
-  const parkingAreaUnits = useSelector(state => getParkingUnits(state));
-  const highlightedUnit = useSelector(state => getSelectedUnit(state));
+  const parkingAreaUnits = useSelector(selectParkingUnitUnits);
+  const highlightedUnit = useSelector(getSelectedUnit);
+  const locale = useSelector(getLocale);
 
-  const searchUnitsLoading = useSelector(state => state.searchResults.isFetching);
-  const serviceUnitsLoading = useSelector(state => state.service.isFetching);
+  const searchUnitsLoading = useSelector(selectResultsIsFetching);
+  const serviceUnitsLoading = useSelector(selectServiceIsFetching);
   const unitsLoading = searchUnitsLoading || serviceUnitsLoading;
 
   const searchParams = new URLSearchParams(location.search);
@@ -131,17 +132,16 @@ const useMapUnits = () => {
         if (serviceUnits && !unitsLoading) return serviceUnits;
         return [];
 
-      case 'area':
-        return [
-          ...(districtPrimaryUnits.length ? districtPrimaryUnits : []),
-          ...(districtServiceUnits.length ? districtServiceUnits : []),
-          ...(parkingAreaUnits.length ? parkingAreaUnits : []),
-          ...(statisticalDistrictUnits.length && statisticalTabOpen
-            ? statisticalDistrictUnits
-            : []
-          ),
+      case 'area': {
+        const results = [
+          ...districtPrimaryUnits,
+          ...districtServiceUnits,
+          ...parkingAreaUnits,
+          ...(statisticalTabOpen ? statisticalDistrictUnits : []),
         ];
 
+        return orderUnits(results, { locale, direction: 'desc', order: 'alphabetical' });
+      }
       default:
         return [];
     }

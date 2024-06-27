@@ -1,16 +1,20 @@
-import { Button, Divider, Typography } from '@mui/material';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import {
+  Typography, Divider, Button,
+} from '@mui/material';
+import { css } from '@emotion/css';
+import styled from '@emotion/styled';
+import { useTheme } from '@mui/styles';
+import { FormattedMessage } from 'react-intl';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
 import { keyboardHandler } from '../../../utils';
 import BoldedText from '../../BoldedText';
 
 const SuggestionItem = (props) => {
   const {
-    classes,
     className,
     divider,
     text,
@@ -23,6 +27,7 @@ const SuggestionItem = (props) => {
     role,
     id,
   } = props;
+  const theme = useTheme();
 
   const [mouseDown, setMouseDown] = useState(false);
   const onClick = handleItemClick
@@ -32,8 +37,36 @@ const SuggestionItem = (props) => {
         handleItemClick();
         setMouseDown(true);
       }
-    }
-    : null;
+    } : null;
+  const textContainer = css({
+    display: 'flex',
+    padding: theme.spacing(1, 0),
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    whiteSpace: 'pre-line',
+    '& p': {
+      lineHeight: '1.125rem',
+    },
+  });
+
+  const listItem = css({
+    padding: theme.spacing(0, 1),
+  });
+
+  const itemFocus = css({
+    outline: '80px solid transparent',
+    boxShadow: `0 0 0 4px ${theme.palette.focusBorder.main}`,
+  });
+
+  const suggestIconLabel = css({
+    padding: theme.spacing(1),
+    color: 'rgba(0, 0, 0, 0.87)',
+    textTransform: 'none',
+    '&:hover': {
+      color: '#2242C7',
+      textDecorationLine: 'underline',
+    },
+  });
 
   return (
     <React.Fragment>
@@ -41,8 +74,8 @@ const SuggestionItem = (props) => {
         button
         component="li"
         classes={{
-          root: classes.listItem,
-          selected: classes.itemFocus,
+          root: listItem,
+          selected: itemFocus,
         }}
         selected={selected}
         className={`suggestion ${className || ''}`}
@@ -55,28 +88,45 @@ const SuggestionItem = (props) => {
         aria-label={`${text} ${subtitle || ''}`}
         id={id}
       >
-        <span className={classes.container}>
-          <ListItemIcon aria-hidden className={`${classes.listIcon}`}>
+        <StyledContainer>
+          <StyledListItemIcon aria-hidden>
             {icon}
-          </ListItemIcon>
-
-          <ListItemText className={classes.text} classes={{ root: classes.textContainer }}>
-            <Typography aria-hidden className={handleRemoveClick ? classes.historyText : ''} variant="body2">
-              {query ? <BoldedText text={text} shouldBeBold={query} /> : text}
-            </Typography>
-            {subtitle && (
-              <Typography aria-hidden variant="body2" className={classes.subtitle}>
+          </StyledListItemIcon>
+          <StyledListItemText classes={{ root: textContainer }}>
+            <StyledHistoryText
+              aria-hidden
+              handleremoveclick={handleRemoveClick ? 'true' : undefined}
+              variant="body2"
+            >
+              {
+                query
+                  ? (
+                    <BoldedText
+                      text={text}
+                      shouldBeBold={query}
+                    />
+                  ) : text
+              }
+            </StyledHistoryText>
+            {
+            subtitle
+            && (
+              <StyledSubtitle
+                aria-hidden
+                variant="body2"
+              >
                 {subtitle}
-              </Typography>
-            )}
-          </ListItemText>
-        </span>
+              </StyledSubtitle>
+
+            )
+          }
+          </StyledListItemText>
+        </StyledContainer>
         {handleRemoveClick && (
-          <Button
+          <StyledSuggestIcon
             aria-hidden
-            className={`${classes.suggestIcon}`}
             classes={{
-              label: classes.suggestIconLabel,
+              label: suggestIconLabel,
             }}
             onMouseDown={(e) => {
               e.preventDefault();
@@ -86,25 +136,77 @@ const SuggestionItem = (props) => {
               return false;
             }}
           >
-            <Typography variant="caption" className={classes.removeText}>
+            <StyledRemoveText variant="caption">
               <FormattedMessage id="search.removeSuggestion" />
-            </Typography>
-          </Button>
+            </StyledRemoveText>
+          </StyledSuggestIcon>
         )}
       </ListItem>
       {divider ? (
         <li aria-hidden>
-          <Divider aria-hidden className={classes.divider} />
+          <StyledDivider aria-hidden />
         </li>
       ) : null}
     </React.Fragment>
   );
 };
 
+const StyledContainer = styled('span')(({ theme }) => ({
+  display: 'flex',
+  flex: '1 1 auto',
+  padding: theme.spacing(0.5, 0),
+}));
+
+const StyledListItemIcon = styled(ListItemIcon)(({ theme }) => ({
+  width: '1.5rem',
+  height: '1.5rem',
+  margin: theme.spacing(0.5, 1),
+  marginRight: 0,
+  alignSelf: 'center',
+  padding: theme.spacing(0.5),
+  minWidth: 0,
+}));
+
+const StyledListItemText = styled(ListItemText)(() => ({
+  alignSelf: 'center',
+}));
+
+const StyledHistoryText = styled(Typography)(({ handleremoveclick }) => {
+  const styles = {};
+  if (handleremoveclick) {
+    Object.assign(styles, {
+      color: '#660DD7',
+    });
+  }
+  return styles;
+});
+
+const StyledSubtitle = styled(Typography)(() => ({
+  fontSize: '0.625rem',
+  fontWeight: 'none',
+  lineHeight: '1.125rem',
+}));
+
+const StyledRemoveText = styled(Typography)(() => ({
+  color: 'inherit',
+}));
+
+const StyledSuggestIcon = styled(Button)(({ theme }) => ({
+  color: '#757575',
+  height: 'auto',
+  margin: 0,
+  padding: theme.spacing(2),
+  marginRight: theme.spacing(-1),
+}));
+
+const StyledDivider = styled(Divider)(({ theme }) => ({
+  marginLeft: theme.spacing(8),
+  marginRight: theme.spacing(-2),
+}));
+
 export default SuggestionItem;
 
 SuggestionItem.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   icon: PropTypes.objectOf(PropTypes.any),
   handleRemoveClick: PropTypes.func,

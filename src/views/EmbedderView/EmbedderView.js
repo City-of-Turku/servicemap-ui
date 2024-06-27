@@ -1,31 +1,38 @@
-import React, {
-  useState, useRef, useEffect, useCallback,
-} from 'react';
+import styled from '@emotion/styled';
+import { Checkbox, Divider, FormControlLabel, Link, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import {
-  Checkbox, Divider, FormControlLabel, Typography,
-} from '@mui/material';
-import URI from 'urijs';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import * as smurl from './utils/url';
-import isClient, { uppercaseFirst } from '../../utils';
-import { getEmbedURL, getLanguage } from './utils/utils';
-import paths from '../../../config/paths';
-import embedderConfig from './embedderConfig';
-import SettingsUtility from '../../utils/settings';
-import useLocaleText from '../../utils/useLocaleText';
-import { useUserLocale } from '../../utils/user';
-import { useMobilityPlatformContext } from '../../context/MobilityPlatformContext';
+import URI from 'urijs';
 import config from '../../../config';
-import EmbedController from './components/EmbedController';
-import IFramePreview from './components/IFramePreview';
-import EmbedHTML from './components/EmbedHTML';
-import TopBar from '../../components/TopBar';
+import paths from '../../../config/paths';
 import { CloseButton, SMButton } from '../../components';
+import TopBar from '../../components/TopBar';
+import { useMobilityPlatformContext } from '../../context/MobilityPlatformContext';
+import { selectNavigator } from '../../redux/selectors/general';
+import { getSelectedUnit } from '../../redux/selectors/selectedUnit';
+import { selectServiceCurrent } from '../../redux/selectors/service';
+import {
+  selectMapType,
+  selectSelectedCities,
+  selectSelectedOrganizations,
+} from '../../redux/selectors/settings';
+import { getLocale, getPage } from '../../redux/selectors/user';
+import isClient, { uppercaseFirst } from '../../utils';
+import useLocaleText from '../../utils/useLocaleText';
+import EmbedController from './components/EmbedController';
+import EmbedHTML from './components/EmbedHTML';
+import IFramePreview from './components/IFramePreview';
+import embedderConfig from './embedderConfig';
+import * as smurl from './utils/url';
+import { getEmbedURL, getLanguage } from './utils/utils';
 
-const hideCitiesIn = [paths.unit.regex, paths.address.regex];
+const hideCitiesAndOrgsIn = [
+  paths.unit.regex,
+  paths.address.regex,
+];
 
 const hideServicesIn = [
   paths.search.regex,
@@ -35,15 +42,33 @@ const hideServicesIn = [
   paths.area.regex,
 ];
 
+/**
+ * @param embedUrl (or normal url)
+ */
+const showCitiesAndOrganisations = embedUrl => {
+  if (typeof embedUrl !== 'string') {
+    return false;
+  }
+  const originalUrl = embedUrl.replace('/embed', '');
+  return hideCitiesAndOrgsIn.every(r => !r.test(originalUrl));
+};
+
 // Timeout for handling width and height input changes
 // only once user stops typing
 let timeout;
 const timeoutDelay = 1000;
-// const documentationLink = config.embedderDocumentationUrl;
+const documentationLink = config.embedderDocumentationUrl;
+const { topBarHeight } = config;
 
-const EmbedderView = ({
-  citySettings, classes, intl, mapType, navigator,
-}) => {
+const EmbedderView = () => {
+  const intl = useIntl();
+  const mapType = useSelector(selectMapType);
+  const navigator = useSelector(selectNavigator);
+  const selectedCities = useSelector(selectSelectedCities);
+  const page = useSelector(getPage);
+  const selectedUnit = useSelector(getSelectedUnit);
+  const currentService = useSelector(selectServiceCurrent);
+  const selectedOrgs = useSelector(selectSelectedOrganizations);
   // Verify url
   const data = isClient() ? smurl.verify(window.location.href) : {};
   let { url } = data;
@@ -57,9 +82,6 @@ const EmbedderView = ({
     search = uri.search(true);
   }
 
-  const cityOption = (search?.city !== '' && search?.city?.split(',')) || citySettings;
-  const citiesToReduce = cityOption.length > 0 ? cityOption : embedderConfig.CITIES.filter(v => v);
-
   // If external theme (by Turku) is true, then can be used to select which content to render
   const externalTheme = config.themePKG;
   const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
@@ -68,18 +90,31 @@ const EmbedderView = ({
   const initialRatio = ratio || 52;
   const defaultMap = search.map || mapType || embedderConfig.BACKGROUND_MAPS[0];
   const defaultLanguage = getLanguage(url);
-  const defaultCities = citiesToReduce.reduce((acc, current) => {
-    acc[current] = true;
-    return acc;
-  }, {});
   const defaultFixedHeight = embedderConfig.DEFAULT_CUSTOM_WIDTH;
   const iframeConfig = embedderConfig.DEFAULT_IFRAME_PROPERTIES || {};
   const defaultService = 'none';
-  const page = useSelector(state => state.user.page);
-  const selectedUnit = useSelector(state => state.selectedUnit.unit.data);
-  const currentService = useSelector(state => state.service.current);
+
   const getLocaleText = useLocaleText();
-  const userLocale = useUserLocale();
+  const userLocale = useSelector(getLocale);
+
+  function getInitialCities() {
+    const city1 = search?.city;
+    if (!showCitiesAndOrganisations(url) || city1 === '') {
+      return [];
+    }
+    return city1?.split(',') || selectedCities || [];
+  }
+
+  function getInitialOrgs() {
+    const organization1 = search?.organization;
+    if (!showCitiesAndOrganisations(url) || organization1 === '') {
+      return [];
+    }
+    const urlParamOrgs = organization1?.split(',')
+      ?.map(orgId => config.organizations.find(org => org.id === orgId))
+      ?.filter(org => org);
+    return urlParamOrgs || selectedOrgs || [];
+  }
 
   const {
     showAccessibilityAreas,
@@ -98,7 +133,8 @@ const EmbedderView = ({
   // States
   const [language, setLanguage] = useState(defaultLanguage);
   const [map, setMap] = useState(defaultMap);
-  const [city, setCity] = useState(defaultCities);
+  const [city, setCity] = useState(getInitialCities());
+  const [organization, setOrganization] = useState(getInitialOrgs());
   const [service, setService] = useState(defaultService);
   const [customWidth, setCustomWidth] = useState(embedderConfig.DEFAULT_CUSTOM_WIDTH || 100);
   const [widthMode, setWidthMode] = useState('auto');
@@ -134,6 +170,7 @@ const EmbedderView = ({
     language,
     map,
     city,
+    organization,
     service,
     defaultLanguage,
     transit,
@@ -256,21 +293,7 @@ const EmbedderView = ({
     [customWidth, fixedHeight, heightMode, iframeTitle, widthMode, ratioHeight, iframeConfig.style, showUnitList],
   );
 
-  const showCities = embedUrl => {
-    if (typeof embedUrl !== 'string') {
-      return false;
-    }
-    const originalUrl = embedUrl.replace('/embed', '');
-    let show = true;
-    hideCitiesIn.forEach(r => {
-      if (show) {
-        show = !r.test(originalUrl);
-      }
-    });
-    return show;
-  };
-
-  const showServices = embedUrl => {
+  const showServices = (embedUrl) => {
     if (typeof embedUrl !== 'string') {
       return false;
     }
@@ -335,20 +358,21 @@ const EmbedderView = ({
    * Render city controls
    */
   const renderCityControl = () => {
-    if (!showCities(embedUrl)) {
+    if (!showCitiesAndOrganisations(embedUrl)) {
       return null;
     }
     const cities = city;
     const cityControls = embedderConfig.CITIES.filter(v => v).map(city => ({
       key: city,
-      value: !!cities[city],
+      value: !!cities.includes(city),
       label: uppercaseFirst(city),
       icon: null,
-      onChange: v => {
-        const newCities = {};
-        Object.assign(newCities, cities);
-        newCities[city] = v;
-        setCity(newCities);
+      onChange: (v) => {
+        if (v) {
+          setCity([...cities, city]);
+        } else {
+          setCity(cities.filter(value => value !== city));
+        }
       },
     }));
 
@@ -358,6 +382,38 @@ const EmbedderView = ({
         titleComponent="h2"
         checkboxControls={cityControls}
         checkboxLabelledBy="embedder.city.title"
+      />
+    );
+  };
+
+  /**
+   * Render organization controls
+   */
+  const renderOrganizationControl = () => {
+    if (!showCitiesAndOrganisations(embedUrl)) {
+      return null;
+    }
+    const organizations = organization;
+    const organizationControls = embedderConfig.ORGANIZATIONS.map(org => ({
+      key: org.id,
+      value: !!organizations.some(value => value.id === org.id),
+      label: uppercaseFirst(getLocaleText(org.name)),
+      icon: null,
+      onChange: (v) => {
+        if (v) {
+          setOrganization([...organizations, org]);
+        } else {
+          setOrganization(organizations.filter(value => value.id !== org.id));
+        }
+      },
+    }));
+
+    return (
+      <EmbedController
+        titleID="embedder.organization.title"
+        titleComponent="h2"
+        checkboxControls={organizationControls}
+        checkboxLabelledBy="embedder.organization.title"
       />
     );
   };
@@ -476,25 +532,22 @@ const EmbedderView = ({
     );
   };
 
-  const renderMapControls = useCallback(
-    () => (
-      <div className={classes.mapControlContainer}>
-        {/* Map bounds */}
-        <FormControlLabel
-          control={(
-            <Checkbox
-              color="primary"
-              checked={!!restrictBounds}
-              value="bounds"
-              onChange={() => setRestrictBounds(!restrictBounds)}
-            />
-          )}
-          label={<FormattedMessage id="embedder.options.label.bbox" />}
-        />
-      </div>
-    ),
-    [restrictBounds],
-  );
+  const renderMapControls = useCallback(() => (
+    <StyledMapControlContainer>
+      {/* Map bounds */}
+      <FormControlLabel
+        control={(
+          <Checkbox
+            color="primary"
+            checked={!!restrictBounds}
+            value="bounds"
+            onChange={() => setRestrictBounds(!restrictBounds)}
+          />
+        )}
+        label={(<FormattedMessage id="embedder.options.label.bbox" />)}
+      />
+    </StyledMapControlContainer>
+  ), [restrictBounds]);
 
   const renderMarkerOptionsControl = () => {
     const controls = [
@@ -678,52 +731,76 @@ const EmbedderView = ({
     <>
       <TopBar smallScreen={false} hideButtons />
       <div ref={dialogRef}>
-        {renderHeadInfo()}
-        <div className={classes.container}>
-          <div className={classes.titleContainer}>
-            <CloseButton
+        {
+          renderHeadInfo()
+        }
+        <StyledContainer>
+          <StyledTitleContainer>
+            <StyledCloseButton
               aria-label={intl.formatMessage({ id: 'embedder.close' })}
-              className={classes.closeButton}
               onClick={closeView}
               role="link"
               textID="embedder.close"
+              data-sm="EmbedderToolCloseButton"
             />
-            <Typography align="left" className={classes.title} variant="h1">
+            <StyledTitle align="left" variant="h1" data-sm="EmbedderToolTitle">
               <FormattedMessage id="embedder.title" />
-            </Typography>
-          </div>
-          <div className={classes.scrollContainer}>
-            <div className={classes.formContainer}>
-              <Typography className={classes.infoText} align="left" variant="body2">
+            </StyledTitle>
+          </StyledTitleContainer>
+          <StyledScrollContainer>
+            <StyledFormContainer>
+              <StyledInfoText align="left" variant="body2">
                 <FormattedMessage id="embedder.title.info" />
-              </Typography>
+              </StyledInfoText>
               <br />
-              <Typography className={classes.infoTitle} variant="h6" component="h2" align="left">
+              <StyledInfoTitle variant="h6" component="h2" align="left">
                 <FormattedMessage id="embedder.info.title" />
-              </Typography>
-              <Typography className={classes.infoText} align="left">
+              </StyledInfoTitle>
+              <StyledInfoText align="left">
                 <FormattedMessage id="embedder.info.description" />
-              </Typography>
+                {' '}
+                <Link underline="always" href={documentationLink} target="_blank">
+                  <FormattedMessage id="embedder.info.link" />
+                </Link>
+              </StyledInfoText>
               <br />
               <form>
-                {renderLanguageControl()}
-                {renderServiceControl()}
-                {renderMapTypeControl()}
-                {renderCityControl()}
-                {renderWidthControl()}
-                {renderHeightControl()}
-                {renderMarkerOptionsControl()}
-                {isExternalTheme ? renderMobilityDataControls() : null}
-                {renderListOptionsControl()}
+                {
+                renderLanguageControl()
+              }
+                {
+                renderServiceControl()
+              }
+                {
+                renderMapTypeControl()
+              }
+                {
+                renderCityControl()
+              }
+              {
+                renderOrganizationControl()
+              }
+                {
+                renderWidthControl()
+              }
+                {
+                renderHeightControl()
+              }
+                {
+                renderMarkerOptionsControl()
+              }
+                {
+                renderListOptionsControl()
+              }
               </form>
-            </div>
+            </StyledFormContainer>
+
             <div>
-              <Divider className={classes.divider} orientation="vertical" aria-hidden />
+              <StyledDivider orientation="vertical" aria-hidden />
             </div>
 
-            <div className={classes.previewContainer}>
+            <StyledPreviewContainer>
               <IFramePreview
-                classes={classes}
                 customWidth={customWidth}
                 embedUrl={embedUrl}
                 fixedHeight={fixedHeight}
@@ -738,63 +815,99 @@ const EmbedderView = ({
               />
 
               <EmbedHTML
-                classes={classes}
                 url={embedUrl}
                 createEmbedHTML={createEmbedHTML}
                 setBoundsRef={setBoundsRef}
                 restrictBounds={restrictBounds}
               />
-              <SMButton
+              <StyledButton
                 aria-label={intl.formatMessage({ id: 'embedder.close' })}
-                className={classes.button}
                 small
                 role="link"
                 onClick={closeView}
                 messageID="embedder.close"
               />
-            </div>
-          </div>
-        </div>
+            </StyledPreviewContainer>
+          </StyledScrollContainer>
+        </StyledContainer>
       </div>
     </>
   );
 };
-
+const StyledMapControlContainer = styled('div')(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+}));
+const StyledContainer = styled('div')(() => ({
+  display: 'inline-flex',
+  flexDirection: 'column',
+  margin: 0,
+  height: `calc(100vh - ${topBarHeight}px)`,
+}));
+const StyledTitleContainer = styled('div')(({ theme }) => ({
+  margin: `${theme.spacing(2)} 0`,
+  paddingTop: 0,
+  paddingLeft: '9.5vw',
+  paddingRight: '9.5vw',
+  paddingBottom: theme.spacing(3),
+  position: 'relative',
+  display: 'flex',
+  flexWrap: 'wrap',
+}));
+const StyledScrollContainer = styled('div')(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  overflow: 'hidden',
+}));
+const StyledFormContainer = styled('div')(({ theme }) => ({
+  margin: `${theme.spacing(2)} 0`,
+  marginTop: 0,
+  width: '45%',
+  height: '100%',
+  overflowY: 'auto',
+  paddingLeft: '9.5vw',
+  paddingRight: theme.spacing(3),
+}));
+const StyledInfoText = styled(Typography)(() => ({
+  whiteSpace: 'pre-line',
+  lineHeight: '1.5rem',
+}));
+const StyledCloseButton = styled(CloseButton)(() => ({
+  marginLeft: 'auto',
+}));
+const StyledTitle = styled(Typography)(({ theme }) => ({
+  ...theme.typography.h4,
+  width: '100%',
+}));
+const StyledInfoTitle = styled(Typography)(() => ({
+  lineHeight: '2rem',
+}));
+const StyledDivider = styled(Divider)(() => ({
+  width: 4,
+}));
+const StyledPreviewContainer = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '55%',
+  height: '100%',
+  overflowY: 'auto',
+  marginLeft: theme.spacing(3),
+  marginRight: '6.5vw',
+  paddingRight: theme.spacing(2),
+}));
+const StyledButton = styled(SMButton)(({ theme }) => ({
+  width: 'fit-content',
+  alignSelf: 'flex-end',
+  margin: 0,
+  marginTop: 'auto',
+  marginBottom: theme.spacing(2),
+}));
 EmbedderView.propTypes = {
-  citySettings: PropTypes.arrayOf(PropTypes.string).isRequired,
-  classes: PropTypes.shape({
-    appBar: PropTypes.string,
-    button: PropTypes.string,
-    closeButton: PropTypes.string,
-    container: PropTypes.string,
-    formContainer: PropTypes.string,
-    formContainerPaper: PropTypes.string,
-    marginBottom: PropTypes.string,
-    pre: PropTypes.string,
-    pusher: PropTypes.string,
-    textField: PropTypes.string,
-    title: PropTypes.string,
-    titleContainer: PropTypes.string,
-    scrollContainer: PropTypes.string,
-    previewContainer: PropTypes.string,
-    divider: PropTypes.string,
-    infoTitle: PropTypes.string,
-    infoText: PropTypes.string,
-    mapControlContainer: PropTypes.string,
-  }).isRequired,
   location: PropTypes.shape({
     hash: PropTypes.string,
     pathname: PropTypes.string,
     search: PropTypes.string,
   }).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  mapType: PropTypes.oneOf(SettingsUtility.mapSettings),
-  navigator: PropTypes.objectOf(PropTypes.any),
-};
-
-EmbedderView.defaultProps = {
-  navigator: null,
-  mapType: null,
 };
 
 export default EmbedderView;

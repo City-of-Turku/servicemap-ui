@@ -1,10 +1,10 @@
 import config from '../config';
 import { SitemapStream, streamToPromise } from 'sitemap'
-import { createGzip } from 'zlib'
 import { fetchIDs } from './dataFetcher';
 import { sitemapActive } from './utils';
 
 const fs = require('fs');
+const { createGzip } = require('zlib');
 const supportedLanguages = config.supportedLanguages;
 
 // This returns sitemaps for different languages
@@ -13,8 +13,8 @@ export const getSitemap = (req, res) => {
   res.header('Content-Encoding', 'gzip');
 
   // Send sitemap file
-  if (fs.existsSync('dist/sitemap.xml')) {
-    res.sendFile(__dirname + '/sitemap.xml');
+  if (fs.existsSync('/tmp/sitemap.xml')) {
+    res.sendFile('/tmp/sitemap.xml');
     return;
   } else {
     res.status(404).end();
@@ -97,11 +97,11 @@ export const generateSitemap = async () => {
 
     // Save the sitemap as file
     streamToPromise(pipeline).then(sm => {
-      fs.writeFile('dist/sitemap.xml', sm, (err) => {
-        if (err) return console.log(err);
+      fs.writeFile('/tmp/sitemap.xml', sm, (err) => {
+        if (err) return console.log(err)
+        else return console.log('New sitemap created')
       })
     });
-    console.log('New sitemap created')
     smStream.end()
 
   } catch (e) {

@@ -1,14 +1,12 @@
 import ServiceMapAPI from '../../utils/newFetch/ServiceMapAPI';
+import { resolveParamsForParkingFetch } from '../../utils/parking';
 import {
   dataStructure,
   geographicalDistricts,
   groupDistrictData,
+  parkingUnitCategoryIds,
   parseDistrictGeometry,
 } from '../../views/AreaView/utils/districtDataHelper';
-
-export const parkingSpaceIDs = ['1', '2', '3', '4', '5', '6'];
-export const parkingSpaceVantaaTypes = ['12h-24h', '2h-3h', '4h-11h', 'Ei rajoitusta', 'Lyhytaikainen', 'Maksullinen', 'Muu', 'Varattu päivisin'];
-
 
 export const setHighlightedDistrict = district => ({
   type: 'SET_DISTRICT_HIGHLIGHT',
@@ -92,9 +90,10 @@ const updateParkingAreas = areas => ({
   areas,
 });
 
-export const setParkingUnits = units => ({
+export const setParkingUnits = (parkingUnitCategoryId, units) => ({
   type: 'SET_PARKING_UNITS',
   units,
+  parkingUnitCategoryId,
 });
 
 const startUnitFetch = node => ({
@@ -155,7 +154,7 @@ export const fetchDistrictGeometry = (type, period) => (
   }
 );
 
-export const fetchDistricts = (selected, single) => (
+export const fetchDistricts = (selected, single, period) => (
   async (dispatch) => {
     const categories = single
       ? selected
@@ -167,7 +166,7 @@ export const fetchDistricts = (selected, single) => (
     const groupedData = groupDistrictData(areas);
     dispatch(setDistrictData(groupedData));
     dispatch(endDistrictFetch(single ? selected : 'all'));
-    if (selected) dispatch(fetchDistrictGeometry(selected));
+    if (selected) dispatch(fetchDistrictGeometry(selected, period));
   }
 );
 
@@ -206,10 +205,7 @@ export const fetchDistrictUnitList = nodeID => (
 export const fetchParkingAreaGeometry = areaId => (
   async (dispatch) => {
     const type = 'parking_area';
-    const areaNumber = areaId.match(/\d+/g);
-    const options = parkingSpaceIDs.includes(areaId)
-      ? { extra__class: areaNumber }
-      : { extra__tyyppi: areaId };
+    const options = resolveParamsForParkingFetch(areaId);
 
     dispatch(startDistrictFetch(areaId));
     const smAPI = new ServiceMapAPI();
@@ -219,15 +215,28 @@ export const fetchParkingAreaGeometry = areaId => (
   }
 );
 
-export const fetchParkingUnits = () => (
+export const fetchParkingUnits = (parkingCategoryId) => (
   async (dispatch) => {
-    dispatch(startDistrictFetch('parkingUnits'));
+    if (!parkingUnitCategoryIds.find(id => id === parkingCategoryId)) {
+      throw new Error(`Parking category ${parkingCategoryId} is not supported.`);
+    }
+    const municipality = parkingCategoryId.split('-')[0];
+    const id = parkingCategoryId.split('-')[1];
+    const districtType = `parkingUnits-${parkingCategoryId}`;
+    dispatch(startDistrictFetch(districtType));
     const smAPI = new ServiceMapAPI();
-    const units = await smAPI.search('pysäköintitalot ja -tilat');
-    dispatch(setParkingUnits(units));
-    dispatch(endDistrictFetch('parkingUnits'));
+    const units = await smAPI.serviceNodeSearch('ServiceTree', id, { language: 'fi', municipality });
+    units.forEach((item) => {
+      item.object_type = 'unit';
+    });
+    dispatch(setParkingUnits(parkingCategoryId, units));
+    dispatch(endDistrictFetch(districtType));
   }
 );
+
+export const fetchParkingGarages = () => fetchParkingUnits('helsinki-531');
+export const fetchSharedCarParking = () => fetchParkingUnits('vantaa-2204');
+export const fetchAccessibleStreetParking = () => fetchParkingUnits('vantaa-2207');
 
 export const handleOpenItems = id => (
   (dispatch, getState) => {

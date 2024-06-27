@@ -1,22 +1,11 @@
 /* eslint-disable camelcase */
-import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
+import { Divider, Link, NoSsr, Paper, Typography } from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useRouteMatch } from 'react-router-dom';
-import {
-  Paper, Typography, Link, NoSsr, Divider,
-} from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
-import { getOrderedData } from '../../redux/selectors/results';
-import { isEmbed } from '../../utils/path';
-import fetchSearchResults from '../../redux/actions/search';
-import { changeCustomUserLocation } from '../../redux/actions/user';
-import { parseSearchParams, getSearchParam, keyboardHandler } from '../../utils';
-import { fitUnitsToMap } from '../MapView/utils/mapActions';
-import { useNavigationParams } from '../../utils/address';
-import useMobileStatus from '../../utils/isMobile';
-import { viewTitleID } from '../../utils/accessibility';
 import {
   AddressSearchBar,
   Container,
@@ -25,20 +14,41 @@ import {
   SettingsComponent,
   TabLists,
 } from '../../components';
+import fetchSearchResults from '../../redux/actions/search';
+import { activateSetting, resetAccessibilitySettings, setCities, setMapType, setOrganizations } from '../../redux/actions/settings';
+import { changeCustomUserLocation, resetCustomPosition } from '../../redux/actions/user';
+import { selectBounds, selectMapRef, selectNavigator } from '../../redux/selectors/general';
+import { getOrderedSearchResultData, selectResultsData, selectSearchResults } from '../../redux/selectors/results';
+import { selectMapType, selectSelectedAccessibilitySettings, selectSelectedCities, selectSelectedOrganizationIds } from '../../redux/selectors/settings';
+import { selectCustomPositionAddress } from '../../redux/selectors/user';
+import { keyboardHandler, parseSearchParams } from '../../utils';
+import { viewTitleID } from '../../utils/accessibility';
+import { getAddressNavigatorParamsConnector, useNavigationParams } from '../../utils/address';
+import { applyCityAndOrganizationFilter } from '../../utils/filters';
+import useMobileStatus from '../../utils/isMobile';
+import { getBboxFromBounds, parseBboxFromLocation } from '../../utils/mapUtility';
+import { isEmbed } from '../../utils/path';
+import optionsToSearchQuery from '../../utils/search';
+import SettingsUtility from '../../utils/settings';
+import fetchAddressData from '../AddressView/utils/fetchAddressData';
+import { fitUnitsToMap } from '../MapView/utils/mapActions';
 
 const focusClass = 'TabListFocusTarget';
 
-const SearchView = (props) => {
-  const { classes } = props;
-  const [serviceRedirect, setServiceRedirect] = useState(null);
+const SearchView = () => {
   const [analyticsSent, setAnalyticsSent] = useState(null);
-
-  const searchResults = useSelector(state => getOrderedData(state));
-  const unorderedSearchResults = useSelector(state => state.searchResults.data);
-  const searchFetchState = useSelector(state => state.searchResults);
+  const orderedData = useSelector(getOrderedSearchResultData);
+  const unorderedSearchResults = useSelector(selectResultsData);
+  const searchFetchState = useSelector(selectSearchResults);
   const isRedirectFetching = useSelector(state => state.redirectService.isFetching);
-  const map = useSelector(state => state.mapRef);
-  const navigator = useSelector(state => state.navigator);
+  const selectedCities = useSelector(selectSelectedCities);
+  const selectedOrganizationIds = useSelector(selectSelectedOrganizationIds);
+  const selectedAccessibilitySettings = useSelector(selectSelectedAccessibilitySettings);
+  const bounds = useSelector(selectBounds);
+  const customPositionAddress = useSelector(selectCustomPositionAddress);
+  const map = useSelector(selectMapRef);
+  const navigator = useSelector(selectNavigator);
+  const mapType = useSelector(selectMapType);
 
   const getAddressNavigatorParams = useNavigationParams();
   const dispatch = useDispatch();
@@ -47,6 +57,7 @@ const SearchView = (props) => {
   const location = useLocation();
   const match = useRouteMatch();
   const intl = useIntl();
+  const searchResults = applyCityAndOrganizationFilter(orderedData, location, embed);
 
   const getResultsByType = type => searchResults.filter(item => item.object_type === type);
 
@@ -66,19 +77,16 @@ const SearchView = (props) => {
     }
   };
 
-  const getSearchParamData = (includeService = false) => {
-    const redirectNode = serviceRedirect;
+  const getSearchParamData = () => {
     const searchParams = parseSearchParams(location.search);
 
     const {
       q,
       category,
-      city,
-      municipality,
       address,
-      service,
       service_id,
       service_node,
+      mobility_node,
       search_language,
       events,
       units,
@@ -88,11 +96,6 @@ const SearchView = (props) => {
     if (q) {
       options.q = q;
     } else {
-      // Parse service
-      if (includeService && service) {
-        options.service = service;
-      }
-
       // Parse address search parameter
       if (address) {
         options.address = address;
@@ -104,11 +107,11 @@ const SearchView = (props) => {
       }
 
       // Parse service_node
+      if (mobility_node) {
+        options.mobility_node = mobility_node;
+      }
       if (service_node) {
         options.service_node = service_node;
-      }
-      if (!includeService && redirectNode) {
-        options.service_node = redirectNode;
       }
 
       if (events) {
@@ -148,12 +151,6 @@ const SearchView = (props) => {
         }
       }
     }
-
-    // Parse municipality
-    if (municipality || city) {
-      options.municipality = municipality || city;
-    }
-
     // Parse search language
     if (search_language) {
       options.search_language = search_language;
@@ -169,12 +166,7 @@ const SearchView = (props) => {
       return false;
     }
     const data = getSearchParamData();
-    const searchQuery = data.q
-      || data.address
-      || data.service_node
-      || data.service_id
-      || data.id
-      || data.events;
+    const searchQuery = optionsToSearchQuery(data);
 
     // Should fetch if previousSearch has changed and data has required parameters
     if (previousSearch) {
@@ -186,15 +178,6 @@ const SearchView = (props) => {
       return !!(searchQuery);
     }
     return false;
-  };
-
-  const focusMap = (units) => {
-    if (getSearchParam(location, 'bbox')) {
-      return;
-    }
-    if (map && map.options.maxZoom) {
-      fitUnitsToMap(units, map);
-    }
   };
 
   // Handles redirect if only single result is found
@@ -226,9 +209,72 @@ const SearchView = (props) => {
         address,
       ));
     } else {
-      dispatch(changeCustomUserLocation(null));
+      dispatch(resetCustomPosition());
     }
   };
+
+  function handleAccessibilityParams(accessibility_setting) {
+    const accessibilityOptions = accessibility_setting?.split(',');
+    if (accessibilityOptions?.length) {
+      dispatch(resetAccessibilitySettings());
+      const mobility = accessibilityOptions.filter(x => SettingsUtility.isValidMobilitySetting(x));
+      if (mobility.length === 1) {
+        dispatch(activateSetting('mobility', mobility[0]));
+      }
+      accessibilityOptions
+        .map(x => SettingsUtility.mapValidAccessibilitySenseImpairmentValueToKey(x))
+        .filter(x => !!x)
+        .forEach(x => {
+          dispatch(activateSetting(x));
+        });
+    }
+  }
+
+  function handleCityAndOrganisationSettings(municipality, city, organization) {
+    const cityOptions = (municipality || city)?.split(',');
+    if (cityOptions?.length) {
+      dispatch(setCities(cityOptions));
+    }
+    const orgOptions = organization?.split(',');
+    if (orgOptions?.length) {
+      dispatch(setOrganizations(orgOptions));
+    }
+  }
+
+  async function handleAddressParam(hcity, hstreet) {
+    if (hcity && hstreet) {
+      fetchAddressData(hcity, hstreet.replace('+', ' '))
+        .then(address => {
+          if (address?.length) {
+            handleUserAddressChange(address[0]);
+          }
+        });
+    }
+  }
+
+  useEffect(() => {
+    if (embed) {
+      // Do not mess with settings when embedded
+      return;
+    }
+    const searchParams = parseSearchParams(location.search);
+    const {
+      city,
+      organization,
+      municipality,
+      accessibility_setting,
+      hcity,
+      hstreet,
+      map,
+    } = searchParams;
+    if (map?.length && map !== mapType) {
+      const mapTypeParam = map === 'guideMap' ? 'guidemap' : map; // keep alive old links with "guideMap"
+      dispatch(setMapType(mapTypeParam));
+    }
+    handleCityAndOrganisationSettings(municipality, city, organization);
+    handleAccessibilityParams(accessibility_setting);
+    handleAddressParam(hcity, hstreet);
+  }, []);
 
   useEffect(() => {
     const options = getSearchParamData();
@@ -237,15 +283,20 @@ const SearchView = (props) => {
     }
   }, [match.params]);
 
-
   useEffect(() => {
     if (searchResults.length) {
+      if (parseBboxFromLocation(location)) {
+        // MapView component will handle focus.
+        return;
+      }
       if (searchResults.length === 1) {
         handleSingleResultRedirect();
-      } else {
         // Focus map to new search results units
-        const units = getResultsByType('unit');
-        if (units.length) focusMap(units);
+        return;
+      }
+      const units = getResultsByType('unit');
+      if (units.length && map?.options.maxZoom) {
+        fitUnitsToMap(units, map);
       }
     } else {
       // Send analytics report if search query did not return results
@@ -257,13 +308,39 @@ const SearchView = (props) => {
         && analyticsSent !== previousSearch
       ) {
         setAnalyticsSent(previousSearch);
-        navigator.trackPageView(null, previousSearch);
+        navigator.trackNoResultsPage(previousSearch);
       }
     }
   }, [JSON.stringify(unorderedSearchResults)]);
 
+  useEffect(() => {
+    if (embed || !navigator) {
+      return;
+    }
+    navigator.setParameter('city', selectedCities);
+    navigator.setParameter('organization', selectedOrganizationIds);
+    navigator.setParameter('accessibility_setting', selectedAccessibilitySettings);
+    if (bounds) {
+      navigator.setParameter('bbox', getBboxFromBounds(bounds));
+    }
+    if (customPositionAddress) {
+      const { municipality, name } = getAddressNavigatorParamsConnector(customPositionAddress);
+      navigator.setParameter('hcity', municipality);
+      navigator.setParameter('hstreet', name);
+    } else {
+      navigator.removeParameter('hcity');
+      navigator.removeParameter('hstreet');
+    }
+    navigator.setParameter('map', mapType);
+  },
+  [
+    navigator, embed, selectedCities, selectedOrganizationIds, selectedAccessibilitySettings,
+    bounds, customPositionAddress, mapType,
+  ],
+  );
+
   const renderSearchBar = () => (
-    <SearchBar expand className={classes.searchbarPlain} />
+    <StyledSearchBar expand />
   );
 
   const renderSearchInfo = () => (
@@ -285,7 +362,7 @@ const SearchView = (props) => {
   const renderScreenReaderInfo = () => {
     const { isFetching, max } = searchFetchState;
     return (
-      <Paper className={!isFetching ? classes.noPadding : ''} elevation={1} square aria-live="polite">
+      <StyledPaper nopadding={+!isFetching} elevation={1} square aria-live="polite">
         <Typography style={visuallyHidden} component="h3" tabIndex={-1}>
           {!isFetching && (
             <FormattedMessage id="search.results.title" />
@@ -297,7 +374,7 @@ const SearchView = (props) => {
             <FormattedMessage id="search.loading.units.srInfo" values={{ count: max }} />
           )}
         </Typography>
-      </Paper>
+      </StyledPaper>
     );
   };
 
@@ -376,20 +453,25 @@ const SearchView = (props) => {
     const { previousSearch, isFetching } = searchFetchState;
     const shouldRender = !isFetching && previousSearch && !searchResults.length;
     const messageIDs = ['spelling', 'city', 'service', 'address', 'keyword'];
+    // This was same as previousSearch, but the text was not user-friendly when searching by nodes.
+    const options = parseSearchParams(location.search);
+    delete options.mobility_node;
+    delete options.service_node;
+    const searchQuery = optionsToSearchQuery(options);
 
     return shouldRender ? (
-      <Container className={classes.noVerticalPadding}>
-        <Container className={classes.noVerticalPadding}>
+      <StyledNoVerticalPaddingContainer>
+        <StyledNoVerticalPaddingContainer>
           <Typography align="left" variant="subtitle1" component="p">
-            <FormattedMessage id={typeof previousSearch === 'string' ? 'search.notFoundWith' : 'search.notFound'} values={{ query: previousSearch }} />
+            <FormattedMessage id={typeof searchQuery === 'string' ? 'search.notFoundWith' : 'search.notFound'} values={{ query: searchQuery }} />
           </Typography>
-        </Container>
+        </StyledNoVerticalPaddingContainer>
         <Divider aria-hidden="true" />
-        <Container className={classes.noVerticalPadding}>
+        <StyledNoVerticalPaddingContainer>
           <Typography align="left" variant="subtitle1" component="p">
             <FormattedMessage id="search.tryAgain" />
           </Typography>
-          <ul className={classes.list}>
+          <StyledList>
             {
               messageIDs.map(id => (
                 <li key={id}>
@@ -399,19 +481,18 @@ const SearchView = (props) => {
                 </li>
               ))
             }
-          </ul>
-        </Container>
-      </Container>
+          </StyledList>
+        </StyledNoVerticalPaddingContainer>
+      </StyledNoVerticalPaddingContainer>
     ) : null;
   };
-
 
   if (embed) {
     return null;
   }
 
   return (
-    <div className={classes.root}>
+    <StyledContainer>
       {renderSearchBar()}
       {renderSearchInfo()}
       <NoSsr>
@@ -431,13 +512,30 @@ const SearchView = (props) => {
           </Link>
         </Typography>
       ) : null}
-    </div>
+    </StyledContainer>
   );
 };
 
 export default SearchView;
 
 // Typechecking
-SearchView.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-};
+const StyledNoVerticalPaddingContainer = styled(Container)(() => ({
+  paddingTop: 0,
+  paddingBottom: 0,
+}));
+
+const StyledPaper = styled(Paper)(({ nopadding }) => (nopadding ? { padding: 0 } : {}));
+const StyledSearchBar = styled(SearchBar)(({ theme }) => ({
+  background: theme.palette.primary.main,
+  paddingBottom: theme.spacing(1),
+}));
+const StyledList = styled.ul(({ theme }) => ({
+  margin: theme.spacing(1, 0),
+  padding: theme.spacing(0, 0, 0, 2),
+}));
+
+const StyledContainer = styled.div(() => ({
+  display: 'inline-block',
+  position: 'relative',
+  width: '100%',
+}));

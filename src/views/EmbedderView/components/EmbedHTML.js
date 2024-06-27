@@ -1,24 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import {
-  ClickAwayListener, InputAdornment, OutlinedInput, Tooltip, Typography,
-} from '@mui/material';
-import { useIntl } from 'react-intl';
+import styled from '@emotion/styled';
 import { FileCopy } from '@mui/icons-material';
-import { getEmbedURL } from '../utils/utils';
+import {
+  ClickAwayListener,
+  InputAdornment,
+  OutlinedInput,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 import SMButton from '../../../components/ServiceMapButton';
+import { setBboxToUrl } from '../utils/utils';
 
 /**
    * Renders embed HTMl based on options
 */
 const EmbedHTML = ({
-  classes, createEmbedHTML, url, setBoundsRef, restrictBounds,
+  createEmbedHTML, url, setBoundsRef, restrictBounds,
 }) => {
   const intl = useIntl();
   const [bbox, setBbox] = useState(null);
   const [tooltipOpen, setTooltipOpen] = useState(null);
 
-  const embedUrl = getEmbedURL(url, { bbox: restrictBounds ? bbox : null });
+  const embedUrl = setBboxToUrl(url, restrictBounds ? bbox : null);
 
   const handleEventMessage = (event) => {
     // Update bbox on map move
@@ -47,15 +52,14 @@ const EmbedHTML = ({
           title={intl.formatMessage({ id: 'link.settings.dialog.tooltip' })}
           placement="top"
         >
-          <SMButton
-            icon={<FileCopy className={classes.copyIcon} />}
-            className={classes.copyButton}
+          <StyledCopyButton
+            icon={<StyledFileCopy />}
             color="primary"
             role="button"
             onClick={() => copyToClipboard(text, id)}
           >
             <Typography variant="button">{title}</Typography>
-          </SMButton>
+          </StyledCopyButton>
         </Tooltip>
       </div>
     </ClickAwayListener>
@@ -70,15 +74,13 @@ const EmbedHTML = ({
   }, []);
 
   const htmlText = createEmbedHTML(embedUrl);
-  const textFieldClass = `${classes.textField} ${classes.marginBottom}`;
 
   return (
     <div>
       {/* Embed address */}
-      <OutlinedInput
+      <StyledOutlinedInput
         id="embed-address"
         inputProps={{ tabIndex: -1 }}
-        className={textFieldClass}
         value={embedUrl}
         endAdornment={(
           <InputAdornment position="end">
@@ -91,10 +93,9 @@ const EmbedHTML = ({
         )}
       />
       {/* Embed HTML code */}
-      <OutlinedInput
+      <StyledOutlinedInputHtmlField
         id="embed-code"
         inputProps={{ tabIndex: -1 }}
-        className={`${textFieldClass} ${classes.htmlField}`}
         value={htmlText}
         endAdornment={(
           <InputAdornment position="end">
@@ -110,8 +111,35 @@ const EmbedHTML = ({
   );
 };
 
+const StyledFileCopy = styled(FileCopy)(({ theme }) => ({
+  fontSize: 16,
+  paddingLeft: theme.spacing(1),
+}));
+const StyledCopyButton = styled(SMButton)(({ theme }) => ({
+  margin: 0,
+  height: 60,
+  marginRight: -14,
+  paddingLeft: theme.spacing(2),
+  paddingRight: theme.spacing(2),
+  textTransform: 'uppercase',
+  flexDirection: 'row-reverse',
+  borderRadius: '8px',
+}));
+const StyledOutlinedInput = styled(OutlinedInput)(({ theme }) => ({
+  width: '100%',
+  height: 60,
+  fontSize: '0.913rem',
+  borderRadius: '8px',
+  marginBottom: theme.spacing(2),
+}));
+const StyledOutlinedInputHtmlField = styled(StyledOutlinedInput)(() => ({
+  backgroundColor: '#f2f2f2',
+  whiteSpace: 'normal',
+  wordBreak: 'break-word',
+  wordWrap: 'break-word',
+}));
+
 EmbedHTML.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   createEmbedHTML: PropTypes.func.isRequired,
   url: PropTypes.string.isRequired,
   setBoundsRef: PropTypes.func.isRequired,

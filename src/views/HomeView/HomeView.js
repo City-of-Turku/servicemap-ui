@@ -9,6 +9,7 @@ import serviceTree from '../../assets/images/service-tree.jpg';
 import serviceTreeTku from 'servicemap-ui-turku/assets/images/service-tree-tku.webp';
 import areaServicesTku from 'servicemap-ui-turku/assets/images/area-page-tku.webp';
 import mobilityMapTku from 'servicemap-ui-turku/assets/images/mobility-map-tku.webp';
+import mobilityTree from '../../assets/images/mobility-tree.jpg';
 
 const HomeView = (props) => {
   const { navigator } = props;
@@ -54,6 +55,14 @@ const HomeView = (props) => {
           messageID="home.buttons.services"
           onClick={() => navigator.push('serviceTree')}
         />
+        {!isExternalTheme ? (
+          <CardSmall
+          image={mobilityTree}
+          headerMessageID="general.pageTitles.mobilityTree.title"
+          messageID="home.buttons.mobilityTree"
+          onClick={() => navigator.push('mobilityTree')}
+        />
+        ) : null}
         <NewsInfo showCount={2} />
       </StyledContainer>
     );
@@ -62,7 +71,6 @@ const HomeView = (props) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <SearchBar hideBackButton header />
-      <SettingsComponent />
       {renderNavigationOptions()}
     </div>
   );

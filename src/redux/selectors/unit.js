@@ -1,23 +1,25 @@
 import { createSelector } from 'reselect';
-
-const getCustomPosition = state => state.user.customPosition.coordinates;
-const getUserPosition = state => state.user.position.coordinates;
-const getAddress = state => state.address;
-const getCurrentPage = state => state.user.page;
+import { selectAddress } from './address';
+import { getPage, selectCustomPositionCoordinates, selectUserPositionCoordinates } from './user';
 
 export const getCurrentlyUsedPosition = createSelector(
-  [getCustomPosition, getUserPosition, getAddress, getCurrentPage],
-  (customPosition, userPosition, address, currentPage) => {
-    const addressPosition = currentPage === 'address' && address && address.addressCoordinates ? {
+  [selectCustomPositionCoordinates, selectUserPositionCoordinates, selectAddress, getPage],
+  (customPositionCoordinates, userPositionCoordinates, address, currentPage) => {
+    const addressPosition = currentPage === 'address' && address?.addressCoordinates ? {
       latitude: address.addressCoordinates[1],
       longitude: address.addressCoordinates[0],
     } : null;
 
-    const usedPosition = customPosition || addressPosition || userPosition;
-    if (usedPosition && usedPosition.latitude && usedPosition.longitude) {
+    const usedPosition = customPositionCoordinates || addressPosition || userPositionCoordinates;
+    if (usedPosition?.latitude && usedPosition?.longitude) {
       return usedPosition;
     }
     return null;
+  },
+  {
+    memoizeOptions: {
+      resultEqualityCheck: (a, b) => a?.latitude === b?.latitude && a?.longitude === b?.longitude,
+    },
   },
 );
 

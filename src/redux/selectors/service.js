@@ -1,22 +1,26 @@
-import { createSelector } from 'reselect';
-import config from '../../../config';
-import { filterCities } from '../../utils/filters';
+import { filterCitiesAndOrganizations } from '../../utils/filters';
+import { orderUnits } from '../../utils/orderUnits';
 import getSortingParameters from './ordering';
-import orderUnits from '../../utils/orderUnits';
+import { selectSelectedCities, selectSelectedOrganizations } from './settings';
+import { createMemoizedArraySelector } from './util';
 
+/*
+ * Service units
+ */
+export const getServiceUnits = state => state.service.data;
+export const selectServiceCurrent = state => state.service.current;
+export const selectServiceDataSet = state => state.service;
+export const selectServiceIsFetching = state => state.service.isFetching;
 
-const getUnits = state => state.service.data;
-const getSettings = state => state.settings;
-
-export const getServiceUnits = createSelector(
-  [getUnits, getSettings, getSortingParameters],
-  (units, settings, sortingParameters) => {
-    const cities = [];
-    config.cities.forEach(city => cities.push(...settings.cities[city] ? [city] : []));
-    const filteredUnits = units.filter(filterCities(cities, true));
-    const orderedUnits = orderUnits(filteredUnits, sortingParameters);
-    return orderedUnits;
+/*
+ * Service units filtered by municipalities and organizations. Also sorted.
+ */
+export const getFilteredSortedServiceUnits = createMemoizedArraySelector(
+  [getServiceUnits, selectSelectedCities, selectSelectedOrganizations, getSortingParameters],
+  (units, cities, organizations, sortingParameters) => {
+    const organizationIds = organizations.map(o => o.id);
+    const filter = filterCitiesAndOrganizations(cities, organizationIds, true);
+    const filteredUnits = units.filter(filter);
+    return orderUnits(filteredUnits, sortingParameters);
   },
 );
-
-export default { getServiceUnits };

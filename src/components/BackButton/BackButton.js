@@ -1,27 +1,30 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  IconButton, Typography, Button, ButtonBase,
+  IconButton, Typography, Button, ButtonBase, useMediaQuery,
 } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
+import styled from '@emotion/styled';
+import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
+import { selectBreadcrumb, selectNavigator } from '../../redux/selectors/general';
 import { getPathName } from '../../utils/path';
 
 const BackButton = (props) => {
   const {
-    breadcrumb,
-    classes,
     className,
-    intl,
     onClick,
     style,
     variant,
-    navigator,
     srHidden,
     ariaLabel,
     text,
     focusVisibleClassName,
-    buttonId,
   } = props;
+  const breadcrumb = useSelector(selectBreadcrumb);
+  const navigator = useSelector(selectNavigator);
+  const intl = useIntl();
+
   // Generate dynamic text
   // Figure out correct translation id suffix
   let idSuffix = 'goToHome';
@@ -48,54 +51,47 @@ const BackButton = (props) => {
   const buttonText = intl.formatMessage({ id: textId, defaultMessage });
   // Set button text as state, so that it does not change
   const [buttonTitle] = useState(buttonText);
-  let classNames = 'SMBackButton';
 
-  const renderContainerVariantButton = () => (
+  const onClickAction = (e) => {
+    e.preventDefault();
+    if (onClick) {
+      onClick(e);
+    } else if (navigator) {
+      navigator.goBack();
+    }
+  };
+
+  const renderContainerVariantButton = (CustomButton) => (
     <>
-      <ButtonBase
-        id={buttonId}
+      <CustomButton
+        data-sm="BackButton"
         role="link"
-        className={classNames}
+        className={`SMBackButton ${className}`}
         style={style}
         aria-hidden={srHidden}
         aria-label={ariaLabel || buttonTitle}
-        onClick={(e) => {
-          e.preventDefault();
-          if (onClick) {
-            onClick(e);
-          } else if (navigator) {
-            navigator.goBack();
-          }
-        }}
+        onClick={e => onClickAction(e)}
       >
         <ArrowBack fontSize="inherit" />
-        <Typography aria-hidden className={`${classes.containerText}`} fontSize="inherit" color="inherit" variant="body2">
+        <StyledContainerText aria-hidden fontSize="inherit" color="inherit" variant="body2">
           {text || buttonTitle}
-        </Typography>
-      </ButtonBase>
+        </StyledContainerText>
+      </CustomButton>
     </>
   );
 
 
   if (variant === 'icon') {
-    classNames += ` ${className}`;
     return (
       <IconButton
         role="link"
-        id={buttonId}
-        className={classNames}
+        data-sm="BackButton"
+        className={`SMBackButton ${className}`}
         style={style}
         aria-hidden={srHidden}
         aria-label={ariaLabel || buttonText}
         focusVisibleClassName={focusVisibleClassName}
-        onClick={(e) => {
-          e.preventDefault();
-          if (onClick) {
-            onClick(e);
-          } else if (navigator) {
-            navigator.goBack();
-          }
-        }}
+        onClick={e => onClickAction(e)}
       >
         <ArrowBack fontSize="inherit" />
       </IconButton>
@@ -103,16 +99,14 @@ const BackButton = (props) => {
   }
 
   if (variant === 'container') {
-    classNames += ` ${classes.containerButton} ${className}`;
-    return renderContainerVariantButton();
+    return renderContainerVariantButton(StyledButton);
   }
 
   if (variant === 'topBackButton') {
-    classNames += ` ${classes.topBackButton} ${className}`;
     return (
-      <div className={classes.topBackButtonContainer}>
-        {renderContainerVariantButton()}
-      </div>
+      <StyledTopBackButtonContainer>
+        {renderContainerVariantButton(StyledTopBackButton)}
+      </StyledTopBackButtonContainer>
     );
   }
 
@@ -120,19 +114,12 @@ const BackButton = (props) => {
     <Button
       aria-hidden={srHidden}
       aria-label={ariaLabel || buttonText}
-      id={buttonId}
-      className={classNames}
+      data-sm="BackButton"
+      className="SMBackButton"
       role="link"
       variant="contained"
       color="primary"
-      onClick={(e) => {
-        e.preventDefault();
-        if (onClick) {
-          onClick(e);
-        } else if (navigator) {
-          navigator.goBack();
-        }
-      }}
+      onClick={e => onClickAction(e)}
     >
       {buttonText}
 
@@ -141,12 +128,44 @@ const BackButton = (props) => {
   );
 };
 
+const StyledContainerText = styled(Typography)(({ theme }) => ({
+  color: 'inherit',
+  fontSize: '0.773rem',
+  paddingLeft: theme.spacing(1),
+}));
+
+const StyledTopBackButtonContainer = styled('div')(({ theme }) => {
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const marginTop = isMobile ? theme.spacing(-1) : 'auto';
+  const marginBottom = isMobile ? theme.spacing(-0.5) : theme.spacing(-1);
+
+  return {
+    color: '#fff',
+    backgroundColor: theme.palette.primary.main,
+    marginTop,
+    marginBottom,
+  };
+});
+
+const StyledButton = styled(ButtonBase)(({ theme }) => ({
+  zIndex: 0,
+  color: 'inherit',
+  padding: theme.spacing(1),
+}));
+
+const StyledTopBackButton = styled(ButtonBase)(({ theme }) => ({
+  display: 'flex',
+  zIndex: 0,
+  color: 'inherit',
+  padding: 0,
+  paddingRight: theme.spacing(1),
+  paddingTop: theme.spacing(1),
+  marginTop: theme.spacing(1),
+  marginLeft: theme.spacing(2),
+}));
+
 BackButton.propTypes = {
-  breadcrumb: PropTypes.arrayOf(PropTypes.any).isRequired,
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   className: PropTypes.string,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  navigator: PropTypes.objectOf(PropTypes.any),
   style: PropTypes.objectOf(PropTypes.any),
   onClick: PropTypes.func,
   variant: PropTypes.oneOf(['container', 'icon', 'topBackButton', null]),
@@ -154,12 +173,10 @@ BackButton.propTypes = {
   ariaLabel: PropTypes.string,
   text: PropTypes.string,
   focusVisibleClassName: PropTypes.string,
-  buttonId: PropTypes.string,
 };
 
 BackButton.defaultProps = {
   className: '',
-  navigator: null,
   style: {},
   onClick: null,
   variant: null,
@@ -167,7 +184,6 @@ BackButton.defaultProps = {
   ariaLabel: null,
   text: null,
   focusVisibleClassName: null,
-  buttonId: 'BackButton',
 };
 
 export default BackButton;

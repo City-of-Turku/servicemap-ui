@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Typography, Link } from '@mui/material';
-import DescriptionExtraText from '../../../../components/DescriptionExtraText';
-import unitSectionFilter from '../../utils/unitSectionFilter';
-import useLocaleText from '../../../../utils/useLocaleText';
 import { DescriptionText } from '../../../../components';
+import DescriptionExtraText from '../../../../components/DescriptionExtraText';
+import useLocaleText from '../../../../utils/useLocaleText';
+import unitSectionFilter from '../../utils/unitSectionFilter';
+import { StyledAlignLeftParagraph, StyledLink } from '../styled/styled';
 
-const Description = ({ unit, classes }) => {
+const Description = ({ unit }) => {
   const getLocaleText = useLocaleText();
 
   const additionalInfo = [
@@ -40,41 +40,36 @@ const Description = ({ unit, classes }) => {
         {additionalInfo.map((item) => {
           if (item.value.www) {
             return (
-              <Typography
+              <StyledAlignLeftParagraph
                 key={item.id}
-                className={`${classes.paragraph} ${classes.left}`}
                 variant="body2"
               >
-                <Link className={classes.link} href={getLocaleText(item.value.www)} target="_blank">
+                <StyledLink href={getLocaleText(item.value.www)} target="_blank">
                   {getLocaleText(item.value.name)}
                   {' '}
-                  <FormattedMessage id="unit.opens.new.tab" />
-                </Link>
+                  <FormattedMessage id="opens.new.tab" />
+                </StyledLink>
 
-              </Typography>
+              </StyledAlignLeftParagraph>
             );
           }
           return (
-            <Typography
+            <StyledAlignLeftParagraph
               key={item.id}
-              className={`${classes.paragraph} ${classes.left}`}
               variant="body2"
             >
               {getLocaleText(item.value.name)}
-            </Typography>
+            </StyledAlignLeftParagraph>
           );
         })}
       </div>
     );
   }
-  return (
-    null
-  );
+  return null;
 };
 
 Description.propTypes = {
   unit: PropTypes.objectOf(PropTypes.any).isRequired,
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default Description;

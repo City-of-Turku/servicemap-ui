@@ -9,10 +9,6 @@ const translations = {
   'app.navigation.home': 'Home',
   'app.navigation.settings': 'Settings',
 
-  'accept.settings.dialog.description': 'You can open the data either with accessibility settings or without restrictions.',
-  'accept.settings.dialog.title': 'See the location with accessibility settings',
-  'accept.settings.dialog.none': 'No particular accessibility settings',
-
   // Accessibility
   'accessibility': 'Accessibility',
   'accessibility.info': 'Accessibility details',
@@ -110,7 +106,7 @@ const translations = {
   'area.list.parking_payzone.plural': 'Parking payment zones',
   'area.list.education.finnish': 'Finnish school areas',
   'area.list.education.swedish': 'Swedish school areas',
-  'area.list.preschool': 'Pre-school education',
+  'area.list.preschool': 'Pre-primary education',
   'area.list.neighborhood': 'Neighborhood',
   'area.list.district': 'Neighborhood',
   'area.list.postcode': 'Postcode',
@@ -154,7 +150,11 @@ const translations = {
   'area.list.sub_district': 'Sub district',
   'area.list.sub_district.plural': 'Sub districts',
   'area.list.parkingSpaces': 'Parking lots',
-  'area.list.parkingUnits': 'Parking garages and car parks',
+  'area.list.parkingGarages': 'Parking garages and car parks',
+  'area.list.sharedCarParking': 'Parking for car share vehicles',
+  'area.list.accessibleStreetParking': 'Accessible parking space along street',
+  'area.list.passenger_car': 'Passenger car',
+  'area.list.heavy_traffic': 'Heavy Traffic',
   'area.list.statistic.byAge': 'Age',
   'area.list.statistic.forecast': 'Population forecast',
   'area.list.statistic.total': 'All population',
@@ -164,12 +164,18 @@ const translations = {
   'area.list.statistic.30-49': 'Age 30-49 years',
   'area.list.statistic.50-64': 'Age 50-64 years',
   'area.list.statistic.65+': 'Age over 64 years',
+  'area.list.hgv_no_parking_area': 'Prohibited street parking',
+  'area.list.park_and_ride_area': 'Park & Ride',
+  'area.parking.tooltip.park_and_ride_area': 'Park & Ride',
+  'area.parking.tooltip.hgv_no_parking_area': 'Heavy traffic - Prohibited street parking',
   'area.tab.mobilityTest.results': 'Mobility profiles of Turku region',
   'area.mobilityResults.toggle': 'Mobility profiles',
   'area.mobilityResults.postCodeArea': 'Postcode area: {value}',
   'area.mobilityResults.empty': 'No mobility profiles were found.',
   'area.mobilityResults.info.text': 'The map shows general information about mobility profiles (for example Hassle-free Hare) in the Turku region divided by postcode areas. The information will be displayed when there are at least five responses in each profile. You can find out your mobility profile by taking the Turku mobility survey.',
   'area.mobilityResults.link.text': 'liikkumistesti.turku.fi (new tab)',
+  'cookies.matomo.description': 'A cookie of the Matomo statistics system.',
+  'cookies.matomo.expiration': '{days} days',
 
   'parkingArea.popup.residentName': 'Zone {letter}',
   'parkingArea.popup.payment1': 'Free parking',
@@ -198,6 +204,15 @@ const translations = {
   'parkingArea.popup.info5': 'The fees and restrictions do not apply to those who possess a resident or business parking permit if the parking area is a designated resident parking area.',
   'parkingArea.popup.info6': 'The fees and restrictions do not apply to those who possess a resident or business parking permit if the parking area is a designated resident parking area.',
 
+  'parkingArea.popup.vantaa.neighbourhood': 'City District: {value}',
+  'parkingArea.popup.vantaa.name': 'Name: {value}',
+  'parkingArea.popup.vantaa.places': 'Parking places: {value}',
+  'parkingArea.popup.vantaa.type': 'Type: {value}',
+  'parkingArea.popup.vantaa.timeRestriction': 'Time restriction: {value}',
+  'parkingArea.popup.vantaa.validityPeriod': 'Validity period: {value}',
+  'parkingArea.popup.vantaa.moreInfo': 'More Information: {value}',
+  'parkingArea.popup.vantaa.circlePlace': 'Parking disc place: {value}',
+
   // Download dialog
   'download.cropping.title': 'Current filter values',
   'download.cropText.unit': 'Single service point:',
@@ -223,6 +238,7 @@ const translations = {
   // Embedder
   'embedder.city.title': 'City',
   'embedder.city.aria.label': 'Choose city limits for the embedding',
+  'embedder.organization.title': 'Palveluntarjoaja', // TODO: translate
   'embedder.close': 'Close embedding tool',
   'embedder.code.title': 'Copy the HTML code',
   'embedder.height.title': 'Height of the embedding',
@@ -303,6 +319,7 @@ const translations = {
   'sorting.match.desc': 'Most relevant first',
 
   // General
+  'general.approximate': 'About',
   'general.frontPage': 'Front page',
   'general.contrast': 'Contrast',
   'general.contrast.ariaLabel.on': 'Turn on the high contrast mode',
@@ -323,7 +340,8 @@ const translations = {
   'general.backToHome': 'Close search and return to beginning',
   'general.backToStart': 'Back to beginning of page',
   'general.back.serviceTree': 'Back to service list page',
-  'general.back.mobilityPlatform': 'Return',
+  'general.back.mobilityPlatform': 'Return to the mobility map',
+  'general.back.mobilityTree': 'Return to the traffic and movement page',
   'general.cancel': 'Cancel',
   'general.close': 'Close',
   'general.distance.meters': 'Meters away',
@@ -334,6 +352,7 @@ const translations = {
   'general.closeSettings': 'Close settings',
   'general.hideSettings': 'Close map settings',
   'general.fetching': 'Loading data...',
+  'general.fetchingTakesTime': 'There are a lot of search results, the download takes a little longer',
   'general.home': 'Home',
   'general.home.logo.ariaLabel': 'Servicemap - Go to home page',
   'general.noData': 'No data available',
@@ -364,7 +383,10 @@ const translations = {
   'general.pageTitles.info': 'Info page',
   'general.pageTitles.feedback': 'Feedback page',
   'general.pageTitles.area': 'Area page',
+  'general.pageTitles.mobilityTree': 'Traffic and movement page',
+  'general.pageTitles.mobilityTree.title': 'Traffic and movement',
   'general.pageLink.area': 'Services in your area',
+  'general.pageLink.mobilityTree': 'Traffic and movement',
   'general.tools': 'Map Tools',
   'general.pageTitles.mobilityPlatform': 'Mobility map',
 
@@ -383,7 +405,8 @@ const translations = {
   'general.previousSearch': 'Previous searches',
   'general.return.viewTitle': 'Return to beginning of main content',
   'general.skipToContent': 'Skip to content',
-  'general.new.tab': 'Opens in new tab',
+  'general.linkLeadsToExternalSite': 'The link opens to an external service',
+  'general.new.tab': 'Opens in a new tab.',
   'general.save': 'Save',
   'general.save.changes': 'Save settings',
   'general.save.changes.done': 'Changes have been saved!',
@@ -396,6 +419,7 @@ const translations = {
   // Home
   'home.buttons.settings': 'Save your own city and accessibility options',
   'home.buttons.services': 'Get to know the services using the Services list',
+  'home.buttons.mobilityTree': 'Get to know the versatile options for movement',
   'home.buttons.closeByServices': 'Show nearby services',
   'home.buttons.instructions': 'Tips for using the service map',
   'home.buttons.area': 'View the areas for healthcare, education, pre-primary education, civil defence, nature and neighborhoods.',
@@ -403,7 +427,6 @@ const translations = {
   'home.example.search': 'Search for',
   'home.message': 'Message from the developers',
   'home.send.feedback': 'Give feedback',
-  'home.old.link': 'Old version of Servicemap',
   'home.buttons.mobilityPlatformSettings.title': 'Mobility map',
   'home.buttons.mobilityPlatformSettings': 'Get to know the versatile options for traffic and mobility',
 
@@ -415,17 +438,14 @@ const translations = {
   // Loading texts
   'loading.events': 'Loading events {count} / {max}',
   'loading.events.srInfo': 'Loading {count} event(s)',
-  'search.loading.units': 'Searching service points {count} / {max}',
+  'search.loading.units': 'Searching service points: {percentage}%',
   'search.loading.units.srInfo': 'Searching {count} service point(s)',
   'search.loading.units.simple': 'Searching service points',
 
   'link.settings.dialog.title': 'Share the link to the location',
   'link.settings.dialog.tooltip': 'Copied to the clipboard',
-  'link.settings.dialog.radio.label': 'Link contents',
   'link.settings.dialog.tooltip.aria': 'Copy the site link to the clipboard',
   'link.settings.dialog.tooltip.aria.a11y': 'Copy the site link with accessibility settings to the clipboard',
-  'link.settings.dialog.subtitle': 'Share the link with accessibility settings',
-  'link.settings.dialog.description': 'The accessibility settings affect the accessibility data of the location shown and the appearance of the map.',
   'link.settings.dialog.buttons.action': 'Copy to clipboard',
 
   // Map
@@ -502,9 +522,10 @@ const translations = {
   'unit.opening.hours': 'Opening hours',
   'unit.opening.hours.missing': 'No opening hours provided',
   'unit.opening.hours.info': 'Additional information about opening hours', // TODO verify
+  'unit.otherAddress.show': 'Other entrance',
+  'unit.otherAddress.link': 'See more information (new tab)',
   'unit.contact': 'Contact person',
   'unit.school.year': 'School year',
-  'unit.opens.new.tab': '(new tab)',
   'unit.reservations.description': 'Here you can find information about the unit’s spaces and equipment that may be reserved.',
   'unit.reservations.count': `{count, plural,
     =0 {}
@@ -534,6 +555,7 @@ const translations = {
   'unit.socialMedia.title': 'The service point on social media',
   'unit.outdoorLink': 'Check the condition of an exercise location in the ulkoliikunta.fi service',
   'unit.seo.description': 'View service point on the map',
+  'unit.readFeedbackLink': 'See the feedback given',
   'unit.seo.description.accessibility': 'View accessibility info and service point on the map',
   'unit.accessibilityAreas.title': 'Accessibility zones of schools and daycares',
   'unit.accessibilityAreas.description': 'Accessibility zones indicate how long it takes to reach a destination by walking or cycling. The times are calculated based on average speeds of children (walking 4 km/h, cycling 10 km/h).',
@@ -611,6 +633,7 @@ const translations = {
   'search.tryAgainBody.keyword': 'write keywords, e.g. nature trail, Swedish day-care centre',
   'search.expand': 'Refine search',
   'search.closeExpand': 'Return to search',
+  'search.addText': 'Add',
 
   // Service
   'service': 'Service',
@@ -639,6 +662,7 @@ const translations = {
   'services.description.extra.cgsTitle': 'Charging stations',
   'services.description.extra.gfsTitle': 'Gas filling station',
   'services.description.extra.bisTitle': 'Bicycle stand',
+  'mobilityTree.info': 'Get to know the movement options by selecting at least one service from the options below to complete the search.',
 
   // Settings
   'settings': 'Settings',
@@ -687,6 +711,8 @@ const translations = {
   'settings.city.vantaa': 'Vantaa',
   'settings.city.kauniainen': 'Kauniainen',
   'settings.city.kirkkonummi': 'Kirkkonummi',
+  'settings.city.länsi-uudenmaan hyvinvointialue': 'Western Uusimaa Wellbeing Services County',
+  'settings.city.vantaan ja keravan hyvinvointialue': 'Wellbeing services county of Vantaa and Kerava',
   'settings.city.askola': 'Askola',
   'settings.city.hanko': 'Hanko',
   'settings.city.hyvinkää': 'Hyvinkää',
@@ -711,8 +737,11 @@ const translations = {
   'settings.map.title': 'Background map',
   'settings.map.servicemap': 'Service map',
   'settings.map.ortographic': 'Aerial view',
-  'settings.map.guideMap': 'Guide map',
+  'settings.map.guidemap': 'Guide map',
   'settings.map.accessible_map': 'High contrast map',
+  'settings.3dmap.title': '3D-uban data model',
+  'settings.3dmap.info': 'The Urban data model is based on the city’s map and geographic data, registers, point clouds obtained by laser scanning, aerial photographs and building data models. Use the link below to go to view the city model.',
+  'settings.3dmap.link': '3D-uban data model (new tab)',
   'settings.aria.changed': 'Settings have changed. Remember to save',
   'settings.aria.closed': 'Settings closed',
   'settings.aria.open': 'Open settings',
@@ -722,8 +751,9 @@ const translations = {
   'settings.choose.mobility': 'Select your mobility issue',
   'settings.choose.senses': 'Select your sensory processing issues',
   'settings.choose.cities': 'Select your city setting',
-  'settings.choose.districts': 'Select your regional settings', // TODO is waiting here for wellness districts
+  'settings.choose.organization': 'Valitse palveluntarjoaja', // TODO: translate
   'settings.map.info': 'You can select the background map that best suits you in the map settings.',
+  'settings.reset_button.title': 'Clear all my selections',
 
   // Tools
   'tool.download': 'Download data',
@@ -734,6 +764,7 @@ const translations = {
   'info.title': 'About the service and accessibility statement',
   'info.statement': 'Accessibility statement (new tab)',
 
+  'opens.new.tab': '(new tab)',
   'alert.close': 'Close the notification',
 
   // Mobility Platform of Turku

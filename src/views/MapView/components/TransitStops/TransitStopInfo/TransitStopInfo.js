@@ -1,31 +1,103 @@
 /* eslint-disable react/no-array-index-key */
+import { css } from '@emotion/css';
+import styled from '@emotion/styled';
+import { Close } from '@mui/icons-material';
+import Accessible from '@mui/icons-material/Accessible';
+import { ButtonBase, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Typography, ButtonBase } from '@mui/material';
-import { Close } from '@mui/icons-material';
-import Accessible from '@mui/icons-material/Accessible';
+import { useSelector } from 'react-redux';
 import config from '../../../../../../config';
 import { getIcon } from '../../../../../components/SMIcon';
+import { selectMapType } from '../../../../../redux/selectors/settings';
 import useLocaleText from '../../../../../utils/useLocaleText';
 import { fetchStopData } from '../../../utils/transitFetch';
+import { StyledCloseText } from '../../styled/styled';
+import getTypeAndClass from '../util/util';
+
+const infoIconClass = {
+  fontSize: 18,
+  width: 18,
+  height: 18,
+  lineHeight: '21px',
+  marginLeft: 6,
+  marginRight: 4,
+};
+const TransitStopIcon = styled.span(({ color }) => ({
+  ...infoIconClass,
+  color,
+}));
+
+const DepartureItemContainer = styled.div(() => ({
+  marginBottom: 3,
+  display: 'flex',
+  alignItems: 'center',
+}));
+const StyledDeparturetime = styled(Typography)(() => ({
+  width: '15%',
+  fontSize: '0.813rem',
+}));
+
+const StyledDepartureVehicle = styled.div(() => ({
+  width: '38%',
+  display: 'flex',
+}));
+
+const StyledVehicleName = styled(Typography)(() => ({
+  display: 'inline',
+  fontWeight: 'bold',
+}));
+
+const StyledRouteName = styled(Typography)(() => ({
+  fontSize: '0.75rem',
+  width: '55%',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
+}));
+
+const StyledTransitInfoContainer = styled.div(({ theme }) => ({
+  padding: theme.spacing(2),
+  display: 'flex',
+  flexDirection: 'column',
+}));
+
+const StyledTransitInfoTitle = styled.div(() => ({
+  fontWeight: 'bold',
+  marginBottom: '5%',
+  borderBottomStyle: 'solid',
+  borderBottomWidth: '1px',
+  borderBottomColor: 'rgba(0, 0, 0, 0.30)',
+  display: 'flex',
+  paddingBottom: ' 2%',
+}));
+
+const StyledCloseButton = styled(ButtonBase)(() => ({
+  marginLeft: 'auto',
+}));
+
+const StyledBoldText = styled(Typography)(() => ({
+  fontWeight: 'bold',
+}));
 
 const TransitStopInfo = ({
-  stop, onCloseClick, type, classes,
+  stop, onCloseClick, type,
 }) => {
+  const useContrast = useSelector(selectMapType) === 'accessible_map';
   const getLocaleText = useLocaleText();
   const [stopData, setStopData] = useState({ departureTimes: null, wheelchair: null });
+  const infoIconCssClass = css(infoIconClass);
 
   // If external theme (by Turku) is true, then can be used to select which color to render
   const externalTheme = config.themePKG;
   const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
 
-  const getAccessibilityIcon = value => {
+  const getAccessibilityIcon = (value) => {
     if (value === 'POSSIBLE') {
-      return <Accessible className={classes.infoIcon} />;
-    }
-    if (value === 'NOT_POSSIBLE') {
-      return getIcon('noWheelchair', { className: classes.infoIcon });
+      return <Accessible className={infoIconCssClass} />;
+    } if (value === 'NOT_POSSIBLE') {
+      return getIcon('noWheelchair', { className: infoIconCssClass });
     }
     return null;
   };
@@ -50,82 +122,59 @@ const TransitStopInfo = ({
   }, []);
 
   const renderDepartureTimes = () => {
-    let icon;
-    switch (stop.vehicleType) {
-      case 3: // Bus stops
-        icon = <span className={`${classes.infoIcon} ${classes.busIconColor} icon-icon-hsl-bus`} />;
-        break;
-      case 0: // Tram stops
-        icon = <span className={`${classes.infoIcon} ${classes.tramIconColor} icon-icon-hsl-tram`} />;
-        break;
-      case 109: // Train stops
-        icon = <span className={`${classes.infoIcon} ${classes.trainIconColor} icon-icon-hsl-train`} />;
-        break;
-      case 1: // Subway stops
-        icon = <span className={`${classes.infoIcon} ${classes.metroIconColor} icon-icon-hsl-metro`} />;
-        break;
-      case 4: // Ferry stops
-        icon = <span className={`${classes.infoIcon} ${classes.ferryIconColor} icon-icon-hsl-ferry`} />;
-        break;
-      case -999:
-        icon = <span className={`${classes.infoIcon} ${isExternalTheme ? classes.busIconColorDark : classes.busIconColor} icon-icon-hsl-bus`} />;
-        break;
-      default:
-        icon = <span className={`${classes.infoIcon} ${classes.busIconColor} icon-icon-hsl-bus`} />;
-        break;
-    }
+    const { color, className } = getTypeAndClass(stop.vehicleType);
+    const icon = <TransitStopIcon color={useContrast ? '#000000' : color} className={className} />;
 
-    if (stopData.departureTimes && stopData.departureTimes.length) {
+    if (stopData.departureTimes?.length) {
       return stopData.departureTimes.map((departure, index) => {
         const time = new Date((departure.realtimeDeparture + departure.serviceDay) * 1000);
         const hours = time.getHours();
         const minutes = time.getMinutes();
 
         return (
-          <div key={index} className={classes.departureItem}>
-            <Typography className={classes.departureTime}>
+          <DepartureItemContainer key={index}>
+            <StyledDeparturetime>
               {/* This adds 0 before single digit times */}
               {`${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`}
-            </Typography>
-            <div className={classes.departureVehicle}>
+            </StyledDeparturetime>
+            <StyledDepartureVehicle>
               {icon}
-              <Typography className={classes.vehicleName}>
+              <StyledVehicleName>
                 {departure.trip.route.shortName}
-              </Typography>
-            </div>
-            <Typography className={classes.routeName}>
+              </StyledVehicleName>
+            </StyledDepartureVehicle>
+            <StyledRouteName>
               {departure.pickupType === 'NONE' ? <FormattedMessage id="map.transit.endStation" /> : departure.headsign}
-            </Typography>
+            </StyledRouteName>
             {getAccessibilityIcon(departure.trip.wheelchairAccessible)}
-          </div>
+          </DepartureItemContainer>
         );
       });
     } return null;
   };
 
   return (
-    <div aria-hidden className={classes.transitInfoContainer}>
-      <ButtonBase onClick={() => onCloseClick()} className={classes.closeButton}>
-        <Typography className={classes.closeText}><FormattedMessage id="general.close" /></Typography>
-        <Close className={classes.infoIcon} />
-      </ButtonBase>
-      <div className={classes.transitInfoTitle}>
-        <Typography className={classes.bold}>
+    <StyledTransitInfoContainer aria-hidden>
+      <StyledCloseButton onClick={() => onCloseClick()}>
+        <StyledCloseText><FormattedMessage id="general.close" /></StyledCloseText>
+        <Close className={infoIconCssClass} />
+      </StyledCloseButton>
+      <StyledTransitInfoTitle>
+        <StyledBoldText>
           {typeof stop.name === 'object' ? getLocaleText(stop.name) : stop.name}
-        </Typography>
+        </StyledBoldText>
         {getAccessibilityIcon(stopData.wheelchair)}
-      </div>
+      </StyledTransitInfoTitle>
       {type === 'bikeStation'
         ? null
         : renderDepartureTimes()}
-    </div>
+    </StyledTransitInfoContainer>
   );
 };
 
 TransitStopInfo.propTypes = {
   stop: PropTypes.objectOf(PropTypes.any),
   onCloseClick: PropTypes.func.isRequired,
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   type: PropTypes.string,
 };
 

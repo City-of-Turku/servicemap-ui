@@ -1,74 +1,34 @@
 import { createSelector } from 'reselect';
-import config from '../../../config';
-import { isEmbed } from '../../utils/path';
-import { filterEmptyServices, filterCities, filterResultTypes } from '../../utils/filters';
-import isClient from '../../utils';
-import orderUnits from '../../utils/orderUnits';
+import { getCityAndOrgFilteredData } from '../../utils/filters';
+import { orderUnits } from '../../utils/orderUnits';
 import getSortingParameters from './ordering';
+import { selectSelectedCities, selectSelectedOrganizationIds } from './settings';
 
-const isFetching = state => state.searchResults.isFetching;
-const results = state => state.searchResults.data;
-const settings = state => state.settings;
+export const selectResultsIsFetching = state => state.searchResults.isFetching;
+export const selectResultsPreviousSearch = state => state.searchResults.previousSearch;
+export const selectResultsData = state => state.searchResults.data;
+export const selectSearchResults = state => state.searchResults;
 
 /**
- * Returns given data after filtering it
- * @param {*} data - search data to be filtered
- * @param {*} options - options for filtering - municipality: to override city setting filtering
- * @param {*} settings - user settings, used in filtering
+ * Gets ordered result data for rendering search results
  */
-const getFilteredData = (data, options, settings) => {
-  const cities = [];
-  config.cities.forEach((city) => {
-    cities.push(...settings.cities[city] ? [city] : []);
-  });
-
-  let embed = false;
-  if (global.window) {
-    embed = isEmbed({ url: window.location });
-  }
-
-  let filteredData = data
-    .filter(filterEmptyServices(cities))
-    .filter(filterResultTypes());
-
-  if (!embed) {
-    if (options && options.municipality) {
-      filteredData = filteredData.filter(filterCities(options.municipality.split(',')));
-    } else {
-      filteredData = filteredData.filter(filterCities(cities));
+export const getOrderedSearchResultData = createSelector(
+  [selectResultsData, selectResultsIsFetching, getSortingParameters],
+  (unitData, isFetching, sortingParameters) => {
+    if (isFetching) {
+      return [];
     }
-  }
-  return filteredData;
-};
-
-/**
- * Gets unordered processed result data for rendering search results
- */
-export const getProcessedData = createSelector(
-  [results, isFetching, settings],
-  (data, isFetching, settings) => {
-    // Prevent processing data if fetch is in process
-    if (isFetching) return [];
-
-    const options = {};
-    const overrideMunicipality = isClient() && new URLSearchParams().get('municipality');
-    if (overrideMunicipality) {
-      options.municipality = overrideMunicipality;
-    }
-
-    return getFilteredData(data, options, settings);
-  },
-);
-
-/**
- * Gets ordered processed result data for rendering search results
- */
-export const getOrderedData = createSelector(
-  [getProcessedData, getSortingParameters],
-  (unitData, sortingParameters) => {
     if (!unitData) {
       throw new Error('Invalid data provided to getOrderedData selector');
     }
     return orderUnits(unitData, sortingParameters);
   },
+);
+
+/**
+ * Gets filtered (by cities and orgs) result data for rendering search results
+ */
+export const getFilteredSearchResultData = createSelector(
+  [getOrderedSearchResultData, selectSelectedCities, selectSelectedOrganizationIds],
+  (unitData, cities, orgIds) => getCityAndOrgFilteredData(unitData, cities, orgIds),
 );

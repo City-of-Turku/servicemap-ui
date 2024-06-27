@@ -1,36 +1,38 @@
+import styled from '@emotion/styled';
 import {
   ButtonBase, Divider, ListItem, Typography,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
-import config from '../../../../../config';
-import InfoList from '../InfoList';
-import unitSectionFilter from '../../utils/unitSectionFilter';
+import { SMAccordion } from '../../../../components';
+import { parseSearchParams, stringifySearchParams } from '../../../../utils';
 import { getAddressFromUnit } from '../../../../utils/address';
 import useLocaleText from '../../../../utils/useLocaleText';
-import { parseSearchParams, stringifySearchParams } from '../../../../utils';
-import { SMAccordion } from '../../../../components';
+import routeDetails from '../../utils/routeDetails';
+import unitSectionFilter from '../../utils/unitSectionFilter';
+import InfoList from '../InfoList';
 
-const ContactInfo = ({
-  unit, userLocation, intl, classes, headingLevel,
-}) => {
+const ContactInfo = ({ unit, userLocation, headingLevel }) => {
+  const intl = useIntl();
   const history = useHistory();
   const location = useLocation();
   const getLocaleText = useLocaleText();
   const additionalEntrances = unit?.entrances?.filter(entrance => !entrance.is_main_entrance);
   const subgroupContacts = unit?.connections?.filter(c => c.section_type === 'SUBGROUP');
 
+  const showCallInfo = unit.call_charge_info && unit.call_charge_info !== 'pvm/mpm' && unit.call_charge_info.fi !== 'pvm/mpm';
   const address = {
     type: 'ADDRESS',
     value: unit.street_address ? getAddressFromUnit(unit, getLocaleText, intl) : intl.formatMessage({ id: 'unit.address.missing' }),
     noDivider: additionalEntrances?.length,
   };
+  const otherAddressData = unit.connections?.find(x => x.section_type === 'OTHER_ADDRESS');
   const phone = {
     type: 'PHONE',
     value: unit.phone ? { phone: unit.phone } : intl.formatMessage({ id: 'unit.phone.missing' }),
-    noDivider: (unit.call_charge_info && unit.call_charge_info.fi !== 'pvm/mpm') || (subgroupContacts && subgroupContacts.length > 0), // TODO: fix this hard coded value when unit data returns call charge boolean
+    noDivider: showCallInfo || (subgroupContacts && subgroupContacts.length > 0), // TODO: fix this hard coded value when unit data returns call charge boolean
   };
   const email = {
     type: 'EMAIL',
@@ -44,27 +46,28 @@ const ContactInfo = ({
     } : intl.formatMessage({ id: 'unit.homepage.missing' }),
   };
 
+  const addNewTabSuffix = (text) => `${text} ${intl.formatMessage({ id: 'opens.new.tab' })}`;
+
   // Custom list item component for call charge info
   const callInformation = {
-    component: unit.call_charge_info && unit.call_charge_info.fi !== 'pvm/mpm' // TODO: fix this hard coded value when unit data returns call charge boolean
+    component: showCallInfo // TODO: fix this hard coded value when unit data returns call charge boolean
       && (
         <React.Fragment key="callInformation">
-          <ListItem className={classes.accordionItem}>
-            <SMAccordion
-              className={classes.accordionRoot}
+          <StyledAccordionItem>
+            <StyledSMAccordion
               disableUnmount
               titleContent={<Typography><FormattedMessage id="unit.phone.charge" /></Typography>}
               collapseContent={(
-                <div className={classes.accordionContaianer}>
-                  <Typography className={classes.callInfoText}>
-                    {getLocaleText(unit.call_charge_info)}
-                  </Typography>
-                </div>
+                <StyledAccordionContainer>
+                  <StyledCallInfoText>
+                    {typeof unit.call_charge_info === 'string' ? unit.call_charge_info : getLocaleText(unit.call_charge_info)}
+                  </StyledCallInfoText>
+                </StyledAccordionContainer>
               )}
             />
-          </ListItem>
+          </StyledAccordionItem>
           <li aria-hidden>
-            <Divider className={classes.dividerShort} />
+            <StyledShortDivider />
           </li>
         </React.Fragment>
       ),
@@ -75,13 +78,12 @@ const ContactInfo = ({
     component: additionalEntrances?.length
     && (
       <React.Fragment key="entrances">
-        <ListItem className={classes.accordionItem}>
-          <SMAccordion
-            className={classes.accordionRoot}
+        <StyledAccordionItem>
+          <StyledSMAccordion
             disableUnmount
             titleContent={<Typography id="additional-entrances"><FormattedMessage id="unit.entrances.show" /></Typography>}
             collapseContent={(
-              <div className={classes.accordionContaianer}>
+              <StyledAccordionContainer data-sm="AdditionalEntranceContent">
                 {additionalEntrances.map(entrance => (
                   entrance.name ? (
                     <Typography key={getLocaleText(entrance.name)}>
@@ -89,9 +91,8 @@ const ContactInfo = ({
                     </Typography>
                   ) : null
                 ))}
-                <ButtonBase
+                <StyledAccessibilityLink
                   role="link"
-                  className={classes.accessibilityLink}
                   onClick={() => {
                     // Navigate to accessibility tab by changing url tab parameter
                     const searchParams = parseSearchParams(location.search);
@@ -101,46 +102,85 @@ const ContactInfo = ({
                   }}
                 >
                   <Typography>
-                    <FormattedMessage id="unit.entrances.accessibility" />
+                    {addNewTabSuffix(intl.formatMessage({ id: 'unit.entrances.accessibility' }))}
                   </Typography>
-                </ButtonBase>
-              </div>
+                </StyledAccessibilityLink>
+              </StyledAccordionContainer>
               )}
           />
-        </ListItem>
+        </StyledAccordionItem>
         <li aria-hidden>
-          <Divider className={classes.dividerShort} />
+          <StyledShortDivider />
         </li>
       </React.Fragment>
     ),
   };
 
+  const otherAddress = {
+    component: otherAddressData
+      && (
+        <React.Fragment key="otherAddress">
+          <StyledAccordionItem>
+            <StyledSMAccordion
+              disableUnmount
+              titleContent={<Typography data-sm="other-address"><FormattedMessage id="unit.otherAddress.show" /></Typography>}
+              collapseContent={(
+                <StyledAccordionContainer>
+                  {
+                    otherAddressData.name
+                      ? (<Typography>{getLocaleText(otherAddressData.name)}</Typography>)
+                      : null
+                  }
+                  {
+                    otherAddressData.www
+                      ? (
+                        <StyledAccessibilityLink
+                          role="link"
+                          onClick={() => window.open(getLocaleText(otherAddressData.www))}
+                        >
+                          <Typography>
+                            <FormattedMessage id="unit.otherAddress.link" />
+                          </Typography>
+                        </StyledAccessibilityLink>
+                      )
+                      : null
+                  }
+                </StyledAccordionContainer>
+              )}
+            />
+          </StyledAccordionItem>
+          <li aria-hidden>
+            <StyledShortDivider />
+          </li>
+        </React.Fragment>
+      ),
+  };
+
   const subgroups = {
     component: subgroupContacts?.length > 0 && (
       <React.Fragment key="entrances">
-        <ListItem className={classes.accordionItem}>
-          <SMAccordion
-            className={classes.accordionRoot}
+        <StyledAccordionItem>
+          <StyledSMAccordion
             disableUnmount
             titleContent={<Typography><FormattedMessage id="unit.subgroup.title" /></Typography>}
             collapseContent={(
-              <div className={classes.accordionContaianer}>
+              <StyledAccordionContainer>
                 {subgroupContacts.map(subgroup => (
                   subgroup.contact_person ? (
-                    <div key={subgroup.contact_person} className={classes.subgroupItem}>
+                    <StyledSubGroupItem key={subgroup.contact_person}>
                       <Typography key={subgroup.contact_person}>
                         {`${subgroup.contact_person}, ${getLocaleText(subgroup.name)}, `}
                       </Typography>
                       <a href={`tel:${subgroup.phone}`}>{subgroup.phone}</a>
-                    </div>
+                    </StyledSubGroupItem>
                   ) : null
                 ))}
-              </div>
+              </StyledAccordionContainer>
               )}
           />
-        </ListItem>
+        </StyledAccordionItem>
         <li aria-hidden>
-          <Divider className={classes.dividerShort} />
+          <StyledShortDivider />
         </li>
       </React.Fragment>
     ),
@@ -157,11 +197,11 @@ const ContactInfo = ({
     contact = unitSectionFilter(unit.connections, 'PHONE_OR_EMAIL');
   }
 
-
   // Form data array
   const data = [
     address,
     entrances,
+    otherAddress,
     phone,
     subgroups,
     callInformation,
@@ -173,31 +213,8 @@ const ContactInfo = ({
 
   // Add route info to data in location exists
   const unitLocation = unit.location;
-
-  if (unitLocation && unitLocation.coordinates) {
-    // Temporary link implementation for route info
-    let currentLocationString = ' ';
-
-    if (userLocation && userLocation.addressData) {
-      const { street, number } = userLocation.addressData;
-      const { latitude, longitude } = userLocation.coordinates;
-
-      const userAddress = `${getLocaleText(street.name)} ${number}, ${street.municipality}`;
-      currentLocationString = `${userAddress}::${latitude},${longitude}`;
-    }
-    let url = '';
-    let extraText = '';
-
-    if (config.hslRouteGuideCities?.includes(unit.municipality)) {
-      url = config.hslRouteGuideURL;
-      extraText = intl.formatMessage({ id: 'unit.route.extra.hslRouteGuide' });
-    } else {
-      url = config.reittiopasURL;
-      extraText = intl.formatMessage({ id: 'unit.route.extra.routeGuide' });
-    }
-
-    const destinationString = `${getLocaleText(unit.name)}, ${unit.municipality}::${unitLocation.coordinates[1]},${unitLocation.coordinates[0]}`;
-    const routeUrl = `${url}${currentLocationString}/${destinationString}?locale=${intl.locale}`;
+  if (unitLocation?.coordinates) {
+    const { routeUrl, extraText } = routeDetails(unit, userLocation);
 
     const route = {
       type: 'ROUTE',
@@ -219,10 +236,42 @@ const ContactInfo = ({
   );
 };
 
+const StyledShortDivider = styled(Divider)(({ theme }) => ({
+  marginLeft: theme.spacing(9),
+  marginRight: theme.spacing(-2),
+}));
+
+const StyledAccordionItem = styled(ListItem)(({ theme }) => ({
+  padding: 0,
+  paddingLeft: theme.spacing(7),
+}));
+
+const StyledSMAccordion = styled(SMAccordion)(({ theme }) => ({
+  height: 32,
+  marginBottom: theme.spacing(1),
+}));
+
+const StyledAccordionContainer = styled.div(({ theme }) => ({
+  padding: theme.spacing(2),
+  paddingBottom: theme.spacing(1),
+  paddingTop: 0,
+}));
+
+const StyledAccessibilityLink = styled(ButtonBase)(({ theme }) => ({
+  paddingTop: theme.spacing(1),
+  color: theme.palette.link.main,
+}));
+
+const StyledCallInfoText = styled(Typography)(() => ({
+  whiteSpace: 'pre-line',
+}));
+
+const StyledSubGroupItem = styled.div(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+}));
+
 ContactInfo.propTypes = {
   unit: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   userLocation: PropTypes.objectOf(PropTypes.any),
   headingLevel: PropTypes.string,
 };

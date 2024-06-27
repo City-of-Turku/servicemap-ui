@@ -76,9 +76,6 @@ const app = express();
 app.disable('x-powered-by');
 const supportedLanguages = config.supportedLanguages;
 
-const versionTag = getVersion();
-const versionCommit = getLastCommit();
-
 // This is required for proxy setups to work in production
 app.set('trust proxy', true);
 
@@ -167,7 +164,7 @@ app.get('/*', (req, res, next) => {
 if (Sentry) {
   app.use(Sentry.Handlers.errorHandler());
 }
-
+console.log('Application version tag:', GIT_TAG, 'commit:', GIT_COMMIT);
 console.log(`Starting server on port ${process.env.PORT || 2048}`);
 app.listen(process.env.PORT || 2048);
 
@@ -195,8 +192,6 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, emotionCss,
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#141823" />
-    ${appDynamicsTrackingCode(process.env.APP_DYNAMICS_APP_KEY)}
-    ${cookieHubCode(req)}
     ${
       process.env.READ_SPEAKER_URL && process.env.READ_SPEAKER_URL !== 'false'
         ? `
@@ -245,15 +240,11 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, emotionCss,
         window.nodeEnvSettings.REITTIOPAS_URL = "${process.env.REITTIOPAS_URL}";
         window.nodeEnvSettings.OUTDOOR_EXERCISE_URL = "${process.env.OUTDOOR_EXERCISE_URL}";
         window.nodeEnvSettings.NATURE_AREA_URL = "${process.env.NATURE_AREA_URL}";
+        window.nodeEnvSettings.VANTAA_NATURE_AREA_URL = "${process.env.VANTAA_NATURE_AREA_URL}";
         window.nodeEnvSettings.EMBEDDER_DOCUMENTATION_URL = "${process.env.EMBEDDER_DOCUMENTATION_URL}";
         window.nodeEnvSettings.CITIES = "${process.env.CITIES}";
+        window.nodeEnvSettings.ORGANIZATIONS = '${process.env.ORGANIZATIONS}';
         window.nodeEnvSettings.MAPS = "${process.env.MAPS}";
-        window.nodeEnvSettings.ACCESSIBILITY_STATEMENT_URL_FI = "${process.env.ACCESSIBILITY_STATEMENT_URL_FI}";
-        window.nodeEnvSettings.ACCESSIBILITY_STATEMENT_URL_SV = "${process.env.ACCESSIBILITY_STATEMENT_URL_SV}";
-        window.nodeEnvSettings.ACCESSIBILITY_STATEMENT_URL_EN = "${process.env.ACCESSIBILITY_STATEMENT_URL_EN}";
-        window.nodeEnvSettings.OLD_MAP_LINK_EN = "${process.env.OLD_MAP_LINK_EN}";
-        window.nodeEnvSettings.OLD_MAP_LINK_FI = "${process.env.OLD_MAP_LINK_FI}";
-        window.nodeEnvSettings.OLD_MAP_LINK_SV = "${process.env.OLD_MAP_LINK_SV}";
         window.nodeEnvSettings.ACCESSIBILITY_STATEMENT_URL_FI = "${process.env.ACCESSIBILITY_STATEMENT_URL_FI}";
         window.nodeEnvSettings.ACCESSIBILITY_STATEMENT_URL_SV = "${process.env.ACCESSIBILITY_STATEMENT_URL_SV}";
         window.nodeEnvSettings.ACCESSIBILITY_STATEMENT_URL_EN = "${process.env.ACCESSIBILITY_STATEMENT_URL_EN}";
@@ -263,6 +254,8 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, emotionCss,
         window.nodeEnvSettings.FEEDBACK_ADDITIONAL_INFO_LINK_SV = "${process.env.FEEDBACK_ADDITIONAL_INFO_LINK_SV}";
         window.nodeEnvSettings.FEEDBACK_ADDITIONAL_INFO_LINK_EN = "${process.env.FEEDBACK_ADDITIONAL_INFO_LINK_EN}";
         window.nodeEnvSettings.FEEDBACK_IS_PUBLISHED = "${process.env.FEEDBACK_IS_PUBLISHED}";
+        window.nodeEnvSettings.READ_FEEDBACK_URLS_HELSINKI = "${process.env.READ_FEEDBACK_URLS_HELSINKI}";
+        window.nodeEnvSettings.SLOW_FETCH_MESSAGE_TIMEOUT = "${process.env.SLOW_FETCH_MESSAGE_TIMEOUT}";
         window.nodeEnvSettings.USE_PTV_ACCESSIBILITY_API = "${process.env.USE_PTV_ACCESSIBILITY_API}";
         window.nodeEnvSettings.SENTRY_DSN_CLIENT = "${process.env.SENTRY_DSN_CLIENT}";
         window.nodeEnvSettings.ECOCOUNTER_API = "${process.env.ECOCOUNTER_API}";
@@ -277,9 +270,9 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, emotionCss,
         window.nodeEnvSettings.PORTNET_API = "${process.env.PORTNET_API}";
         window.nodeEnvSettings.FEATURE_SERVICEMAP_PAGE_TRACKING = "${process.env.FEATURE_SERVICEMAP_PAGE_TRACKING}";
 
-        window.appVersion = {};
-        window.appVersion.tag = "${versionTag}";
-        window.appVersion.commit = "${versionCommit}";
+        window.nodeEnvSettings.appVersion = {};
+        window.nodeEnvSettings.appVersion.tag = "${GIT_TAG}";
+        window.nodeEnvSettings.appVersion.commit = "${GIT_COMMIT}";
     </script>
     <script>
       // WARNING: See the following for security issues around embedding JSON in HTML:

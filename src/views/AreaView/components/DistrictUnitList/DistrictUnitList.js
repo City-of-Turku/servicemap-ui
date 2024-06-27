@@ -1,24 +1,36 @@
+import { List, Typography } from '@mui/material';
 import distance from '@turf/distance';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Divider, List, Typography } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { getAddressDistrict } from '../../../../redux/selectors/district';
+import { DivisionItem } from '../../../../components';
+import { getAddressDistrict, selectDistrictsFetching } from '../../../../redux/selectors/district';
+import { selectCities } from '../../../../redux/selectors/settings';
+import { getLocale } from '../../../../redux/selectors/user';
 import { formatDistanceObject } from '../../../../utils';
 import { getAddressFromUnit } from '../../../../utils/address';
+import { filterByCitySettings } from '../../../../utils/filters';
+import { orderUnits } from '../../../../utils/orderUnits';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { sortByOriginID } from '../../utils';
-import { DivisionItem } from '../../../../components';
+import {
+  StyledDistrictServiceListLevelFour,
+  StyledDivider,
+  StyledLoadingText,
+  StyledServiceList,
+  StyledServiceTabServiceList,
+} from '../styled/styled';
 
 const DistrictUnitList = (props) => {
   const {
-    classes, intl, selectedAddress, district,
+    intl, selectedAddress, district,
   } = props;
 
-  const citySettings = useSelector(state => state.settings.cities);
-  const addressDistrict = useSelector(state => getAddressDistrict(state));
-  const districtsFetching = useSelector(state => state.districts.districtsFetching);
+  const citySettings = useSelector(selectCities);
+  const addressDistrict = useSelector(getAddressDistrict);
+  const districtsFetching = useSelector(selectDistrictsFetching);
+  const locale = useSelector(getLocale);
   const getLocaleText = useLocaleText();
 
   const sortDistricts = (units) => {
@@ -54,31 +66,27 @@ const DistrictUnitList = (props) => {
   };
 
   const renderServiceListAccordion = (title, unitList) => (
-    <div className={classes.serviceTabServiceList}>
-      <Typography>{`${title} (${unitList.length})`}</Typography>
-      <List className="districtUnits" disablePadding>
+    <StyledServiceTabServiceList>
+      <Typography data-sm="DistrictUnitsTitle">{`${title} (${unitList.length})`}</Typography>
+      <List data-sm="DistrictUnits" disablePadding>
         {unitList.map(unit => renderDistrictUnitItem(unit))}
       </List>
-    </div>
+    </StyledServiceTabServiceList>
   );
 
 
   const render = () => {
     if (districtsFetching.length) {
       return (
-        <div className={classes.loadingText}>
+        <StyledLoadingText>
           <Typography aria-hidden>
             <FormattedMessage id="general.loading" />
           </Typography>
-        </div>
+        </StyledLoadingText>
       );
     }
 
-
-    const selectedCities = Object.values(citySettings).filter(city => city);
-    const cityFilteredDistricts = !selectedCities.length
-      ? district.data
-      : district.data.filter(obj => citySettings[obj.municipality]);
+    const cityFilteredDistricts = district.data.filter(filterByCitySettings(citySettings));
 
     if (district.id === 'rescue_area') {
       sortByOriginID(cityFilteredDistricts);
@@ -113,6 +121,7 @@ const DistrictUnitList = (props) => {
 
     // Filter out non unit objects
     unitList = unitList.filter(u => typeof u === 'object' && typeof u.id === 'number');
+    unitList = orderUnits(unitList, { locale, direction: 'desc', order: 'alphabetical' })
 
     if (selectedAddress && addressDistrict) {
       unitList.forEach((unit) => {
@@ -135,15 +144,15 @@ const DistrictUnitList = (props) => {
         <div>
           {localUnits.length ? (
             <>
-              <div className={classes.servciceList}>
+              <StyledServiceList>
                 <Typography>
                   <FormattedMessage id="area.services.local" />
                 </Typography>
                 <List disablePadding>
                   {localUnits.map(unit => renderDistrictUnitItem(unit))}
                 </List>
-              </div>
-              <Divider className={classes.serviceDivider} aria-hidden />
+              </StyledServiceList>
+              <StyledDivider aria-hidden />
             </>
           ) : null}
 
@@ -156,6 +165,9 @@ const DistrictUnitList = (props) => {
         </div>
       );
     }
+    if (!unitList.length) {
+      return null;
+    }
 
     return (
       renderServiceListAccordion(
@@ -166,15 +178,14 @@ const DistrictUnitList = (props) => {
   };
 
   return (
-    <div className={`${classes.districtServiceList} ${classes.listLevelFour}`}>
+    <StyledDistrictServiceListLevelFour>
       {render()}
-      <Divider aria-hidden className={classes.serviceDivider} />
-    </div>
+      <StyledDivider aria-hidden />
+    </StyledDistrictServiceListLevelFour>
   );
 };
 
 DistrictUnitList.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   district: PropTypes.objectOf(PropTypes.any).isRequired,
   selectedAddress: PropTypes.objectOf(PropTypes.any),
   intl: PropTypes.objectOf(PropTypes.any).isRequired,

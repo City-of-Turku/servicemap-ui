@@ -1,18 +1,29 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Divider, Typography } from '@mui/material';
-import { useTheme } from '@mui/styles';
 import { css } from '@emotion/css';
 import styled from '@emotion/styled';
+import { Divider, Typography } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { useTheme } from '@mui/styles';
 import { visuallyHidden } from '@mui/utils';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { keyboardHandler } from '../../../utils';
 
 const SimpleListItem = props => {
   const {
-    button, dark, text, link, icon, handleItemClick, role, divider, selected, srText, className, id,
+    button,
+    dark,
+    text,
+    link,
+    icon,
+    handleItemClick,
+    role,
+    divider,
+    selected,
+    srText,
+    className,
+    id,
   } = props;
 
   const isLinkOrButton = button || link;
@@ -20,7 +31,7 @@ const SimpleListItem = props => {
 
   const listItemRootClass = css({
     minHeight: '3.5rem',
-    padding: theme.spacing(0),
+    padding: theme.spacing(1),
     color: '#000',
     '&.dark': {
       paddingLeft: 26,
@@ -66,13 +77,18 @@ const SimpleListItem = props => {
         selected={selected}
         id={id}
       >
-        {icon && (
-          <StyledListItemIcon aria-hidden link={+!!link}>
-            {icon}
-          </StyledListItemIcon>
-        )}
+        {
+          icon
+          && (
+            <StyledListItemIcon aria-hidden link={+(!!link)}>
+              {icon}
+            </StyledListItemIcon>
+          )
+        }
 
-        <ListItemText classes={{ root: listItemTextClass }}>
+        <ListItemText
+          classes={{ root: listItemTextClass }}
+        >
           <Typography
             color="inherit"
             variant="body2"

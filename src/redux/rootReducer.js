@@ -1,45 +1,61 @@
 import { combineReducers } from 'redux';
+import address from './reducers/address';
 import breadcrumb from './reducers/breadcrumb';
-import navigator from './reducers/navigator';
-import {
-  alertErrors,
-  alertNews,
-  searchResults,
-  service,
-  selectedUnit,
-  accessibilitySentences,
-  redirectService,
-  reservations,
-  unitEvents,
-  hearingMaps,
-} from './reducers/fetchDataReducer';
-import user from './reducers/user';
 import districts from './reducers/district';
 import event from './reducers/event';
-import address from './reducers/address';
+import {
+  accessibilitySentences,
+  alertErrors,
+  alertNews,
+  hearingMaps,
+  redirectService,
+  reservations,
+  searchResults,
+  selectedUnit,
+  service,
+  unitEvents,
+} from './reducers/fetchDataReducer';
+import mobilityTree from './reducers/mobilityTree';
+import navigator from './reducers/navigator';
 import serviceTree from './reducers/serviceTree';
 import {
-  colorblind, hearingAid, mobility, mapType, visuallyImpaired, cities, settingsCollapsed,
+  cities,
+  colorblind,
+  hearingAid,
+  mapType,
+  mobility,
+  organizations,
+  settingsCollapsed,
+  visuallyImpaired,
 } from './reducers/settings';
 import {
-  direction, order, mapRef, settingsToggled, measuringMode,
+  direction,
+  bounds,
+  mapRef,
+  measuringMode,
+  order,
 } from './reducers/simpleReducers';
 import statisticalDistrict from './reducers/statisticalDistrict';
+import tracker from './reducers/tracker';
+import user from './reducers/user';
 
 // Export all redux reducers here
 export default combineReducers({
+  address,
   alerts: combineReducers({
     errors: alertErrors,
     news: alertNews,
   }),
   breadcrumb,
+  bounds,
+  districts,
+  event,
   mapRef,
   measuringMode,
+  mobilityTree,
   navigator,
+  redirectService,
   searchResults,
-  user,
-  districts,
-  service,
   selectedUnit: combineReducers({
     accessibilitySentences,
     unit: selectedUnit,
@@ -47,16 +63,15 @@ export default combineReducers({
     events: unitEvents,
     hearingMaps,
   }),
-  event,
-  address,
+  service,
   serviceTree,
   settings: combineReducers({
-    toggled: settingsToggled,
     colorblind,
     hearingAid,
     mobility,
     visuallyImpaired,
     cities,
+    organizations,
     mapType,
     settingsCollapsed,
   }),
@@ -65,5 +80,6 @@ export default combineReducers({
     order,
   }),
   statisticalDistrict,
-  redirectService,
+  tracker,
+  user,
 });

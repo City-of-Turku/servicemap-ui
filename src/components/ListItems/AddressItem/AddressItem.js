@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
+import { useSelector } from 'react-redux';
+import { selectNavigator } from '../../../redux/selectors/general';
 import SimpleListItem from '../SimpleListItem';
 import { AddressIcon } from '../../SMIcon';
 import { getAddressText, useNavigationParams } from '../../../utils/address';
@@ -7,15 +10,14 @@ import useLocaleText from '../../../utils/useLocaleText';
 
 const AddressItem = (props) => {
   const {
-    navigator,
     address,
-    classes,
     selected,
     className,
     showPostalCode,
     role,
     id,
   } = props;
+  const navigator = useSelector(selectNavigator);
   const getLocaleText = useLocaleText();
   const getAddressNavigatorParams = useNavigationParams();
 
@@ -26,7 +28,7 @@ const AddressItem = (props) => {
       className={className}
       button
       text={text}
-      icon={<AddressIcon className={classes.icon} />}
+      icon={<StyledAddressIcon />}
       divider
       handleItemClick={(e) => {
         e.preventDefault();
@@ -41,11 +43,13 @@ const AddressItem = (props) => {
   );
 };
 
+const StyledAddressIcon = styled(AddressIcon)(() => ({
+  margin: 0,
+}));
+
 export default AddressItem;
 
 AddressItem.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  navigator: PropTypes.objectOf(PropTypes.any),
   address: PropTypes.objectOf(PropTypes.any).isRequired,
   selected: PropTypes.bool,
   className: PropTypes.string,
@@ -55,7 +59,6 @@ AddressItem.propTypes = {
 };
 
 AddressItem.defaultProps = {
-  navigator: null,
   selected: false,
   className: null,
   showPostalCode: true,

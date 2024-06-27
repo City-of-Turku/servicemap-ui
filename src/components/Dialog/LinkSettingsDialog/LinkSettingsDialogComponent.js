@@ -1,21 +1,20 @@
-import {
-  ButtonBase,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Typography,
-  Tooltip,
-} from '@mui/material';
+import styled from '@emotion/styled';
 import { FileCopy, Share } from '@mui/icons-material';
+import { ButtonBase, Tooltip, Typography } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { getSelectedUnit } from '../../../redux/selectors/selectedUnit';
+import {
+  selectMapType,
+  selectSelectedAccessibilitySettings,
+} from '../../../redux/selectors/settings';
 import isClient from '../../../utils';
-import SettingsUtility, { useAcccessibilitySettings } from '../../../utils/settings';
-import Dialog from '../index';
-import { useSelectedUnit } from '../../../utils/unitHelper';
+import SettingsUtility from '../../../utils/settings';
 import useLocaleText from '../../../utils/useLocaleText';
+import Dialog from '../index';
 
 const CopyTooltip = ({
   children,
@@ -41,7 +40,6 @@ CopyTooltip.propTypes = {
 };
 
 const LinkSettingsDialogComponent = ({
-  classes,
   activateSetting,
   resetAccessibilitySettings,
   setOpen,
@@ -49,9 +47,13 @@ const LinkSettingsDialogComponent = ({
 }) => {
   const intl = useIntl();
   const getLocaleText = useLocaleText();
-  const unit = useSelectedUnit();
-  const a11ySettings = useAcccessibilitySettings();
-  const [selected, setSelected] = useState('none');
+  const unit = useSelector(getSelectedUnit);
+  const mapType = useSelector(selectMapType);
+  const a11ySettings = useSelector(selectSelectedAccessibilitySettings)
+    .map(setting => {
+      const impairmentKey = SettingsUtility.mapValidAccessibilitySenseImpairmentValueToKey(setting);
+      return impairmentKey || setting;
+    });
   const [copyTooltipOpen1, setCopyTooltipOpen1] = useState(false);
   const [copyTooltipOpen2, setCopyTooltipOpen2] = useState(false);
   const [showAriaAlert, setShowAriaAlert] = useState(false);
@@ -84,59 +86,27 @@ const LinkSettingsDialogComponent = ({
   const title = intl.formatMessage({ id: 'link.settings.dialog.title' });
   const unitName = (unit && unit.name) ? getLocaleText(unit.name) : '';
   const tooltip = intl.formatMessage({ id: 'link.settings.dialog.tooltip' });
-  const tooltipAria = intl.formatMessage({ id: `link.settings.dialog.tooltip.aria${(selected !== 'none' && '.a11y') || ''}` });
-  const radioAria = intl.formatMessage({ id: 'link.settings.dialog.radio.label' });
+  const tooltipAria = intl.formatMessage({ id: 'link.settings.dialog.tooltip.aria.a11y' });
 
   const getLinkUrl = () => {
     const url = new URL(window.location.href);
-    if (a11ySettings.length && selected !== 'none') {
-      const mobility = a11ySettings.filter(v => SettingsUtility.isValidMobilitySetting(v));
+    if (a11ySettings.length) {
+      const mobility = a11ySettings.find(v => SettingsUtility.isValidMobilitySetting(v));
       const senses = a11ySettings
         .filter(v => SettingsUtility.isValidAccessibilitySenseImpairment(v));
 
-      if (mobility.length) {
-        url.searchParams.append('mobility', mobility[0]);
+      if (mobility) {
+        url.searchParams.set('mobility', mobility);
       }
 
       if (senses.length) {
-        url.searchParams.append('senses', senses.join(','));
+        url.searchParams.set('senses', senses.join(','));
       }
     }
+    url.searchParams.set('map', mapType);
     return url.toString();
   };
   const url = getLinkUrl();
-
-  const getSettingsLabel = () => {
-    let text = '';
-
-    try {
-      a11ySettings.forEach((v, i) => {
-        if (SettingsUtility.isValidMobilitySetting(v)) {
-          text += `${intl.formatMessage({ id: `settings.mobility.${v}` })}`;
-        } else if (SettingsUtility.isValidAccessibilitySenseImpairment(v)) {
-          text += `${intl.formatMessage({ id: `settings.sense.${v}` })}`;
-        }
-        text += (i + 1) < a11ySettings.length ? ', ' : '';
-      });
-    } catch (e) {
-      console.warn(`Unable to get settings label: ${e.message}`);
-    }
-
-    return text;
-  };
-
-  const items = [
-    {
-      value: 'use',
-      checked: false,
-      label: getSettingsLabel(),
-    },
-    {
-      value: 'none',
-      checked: false,
-      label: intl.formatMessage({ id: 'accept.settings.dialog.none' }),
-    },
-  ];
 
   const copyToClipboard = (stateSetter) => {
     if (!stateSetter) {
@@ -168,14 +138,13 @@ const LinkSettingsDialogComponent = ({
       {...rest}
       title={title}
       content={(
-        <div className={classes.container}>
+        <StyledContainer data-sm="DialogContainer">
           <CopyTooltip
             open={copyTooltipOpen1}
             title={tooltip}
             aria-label={tooltipAria}
           >
-            <ButtonBase
-              className={classes.urlContainer}
+            <StyledUrlContainer
               onClick={() => {
                 toggleAriaLive();
                 copyToClipboard(setCopyTooltipOpen1);
@@ -186,49 +155,18 @@ const LinkSettingsDialogComponent = ({
             >
               <div>
                 <Typography variant="subtitle1">{unitName}</Typography>
-                <Typography className={classes.linkText}>{url}</Typography>
+                <StyledLinkText>{url}</StyledLinkText>
               </div>
-              <FileCopy className={classes.linkIcon} />
-            </ButtonBase>
+              <StyledFileCopy />
+            </StyledUrlContainer>
           </CopyTooltip>
-          <Typography variant="subtitle1"><FormattedMessage id="link.settings.dialog.subtitle" /></Typography>
-          <Typography variant="body2"><FormattedMessage id="link.settings.dialog.description" /></Typography>
-          <div>
-            <RadioGroup
-              aria-label={radioAria}
-              className={classes.radioGroup}
-              name="setting"
-              value={selected}
-              onChange={(event, value) => {
-                setSelected(value);
-              }}
-            >
-              {
-                items.map(item => item.label !== '' && (
-                  <FormControlLabel
-                    key={item.label}
-                    control={(
-                      <Radio
-                        color="primary"
-                      />
-                      )}
-                    label={item.label}
-                    value={item.value}
-                    classes={{
-                      root: classes.radioGroupItem,
-                    }}
-                  />
-                ))
-              }
-            </RadioGroup>
-          </div>
           {
             showAriaAlert
             && (
               <Typography aria-live="polite" id="copy_link_aria_live" style={visuallyHidden}><FormattedMessage id="link.settings.dialog.tooltip" /></Typography>
             )
           }
-        </div>
+        </StyledContainer>
       )}
       actions={(
         <CopyTooltip
@@ -236,24 +174,72 @@ const LinkSettingsDialogComponent = ({
           title={tooltip}
           aria-label={tooltipAria}
         >
-          <ButtonBase
-            className={classes.shareButton}
+          <StyledShareButton
             onClick={() => {
               toggleAriaLive();
               copyToClipboard(setCopyTooltipOpen2);
             }}
           >
             {actionButtonText}
-            <Share className={classes.shareIcon} />
-          </ButtonBase>
+            <StyledShare />
+          </StyledShareButton>
         </CopyTooltip>
       )}
     />
   );
 };
 
+const StyledContainer = styled('div')(({ theme }) => ({
+  padding: theme.spacing(1),
+}));
+
+const StyledUrlContainer = styled(ButtonBase)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  backgroundColor: 'rgba(222, 223, 225, 0.25)',
+  padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
+  margin: `0 0 ${theme.spacing(3)} 0`,
+  border: '1px solid #DEDFE1',
+  width: '100%',
+  textAlign: 'left',
+  '&:hover': {
+    backgroundColor: 'rgba(222, 223, 225, 0.50)',
+  },
+}));
+
+const StyledLinkText = styled(Typography)(({ theme }) => ({
+  color: theme.palette.primary.main,
+  wordBreak: 'break-word',
+}));
+
+const StyledFileCopy = styled(FileCopy)(({ theme }) => ({
+  color: theme.palette.primary.main,
+  marginLeft: theme.spacing(1),
+}));
+
+const StyledShare = styled(Share)(({ theme }) => ({
+  fontSize: '1rem',
+  marginLeft: theme.spacing(1),
+}));
+
+const StyledShareButton = styled(ButtonBase)(({ theme }) => ({
+  ...theme.typography.body2,
+  boxSizing: 'border-box',
+  borderRadius: 2,
+  color: theme.palette.primary.highContrast,
+  backgroundColor: theme.palette.primary.main,
+  '&:hover': {
+    backgroundColor: theme.palette.primary.light,
+  },
+  '&:disabled': {
+    backgroundColor: theme.palette.disabled.strong,
+  },
+  minHeight: 38,
+  padding: '0 11px',
+}));
+
 LinkSettingsDialogComponent.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   activateSetting: PropTypes.func.isRequired,
   resetAccessibilitySettings: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,

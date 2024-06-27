@@ -1,15 +1,16 @@
-import { waitForReact, ReactSelector } from 'testcafe-react-selectors';
-import { ClientFunction, Selector } from 'testcafe';
-import config from '../config';
+import { Selector } from 'testcafe';
+import { ReactSelector, waitForReact } from 'testcafe-react-selectors';
+import { getBaseUrl } from '../utility';
 
-const { server } = config;
+import paginationTest from '../utility/paginationTest';
+import resultOrdererTest from '../utility/resultOrdererTest';
 
 const coordinates = ['60.281936', '24.949933'];
 const getLocation = ClientFunction(() => document.location.href);
 
 /* eslint-disable */
 fixture`Service page coordinate tests`
-  .page`http://${server.address}:${server.port}/fi/service/813?lat=${coordinates[0]}&lon=${coordinates[1]}`
+  .page`${getBaseUrl()}/fi/service/813?lat=${coordinates[0]}&lon=${coordinates[1]}`
   .beforeEach(async () => {
     await waitForReact();
   });
@@ -23,9 +24,9 @@ test('User marker is drawn on map based on coordinates', async (t) => {
     .expect(coords).eql(coordinates, 'user marker coordinates do not match parameter coordinates');
 });
 
-const servicePage = `http://${server.address}:${server.port}/fi/service/3235633`;
+const servicePage = `${getBaseUrl()}/fi/service/3235633`;
 
-fixture `Service page tests`
+fixture`Service page tests`
   .page`${servicePage}`
   .beforeEach(async () => {
     await waitForReact();
@@ -106,18 +107,12 @@ test('Keyboard navigation is OK', async (t) => {
   ;
 });
 
-test('Pagination attributes change correctly', async (t) => {
-  const pagination = ReactSelector('PaginationComponent');
-  const buttons = pagination.find('button');
-  const previousPageButton = buttons.nth(0);
-  const nextPageButton = buttons.nth(1);
-  await t
-    .expect(previousPageButton.getAttribute('tabindex')).eql('-1')
-    .expect(previousPageButton.getAttribute('disabled')).eql('')
-    .click(nextPageButton)
-    .expect(previousPageButton.getAttribute('disabled')).notOk()
-    .expect(previousPageButton.getAttribute('tabindex')).eql('0')
-  ;
+test('Service view list item click takes to correct unit view', async (t) => {
+  const units =  Selector('#paginatedList-events li[role="link"]');
+  const name = await units.nth(0).find('p[role="textbox"]').textContent;
+  const unitTitleSelector = Selector('.TitleText');
+  const backToServiceButton = Selector('[data-sm="BackButton"]');
+  const servicePageTitle = Selector('#view-title');
 
   const location = getLocation();
   await t

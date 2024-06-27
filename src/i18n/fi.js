@@ -9,10 +9,6 @@ const translations = {
   'app.navigation.home': 'Koti',
   'app.navigation.settings': 'Asetukset',
 
-  'accept.settings.dialog.description': 'Voit avata tiedot joko esteettömyysasetusten kanssa tai ilman rajauksia.',
-  'accept.settings.dialog.title': 'Katso toimipistettä esteettömyysasetusten kanssa',
-  'accept.settings.dialog.none': 'Ei erityisiä esteettömyysasetuksia',
-
   // Accessibility
   'accessibility': 'Esteettömyys',
   'accessibility.info': 'Esteettömyystiedot',
@@ -157,7 +153,11 @@ const translations = {
   'area.list.sub_district': 'Pienalue',
   'area.list.sub_district.plural': 'Pienalueet',
   'area.list.parkingSpaces': 'Pysäköintipaikat',
-  'area.list.parkingUnits': 'Pysäköintitalot ja -tilat',
+  'area.list.parkingGarages': 'Pysäköintitalot ja -tilat',
+  'area.list.sharedCarParking': 'Yhteiskäyttöautojen pysäköintipaikat',
+  'area.list.accessibleStreetParking': 'Esteettömät autopaikat kadulla',
+  'area.list.passenger_car': 'Henkilöautot',
+  'area.list.heavy_traffic': 'Raskas liikenne',
   'area.list.statistic.byAge': 'Ikä',
   'area.list.statistic.forecast': 'Väestöennuste',
   'area.list.statistic.total': 'Koko väestö',
@@ -167,12 +167,18 @@ const translations = {
   'area.list.statistic.30-49': 'Ikä 30-49 vuotta',
   'area.list.statistic.50-64': 'Ikä 50-64 vuotta',
   'area.list.statistic.65+': 'Ikä yli 65 vuotta',
+  'area.list.hgv_no_parking_area': 'Kielletyt kadunvarret',
+  'area.list.park_and_ride_area': 'Liityntäpysäköinti',
+  'area.parking.tooltip.park_and_ride_area': 'Liityntäpysäköinti',
+  'area.parking.tooltip.hgv_no_parking_area': 'Raskas liikenne - kielletyt kadunvarret',
   'area.tab.mobilityTest.results': 'Turun alueen liikkumisprofiilit',
   'area.mobilityResults.toggle': 'Liikkumisprofiilit',
   'area.mobilityResults.postCodeArea': 'Postinumeroalue: {value}',
   'area.mobilityResults.empty': 'Liikkumisprofiileja ei löytynyt.',
   'area.mobilityResults.info.text': 'Kartalla näet tietoa Turun alueen liikkumisprofiileista (esimerkiksi Joustava Jänis) postinumeroalueittain jaettuna. Tiedot tulevat näkyviin, kun kussakin profiilissa on vähintään viisi vastausta. Vastaamalla Turun liikkumistestiin, voit selvittää millainen liikkuja olet.',
   'area.mobilityResults.link.text': 'liikkumistesti.turku.fi (uusi välilehti)',
+  'cookies.matomo.description': 'Matomo-tilastointijärjestelmän eväste.',
+  'cookies.matomo.expiration': '{days} päivää',
 
   'parkingArea.popup.residentName': 'Alue {letter}',
   'parkingArea.popup.payment1': 'Ilmainen pysäköinti',
@@ -201,6 +207,15 @@ const translations = {
   'parkingArea.popup.info5': 'Maksut ja rajoitukset eivät koske asukas- ja yrityspysäköintitunnusten omistajia, jos pysäköintipaikka on merkitty asukaspysäköintipaikaksi.',
   'parkingArea.popup.info6': 'Maksut ja rajoitukset eivät koske asukas- ja yrityspysäköintitunnusten omistajia, jos pysäköintipaikka on merkitty asukaspysäköintipaikaksi.',
 
+  'parkingArea.popup.vantaa.neighbourhood': 'Kaupunginosa: {value}',
+  'parkingArea.popup.vantaa.name': 'Nimi: {value}',
+  'parkingArea.popup.vantaa.places': 'Paikkoja: {value}',
+  'parkingArea.popup.vantaa.type': 'Tyyppi: {value}',
+  'parkingArea.popup.vantaa.timeRestriction': 'Aikarajoitus: {value}',
+  'parkingArea.popup.vantaa.validityPeriod': 'Voimassaoloaika: {value}',
+  'parkingArea.popup.vantaa.moreInfo': 'Muut huomiot: {value}',
+  'parkingArea.popup.vantaa.circlePlace': 'Kiekkopaikka: {value}',
+
   // Download dialog
   'download.cropping.title': 'Nykyinen rajaus',
   'download.cropText.unit': 'Yksittäinen toimipiste:',
@@ -226,6 +241,7 @@ const translations = {
   // Embedder
   'embedder.city.title': 'Kaupunki',
   'embedder.city.aria.label': 'Valitse upotukselle kaupunkirajaus',
+  'embedder.organization.title': 'Palveluntarjoaja',
   'embedder.close': 'Sulje upotustyökalu',
   'embedder.code.title': 'Kopioi HTML-koodi',
   'embedder.height.title': 'Upotuksen korkeus',
@@ -306,6 +322,7 @@ const translations = {
   'sorting.match.desc': 'Osuvin ensin',
 
   // General
+  'general.approximate': 'Noin',
   'general.frontPage': 'Etusivu',
   'general.contrast': 'Kontrasti',
   'general.contrast.ariaLabel.on': 'Siirry suurikontrastiseen tilaan',
@@ -326,7 +343,8 @@ const translations = {
   'general.backToHome': 'Sulje haku ja palaa alkuun',
   'general.backToStart': 'Palaa sivun alkuun',
   'general.back.serviceTree': 'Palaa palveluluettelosivulle',
-  'general.back.mobilityPlatform': 'Palaa',
+  'general.back.mobilityPlatform': 'Palaa liikkumisnäkymään',
+  'general.back.mobilityTree': 'Palaa liikenne- ja liikkuminen sivulle',
   'general.cancel': 'Peruuta',
   'general.close': 'Sulje',
   'general.distance.meters': 'Metrin päässä',
@@ -337,6 +355,7 @@ const translations = {
   'general.closeSettings': 'Sulje asetukset',
   'general.hideSettings': 'Piilota omat asetukset',
   'general.fetching': 'Ladataan tietoja...',
+  'general.fetchingTakesTime': 'Hakutuloksia on paljon, lataus kestää hieman kauemmin',
   'general.home': 'Koti',
   'general.home.logo.ariaLabel': 'Palvelukartta - Siirry etusivulle',
   'general.noData': 'Tietoa ei saatavilla',
@@ -369,7 +388,9 @@ const translations = {
   'general.pageTitles.area': 'Aluesivu',
   'general.pageTitles.mobilityPlatform': 'Liikenne ja liikkuminen',
   'general.pageLink.area': 'Alueesi palvelut',
-
+  'general.pageTitles.mobilityTree': 'Liikenne- ja liikkuminen sivu',
+  'general.pageTitles.mobilityTree.title': 'Liikenne ja liikkuminen',
+  'general.pageLink.mobilityTree': 'Liikenne ja liikkuminen',
   // Readspeaker
   'general.readspeaker.buttonText': 'Kuuntele',
   'general.readspeaker.title': 'Kuuntele ReadSpeaker webReaderilla',
@@ -385,7 +406,8 @@ const translations = {
   'general.previousSearch': 'Aikaisemmat haut',
   'general.return.viewTitle': 'Siirry pääsisällön alkuun',
   'general.skipToContent': 'Siirry pääsisältöön',
-  'general.new.tab': 'Aukeaa uuteen välilehteen',
+  'general.linkLeadsToExternalSite': 'Linkki aukeaa ulkoiseen palveluun.',
+  'general.new.tab': 'Aukeaa uuteen välilehteen.',
   'general.save': 'Tallenna',
   'general.save.changes': 'Tallenna asetukset',
   'general.save.changes.done': 'Muutokset tallennettu!',
@@ -399,6 +421,7 @@ const translations = {
   // Home
   'home.buttons.settings': 'Tallenna omat kaupunki- ja esteettömyysasetuksesi',
   'home.buttons.services': 'Tutustu palveluihin palveluluettelon avulla',
+  'home.buttons.mobilityTree': 'Tutustu liikkumisen monipuolisiin vaihtoehtoihin',
   'home.buttons.closeByServices': 'Näytä lähellä olevat palvelut',
   'home.buttons.instructions': 'Vinkkejä Palvelukartan käyttöön',
   'home.buttons.area': 'Katso terveys-, neuvola-, oppilaaksiotto-, esiopetus-, väestön- ja luonnonsuojelualueet sekä kaupunginosat.',
@@ -406,7 +429,6 @@ const translations = {
   'home.example.search': 'Hae hakusanalla',
   'home.message': 'Terveisiä palvelukartan kehittäjiltä',
   'home.send.feedback': 'Anna palautetta',
-  'home.old.link': 'Linkki vanhaan Palvelukarttaan',
   'home.buttons.mobilityPlatformSettings.title': 'Liikenne ja liikkuminen',
   'home.buttons.mobilityPlatformSettings': 'Tutustu liikenteen ja liikkumisen monipuolisiin vaihtoehtoihin',
 
@@ -418,17 +440,14 @@ const translations = {
   // Loading
   'loading.events': 'Haetaan tapahtumia {count} / {max}',
   'loading.events.srInfo': 'Haetaan {count} tapahtumaa',
-  'search.loading.units': 'Haetaan toimipisteitä {count} / {max}',
+  'search.loading.units': 'Haetaan toimipisteitä: {percentage}%',
   'search.loading.units.srInfo': 'Haetaan {count} toimipistettä',
   'search.loading.units.simple': 'Haetaan toimipisteitä',
 
   'link.settings.dialog.title': 'Jaa linkki toimipisteeseen',
   'link.settings.dialog.tooltip': 'Kopioitu leikepöydälle',
-  'link.settings.dialog.radio.label': 'Linkin sisältö',
   'link.settings.dialog.tooltip.aria': 'Kopioi sivun linkki leikepöydälle',
   'link.settings.dialog.tooltip.aria.a11y': 'Kopioi esteettömyyasetukset sisältävä sivun linkki leikepöydälle',
-  'link.settings.dialog.subtitle': 'Jaa linkki esteettömyysasetusten kanssa',
-  'link.settings.dialog.description': 'Esteettömyysasetukset vaikuttavat näytettäviin toimipisteen esteettömyystietoihin ja kartan ulkoasuun.',
   'link.settings.dialog.buttons.action': 'Kopioi leikepöydälle',
 
   // Map
@@ -505,9 +524,10 @@ const translations = {
   'unit.opening.hours': 'Aukioloajat',
   'unit.opening.hours.missing': 'Aukioloaikoja ei ilmoitettu',
   'unit.opening.hours.info': 'Lisätietoa aukioloajoista',
+  'unit.otherAddress.show': 'Muu sisäänkäynti',
+  'unit.otherAddress.link': 'Katso lisätiedot (uusi välilehti)',
   'unit.contact': 'Yhteyshenkilö',
   'unit.school.year': 'Lukuvuosi',
-  'unit.opens.new.tab': '(uusi välilehti)',
   'unit.reservations.description': 'Tästä löydät tietoa toimipisteen tarjoamista varattavista tiloista ja tarvikkeista.',
 
   'unit.reservations.count': `{count, plural,
@@ -539,6 +559,7 @@ const translations = {
   'unit.outdoorLink': 'Katso liikuntapaikan kunto ulkoliikunta.fi palvelusta',
   'unit.seo.description': 'Katso sijainti kartalla',
   'unit.seo.description.accessibility': 'Katso esteettömyystiedot ja sijainti kartalla',
+  'unit.readFeedbackLink': 'Katso annettuja palautteita',
   'unit.accessibilityAreas.title': 'Koulujen ja päiväkotien lähestymisalueet',
   'unit.accessibilityAreas.description': 'Lähestymisalueet kertovat, kuinka pitkä ajallinen etäisyys kohteeseen on kävellen tai pyöräillen. Ajat on laskettu keskimääräisillä lasten nopeuksilla (kävely 4 km/h, pyöräily 10 km/h).',
   'unit.accessibilityAreas.all.label': 'Kaikki lähestymisalueet',
@@ -616,6 +637,7 @@ const translations = {
   'search.tryAgainBody.keyword': 'kirjoita avainsanoja, esim. luontopolku, ruotsinkielinen päiväkoti',
   'search.expand': 'Hae tarkempia hakuehdotuksia',
   'search.closeExpand': 'Palaa hakuun',
+  'search.addText': 'Lisää',
 
   // Service
   'service': 'Palvelu',
@@ -644,6 +666,7 @@ const translations = {
   'services.description.extra.cgsTitle': 'Sähkölatauspisteet',
   'services.description.extra.gfsTitle': 'Kaasun tankkausasema',
   'services.description.extra.bisTitle': 'Polkupyöräparkki',
+  'mobilityTree.info': 'Tutustu liikkumisen vaihtoehtoihin valitsemalla vähintään yksi palvelu alla olevista vaihtoehdoista suorittaaksesi haun.',
 
   // Settings
   'settings': 'Asetukset',
@@ -692,6 +715,8 @@ const translations = {
   'settings.city.vantaa': 'Vantaa',
   'settings.city.kauniainen': 'Kauniainen',
   'settings.city.kirkkonummi': 'Kirkkonummi',
+  'settings.city.länsi-uudenmaan hyvinvointialue': 'Länsi-Uudenmaan hyvinvointialue',
+  'settings.city.vantaan ja keravan hyvinvointialue': 'Vantaan ja Keravan hyvinvointialue',
   'settings.city.askola': 'Askola',
   'settings.city.hanko': 'Hanko',
   'settings.city.hyvinkää': 'Hyvinkää',
@@ -716,8 +741,11 @@ const translations = {
   'settings.map.title': 'Karttapohja',
   'settings.map.servicemap': 'Palvelukartta',
   'settings.map.ortographic': 'Ilmakuva',
-  'settings.map.guideMap': 'Opaskartta',
+  'settings.map.guidemap': 'Opaskartta',
   'settings.map.accessible_map': 'Korkeakontrastinen kartta',
+  'settings.3dmap.title': '3D-kaupunkimalli',
+  'settings.3dmap.info': 'Kaupunkitietomallissa voit katsella paitsi rakennuksia ja niiden tietoja, myös maanpintamallia eli maaston muotoja. Siirry alla olevan linkin avulla katselemaan kaupunkimallia.',
+  'settings.3dmap.link': '3D-kaupunkimalli (uusi välilehti)',
   'settings.aria.changed': 'Asetukset muutettu. Muista tallentaa',
   'settings.aria.closed': 'Asetukset suljettu',
   'settings.aria.open': 'Avaa omat asetukset',
@@ -727,8 +755,9 @@ const translations = {
   'settings.choose.mobility': 'Valitse liikkumisrajoitteesi',
   'settings.choose.senses': 'Valitse aistirajoitteesi',
   'settings.choose.cities': 'Valitse kaupunkiasetuksesi',
-  'settings.choose.districts': 'Valitse alueasetuksesi', // TODO is waiting here for wellness districts
+  'settings.choose.organization': 'Valitse palveluntarjoaja',
   'settings.map.info': 'Kartta-asetuksista voit valita sinulle parhaiten sopivan pohjakartan.',
+  'settings.reset_button.title': 'Tyhjennä kaikki valintani',
 
   // Tools
   'tool.download': 'Lataa tiedot',
@@ -739,6 +768,7 @@ const translations = {
   'info.title': 'Tietoa palvelusta ja saavutettavuusseloste',
   'info.statement': 'Saavutettavuusseloste (uusi välilehti)',
 
+  'opens.new.tab': '(uusi välilehti)',
   'alert.close': 'Sulje ilmoitus',
 
   // Mobility Platform of Turku

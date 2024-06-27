@@ -1,13 +1,18 @@
 import { saveSearchToHistory } from '../../components/SearchBar/previousSearchData';
 import LinkedEventsAPI from '../../utils/newFetch/LinkedEventsAPI';
 import ServiceMapAPI from '../../utils/newFetch/ServiceMapAPI';
+import optionsToSearchQuery from '../../utils/search';
 import { getLocaleString } from '../selectors/locale';
+import { selectSearchResults } from '../selectors/results';
+import { getLocale } from '../selectors/user';
 import { searchResults } from './fetchDataActions';
 import { isEmbed } from '../../utils/path';
 import config from '../../../config';
 
 // Actions
-const { isFetching, fetchSuccess, fetchProgressUpdateConcurrent } = searchResults;
+const {
+  isFetching, fetchSuccess, fetchProgressUpdateConcurrent,
+} = searchResults;
 
 const smFetch = (dispatch, options) => {
   let results = [];
@@ -28,7 +33,11 @@ const smFetch = (dispatch, options) => {
   } else if (options.service_node) { // Service  node fetch
     const { service_node, ...additionalOptions } = options;
     smAPI.setOnProgressUpdate(onProgressUpdateConcurrent);
-    results = smAPI.serviceNodeSearch(service_node, additionalOptions);
+    results = smAPI.serviceNodeSearch('ServiceTree', service_node, additionalOptions);
+  } else if (options.mobility_node) { // Mobility node fetch
+    const { mobility_node, ...additionalOptions } = options;
+    smAPI.setOnProgressUpdate(onProgressUpdateConcurrent);
+    results = smAPI.serviceNodeSearch('MobilityTree', mobility_node, additionalOptions);
   } else if (options.address) { // Search units and addresses with address
     const { address, ...additionalOptions } = options;
     // Fetch units and addresses from two different endpoints
@@ -54,18 +63,12 @@ const smFetch = (dispatch, options) => {
 const getCities = citiesObj => Object.keys(citiesObj).filter(key => citiesObj[key] === true);
 
 const fetchSearchResults = (options = null) => async (dispatch, getState) => {
-  const searchFetchState = getState().searchResults;
-  const { locale } = getState().user;
+  const searchFetchState = selectSearchResults(getState());
+  const locale = getLocale(getState());
   const { cities } = getState().settings;
   const citySettings = getCities(cities);
   const municipalities = citySettings?.length ? citySettings?.join(',') : config.cities;
-
-  const searchQuery = options.q
-    || options.address
-    || options.service_node
-    || options.service_id
-    || options.id
-    || options.events;
+  const searchQuery = optionsToSearchQuery(options);
 
   if (searchFetchState.isFetching) {
     throw Error('Unable to fetch search results because previous fetch is still active');
@@ -85,7 +88,7 @@ const fetchSearchResults = (options = null) => async (dispatch, getState) => {
     ...options,
     municipality: municipalities,
     language: locale,
-    include: isEmbed() ? extraFields : null,
+    ...(isEmbed() ? { include: extraFields } : {}),
   };
   let results = await smFetch(dispatch, fetchOptions);
 
@@ -96,9 +99,11 @@ const fetchSearchResults = (options = null) => async (dispatch, getState) => {
     if (options.q) {
       saveSearchToHistory(searchQuery, { object_type: 'searchHistory', text: searchQuery });
     }
+    // TODO remove mobility_node from Turku if it's not needed
     // Handle unit results that have no object_type
-    if (options.service_node || options.service_id || options.id || options.level) {
-      results.forEach(item => {
+    const keys = ['service_node', 'mobility_node', 'service_id', 'id', 'level'];
+    if (keys.some(key => !!options[key])) {
+      results.forEach((item) => {
         item.object_type = 'unit';
       });
     }

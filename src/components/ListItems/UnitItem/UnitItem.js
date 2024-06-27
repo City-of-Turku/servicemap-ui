@@ -1,33 +1,36 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { css } from '@emotion/css';
+import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
+import { selectNavigator } from '../../../redux/selectors/general';
+import { selectSelectedAccessibilitySettings } from '../../../redux/selectors/settings';
+import { calculateDistance, getCurrentlyUsedPosition } from '../../../redux/selectors/unit';
 import UnitHelper from '../../../utils/unitHelper';
 import ResultItem from '../ResultItem';
-import SettingsUtility from '../../../utils/settings';
 import UnitIcon from '../../SMIcon/UnitIcon';
-import isClient from '../../../utils';
+import isClient, { formatDistanceObject } from '../../../utils';
 import useLocaleText from '../../../utils/useLocaleText';
 
 const UnitItem = ({
-  classes,
-  distance,
   unit,
   onClick,
-  intl,
-  padded,
   divider,
-  navigator,
-  settings,
   simpleItem,
 }) => {
   const getLocaleText = useLocaleText();
+  const intl = useIntl();
+  const selectedShortcomings = useSelector(selectSelectedAccessibilitySettings);
+  const navigator = useSelector(selectNavigator);
+  const currentlyUsedPosition = useSelector(getCurrentlyUsedPosition);
+  const distance = formatDistanceObject(intl, calculateDistance(unit, currentlyUsedPosition));
 
   const parseAccessibilityText = () => {
-    const accessSettingsSet = SettingsUtility.hasActiveAccessibilitySettings(settings);
     let accessText = null;
     let accessibilityProblems = null;
-    if (accessSettingsSet && unit && settings) {
-      accessibilityProblems = UnitHelper.getShortcomingCount(unit, settings);
+    if (selectedShortcomings.length && unit) {
+      accessibilityProblems = UnitHelper.getShortcomingCount(unit, selectedShortcomings);
       accessText = intl.formatMessage({ id: 'unit.accessibility.noInfo' });
       if (accessibilityProblems !== null && typeof accessibilityProblems !== 'undefined') {
         switch (accessibilityProblems) {
@@ -66,16 +69,21 @@ const UnitItem = ({
       : intl.formatMessage({ id: 'general.distance.kilometers' })}`,
   } : {};
 
+  const titleClass = css({
+    fontWeight: 'bold',
+  });
+
   if (!simpleItem) {
     return (
       <ResultItem
+        data-sm="UnitItem"
         title={getLocaleText(name)}
         subtitle={contractText}
         bottomText={accessText}
         bottomHighlight={problemCount !== null && typeof problemCount !== 'undefined'}
         extendedClasses={{
           typography: {
-            title: classes.title,
+            title: titleClass,
           },
         }}
         distance={distanceText}
@@ -89,7 +97,6 @@ const UnitItem = ({
           }
         }}
         unitId={id}
-        padded={padded}
         divider={divider}
       />
     );
@@ -97,11 +104,12 @@ const UnitItem = ({
 
   return (
     <ResultItem
+      data-sm="UnitItem"
       title={getLocaleText(name)}
       simpleItem={simpleItem}
       extendedClasses={{
         typography: {
-          title: classes.title,
+          title: titleClass,
         },
       }}
       distance={distanceText}
@@ -123,28 +131,15 @@ export default UnitItem;
 
 // Typechecking
 UnitItem.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  distance: PropTypes.shape({
-    distance: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    type: PropTypes.oneOf(['m', 'km']),
-    text: PropTypes.string,
-  }),
   unit: PropTypes.objectOf(PropTypes.any),
   onClick: PropTypes.func,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  navigator: PropTypes.objectOf(PropTypes.any),
-  settings: PropTypes.objectOf(PropTypes.any).isRequired,
-  padded: PropTypes.bool,
   divider: PropTypes.bool,
   simpleItem: PropTypes.bool,
 };
 
 UnitItem.defaultProps = {
-  distance: null,
   unit: {},
   onClick: null,
-  navigator: null,
-  padded: false,
   divider: true,
   simpleItem: false,
 };

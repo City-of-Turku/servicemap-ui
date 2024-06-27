@@ -1,20 +1,27 @@
 /* eslint-disable global-require */
-import { ButtonBase } from '@mui/material';
+import { css } from '@emotion/css';
+import styled from '@emotion/styled';
 import { LocationDisabled, MyLocation } from '@mui/icons-material';
+import { ButtonBase } from '@mui/material';
+import { useTheme } from '@mui/styles';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { useMapEvents } from 'react-leaflet';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Loading from '../../components/Loading';
+import { setBounds } from '../../redux/actions/map';
+import { selectNavigator } from '../../redux/selectors/general';
 import { getSelectedUnitEvents } from '../../redux/selectors/selectedUnit';
+import { selectMapType } from '../../redux/selectors/settings';
+import { getLocale, getPage } from '../../redux/selectors/user';
 import { parseSearchParams } from '../../utils';
 import { useNavigationParams } from '../../utils/address';
-import { mapOptions } from './config/mapConfig';
-import CreateMap from './utils/createMap';
-import { focusToPosition, getBoundsFromBbox } from './utils/mapActions';
-import fetchAddress from './utils/fetchAddress';
+import { applyCityAndOrganizationFilter } from '../../utils/filters';
+import { coordinateIsActive, getBboxFromBounds, getCoordinatesFromUrl, mapHasMapPane, parseBboxFromLocation, swapCoordinates } from '../../utils/mapUtility';
 import { isEmbed } from '../../utils/path';
+import SettingsUtility from '../../utils/settings';
 import MobilityPlatformMapView from '../MobilityPlatformMapView';
 import AddressMarker from './components/AddressMarker';
 import AddressPopup from './components/AddressPopup';
@@ -24,19 +31,22 @@ import DistanceMeasure from './components/DistanceMeasure';
 import Districts from './components/Districts';
 import EntranceMarker from './components/EntranceMarker';
 import EventMarkers from './components/EventMarkers';
-import MarkerCluster from './components/MarkerCluster';
-import UnitGeometry from './components/UnitGeometry';
-import MapUtility from './utils/mapUtility';
-import Util from '../../utils/mapUtility';
 import HideSidebarButton from './components/HideSidebarButton';
+import MarkerCluster from './components/MarkerCluster';
 import PanControl from './components/PanControl';
-import TransitStops from './components/TransitStops';
-import UserMarker from './components/UserMarker';
-import adjustControlElements from './utils';
-import useMapUnits from './utils/useMapUnits';
-import StatisticalDistricts from './components/StatisticalDistricts';
-import { getStatisticalDistrictUnitsState } from '../../redux/selectors/statisticalDistrict';
 import SimpleStatisticalComponent from './components/StatisticalDataMapInfo';
+import StatisticalDistricts from './components/StatisticalDistricts';
+import TransitStops from './components/TransitStops';
+import UnitGeometry from './components/UnitGeometry';
+import UserMarker from './components/UserMarker';
+import { mapOptions } from './config/mapConfig';
+import adjustControlElements from './utils';
+import CreateMap from './utils/createMap';
+import fetchAddress from './utils/fetchAddress';
+import { resolveCombinedReducerData, selectDistrictLoadingReducer, selectServiceUnitSearchResultLoadingReducer } from './utils/loadingReducerSelector';
+import { focusToPosition, getBoundsFromBbox } from './utils/mapActions';
+import MapUtility from './utils/mapUtility';
+import useMapUnits from './utils/useMapUnits';
 
 if (global.window) {
   require('leaflet');
@@ -45,12 +55,15 @@ if (global.window) {
 }
 
 const EmbeddedActions = () => {
+  const dispatch = useDispatch();
   const embedded = isEmbed();
   const map = useMapEvents({
     moveend() {
+      const bounds = map.getBounds();
       if (embedded) {
-        const bounds = map.getBounds();
-        window.parent.postMessage({ bbox: `${bounds.getSouth()},${bounds.getWest()},${bounds.getNorth()},${bounds.getEast()}` });
+        window.parent.postMessage({ bbox: getBboxFromBounds(bounds) });
+      } else {
+        dispatch(setBounds(bounds));
       }
     },
   });
@@ -60,22 +73,14 @@ const EmbeddedActions = () => {
 
 const MapView = (props) => {
   const {
-    classes,
-    currentPage,
-    intl,
     location,
-    settings,
-    unitsLoading,
-    districtViewFetching,
     hideUserMarker,
     highlightedUnit,
     highlightedDistrict,
     isMobile,
     setMapRef,
-    navigator,
     findUserLocation,
     userLocation,
-    locale,
     measuringMode,
     toggleSidebar,
     sidebarHidden,
@@ -90,27 +95,40 @@ const MapView = (props) => {
   const [measuringMarkers, setMeasuringMarkers] = useState([]);
   const [measuringLine, setMeasuringLine] = useState([]);
 
+  const theme = useTheme();
   const embedded = isEmbed({ url: location.pathname });
+  const navigator = useSelector(selectNavigator);
+  const mapType = useSelector(selectMapType);
+  const locale = useSelector(getLocale);
+  const currentPage = useSelector(getPage);
   const getAddressNavigatorParams = useNavigationParams();
-  const districtUnitsFetch = useSelector(state => state.districts.unitFetch);
-  const statisticalDistrictFetch = useSelector(getStatisticalDistrictUnitsState);
-
-  const unitData = useMapUnits();
-
+  const unitData = applyCityAndOrganizationFilter(useMapUnits(), location, embedded);
+  const intl = useIntl();
+  const districtLoadingReducerData = useSelector(selectDistrictLoadingReducer);
+  const serviceUnitSearchResultReducerData = useSelector(selectServiceUnitSearchResultLoadingReducer);
+  const { showLoadingScreen, loadingReducer, hideLoadingNumbers } = resolveCombinedReducerData(districtLoadingReducerData, embedded, serviceUnitSearchResultReducerData);
   // This unassigned selector is used to trigger re-render after events are fetched
-  useSelector(state => getSelectedUnitEvents(state));
+  useSelector(getSelectedUnitEvents);
 
   const initializeMap = () => {
+    // Search param map value
+    const spMap = parseSearchParams(location.search).map || false;
+    const mapTypeUrlParam = spMap === 'guideMap' ? 'guidemap' : spMap; // old links might have "guideMap", this hopefully keeps them alive
+    // If embedded, then 1. url param, 2. default 'servicemap'
+    // If normal mode, then 1. url param, 2. map type (local storage) 3. default 'servicemap'
+    const mapType1 = mapTypeUrlParam || (!embedded && mapType) || SettingsUtility.defaultMapType;
+
+    const newMap = CreateMap(mapType1, locale);
+    setMapObject(newMap);
+  };
+
+  const mapTypeChanged = () => {
     if (mapElement) {
       // If changing map type, save current map viewport values before changing map
       const map = mapElement;
       map.defaultZoom = mapObject.options.zoom;
       setPrevMap(map);
     }
-    // Search param map value
-    const spMap = parseSearchParams(location.search).map || false;
-    const mapType = spMap || (embedded ? 'servicemap' : settings.mapType);
-
     const newMap = CreateMap(mapType, locale);
     setMapObject(newMap);
   };
@@ -129,19 +147,7 @@ const MapView = (props) => {
     });
   };
 
-  const getCoordinatesFromUrl = () => {
-    // Attempt to get coordinates from URL
-    const usp = new URLSearchParams(location.search);
-    const lat = usp.get('lat');
-    const lng = usp.get('lon');
-    if (!lat || !lng) {
-      return null;
-    }
-    return [lat, lng];
-  };
-
-  useEffect(() => {
-    // On map mount
+  useEffect(() => { // On map mount
     initializeMap();
     if (!embedded) {
       findUserLocation();
@@ -170,26 +176,26 @@ const MapView = (props) => {
     mapUtility.centerMapToUnit(highlightedUnit);
   }, [highlightedUnit, mapUtility, currentPage]);
 
-  useEffect(() => {
-    // On map type change
+  useEffect(() => { // On map type change
     // Init new map and set new ref to redux
-    initializeMap();
-  }, [settings.mapType]);
+    if (!embedded) {
+      // In embed mode, map type is read from url.
+      mapTypeChanged();
+    }
+  }, [mapType]);
 
   useEffect(() => {
     if (mapElement) {
       setMapUtility(new MapUtility({ leaflet: mapElement }));
 
-      const usp = new URLSearchParams(location.search);
-      const lat = usp.get('lat');
-      const lng = usp.get('lon');
-      try {
-        if (lat && lng) {
-          const position = [usp.get('lon'), usp.get('lat')];
+      const hasLocation = coordinateIsActive(location);
+      if (hasLocation) {
+        try {
+          const position = swapCoordinates(getCoordinatesFromUrl(location));
           focusToPosition(mapElement, position);
+        } catch (e) {
+          console.warn('Error while attempting to focus on coordinate:', e);
         }
-      } catch (e) {
-        console.warn('Error while attemptin to focus on coordinate:', e);
       }
     }
   }, [mapElement]);
@@ -226,7 +232,7 @@ const MapView = (props) => {
     let center = mapOptions.initialPosition;
     let zoom = isMobile ? mapObject.options.mobileZoom : mapObject.options.zoom;
     // If changing map type, use viewport values of previous map
-    if (prevMap && Util.mapHasMapPane(prevMap)) {
+    if (prevMap && mapHasMapPane(prevMap)) {
       center = prevMap.getCenter() || prevMap.options.center;
       /* Different map types have different zoom levels
       Use the zoom difference to calculate the new zoom level */
@@ -236,30 +242,47 @@ const MapView = (props) => {
         : prevMap.options.zoom + zoomDifference;
     }
 
-    const showLoadingScreen = statisticalDistrictFetch.isFetching
-      || districtViewFetching
-      || (embedded && unitsLoading);
-    let showLoadingReducer = null;
-    let hideLoadingNumbers = false;
-    if (statisticalDistrictFetch.isFetching) {
-      showLoadingReducer = statisticalDistrictFetch;
-      hideLoadingNumbers = true;
-    } else if (districtViewFetching) {
-      showLoadingReducer = districtUnitsFetch;
-    }
     const userLocationAriaLabel = intl.formatMessage({ id: !userLocation ? 'location.notAllowed' : 'location.center' });
     const eventSearch = parseSearchParams(location.search).events;
-    const defaultBounds = parseSearchParams(location.search).bbox;
+    const defaultBounds = parseBboxFromLocation(location);
 
+    const mapClass = css({
+      height: '100%',
+      flex: '1 0 auto',
+      '& .leaflet-bottom.leaflet-right .leaflet-control button,a': {
+        '&:hover': {
+          color: '#347865 !important',
+        },
+        '&:focused': {
+          color: '#347865 !important',
+        },
+      },
+      '&:focus': {
+        margin: '4px 4px 4px 0px',
+        height: 'calc(100% - 8px)',
+        outline: '2px solid transparent',
+        boxShadow: `0 0 0 4px ${theme.palette.focusBorder.main}`,
+      },
+      zIndex: theme.zIndex.forward,
+    });
+    const mapNoSidebarClass = css({
+      '&:focus': {
+        margin: 4,
+      },
+    });
+    const locationButtonFocusClass = css({
+      outline: '2px solid transparent',
+      boxShadow: `0 0 0 3px ${theme.palette.primary.highContrast}, 0 0 0 4px ${theme.palette.focusBorder.main}`,
+    });
     return (
       <>
         <MapContainer
           tap={false} // This should fix leaflet safari double click bug
           preferCanvas
-          className={`${classes.map} ${embedded ? classes.mapNoSidebar : ''} `}
+          className={`${mapClass} ${embedded ? mapNoSidebarClass : ''} `}
           key={mapObject.options.name}
           zoomControl={false}
-          bounds={getBoundsFromBbox(defaultBounds?.split(','))}
+          bounds={getBoundsFromBbox(defaultBounds)}
           doubleClickZoom={false}
           crs={mapObject.crs}
           center={!defaultBounds ? center : null}
@@ -303,9 +326,9 @@ const MapView = (props) => {
               />
             )}
           {showLoadingScreen ? (
-            <div className={classes.loadingScreen}>
-              <Loading reducer={showLoadingReducer} hideNumbers={hideLoadingNumbers} />
-            </div>
+            <StyledLoadingScreenContainer>
+              <Loading reducer={loadingReducer} hideNumbers={hideLoadingNumbers} />
+            </StyledLoadingScreenContainer>
           ) : null}
           <StatisticalDistricts />
           <Districts mapOptions={mapOptions} embedded={embedded} />
@@ -326,7 +349,6 @@ const MapView = (props) => {
           {!hideUserMarker && userLocation && (
             <UserMarker
               position={[userLocation.latitude, userLocation.longitude]}
-              classes={classes}
               onClick={() => {
                 navigateToAddress({ lat: userLocation.latitude, lng: userLocation.longitude });
               }}
@@ -358,19 +380,15 @@ const MapView = (props) => {
                 {!embedded ? (
                 /* Custom user location map button */
                   <div key="userLocation" className="UserLocation">
-                    <ButtonBase
+                    <StyledShowLocationButton
                       aria-hidden
                       aria-label={userLocationAriaLabel}
                       disabled={!userLocation}
-                      className={`${classes.showLocationButton} ${!userLocation ? classes.locationDisabled : ''}`}
                       onClick={() => focusOnUser()}
-                      focusVisibleClassName={classes.locationButtonFocus}
+                      focusVisibleClassName={locationButtonFocusClass}
                     >
-                      {userLocation
-                        ? <MyLocation className={classes.showLocationIcon} />
-                        : <LocationDisabled className={classes.showLocationIcon} />
-                  }
-                    </ButtonBase>
+                      {userLocation ? <StyledMyLocation /> : <StyledLocationDisabled />}
+                    </StyledShowLocationButton>
                   </div>
                 ) : null}
 
@@ -378,7 +396,7 @@ const MapView = (props) => {
               </CustomControls>
             )
             : null}
-          <CoordinateMarker position={getCoordinatesFromUrl()} />
+          <CoordinateMarker position={getCoordinatesFromUrl(location)} />
           <EmbeddedActions />
           <MobilityPlatformMapView mapObject={mapObject} />
         </MapContainer>
@@ -390,24 +408,57 @@ const MapView = (props) => {
 
 export default withRouter(MapView);
 
+const StyledLoadingScreenContainer = styled.div(({ theme }) => ({
+  height: '100%',
+  width: '100%',
+  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  position: 'absolute',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex: theme.zIndex.infront,
+}));
+
+const StyledShowLocationButton = styled(ButtonBase)(({ theme, disabled }) => {
+  const styles = {
+    marginRight: -3,
+    backgroundColor: theme.palette.primary.main,
+    width: 40,
+    height: 40,
+    borderRadius: '50%',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.highContrast,
+      '& svg': {
+        color: theme.palette.primary.main,
+      },
+    },
+  };
+  if (disabled) {
+    Object.assign(styles, {
+      backgroundColor: theme.palette.disabled.strong,
+    });
+  }
+  return styles;
+});
+
+const StyledMyLocation = styled(MyLocation)(() => ({
+  color: '#fff',
+}));
+
+const StyledLocationDisabled = styled(LocationDisabled)(() => ({
+  color: '#fff',
+}));
+
 // Typechecking
 MapView.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  currentPage: PropTypes.string.isRequired,
   hideUserMarker: PropTypes.bool,
   highlightedDistrict: PropTypes.objectOf(PropTypes.any),
   highlightedUnit: PropTypes.objectOf(PropTypes.any),
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
   isMobile: PropTypes.bool,
   location: PropTypes.objectOf(PropTypes.any).isRequired,
-  navigator: PropTypes.objectOf(PropTypes.any),
-  districtViewFetching: PropTypes.bool.isRequired,
   findUserLocation: PropTypes.func.isRequired,
   setMapRef: PropTypes.func.isRequired,
-  settings: PropTypes.objectOf(PropTypes.any).isRequired,
-  unitsLoading: PropTypes.bool,
   userLocation: PropTypes.objectOf(PropTypes.any),
-  locale: PropTypes.string.isRequired,
   measuringMode: PropTypes.bool.isRequired,
   toggleSidebar: PropTypes.func,
   sidebarHidden: PropTypes.bool,
@@ -419,8 +470,6 @@ MapView.defaultProps = {
   highlightedDistrict: null,
   highlightedUnit: null,
   isMobile: false,
-  navigator: null,
-  unitsLoading: false,
   toggleSidebar: null,
   sidebarHidden: false,
   userLocation: null,

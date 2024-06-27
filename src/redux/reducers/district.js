@@ -1,3 +1,9 @@
+import { parkingUnitCategoryIds } from '../../views/AreaView/utils/districtDataHelper';
+
+const parkingUnitsMap = { };
+parkingUnitCategoryIds.forEach(categoryId => {
+  parkingUnitsMap[categoryId] = [];
+});
 const initialState = {
   highlitedDistrict: null,
   selectedDistrictType: null,
@@ -10,11 +16,11 @@ const initialState = {
     nodesFetching: [],
   },
   parkingAreas: [],
-  parkingUnits: [],
+  parkingUnitsMap,
   subdistrictUnits: [],
   selectedSubdistricts: [],
   selectedDistrictServices: [],
-  selectedParkingAreas: [],
+  selectedParkingAreaIds: [],
   openItems: [],
   mapState: null,
   districtAddressData: {
@@ -37,15 +43,9 @@ export default (state = initialState, action) => {
       };
 
     case 'SET_SELECTED_DISTRICT_TYPE':
-      if (!action.district) {
-        return {
-          ...state,
-          selectedDistrictType: null,
-        };
-      }
       return {
         ...state,
-        selectedDistrictType: action.district,
+        selectedDistrictType: action.district || null,
       };
 
     case 'SET_DISTRICT_DATA':
@@ -123,20 +123,20 @@ export default (state = initialState, action) => {
     case 'SET_SELECTED_PARKING_AREAS':
       return {
         ...state,
-        selectedParkingAreas: action.areas,
+        selectedParkingAreaIds: action.areas,
       };
 
     case 'ADD_SELECTED_PARKING_AREA':
       return {
         ...state,
-        selectedParkingAreas: [...state.selectedParkingAreas, action.areaID],
+        selectedParkingAreaIds: [...state.selectedParkingAreaIds, action.areaID],
       };
 
     case 'REMOVE_SELECTED_PARKING_AREA':
       return {
         ...state,
-        selectedParkingAreas: [
-          ...state.selectedParkingAreas.filter(item => item !== action.areaID),
+        selectedParkingAreaIds: [
+          ...state.selectedParkingAreaIds.filter(item => item !== action.areaID),
         ],
       };
 
@@ -194,11 +194,9 @@ export default (state = initialState, action) => {
     case 'START_DISTRICT_FETCH':
       return {
         ...state,
-        districtsFetching: [...state.districtsFetching, action.districtType],
-        unitFetch: {
-          ...state.unitFetch,
-          isFetching: true,
-        }
+        districtsFetching: state.districtsFetching.includes(action.districtType)
+          ? state.districtsFetching
+          : [...state.districtsFetching, action.districtType],
       };
 
     case 'END_DISTRICT_FETCH':
@@ -207,10 +205,6 @@ export default (state = initialState, action) => {
         districtsFetching: [
           ...state.districtsFetching.filter(item => item !== action.districtType),
         ],
-        unitFetch: {
-          ...state.unitFetch,
-          isFetching: false,
-        }
       };
 
     case 'UPDATE_PARKING_AREAS':
@@ -222,7 +216,10 @@ export default (state = initialState, action) => {
     case 'SET_PARKING_UNITS':
       return {
         ...state,
-        parkingUnits: action.units,
+        parkingUnitsMap: {
+          ...state.parkingUnitsMap,
+          [action.parkingUnitCategoryId]: action.units,
+        },
       };
 
     default:

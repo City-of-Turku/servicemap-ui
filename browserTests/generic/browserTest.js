@@ -1,12 +1,10 @@
 /* eslint-disable */
 import { Selector } from 'testcafe';
 import { waitForReact } from 'testcafe-react-selectors';
-import { paletteTurku, paletteDark } from '../../src/themes';
-import config from '../config';
-import { getLocation } from '../utility';
-const { server } = config;
+import { paletteTurku, paletteDark } from '../../src/themes'
+import { getBaseUrl, getLocation } from '../utility';
 
-const siteRoot = `http://${server.address}:${server.port}`;
+const siteRoot = `${getBaseUrl()}`;
 
 // TODO: move these to the related view folders
 fixture`General tests`

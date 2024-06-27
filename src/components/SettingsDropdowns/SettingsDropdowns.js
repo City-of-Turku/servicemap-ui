@@ -1,28 +1,45 @@
+import styled from '@emotion/styled';
+import { Checkbox, ListItem, TextField, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import {
-  Checkbox, ListItem, TextField, Typography,
-} from '@mui/material';
-import { styled } from '@mui/styles';
 import React, { useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import config from '../../../config';
-import { keyboardHandler } from '../../utils';
-import SMAutocomplete from '../SMAutocomplete';
-import constants from '../SettingsComponent/constants';
+import { resetMobilityTreeSelections } from '../../redux/actions/mobilityTree';
+import { resetServiceTreeSelections } from '../../redux/actions/serviceTree';
 import {
-  setMapType, setMobility, toggleCity, toggleColorblind, toggleHearingAid, toggleVisuallyImpaired,
+  resetAccessibilitySettings,
+  resetCitySettings,
+  resetOrganizationSettings,
+  setMapType,
+  setMobility,
+  toggleCity,
+  toggleColorblind,
+  toggleHearingAid,
+  toggleOrganization,
+  toggleVisuallyImpaired,
 } from '../../redux/actions/settings';
+import { changeTheme, resetCustomPosition, resetUserPosition } from '../../redux/actions/user';
+import { selectSettings } from '../../redux/selectors/settings';
+import { selectThemeMode } from '../../redux/selectors/user';
+import { keyboardHandler } from '../../utils';
+import SettingsUtility from '../../utils/settings';
+import useLocaleText from '../../utils/useLocaleText';
+import SMButton from '../ServiceMapButton';
+import constants from '../SettingsComponent/constants';
+import SMAutocomplete from '../SMAutocomplete';
 
 const SettingsDropdowns = ({ variant }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const settings = useSelector(state => state.settings);
+  const getLocaleText = useLocaleText();
+  const settings = useSelector(selectSettings);
   // Format settings from redux to easier structure
   const settingsValues = constants.convertToSettingsValues(settings);
   const [openSettings, setOpenSettings] = useState(null);
   const highlightedOption = useRef(null);
-  const theme = useSelector(state => state.user.theme);
+  const themeMode = useSelector(selectThemeMode);
+  const ownSettingsVariant = variant === 'ownSettings';
 
   // Configure rendered settings items
   const senseSettingList = [
@@ -39,6 +56,9 @@ const SettingsDropdowns = ({ variant }) => {
   ];
   const citySettingsList = config.cities.map(city => (
     { id: city, title: intl.formatMessage({ id: `settings.city.${city}` }) }
+  ));
+  const organizationSettingsList = config.organizations?.map(organization => (
+    { id: organization.id, title: getLocaleText(organization.name) }
   ));
 
   const toggleSettingsBox = (id) => {
@@ -60,6 +80,12 @@ const SettingsDropdowns = ({ variant }) => {
       dispatch(toggleCity(settingObj));
     }
 
+    if (category === 'organizations') {
+      const settingObj = settings.organizations;
+      settingObj[id] = !settingObj[id];
+      dispatch(toggleOrganization(settingObj));
+    }
+
     if (category === 'senses') {
       if (id === 'hearingAid') {
         dispatch(toggleHearingAid());
@@ -72,7 +98,7 @@ const SettingsDropdowns = ({ variant }) => {
         if (settingTurnedOn) {
           dispatch(setMapType('accessible_map'));
         } else if (!settingsValues.senses.includes('visuallyImpaired')) {
-          dispatch(setMapType('servicemap'));
+          dispatch(setMapType(SettingsUtility.defaultMapType));
         }
       }
       if (id === 'visuallyImpaired') {
@@ -80,10 +106,22 @@ const SettingsDropdowns = ({ variant }) => {
         if (settingTurnedOn) {
           dispatch(setMapType('accessible_map'));
         } else if (!settingsValues.senses.includes('colorblind')) {
-          dispatch(setMapType('servicemap'));
+          dispatch(setMapType(SettingsUtility.defaultMapType));
         }
       }
     }
+  };
+
+  const resetSettings = () => {
+    dispatch(resetAccessibilitySettings());
+    dispatch(resetCitySettings());
+    dispatch(resetOrganizationSettings());
+    dispatch(setMapType(SettingsUtility.defaultMapType));
+    dispatch(resetServiceTreeSelections());
+    dispatch(resetMobilityTreeSelections());
+    dispatch(resetCustomPosition());
+    dispatch(changeTheme('default'));
+    dispatch(resetUserPosition());
   };
 
   const handleKeyboardSelect = (id, category, event) => {
@@ -104,20 +142,19 @@ const SettingsDropdowns = ({ variant }) => {
       return list.map(item => item.title);
     };
 
-    const ownSettingsVariant = variant === 'ownSettings';
     return (
       <StyledAutocomplete
         open={openSettings === label}
-        id={`${category}-setting-dropdown`}
+        data-sm={`${category}-setting-dropdown`}
         size="small"
         disablePortal
+        disableClearable
         ownsettings={+ownSettingsVariant}
-        colormode={theme}
+        colormode={themeMode}
         multiple={!isSingleOption}
         openText={intl.formatMessage({ id: 'settings.open' })}
         closeText={intl.formatMessage({ id: 'settings.close' })}
         options={options}
-        clearIcon={null}
         value={getValue()}
         isOptionEqualToValue={option => (
           category === 'mobility'
@@ -134,14 +171,17 @@ const SettingsDropdowns = ({ variant }) => {
         ChipProps={{
           clickable: true, onDelete: null, variant: ownSettingsVariant ? 'outlined' : 'filled',
         }}
+        slotProps={{ 
+          popper:{ sx: { pb: 1 } } // This padding fixes the listBox position on small screens where the list is renderend to top of input
+        }}
         renderOption={(props, option) => (isSingleOption
           ? ( // Single option options box
-            <ListItem {...props} onClick={() => handleOptionSelecting(option.id, category)} id={`${category}-${option.id}`}>
+            <ListItem {...props} onClick={() => handleOptionSelecting(option.id, category)} data-sm={`${category}-${option.id}`}>
               <Typography>{option.title}</Typography>
             </ListItem>
           )
           : ( // Checkbox options box
-            <ListItem {...props} onClick={() => handleOptionSelecting(option.id, category)} id={`${category}-${option.id}`}>
+            <ListItem {...props} onClick={() => handleOptionSelecting(option.id, category)} data-sm={`${category}-${option.id}`}>
               <Checkbox
                 sx={{ mr: 1 }}
                 checked={settingsValues[category].includes(option.id)}
@@ -180,10 +220,23 @@ const SettingsDropdowns = ({ variant }) => {
       {renderSettingsElement(senseSettingList, intl.formatMessage({ id: 'settings.choose.senses' }), 'senses')}
       {renderSettingsElement(mobilitySettingList, intl.formatMessage({ id: 'settings.choose.mobility' }), 'mobility', true)}
       {renderSettingsElement(citySettingsList, intl.formatMessage({ id: 'settings.choose.cities' }), 'cities')}
+      {renderSettingsElement(organizationSettingsList, intl.formatMessage({ id: 'settings.choose.organization' }), 'organizations')}
+      <div>
+        <StyledButton
+          data-sm="reset-settings-button"
+          ownsettings={+ownSettingsVariant}
+          color={ownSettingsVariant ? 'primary' : 'default'}
+          role="button"
+          aria-label={intl.formatMessage({ id: 'settings.reset_button.title' })}
+          messageID="settings.reset_button.title"
+          onClick={resetSettings}
+        />
+      </div>
     </>
   );
 };
 
+const StyledButton = styled(SMButton)(() => ({ marginRight: 0 }));
 
 const StyledAutocomplete = styled(SMAutocomplete)(({ theme, ownsettings, colormode }) => {
   const whiteChip = {

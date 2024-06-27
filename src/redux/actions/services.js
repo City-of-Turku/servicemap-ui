@@ -1,7 +1,8 @@
 import { serviceFetch } from '../../utils/fetch';
+import { isEmbed } from '../../utils/path';
+import { selectSelectedCities } from '../selectors/settings';
 import { service } from './fetchDataActions';
 import { addSearchParametersToObject } from '../../utils';
-import SettingsUtility from '../../utils/settings';
 import ServiceMapAPI from '../../utils/newFetch/ServiceMapAPI';
 
 // Actions
@@ -14,16 +15,16 @@ export const fetchServiceUnits = serviceIdList => async (dispatch, getState) => 
   dispatch(isFetching());
 
   try {
+    // TODO organizations should have similar handling here
     let municipality;
     if (global.window) {
       const search = new URLSearchParams(window.location.search);
       municipality = search.get('municipality') || search.get('city');
     }
 
-    if (!municipality) {
-      // const citySettings = SettingsUtility.getActiveCitySettings(getState().settings.cities);
-      const citySettings = SettingsUtility.getActiveCitySettings(getState());
-      municipality = citySettings.join(',');
+    const embed = isEmbed();
+    if (!municipality && !embed) {
+      municipality = selectSelectedCities(getState()).join(',');
     }
 
     let options = {};

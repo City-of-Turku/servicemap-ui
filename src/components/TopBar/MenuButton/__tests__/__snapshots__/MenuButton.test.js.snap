@@ -6,8 +6,9 @@ exports[`<MenuButton /> should work 1`] = `
     aria-expanded="false"
     aria-haspopup="true"
     aria-label="Valikko"
-    class="MuiButtonBase-root undefined css-1n38hl6-MuiButtonBase-root"
+    class="MuiButtonBase-root css-14rzmxf-MuiButtonBase-root"
     id="MenuButton"
+    largebutton="1"
     tabindex="0"
     type="button"
   >

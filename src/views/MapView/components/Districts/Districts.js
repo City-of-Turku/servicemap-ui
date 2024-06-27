@@ -1,56 +1,81 @@
 import { Link, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import config from '../../../../../config';
+import {
+  getAddressDistrict,
+  getHighlightedDistrict,
+  selectDistrictAddressData,
+  selectDistrictDataBySelectedType,
+  selectDistrictUnitFetch,
+  selectSelectedDistrictType,
+  selectSelectedParkingAreaIds,
+  selectSelectedSubdistricts,
+} from '../../../../redux/selectors/district';
+import { selectMapRef, selectMeasuringMode, selectNavigator } from '../../../../redux/selectors/general';
+import { selectCities } from '../../../../redux/selectors/settings';
+import { getPage, selectThemeMode } from '../../../../redux/selectors/user';
 import { parseSearchParams } from '../../../../utils';
+import { filterByCitySettings, resolveCitySettings } from '../../../../utils/filters';
+import UnitHelper from '../../../../utils/unitHelper';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { geographicalDistricts, getCategoryDistricts } from '../../../AreaView/utils/districtDataHelper';
 import { drawMarkerIcon } from '../../utils/drawIcon';
 import swapCoordinates from '../../utils/swapCoordinates';
 import AddressMarker from '../AddressMarker';
-import UnitHelper from '../../../../utils/unitHelper';
 import ParkingAreas from './ParkingAreas';
 
-
 const Districts = ({
-  highlightedDistrict,
-  districtData,
-  unitsFetching,
-  addressDistrict,
-  theme,
   mapOptions,
-  currentPage,
-  measuringMode,
-  selectedAddress,
-  selectedSubdistricts,
   setSelectedSubdistricts,
   setSelectedDistrictServices,
   embedded,
-  classes,
-  navigator,
-  intl,
 }) => {
   const {
     Polygon, Marker, Tooltip, Popup,
   } = global.rL;
-  const useContrast = theme === 'dark';
+  const intl = useIntl();
+  const useContrast = useSelector(selectThemeMode) === 'dark';
+  const navigator = useSelector(selectNavigator);
+  const currentPage = useSelector(getPage);
+  const map = useSelector(selectMapRef);
+  const measuringMode = useSelector(selectMeasuringMode);
+  const highlightedDistrict = useSelector(getHighlightedDistrict);
+  const addressDistrict = useSelector(getAddressDistrict);
+  const districtData = useSelector(selectDistrictDataBySelectedType);
+  const selectedSubdistricts = useSelector(selectSelectedSubdistricts);
+  const selectedAddress = useSelector(selectDistrictAddressData).address;
+  const unitsFetching = useSelector(state => selectDistrictUnitFetch(state).isFetching);
   const location = useLocation();
   const getLocaleText = useLocaleText();
-  const citySettings = useSelector(state => state.settings.cities);
-  const selectedDistrictType = useSelector(state => state.districts.selectedDistrictType);
-  const selectedParkingAreas = useSelector(state => state.districts.selectedParkingAreas);
+  const citySettings = useSelector(selectCities);
+  const selectedDistrictType = useSelector(selectSelectedDistrictType);
+  const selectedParkingAreaIds = useSelector(selectSelectedParkingAreaIds);
   const [areaPopup, setAreaPopup] = useState(null);
 
   const districtOnClick = (e, district) => {
     if (measuringMode) return;
+    
+    // Focus to selected district
+    if (district?.boundary?.coordinates) {
+      map.fitBounds(district.boundary.coordinates);
+    }
 
     if (district.type === 'nature_reserve' && config.natureAreaURL !== 'undefined') {
+      let link;
+      if (district.municipality === 'vantaa') {
+        link = `${config.vantaaNatureAreaURL}`;
+      } else {
+        link = `${config.natureAreaURL}${district.origin_id}`;
+      }
+    
       setAreaPopup({
         district,
-        link: `${config.natureAreaURL}${district.origin_id}`,
+        link,
         name: district.name,
         position: e.latlng,
       });
@@ -68,7 +93,7 @@ const Districts = ({
       } else {
         newArray = [...selectedSubdistricts, district.ocd_id];
       }
-      if (newArray === []) {
+      if (newArray.length === 0) {
         setSelectedDistrictServices([]);
       }
       setSelectedSubdistricts(newArray);
@@ -107,12 +132,9 @@ const Districts = ({
               unit.location.coordinates[0],
             ]}
           >
-            <Typography
-              noWrap
-              className={classes.popup}
-            >
+            <StyledPopupTypography noWrap>
               {getLocaleText(unit.name)}
-            </Typography>
+            </StyledPopupTypography>
           </Tooltip>
         </Marker>
       ) : null
@@ -151,19 +173,21 @@ const Districts = ({
     if (!areasWithBoundary.length) {
       return null;
     }
+    const cityFilter = filterByCitySettings(resolveCitySettings(citySettings, location, embedded));
+    const filteredData = areasWithBoundary
+      .filter(cityFilter)
+      .filter(district => {
+        // In embed view, limit the rendered districts only to the selected ones
+        if (!embedded || !geographicalDistricts.includes(district.type)) {
+          return true;
+        }
+        if (!selectedSubdistricts.length) {
+          return true;
+        }
+        return selectedSubdistricts.some(item => item === district.ocd_id);
+      });
 
-    const selectedCities = Object.values(citySettings).filter(city => city);
-    let filteredData = [];
-    if (selectedCities.length) {
-      const searchParams = parseSearchParams(location.search);
-      filteredData = areasWithBoundary.filter(district => (searchParams.city
-        ? embedded && district.municipality === searchParams.city
-        : citySettings[district.municipality]));
-    } else {
-      filteredData = areasWithBoundary;
-    }
-
-    return filteredData.map((district) => {
+    return filteredData.map(district => {
       let dimmed;
       if (geographicalDistricts.includes(district.type)) {
         if (selectedSubdistricts.length) {
@@ -172,7 +196,6 @@ const Districts = ({
       } else {
         dimmed = addressDistrict && district.id !== addressDistrict.id;
       }
-
       const area = district.boundary.coordinates.map(
         coords => swapCoordinates(coords),
       );
@@ -241,14 +264,14 @@ const Districts = ({
 
   const renderAreaPopup = () => (
     <Popup onClose={() => setAreaPopup(null)} position={areaPopup.position}>
-      <div className={classes.areaPopup}>
+      <StyledAreaPopup>
         <Typography>{getLocaleText(areaPopup.name)}</Typography>
         {areaPopup.link && (
-          <Link className={classes.areaLink} href={areaPopup.link} target="_blank">
+          <StyledAreaLink href={areaPopup.link} target="_blank">
             <Typography><FormattedMessage id="area.popupLink" /></Typography>
-          </Link>
+          </StyledAreaLink>
         )}
-      </div>
+      </StyledAreaPopup>
     </Popup>
   );
 
@@ -292,7 +315,7 @@ const Districts = ({
             {areaPopup && renderAreaPopup()}
           </>
         ) : null}
-        {selectedParkingAreas.length ? (
+        {selectedParkingAreaIds.length ? (
           <ParkingAreas />
         ) : null}
       </>
@@ -300,31 +323,28 @@ const Districts = ({
   } return null;
 };
 
+const StyledPopupTypography = styled(Typography)(() => ({
+  padding: 12,
+}));
+
+const StyledAreaLink = styled(Link)(({ theme }) => ({
+  textAlign: 'center',
+  paddingTop: theme.spacing(0.5),
+}));
+
+const StyledAreaPopup = styled('div')(({ theme }) => ({
+  padding: theme.spacing(1.5),
+  paddingTop: 22,
+  paddingBottom: 14,
+  display: 'flex',
+  flexDirection: 'column',
+}));
+
 Districts.propTypes = {
-  highlightedDistrict: PropTypes.objectOf(PropTypes.any),
   mapOptions: PropTypes.objectOf(PropTypes.any).isRequired,
-  currentPage: PropTypes.string.isRequired,
-  measuringMode: PropTypes.bool.isRequired,
-  selectedAddress: PropTypes.objectOf(PropTypes.any),
-  districtData: PropTypes.arrayOf(PropTypes.object),
-  unitsFetching: PropTypes.bool.isRequired,
-  addressDistrict: PropTypes.objectOf(PropTypes.any),
-  selectedSubdistricts: PropTypes.arrayOf(PropTypes.string),
   setSelectedSubdistricts: PropTypes.func.isRequired,
   setSelectedDistrictServices: PropTypes.func.isRequired,
   embedded: PropTypes.bool.isRequired,
-  navigator: PropTypes.objectOf(PropTypes.any).isRequired,
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  theme: PropTypes.oneOf(['default', 'dark']).isRequired,
-};
-
-Districts.defaultProps = {
-  highlightedDistrict: null,
-  selectedAddress: null,
-  districtData: null,
-  addressDistrict: null,
-  selectedSubdistricts: [],
 };
 
 export default Districts;

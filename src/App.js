@@ -1,39 +1,40 @@
 /* eslint-disable react/forbid-prop-types */
-import withStyles from 'isomorphic-style-loader/withStyles';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Helmet } from 'react-helmet';
-import { IntlProvider, useIntl } from 'react-intl';
-import { connect } from 'react-redux';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
-import { StyledEngineProvider } from '@mui/material';
-import styles from './index.css';
-import SMFonts from './service-map-icons.css';
-import HSLFonts from './hsl-icons.css';
-import appStyles from './App.css';
-import DefaultLayout from './layouts';
-import EmbedLayout from './layouts/EmbedLayout';
-import printCSS from './print.css';
-import { changeLocaleAction } from './redux/actions/user';
-import { getLocale } from './redux/selectors/locale';
-import isClient from './utils';
-import { MobilityPlatformContextProvider } from './context/MobilityPlatformContext';
-import { DataFetcher, Navigator } from './components';
-import EmbedderView from './views/EmbedderView';
-
+import { Global, css } from '@emotion/react';
 import '@formatjs/intl-pluralrules/dist/locale-data/en';
 import '@formatjs/intl-pluralrules/dist/locale-data/fi';
 import '@formatjs/intl-pluralrules/dist/locale-data/sv';
 import '@formatjs/intl-pluralrules/polyfill';
-
 import '@formatjs/intl-relativetimeformat/dist/locale-data/en';
 import '@formatjs/intl-relativetimeformat/dist/locale-data/fi';
 import '@formatjs/intl-relativetimeformat/dist/locale-data/sv';
 import '@formatjs/intl-relativetimeformat/polyfill';
+import { StyledEngineProvider } from '@mui/material';
+import withStyles from 'isomorphic-style-loader/withStyles';
+import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
+import { IntlProvider, useIntl } from 'react-intl';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import hdsStyle from 'hds-design-tokens';
+import { useSelector } from 'react-redux';
 import config from '../config';
+import appStyles from './App.css';
 import ogImage from './assets/images/servicemap-meta-img.png';
+import { DataFetcher, Navigator } from './components';
+import { MobilityPlatformContextProvider } from './context/MobilityPlatformContext';
+import HSLFonts from './hsl-icons.css';
+import styles from './index.css';
+import DefaultLayout from './layouts';
+import EmbedLayout from './layouts/EmbedLayout';
+import printCSS from './print.css';
+import { getLocale } from './redux/selectors/locale';
+import SMFonts from './service-map-icons.css';
 import ThemeWrapper from './themes/ThemeWrapper';
+import isClient from './utils';
 import LocaleUtility from './utils/locale';
+import EmbedderView from './views/EmbedderView';
+// To add css variables for hds components
+import SMCookies from './components/SMCookies/SMCookies';
 
 // General meta tags for app
 const MetaTags = () => {
@@ -57,53 +58,50 @@ const MetaTags = () => {
   );
 };
 
-class App extends React.Component {
+function App() {
+  const locale = useSelector(getLocale);
+  const intlData = LocaleUtility.intlData(locale);
+
   // Remove the server-side injected CSS.
-  componentDidMount() {
+  useEffect(() => {
     const jssStyles = document.getElementById('jss-server-side');
     if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
     }
-  }
+  }, []);
 
-  render() {
-    const { locale } = this.props;
-    const intlData = LocaleUtility.intlData(locale);
-
-    return (
-      <StyledEngineProvider>
-        <ThemeWrapper>
-          <IntlProvider {...intlData}>
-            <MetaTags />
-            {/* <StylesProvider generateClassName={generateClassName}> */}
-            <div className="App">
-              <MobilityPlatformContextProvider>
-                <Switch>
-                  <Route path="*/embedder" component={EmbedderView} />
-                  <Route path="*/embed" component={EmbedLayout} />
-                  <Route render={() => <DefaultLayout />} />
-                </Switch>
-              </MobilityPlatformContextProvider>
-              <Navigator />
-              <DataFetcher />
-            </div>
-            {/* </StylesProvider> */}
-          </IntlProvider>
-        </ThemeWrapper>
-      </StyledEngineProvider>
-    );
-  }
+  return (
+    <StyledEngineProvider>
+      <Global
+        styles={css({
+          // hide language selector in hds cookie modal
+          '#cookie-consent-language-selector-button': {
+            display: 'none',
+          },
+        })}
+      />
+      <ThemeWrapper>
+        <IntlProvider {...intlData}>
+          <MetaTags />
+          {/* <StylesProvider generateClassName={generateClassName}> */}
+          <SMCookies />
+          <div className="App">
+            <MobilityPlatformContextProvider>
+              <Switch>
+                <Route path="*/embedder" component={EmbedderView} />
+                <Route path="*/embed" component={EmbedLayout} />
+                <Route render={() => <DefaultLayout />} />
+              </Switch>
+            </MobilityPlatformContextProvider>
+            <Navigator />
+            <DataFetcher />
+          </div>
+          {/* </StylesProvider> */}
+        </IntlProvider>
+      </ThemeWrapper>
+    </StyledEngineProvider>
+  );
 }
-
-// Listen to redux state
-const mapStateToProps = state => {
-  const locale = getLocale(state);
-  return {
-    locale,
-  };
-};
-
-const ConnectedApp = connect(mapStateToProps, { changeLocaleAction })(App);
 
 // Wrapper to get language route
 const LanguageWrapper = () => {
@@ -111,7 +109,7 @@ const LanguageWrapper = () => {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/:lng" component={ConnectedApp} />
+          <Route path="/:lng" component={App} />
         </Switch>
       </BrowserRouter>
     );
@@ -119,18 +117,16 @@ const LanguageWrapper = () => {
 
   return (
     <Switch>
-      <Route path="/:lng" component={ConnectedApp} />
+      <Route path="/:lng" component={App} />
     </Switch>
   );
 };
 
-export default withStyles(styles, appStyles, SMFonts, HSLFonts, printCSS)(LanguageWrapper);
+export default withStyles(styles, appStyles, SMFonts, HSLFonts, printCSS, hdsStyle)(LanguageWrapper);
 
 // Typechecking
 App.propTypes = {
   match: PropTypes.object.isRequired,
-  locale: PropTypes.oneOf(config.supportedLanguages).isRequired,
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  changeLocaleAction: PropTypes.func.isRequired,
 };

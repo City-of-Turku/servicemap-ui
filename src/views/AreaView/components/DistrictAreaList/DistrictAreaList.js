@@ -1,20 +1,24 @@
+import { List, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { Divider, List, Typography } from '@mui/material';
-import { getAddressDistrict } from '../../../../redux/selectors/district';
 import { DistrictItem } from '../../../../components';
+import { getAddressDistrict } from '../../../../redux/selectors/district';
+import { selectCities } from '../../../../redux/selectors/settings';
+import { filterByCitySettings } from '../../../../utils/filters';
 import { sortByOriginID } from '../../utils';
+import {
+  StyledDistrictServiceList,
+  StyledDivider,
+  StyledServiceList,
+  StyledServiceTabServiceList,
+} from '../styled/styled';
 
-export const DistrictAreaList = ({
-  classes,
-  selectedAddress,
-  district,
-}) => {
+export const DistrictAreaList = ({ selectedAddress, district }) => {
   const intl = useIntl();
-  const citySettings = useSelector(state => state.settings.cities);
-  const addressDistrict = useSelector(state => getAddressDistrict(state));
+  const citySettings = useSelector(selectCities);
+  const addressDistrict = useSelector(getAddressDistrict);
   let sectionText = intl.formatMessage({ id: `area.services.all.${district.id}` });
 
   const districtsWithoutUnits = district.data.filter(d => (
@@ -30,29 +34,21 @@ export const DistrictAreaList = ({
     return null;
   }
 
-  const selectedCities = Object.keys(citySettings).filter(city => citySettings[city]);
-  let filteredData = [];
-  if (!selectedCities.length) {
-    filteredData = districtsWithoutUnits;
-  } else {
-    filteredData = districtsWithoutUnits.filter(d => (
-      selectedCities.includes(d.municipality)
-    ));
-  }
+  const filteredData = districtsWithoutUnits.filter(filterByCitySettings(citySettings));
 
   if (!filteredData.length) {
     return null;
   }
 
   const renderServiceListAccordion = (title, districts) => (
-    <div className={classes.serviceTabServiceList}>
+    <StyledServiceTabServiceList>
       <Typography>{`${title} (${districts.length})`}</Typography>
       <List disablePadding>
         {districts.map(district => (
           <DistrictItem key={district.id} area={district} title={false} paddedDivider />
         ))}
       </List>
-    </div>
+    </StyledServiceTabServiceList>
   );
 
   sortByOriginID(filteredData);
@@ -62,18 +58,12 @@ export const DistrictAreaList = ({
     const localDistrict = filteredData.filter(obj => obj.id === addressDistrict.id);
     const otherDistricts = filteredData.filter(obj => obj.id !== addressDistrict.id);
 
-    const localAreaDistricts = [];
-    localDistrict.forEach((district) => {
-      const newValue = district;
-      localAreaDistricts.push(newValue);
-    });
-    const otherAreaDistricts = [];
-    otherDistricts.forEach((district) => {
-      if (district.municipality === selectedAddress.municipality.id) {
-        const newValue = district;
-        otherAreaDistricts.push(newValue);
-      }
-    });
+    const localAreaDistricts = [...localDistrict];
+
+    const otherAreaDistricts = [
+      ...otherDistricts
+        .filter(district => district.municipality === selectedAddress.municipality.id),
+    ];
 
     if (!localAreaDistricts.length && !otherAreaDistricts.length) {
       return null;
@@ -83,7 +73,7 @@ export const DistrictAreaList = ({
       <div>
         {localAreaDistricts.length ? (
           <>
-            <div className={classes.servciceList}>
+            <StyledServiceList>
               <Typography>
                 <FormattedMessage id="area.services.local" />
               </Typography>
@@ -92,8 +82,8 @@ export const DistrictAreaList = ({
                   <DistrictItem key={district.id} area={district} title={false} hideDivider />
                 ))}
               </List>
-            </div>
-            <Divider className={classes.serviceDivider} aria-hidden />
+            </StyledServiceList>
+            <StyledDivider aria-hidden />
           </>
         ) : null}
 
@@ -108,20 +98,19 @@ export const DistrictAreaList = ({
   }
 
   return (
-    <div className={`${classes.districtServiceList} ${classes.listLevelFour}`}>
+    <StyledDistrictServiceList>
       {
         renderServiceListAccordion(
           sectionText,
           filteredData,
         )
       }
-      <Divider aria-hidden className={classes.serviceDivider} />
-    </div>
+      <StyledDivider aria-hidden />
+    </StyledDistrictServiceList>
   );
 };
 
 DistrictAreaList.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   district: PropTypes.objectOf(PropTypes.any).isRequired,
   selectedAddress: PropTypes.objectOf(PropTypes.any),
 };

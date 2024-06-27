@@ -1,19 +1,17 @@
+import PropTypes from 'prop-types';
 import { Typography } from '@mui/material';
-import { withStyles } from '@mui/styles';
 import { visuallyHidden } from '@mui/utils';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useUserTheme } from '../../utils/user';
-import HomeLogo from '../Logos/HomeLogo';
-import styles from './styles';
+import { useSelector } from 'react-redux';
+import { selectThemeMode } from '../../redux/selectors/user';
+import {
+  BackGroundCover, StyledContent, StyledDiv, ViewLogo,
+} from './styles';
 
-export const ErrorComponent = withStyles(styles)(({
-  classes,
-  error,
-}) => {
+export const ErrorComponent = ({ error }) => {
   let content = null;
-  const theme = useUserTheme();
-  const containerClasses = `${classes.viewContainer}`;
+  const themeMode = useSelector(selectThemeMode);
 
   switch (error) {
     case 'error': {
@@ -62,15 +60,19 @@ export const ErrorComponent = withStyles(styles)(({
   }
 
   return (
-    <div className={containerClasses}>
-      <div className={classes.viewBackgroundCover} />
-      <div className={classes.viewContent}>
-        <HomeLogo aria-hidden contrast={theme === 'dark'} className={classes.viewLogo} />
+    <StyledDiv>
+      <BackGroundCover />
+      <StyledContent>
+        <ViewLogo aria-hidden contrast={themeMode === 'dark'} />
         <Typography style={visuallyHidden} component="h1"><FormattedMessage id="app.errorpage.title" /></Typography>
         {content}
-      </div>
-    </div>
+      </StyledContent>
+    </StyledDiv>
   );
-});
+};
+
+ErrorComponent.propTypes = {
+  error: PropTypes.any.isRequired,
+};
 
 export default ErrorComponent;

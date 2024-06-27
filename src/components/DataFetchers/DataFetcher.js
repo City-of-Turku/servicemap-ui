@@ -1,14 +1,17 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import fetchSearchResults from '../../redux/actions/search';
+import { selectMapRef } from '../../redux/selectors/general';
+import { getPage } from '../../redux/selectors/user';
+import { parseBboxFromLocation } from '../../utils/mapUtility';
 import { fitBbox } from '../../views/MapView/utils/mapActions';
 import { searchParamFetchOptions } from './helpers';
-import { getSearchParam } from '../../utils';
 
-const DataFetcher = ({ location }) => {
-  const currentPage = useSelector(state => state.user.page);
-  const map = useSelector(state => state.mapRef);
+const DataFetcher = () => {
+  const location = useLocation();
+  const currentPage = useSelector(getPage);
+  const map = useSelector(selectMapRef);
   const dispatch = useDispatch();
 
   /**
@@ -19,15 +22,15 @@ const DataFetcher = ({ location }) => {
       return false;
     }
 
-    const bbox = getSearchParam(location, 'bbox');
+    const bbox = parseBboxFromLocation(location);
     if (bbox) {
-      fitBbox(map, bbox.split(','));
+      fitBbox(map, bbox);
     }
 
     const options = searchParamFetchOptions(location, null, true);
     if (
       !options.bbox || !options.bbox_srid || !options.level
-      || options.q || options.service_node || options.service
+      || options.q || options.service_node || options.mobility_node || options.service
     ) {
       return false;
     }
@@ -53,4 +56,4 @@ const DataFetcher = ({ location }) => {
   return null;
 };
 
-export default withRouter(DataFetcher);
+export default DataFetcher;

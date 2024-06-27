@@ -1,23 +1,34 @@
-import {
-  Checkbox, List, ListItem, Typography,
-} from '@mui/material';
+import { Checkbox, List, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import React, {
-  useCallback, useEffect, useMemo, useState,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addSelectedDistrictService, handleOpenItems, removeSelectedDistrictService } from '../../../../redux/actions/district';
-import { getFilteredSubdistrictServices } from '../../../../redux/selectors/district';
-import { uppercaseFirst } from '../../../../utils';
-import useLocaleText from '../../../../utils/useLocaleText';
+import { UnitItem } from '../../../../components';
 import {
-  SMAccordion,
-  UnitItem,
-} from '../../../../components';
+  addSelectedDistrictService,
+  handleOpenItems,
+  removeSelectedDistrictService,
+} from '../../../../redux/actions/district';
+import {
+  getFilteredSubdistrictServices,
+  selectSelectedDistrictServices,
+} from '../../../../redux/selectors/district';
+import { getLocale } from '../../../../redux/selectors/user';
+import { uppercaseFirst } from '../../../../utils';
+import { orderUnits } from '../../../../utils/orderUnits';
+import useLocaleText from '../../../../utils/useLocaleText';
+import { UnitItem } from '../../../../components';
+import {
+  StyledAccordionServiceTitle,
+  StyledCaptionText,
+  StyledCheckBoxIcon,
+  StyledListItem,
+  StyledUnitList,
+  StyledUnitListArea,
+} from '../styled/styled';
 
 // Custom uncontrolled checkbox that allows default value
 const UnitCheckbox = ({
-  handleUnitCheckboxChange, id, defaultChecked, classes,
+  handleUnitCheckboxChange, id, defaultChecked,
 }) => {
   const [checked, setChecked] = useState(defaultChecked);
 
@@ -29,7 +40,7 @@ const UnitCheckbox = ({
   return (
     <Checkbox
       color="primary"
-      icon={<span className={classes.checkBoxIcon} />}
+      icon={<StyledCheckBoxIcon />}
       aria-hidden
       checked={checked}
       onChange={e => handleChange(e)}
@@ -38,11 +49,12 @@ const UnitCheckbox = ({
 };
 
 
-const GeographicalUnitList = ({ classes, initialOpenItems }) => {
+const GeographicalUnitList = ({ initialOpenItems }) => {
   const dispatch = useDispatch();
   const getLocaleText = useLocaleText();
-  const filteredSubdistrictUnits = useSelector(state => getFilteredSubdistrictServices(state));
-  const selectedServices = useSelector(state => state.districts.selectedDistrictServices);
+  const filteredSubdistrictUnits = useSelector(getFilteredSubdistrictServices);
+  const selectedServices = useSelector(selectSelectedDistrictServices);
+  const locale = useSelector(getLocale);
   const [serviceList, setServiceList] = useState([]);
   const [initialCheckedItems] = useState(selectedServices);
 
@@ -56,7 +68,7 @@ const GeographicalUnitList = ({ classes, initialOpenItems }) => {
   }, []);
 
   const sortUnitCategories = (categories) => {
-    categories.sort((a, b) => getLocaleText(a.name).localeCompare(getLocaleText(b.name)));
+    return orderUnits(categories, { locale, direction: 'desc', order: 'alphabetical' });
   };
 
 
@@ -64,7 +76,7 @@ const GeographicalUnitList = ({ classes, initialOpenItems }) => {
     const servicesArray = [];
     const educationServicesArray = [];
 
-    filteredSubdistrictUnits.map((unit) => {
+    filteredSubdistrictUnits.forEach((unit) => {
       const categories = unit.services;
       categories.forEach((category) => {
         let serviceList;
@@ -88,9 +100,13 @@ const GeographicalUnitList = ({ classes, initialOpenItems }) => {
       return null;
     });
 
-    sortUnitCategories(servicesArray);
-    sortUnitCategories(educationServicesArray);
-    const serviceList = [...servicesArray, ...educationServicesArray];
+    const serviceList = [
+      ...sortUnitCategories(servicesArray),
+      ...sortUnitCategories(educationServicesArray),
+    ];
+    serviceList.forEach((service) => {
+      service.units = sortUnitCategories(service.units);
+    });
 
     // Remove selected empty categories
     const emptyCategories = selectedServices.filter(id => !serviceList.some(obj => obj.id === id));
@@ -108,17 +124,15 @@ const GeographicalUnitList = ({ classes, initialOpenItems }) => {
 
   // Render list of units for neighborhood and postcode-area subdistricts
   const renderUnitList = useMemo(() => (
-    <div className={classes.unitListArea}>
+    <StyledUnitListArea>
       <List disablePadding>
         {serviceList.map(category => (
-          <ListItem
+          <StyledListItem
             key={`${category.id}${category.period ? category.period[0] : ''}`}
             disableGutters
-            className={classes.listItem}
             divider
           >
-            <SMAccordion
-              className={classes.serviceTitle}
+            <StyledAccordionServiceTitle
               onOpen={() => dispatch(handleOpenItems(category.id))}
               defaultOpen={initialOpenItems.includes(category.id)}
               titleContent={(
@@ -126,21 +140,20 @@ const GeographicalUnitList = ({ classes, initialOpenItems }) => {
                   <Typography>
                     {`${uppercaseFirst(getLocaleText(category.name))} (${category.units.length})`}
                   </Typography>
-                  <Typography aria-hidden className={classes.captionText} variant="caption">
+                  <StyledCaptionText aria-hidden variant="caption">
                     {`${category.period ? `${category.period[0]}-${category.period[1]}` : ''}`}
-                  </Typography>
+                  </StyledCaptionText>
                 </div>
               )}
               adornment={(
                 <UnitCheckbox
                   id={category.id}
                   handleUnitCheckboxChange={handleUnitCheckboxChange}
-                  classes={classes}
                   defaultChecked={initialCheckedItems.includes(category.id)}
                 />
               )}
               collapseContent={(
-                <List className={classes.unitList} disablePadding>
+                <StyledUnitList disablePadding>
                   {category.units.map((unit, i) => (
                     <UnitItem
                       key={`${unit.id}-${category.id}`}
@@ -148,23 +161,19 @@ const GeographicalUnitList = ({ classes, initialOpenItems }) => {
                       divider={i !== category.units.length - 1}
                     />
                   ))}
-                </List>
+                </StyledUnitList>
               )}
             />
-          </ListItem>
+          </StyledListItem>
         ))}
       </List>
-    </div>
+    </StyledUnitListArea>
   ), [serviceList]);
 
   return renderUnitList;
 };
-GeographicalUnitList.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-};
 
 UnitCheckbox.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   handleUnitCheckboxChange: PropTypes.func.isRequired,
   defaultChecked: PropTypes.bool,
   id: PropTypes.number.isRequired,

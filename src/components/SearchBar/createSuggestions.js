@@ -1,3 +1,5 @@
+import { filterCitiesAndOrganizations } from '../../utils/filters';
+import { getUnitCount } from '../../utils/units';
 import ServiceMapAPI from '../../utils/newFetch/ServiceMapAPI';
 import config from '../../../config';
 
@@ -5,7 +7,8 @@ const createSuggestions = (
   query,
   abortController,
   getLocaleText,
-  citySettings,
+  cities,
+  organizations,
   locale,
 ) => async () => {
   const smAPI = new ServiceMapAPI();
@@ -15,9 +18,11 @@ const createSuggestions = (
   const serviceLimit = 10;
   const addressLimit = 1;
   const servicenodeLimit = 10;
+  const administrativeDivisionLimit = 1;
   const pageSize = unitLimit + serviceLimit + addressLimit + servicenodeLimit;
   const municipalities = citySettings?.length ? citySettings?.join(',') : config.cities;
 
+  const organizationIds = organizations.map(org => org.id);
   const additionalOptions = {
     page_size: pageSize,
     limit: 2500,
@@ -26,7 +31,11 @@ const createSuggestions = (
     address_limit: addressLimit,
     servicenode_limit: servicenodeLimit,
     municipality: municipalities,
+    organization: organizationIds.join(','),
+    administrativedivision_limit: administrativeDivisionLimit,
     language: locale,
+    order_units_by_num_services: false,
+    order_units_by_provider_type: false,
   };
 
   const results = await smAPI.searchSuggestions(query, additionalOptions);
@@ -34,20 +43,22 @@ const createSuggestions = (
   let filteredResults = results;
 
   // Filter services with city settings
-  if (citySettings.length) {
-    filteredResults = filteredResults.filter(result => {
+  if (cities.length) {
+    filteredResults = filteredResults.filter((result) => {
       if (result.object_type === 'service' || result.object_type === 'servicenode') {
-        let totalResultCount = 0;
-        citySettings.forEach(city => {
-          if (result.unit_count?.municipality[city]) {
-            totalResultCount += result.unit_count.municipality[city];
-          }
-        });
+        const totalResultCount = cities
+          .map(city => getUnitCount(result, city))
+          .reduce((partial, a) => partial + a, 0);
         if (totalResultCount === 0) return false;
       }
       return true;
     });
   }
+
+  // Filter units with city and organization settings
+  filteredResults = filteredResults.filter(
+    filterCitiesAndOrganizations(cities, organizationIds),
+  );
 
   // Handle address results
   filteredResults.forEach(item => {

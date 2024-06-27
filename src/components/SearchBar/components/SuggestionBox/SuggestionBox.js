@@ -1,26 +1,34 @@
-import PropTypes from 'prop-types';
-import React, {
-  useEffect, useRef, useState,
-} from 'react';
-import { FormattedMessage } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   AccessTime, ArrowDropUp, LocationOn, Search,
 } from '@mui/icons-material';
 import {
-  Paper, List, Typography,
+  List
 } from '@mui/material';
-import createSuggestions from '../../createSuggestions';
-import SuggestionItem from '../../../ListItems/SuggestionItem';
+import PropTypes from 'prop-types';
+import React, {
+  useEffect, useRef, useState,
+} from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectNavigator } from '../../../../redux/selectors/general';
+import {
+  selectSelectedCities,
+  selectSelectedOrganizations,
+} from '../../../../redux/selectors/settings';
+import { getLocale } from '../../../../redux/selectors/user';
 import { keyboardHandler, uppercaseFirst } from '../../../../utils';
-import { getIcon } from '../../../SMIcon';
-import { CloseSuggestionButton } from '../CloseSuggestionButton';
-import useLocaleText from '../../../../utils/useLocaleText';
-import UnitIcon from '../../../SMIcon/UnitIcon';
-import config from '../../../../../config';
-import { getPreviousSearches, removeSearchFromHistory, saveSearchToHistory } from '../../previousSearchData';
 import { useNavigationParams } from '../../../../utils/address';
-import { getLocale } from '../../../../redux/selectors/locale';
+import useLocaleText from '../../../../utils/useLocaleText';
+import SuggestionItem from '../../../ListItems/SuggestionItem';
+import { getIcon } from '../../../SMIcon';
+import UnitIcon from '../../../SMIcon/UnitIcon';
+import createSuggestions from '../../createSuggestions';
+import { getPreviousSearches, removeSearchFromHistory, saveSearchToHistory } from '../../previousSearchData';
+import {
+  StyledCloseSuggestionButton,
+  StyledInfoText,
+  StyledPaper, StyledPaperMobile,
+} from './styles';
 
 const suggestionCount = 8;
 
@@ -31,11 +39,8 @@ const SuggestionBox = (props) => {
     searchQuery,
     handleSubmit,
     handleBlur,
-    classes,
     focusedSuggestion,
     isMobile,
-    intl,
-    navigator,
   } = props;
 
   const [suggestions, setSuggestions] = useState(null);
@@ -47,15 +52,14 @@ const SuggestionBox = (props) => {
 
   const dispatch = useDispatch();
   const locale = useSelector(getLocale);
+  const navigator = useSelector(selectNavigator);
   const getLocaleText = useLocaleText();
   const getAddressNavigatorParams = useNavigationParams();
   const listRef = useRef(null);
   const fetchController = useRef(null);
-
-  const citySettings = useSelector((state) => {
-    const { cities } = state.settings;
-    return config.cities.filter(c => cities[c]);
-  });
+  const selectedCities = useSelector(selectSelectedCities);
+  const selectedOrganizations = useSelector(selectSelectedOrganizations);
+  const intl = useIntl();
 
   const getAddressText = (item) => {
     if (item.isExact) {
@@ -100,7 +104,8 @@ const SuggestionBox = (props) => {
         query,
         fetchController.current,
         getLocaleText,
-        citySettings,
+        selectedCities,
+        selectedOrganizations,
         locale,
       ))
         .then((data) => {
@@ -108,18 +113,18 @@ const SuggestionBox = (props) => {
             return;
           }
           fetchController.current = null;
-          setLoading(false);
           if (data.length) {
             setSuggestions(data);
           } else {
             setSuggestionError(true);
           }
-        }).catch(() => {
+          setLoading(false);
+        }).catch((e) => {
           // Do nothing
         });
     } else {
-      setLoading(false);
       setSuggestions(null);
+      setLoading(false);
       if (fetchController.current) {
         fetchController.current.abort();
       }
@@ -128,17 +133,17 @@ const SuggestionBox = (props) => {
 
   const renderNoResults = () => (
     <>
-      <Typography align="left" className={classes.infoText}>
+      <StyledInfoText align="left">
         <FormattedMessage id="search.suggestions.error" />
-      </Typography>
+      </StyledInfoText>
     </>
   );
 
   const renderLoading = () => (
     <>
-      <Typography align="left" className={classes.infoText}>
-        <FormattedMessage id="search.suggestions.loading" />
-      </Typography>
+      <StyledInfoText align="left">
+        <FormattedMessage data-cm="SuggestionsLoading" id="search.suggestions.loading" />
+      </StyledInfoText>
     </>
   );
 
@@ -221,9 +226,9 @@ const SuggestionBox = (props) => {
     // If no searches in search history, display info text
     if (type === 'history' && !suggestionList?.length) {
       return (
-        <Typography align="left" aria-live="polite" className={classes.infoText}>
+        <StyledInfoText align="left" aria-live="polite">
           <FormattedMessage id="search.suggestions.noHistory" />
-        </Typography>
+        </StyledInfoText>
       );
     }
 
@@ -263,8 +268,7 @@ const SuggestionBox = (props) => {
     }
 
     return (
-      <CloseSuggestionButton
-        className={classes.minimizeLink}
+      <StyledCloseSuggestionButton
         onClick={(e) => {
           e.preventDefault();
           closeMobileSuggestions();
@@ -319,12 +323,12 @@ const SuggestionBox = (props) => {
   if (visible) {
     let component = null;
     let srText = null;
-    if (suggestions) {
-      component = renderSuggestionList('suggestion');
-      srText = intl.formatMessage({ id: 'search.suggestions.suggestions' }, { count: suggestions.length });
-    } else if (loading) {
+    if (loading) {
       component = renderLoading();
       srText = null;
+    } else if (suggestions) {
+      component = renderSuggestionList('suggestion');
+      srText = intl.formatMessage({ id: 'search.suggestions.suggestions' }, { count: suggestions.length });
     } else if (suggestionError) {
       component = renderNoResults();
       srText = intl.formatMessage({ id: 'search.suggestions.error' });
@@ -332,23 +336,21 @@ const SuggestionBox = (props) => {
       component = renderSuggestionList('history');
     }
 
-    const containerStyles = isMobile
-      ? `${classes.suggestionAreaMobile}`
-      : `${classes.suggestionArea}`;
+    const PaperComponent = isMobile
+      ? StyledPaperMobile
+      : StyledPaper;
 
     return (
-      <>
-        <Paper elevation={20} className={containerStyles}>
-          <p className="sr-only" aria-live="polite">{srText}</p>
-          {
-            renderHideSuggestions()
-          }
-          {component}
-        </Paper>
-      </>
+      <PaperComponent elevation={20}>
+        <p className="sr-only" aria-live="polite">{srText}</p>
+        {
+          renderHideSuggestions()
+        }
+        {component}
+      </PaperComponent>
     );
   }
-  return <></>;
+  return null;
 };
 
 SuggestionBox.propTypes = {
@@ -357,16 +359,12 @@ SuggestionBox.propTypes = {
   searchQuery: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
   handleBlur: PropTypes.func.isRequired,
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   focusedSuggestion: PropTypes.number,
-  navigator: PropTypes.objectOf(PropTypes.any),
   isMobile: PropTypes.bool,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 SuggestionBox.defaultProps = {
   closeMobileSuggestions: null,
-  navigator: null,
   visible: false,
   searchQuery: null,
   focusedSuggestion: null,

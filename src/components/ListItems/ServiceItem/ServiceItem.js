@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { css } from '@emotion/css';
+import { selectNavigator } from '../../../redux/selectors/general';
+import { selectServiceCurrent } from '../../../redux/selectors/service';
 import { getIcon } from '../../SMIcon';
 import { uppercaseFirst } from '../../../utils';
 import SimpleListItem from '../SimpleListItem';
@@ -9,18 +12,20 @@ import { setNewCurrentService } from '../../../redux/actions/services';
 
 const ServiceItem = (props) => {
   const {
-    service, classes, divider, link, navigator,
+    service, divider, link,
   } = props;
+  const navigator = useSelector(selectNavigator);
   const [icon, setIcon] = useState(<img alt="" src={null} style={{ height: 24 }} aria-hidden="true" />);
   const getLocaleText = useLocaleText();
   const dispatch = useDispatch();
-  const currentService = useSelector(state => state.service.current);
-
+  const currentService = useSelector(selectServiceCurrent);
+  const iconClass = css({
+    height: 24,
+  });
 
   useEffect(() => {
-    setIcon(getIcon('serviceDark', { className: classes.icon }));
+    setIcon(getIcon('serviceDark', { className: iconClass }));
   }, []);
-
 
   let text = getLocaleText(service.name);
 
@@ -58,15 +63,12 @@ const ServiceItem = (props) => {
 export default ServiceItem;
 
 ServiceItem.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   service: PropTypes.objectOf(PropTypes.any).isRequired,
   divider: PropTypes.bool,
   link: PropTypes.bool,
-  navigator: PropTypes.objectOf(PropTypes.any),
 };
 
 ServiceItem.defaultProps = {
-  navigator: null,
   divider: true,
   link: true,
 };

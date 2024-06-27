@@ -9,10 +9,6 @@ const translations = {
   'app.navigation.home': 'Hem',
   'app.navigation.settings': 'Inställningar',
 
-  'accept.settings.dialog.description': 'Du kan öppna uppgifterna antigen med tillgänglighetsinställningar eller utan begränsningar.',
-  'accept.settings.dialog.title': 'Se verksamhetsstället med tillgänglighetsinställningar',
-  'accept.settings.dialog.none': 'Inga särskilda tillgänglighetsinställningar',
-
   // Accessibility
   'accessibility': 'Tillgänglighet',
   'accessibility.info': 'Tillgänglighetsuppgifter',
@@ -157,7 +153,11 @@ const translations = {
   'area.list.sub_district': 'Underdistrikt',
   'area.list.sub_district.plural': 'Underdistrikten',
   'area.list.parkingSpaces': 'Parkeringsplatser',
-  'area.list.parkingUnits': 'Parkeringshus',
+  'area.list.parkingGarages': 'Parkeringshus',
+  'area.list.sharedCarParking': 'Bilpoolparkering',
+  'area.list.accessibleStreetParking': 'P-plats för personer med rörelsehinder bredvid gatan',
+  'area.list.passenger_car': 'Personbil',
+  'area.list.heavy_traffic': 'Tung trafik',
   'area.list.statistic.byAge': 'Ålder',
   'area.list.statistic.forecast': 'Befolkningsprognos',
   'area.list.statistic.total': 'Alla invånare',
@@ -167,12 +167,18 @@ const translations = {
   'area.list.statistic.30-49': 'Ålder 30-49 år',
   'area.list.statistic.50-64': 'Ålder 50-64 år',
   'area.list.statistic.65+': 'Ålder över 65 år',
+  'area.list.hgv_no_parking_area': 'Förbjudna gatuparkeringsplatser',
+  'area.list.park_and_ride_area': 'Pendelparkering',
+  'area.parking.tooltip.park_and_ride_area': 'Pendelparkering',
+  'area.parking.tooltip.hgv_no_parking_area': 'Tung trafik - Förbjudna gatuparkeringsplatser',
   'area.tab.mobilityTest.results': 'Mobilitetsprofiler av Åbo område',
   'area.mobilityResults.toggle': 'Mobilitetsprofiler',
   'area.mobilityResults.postCodeArea': 'Postnummerområd: {value}',
   'area.mobilityResults.empty': 'Inga mobilitetsprofiler hittades.',
   'area.mobilityResults.info.text': 'Kartan visas information om mobilitetsprofiler (till exempel Hinderfri Hare) i Åbo-området uppdelat efter postnummerområden. Informationen visas när det finns minst fem svar i varje profil. Genom att göra Åbos mobilitetsprofiltest kan du ta reda på vilken typ av rörlig person du är.',
   'area.mobilityResults.link.text': 'liikkumistesti.turku.fi (ny flik)',
+  'cookies.matomo.description': 'Kaka för statistiksystemet Matomo.',
+  'cookies.matomo.expiration': '{days} dagar',
 
   // TODO: translate all
   'parkingArea.popup.residentName': 'Zon {letter}',
@@ -202,6 +208,15 @@ const translations = {
   'parkingArea.popup.info5': 'Avgifterna och begränsningarna gäller inte personer med boende- eller företagsparkeringstillstånd om parkeringsplatsen har markerats som boendeparkeringsplats.',
   'parkingArea.popup.info6': 'Avgifterna och begränsningarna gäller inte personer med boende- eller företagsparkeringstillstånd om parkeringsplatsen har markerats som boendeparkeringsplats.',
 
+  'parkingArea.popup.vantaa.neighbourhood': 'Stadsdelen: {value}',
+  'parkingArea.popup.vantaa.name': 'Namn: {value}',
+  'parkingArea.popup.vantaa.places': 'Platser: {value}',
+  'parkingArea.popup.vantaa.type': 'Typ: {value}',
+  'parkingArea.popup.vantaa.timeRestriction': 'Tidsbegränsning: {value}',
+  'parkingArea.popup.vantaa.validityPeriod': 'Giltighetstid: {value}',
+  'parkingArea.popup.vantaa.moreInfo': 'Mer information: {value}',
+  'parkingArea.popup.vantaa.circlePlace': 'Parkeringsskivaplats: {value}',
+
   // Download dialog
   'download.cropping.title': 'Nuvarande filterinställningar',
   'download.cropText.unit': 'Enskilt verksamhetsställe:',
@@ -227,6 +242,7 @@ const translations = {
   // Embedder
   'embedder.city.title': 'Staden',
   'embedder.city.aria.label': 'Välj stadsgränser för inbäddningen',
+  'embedder.organization.title': 'Palveluntarjoaja', // TODO: translate
   'embedder.close': 'Stäng inbäddningsverktyget',
   'embedder.code.title': 'Kopiera HTML-koden',
   'embedder.height.title': 'Inbäddningens höjd',
@@ -307,6 +323,7 @@ const translations = {
   'sorting.match.desc': 'Bästa träffarna först',
 
   // General
+  'general.approximate': 'Cirka',
   'general.frontPage': 'Framsidan',
   'general.contrast': 'Kontrast',
   'general.contrast.ariaLabel.on': 'Aktivera högkontrastläge',
@@ -327,7 +344,8 @@ const translations = {
   'general.backToHome': 'Stäng sökningen och gå tillbaka till början',
   'general.backToStart': 'Gå tillbaka till början av sidan',
   'general.back.serviceTree': 'Gå tillbaka till servicekatalogen',
-  'general.back.mobilityPlatform': 'Gå tillbaka',
+  'general.back.mobilityPlatform': 'Gå tillbaka till mobilitet sidan',
+  'general.back.mobilityTree': 'Gå tillbaka till sidan trafik och rörelse',
   'general.cancel': 'Ångra',
   'general.close': 'Stäng',
   'general.distance.meters': 'Meters avstånd',
@@ -338,6 +356,7 @@ const translations = {
   'general.closeSettings': 'Stäng inställningarna',
   'general.hideSettings': 'Stäng kartinställningar',
   'general.fetching': 'Laddar data...',
+  'general.fetchingTakesTime': 'Det finns många sökresultat, nedladdningen tar lite längre tid',
   'general.home': 'Hem',
   'general.home.logo.ariaLabel': 'Servicekarta - Gå till startsidan',
   'general.noData': 'Data finns inte',
@@ -368,7 +387,10 @@ const translations = {
   'general.pageTitles.info': 'Infosida',
   'general.pageTitles.feedback': 'Responssida',
   'general.pageTitles.area': 'Områdessida',
+  'general.pageTitles.mobilityTree': 'Trafik och rörlighet sida',
+  'general.pageTitles.mobilityTree.title': 'Trafik och rörlighet',
   'general.pageLink.area': 'Tjänster i ditt område',
+  'general.pageLink.mobilityTree': 'Trafik och rörlighet',
 
   // General - Pagination
   'general.pagination.previous': 'Föregående sida',
@@ -381,7 +403,8 @@ const translations = {
   'general.previousSearch': 'Föregående sökningar',
   'general.return.viewTitle': 'Gå till början av huvudinnehållet',
   'general.skipToContent': 'Gå till huvudinnehållet',
-  'general.new.tab': 'Öppnas i en ny flik',
+  'general.linkLeadsToExternalSite': 'Länken öppnas till den externa tjänsten',
+  'general.new.tab': 'Öppnas i en ny flik.',
   'general.save': 'Spara',
   'general.save.changes': 'Spara inställningar',
   'general.save.changes.done': 'Ändringarna har sparats!',
@@ -400,6 +423,7 @@ const translations = {
   // Home
   'home.buttons.settings': 'Spara dina egna stads- och tillgänglighetsinställningar',
   'home.buttons.services': 'Läs mer om tjänsterna i servicekatalogen',
+  'home.buttons.mobilityTree': 'Bekanta dig med de mångsidiga alternativen för rörelse',
   'home.buttons.closeByServices': 'Visa närtjänster',
   'home.buttons.instructions': 'Tips för användning av servicekartan',
   'home.buttons.area': 'Se hälsovårds-, rådgivnings-, elevupptagnings-, förskole-, befolkningsskydds- och naturskyddsområdena samt stadsdelarna',
@@ -419,17 +443,14 @@ const translations = {
   // Loading
   'loading.events': 'Söker evenemang {count} / {max}',
   'loading.events.srInfo': 'Söker {count} evenemange(n)',
-  'search.loading.units': 'Söker verksamhetsställen {count} / {max}',
+  'search.loading.units': 'Söker verksamhetsställen: {percentage}%',
   'search.loading.units.srInfo': 'Söker {count} verksamhetsställe(n)',
   'search.loading.units.simple': 'Söker verksamhetsställen',
 
   'link.settings.dialog.title': 'Dela länken till verksamhetsstället',
   'link.settings.dialog.tooltip': 'Kopierades till klippbordet',
-  'link.settings.dialog.radio.label': 'Länkens innehåll',
   'link.settings.dialog.tooltip.aria': 'Kopiera sidans länk till klippbordet',
   'link.settings.dialog.tooltip.aria.a11y': 'Kopiera sidans länk med tillgänglighetsinställningar till klippbordet',
-  'link.settings.dialog.subtitle': 'Dela länken med tillgänglighetsinställningar',
-  'link.settings.dialog.description': 'Tillgänglighetsinställningarna påverkar det visade verksamhetsställets tillgänglighetsuppgifter och kartans utseende.',
   'link.settings.dialog.buttons.action': 'Kopiera till klippbordet',
 
   // Map
@@ -506,9 +527,10 @@ const translations = {
   'unit.opening.hours': 'Öppettider',
   'unit.opening.hours.missing': 'Öppettider har inte meddelats',
   'unit.opening.hours.info': 'Mer om öppettiderna',
+  'unit.otherAddress.show': 'Annan ingång',
+  'unit.otherAddress.link': 'Se mer information (ny flik)',
   'unit.contact': 'Kontaktperson',
   'unit.school.year': 'Läsåret',
-  'unit.opens.new.tab': '(ny flik)',
   'unit.reservations.description': 'Här hittar du information om lokaler och redskap som kan bokas vid verksamhetsstället.',
   'unit.reservations.count': `{count, plural,
     =0 {}
@@ -539,6 +561,7 @@ const translations = {
   'unit.outdoorLink': 'Kolla skicket på en motionsplats i tjänsten ulkoliikunta.fi',
   'unit.seo.description': 'Se läget på kartan',
   'unit.seo.description.accessibility': 'Se tillgänglighetsuppgifterna och läget på kartan',
+  'unit.readFeedbackLink': 'Se responsen',
   'unit.accessibilityAreas.title': 'Tillgänglighetsområdena av skolor och daghem',
   'unit.accessibilityAreas.description': 'Tillgänglighetsområdena berättar hur lång tid det tar att gå eller cykla till destinationen. Tiderna har beräknats med genomsnittliga barnhastigheter (gång 4 km/h, cykling 10 km/h).',
   'unit.accessibilityAreas.all.label': 'Alla tillgänglighetsområdena',
@@ -615,6 +638,7 @@ const translations = {
   'search.tryAgainBody.keyword': 'skriv nyckelord, t.ex. naturstig, svenskt daghem',
   'search.expand': 'Precisera sökningen',
   'search.closeExpand': 'Gå tillbaka till sökningen',
+  'search.addText': 'Lägg till',
 
   // Service
   'service': 'Tjänst',
@@ -643,6 +667,7 @@ const translations = {
   'services.description.extra.cgsTitle': 'Laddplats',
   'services.description.extra.gfsTitle': 'Gas station',
   'services.description.extra.bisTitle': 'Cykelställning',
+  'mobilityTree.info': 'Bekanta dig med de olika alternativen för att röra sig genom att välja minst en av alternativen nedan för att göra en sökning.',
 
   // Settings
   'settings': 'Inställningar',
@@ -691,6 +716,8 @@ const translations = {
   'settings.city.vantaa': 'Vanda',
   'settings.city.kauniainen': 'Grankulla',
   'settings.city.kirkkonummi': 'Kyrkslätt',
+  'settings.city.länsi-uudenmaan hyvinvointialue': 'Västra Nylands välfärdsområde',
+  'settings.city.vantaan ja keravan hyvinvointialue': 'Vanda och Kervo välfärdsområde',
   'settings.city.askola': 'Askola',
   'settings.city.hanko': 'Hangö',
   'settings.city.hyvinkää': 'Hyvinge',
@@ -715,8 +742,11 @@ const translations = {
   'settings.map.title': 'Kartunderlag',
   'settings.map.servicemap': 'Servicekarta',
   'settings.map.ortographic': 'Flygbild',
-  'settings.map.guideMap': 'Guidekarta',
+  'settings.map.guidemap': 'Guidekarta',
   'settings.map.accessible_map': 'Karta med stor kontrast',
+  'settings.3dmap.title': '3D-stadsmodellen',
+  'settings.3dmap.info': 'I stadsinformationsmodellen kan du förutom byggnader och uppgifter om dem även granska markytamodellen, dvs. terrängens former. Använd länken nedan för att titta på stadsmodellen.',
+  'settings.3dmap.link': '3D-stadsmodellen (ny flik)',
   'settings.aria.changed': 'Inställningarna har ändrats. Kom ihåg att spara.',
   'settings.aria.closed': 'Inställningarna har stängts',
   'settings.aria.open': 'Öppna inställningarna',
@@ -726,8 +756,9 @@ const translations = {
   'settings.choose.mobility': 'Välj fysisk funktionsnedsättning',
   'settings.choose.senses': 'Välj sensorisk funktionsnedsättning',
   'settings.choose.cities': 'Välj stadsinställningar',
-  'settings.choose.districts': 'Välj regionala inställningar', // TODO is waiting here for wellness districts
+  'settings.choose.organization': 'Valitse palveluntarjoaja', // TODO: translate
   'settings.map.info': 'I kartinställningarna kan du välja det kartunderlag som passar dig bäst.',
+  'settings.reset_button.title': 'Rensa alla mina val',
 
   // Tools
   'tool.download': 'Exportera',
@@ -738,6 +769,7 @@ const translations = {
   'info.title': 'Om tjänsten och tillgänglighetsredogörelsen',
   'info.statement': 'Tillgänglighetsredogörelsen (ny flik)',
 
+  'opens.new.tab': '(ny flik)',
   'alert.close': 'Stäng meddelande',
 
   // Mobility Platform of Turku

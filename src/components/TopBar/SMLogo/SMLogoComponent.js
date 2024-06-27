@@ -1,16 +1,18 @@
+import styled from '@emotion/styled';
 import { ButtonBase, NoSsr } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { isHomePage } from '../../../utils/path';
+import { selectThemeMode } from '../../../redux/selectors/user';
 import useMobileStatus from '../../../utils/isMobile';
+import { isHomePage } from '../../../utils/path';
 import HomeLogo from '../../Logos/HomeLogo';
 
-const SMLogoComponent = ({ onClick, classes, small }) => {
+const SMLogoComponent = ({ onClick, small }) => {
   const intl = useIntl();
-  const theme = useSelector(state => state.user.theme);
+  const themeMode = useSelector(selectThemeMode);
   const location = useLocation();
   const isOnHomePage = isHomePage(location?.pathname);
   const isMobile = useMobileStatus();
@@ -22,24 +24,19 @@ const SMLogoComponent = ({ onClick, classes, small }) => {
       onClick={onClick}
     >
       <NoSsr>
-        <HomeLogo
-          aria-hidden
-          contrast={theme === 'dark'}
-          className={isMobile ? classes.mobileLogo : classes.logo}
-          small={small}
-        />
+        <StyledHomeLogo aria-hidden contrast={themeMode === 'dark'} mobile={+isMobile} small={small} />
       </NoSsr>
     </ButtonBase>
   );
 };
 
+const StyledHomeLogo = styled(HomeLogo)(({ mobile }) => ({
+  height: mobile ? 25 : 29,
+}));
+
 SMLogoComponent.propTypes = {
   onClick: PropTypes.func.isRequired,
   small: PropTypes.bool,
-  classes: PropTypes.shape({
-    logo: PropTypes.string,
-    mobileLogo: PropTypes.string,
-  }).isRequired,
 };
 
 SMLogoComponent.defaultProps = {

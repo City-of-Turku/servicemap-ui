@@ -1,19 +1,21 @@
+import React, { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import distance from '@turf/distance';
 import flip from '@turf/flip';
-import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useMap } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { getSelectedUnit } from '../../../../redux/selectors/selectedUnit';
+import { selectThemeMode } from '../../../../redux/selectors/user';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { drawEntranceMarkreIcon } from '../../utils/drawIcon';
+import { StyledUnitTooltipTitle, StyledUnitTooltipWrapper } from '../styled/styled';
 
-const EntranceMarker = ({ classes }) => {
+const EntranceMarker = () => {
   const getLocaleText = useLocaleText();
-  const unit = useSelector(state => getSelectedUnit(state));
-  const theme = useSelector(state => state.user.theme);
+  const unit = useSelector(getSelectedUnit);
+  const useContrast = useSelector(selectThemeMode) === 'dark';
   const map = useMap();
 
   const unitPoint = flip(unit.location);
@@ -55,25 +57,25 @@ const EntranceMarker = ({ classes }) => {
         return (
           <Marker
             key={`${coordinates[0]},${coordinates[1]}`}
-            icon={drawEntranceMarkreIcon(theme === 'dark')}
+            icon={drawEntranceMarkreIcon(useContrast)}
             position={coordinates}
           >
             <Popup>
-              <div className={classes.unitTooltipWrapper}>
-                <Typography className={classes.unitTooltipTitle}>
+              <StyledUnitTooltipWrapper>
+                <StyledUnitTooltipTitle>
                   {getLocaleText(unit.name)}
-                </Typography>
+                </StyledUnitTooltipTitle>
                 {entrance.name ? (
                   <Typography>
                     {getLocaleText(entrance.name)}
                   </Typography>
                 ) : null}
-                <Typography className={classes.entranceType}>
+                <StyledEntranceType>
                   {entrance.is_main_entrance ? (
                     <FormattedMessage id="unit.entrances.main" />
                   ) : <FormattedMessage id="unit.entrances.secondary" />}
-                </Typography>
-              </div>
+                </StyledEntranceType>
+              </StyledUnitTooltipWrapper>
             </Popup>
           </Marker>
         );
@@ -83,8 +85,8 @@ const EntranceMarker = ({ classes }) => {
   return null;
 };
 
-EntranceMarker.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-};
+const StyledEntranceType = styled(Typography)(({ theme }) => ({
+  paddingTop: theme.spacing(0.5),
+}));
 
 export default EntranceMarker;

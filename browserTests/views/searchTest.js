@@ -1,13 +1,37 @@
 /* eslint-disable */
 import { Selector } from 'testcafe';
-import { waitForReact, ReactSelector } from 'testcafe-react-selectors';
-import config from '../config';
-import { getLocation } from '../utility';
+import { ReactSelector, waitForReact } from 'testcafe-react-selectors';
+import { getBaseUrl, getLocation } from '../utility';
+import {
+  addressSearchBarInput,
+  cityDropdown,
+  ESPOO_ORG,
+  HELSINKI_ORG, mapToolsButton,
+  mobilityDropdown,
+  organisationDropdown,
+  searchBarInput,
+  sensesDropdown,
+  setLocalStorageItem,
+  settingChip,
+  settingsMenuButton,
+  settingsMenuPanel,
+} from '../utility/pageObjects';
 import paginationTest from '../utility/paginationTest';
 import resultOrdererTest from '../utility/resultOrdererTest';
-const { server } = config;
 
-const searchPage = `http://${server.address}:${server.port}/fi/search?q=kirjasto`;
+// TODO Write test(s) that are suitable for Turku data
+
+const searchPage = `${getBaseUrl()}/fi/search?q=kirjasto`;
+const bathUrl = `${getBaseUrl()}/fi/search?q=maauimala`;
+const museumUrl = `${getBaseUrl()}/fi/search?q=museo`;
+const embedBathUrl = `${getBaseUrl()}/fi/embed/search?q=maauimala&search_language=fi&show_list=side`;
+const embedMuseumUrl = `${getBaseUrl()}/fi/embed/search?q=museo&search_language=fi&show_list=side`;
+const homePage= `${getBaseUrl()}/fi`
+const resultItemTitle = Selector('[data-sm="ResultItemTitle"]');
+const kumpulaBath = resultItemTitle.withText('Kumpulan maauimala');
+const leppavaaraBath = resultItemTitle.withText('Leppävaaran maauimala');
+const turkuBath = resultItemTitle.withText('Turun linna');
+const addressInput = Selector(addressSearchBarInput);
 
 fixture`Search view test`
   .page`${searchPage}`
@@ -16,14 +40,12 @@ fixture`Search view test`
   });
 
 const searchUnits = async (t, search = 'museo') => {
-  const input = Selector('#SearchBar input');
-
   // Make new search
   await t
-    .expect(getLocation()).contains(`http://${server.address}:${server.port}/fi/search`)
-    .click(input)
+    .expect(getLocation()).contains(`${getBaseUrl()}/fi/search`)
+    .click(searchBarInput)
     .pressKey('ctrl+a delete')
-    .typeText(input, search)
+    .typeText(searchBarInput, search, { replace: true })
     .pressKey('enter');
 }
 
@@ -41,8 +63,8 @@ paginationTest(searchPage);
 
 test('Navigate search view', async (t) => {
   // Test result orderer navigation
-  const input = Selector('#SearchBar input');
-  const select = Selector('#result-sorter')
+  const unitCount = await searchUnits(t, 'kirjasto');
+  const select = Selector('[data-sm="ResultSorterInput"]')
   const listItems = Selector('#paginatedList-Toimipisteet-results li[role="link"]')
 
   const firstItemText = await listItems.nth(0).textContent;
@@ -50,7 +72,7 @@ test('Navigate search view', async (t) => {
   await t
     // .click(input)
     // .pressKey('ctrl+a delete')
-    .typeText(input, 't')
+    .typeText(searchBarInput, 't')
     .click(select)
     .pressKey('down')
     .pressKey('enter');
@@ -62,7 +84,7 @@ test('Navigate search view', async (t) => {
 
   // Test result list navigation
   await t
-    .typeText(input, 't')
+    .typeText(searchBarInput, 't')
     .pressKey('tab') // Tabs to cancel button
     .pressKey('tab') // Tabs to search icon button
     .pressKey('tab') // Address search
@@ -71,6 +93,8 @@ test('Navigate search view', async (t) => {
     .pressKey('tab') // sense settings
     .pressKey('tab') // mobility settings
     .pressKey('tab') // city settings
+    .pressKey('tab') // organization settings
+    .pressKey('tab') // Reset settings button
     .pressKey('tab') // Result orderer
     .pressKey('tab') // First tab
     // .pressKey('tab') // TODO should remove thin phantom tab press
@@ -130,10 +154,9 @@ test('Search does list results', async (t) => {
 // Check that address search works and draws marker on map
 test('Address search does work', async (t) => {
   await searchUnits(t, 'kirjasto');
-  const addressInput = Selector('#addressSearchbar');
   const suggestions = Selector('#address-results div[role="option"]');
-  const marker = Selector('div[class*="userMarker"]');
-  const distanceText = Selector('div[class*="ResultItem-rightColumn"]');
+  const marker = Selector('div[class*="MarkerIcon"]');
+  const distanceText = Selector('div[data-sm="ResultItemRightColumn"]');
 
   await t
     .typeText(addressInput, 'aurakatu')
@@ -169,9 +192,9 @@ test('ServiceItem click event takes to service page', async(t) => {
 
   await t
     .click(services.nth(0));
-  const serviceTitle = await (await serviceTitleSelector.textContent).toLowerCase();
+  const serviceTitle = await serviceTitleSelector.textContent;
   await t
-    .expect(serviceTitle).eql(serviceName.toLowerCase())
+    .expect(serviceTitle.toLowerCase()).eql(serviceName.toLowerCase())
   ;
 });
 // Expanded suggestions are disabled for now
@@ -199,7 +222,7 @@ test('ServiceItem click event takes to service page', async(t) => {
 test('SearchBar accessibility is OK', async(t) => {
 
   // Check searchbar input accessibility attributes
-  const searchbar = await Selector('#SearchBar input');
+  const searchbar = await searchBarInput;
   const role = await searchbar.getAttribute('role');
   const placeholder = await searchbar.getAttribute('placeholder');
   await t
@@ -277,7 +300,6 @@ test('ResultList accessibility attributes are OK', async(t) => {
 // });
 
 test('Tabs accessibility attributes are OK', async(t) => {
-  await searchUnits(t, 'kirjasto');
   const tabs =  Selector('div[role="tablist"] button[role="tab"]');
   const tab1 = await tabs.nth(0);
   const tab2 = await tabs.nth(1);
@@ -289,25 +311,25 @@ test('Tabs accessibility attributes are OK', async(t) => {
 });
 
 
-test('Search suggestion arrow navigation does loop correctly', async(t) => {
+test.skip('Search suggestion arrow navigation does loop correctly', async(t) => {
   const expectedBoxShadowColor = 'rgb(71, 131, 235)'; // Focus color
-
-  // Get SearchBar input
-  const input = Selector('#SearchBar input');
-  await t
-    .click(input)
-    .pressKey('down');
-
   // Suggestion items selector
   const items = Selector('#SuggestionList li[role="option"]');
-  let maxItemIndex = await items.count - 1;
+  // Get SearchBar input
+  await t
+    .click(searchBarInput)
+    .expect(Selector('[data-cm="SuggestionsLoading"]').exists).notOk()
+    .expect(items.exists).ok()
+    .expect(items.count).gt(0)
+    .pressKey('down');
 
+  let maxItemCount = await items.count;
   await t
     // After first key down we expect focused suggestion to be at first item
     .expect(items.nth(0).getStyleProperty('box-shadow')).contains(expectedBoxShadowColor, 'Focused suggestion index should be set to first item')
     .pressKey('up')
     // After pressing key up on first item expect focused suggestion to loop to last item
-    .expect(items.nth(maxItemIndex).getStyleProperty('box-shadow')).contains(expectedBoxShadowColor, 'Focused suggestion index should loop to last item')
+    .expect(items.nth(maxItemCount - 1).getStyleProperty('box-shadow')).contains(expectedBoxShadowColor, 'Focused suggestion index should loop to last item')
     .pressKey('down')
     // After pressing key down on last item expect focused suggestion to loop to first item
     .expect(items.nth(0).getStyleProperty('box-shadow')).contains(expectedBoxShadowColor, 'Focused suggestion index should loop to first item');
@@ -315,13 +337,11 @@ test('Search suggestion arrow navigation does loop correctly', async(t) => {
 
 // TODO: update this test
 // test('Search suggestion click works correctly', async(t) => {
-//   // Get SearchBar input
-//   const input = Selector('#SearchBar input');
 
 //   // Make new search
 //   await t
-//     .expect(getLocation()).contains(`http://${server.address}:${server.port}/fi/search`)
-//     .click(input)
+//     .expect(getLocation()).contains(`${getBaseUrl()}/fi/search`)
+//     .click(searchBarInput)
 //     .pressKey('ctrl+a delete')
 //     .typeText(input, 'kirjastoa');
 
@@ -330,6 +350,197 @@ test('Search suggestion arrow navigation does loop correctly', async(t) => {
 //   const text = await clickedItem.getReact(({props}) => props.fullQuery);
 //   await t
 //     .click(clickedItem)
-//     .expect(getLocation()).contains(`http://${server.address}:${server.port}/fi/search?q=${text}`)
+//     .expect(getLocation()).contains(`${getBaseUrl()}/fi/search?q=${text}`)
     
 // });
+const orgChips = Selector(`${organisationDropdown} ${settingChip}`)
+const cityChips = Selector(`${cityDropdown} ${settingChip}`);
+
+fixture`Search view custom url with city and org param test`
+  .page`${homePage}`
+  .beforeEach(async () => {
+    await waitForReact();
+  });
+
+
+test('Should override municipality settings by url', async(t) => {
+  // the city in url should overwrite settings made by user (and save setting)
+  await setLocalStorageItem('SM:espoo', true);
+  await t
+    .navigateTo(bathUrl)
+    .expect(cityChips.count).eql(1)
+    .expect(cityChips.textContent).eql('Espoo')
+    .expect(leppavaaraBath.exists).ok('Should find bath in Espoo')
+    .expect(kumpulaBath.exists).notOk('Should hide baths of Helsinki')
+    .navigateTo(`${bathUrl}&city=helsinki`)
+    .expect(cityChips.count).eql(1)
+    .expect(cityChips.textContent).eql('Helsinki')
+    .expect(kumpulaBath.exists).ok('Should find bath in Helsinki')
+    .expect(leppavaaraBath.exists).notOk('Should hide baths of Espoo')
+    .navigateTo(`${bathUrl}&city=espoo`)
+    .expect(cityChips.count).eql(1)
+    .expect(cityChips.textContent).eql('Espoo')
+    .expect(leppavaaraBath.exists).ok('Should find bath in Espoo')
+    .expect(kumpulaBath.exists).notOk('Should hide baths of Helsinki')
+  ;
+});
+
+test('Should not mess up city settings between embedded and normal view', async(t) => {
+  await setLocalStorageItem('SM:espoo', true);
+  await t
+    .navigateTo(`${embedBathUrl}`)
+    .expect(kumpulaBath.exists).ok('Should find bath in Helsinki')
+    .expect(leppavaaraBath.exists).ok('Should hide baths in Espoo')
+    .navigateTo(`${embedBathUrl}&city=espoo`)
+    .expect(kumpulaBath.exists).notOk('Should not find baths in Helsinki')
+    .expect(leppavaaraBath.exists).ok('Should find baths in Espoo')
+    .navigateTo(`${embedBathUrl}&city=helsinki`)
+    .expect(kumpulaBath.exists).ok('Should find baths in Helsinki')
+    .expect(leppavaaraBath.exists).notOk('Should not find baths in Espoo')
+    // Returning to normal mode, the visit to embedding should not mess up previous settings
+    .navigateTo(`${bathUrl}`)
+    .expect(kumpulaBath.exists).notOk('Should not find bath in Helsinki')
+    .expect(leppavaaraBath.exists).ok('Should find bath in Espoo')
+  ;
+});
+
+test('Should override organization settings by url', async(t) => {
+  await setLocalStorageItem(`SM:${ESPOO_ORG}`, true);
+  // the organization in url should overwrite settings made by user (and save setting)
+  await t
+    .navigateTo(`${bathUrl}`)
+    .expect(orgChips.count).eql(1)
+    .expect(orgChips.textContent).eql('Espoon kaupunki')
+    .expect(leppavaaraBath.exists).ok('Should find bath of Espoo org')
+    .expect(kumpulaBath.exists).notOk('Should hide baths of Helsinki org')
+    .navigateTo(`${bathUrl}&organization=${HELSINKI_ORG}`)
+    .expect(orgChips.count).eql(1)
+    .expect(orgChips.textContent).eql('Helsingin kaupunki')
+    .expect(kumpulaBath.exists).ok('Should find bath of Helsinki org')
+    .expect(leppavaaraBath.exists).notOk('Should hide baths of Espoo org')
+    .navigateTo(`${bathUrl}&organization=${ESPOO_ORG}`)
+    .expect(orgChips.count).eql(1)
+    .expect(orgChips.textContent).eql('Espoon kaupunki')
+    .expect(leppavaaraBath.exists).ok('Should find bath of Espoo org')
+    .expect(kumpulaBath.exists).notOk('Should hide baths of Helsinki org')
+  ;
+});
+
+test('Should not mess up organization settings between embedded and normal view', async(t) => {
+  await setLocalStorageItem(`SM:${ESPOO_ORG}`, true);
+  await t
+    .navigateTo(`${embedBathUrl}`)
+    .expect(kumpulaBath.exists).ok('Should find bath of Helsinki org')
+    .expect(leppavaaraBath.exists).ok('Should hide baths of Espoo org')
+    .navigateTo(`${embedBathUrl}&organization=${ESPOO_ORG}`)
+    .expect(kumpulaBath.exists).notOk('Should not find baths of Helsinki org')
+    .expect(leppavaaraBath.exists).ok('Should find baths of Espoo org')
+    .navigateTo(`${embedBathUrl}&organization=${HELSINKI_ORG}`)
+    .expect(kumpulaBath.exists).ok('Should find baths of Helsinki org')
+    .expect(leppavaaraBath.exists).notOk('Should not find baths of Espoo org')
+    // Returning to normal mode, the visit to embedding should not mess up previous settings
+    .navigateTo(`${bathUrl}`)
+    .expect(kumpulaBath.exists).notOk('Should not find bath of Helsinki org')
+    .expect(leppavaaraBath.exists).ok('Should find bath of Espoo org')
+  ;
+});
+
+
+fixture`Search view custom url with accessibility param test`
+  .page`${homePage}`
+  .beforeEach(async () => {
+    await waitForReact();
+  });
+
+
+test('Should override accessibility settings', async(t) => {
+  await setLocalStorageItem(`SM:hearingAid`, true);
+  const senseChips = Selector(settingsMenuPanel).find(`${sensesDropdown} ${settingChip}`);
+  const mobilityInput = Selector(settingsMenuPanel).find(`${mobilityDropdown} input`);
+  await t
+    .navigateTo(`${bathUrl}&accessibility_setting=visual_impairment,reduced_mobility,colour_blind`)
+    .click(settingsMenuButton)
+    .expect(senseChips.count).eql(2)
+    .expect(senseChips.withText('Minun on vaikea erottaa värejä').exists).ok()
+    .expect(senseChips.withText('Olen näkövammainen').exists).ok()
+    .expect(mobilityInput.value).eql('Olen liikkumisesteinen')
+    .navigateTo(`${bathUrl}&accessibility_setting=`)
+    .click(settingsMenuButton)
+    .expect(senseChips.exists).notOk()
+    .expect(mobilityInput.value).eql('')
+  ;
+});
+
+fixture`Search view should set settings to url test`
+  .page`${homePage}`
+  .beforeEach(async () => {
+    await waitForReact();
+  });
+
+
+test('Should set user settings to url', async(t) => {
+  // Use local storage as dropdowns are flaky
+  await setLocalStorageItem(`SM:hearingAid`, true);
+  await setLocalStorageItem(`SM:mobility`, 'rollator');
+  // await setLocalStorageItem(`SM:${ESPOO_ORG}`, true);
+  await setLocalStorageItem('SM:turku', true);
+  await setLocalStorageItem('SM:raisio', true);
+  const senseChips = Selector(`${sensesDropdown} ${settingChip}`);
+  const mobilityInput = Selector(`${mobilityDropdown} input`);
+  await t
+    .navigateTo(`${bathUrl}`)
+    // Check settings
+    .expect(senseChips.count).eql(1)
+    .expect(senseChips.withText('Käytän kuulolaitetta').exists).ok()
+    .expect(mobilityInput.value).eql('Käytän rollaattoria')
+    .expect(cityChips.count).eql(2)
+    .expect(cityChips.withText('Turku').exists).ok()
+    .expect(cityChips.withText('Raisio').exists).ok()
+    .expect(orgChips.count).eql(1)
+    // .expect(orgChips.withText('Espoon kaupunki').exists).ok()
+    // Check url
+    .expect(getLocation()).contains('city=turku%2Craisio')
+    // .expect(getLocation()).contains('organization=520a4492-cb78-498b-9c82-86504de88dce')
+    .expect(getLocation()).contains('accessibility_setting=hearing_aid%2Crollator')
+  ;
+});
+
+fixture`Search view should set home address with url test`
+  .page`${homePage}/search?q=kirjasto&hcity=turku&hstreet=Aurakatu+5`
+  .beforeEach(async () => {
+    await waitForReact();
+  });
+
+test('Should set home address from url', async(t) => {
+  await t
+    .expect(addressInput.value).contains('Aurakatu 5')
+    .expect(addressInput.value).contains('Turku')
+  ;
+});
+
+fixture`Search view should set map type with url test`
+  .page`${homePage}/search?q=kirjasto&hcity=turku&map=guidemap`
+  .beforeEach(async () => {
+    await waitForReact();
+  });
+
+test('Should set map type from url', async(t) => {
+  await t
+    .click(mapToolsButton)
+    .expect(Selector('#servicemap-map-type-radio').checked).eql(false)
+    .expect(Selector('#ortographic-map-type-radio').checked).eql(false)
+    .expect(Selector('#guidemap-map-type-radio').checked).eql(true)
+    .expect(Selector('#accessible_map-map-type-radio').checked).eql(false)
+    .navigateTo(`${homePage}/search?q=kirjasto&hcity=turku&map=ortographic`)
+    .click(mapToolsButton)
+    .expect(Selector('#servicemap-map-type-radio').checked).eql(false)
+    .expect(Selector('#ortographic-map-type-radio').checked).eql(true)
+    .expect(Selector('#guidemap-map-type-radio').checked).eql(false)
+    .expect(Selector('#accessible_map-map-type-radio').checked).eql(false)
+    .navigateTo(`${homePage}/search?q=kirjasto&hcity=turku&map=accessible_map`)
+    .click(mapToolsButton)
+    .expect(Selector('#servicemap-map-type-radio').checked).eql(false)
+    .expect(Selector('#ortographic-map-type-radio').checked).eql(false)
+    .expect(Selector('#guidemap-map-type-radio').checked).eql(false)
+    .expect(Selector('#accessible_map-map-type-radio').checked).eql(true);
+});

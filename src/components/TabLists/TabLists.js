@@ -1,11 +1,18 @@
 /* eslint-disable react/no-multi-comp */
+import { css } from '@emotion/css';
+import styled from '@emotion/styled';
+import {
+  Tab,
+  Tabs,
+  Typography,
+} from '@mui/material';
+import { useTheme } from '@mui/styles';
+import { visuallyHidden } from '@mui/utils';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  Tabs, Tab, Typography,
-} from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
+import { useSelector } from 'react-redux';
 import config from '../../../config';
+import { selectNavigator } from '../../redux/selectors/general';
 import { parseSearchParams, stringifySearchParams } from '../../utils';
 import useMobileStatus from '../../utils/isMobile';
 import PaginatedList from '../Lists/PaginatedList';
@@ -18,10 +25,10 @@ const TabLists = ({
   focusClass,
   focusText,
   headerComponents,
-  navigator,
-  classes,
 }) => {
   const isMobile = useMobileStatus();
+  const theme = useTheme();
+  const navigator = useSelector(selectNavigator);
   const searchParams = parseSearchParams(location.search);
   const filteredData = data.filter(item => item.component || (item.data && item.data.length > 0));
   const getTabfromUrl = () => {
@@ -155,9 +162,47 @@ const TabLists = ({
       }
     });
 
-    const tabLabelStyles = filteredData.length === 3 && isMobile
-      ? `${classes.tabLabelContainer} ${classes.mobileTabFont}`
-      : classes.tabLabelContainer;
+    const tabClassResolver = () => {
+      const styles = {};
+      // tab
+      Object.assign(styles, {
+        minWidth: 0,
+        fontWeight: 'normal',
+        flex: '1 1',
+        [theme.breakpoints.only('sm')]: {
+          letterSpacing: 'normal',
+        },
+        color: 'black',
+        '&:focus': {
+          boxShadow: 'none',
+          zIndex: 0,
+        },
+      });
+      // tabLabelContainer
+      Object.assign(styles, {
+        padding: theme.spacing(1),
+        fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)',
+        overflowWrap: 'normal',
+      });
+      if (filteredData.length === 3 && isMobile) {
+        // Mobilefont
+        Object.assign(styles, {
+          fontSize: '0.719rem',
+        });
+      }
+      return styles;
+    };
+    const tabRootClass = css(tabClassResolver());
+    const selectedClass = css({
+      fontWeight: '700 !important',
+      color: `${theme.palette.primary.main} !important`,
+    });
+    const tabFocusClass = css({
+      outline: `4px solid ${theme.palette.primary.highContrast} !important`,
+      outlineOffset: -1,
+      boxShadow: `inset 0 0 0 4px ${theme.palette.focusBorder.main} !important`,
+      backgroundColor: 'rgba(0, 0, 0, 0.08)',
+    });
 
     let disabled;
     try {
@@ -185,9 +230,9 @@ const TabLists = ({
             <Typography style={visuallyHidden} className={focusClass} tabIndex={-1}>{focusText}</Typography>
           )
         }
-        <Tabs
+        <StyledTabs
           ref={tabsRef}
-          className={`sticky ${classes.root}`}
+          className="sticky"
           value={tabIndex}
           onChange={handleTabChange}
           variant="fullWidth"
@@ -196,22 +241,21 @@ const TabLists = ({
           {
               filteredData.map((item, index) => {
                 if (item.data && item.data.length > 0) {
-                  const label = `${item.title} ${item.component ? '' : `(${item.data.length})`}`;
+                  const label = `${item.title} ${item.component ? '' : `(${item.data.length})`}`.trim();
                   const tabId = `${item.title}-${item.data.length}`;
                   return (
-                    <Tab
+                    <StyledTab
                       id={tabId}
                       key={tabId}
                       aria-controls={`tab-content-${index}`}
                       aria-label={item.ariaLabel ? item.ariaLabel : null}
                       classes={{
-                        root: `${classes.tab} ${tabLabelStyles}`,
-                        selected: classes.selected,
+                        root: tabRootClass,
+                        selected: selectedClass,
                       }}
-                      className={classes.tab}
                       label={label}
                       onClick={item.onClick ? () => item.onClick(index) : null}
-                      focusVisibleClassName={classes.tabFocus}
+                      focusVisibleClassName={tabFocusClass}
                     />
                   );
                 }
@@ -222,17 +266,17 @@ const TabLists = ({
                     aria-controls={`tab-content-${index}`}
                     aria-label={item.ariaLabel ? item.ariaLabel : null}
                     classes={{
-                      root: `${classes.tab} ${tabLabelStyles}`,
-                      selected: classes.selected,
+                      root: tabRootClass,
+                      selected: selectedClass,
                     }}
                     label={`${item.title}`}
                     onClick={item.onClick ? () => item.onClick(index) : null}
-                    focusVisibleClassName={classes.tabFocus}
+                    focusVisibleClassName={tabFocusClass}
                   />
                 );
               })
             }
-        </Tabs>
+        </StyledTabs>
       </>
     );
   };
@@ -292,28 +336,24 @@ const TabLists = ({
             );
           }
 
-
           return (
-            <div
+            <StyledResultListContainer
               id={`tab-content-${index}`}
-              className={classes.resultList}
               key={item.title}
             >
               {
                 index === tabIndex
                 && (
-                  <>
-                    <PaginatedList
-                      id={`${item.title}-results`}
-                      data={item.data}
-                      titleComponent="h3"
-                      beforePagination={item.beforePagination || null}
-                      srTitle={item.title}
-                    />
-                  </>
+                  <PaginatedList
+                    id={`${item.title}-results`}
+                    data={item.data}
+                    titleComponent="h3"
+                    beforePagination={item.beforePagination || null}
+                    srTitle={item.title}
+                  />
                 )
               }
-            </div>
+            </StyledResultListContainer>
           );
         })
       }
@@ -323,8 +363,34 @@ const TabLists = ({
   return render();
 };
 
+const StyledTabs = styled(Tabs)(({ theme }) => ({
+  position: 'sticky',
+  zIndex: theme.zIndex.sticky,
+  backgroundColor: theme.palette.white.main,
+  borderColor: theme.palette.white.contrastText,
+  color: theme.palette.white.contrastText,
+  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+}));
+
+const StyledTab = styled(Tab)(({ theme }) => ({
+  minWidth: 0,
+  fontWeight: 'normal',
+  flex: '1 1',
+  [theme.breakpoints.only('sm')]: {
+    letterSpacing: 'normal',
+  },
+  color: 'black',
+  '&:focus': {
+    boxShadow: 'none',
+    zIndex: 0,
+  },
+}));
+
+const StyledResultListContainer = styled('div')(() => ({
+  backgroundColor: 'white',
+}));
+
 TabLists.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   data: PropTypes.arrayOf(PropTypes.shape({
     ariaLabel: PropTypes.string,
     beforePagination: PropTypes.node,
@@ -333,20 +399,15 @@ TabLists.propTypes = {
     data: PropTypes.arrayOf(PropTypes.any),
     itemsPerPage: PropTypes.number,
   })).isRequired,
-  userAddress: PropTypes.objectOf(PropTypes.any),
   headerComponents: PropTypes.objectOf(PropTypes.any),
   onTabChange: PropTypes.func,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
   location: PropTypes.objectOf(PropTypes.any).isRequired,
-  navigator: PropTypes.objectOf(PropTypes.any),
   focusClass: PropTypes.string,
   focusText: PropTypes.string,
 };
 
 TabLists.defaultProps = {
   headerComponents: null,
-  navigator: null,
-  userAddress: null,
   focusClass: null,
   focusText: null,
   onTabChange: null,
