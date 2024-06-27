@@ -1,6 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import styled from '@emotion/styled';
-import { Hearing, Mail, OpenInFull, Share } from '@mui/icons-material';
+import {
+  Hearing, Mail, OpenInFull, Share,
+} from '@mui/icons-material';
 import { Button, Typography } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import Watermark from '@uiw/react-watermark';
@@ -578,10 +580,9 @@ const UnitView = props => {
           titleComponent="h3"
           shareLink={elem}
         />
-        {unit?.location?.coordinates && 
-          <RouteBar unit={unit} userLocation={userLocation} />
-        }
-      </> 
+        {unit?.location?.coordinates
+          && <RouteBar unit={unit} userLocation={userLocation} />}
+      </>
     );
 
     if (unitFetching) {

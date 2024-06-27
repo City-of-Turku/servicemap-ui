@@ -8,10 +8,12 @@ export default function getTypeAndClass(vehicleType) {
       return { color: '#FF6319', className: 'icon-icon-hsl-metro' };
     case 7: // Bike stations
       return { color: '#fcb919', className: 'icon-icon-hsl-bike' };
-    case -999:
+    case -999: // Bus stops in Turku
+      return { color: '#072c73', className: 'icon-icon-hsl-bus' };
     case 4: // Ferry stops
       return { color: '#00B9E4', className: 'icon-icon-hsl-ferry' };
     case 3: // Bus stops
+      return { color: '#007AC9', className: 'icon-icon-hsl-bus' };
     default:
       return { color: '#007AC9', className: 'icon-icon-hsl-bus' };
   }

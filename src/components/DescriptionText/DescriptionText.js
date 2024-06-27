@@ -5,10 +5,10 @@ import styled from '@emotion/styled';
 import isClient from '../../utils';
 
 const DescriptionText = ({
-  description, html, title, titleComponent,
+  description, html, title, titleComponent, extraField,
 }) => {
   // Hide linebreak html elements from screen readers
-  const hideBRFromSR = (text) => text.replaceAll('<br>', '<br aria-hidden="true" />');
+  const hideBRFromSR = text => text.replaceAll('<br>', '<br aria-hidden="true" />');
 
   // Rendering only in client since dangerouslySetInnerHTML causes mismatch errors
   // between server and client HTML and not rendering anything on client side
