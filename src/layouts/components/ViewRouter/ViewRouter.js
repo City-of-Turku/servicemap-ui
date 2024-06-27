@@ -17,6 +17,7 @@ import ExtendedData from '../../../views/UnitView/components/ExtendedData';
 import AreaView from '../../../views/AreaView';
 import MobilitySettingsView from '../../../views/MobilitySettingsView';
 import { ErrorTrigger } from '../../../components';
+import config from '../../../../config';
 
 const TitleWrapper = ({ children, messageId }) => (
   <>
@@ -180,12 +181,15 @@ const MobilityPlatform = () => (
   </TitleWrapper>
 );
 
+// If external theme (by Turku) is true, then can be used to select which theme to get
+const externalTheme = config.themePKG;
+const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
 class ViewRouter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-
 
   render() {
     return (
@@ -198,7 +202,7 @@ class ViewRouter extends React.Component {
         <Route exact path="/:lng/unit/:unit" component={Unit} />
         <Route path="/:lng/search" component={Search} />
         <Route path="/:lng/services" component={ServiceTree} />
-        <Route path="/:lng/mobility" component={MobilityTree} />
+        <Route path="/:lng/mobility" component={isExternalTheme ? MobilityPlatform : MobilityTree} />
         <Route path="/:lng/service/:service" component={Service} />
         <Route path="/:lng/event/:event" component={Event} />
         <Route path="/:lng/address/:municipality/:street" component={Address} />
@@ -215,7 +219,6 @@ class ViewRouter extends React.Component {
           )}
         />
         <Route path="/:lng/info/:page?" component={Info} />
-        <Route path="/:lng/mobility" component={MobilityPlatform} />
         <Route exact path="/:lng/" component={Home} />
         <Route render={props => <ErrorTrigger error="badUrl" />} />
       </Switch>

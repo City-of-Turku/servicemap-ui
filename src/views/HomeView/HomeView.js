@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import serviceTreeTku from 'servicemap-ui-turku/assets/images/service-tree-tku.webp';
+import areaServicesTku from 'servicemap-ui-turku/assets/images/area-page-tku.webp';
+import mobilityMapTku from 'servicemap-ui-turku/assets/images/mobility-map-tku.webp';
 import { NewsInfo, SearchBar, SettingsComponent } from '../../components';
 import config from '../../../config';
 import CardSmall from '../../components/CardSmall/CardSmall';
 import areaServices from '../../assets/images/area-services.jpg';
 import serviceTree from '../../assets/images/service-tree.jpg';
-import serviceTreeTku from 'servicemap-ui-turku/assets/images/service-tree-tku.webp';
-import areaServicesTku from 'servicemap-ui-turku/assets/images/area-page-tku.webp';
-import mobilityMapTku from 'servicemap-ui-turku/assets/images/mobility-map-tku.webp';
 import mobilityTree from '../../assets/images/mobility-tree.jpg';
 
-const HomeView = (props) => {
+const HomeView = props => {
   const { navigator } = props;
 
   // If external theme (by Turku) is true, then can be used to select which content to render
@@ -26,7 +26,7 @@ const HomeView = (props) => {
         <CardSmall
           image={isExternalTheme ? areaServicesTku : areaServices}
           headerMessageID="area.services.local"
-          messageID={isExternalTheme ? "home.buttons.area.tku" : "home.buttons.area"}
+          messageID={isExternalTheme ? 'home.buttons.area.tku' : 'home.buttons.area'}
           onClick={() => navigator.push('area')}
         />
       );
@@ -57,11 +57,11 @@ const HomeView = (props) => {
         />
         {!isExternalTheme ? (
           <CardSmall
-          image={mobilityTree}
-          headerMessageID="general.pageTitles.mobilityTree.title"
-          messageID="home.buttons.mobilityTree"
-          onClick={() => navigator.push('mobilityTree')}
-        />
+            image={mobilityTree}
+            headerMessageID="general.pageTitles.mobilityTree.title"
+            messageID="home.buttons.mobilityTree"
+            onClick={() => navigator.push('mobilityTree')}
+          />
         ) : null}
         <NewsInfo showCount={2} />
       </StyledContainer>
