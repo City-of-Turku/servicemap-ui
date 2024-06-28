@@ -27,7 +27,7 @@ const HomeView = props => {
       header: 'area.services.local',
       message: isExternalTheme ? 'home.buttons.area.tku' : 'home.buttons.area',
       type: 'area',
-      visibility: isAreaSelection,
+      visibility: !!isAreaSelection,
     },
     {
       image: mobilityMapTku,
@@ -59,6 +59,7 @@ const HomeView = props => {
       <StyledContainer>
         {filteredCategories.map(item => (
           <CardSmall
+            key={item.type}
             image={item.image}
             headerMessageID={item.header}
             messageID={item.message}

@@ -20,8 +20,7 @@ const createSuggestions = (
   const servicenodeLimit = 10;
   const administrativeDivisionLimit = 1;
   const pageSize = unitLimit + serviceLimit + addressLimit + servicenodeLimit;
-  const municipalities = citySettings?.length ? citySettings?.join(',') : config.cities;
-
+  const municipalities = cities?.length ? cities?.join(',') : config.cities;
   const organizationIds = organizations.map(org => org.id);
   const additionalOptions = {
     page_size: pageSize,
@@ -44,7 +43,7 @@ const createSuggestions = (
 
   // Filter services with city settings
   if (cities.length) {
-    filteredResults = filteredResults.filter((result) => {
+    filteredResults = filteredResults.filter(result => {
       if (result.object_type === 'service' || result.object_type === 'servicenode') {
         const totalResultCount = cities
           .map(city => getUnitCount(result, city))
