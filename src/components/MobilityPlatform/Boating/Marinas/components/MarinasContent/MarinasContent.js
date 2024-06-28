@@ -17,8 +17,8 @@ const MarinasContent = ({ berthItem }) => {
   );
 
   const renderTypePrice = (price, berthType) => {
-    const alvTax = 1.24;
-    const fullPrice = price * alvTax;
+    const vatTax = 1.255;
+    const fullPrice = price * vatTax;
     return (
       <>
         <StyledTextContainer>
