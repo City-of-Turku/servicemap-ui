@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import serviceTreeTku from 'servicemap-ui-turku/assets/images/service-tree-tku.webp';
+import PropTypes from 'prop-types';
+import React from 'react';
 import areaServicesTku from 'servicemap-ui-turku/assets/images/area-page-tku.webp';
 import mobilityMapTku from 'servicemap-ui-turku/assets/images/mobility-map-tku.webp';
-import { NewsInfo, SearchBar, SettingsComponent } from '../../components';
+import serviceTreeTku from 'servicemap-ui-turku/assets/images/service-tree-tku.webp';
 import config from '../../../config';
-import CardSmall from '../../components/CardSmall/CardSmall';
 import areaServices from '../../assets/images/area-services.jpg';
-import serviceTree from '../../assets/images/service-tree.jpg';
 import mobilityTree from '../../assets/images/mobility-tree.jpg';
+import serviceTree from '../../assets/images/service-tree.jpg';
+import { SearchBar } from '../../components';
+import CardSmall from '../../components/CardSmall/CardSmall';
 
 const HomeView = props => {
   const { navigator } = props;
@@ -18,52 +18,53 @@ const HomeView = props => {
   const externalTheme = config.themePKG;
   const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
 
+  const areaSelection = config.showAreaSelection;
+  const isAreaSelection = !areaSelection || areaSelection === 'undefined' ? null : areaSelection;
+
+  const categories = [
+    {
+      image: isExternalTheme ? areaServicesTku : areaServices,
+      header: 'area.services.local',
+      message: isExternalTheme ? 'home.buttons.area.tku' : 'home.buttons.area',
+      type: 'area',
+      visibility: isAreaSelection,
+    },
+    {
+      image: mobilityMapTku,
+      header: 'home.buttons.mobilityPlatformSettings.title',
+      message: 'home.buttons.mobilityPlatformSettings',
+      type: 'mobilityPlatform',
+      visibility: !!isExternalTheme,
+    },
+    {
+      image: isExternalTheme ? serviceTreeTku : serviceTree,
+      header: 'general.pageTitles.serviceTree.title',
+      message: 'home.buttons.services',
+      type: 'serviceTree',
+      visibility: true,
+    },
+    {
+      image: mobilityTree,
+      header: 'general.pageTitles.mobilityTree.title',
+      message: 'home.buttons.mobilityTree',
+      type: 'mobilityTree',
+      visibility: !isExternalTheme,
+    },
+  ];
+
   const renderNavigationOptions = () => {
-    let areaSelection = null;
-
-    if (config.showAreaSelection) {
-      areaSelection = (
-        <CardSmall
-          image={isExternalTheme ? areaServicesTku : areaServices}
-          headerMessageID="area.services.local"
-          messageID={isExternalTheme ? 'home.buttons.area.tku' : 'home.buttons.area'}
-          onClick={() => navigator.push('area')}
-        />
-      );
-    }
-
-    let mobilityMap = null;
-
-    if (isExternalTheme) {
-      mobilityMap = (
-        <CardSmall
-          image={mobilityMapTku}
-          headerMessageID="home.buttons.mobilityPlatformSettings.title"
-          messageID="home.buttons.mobilityPlatformSettings"
-          onClick={() => navigator.push('mobilityPlatform')}
-        />
-      );
-    }
+    const filteredCategories = categories.filter(item => item.visibility);
 
     return (
       <StyledContainer>
-        {areaSelection}
-        {mobilityMap}
-        <CardSmall
-          image={isExternalTheme ? serviceTreeTku : serviceTree}
-          headerMessageID="general.pageTitles.serviceTree.title"
-          messageID="home.buttons.services"
-          onClick={() => navigator.push('serviceTree')}
-        />
-        {!isExternalTheme ? (
+        {filteredCategories.map(item => (
           <CardSmall
-            image={mobilityTree}
-            headerMessageID="general.pageTitles.mobilityTree.title"
-            messageID="home.buttons.mobilityTree"
-            onClick={() => navigator.push('mobilityTree')}
+            image={item.image}
+            headerMessageID={item.header}
+            messageID={item.message}
+            onClick={() => navigator.push(item.type)}
           />
-        ) : null}
-        <NewsInfo showCount={2} />
+        ))}
       </StyledContainer>
     );
   };
