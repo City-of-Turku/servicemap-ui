@@ -33,15 +33,16 @@ import ThemeWrapper from './themes/ThemeWrapper';
 import isClient from './utils';
 import LocaleUtility from './utils/locale';
 import EmbedderView from './views/EmbedderView';
-// To add css variables for hds components
 import SMCookies from './components/SMCookies/SMCookies';
+
+// If external theme (by Turku) is true, then can be used to select which app description to render.
+const externalTheme = config.themePKG;
+const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
 
 // General meta tags for app
 const MetaTags = () => {
   const intl = useIntl();
-  // If external theme (by Turku) is true, then can be used to select which app description to render.
-  const externalTheme = config.themePKG;
-  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
   return (
     <Helmet>
       <meta property="og:site_name" content={intl.formatMessage({ id: 'app.title' })} />
@@ -84,7 +85,7 @@ function App() {
         <IntlProvider {...intlData}>
           <MetaTags />
           {/* <StylesProvider generateClassName={generateClassName}> */}
-          <SMCookies />
+          {!isExternalTheme ? <SMCookies /> : null }
           <div className="App">
             <MobilityPlatformContextProvider>
               <Switch>
