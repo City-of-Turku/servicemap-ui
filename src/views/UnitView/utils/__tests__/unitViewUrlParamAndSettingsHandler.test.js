@@ -7,12 +7,14 @@ describe('parseUnitViewUrlParams', () => {
     expect(actions).toEqual(expected);
   }
 
+  const cityStr = 'turku';
+
   it('Should not act on undefined url params', () => {
-    baseTest('?search=aaa&city=helsinki', []);
+    baseTest(`?search=aaa&city=${cityStr}`, []);
   });
 
   it('Should reset mobility setting on empty param', () => {
-    baseTest('?search=aaa&city=helsinki&mobility=', [{ setting: 'mobility', value: null }]);
+    baseTest(`?search=aaa&city=${cityStr}&mobility=`, [{ setting: 'mobility', value: null }]);
   });
 
   it('Should reset senses setting on empty param', () => {
@@ -20,7 +22,7 @@ describe('parseUnitViewUrlParams', () => {
   });
 
   it('Should act on mobility param', () => {
-    baseTest('?search=aaa&city=helsinki&mobility=rollator', [{ setting: 'mobility', value: 'rollator' }]);
+    baseTest(`?search=aaa&city=${cityStr}&mobility=rollator`, [{ setting: 'mobility', value: 'rollator' }]);
   });
 
   it('Should act on senses param', () => {
@@ -71,6 +73,6 @@ describe('parseUnitViewUrlParams', () => {
   });
 
   it('Should act on map param', () => {
-    baseTest('?map=guidemap&search=safdf', [{ setting: 'mapType', value: 'guidemap' }]);
+    baseTest('?map=servicemap&search=safdf', [{ setting: 'mapType', value: 'servicemap' }]);
   });
 });

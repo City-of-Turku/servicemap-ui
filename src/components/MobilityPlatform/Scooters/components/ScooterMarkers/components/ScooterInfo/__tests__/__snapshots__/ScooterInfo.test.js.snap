@@ -56,7 +56,7 @@ exports[`<ScooterInfo /> should work 1`] = `
         class="css-1fhgjcy"
       >
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-11g60ih-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-b1yg0p-MuiTypography-root-MuiLink-root"
           href="https://www.testilinkki.fi"
           role="link"
           target="_blank"
@@ -72,7 +72,7 @@ exports[`<ScooterInfo /> should work 1`] = `
         class="css-1fhgjcy"
       >
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-11g60ih-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-b1yg0p-MuiTypography-root-MuiLink-root"
           href="https://www.testilinkki.fi"
           role="link"
           target="_blank"

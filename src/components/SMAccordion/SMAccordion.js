@@ -129,7 +129,6 @@ const StyledCollapse = styled(Collapse)(({ elevated }) => {
   return styles;
 });
 
-
 SMAccordion.propTypes = {
   isOpen: PropTypes.bool,
   defaultOpen: PropTypes.bool,

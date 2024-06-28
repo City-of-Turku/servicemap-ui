@@ -66,7 +66,7 @@ exports[`<MarinasContent /> should work 1`] = `
         class="css-1fhgjcy"
       >
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-11g60ih-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-b1yg0p-MuiTypography-root-MuiLink-root"
           href="https://opaskartta.turku.fi/ePermit/fi/Reservation/"
           target="_blank"
         >
@@ -81,7 +81,7 @@ exports[`<MarinasContent /> should work 1`] = `
         class="css-1fhgjcy"
       >
         <a
-          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-11g60ih-MuiTypography-root-MuiLink-root"
+          class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-b1yg0p-MuiTypography-root-MuiLink-root"
           href="https://www.turku.fi/venepaikat"
           target="_blank"
         >
