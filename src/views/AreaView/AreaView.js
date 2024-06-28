@@ -9,7 +9,7 @@ import {
   setSelectedDistrictServices,
   setSelectedDistrictType,
   setSelectedParkingAreas,
-  setSelectedSubdistricts
+  setSelectedSubdistricts,
 } from '../../redux/actions/district';
 import {
   getAddressDistrict,
@@ -19,7 +19,7 @@ import {
   selectParkingUnitsMap,
   selectSelectedParkingAreas,
   selectSelectedSubdistricts,
-  selectSubdistrictUnits
+  selectSubdistrictUnits,
 } from '../../redux/selectors/district';
 import { selectMapRef } from '../../redux/selectors/general';
 import { parseSearchParams } from '../../utils';
@@ -27,7 +27,9 @@ import { getAddressText } from '../../utils/address';
 import { districtFetch } from '../../utils/fetch';
 import useLocaleText from '../../utils/useLocaleText';
 import fetchAddress from '../MapView/utils/fetchAddress';
-import { fitUnitsToMap, focusDistrict, focusDistricts, useMapFocusDisabled } from '../MapView/utils/mapActions';
+import {
+  fitUnitsToMap, focusDistrict, focusDistricts, useMapFocusDisabled,
+} from '../MapView/utils/mapActions';
 import SideBar from './components/SideBar/SideBar';
 import { dataStructure, geographicalDistricts } from './utils/districtDataHelper';
 
@@ -91,7 +93,7 @@ const AreaView = ({ embed }) => {
       unit_include: 'name,location',
     };
     await districtFetch(options)
-      .then((data) => {
+      .then(data => {
         dispatch(setDistrictAddressData({
           address: selectedAddress,
           districts: data.results,
@@ -205,7 +207,7 @@ const AreaView = ({ embed }) => {
       if (searchParams.parkingSpaces) {
         const parkingAreas = searchParams.parkingSpaces.split(',');
         dispatch(setSelectedParkingAreas(parkingAreas));
-        parkingAreas.forEach((area) => {
+        parkingAreas.forEach(area => {
           dispatch(fetchParkingAreaGeometry(area));
         });
       }
@@ -216,7 +218,7 @@ const AreaView = ({ embed }) => {
       }
       if (searchParams.sharedCarParking) {
         dispatch(fetchSharedCarParking());
-        }
+      }
       if (searchParams.accessibleStreetParking) {
         dispatch(fetchAccessibleStreetParking());
       }

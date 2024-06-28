@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import {
-  BusinessCenter, EscalatorWarning, LocationCity, Map,
+  BusinessCenter, DirectionsWalk, EscalatorWarning, LocationCity, Map,
 } from '@mui/icons-material';
 import { List, Typography } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
@@ -9,6 +9,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import config from '../../../../../config';
 import {
   AddressSearchBar,
   MobileComponent,
@@ -34,11 +35,12 @@ import useMobileStatus from '../../../../utils/isMobile';
 import { mapHasMapPane } from '../../../../utils/mapUtility';
 import { dataStructure } from '../../utils/districtDataHelper';
 import GeographicalTab from '../GeographicalTab';
+import MobilityResultTab from '../MobilityResultTab';
 import ServiceTab from '../ServiceTab';
 import StatisticalDistrictList from '../StatisticalDistrictList';
 import { StyledListItem, StyledLoadingText } from '../styled/styled';
 
-const getViewState = (map) => ({
+const getViewState = map => ({
   center: map.getCenter(),
   zoom: map.getZoom(),
 });
@@ -59,6 +61,9 @@ function SideBar({ selectedAddress, setSelectedAddress }) {
   const selectedAreaType = selectedArea?.split(/([\d]+)/)[0];
   // Selected category handling
   const [areaSelection, setAreaSelection] = useState(null);
+
+  const externalTheme = config.themePKG;
+  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
 
   const getInitialOpenItems = () => {
     if (selectedAreaType) {
@@ -108,6 +113,10 @@ function SideBar({ selectedAddress, setSelectedAddress }) {
     />
   );
 
+  const renderMobilityResultTab = () => (
+    <MobilityResultTab />
+  );
+
   const areaSectionSelection = (open, i) => {
     setAreaSelection(!open ? i : null);
     if (selectedDistrictType) {
@@ -135,18 +144,30 @@ function SideBar({ selectedAddress, setSelectedAddress }) {
       component: renderServiceTab(),
       title: intl.formatMessage({ id: 'area.tab.publicServices' }),
       icon: <StyledBusinessCenter />,
+      visibility: true,
     },
     {
       component: renderGeographicalTab(),
       title: intl.formatMessage({ id: 'area.tab.geographical' }),
       icon: <StyledLocationCity />,
+      visibility: true,
+    },
+    {
+      component: renderMobilityResultTab(),
+      title: intl.formatMessage({ id: 'area.tab.mobilityTest.results' }),
+      icon: <StyledDirectionsWalk />,
+      visibility: !!isExternalTheme,
     },
     {
       component: <StatisticalDistrictList />,
       title: intl.formatMessage({ id: 'area.tab.statisticalDistricts' }),
       icon: <StyledEscalatorWarning />,
+      visibility: !isExternalTheme,
     },
   ];
+
+  const filteredCategories = categories.filter(item => item.visibility);
+
   return (
     <div data-sm="AreaView">
       <TitleBar
@@ -169,7 +190,7 @@ function SideBar({ selectedAddress, setSelectedAddress }) {
       />
       <List>
         {
-          categories.map((category, i) => (
+          filteredCategories.map((category, i) => (
             <StyledListItem
               divider
               disableGutters
@@ -216,7 +237,7 @@ function SideBar({ selectedAddress, setSelectedAddress }) {
   );
 }
 
-const iconClass = (theme) => ({
+const iconClass = theme => ({
   padding: theme.spacing(2),
   paddingLeft: theme.spacing(0),
 });
@@ -224,6 +245,7 @@ const iconClass = (theme) => ({
 const StyledBusinessCenter = styled(BusinessCenter)(({ theme }) => iconClass(theme));
 const StyledLocationCity = styled(LocationCity)(({ theme }) => iconClass(theme));
 const StyledEscalatorWarning = styled(EscalatorWarning)(({ theme }) => iconClass(theme));
+const StyledDirectionsWalk = styled(DirectionsWalk)(({ theme }) => iconClass(theme));
 const StyledInfoText = styled(Typography)(({ theme }) => ({
   padding: theme.spacing(2),
   paddingTop: 0,
