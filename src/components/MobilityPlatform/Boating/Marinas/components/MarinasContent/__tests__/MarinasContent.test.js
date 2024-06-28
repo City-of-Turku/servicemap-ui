@@ -39,7 +39,7 @@ describe('<MarinasContent />', () => {
     expect(p[2].textContent).toContain(
       `Tyyppi: ${mockProps.berthItem.extra.berths[0].Kohdetyyppi}`,
     );
-    expect(p[3].textContent).toContain('Hinta: 124 €');
+    expect(p[3].textContent).toContain('Hinta: 125 €');
     expect(p[4].textContent).toContain(finnishTranslations['mobilityPlatform.content.marinas.reservationInfo']);
     expect(p[5].textContent).toContain(finnishTranslations['mobilityPlatform.info.marinas.link']);
     expect(p[6].textContent).toContain(finnishTranslations['mobilityPlatform.content.marinas.infoLink']);
