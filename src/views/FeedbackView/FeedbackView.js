@@ -49,19 +49,6 @@ const FeedbackView = ({
   const email = formFields.email.value;
   const feedback = formFields.feedback.value;
 
-  // If external theme (by Turku) is true, then can be used to select which content to render
-  const externalTheme = config.themePKG;
-  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
-
-  const renderFeedbackLink = () => {
-    const links = {
-      fi: config.feedbackAdditionalInfoLink,
-      sv: config.feedbackAdditionalInfoLinkSv,
-      en: config.feedbackAdditionalInfoLinkEn,
-    };
-    return getLocaleText(links);
-  };
-
   const isUnitFeedback = feedbackType === 'unit';
 
   const feedbackTitle = isUnitFeedback && selectedUnit
