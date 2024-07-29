@@ -176,7 +176,7 @@ function SideBar({ selectedAddress, setSelectedAddress }) {
         backButton={!isMobile}
       />
       <StyledInfoText>
-        <FormattedMessage id="home.buttons.area" />
+        <FormattedMessage id={isExternalTheme ? 'home.buttons.area.tku' : 'home.buttons.area'} />
       </StyledInfoText>
       <AddressSearchBar
         handleAddressChange={setSelectedAddress}
