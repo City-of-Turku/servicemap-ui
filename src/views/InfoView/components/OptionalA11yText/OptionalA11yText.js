@@ -1,11 +1,13 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
+import styled from '@emotion/styled';
 import useLocaleText from '../../../../utils/useLocaleText';
 import LinkBasic from '../LinkBasic';
 import List from '../List';
 import Paragraph from '../Paragraph';
 
-const OptionalA11yText = ({ classes, intl }) => {
+const OptionalA11yText = () => {
+  const intl = useIntl();
   const getLocaleText = useLocaleText();
 
   const unitOptions = [
@@ -40,7 +42,7 @@ const OptionalA11yText = ({ classes, intl }) => {
   };
 
   return (
-    <div className={classes.container}>
+    <StyledContainer>
       <Paragraph isTitle translationId="info.view.a11y.page.title" />
       <Paragraph translationId="info.view.a11y.page.info.turku" />
       <LinkBasic linkUrl={getLocaleText(servicemapTurkuLinks)} translationId="info.view.a11y.page.info.turku.url" />
@@ -75,13 +77,13 @@ const OptionalA11yText = ({ classes, intl }) => {
       <Paragraph isTitle translationId="info.view.a11y.page.statement.update.title" />
       <Paragraph translationId="info.view.a11y.page.statement.update.info" />
       <Paragraph translationId="info.view.a11y.page.date" />
-    </div>
+    </StyledContainer>
   );
 };
 
-OptionalA11yText.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-};
+const StyledContainer = styled.div(() => ({
+  whiteSpace: 'pre-line',
+  textAlign: 'left',
+}));
 
 export default OptionalA11yText;

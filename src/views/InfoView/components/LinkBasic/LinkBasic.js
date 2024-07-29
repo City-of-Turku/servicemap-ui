@@ -1,22 +1,36 @@
 import { Link, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from '@emotion/styled';
+import { useIntl } from 'react-intl';
 
-const LinkBasic = ({
-  classes, intl, linkUrl, translationId,
-}) => (
-  <div className={classes.linkContainer}>
-    <Link target="_blank" href={linkUrl}>
-      <Typography className={classes.link} variant="body2" aria-label={intl.formatMessage({ id: translationId })}>
-        {intl.formatMessage({ id: translationId })}
-      </Typography>
-    </Link>
-  </div>
-);
+const LinkBasic = ({ linkUrl, translationId }) => {
+  const intl = useIntl();
+
+  return (
+    <StyledContainer>
+      <Link target="_blank" href={linkUrl}>
+        <StyledLink variant="body2">
+          {intl.formatMessage({ id: translationId })}
+        </StyledLink>
+      </Link>
+    </StyledContainer>
+  );
+};
+
+const StyledContainer = styled.div(({ theme }) => ({
+  paddingLeft: theme.spacing(3),
+  paddingRight: theme.spacing(2),
+  paddingTop: theme.spacing(1),
+  paddingBottom: theme.spacing(1),
+}));
+
+const StyledLink = styled(Typography)(({ theme }) => ({
+  color: theme.palette.link.main,
+  textDecoration: 'underline',
+}));
 
 LinkBasic.propTypes = {
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   linkUrl: PropTypes.string,
   translationId: PropTypes.string,
 };

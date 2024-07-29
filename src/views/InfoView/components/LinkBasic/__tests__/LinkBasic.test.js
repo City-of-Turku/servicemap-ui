@@ -23,11 +23,4 @@ describe('<LinkBasic />', () => {
     const p = container.querySelectorAll('p');
     expect(p[0].textContent).toContain(finnishTranslations['info.view.feedback.link']);
   });
-
-  it('does contain aria-label attribute', () => {
-    const { container } = renderWithProviders(<LinkBasic {...mockProps} />);
-
-    const p = container.querySelectorAll('p');
-    expect(p[0].getAttribute('aria-label')).toContain(finnishTranslations['info.view.feedback.link']);
-  });
 });

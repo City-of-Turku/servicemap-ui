@@ -886,9 +886,9 @@ function InfoView({ locale }) {
       <StyledPageContainer>
         {renderTitlebar()}
         {isExternalTheme ? (
-          <div className={classes.textContainer}>
+          <StyledTextContainer>
             <OptionalText />
-          </div>
+          </StyledTextContainer>
         ) : null}
         {locale === 'fi' && !isExternalTheme ? (
           renderFinnishInfo()

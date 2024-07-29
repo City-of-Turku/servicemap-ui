@@ -1,16 +1,20 @@
 import { Divider, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import styled from '@emotion/styled';
 import isClient from '../../utils';
 
 const DescriptionExtraText = ({
-  classes, intl, extra, serviceName, html, title, titleComponent,
+  extra, serviceName, html, title, titleComponent,
 }) => {
   // Hide linebreak html elements from screen readers
-  const hideBRFromSR = (text) => text.replaceAll('<br>', '<br aria-hidden="true" />');
+  const hideBRFromSR = text => text.replaceAll('<br>', '<br aria-hidden="true" />');
 
   const [chargers, setChargers] = useState(null);
 
+  const intl = useIntl();
+
   useEffect(() => {
     if (extra.chargers) {
       setChargers(extra.chargers);
@@ -22,122 +26,117 @@ const DescriptionExtraText = ({
       setChargers(extra.chargers);
     }
   }, [extra]);
+
+  const styledTextItem = (messageId, value) => (
+    <StyledText variant="body2">
+      {intl.formatMessage({ id: messageId }, { value })}
+    </StyledText>
+  );
 
   const chargerStationInfo = (
     <>
-      <Typography variant="subtitle2" component="h5" className={classes.paragraph}>
+      <StyledText variant="subtitle2" component="h5">
         {intl.formatMessage({
           id: 'services.description.extra.cgsTitle',
         })}
         :
-      </Typography>
-      {chargers?.map((charger) => (
-        <div key={`${charger.plug}${charger.power}${charger.number}`} className={classes.paragraph}>
-          <Typography className={classes.textItem} variant="body2">
-            {intl.formatMessage({ id: 'mobilityPlatform.content.cgsType' }, { value: charger.plug })}
-          </Typography>
-          <Typography className={classes.textItem} variant="body2">
-            {intl.formatMessage({ id: 'mobilityPlatform.content.count' }, { value: charger.number })}
-          </Typography>
-          <Typography className={classes.textItem} variant="body2">
-            {intl.formatMessage({ id: 'mobilityPlatform.content.power' }, { value: charger.power })}
-          </Typography>
-        </div>
+      </StyledText>
+      {chargers?.map(charger => (
+        <StyledParagraph key={`${charger.plug}${charger.power}${charger.number}`}>
+          {styledTextItem('mobilityPlatform.content.cgsType', charger.plug)}
+          {styledTextItem('mobilityPlatform.content.count', charger.number)}
+          {styledTextItem('mobilityPlatform.content.power', charger.power)}
+        </StyledParagraph>
       ))}
     </>
   );
 
   const gasFillingInfo = (
     <>
-      <Typography variant="subtitle2" component="h5" className={classes.paragraph}>
+      <StyledText variant="subtitle2" component="h5">
         {intl.formatMessage({
           id: 'services.description.extra.gfsTitle',
         })}
-      </Typography>
-      <div className={classes.paragraph}>
-        <Typography className={classes.textItem} variant="body2">
-          {intl.formatMessage({ id: 'mobilityPlatform.content.gfsType' }, { value: extra.lng_cng })}
-        </Typography>
-        <Typography className={classes.textItem} variant="body2">
-          {intl.formatMessage({ id: 'mobilityPlatform.content.operator' }, { value: extra.operator })}
-        </Typography>
-      </div>
+      </StyledText>
+      <StyledParagraph>
+        {styledTextItem('mobilityPlatform.content.gfsType', extra.lng_cng)}
+        {styledTextItem('mobilityPlatform.content.operator', extra.operator)}
+      </StyledParagraph>
     </>
   );
 
   const bicycleStandInfo = (
     <>
-      <Typography variant="subtitle2" component="h5" className={classes.paragraph}>
+      <StyledText variant="subtitle2" component="h5">
         {intl.formatMessage({
           id: 'services.description.extra.bisTitle',
         })}
-      </Typography>
-      <div className={classes.paragraph}>
+      </StyledText>
+      <StyledParagraph>
         {extra.model ? (
-          <Typography variant="body2" className={classes.textItem}>
-              {intl.formatMessage({
-                id: 'mobilityPlatform.content.bicycleStands.model',
-              }, { value: extra.model })}
-          </Typography>
+          <StyledText variant="body2">
+            {intl.formatMessage({
+              id: 'mobilityPlatform.content.bicycleStands.model',
+            }, { value: extra.model })}
+          </StyledText>
         ) : null}
-        <Typography variant="body2" className={classes.textItem}>
-            {intl.formatMessage({
-              id: 'mobilityPlatform.content.bicycleStands.numOfPlaces',
-            }, { value: extra.number_of_places})}
-        </Typography>
-        <Typography variant="body2" className={classes.textItem}>
-            {intl.formatMessage({
-              id: 'mobilityPlatform.content.bicycleStands.numOfStands',
-            }, { value: extra.number_of_stands })}
-        </Typography>
+        <StyledText variant="body2">
+          {intl.formatMessage({
+            id: 'mobilityPlatform.content.bicycleStands.numOfPlaces',
+          }, { value: extra.number_of_places })}
+        </StyledText>
+        <StyledText variant="body2">
+          {intl.formatMessage({
+            id: 'mobilityPlatform.content.bicycleStands.numOfStands',
+          }, { value: extra.number_of_stands })}
+        </StyledText>
         {extra.hull_lockable ? (
-          <Typography variant="body2" className={classes.textItem}>
+          <StyledText variant="body2">
             {intl.formatMessage({
               id: 'mobilityPlatform.content.bicycleStands.hullLockable',
             })}
-          </Typography>
+          </StyledText>
         ) : (
-          <Typography variant="body2" className={classes.textItem}>
+          <StyledText variant="body2">
             {intl.formatMessage({
               id: 'mobilityPlatform.content.bicycleStands.hullNotLockable',
             })}
-          </Typography>
+          </StyledText>
         )}
         {extra.covered ? (
-          <Typography variant="body2" className={classes.textItem}>
+          <StyledText variant="body2">
             {intl.formatMessage({
               id: 'mobilityPlatform.content.bicycleStands.covered',
             })}
-          </Typography>
+          </StyledText>
         ) : (
-          <Typography variant="body2" className={classes.textItem}>
+          <StyledText variant="body2">
             {intl.formatMessage({
               id: 'mobilityPlatform.content.bicycleStands.notCovered',
             })}
-          </Typography>
+          </StyledText>
         )}
         {extra.maintained_by_turku ? (
-          <Typography variant="body2" className={classes.textItem}>
+          <StyledText variant="body2">
             {intl.formatMessage({
               id: 'mobilityPlatform.content.bicycleStands.maintainedByTku',
             })}
-          </Typography>
+          </StyledText>
         ) : null}
-      </div>
+      </StyledParagraph>
     </>
   );
 
   if (extra && isClient() && serviceName !== 'Pyöränkorjauspiste') {
     return (
-      <div className={classes.left}>
-        <Typography
-          className={classes.subtitle}
+      <StyledAlignLeft>
+        <StyledSubtitle
           component={titleComponent}
           variant="subtitle1"
         >
           {title}
-        </Typography>
-        <Divider className={classes.divider} aria-hidden="true" />
+        </StyledSubtitle>
+        <StyledDivider aria-hidden="true" />
         { !html ? (
           <>
             {serviceName === 'Kaasutankkausasema' ? gasFillingInfo : null}
@@ -145,16 +144,37 @@ const DescriptionExtraText = ({
             {serviceName === 'Pyöräpysäköinti' ? bicycleStandInfo : null}
           </>
         ) : (
-          <Typography dangerouslySetInnerHTML={{ __html: hideBRFromSR(extra) }} className={classes.paragraph} variant="body2" />
+          <StyledText dangerouslySetInnerHTML={{ __html: hideBRFromSR(extra) }} variant="body2" />
         )}
-      </div>
+      </StyledAlignLeft>
     );
   } return null;
 };
 
+const StyledParagraph = styled.div(({ theme }) => ({
+  margin: theme.spacing(2),
+  whiteSpace: 'pre-line',
+}));
+
+const StyledText = styled(Typography)(({ theme }) => ({
+  marginBottom: theme.spacing(1),
+  whiteSpace: 'pre-line',
+}));
+
+const StyledSubtitle = styled(Typography)(({ theme }) => ({
+  margin: theme.spacing(2),
+}));
+
+const StyledAlignLeft = styled.div(() => ({
+  textAlign: 'left',
+}));
+
+const StyledDivider = styled(Divider)(({ theme }) => ({
+  marginLeft: theme.spacing(-2),
+  marginRight: theme.spacing(-2),
+}));
+
 DescriptionExtraText.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
   extra: PropTypes.objectOf(PropTypes.any).isRequired,
   serviceName: PropTypes.string,
   title: PropTypes.node.isRequired,

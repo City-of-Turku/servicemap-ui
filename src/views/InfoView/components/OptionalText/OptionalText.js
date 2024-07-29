@@ -1,14 +1,17 @@
 import { ButtonBase, Typography } from '@mui/material';
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
+import styled from '@emotion/styled';
 import useLocaleText from '../../../../utils/useLocaleText';
 import LinkBasic from '../LinkBasic';
 import List from '../List';
 import OptionalA11yText from '../OptionalA11yText';
 import Paragraph from '../Paragraph';
 
-const OptionalText = ({ classes, intl }) => {
+const OptionalText = () => {
   const [showA11y, setShowA11y] = useState(false);
+
+  const intl = useIntl();
 
   const getLocaleText = useLocaleText();
   const appLink = 'https://github.com/City-of-Turku/servicemap-ui/';
@@ -157,24 +160,34 @@ const OptionalText = ({ classes, intl }) => {
   );
 
   return (
-    <div className={classes.container}>
-      <div className={classes.buttonContainer}>
+    <StyledContainer>
+      <StyledButtonContainer>
         <ButtonBase onClick={() => handleClick()}>
-          <Typography className={classes.button} variant="body2">
+          <StyledText variant="body2">
             {showA11y
               ? intl.formatMessage({ id: 'info.view.a11y.button.return' })
               : intl.formatMessage({ id: 'info.view.a11y.button.title' })}
-          </Typography>
+          </StyledText>
         </ButtonBase>
-      </div>
+      </StyledButtonContainer>
       {showA11y ? <OptionalA11yText /> : renderGeneralInfo()}
-    </div>
+    </StyledContainer>
   );
 };
 
-OptionalText.propTypes = {
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
-};
+const StyledContainer = styled.div(() => ({
+  whiteSpace: 'pre-line',
+  textAlign: 'left',
+}));
+
+const StyledButtonContainer = styled.div(({ theme }) => ({
+  margin: theme.spacing(2),
+  marginBottom: theme.spacing(0.5),
+}));
+
+const StyledText = styled(Typography)(() => ({
+  fontWeight: 'bold',
+  textDecoration: 'underline',
+}));
 
 export default OptionalText;

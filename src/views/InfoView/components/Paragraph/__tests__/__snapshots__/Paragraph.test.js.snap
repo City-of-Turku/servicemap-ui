@@ -3,10 +3,9 @@
 exports[`<Paragraph /> should work 1`] = `
 <div>
   <div
-    class="Paragraph-text-2"
+    class="css-n6swz6"
   >
     <p
-      aria-label="Palvelukartalta löytyvät Turun julkiset toimipisteet ja niiden palvelut, esimerkiksi koulut, päiväkodit ja terveysasemat."
       class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
     >
       Palvelukartalta löytyvät Turun julkiset toimipisteet ja niiden palvelut, esimerkiksi koulut, päiväkodit ja terveysasemat.

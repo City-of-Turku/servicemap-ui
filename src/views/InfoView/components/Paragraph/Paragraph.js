@@ -1,20 +1,28 @@
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
+import styled from '@emotion/styled';
+import { useIntl } from 'react-intl';
 
-const Paragraph = ({
-  classes, intl, isTitle, translationId,
-}) => (
-  <div className={isTitle ? classes.title : classes.text}>
-    <Typography component={isTitle ? 'h3' : 'p'} variant="body2" aria-label={intl.formatMessage({ id: translationId })}>
-      {intl.formatMessage({ id: translationId })}
-    </Typography>
-  </div>
-);
+const Paragraph = ({ isTitle, translationId }) => {
+  const intl = useIntl();
+
+  return (
+    <StyledTextContainer isTitle={isTitle}>
+      <Typography component={isTitle ? 'h3' : 'p'} variant="body2">
+        {intl.formatMessage({ id: translationId })}
+      </Typography>
+    </StyledTextContainer>
+  );
+};
+
+const StyledTextContainer = styled.div(({ theme, isTitle }) => ({
+  padding: isTitle ? 0 : theme.spacing(2),
+  paddingTop: isTitle ? 0 : theme.spacing(1),
+  paddingBottom: isTitle ? theme.spacing(0.1) : theme.spacing(1),
+}));
 
 Paragraph.propTypes = {
-  intl: PropTypes.objectOf(PropTypes.any).isRequired,
-  classes: PropTypes.objectOf(PropTypes.any).isRequired,
   isTitle: PropTypes.bool,
   translationId: PropTypes.string,
 };
