@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
-import { FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material';
+import {
+  FormControl, FormControlLabel, Radio, RadioGroup, Typography,
+} from '@mui/material';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +9,7 @@ import { setMapType } from '../../redux/actions/settings';
 import { selectMapRef } from '../../redux/selectors/general';
 import { selectMapType } from '../../redux/selectors/settings';
 import { getLocale } from '../../redux/selectors/user';
+import config from '../../../config';
 import SettingsUtility from '../../utils/settings';
 import MobileSettingsHeader from '../MobileSettingsHeader/MobileSettingsHeader';
 import SMButton from '../ServiceMapButton';
@@ -20,8 +23,11 @@ const MapSettings = () => {
   const map = useSelector(selectMapRef);
   const locale = useSelector(getLocale);
 
+  const externalTheme = config.themePKG;
+  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
   const mapSettings = {};
-  SettingsUtility.mapSettings.forEach((setting) => {
+  SettingsUtility.mapSettings.forEach(setting => {
     mapSettings[setting] = {
       action: () => setMapType(setting),
       labelId: `settings.map.${setting}`,
@@ -51,28 +57,32 @@ const MapSettings = () => {
           onChange={(event, value) => dispatch(setMapType(value))}
           value={mapType}
         >
-          {Object.keys(mapSettings).map((key) => {
+          {Object.keys(mapSettings).map(key => {
             if (Object.prototype.hasOwnProperty.call(mapSettings, key)) {
               const item = mapSettings[key];
-              return (<FormControlLabel
-                value={key}
-                key={key}
-                control={(<Radio id={`${key}-map-type-radio`} color="primary" />)}
-                labelPlacement="end"
-                label={<FormattedMessage id={item.labelId} />}
-              />);
+              return (
+                <FormControlLabel
+                  value={key}
+                  key={key}
+                  control={(<Radio id={`${key}-map-type-radio`} color="primary" />)}
+                  labelPlacement="end"
+                  label={<FormattedMessage id={item.labelId} />}
+                />
+              );
             }
             return null;
           })}
         </RadioGroup>
       </FormControl>
-      <Styled3DMapContainer>
-        <MobileSettingsHeader textId="settings.3dmap.title" />
-        <Typography><FormattedMessage id="settings.3dmap.info" /></Typography>
-        <Styled3DMapLinkButton onClick={openUrl} role="link" data-sm="3dMapLink">
-          <Typography><FormattedMessage id="settings.3dmap.link" /></Typography>
-        </Styled3DMapLinkButton>
-      </Styled3DMapContainer>
+      {!isExternalTheme ? (
+        <Styled3DMapContainer>
+          <MobileSettingsHeader textId="settings.3dmap.title" />
+          <Typography><FormattedMessage id="settings.3dmap.info" /></Typography>
+          <Styled3DMapLinkButton onClick={openUrl} role="link" data-sm="3dMapLink">
+            <Typography><FormattedMessage id="settings.3dmap.link" /></Typography>
+          </Styled3DMapLinkButton>
+        </Styled3DMapContainer>
+      ) : null}
     </>
   );
 };
