@@ -828,6 +828,7 @@ const translations = {
   'mobilityPlatform.menu.show.airPorts': 'Lentoasema',
   'mobilityPlatform.menu.show.parkingGarages': 'Pysäköintihallit',
   'mobilityPlatform.menu.show.portInfo': 'Matkustajalaivat',
+  'mobilityPlatform.menu.showparkAndRideAreas': 'Liityntäpysäköinti',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',

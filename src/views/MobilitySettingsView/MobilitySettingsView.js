@@ -178,6 +178,8 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowParkingGarages,
     showPortInfo,
     setShowPortInfo,
+    showParkAndRideAreas,
+    setShowParkAndRideAreas
   } = useMobilityPlatformContext();
 
   const locale = useSelector(state => state.user.locale);
@@ -410,6 +412,7 @@ const MobilitySettingsView = ({ navigator }) => {
     checkVisibilityValues(showPublicParking, setOpenCarSettings);
     checkVisibilityValues(showRentalCarParking, setOpenCarSettings);
     checkVisibilityValues(showParkingGarages, setOpenCarSettings);
+    checkVisibilityValues(showParkAndRideAreas, setOpenCarSettings);
   }, [
     showRentalCars,
     showGasFillingStations,
@@ -422,6 +425,7 @@ const MobilitySettingsView = ({ navigator }) => {
     showPublicParking,
     showRentalCarParking,
     showParkingGarages,
+    showParkAndRideAreas,
   ]);
 
   useEffect(() => {
@@ -759,6 +763,10 @@ const MobilitySettingsView = ({ navigator }) => {
 
   const scootersRydeToggle = () => {
     setShowScootersRyde(current => !current);
+  };
+
+  const parkAndRideAreasToggle = () => {
+    setShowParkAndRideAreas(current => !current);
   };
 
   const disabledParkingToggle = () => {
@@ -1273,6 +1281,12 @@ const MobilitySettingsView = ({ navigator }) => {
       msgId: 'mobilityPlatform.menu.show.publicParking',
       checkedValue: showPublicParking,
       onChangeValue: publicParkingToggle,
+    },
+    {
+      type: 'parkAndRideAreas',
+      msgId: 'mobilityPlatform.menu.showparkAndRideAreas',
+      checkedValue: showParkAndRideAreas,
+      onChangeValue: parkAndRideAreasToggle,
     },
     {
       type: 'parkingGarages',

@@ -827,6 +827,7 @@ const translations = {
   'mobilityPlatform.menu.show.airPorts': 'Flygplats',
   'mobilityPlatform.menu.show.parkingGarages': 'Parkeringsgaragen',
   'mobilityPlatform.menu.show.portInfo': 'Passagerarfartyg',
+  'mobilityPlatform.menu.showparkAndRideAreas': 'Infartsparkering',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',

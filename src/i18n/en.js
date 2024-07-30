@@ -823,6 +823,7 @@ const translations = {
   'mobilityPlatform.menu.show.airPorts': 'Airport',
   'mobilityPlatform.menu.show.parkingGarages': 'Parking garages',
   'mobilityPlatform.menu.show.portInfo': 'Passenger ships',
+  'mobilityPlatform.menu.showparkAndRideAreas': 'Park-and-ride',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
