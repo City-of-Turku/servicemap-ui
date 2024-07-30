@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
-import { Checkbox, ListItem, TextField, Typography } from '@mui/material';
+import {
+  Checkbox, ListItem, TextField, Typography,
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -61,7 +63,7 @@ const SettingsDropdowns = ({ variant }) => {
     { id: organization.id, title: getLocaleText(organization.name) }
   ));
 
-  const toggleSettingsBox = (id) => {
+  const toggleSettingsBox = id => {
     if (openSettings === id) setOpenSettings(null);
     else setOpenSettings(id);
   };
@@ -171,8 +173,8 @@ const SettingsDropdowns = ({ variant }) => {
         ChipProps={{
           clickable: true, onDelete: null, variant: ownSettingsVariant ? 'outlined' : 'filled',
         }}
-        slotProps={{ 
-          popper:{ sx: { pb: 1 } } // This padding fixes the listBox position on small screens where the list is renderend to top of input
+        slotProps={{
+          popper: { sx: { pb: 1 } }, // This padding fixes the listBox position on small screens where the list is renderend to top of input
         }}
         renderOption={(props, option) => (isSingleOption
           ? ( // Single option options box
@@ -188,12 +190,11 @@ const SettingsDropdowns = ({ variant }) => {
               />
               <Typography>{option.title}</Typography>
             </ListItem>
-          ))
-        }
+          ))}
         renderInput={({ inputProps, ...rest }) => (
           <TextField
             label={label}
-            onClick={(e) => {
+            onClick={e => {
               e?.stopPropagation();
               toggleSettingsBox(label);
             }}

@@ -1,7 +1,11 @@
 import styled from '@emotion/styled';
-import { Checkbox, Divider, FormControlLabel, Link, Typography } from '@mui/material';
+import {
+  Checkbox, Divider, FormControlLabel, Link, Typography,
+} from '@mui/material';
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -14,11 +18,7 @@ import { useMobilityPlatformContext } from '../../context/MobilityPlatformContex
 import { selectNavigator } from '../../redux/selectors/general';
 import { getSelectedUnit } from '../../redux/selectors/selectedUnit';
 import { selectServiceCurrent } from '../../redux/selectors/service';
-import {
-  selectMapType,
-  selectSelectedCities,
-  selectSelectedOrganizations,
-} from '../../redux/selectors/settings';
+import { selectMapType, selectSelectedCities, selectSelectedOrganizations } from '../../redux/selectors/settings';
 import { getLocale, getPage } from '../../redux/selectors/user';
 import isClient, { uppercaseFirst } from '../../utils';
 import useLocaleText from '../../utils/useLocaleText';
@@ -29,10 +29,7 @@ import embedderConfig from './embedderConfig';
 import * as smurl from './utils/url';
 import { getEmbedURL, getLanguage } from './utils/utils';
 
-const hideCitiesAndOrgsIn = [
-  paths.unit.regex,
-  paths.address.regex,
-];
+const hideCitiesAndOrgsIn = [paths.unit.regex, paths.address.regex];
 
 const hideServicesIn = [
   paths.search.regex,
@@ -110,7 +107,8 @@ const EmbedderView = () => {
     if (!showCitiesAndOrganisations(url) || organization1 === '') {
       return [];
     }
-    const urlParamOrgs = organization1?.split(',')
+    const urlParamOrgs = organization1
+      ?.split(',')
       ?.map(orgId => config.organizations.find(org => org.id === orgId))
       ?.filter(org => org);
     return urlParamOrgs || selectedOrgs || [];
@@ -293,7 +291,7 @@ const EmbedderView = () => {
     [customWidth, fixedHeight, heightMode, iframeTitle, widthMode, ratioHeight, iframeConfig.style, showUnitList],
   );
 
-  const showServices = (embedUrl) => {
+  const showServices = embedUrl => {
     if (typeof embedUrl !== 'string') {
       return false;
     }
@@ -367,7 +365,7 @@ const EmbedderView = () => {
       value: !!cities.includes(city),
       label: uppercaseFirst(city),
       icon: null,
-      onChange: (v) => {
+      onChange: v => {
         if (v) {
           setCity([...cities, city]);
         } else {
@@ -399,7 +397,7 @@ const EmbedderView = () => {
       value: !!organizations.some(value => value.id === org.id),
       label: uppercaseFirst(getLocaleText(org.name)),
       icon: null,
-      onChange: (v) => {
+      onChange: v => {
         if (v) {
           setOrganization([...organizations, org]);
         } else {
@@ -532,22 +530,25 @@ const EmbedderView = () => {
     );
   };
 
-  const renderMapControls = useCallback(() => (
-    <StyledMapControlContainer>
-      {/* Map bounds */}
-      <FormControlLabel
-        control={(
-          <Checkbox
-            color="primary"
-            checked={!!restrictBounds}
-            value="bounds"
-            onChange={() => setRestrictBounds(!restrictBounds)}
-          />
-        )}
-        label={(<FormattedMessage id="embedder.options.label.bbox" />)}
-      />
-    </StyledMapControlContainer>
-  ), [restrictBounds]);
+  const renderMapControls = useCallback(
+    () => (
+      <StyledMapControlContainer>
+        {/* Map bounds */}
+        <FormControlLabel
+          control={(
+            <Checkbox
+              color="primary"
+              checked={!!restrictBounds}
+              value="bounds"
+              onChange={() => setRestrictBounds(!restrictBounds)}
+            />
+          )}
+          label={<FormattedMessage id="embedder.options.label.bbox" />}
+        />
+      </StyledMapControlContainer>
+    ),
+    [restrictBounds],
+  );
 
   const renderMarkerOptionsControl = () => {
     const controls = [
@@ -731,9 +732,7 @@ const EmbedderView = () => {
     <>
       <TopBar smallScreen={false} hideButtons />
       <div ref={dialogRef}>
-        {
-          renderHeadInfo()
-        }
+        {renderHeadInfo()}
         <StyledContainer>
           <StyledTitleContainer>
             <StyledCloseButton
@@ -765,33 +764,16 @@ const EmbedderView = () => {
               </StyledInfoText>
               <br />
               <form>
-                {
-                renderLanguageControl()
-              }
-                {
-                renderServiceControl()
-              }
-                {
-                renderMapTypeControl()
-              }
-                {
-                renderCityControl()
-              }
-              {
-                renderOrganizationControl()
-              }
-                {
-                renderWidthControl()
-              }
-                {
-                renderHeightControl()
-              }
-                {
-                renderMarkerOptionsControl()
-              }
-                {
-                renderListOptionsControl()
-              }
+                {renderLanguageControl()}
+                {renderServiceControl()}
+                {renderMapTypeControl()}
+                {renderCityControl()}
+                {!isExternalTheme ? renderOrganizationControl() : null}
+                {renderWidthControl()}
+                {renderHeightControl()}
+                {renderMarkerOptionsControl()}
+                {isExternalTheme ? renderMobilityDataControls() : null}
+                {renderListOptionsControl()}
               </form>
             </StyledFormContainer>
 
