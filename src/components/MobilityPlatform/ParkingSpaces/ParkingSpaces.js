@@ -37,18 +37,18 @@ const ParkingSpaces = () => {
 
   const pathOptions = useContrast ? whiteColor : blueColor;
 
-  const parkingSpacesUrl = config.parkingSpacesURL;
-  const isParkingSpacesUrl = !parkingSpacesUrl || parkingSpacesUrl === 'undefined' ? null : parkingSpacesUrl;
+  const parkingSpacesUrlBase = config.parkingSpacesURL;
+  const isParkingSpacesUrl = !parkingSpacesUrlBase || parkingSpacesUrlBase === 'undefined' ? null : parkingSpacesUrlBase;
 
-  const parkingStatisticsUrl = config.parkingStatisticsURL;
-  const isParkingStatisticsUrl = !parkingStatisticsUrl || parkingStatisticsUrl === 'undefined' ? null : parkingStatisticsUrl;
+  const parkingAreaUrl = `${isParkingSpacesUrl}/parking_area/`;
+  const parkingStatisticsUrl = `${isParkingSpacesUrl}/parking_area_statistics/`;
 
   useEffect(() => {
     const controller = new AbortController();
     const { signal } = controller;
-    if (showParkingSpaces && isParkingSpacesUrl && isParkingStatisticsUrl) {
-      fetchAreaGeometries(isParkingSpacesUrl, setParkingSpaces, setFetchError, signal);
-      fetchParkingAreaStats(isParkingStatisticsUrl, setParkingStatistics, setFetchError, signal);
+    if (showParkingSpaces && parkingAreaUrl && parkingStatisticsUrl) {
+      fetchAreaGeometries(parkingAreaUrl, setParkingSpaces, setFetchError, signal);
+      fetchParkingAreaStats(parkingStatisticsUrl, setParkingStatistics, setFetchError, signal);
     }
     return () => controller.abort();
   }, [showParkingSpaces]);
