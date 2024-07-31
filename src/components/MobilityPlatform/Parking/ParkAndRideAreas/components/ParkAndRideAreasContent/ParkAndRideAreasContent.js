@@ -2,13 +2,13 @@ import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { StyledContainer, StyledHeaderContainer, StyledTextContainer } from '../../../styled/styled';
+import { StyledContainer, StyledHeaderContainer, StyledTextContainer } from '../../../../styled/styled';
 
-const ParkingSpacesContent = ({ parkingSpace, parkingStatistics }) => {
+const ParkAndRideAreasContent = ({ parkAndRideArea, parkingStatistics }) => {
   const intl = useIntl();
 
   let freeParkingSpaces = 0;
-  const parkingSpaceStats = parkingStatistics.filter(item => item.id === parkingSpace.id);
+  const parkingSpaceStats = parkingStatistics?.filter(item => item.id === parkAndRideArea?.id);
 
   const renderText = (isTitle, translationId, text) => (isTitle ? (
     <StyledHeaderContainer>
@@ -31,21 +31,6 @@ const ParkingSpacesContent = ({ parkingSpace, parkingStatistics }) => {
     </StyledTextContainer>
   ));
 
-  const renderPaymentType = (translationId1, translationId2) => (
-    <StyledTextContainer>
-      <Typography variant="body2">
-        {intl.formatMessage({
-          id: translationId1,
-        })}
-        :
-        {' '}
-        {intl.formatMessage({
-          id: translationId2,
-        })}
-      </Typography>
-    </StyledTextContainer>
-  );
-
   const renderParkingCount = (capacity, parkingCount) => {
     freeParkingSpaces = capacity - parkingCount;
 
@@ -67,22 +52,32 @@ const ParkingSpacesContent = ({ parkingSpace, parkingStatistics }) => {
     );
   };
 
+  const renderBusNumbers = data => data?.map(item => (
+    <StyledTextContainer key={item}>
+      <Typography variant="body2" component="p">
+        {intl.formatMessage({ id: 'mobilityPlatform.content.parkAndRide.bus' }, { value: item })}
+      </Typography>
+    </StyledTextContainer>
+  ));
+
   return (
     <StyledContainer>
-      {renderText(true, 'mobilityPlatform.content.parkingSpaces.title')}
-      {renderPaymentType('mobilityPlatform.content.parkingSpaces.type', 'mobilityPlatform.content.parkingSpaces.paid')}
-      {renderText(false, 'mobilityPlatform.content.parkingSpaces.capacity', parkingSpace.properties.capacity_estimate)}
+      {renderText(true, 'mobilityPlatform.content.parkAndRide.title')}
+      {renderText(false, 'mobilityPlatform.content.parkingSpaces.capacity', parkAndRideArea?.properties?.capacity_estimate)}
       {parkingSpaceStats?.length > 0
-        && parkingSpaceStats.map(parking => renderParkingCount(parkingSpace.properties.capacity_estimate, parking.current_parking_count))}
+        && parkingSpaceStats.map(parking => renderParkingCount(parkAndRideArea?.properties?.capacity_estimate, parking?.current_parking_count))}
+      {renderText(false, 'mobilityPlatform.content.parkAndRide.busNumbers')}
+      {renderBusNumbers(parkAndRideArea?.properties?.bus_stop_numbers)}
     </StyledContainer>
   );
 };
 
-ParkingSpacesContent.propTypes = {
-  parkingSpace: PropTypes.shape({
+ParkAndRideAreasContent.propTypes = {
+  parkAndRideArea: PropTypes.shape({
     id: PropTypes.string,
     properties: PropTypes.shape({
       capacity_estimate: PropTypes.number,
+      bus_stop_numbers: PropTypes.arrayOf(PropTypes.number),
     }),
   }),
   parkingStatistics: PropTypes.arrayOf(
@@ -92,9 +87,9 @@ ParkingSpacesContent.propTypes = {
   ),
 };
 
-ParkingSpacesContent.defaultProps = {
-  parkingSpace: {},
+ParkAndRideAreasContent.defaultProps = {
+  parkAndRideArea: {},
   parkingStatistics: [],
 };
 
-export default ParkingSpacesContent;
+export default ParkAndRideAreasContent;

@@ -7,6 +7,7 @@ import config from '../../../../../config';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import useParkingDataFetch from '../../utils/useParkingDataFetch';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
+import ParkAndRideAreasContent from './components/ParkAndRideAreasContent';
 
 // TODO Add content component, adjust styles & possibly render markers because some polygons are small.
 
@@ -92,7 +93,7 @@ const ParkAndRideAreas = () => {
         }}
       >
         <Popup>
-          <p>{item?.properties?.capacity_estimate}</p>
+          <ParkAndRideAreasContent parkAndRideArea={item} parkingStatistics={statisticsData} />
         </Popup>
       </Polygon>
     ))

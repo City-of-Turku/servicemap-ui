@@ -954,6 +954,9 @@ const translations = {
   'mobilityPlatform.content.airport.cities.rhodes': 'Till Rhodos',
   'mobilityPlatform.content.portInfo.arrivals': 'Ankommande fartyg:',
   'mobilityPlatform.content.portInfo.departing': 'Avgående fartyg:',
+  'mobilityPlatform.content.parkAndRide.title': 'infartsparkeringsplats',
+  'mobilityPlatform.content.parkAndRide.busNumbers': 'Läheltä kulkevat linja-autot', // TODO translate
+  'mobilityPlatform.content.parkAndRide.bus': 'Linjen: {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',
