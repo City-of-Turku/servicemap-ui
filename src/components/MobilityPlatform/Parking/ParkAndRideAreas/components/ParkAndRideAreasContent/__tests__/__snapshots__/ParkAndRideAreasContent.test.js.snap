@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ParkAndRideAreasContent /> should work 1`] = `
+<div>
+  <div
+    class="css-1ynyhby"
+  >
+    <div
+      class="css-1dznbe2"
+    >
+      <h3
+        class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
+      >
+        Liityntäpysäköintipaikka
+      </h3>
+    </div>
+    <div
+      class="css-1fhgjcy"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+      >
+        Parkkipaikkojen määrä
+        :
+         
+        4
+      </p>
+    </div>
+    <div
+      class="css-1fhgjcy"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+      >
+        Vapaana olevat parkkipaikat: 4 / 4
+      </p>
+    </div>
+    <div
+      class="css-1fhgjcy"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+      >
+        Läheltä kulkevat linja-autot
+        :
+         
+      </p>
+    </div>
+    <div
+      class="css-1fhgjcy"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+      >
+        Linja: 50
+      </p>
+    </div>
+    <div
+      class="css-1fhgjcy"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+      >
+        Linja: 60
+      </p>
+    </div>
+  </div>
+</div>
+`;
