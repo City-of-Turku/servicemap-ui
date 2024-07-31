@@ -7,6 +7,7 @@ import config from '../../../../config';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import useParkingDataFetch from '../utils/useParkingDataFetch';
+import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import ParkingSpacesContent from './components/ParkingSpacesContent';
 
 const ParkingSpaces = () => {
@@ -92,9 +93,13 @@ const ParkingSpaces = () => {
             },
           }}
         >
-          <Popup>
-            <ParkingSpacesContent parkingSpace={item} parkingStatistics={statisticsData} />
-          </Popup>
+          <StyledPopupWrapper>
+            <Popup>
+              <StyledPopupInner>
+                <ParkingSpacesContent parkingSpace={item} parkingStatistics={statisticsData} />
+              </StyledPopupInner>
+            </Popup>
+          </StyledPopupWrapper>
         </Polygon>
       ))
       : null

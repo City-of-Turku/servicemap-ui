@@ -2,20 +2,24 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
-import { isObjValid } from '../../utils/utils';
+import parkAndRideIcon from 'servicemap-ui-turku/assets/icons/icons-icon_park_and_ride_bicycle.svg';
+import parkAndRideIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_park_and_ride_bicycle-bw.svg';
+import { isObjValid, createIcon } from '../../utils/utils';
 import config from '../../../../../config';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import useParkingDataFetch from '../../utils/useParkingDataFetch';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
+import { StyledPopupWrapper, StyledPopupInner } from '../../styled/styled';
 import ParkAndRideAreasContent from './components/ParkAndRideAreasContent';
-
-// TODO Add content component, adjust styles & possibly render markers because some polygons are small.
 
 const ParkAndRideAreas = () => {
   const { showParkAndRideAreas } = useMobilityPlatformContext();
   const useContrast = useSelector(useAccessibleMap);
 
-  const { Polygon, Popup } = global.rL;
+  const { Marker, Polygon, Popup } = global.rL;
+  const { icon, polygon } = global.L;
+
+  const customIcon = icon(createIcon(useContrast ? parkAndRideIconBw : parkAndRideIcon));
 
   const blueColor = {
     color: 'rgba(7, 44, 115, 255)',
@@ -53,8 +57,18 @@ const ParkAndRideAreas = () => {
     return inputData;
   };
 
-  const map = useMap();
+  const getCenter = coordinates => {
+    const leafletPolygon = polygon(coordinates);
+    return leafletPolygon.getBounds().getCenter();
+  };
 
+  const swapAndGetCoordinates = coordinatesData => {
+    const swapped = swapCoords(coordinatesData);
+    const center = getCenter(swapped);
+    return [center.lat, center.lng];
+  };
+
+  const map = useMap();
   const renderData = isObjValid(showParkAndRideAreas, areasData);
 
   useEffect(() => {
@@ -77,27 +91,59 @@ const ParkAndRideAreas = () => {
     return pathOptions;
   };
 
-  return !fetchError && renderData
-    ? areasData.map(item => (
-      <Polygon
+  const showAreasData = !fetchError && renderData;
+
+  const renderMarkersData = (showData, data) => (showData
+    ? data.map(item => (
+      <Marker
         key={item.id}
-        pathOptions={renderColor(item.id, item.properties.capacity_estimate)}
-        positions={swapCoords(item.geometry.coordinates)}
-        eventHandlers={{
-          mouseover: e => {
-            e.target.setStyle({ fillOpacity: useContrast ? '0.9' : '0.3' });
-          },
-          mouseout: e => {
-            e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.3' });
-          },
-        }}
+        icon={customIcon}
+        position={swapAndGetCoordinates(item.geometry.coordinates)}
       >
-        <Popup>
-          <ParkAndRideAreasContent parkAndRideArea={item} parkingStatistics={statisticsData} />
-        </Popup>
-      </Polygon>
+        <StyledPopupWrapper>
+          <Popup>
+            <StyledPopupInner>
+              <ParkAndRideAreasContent parkAndRideArea={item} parkingStatistics={statisticsData} />
+            </StyledPopupInner>
+          </Popup>
+        </StyledPopupWrapper>
+      </Marker>
     ))
-    : null;
+    : null);
+
+  const renderPolygonData = (showData, data) => (
+    showData
+      ? data.map(item => (
+        <Polygon
+          key={item.id}
+          pathOptions={renderColor(item.id, item.properties.capacity_estimate)}
+          positions={swapCoords(item.geometry.coordinates)}
+          eventHandlers={{
+            mouseover: e => {
+              e.target.setStyle({ fillOpacity: useContrast ? '0.9' : '0.3' });
+            },
+            mouseout: e => {
+              e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.3' });
+            },
+          }}
+        >
+          <StyledPopupWrapper>
+            <Popup>
+              <StyledPopupInner>
+                <ParkAndRideAreasContent parkAndRideArea={item} parkingStatistics={statisticsData} />
+              </StyledPopupInner>
+            </Popup>
+          </StyledPopupWrapper>
+        </Polygon>
+      ))
+      : null);
+
+  return (
+    <>
+      {renderMarkersData(showAreasData, areasData)}
+      {renderPolygonData(showAreasData, areasData)}
+    </>
+  );
 };
 
 export default ParkAndRideAreas;

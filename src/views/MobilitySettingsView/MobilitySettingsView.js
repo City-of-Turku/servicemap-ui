@@ -179,7 +179,7 @@ const MobilitySettingsView = ({ navigator }) => {
     showPortInfo,
     setShowPortInfo,
     showParkAndRideAreas,
-    setShowParkAndRideAreas
+    setShowParkAndRideAreas,
   } = useMobilityPlatformContext();
 
   const locale = useSelector(state => state.user.locale);
