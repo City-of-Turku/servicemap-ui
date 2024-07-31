@@ -1630,6 +1630,17 @@ const MobilitySettingsView = ({ navigator }) => {
       component: <InfoTextBox infoText="mobilityPlatform.info.publicParkingSpaces" />,
     },
     {
+      visible: showParkAndRideAreas,
+      type: 'parkAndRideAreasInfo',
+      component: (
+        <InfoTextBox
+          infoText="mobilityPlatform.info.parkAndRide"
+          linkUrl="https://www.turku.fi/liityntapysakointi"
+          linkText="mobilityPlatform.info.parkAndRide.link"
+        />
+      ),
+    },
+    {
       visible: showParkingGarages,
       type: 'parkingGaragesInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.parkingGarages" />,
