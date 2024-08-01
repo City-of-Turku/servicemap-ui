@@ -65,6 +65,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showPublicParking, setShowPublicParking] = useState(false);
   const [showRentalCarParking, setShowRentalCarParking] = useState(false);
   const [showParkingGarages, setShowParkingGarages] = useState(false);
+  const [showParkAndRideAreas, setShowParkAndRideAreas] = useState(false);
 
   // boating
   const [showMarinas, setShowMarinas] = useState(false);
@@ -150,6 +151,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     showDisabledParking,
     showRentalCarParking,
     showParkingGarages,
+    showParkAndRideAreas,
     // boating
     showMarinas,
     showBoatParking,
@@ -228,6 +230,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setShowDisabledParking,
     setShowRentalCarParking,
     setShowParkingGarages,
+    setShowParkAndRideAreas,
     // boating
     setShowMarinas,
     setShowBoatParking,
