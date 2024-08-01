@@ -50,6 +50,11 @@ const ParkAndRideAreas = () => {
     showParkAndRideAreas,
   );
 
+  /**
+   * Swap coordinates to be in correct order for Leaflet
+   * @param {array} inputData
+   * @returns array of coordinates
+   */
   const swapCoords = inputData => {
     if (inputData.length > 0) {
       return inputData.map(item => item.map(v => v.map(j => [j[1], j[0]])));
@@ -57,11 +62,21 @@ const ParkAndRideAreas = () => {
     return inputData;
   };
 
+  /**
+   * Get center point of polygon geometry
+   * @param {array} coordinates
+   * @returns object
+   */
   const getCenter = coordinates => {
     const leafletPolygon = polygon(coordinates);
     return leafletPolygon.getBounds().getCenter();
   };
 
+  /**
+   * Swap coordinates and then get center value of the polygon.
+   * @param {array} coordinatesData
+   * @returns array of lat and lng values
+   */
   const swapAndGetCoordinates = coordinatesData => {
     const swapped = swapCoords(coordinatesData);
     const center = getCenter(swapped);
