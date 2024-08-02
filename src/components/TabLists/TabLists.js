@@ -156,7 +156,7 @@ const TabLists = ({
   const renderHeader = () => {
     let fullData = [];
 
-    data.forEach((element) => {
+    data.forEach(element => {
       if (element.data && !element.noOrderer) {
         fullData = [...fullData, ...element.data];
       }
@@ -180,9 +180,9 @@ const TabLists = ({
       });
       // tabLabelContainer
       Object.assign(styles, {
-        padding: theme.spacing(1),
-        fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)',
-        overflowWrap: 'normal',
+        padding: `${theme.spacing(1)} !important`,
+        fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem) !important',
+        overflowWrap: 'anywhere',
       });
       if (filteredData.length === 3 && isMobile) {
         // Mobilefont
@@ -218,9 +218,7 @@ const TabLists = ({
         }
         {
           fullData.length > 0 && (
-            <>
-              <ResultOrderer disabled={disabled} />
-            </>
+            <ResultOrderer disabled={disabled} />
           )
         }
         {
@@ -285,7 +283,6 @@ const TabLists = ({
     calculateHeaderStylings();
   }, [isMobile]);
 
-
   useEffect(() => {
     // Change tab if selected tab is changed on url
     const tabFromUrl = getTabfromUrl();
@@ -293,7 +290,6 @@ const TabLists = ({
       handleTabChange(null, tabFromUrl);
     }
   }, [location]);
-
 
   const render = () => (
     <>

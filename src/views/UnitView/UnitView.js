@@ -580,7 +580,7 @@ const UnitView = props => {
           titleComponent="h3"
           shareLink={elem}
         />
-        {unit?.location?.coordinates
+        {unit?.location?.coordinates && !isExternalTheme
           && <RouteBar unit={unit} userLocation={userLocation} />}
       </>
     );
