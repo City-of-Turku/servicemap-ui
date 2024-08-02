@@ -43,6 +43,10 @@ const SettingsDropdowns = ({ variant }) => {
   const themeMode = useSelector(selectThemeMode);
   const ownSettingsVariant = variant === 'ownSettings';
 
+  // If external theme (by Turku) is true, then can be used to select which content to render
+  const externalTheme = config.themePKG;
+  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
   // Configure rendered settings items
   const senseSettingList = [
     { id: 'colorblind', title: intl.formatMessage({ id: 'settings.sense.colorblind' }) },
@@ -221,7 +225,7 @@ const SettingsDropdowns = ({ variant }) => {
       {renderSettingsElement(senseSettingList, intl.formatMessage({ id: 'settings.choose.senses' }), 'senses')}
       {renderSettingsElement(mobilitySettingList, intl.formatMessage({ id: 'settings.choose.mobility' }), 'mobility', true)}
       {renderSettingsElement(citySettingsList, intl.formatMessage({ id: 'settings.choose.cities' }), 'cities')}
-      {renderSettingsElement(organizationSettingsList, intl.formatMessage({ id: 'settings.choose.organization' }), 'organizations')}
+      {!isExternalTheme ? renderSettingsElement(organizationSettingsList, intl.formatMessage({ id: 'settings.choose.organization' }), 'organizations') : null}
       <div>
         <StyledButton
           data-sm="reset-settings-button"
