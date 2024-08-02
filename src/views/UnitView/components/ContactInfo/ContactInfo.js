@@ -213,7 +213,7 @@ const ContactInfo = ({ unit, userLocation, headingLevel }) => {
 
   // Add route info to data in location exists
   const unitLocation = unit.location;
-  if (unitLocation?.coordinates) {
+  if (unitLocation?.coordinates && userLocation.addressData) {
     const { routeUrl, extraText } = routeDetails(unit, userLocation);
 
     const route = {

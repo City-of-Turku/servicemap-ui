@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link, Typography } from '@mui/material';
 import styled from '@emotion/styled';
 import RouteIcon from '@mui/icons-material/DirectionsBus';
@@ -36,5 +37,19 @@ const StyledContainer = styled(Link)(({ theme }) => ({
 const StyledIcon = styled(RouteIcon)(({ theme }) => ({
   marginRight: theme.spacing(1),
 }));
+
+RouteBar.propTypes = {
+  unit: PropTypes.shape({
+    id: PropTypes.number,
+  }),
+  userLocation: PropTypes.shape({
+    allowed: PropTypes.bool,
+  }),
+};
+
+RouteBar.defaultProps = {
+  unit: {},
+  userLocation: null,
+};
 
 export default RouteBar;
