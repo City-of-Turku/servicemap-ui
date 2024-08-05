@@ -59,7 +59,7 @@ const Districts = ({
 
   const districtOnClick = (e, district) => {
     if (measuringMode) return;
-    
+
     // Focus to selected district
     if (district?.boundary?.coordinates) {
       map.fitBounds(district.boundary.coordinates);
@@ -72,7 +72,7 @@ const Districts = ({
       } else {
         link = `${config.natureAreaURL}${district.origin_id}`;
       }
-    
+
       setAreaPopup({
         district,
         link,
@@ -100,7 +100,7 @@ const Districts = ({
     }
   };
 
-  const renderDistrictMarkers = (district) => {
+  const renderDistrictMarkers = district => {
     if (embedded && parseSearchParams(location.search).units === 'none') {
       return null;
     }
@@ -236,14 +236,14 @@ const Districts = ({
             fillColor: dimmed ? '#000' : mainColor,
           }}
           eventHandlers={{
-            click: (e) => {
+            click: e => {
               districtOnClick(e, district);
             },
-            mouseover: (e) => {
+            mouseover: e => {
               e.target.openTooltip();
               e.target.setStyle({ fillOpacity: useContrast ? '0.6' : '0.2' });
             },
-            mouseout: (e) => {
+            mouseout: e => {
               e.target.setStyle({ fillOpacity: dimmed ? '0.3' : '0' });
             },
           }}
@@ -275,11 +275,9 @@ const Districts = ({
     </Popup>
   );
 
-
   useEffect(() => {
     setAreaPopup(null);
   }, [selectedDistrictType]);
-
 
   if (highlightedDistrict) {
     return (

@@ -35,7 +35,7 @@ import {
   StyledListLevelThree, StyledLoadingText,
 } from '../styled/styled';
 
-const ServiceTab = (props) => {
+const ServiceTab = props => {
   const {
     selectedAddress,
     initialOpenItems,
@@ -48,10 +48,10 @@ const ServiceTab = (props) => {
   const parkingUnits = useSelector(selectParkingUnitsMap);
   const citySettings = useSelector(selectCities);
   const selectedCategory = dataStructure.find(
-    (data) => data.districts.some((obj) => obj.id === selectedDistrictType),
+    data => data.districts.some(obj => obj.id === selectedDistrictType),
   )?.id;
 
-  const handleRadioChange = (district) => {
+  const handleRadioChange = district => {
     if (selectedDistrictType === district.id) {
       dispatch(setSelectedDistrictType(null));
     } else {
@@ -65,7 +65,7 @@ const ServiceTab = (props) => {
           });
         }
       }
-      if (!district.data.some((obj) => obj.boundary)) {
+      if (!district.data.some(obj => obj.boundary)) {
         dispatch(fetchDistrictGeometry(district.name, district.period));
       }
       dispatch(setSelectedDistrictType(district.id));
@@ -99,7 +99,7 @@ const ServiceTab = (props) => {
     />
   );
 
-  const renderDistrictList = (districtList) => {
+  const renderDistrictList = districtList => {
     const listDistrictAreas = ['rescue_area', 'rescue_district', 'rescue_sub_district'].includes(selectedDistrictType);
     const DistrictList = listDistrictAreas ? DistrictAreaList : DistrictUnitList;
     return (
@@ -125,7 +125,7 @@ const ServiceTab = (props) => {
     );
   };
 
-  const renderParkingAreaSelection = (item) => { // Custom implementation for parking areas
+  const renderParkingAreaSelection = item => { // Custom implementation for parking areas
     const districtList = districtData.filter(obj => item.districts.some(
       district => obj.id.includes(district.id),
     ));
@@ -169,13 +169,13 @@ const ServiceTab = (props) => {
     );
   };
 
-  const renderCollapseContent = (item) => {
+  const renderCollapseContent = item => {
     if (item.id === 'parking') {
       return renderParkingAreaSelection(item);
     }
     if (item.subCategories) {
-      return item.subCategories.map((obj) => {
-        const districList = districtData.filter((i) => obj.districts.includes(i.name));
+      return item.subCategories.map(obj => {
+        const districList = districtData.filter(i => obj.districts.includes(i.name));
         return (
           <React.Fragment key={obj.titleID}>
             <StyledServiceTabSubtitle>
@@ -188,12 +188,12 @@ const ServiceTab = (props) => {
     }
 
     const districList = districtData.filter(
-      (i) => item.districts.some((district) => district.id === i.name),
+      i => item.districts.some(district => district.id === i.name),
     );
     return renderDistrictList(districList);
   };
 
-  const renderCategoryItem = (item) => {
+  const renderCategoryItem = item => {
     const defaultExpanded = initialOpenItems.includes(item.id) || selectedCategory === item.id;
     const ariaHidden = item.id === 'parking';
     return (
@@ -215,7 +215,7 @@ const ServiceTab = (props) => {
     );
   };
 
-  const districtCategoryList = dataStructure.filter((obj) => obj.id !== 'geographical');
+  const districtCategoryList = dataStructure.filter(obj => obj.id !== 'geographical');
 
   if (!districtData.length && districtsFetching?.length) {
     return (

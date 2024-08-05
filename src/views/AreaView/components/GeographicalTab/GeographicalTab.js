@@ -20,7 +20,7 @@ import {
   getDistrictOpenItems, getFilteredSubdistrictServices, selectDistrictAddressData,
   selectDistrictData,
   selectDistrictsFetching,
-  selectSelectedDistrictType
+  selectSelectedDistrictType,
 } from '../../../../redux/selectors/district';
 import { selectMapRef } from '../../../../redux/selectors/general';
 import { geographicalDistricts } from '../../utils/districtDataHelper';
@@ -120,7 +120,7 @@ const GeographicalTab = ({
           <FormattedMessage id="area.list" />
         </Typography>
         <StyledListNoPaddingLevelTwo>
-          {districtItems.map((district) => {
+          {districtItems.map(district => {
             const opened = openCategory === district.id;
             const selected = selectedDistrictType === district.id;
             return (

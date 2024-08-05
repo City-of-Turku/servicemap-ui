@@ -94,9 +94,9 @@ function SideBar({ selectedAddress, setSelectedAddress }) {
   }, [mapState, map]);
 
   const clearRadioButtonValue = useCallback(() => {
-    setSelectedDistrictType(null);
-    setSelectedDistrictServices([]);
-    setSelectedSubdistricts([]);
+    dispatch(setSelectedDistrictType(null));
+    dispatch(setSelectedDistrictServices([]));
+    dispatch(setSelectedSubdistricts([]));
   }, []);
 
   const renderServiceTab = () => (
