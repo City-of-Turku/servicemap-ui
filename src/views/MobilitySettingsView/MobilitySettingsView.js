@@ -117,8 +117,8 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowScooterParkingAreas,
     showScooterSpeedLimitAreas,
     setShowScooterSpeedLimitAreas,
-    showScootersRyde,
-    setShowScootersRyde,
+    showScooters,
+    setShowScooters,
     showDisabledParking,
     setShowDisabledParking,
     showLoadingPlaces,
@@ -446,9 +446,9 @@ const MobilitySettingsView = ({ navigator }) => {
   }, [showScooterNoParking, showScooterParkingAreas, showScooterSpeedLimitAreas]);
 
   useEffect(() => {
-    checkVisibilityValues(showScootersRyde, setOpenScooterSettings);
-    checkVisibilityValues(showScootersRyde, setOpenScooterProviderList);
-  }, [showScootersRyde]);
+    checkVisibilityValues(showScooters.ryde, setOpenScooterSettings);
+    checkVisibilityValues(showScooters.ryde, setOpenScooterProviderList);
+  }, [showScooters]);
 
   useEffect(() => {
     checkVisibilityValues(showStreetMaintenance, setOpenStreetMaintenanceSettings);
@@ -756,13 +756,20 @@ const MobilitySettingsView = ({ navigator }) => {
 
   const scooterListToggle = () => {
     setOpenScooterProviderList(current => !current);
-    if (showScootersRyde) {
-      setShowScootersRyde(false);
+    if (showScooters.ryde) {
+      toggleObjectValue('ryde', false, setShowScooters);
+    }
+    if (showScooters.voi) {
+      toggleObjectValue('voi', false, setShowScooters);
     }
   };
 
   const scootersRydeToggle = () => {
-    setShowScootersRyde(current => !current);
+    toggleObjectValue('ryde', showScooters.ryde, setShowScooters);
+  };
+
+  const scootersVoiToggle = () => {
+    toggleObjectValue('voi', showScooters.voi, setShowScooters);
   };
 
   const parkAndRideAreasToggle = () => {
@@ -1411,8 +1418,14 @@ const MobilitySettingsView = ({ navigator }) => {
     {
       type: 'scootersRyde',
       msgId: 'mobilityPlatform.menu.show.scootersRyde',
-      checkedValue: showScootersRyde,
+      checkedValue: showScooters.ryde,
       onChangeValue: scootersRydeToggle,
+    },
+    {
+      type: 'scootersVoi',
+      msgId: 'mobilityPlatform.menu.show.scootersVoi',
+      checkedValue: showScooters.voi,
+      onChangeValue: scootersVoiToggle,
     },
   ];
 

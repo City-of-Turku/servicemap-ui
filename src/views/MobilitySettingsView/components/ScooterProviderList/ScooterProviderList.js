@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 
 const ScooterProviderList = ({ openList, scooterProviders }) => {
   const intl = useIntl();
-  const renderData = scooterProviders && scooterProviders.length > 0;
+  const renderData = scooterProviders?.length > 0;
 
   return (
     openList ? (
@@ -14,7 +14,6 @@ const ScooterProviderList = ({ openList, scooterProviders }) => {
         <StyledContainer>
           <Typography
             variant="body2"
-            aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.scooters.list.info' })}
           >
             {intl.formatMessage({ id: 'mobilityPlatform.menu.scooters.list.info' })}
           </Typography>
@@ -33,9 +32,8 @@ const ScooterProviderList = ({ openList, scooterProviders }) => {
                     label={(
                       <Typography
                         variant="body2"
-                        aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.show.scootersRyde' })}
                       >
-                        {intl.formatMessage({ id: 'mobilityPlatform.menu.show.scootersRyde' })}
+                        {intl.formatMessage({ id: item.msgId })}
                       </Typography>
                     )}
                   />
@@ -64,6 +62,8 @@ ScooterProviderList.propTypes = {
   openList: PropTypes.bool,
   scooterProviders: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
+    checkedValue: PropTypes.bool,
+    msgId: PropTypes.string,
   })),
 };
 

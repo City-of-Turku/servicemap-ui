@@ -28,6 +28,12 @@ const accessibilityAreasInitial = {
   cycling: false,
 };
 
+const scootersInitial = {
+  ryde: false,
+  voi: false,
+  tier: false,
+};
+
 const MobilityPlatformContextProvider = ({ children }) => {
   // Check if mobility platform is open or not
   const [openMobilityPlatform, setOpenMobilityPlatform] = useState(false);
@@ -81,7 +87,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showScooterNoParking, setShowScooterNoParking] = useState(false);
   const [showScooterParkingAreas, setShowScooterParkingAreas] = useState(false);
   const [showScooterSpeedLimitAreas, setShowScooterSpeedLimitAreas] = useState(false);
-  const [showScootersRyde, setShowScootersRyde] = useState(false);
+  const [showScooters, setShowScooters] = useState(scootersInitial);
 
   // street maintenance
   const [showStreetMaintenance, setShowStreetMaintenance] = useState(false);
@@ -164,7 +170,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     showScooterNoParking,
     showScooterParkingAreas,
     showScooterSpeedLimitAreas,
-    showScootersRyde,
+    showScooters,
     // street maintenance
     showStreetMaintenance,
     streetMaintenancePeriod,
@@ -243,7 +249,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setShowScooterNoParking,
     setShowScooterParkingAreas,
     setShowScooterSpeedLimitAreas,
-    setShowScootersRyde,
+    setShowScooters,
     // street maintenance
     setShowStreetMaintenance,
     setStreetMaintenancePeriod,

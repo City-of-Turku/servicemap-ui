@@ -7,12 +7,13 @@ import rydeIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ryd
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import useIotDataFetch from '../../../utils/useIotDataFetch';
+import useScootersDataFetch from '../../../utils/useScooterDataFetch';
 import ScooterInfo from './components/ScooterInfo';
 import { isDataValid } from '../../../utils/utils';
 import { StyledPopupWrapper, StyledPopupInner } from '../../../styled/styled';
 
 const ScooterMarkers = ({ mapObject }) => {
-  const { showScootersRyde } = useMobilityPlatformContext();
+  const { showScooters } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
@@ -36,7 +37,11 @@ const ScooterMarkers = ({ mapObject }) => {
     iconSize: [40, 40],
   });
 
-  const { iotData: scooterData } = useIotDataFetch('SDR', showScootersRyde);
+  // TODO Add secure way to fetch & store token
+
+  const { iotData: scooterDataRyde } = useIotDataFetch('SDR', showScooters.ryde);
+  const token = 'loremipsum';
+  const { data: scooterDataVoi } = useScootersDataFetch(token, showScooters.voi);
 
   const filterByBounds = data => {
     if (data?.length) {
@@ -45,12 +50,15 @@ const ScooterMarkers = ({ mapObject }) => {
     return [];
   };
 
-  const filteredScooters = filterByBounds(scooterData);
-  const renderData = isDataValid(showScootersRyde, filteredScooters) && isDetailZoom;
+  const filteredScootersRyde = filterByBounds(scooterDataRyde);
+  const validDataRyde = isDataValid(showScooters.ryde, filteredScootersRyde) && isDetailZoom;
 
-  return (
-    renderData ? (
-      filteredScooters.map(item => (
+  const filteredScootersVoi = filterByBounds(scooterDataVoi);
+  const validDataVoi = isDataValid(showScooters.voi, filteredScootersVoi) && isDetailZoom;
+
+  const renderScooterData = (isValid, data) => (
+    isValid ? (
+      data.map(item => (
         <Marker
           key={item.bike_id}
           icon={customIcon}
@@ -66,6 +74,13 @@ const ScooterMarkers = ({ mapObject }) => {
         </Marker>
       ))
     ) : null
+  );
+
+  return (
+    <>
+      {renderScooterData(validDataRyde, filteredScootersRyde)}
+      {renderScooterData(validDataVoi, filteredScootersVoi)}
+    </>
   );
 };
 

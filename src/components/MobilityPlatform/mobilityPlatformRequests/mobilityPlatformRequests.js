@@ -22,6 +22,9 @@ const isRoadworksApiUrl = !roadworksApiUrl || roadworksApiUrl === 'undefined' ? 
 const portNetApiUrl = config.portnetAPI;
 const isPortNetApiUrl = !portNetApiUrl || portNetApiUrl === 'undefined' ? null : portNetApiUrl;
 
+const voiScootersApiUrl = config.voiScootersAPI;
+const isVoiScootersApiUrl = !voiScootersApiUrl || voiScootersApiUrl === 'undefined' ? null : voiScootersApiUrl;
+
 /**
  * Returns query options as a search params for URLs
  * @param {Object} options
@@ -180,6 +183,25 @@ const fetchPortNetData = async (endpoint, setData, isPortCalls, signal) => {
   }
 };
 
+const fetchScootersData = async (token, setData, signal) => {
+  try {
+    const response = await fetch(
+      `${isVoiScootersApiUrl}/free_bike_status.json`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+      { signal },
+    );
+    const jsonData = await response.json();
+    setData(jsonData?.data?.bikes);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 export {
   fetchMobilityMapData,
   fetchCultureRouteNames,
@@ -194,4 +216,5 @@ export {
   fetchPostCodeAreas,
   fetchMobilityProfilesData,
   fetchPortNetData,
+  fetchScootersData,
 };

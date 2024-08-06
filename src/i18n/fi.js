@@ -786,6 +786,7 @@ const translations = {
   'mobilityPlatform.menu.show.scooterSpeedLimitAreas': 'Nopeusrajoitusalueet',
   'mobilityPlatform.menu.show.scooterProviders': 'Sähköpotkulautaoperaattorit',
   'mobilityPlatform.menu.show.scootersRyde': 'Ryde -sähköpotkulaudat (tarkenna karttaa)',
+  'mobilityPlatform.menu.show.scootersVoi': 'Voi -sähköpotkulaudat (tarkenna karttaa)',
   'mobilityPlatform.menu.scooters.list.info': 'Voit listan avulla näyttää valitun operaattorin vapaat sähköpotkulaudat kartalla.',
   'mobilityPlatform.menu.show.disabledParking': 'Liikkumisesteisen pysäköinti julkisissa kiinteistöissä',
   'mobilityPlatform.menu.loadingPlaces.show': 'Kuormauspaikat',
