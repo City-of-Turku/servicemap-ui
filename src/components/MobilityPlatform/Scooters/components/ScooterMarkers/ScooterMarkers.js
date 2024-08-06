@@ -4,12 +4,16 @@ import { useSelector } from 'react-redux';
 import { useMap, useMapEvents } from 'react-leaflet';
 import rydeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ryde.svg';
 import rydeIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ryde-bw.svg';
+import voiIcon from 'servicemap-ui-turku/assets/icons/icons-icon_voi.svg';
+import voiIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_voi-bw.svg';
+import tierIcon from 'servicemap-ui-turku/assets/icons/icons-icon_tier.svg';
+import tierIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_tier-bw.svg';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import useIotDataFetch from '../../../utils/useIotDataFetch';
 import useScootersDataFetch from '../../../utils/useScooterDataFetch';
 import ScooterInfo from './components/ScooterInfo';
-import { isDataValid } from '../../../utils/utils';
+import { isDataValid, createIcon } from '../../../utils/utils';
 import { StyledPopupWrapper, StyledPopupInner } from '../../../styled/styled';
 
 const ScooterMarkers = ({ mapObject }) => {
@@ -29,17 +33,27 @@ const ScooterMarkers = ({ mapObject }) => {
     },
   });
 
+  const rydeProviderIcon = icon(createIcon(useContrast ? rydeIconBw : rydeIcon, false));
+  const voiProviderIcon = icon(createIcon(useContrast ? voiIconBw : voiIcon, false));
+  const tierProviderIcon = icon(createIcon(useContrast ? tierIconBw : tierIcon, false));
+
+  const getCorrectIcon = providerName => {
+    if (providerName === 'ryde') {
+      return rydeProviderIcon;
+    }
+    if (providerName === 'voi') {
+      return voiProviderIcon;
+    }
+    if (providerName === 'tier') {
+      return tierProviderIcon;
+    }
+    return rydeProviderIcon;
+  };
+
   const isDetailZoom = zoomLevel >= mapObject.options.detailZoom;
-  const setProviderIcon = useContrast ? rydeIconBw : rydeIcon;
-
-  const customIcon = icon({
-    iconUrl: setProviderIcon,
-    iconSize: [40, 40],
-  });
-
-  // TODO Add secure way to fetch & store token
 
   const { iotData: scooterDataRyde } = useIotDataFetch('SDR', showScooters.ryde);
+  // TODO Add secure way to fetch & store token
   const token = 'loremipsum';
   const { data: scooterDataVoi } = useScootersDataFetch(token, showScooters.voi);
 
@@ -56,12 +70,12 @@ const ScooterMarkers = ({ mapObject }) => {
   const filteredScootersVoi = filterByBounds(scooterDataVoi);
   const validDataVoi = isDataValid(showScooters.voi, filteredScootersVoi) && isDetailZoom;
 
-  const renderScooterData = (isValid, data) => (
+  const renderScooterData = (isValid, data, provider) => (
     isValid ? (
       data.map(item => (
         <Marker
           key={item.bike_id}
-          icon={customIcon}
+          icon={getCorrectIcon(provider)}
           position={[item.lat, item.lon]}
         >
           <StyledPopupWrapper>
@@ -78,8 +92,8 @@ const ScooterMarkers = ({ mapObject }) => {
 
   return (
     <>
-      {renderScooterData(validDataRyde, filteredScootersRyde)}
-      {renderScooterData(validDataVoi, filteredScootersVoi)}
+      {renderScooterData(validDataRyde, filteredScootersRyde, 'ryde')}
+      {renderScooterData(validDataVoi, filteredScootersVoi, 'voi')}
     </>
   );
 };
