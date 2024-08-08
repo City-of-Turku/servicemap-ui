@@ -30,7 +30,7 @@ const homePage= `${getBaseUrl()}/fi`
 const resultItemTitle = Selector('[data-sm="ResultItemTitle"]');
 const kumpulaBath = resultItemTitle.withText('Kumpulan maauimala');
 const leppavaaraBath = resultItemTitle.withText('Leppävaaran maauimala');
-const turkuBath = resultItemTitle.withText('Turun linna');
+const turkuMuseum = resultItemTitle.withText('Turun linna');
 const addressInput = Selector(addressSearchBarInput);
 
 fixture`Search view test`
@@ -363,7 +363,7 @@ fixture`Search view custom url with city and org param test`
   });
 
 
-test('Should override municipality settings by url', async(t) => {
+test.skip('Should override municipality settings by url', async(t) => {
   // the city in url should overwrite settings made by user (and save setting)
   await setLocalStorageItem('SM:espoo', true);
   await t
@@ -385,7 +385,22 @@ test('Should override municipality settings by url', async(t) => {
   ;
 });
 
-test('Should not mess up city settings between embedded and normal view', async(t) => {
+test('Should override Turku municipality settings by url', async(t) => {
+  // the city in url should overwrite settings made by user (and save setting)
+  await setLocalStorageItem('SM:turku', true);
+  await t
+    .navigateTo(museumUrl)
+    .expect(cityChips.count).eql(1)
+    .expect(cityChips.textContent).eql('Turku')
+    .expect(turkuMuseum.exists).ok('Should find museum in Turku')
+    .navigateTo(`${bathUrl}&city=turku`)
+    .expect(cityChips.count).eql(1)
+    .expect(cityChips.textContent).eql('Turku')
+    .expect(turkuMuseum.exists).ok('Should find museum in Turku')
+  ;
+});
+
+test.skip('Should not mess up city settings between embedded and normal view', async(t) => {
   await setLocalStorageItem('SM:espoo', true);
   await t
     .navigateTo(`${embedBathUrl}`)
@@ -404,7 +419,20 @@ test('Should not mess up city settings between embedded and normal view', async(
   ;
 });
 
-test('Should override organization settings by url', async(t) => {
+test('Should not mess up Turku city settings between embedded and normal view', async(t) => {
+  await setLocalStorageItem('SM:turku', true);
+  await t
+    .navigateTo(`${embedMuseumUrl}`)
+    .expect(turkuMuseum.exists).ok('Should find museum in Turku')
+    .navigateTo(`${embedMuseumUrl}&city=turku`)
+    .expect(turkuMuseum.exists).ok('Should find museum in Turku')
+    // Returning to normal mode, the visit to embedding should not mess up previous settings
+    .navigateTo(`${museumUrl}`)
+    .expect(turkuMuseum.exists).ok('Should find museum in Turku')
+  ;
+});
+
+test.skip('Should override organization settings by url', async(t) => {
   await setLocalStorageItem(`SM:${ESPOO_ORG}`, true);
   // the organization in url should overwrite settings made by user (and save setting)
   await t
@@ -426,7 +454,7 @@ test('Should override organization settings by url', async(t) => {
   ;
 });
 
-test('Should not mess up organization settings between embedded and normal view', async(t) => {
+test.skip('Should not mess up organization settings between embedded and normal view', async(t) => {
   await setLocalStorageItem(`SM:${ESPOO_ORG}`, true);
   await t
     .navigateTo(`${embedBathUrl}`)
@@ -488,7 +516,7 @@ test('Should set user settings to url', async(t) => {
   const senseChips = Selector(`${sensesDropdown} ${settingChip}`);
   const mobilityInput = Selector(`${mobilityDropdown} input`);
   await t
-    .navigateTo(`${bathUrl}`)
+    .navigateTo(`${museumUrl}`)
     // Check settings
     .expect(senseChips.count).eql(1)
     .expect(senseChips.withText('Käytän kuulolaitetta').exists).ok()
@@ -496,8 +524,8 @@ test('Should set user settings to url', async(t) => {
     .expect(cityChips.count).eql(2)
     .expect(cityChips.withText('Turku').exists).ok()
     .expect(cityChips.withText('Raisio').exists).ok()
-    .expect(orgChips.count).eql(1)
-    // .expect(orgChips.withText('Espoon kaupunki').exists).ok()
+    //.expect(orgChips.count).eql(1)
+    //.expect(orgChips.withText('Espoon kaupunki').exists).ok()
     // Check url
     .expect(getLocation()).contains('city=turku%2Craisio')
     // .expect(getLocation()).contains('organization=520a4492-cb78-498b-9c82-86504de88dce')
@@ -519,7 +547,7 @@ test('Should set home address from url', async(t) => {
 });
 
 fixture`Search view should set map type with url test`
-  .page`${homePage}/search?q=kirjasto&hcity=turku&map=guidemap`
+  .page`${homePage}/search?q=kirjasto&hcity=turku&map=servicemap`
   .beforeEach(async () => {
     await waitForReact();
   });

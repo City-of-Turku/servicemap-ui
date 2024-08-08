@@ -11,8 +11,8 @@ const routeDetails = (unit, userLocation) => {
   let currentLocationString = ' ';
 
   if (userLocation?.addressData) {
-    const { street, number } = userLocation.addressData;
-    const { latitude, longitude } = userLocation.coordinates;
+    const { street, number } = userLocation?.addressData;
+    const { latitude, longitude } = userLocation?.coordinates;
 
     const userAddress = `${getLocaleText(street.name)} ${number}, ${street.municipality}`;
     currentLocationString = `${userAddress}::${latitude},${longitude}`;

@@ -5,8 +5,8 @@ import { mobilityDropdown, sensesDropdown } from '../utility/pageObjects';
 
 /* eslint-disable */
 
-const unitName = 'Keskustakirjasto Oodi';
-const testUrl = `${getBaseUrl()}/fi/unit/51342`
+const unitName = 'Pääkirjasto';
+const testUrl = `${getBaseUrl()}/fi/unit/148`
 
 const selectSettingsAndClose = async (t) => {
   if (t) {
@@ -23,7 +23,7 @@ const selectSettingsAndClose = async (t) => {
 }
 
 fixture`Unit page tests`
-  .page`http://${server.address}:${server.port}/fi/unit/148`
+  .page`${testUrl}`
   .beforeEach(async () => {
     await waitForReact();
   });
@@ -52,7 +52,7 @@ test('Unit page show more events should take user to events list', async (t) => 
     .expect(showMoreEventsButton.exists).ok('Show more events button should exist')
     .click(showMoreEventsButton);
   await t
-    .expect(getLocation()).contains('/fi/unit/51342/events')
+    .expect(getLocation()).contains('/fi/unit/148/events')
 });
 
 // ENTERING EVENT PAGE GIVES AN UNDEFINED ERROR WHICH CAN'T BE REPLICATED ON MY OWN
@@ -89,7 +89,7 @@ test('Unit page feedback button should take unit feedback page', async (t) => {
     .expect(feedbackButton.exists).ok('Feedback button should exist')
     .click(feedbackButton);
   await t
-    .expect(getLocation()).contains('/unit/51342/feedback')
+    .expect(getLocation()).contains('/unit/148/feedback')
     .expect(title.textContent).contains(unitName, 'Feedback title should have unit name text')
 });
 
@@ -212,10 +212,10 @@ test.skip('Unit view services tab lists work correctly', async (t) => {
   await t
     .click(serviceTab)
     .click(moreServicesButton)
-    .expect(serviceTitle.textContent).contains('Keskustakirjasto Oodi - Toimipisteeseen liittyvät palvelut')
+    .expect(serviceTitle.textContent).contains('Pääkirjasto - Toimipisteeseen liittyvät palvelut')
     .click(backButton)
     .click(reservableObjects)
-    .expect(getLocation()).contains('https://varaamo.hel.fi/')
+    .expect(getLocation()).contains('https://varaamo.turku.fi/')
   ;
 });
 

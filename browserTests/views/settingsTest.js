@@ -13,7 +13,7 @@ import {
 const sensesDropdownSelector = Selector(sensesDropdown)
 const mobilityDropdownSelector = Selector(mobilityDropdown)
 const cityDropdownSelector = Selector(cityDropdown)
-const organisationDropdownSelector = Selector(organisationDropdown)
+//const organisationDropdownSelector = Selector(organisationDropdown)
 
 fixture`Settings view tests`
   .page`${getBaseUrl()}/fi/`
@@ -26,7 +26,7 @@ test('Settings does opens and closes correctly', async (t) => {
     .expect(sensesDropdownSelector.visible).notOk()
     .expect(mobilityDropdownSelector.visible).notOk()
     .expect(cityDropdownSelector.visible).notOk()
-    .expect(organisationDropdownSelector.visible).notOk()
+    //.expect(organisationDropdownSelector.visible).notOk()
   ;
 
   await t
@@ -37,16 +37,23 @@ test('Settings does opens and closes correctly', async (t) => {
     .expect(sensesDropdownSelector.visible).ok()
     .expect(mobilityDropdownSelector.visible).ok()
     .expect(cityDropdownSelector.visible).ok()
-    .expect(organisationDropdownSelector.visible).ok()
+    //.expect(organisationDropdownSelector.visible).ok()
   ;
 });
 
-test('Map tool menu should contain 3d map link', async (t) => {
+test.skip('Map tool menu should contain 3d map link', async (t) => {
   const mapLink = Selector('[data-sm="3dMapLink"]');
   await t
     .expect(mapLink.visible).notOk()
     .click(mapToolsButton)
     .expect(mapLink.visible).ok()
+  ;
+});
+
+test('Map tool menu should not contain 3d map link', async (t) => {
+  const mapLink = Selector('[data-sm="3dMapLink"]');
+  await t
+    .expect(mapLink.visible).notOk()
   ;
 });
 

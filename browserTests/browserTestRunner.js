@@ -3,7 +3,7 @@ const createTestCafe = require('testcafe');
 
 let testcafe = null;
 
-createTestCafe({ hostname: 'localhost', configFile: './.testcaferc.js' })
+createTestCafe({ hostname: 'localhost' })
   .then((tc) => {
     testcafe = tc;
     const runner = testcafe.createRunner();

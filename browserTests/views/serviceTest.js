@@ -6,7 +6,7 @@ import paginationTest from '../utility/paginationTest';
 import resultOrdererTest from '../utility/resultOrdererTest';
 
 const coordinates = ['60.281936', '24.949933'];
-const getLocation = ClientFunction(() => document.location.href);
+// const getLocation = ClientFunction(() => document.location.href);
 
 /* eslint-disable */
 fixture`Service page coordinate tests`

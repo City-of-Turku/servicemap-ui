@@ -7,7 +7,7 @@ import { feedbackButton, infoButton } from '../utility/pageObjects';
 const viewUrl = `${getBaseUrl()}/fi/`;
 
 fixture`Home view test`
-  .page`http://${server.address}:${server.port}/fi/`
+  .page`${viewUrl}/`
   .beforeEach(async () => {
     await waitForReact();
   });
