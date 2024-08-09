@@ -14,6 +14,7 @@ const mockProps = {
       ios: 'https://www.testilinkki.fi',
     },
   },
+  providerName: 'Ryde',
 };
 
 const renderWithProviders = getRenderWithProviders({});
@@ -30,9 +31,16 @@ describe('<ScooterInfo />', () => {
     const p = container.querySelectorAll('p');
     const h3 = container.querySelector('h3');
     expect(h3.textContent).toContain(finnishTranslations['mobilityPlatform.content.scooter.title']);
-    expect(p[0].textContent).toContain('Palveluntarjoaja: Ryde');
+    expect(p[0].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.general.provider'].replace(
+      '{value}',
+      `${mockProps.providerName}`,
+    )}`);
     expect(p[1].textContent).toContain(finnishTranslations['mobilityPlatform.content.scooter.notReserved']);
-    expect(p[2].textContent).toContain('Jäljellä oleva kantama: 20.20 km');
+    expect(p[2].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.scooter.range'].replace(
+      '{value}',
+      '20.20 km',
+    )}`);
+    // expect(p[2].textContent).toContain('Jäljellä oleva kantama: 20.20 km');
     expect(p[3].textContent).toContain(finnishTranslations['mobilityPlatform.content.general.rentalUris']);
   });
 

@@ -38,13 +38,13 @@ const ScooterMarkers = ({ mapObject }) => {
   const tierProviderIcon = icon(createIcon(useContrast ? tierIconBw : tierIcon, false));
 
   const getCorrectIcon = providerName => {
-    if (providerName === 'ryde') {
+    if (providerName === 'Ryde') {
       return rydeProviderIcon;
     }
-    if (providerName === 'voi') {
+    if (providerName === 'Voi') {
       return voiProviderIcon;
     }
-    if (providerName === 'tier') {
+    if (providerName === 'Tier') {
       return tierProviderIcon;
     }
     return rydeProviderIcon;
@@ -81,7 +81,7 @@ const ScooterMarkers = ({ mapObject }) => {
           <StyledPopupWrapper>
             <Popup>
               <StyledPopupInner>
-                <ScooterInfo item={item} />
+                <ScooterInfo item={item} providerName={provider} />
               </StyledPopupInner>
             </Popup>
           </StyledPopupWrapper>
@@ -92,8 +92,8 @@ const ScooterMarkers = ({ mapObject }) => {
 
   return (
     <>
-      {renderScooterData(validDataRyde, filteredScootersRyde, 'ryde')}
-      {renderScooterData(validDataVoi, filteredScootersVoi, 'voi')}
+      {renderScooterData(validDataRyde, filteredScootersRyde, 'Ryde')}
+      {renderScooterData(validDataVoi, filteredScootersVoi, 'Voi')}
     </>
   );
 };

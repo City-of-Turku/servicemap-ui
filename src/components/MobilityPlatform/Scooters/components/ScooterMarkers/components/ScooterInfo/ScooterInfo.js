@@ -6,7 +6,7 @@ import {
   StyledContainer, StyledHeaderContainer, StyledTextContainer, StyledBoldText, StyledLinkText,
 } from '../../../../../styled/styled';
 
-const ScooterInfo = ({ item }) => {
+const ScooterInfo = ({ item, providerName }) => {
   const intl = useIntl();
 
   const titleTypo = messageId => (
@@ -58,7 +58,7 @@ const ScooterInfo = ({ item }) => {
         {titleTypo('mobilityPlatform.content.scooter.title')}
       </StyledHeaderContainer>
       <div>
-        {singleValTypo('mobilityPlatform.content.general.provider', 'Ryde')}
+        {singleValTypo('mobilityPlatform.content.general.provider', providerName)}
         {renderStatus(item.is_reserved)}
         {singleValTypo('mobilityPlatform.content.scooter.range', formatRange(item.current_range_meters))}
         <StyledTextContainer>
@@ -80,10 +80,12 @@ ScooterInfo.propTypes = {
     current_range_meters: PropTypes.number,
     rental_uris: PropTypes.objectOf(PropTypes.string),
   }),
+  providerName: PropTypes.string,
 };
 
 ScooterInfo.defaultProps = {
   item: {},
+  providerName: '',
 };
 
 export default ScooterInfo;
