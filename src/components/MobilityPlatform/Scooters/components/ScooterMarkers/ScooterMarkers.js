@@ -38,13 +38,14 @@ const ScooterMarkers = ({ mapObject }) => {
   const tierProviderIcon = icon(createIcon(useContrast ? tierIconBw : tierIcon, false));
 
   const getCorrectIcon = providerName => {
-    if (providerName === 'Ryde') {
+    const lowerName = providerName.toLowerCase();
+    if (lowerName === 'ryde') {
       return rydeProviderIcon;
     }
-    if (providerName === 'Voi') {
+    if (lowerName === 'voi') {
       return voiProviderIcon;
     }
-    if (providerName === 'Tier') {
+    if (lowerName === 'tier') {
       return tierProviderIcon;
     }
     return rydeProviderIcon;

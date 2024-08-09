@@ -40,7 +40,6 @@ describe('<ScooterInfo />', () => {
       '{value}',
       '20.20 km',
     )}`);
-    // expect(p[2].textContent).toContain('Jäljellä oleva kantama: 20.20 km');
     expect(p[3].textContent).toContain(finnishTranslations['mobilityPlatform.content.general.rentalUris']);
   });
 

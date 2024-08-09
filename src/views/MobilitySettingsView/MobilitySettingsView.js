@@ -1417,13 +1417,13 @@ const MobilitySettingsView = ({ navigator }) => {
   const scooterProviders = [
     {
       type: 'scootersRyde',
-      msgId: 'mobilityPlatform.menu.show.scootersRyde',
+      msgId: 'mobilityPlatform.menu.show.scooters.ryde',
       checkedValue: showScooters.ryde,
       onChangeValue: scootersRydeToggle,
     },
     {
       type: 'scootersVoi',
-      msgId: 'mobilityPlatform.menu.show.scootersVoi',
+      msgId: 'mobilityPlatform.menu.show.scooters.voi',
       checkedValue: showScooters.voi,
       onChangeValue: scootersVoiToggle,
     },
