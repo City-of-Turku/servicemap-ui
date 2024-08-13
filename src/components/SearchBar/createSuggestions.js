@@ -14,6 +14,9 @@ const createSuggestions = (
   const smAPI = new ServiceMapAPI();
   smAPI.setAbortController(abortController);
 
+  const externalTheme = config.themePKG;
+  const isExternalTheme = !externalTheme || externalTheme === 'undefined' ? null : externalTheme;
+
   const unitLimit = 10;
   const serviceLimit = 10;
   const addressLimit = 1;
@@ -22,7 +25,7 @@ const createSuggestions = (
   const pageSize = unitLimit + serviceLimit + addressLimit + servicenodeLimit;
   const municipalities = cities?.length ? cities?.join(',') : config.cities;
   const organizationIds = organizations.map(org => org.id);
-  const additionalOptions = {
+  const additionalOptionsBase = {
     page_size: pageSize,
     limit: 2500,
     unit_limit: unitLimit,
@@ -30,12 +33,16 @@ const createSuggestions = (
     address_limit: addressLimit,
     servicenode_limit: servicenodeLimit,
     municipality: municipalities,
-    organization: organizationIds.join(','),
     administrativedivision_limit: administrativeDivisionLimit,
     language: locale,
     order_units_by_num_services: false,
     order_units_by_provider_type: false,
   };
+  const additionalOptionsFull = {
+    ...additionalOptionsBase,
+    organization: organizationIds.join(','),
+  };
+  const additionalOptions = isExternalTheme ? additionalOptionsBase : additionalOptionsFull;
 
   const results = await smAPI.searchSuggestions(query, additionalOptions);
 
