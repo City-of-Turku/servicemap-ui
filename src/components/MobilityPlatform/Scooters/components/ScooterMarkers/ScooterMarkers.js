@@ -57,6 +57,7 @@ const ScooterMarkers = ({ mapObject }) => {
   // TODO Add secure way to fetch & store token
   const token = 'loremipsum';
   const { data: scooterDataVoi } = useScootersDataFetch(token, showScooters.voi);
+  const { data: scooterDataTier } = useScootersDataFetch(token, showScooters.tier);
 
   const filterByBounds = data => {
     if (data?.length) {
@@ -70,6 +71,9 @@ const ScooterMarkers = ({ mapObject }) => {
 
   const filteredScootersVoi = filterByBounds(scooterDataVoi);
   const validDataVoi = isDataValid(showScooters.voi, filteredScootersVoi) && isDetailZoom;
+
+  const filteredScootersTier = filterByBounds(scooterDataTier);
+  const validDataTier = isDataValid(showScooters.tier, filteredScootersTier) && isDetailZoom;
 
   const renderScooterData = (isValid, data, provider) => (
     isValid ? (
@@ -95,6 +99,7 @@ const ScooterMarkers = ({ mapObject }) => {
     <>
       {renderScooterData(validDataRyde, filteredScootersRyde, 'Ryde')}
       {renderScooterData(validDataVoi, filteredScootersVoi, 'Voi')}
+      {renderScooterData(validDataTier, filteredScootersTier, 'Tier')}
     </>
   );
 };

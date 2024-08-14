@@ -772,6 +772,10 @@ const MobilitySettingsView = ({ navigator }) => {
     toggleObjectValue('voi', showScooters.voi, setShowScooters);
   };
 
+  const scootersTierToggle = () => {
+    toggleObjectValue('tier', showScooters.tier, setShowScooters);
+  };
+
   const parkAndRideAreasToggle = () => {
     setShowParkAndRideAreas(current => !current);
   };
@@ -1426,6 +1430,12 @@ const MobilitySettingsView = ({ navigator }) => {
       msgId: 'mobilityPlatform.menu.show.scooters.voi',
       checkedValue: showScooters.voi,
       onChangeValue: scootersVoiToggle,
+    },
+    {
+      type: 'scootersTier',
+      msgId: 'mobilityPlatform.menu.show.scooters.tier',
+      checkedValue: showScooters.tier,
+      onChangeValue: scootersTierToggle,
     },
   ];
 

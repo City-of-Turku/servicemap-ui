@@ -286,5 +286,5 @@ export default {
   "railwaysAPI": settings.RAILWAYS_API,
   "mobilityTestAPI": settings.MOBILITY_TEST_API,
   "portnetAPI": settings.PORTNET_API,
-  "voiScootersAPI": settings.VOI_SCOOTERS_API,
+  "scootersAPI": settings.SCOOTERS_API,
 }

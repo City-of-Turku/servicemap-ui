@@ -274,7 +274,7 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, emotionCss,
         window.nodeEnvSettings.AIR_MONITORING_API = "${process.env.AIR_MONITORING_API}";
         window.nodeEnvSettings.MOBILITY_TEST_API = "${process.env.MOBILITY_TEST_API}";
         window.nodeEnvSettings.PORTNET_API = "${process.env.PORTNET_API}";
-        window.nodeEnvSettings.VOI_SCOOTERS_API = "${process.env.VOI_SCOOTERS_API}";
+        window.nodeEnvSettings.SCOOTERS_API = "${process.env.SCOOTERS_API}";
         window.nodeEnvSettings.FEATURE_SERVICEMAP_PAGE_TRACKING = "${process.env.FEATURE_SERVICEMAP_PAGE_TRACKING}";
 
         window.appVersion = {};
