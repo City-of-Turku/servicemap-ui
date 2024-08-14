@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useMap, useMapEvents } from 'react-leaflet';
+import scooterIcon from 'servicemap-ui-turku/assets/icons/icons-icon_scooter_base.svg';
+import scooterIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_scooter_base-bw.svg';
 import rydeIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ryde.svg';
-import rydeIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ryde-bw.svg';
+import rydeIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ryde-bw.svg';
 import voiIcon from 'servicemap-ui-turku/assets/icons/icons-icon_voi.svg';
-import voiIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_voi-bw.svg';
+import voiIconContrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_voi-bw.svg';
 import tierIcon from 'servicemap-ui-turku/assets/icons/icons-icon_tier.svg';
-import tierIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_tier-bw.svg';
+import tierIconcontrast from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_tier-bw.svg';
 import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import useIotDataFetch from '../../../utils/useIotDataFetch';
@@ -33,9 +35,10 @@ const ScooterMarkers = ({ mapObject }) => {
     },
   });
 
-  const rydeProviderIcon = icon(createIcon(useContrast ? rydeIconBw : rydeIcon, false));
-  const voiProviderIcon = icon(createIcon(useContrast ? voiIconBw : voiIcon, false));
-  const tierProviderIcon = icon(createIcon(useContrast ? tierIconBw : tierIcon, false));
+  const scooterIconBase = icon(createIcon(useContrast ? scooterIconContrast : scooterIcon, false));
+  const rydeProviderIcon = icon(createIcon(useContrast ? rydeIconContrast : rydeIcon, false));
+  const voiProviderIcon = icon(createIcon(useContrast ? voiIconContrast : voiIcon, false));
+  const tierProviderIcon = icon(createIcon(useContrast ? tierIconcontrast : tierIcon, false));
 
   const getCorrectIcon = providerName => {
     const lowerName = providerName.toLowerCase();
@@ -48,16 +51,14 @@ const ScooterMarkers = ({ mapObject }) => {
     if (lowerName === 'tier') {
       return tierProviderIcon;
     }
-    return rydeProviderIcon;
+    return scooterIconBase;
   };
 
   const isDetailZoom = zoomLevel >= mapObject.options.detailZoom;
 
   const { iotData: scooterDataRyde } = useIotDataFetch('SDR', showScooters.ryde);
-  // TODO Add secure way to fetch & store token
-  const token = 'loremipsum';
-  const { data: scooterDataVoi } = useScootersDataFetch(token, showScooters.voi);
-  const { data: scooterDataTier } = useScootersDataFetch(token, showScooters.tier);
+  const { data: scooterDataVoi } = useScootersDataFetch(showScooters.voi);
+  const { data: scooterDataTier } = useScootersDataFetch(showScooters.tier);
 
   const filterByBounds = data => {
     if (data?.length) {
