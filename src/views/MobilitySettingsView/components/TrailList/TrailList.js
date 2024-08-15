@@ -8,7 +8,7 @@ import TrailInfo from '../TrailInfo';
 import Pagination from '../Pagination';
 
 const TrailList = ({
-  openList, itemsPerPage, items, trailsObj, setTrailState,
+  openList, itemsPerPage, items, selectedTrails, setTrailState,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -34,6 +34,8 @@ const TrailList = ({
     return item.name;
   };
 
+  const isTrailSelected = id => selectedTrails.some(trail => trail.id === id);
+
   const renderList = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -45,8 +47,8 @@ const TrailList = ({
           <FormControlLabel
             control={(
               <Checkbox
-                checked={item.id === trailsObj.id}
-                aria-checked={item.id === trailsObj.id}
+                checked={isTrailSelected(item.id)}
+                aria-checked={isTrailSelected(item.id)}
                 onChange={() => setTrailState(item)}
               />
               )}
@@ -56,7 +58,7 @@ const TrailList = ({
               </Typography>
               )}
           />
-          {item.id === trailsObj.id ? <TrailInfo item={item} /> : null}
+          {isTrailSelected(item.id) ? <TrailInfo item={item} /> : null}
         </StyledCheckboxItem>
       ))
       : null;
@@ -83,9 +85,9 @@ TrailList.propTypes = {
     id: PropTypes.string,
   })),
   itemsPerPage: PropTypes.number,
-  trailsObj: PropTypes.shape({
+  selectedTrails: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
-  }),
+  })),
   setTrailState: PropTypes.func.isRequired,
 };
 
@@ -93,7 +95,7 @@ TrailList.defaultProps = {
   openList: false,
   items: [],
   itemsPerPage: 5,
-  trailsObj: {},
+  selectedTrails: [],
 };
 
 export default TrailList;

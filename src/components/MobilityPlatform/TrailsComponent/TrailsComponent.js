@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { useMap } from 'react-leaflet';
+// import { useMap } from 'react-leaflet';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { isObjValid, whiteOptionsBase, blackOptionsBase } from '../utils/utils';
+import { isDataValid, whiteOptionsBase, blackOptionsBase } from '../utils/utils';
 
 /* Show selected trail on the map */
 
 const TrailsComponent = ({
-  showTrail, trailsObj, color, pattern,
+  showTrail, selectedTrails, color, pattern,
 }) => {
   const { Polyline } = global.rL;
 
@@ -22,40 +22,43 @@ const TrailsComponent = ({
     second: useContrast ? blackOptions : whiteOptions,
   };
 
-  const renderData = isObjValid(showTrail, trailsObj);
+  const renderData = isDataValid(showTrail, selectedTrails);
 
-  const map = useMap();
+  // TODO Update fit bounds
+  // const map = useMap();
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (renderData) {
       const bounds = [];
       bounds.push(trailsObj.geometry_coords);
       map.fitBounds([bounds]);
     }
-  }, [showTrail, trailsObj]);
+  }, [showTrail, trailsObj]); */
 
-  return (
-    <>
-      {renderData ? (
-        <>
-          <Polyline weight={8} pathOptions={finalPathOptions.first} positions={trailsObj.geometry_coords} />
-          <Polyline weight={4} pathOptions={finalPathOptions.second} positions={trailsObj.geometry_coords} />
-        </>
-      ) : null}
-    </>
+  const renderTrails = trailsData => (
+    trailsData.map(item => (
+      <>
+        <Polyline weight={8} pathOptions={finalPathOptions.first} positions={item.geometry_coords} />
+        <Polyline weight={4} pathOptions={finalPathOptions.second} positions={item.geometry_coords} />
+      </>
+    ))
   );
+
+  return renderData ? (
+    renderTrails(selectedTrails)
+  ) : null;
 };
 
 TrailsComponent.propTypes = {
   showTrail: PropTypes.bool,
-  trailsObj: PropTypes.objectOf(PropTypes.any),
+  selectedTrails: PropTypes.arrayOf(PropTypes.any),
   color: PropTypes.string,
   pattern: PropTypes.string,
 };
 
 TrailsComponent.defaultProps = {
   showTrail: false,
-  trailsObj: {},
+  selectedTrails: [],
   color: '',
   pattern: '',
 };
