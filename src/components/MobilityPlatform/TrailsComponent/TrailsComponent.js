@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-// import { useMap } from 'react-leaflet';
+import { useMap } from 'react-leaflet';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { isDataValid, whiteOptionsBase, blackOptionsBase } from '../utils/utils';
+import {
+  isDataValid, fitPolygonsToBounds, whiteOptionsBase, blackOptionsBase,
+} from '../utils/utils';
 
-/* Show selected trail on the map */
+/* Show selected trails on the map */
 
 const TrailsComponent = ({
   showTrail, selectedTrails, color, pattern,
@@ -25,28 +27,26 @@ const TrailsComponent = ({
   const renderData = isDataValid(showTrail, selectedTrails);
 
   // TODO Update fit bounds
-  // const map = useMap();
+  const map = useMap();
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (renderData) {
-      const bounds = [];
-      bounds.push(trailsObj.geometry_coords);
-      map.fitBounds([bounds]);
+      fitPolygonsToBounds(renderData, selectedTrails, map);
     }
-  }, [showTrail, trailsObj]); */
+  }, [renderData, selectedTrails, map]);
 
   const renderTrails = trailsData => (
-    trailsData.map(item => (
-      <>
+    renderData && trailsData.map(item => (
+      <React.Fragment key={item.id}>
         <Polyline weight={8} pathOptions={finalPathOptions.first} positions={item.geometry_coords} />
         <Polyline weight={4} pathOptions={finalPathOptions.second} positions={item.geometry_coords} />
-      </>
+      </React.Fragment>
     ))
   );
 
-  return renderData ? (
+  return (
     renderTrails(selectedTrails)
-  ) : null;
+  );
 };
 
 TrailsComponent.propTypes = {
