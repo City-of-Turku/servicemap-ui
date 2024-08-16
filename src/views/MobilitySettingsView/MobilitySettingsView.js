@@ -945,14 +945,15 @@ const MobilitySettingsView = ({ navigator }) => {
       setSelectedMarkedTrails(prevState => prevState.filter(trail => trail.id !== obj.id));
     } else {
       setSelectedMarkedTrails(prevState => [...prevState, obj]);
-    }
-    if (!showMarkedTrails && selectedMarkedTrails.length) {
       setShowMarkedTrails(true);
     }
+  };
+
+  useEffect(() => {
     if (!selectedMarkedTrails.length) {
       setShowMarkedTrails(false);
     }
-  };
+  }, [selectedMarkedTrails, setShowMarkedTrails]);
 
   /**
    * Update an array of objects containing selected nature trails.
@@ -964,14 +965,15 @@ const MobilitySettingsView = ({ navigator }) => {
       setSelectedNatureTrails(prevState => prevState.filter(trail => trail.id !== obj.id));
     } else {
       setSelectedNatureTrails(prevState => [...prevState, obj]);
-    }
-    if (!showNatureTrails && selectedNatureTrails.length) {
       setShowNatureTrails(true);
     }
+  };
+
+  useEffect(() => {
     if (!selectedNatureTrails.length) {
       setShowNatureTrails(false);
     }
-  };
+  }, [selectedNatureTrails, setShowNatureTrails]);
 
   /**
    * Update an array of objects containing selected fitness trails.
@@ -983,14 +985,15 @@ const MobilitySettingsView = ({ navigator }) => {
       setSelectedFitnessTrails(prevState => prevState.filter(trail => trail.id !== obj.id));
     } else {
       setSelectedFitnessTrails(prevState => [...prevState, obj]);
-    }
-    if (!showFitnessTrails && selectedFitnessTrails.length) {
       setShowFitnessTrails(true);
     }
+  };
+
+  useEffect(() => {
     if (!selectedFitnessTrails.length) {
       setShowFitnessTrails(false);
     }
-  };
+  }, [selectedFitnessTrails, setShowFitnessTrails]);
 
   const speedLimitZonesToggle = () => {
     setOpenSpeedLimitList(current => !current);

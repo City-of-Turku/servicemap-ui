@@ -2,7 +2,7 @@ import React from 'react';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import Trails from '../TrailsComponent';
 
-/* Show selected fitness trail on the map */
+/* Show selected fitness trails on the map */
 
 const FitnessTrails = () => {
   const { showFitnessTrails, selectedFitnessTrails } = useMobilityPlatformContext();

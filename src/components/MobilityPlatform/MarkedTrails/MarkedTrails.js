@@ -2,7 +2,7 @@ import React from 'react';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import Trails from '../TrailsComponent';
 
-/* Show marked trails which are part of Paavo trails on the map */
+/* Show marked trails (Paavo trails) on the map */
 
 const MarkedTrails = () => {
   const { showMarkedTrails, selectedMarkedTrails } = useMobilityPlatformContext();
