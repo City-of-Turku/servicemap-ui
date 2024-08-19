@@ -132,16 +132,10 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowBrushSandedRoute,
     showBrushSaltedRoute,
     setShowBrushSaltedRoute,
-    showMarkedTrails,
-    setShowMarkedTrails,
     selectedMarkedTrails,
     setSelectedMarkedTrails,
-    showNatureTrails,
-    setShowNatureTrails,
     selectedNatureTrails,
     setSelectedNatureTrails,
-    showFitnessTrails,
-    setShowFitnessTrails,
     selectedFitnessTrails,
     setSelectedFitnessTrails,
     showParkingMachines,
@@ -185,6 +179,10 @@ const MobilitySettingsView = ({ navigator }) => {
   const locale = useSelector(state => state.user.locale);
   const location = useLocation();
   const getLocaleText = useLocaleText();
+
+  const showMarkedTrails = selectedMarkedTrails.length > 0;
+  const showNatureTrails = selectedNatureTrails.length > 0;
+  const showFitnessTrails = selectedFitnessTrails.length > 0;
 
   const iconClass = css({
     fill: 'rgba(0, 0, 0, 255)',
@@ -842,9 +840,9 @@ const MobilitySettingsView = ({ navigator }) => {
     if (selectedMarkedTrails.length) {
       setSelectedMarkedTrails([]);
     }
-    if (showMarkedTrails) {
+    /* if (showMarkedTrails) {
       setShowMarkedTrails(false);
-    }
+    } */
   };
 
   const natureTrailListToggle = () => {
@@ -852,9 +850,9 @@ const MobilitySettingsView = ({ navigator }) => {
     if (selectedNatureTrails.length) {
       setSelectedNatureTrails([]);
     }
-    if (showNatureTrails) {
+    /* if (showNatureTrails) {
       setShowNatureTrails(false);
-    }
+    } */
   };
 
   const fitnessTrailListToggle = () => {
@@ -862,9 +860,9 @@ const MobilitySettingsView = ({ navigator }) => {
     if (selectedFitnessTrails.length) {
       setSelectedFitnessTrails([]);
     }
-    if (showFitnessTrails) {
+    /* if (showFitnessTrails) {
       setShowFitnessTrails(false);
-    }
+    } */
   };
 
   const streetMaintenanceListToggle = () => {
@@ -945,15 +943,8 @@ const MobilitySettingsView = ({ navigator }) => {
       setSelectedMarkedTrails(prevState => prevState.filter(trail => trail.id !== obj.id));
     } else {
       setSelectedMarkedTrails(prevState => [...prevState, obj]);
-      setShowMarkedTrails(true);
     }
   };
-
-  useEffect(() => {
-    if (!selectedMarkedTrails.length) {
-      setShowMarkedTrails(false);
-    }
-  }, [selectedMarkedTrails, setShowMarkedTrails]);
 
   /**
    * Update an array of objects containing selected nature trails.
@@ -965,15 +956,8 @@ const MobilitySettingsView = ({ navigator }) => {
       setSelectedNatureTrails(prevState => prevState.filter(trail => trail.id !== obj.id));
     } else {
       setSelectedNatureTrails(prevState => [...prevState, obj]);
-      setShowNatureTrails(true);
     }
   };
-
-  useEffect(() => {
-    if (!selectedNatureTrails.length) {
-      setShowNatureTrails(false);
-    }
-  }, [selectedNatureTrails, setShowNatureTrails]);
 
   /**
    * Update an array of objects containing selected fitness trails.
@@ -985,15 +969,8 @@ const MobilitySettingsView = ({ navigator }) => {
       setSelectedFitnessTrails(prevState => prevState.filter(trail => trail.id !== obj.id));
     } else {
       setSelectedFitnessTrails(prevState => [...prevState, obj]);
-      setShowFitnessTrails(true);
     }
   };
-
-  useEffect(() => {
-    if (!selectedFitnessTrails.length) {
-      setShowFitnessTrails(false);
-    }
-  }, [selectedFitnessTrails, setShowFitnessTrails]);
 
   const speedLimitZonesToggle = () => {
     setOpenSpeedLimitList(current => !current);

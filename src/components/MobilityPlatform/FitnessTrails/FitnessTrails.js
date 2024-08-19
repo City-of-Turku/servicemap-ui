@@ -5,7 +5,9 @@ import Trails from '../TrailsComponent';
 /* Show selected fitness trails on the map */
 
 const FitnessTrails = () => {
-  const { showFitnessTrails, selectedFitnessTrails } = useMobilityPlatformContext();
+  const { selectedFitnessTrails } = useMobilityPlatformContext();
+
+  const showFitnessTrails = selectedFitnessTrails.length > 0;
 
   const tealColor = 'rgba(102, 102, 153, 255)';
   const dashPattern = '10 2 7';

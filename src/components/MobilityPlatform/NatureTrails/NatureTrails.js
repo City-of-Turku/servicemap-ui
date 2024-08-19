@@ -5,7 +5,9 @@ import Trails from '../TrailsComponent';
 /* Show selected nature trails on the map */
 
 const NatureTrails = () => {
-  const { showNatureTrails, selectedNatureTrails } = useMobilityPlatformContext();
+  const { selectedNatureTrails } = useMobilityPlatformContext();
+
+  const showNatureTrails = selectedNatureTrails.length > 0;
 
   const blueColor = 'rgba(0, 0, 153, 255)';
   const dashPattern = '12 9';

@@ -5,7 +5,9 @@ import Trails from '../TrailsComponent';
 /* Show marked trails (Paavo trails) on the map */
 
 const MarkedTrails = () => {
-  const { showMarkedTrails, selectedMarkedTrails } = useMobilityPlatformContext();
+  const { selectedMarkedTrails } = useMobilityPlatformContext();
+
+  const showMarkedTrails = selectedMarkedTrails.length > 0;
 
   const brownColor = 'rgba(117, 44, 23, 255)';
   const dashPattern = '2 9 9 9';
