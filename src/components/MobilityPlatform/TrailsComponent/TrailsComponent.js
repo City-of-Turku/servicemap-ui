@@ -9,9 +9,7 @@ import {
 
 /* Show selected trails on the map */
 
-const TrailsComponent = ({
-  showTrail, selectedTrails, color, pattern,
-}) => {
+const TrailsComponent = ({ selectedTrails, color, pattern }) => {
   const { Polyline } = global.rL;
 
   const useContrast = useSelector(useAccessibleMap);
@@ -24,9 +22,10 @@ const TrailsComponent = ({
     second: useContrast ? blackOptions : whiteOptions,
   };
 
-  const renderData = isDataValid(showTrail, selectedTrails);
+  const showTrails = selectedTrails.length > 0;
 
-  // TODO Update fit bounds
+  const renderData = isDataValid(showTrails, selectedTrails);
+
   const map = useMap();
 
   useEffect(() => {
@@ -50,14 +49,12 @@ const TrailsComponent = ({
 };
 
 TrailsComponent.propTypes = {
-  showTrail: PropTypes.bool,
   selectedTrails: PropTypes.arrayOf(PropTypes.any),
   color: PropTypes.string,
   pattern: PropTypes.string,
 };
 
 TrailsComponent.defaultProps = {
-  showTrail: false,
   selectedTrails: [],
   color: '',
   pattern: '',

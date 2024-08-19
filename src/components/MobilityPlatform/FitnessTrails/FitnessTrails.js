@@ -7,12 +7,10 @@ import Trails from '../TrailsComponent';
 const FitnessTrails = () => {
   const { selectedFitnessTrails } = useMobilityPlatformContext();
 
-  const showFitnessTrails = selectedFitnessTrails.length > 0;
-
   const tealColor = 'rgba(102, 102, 153, 255)';
   const dashPattern = '10 2 7';
 
-  return <Trails showTrail={showFitnessTrails} selectedTrails={selectedFitnessTrails} color={tealColor} pattern={dashPattern} />;
+  return <Trails selectedTrails={selectedFitnessTrails} color={tealColor} pattern={dashPattern} />;
 };
 
 export default FitnessTrails;
