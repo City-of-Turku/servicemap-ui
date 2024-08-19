@@ -840,9 +840,6 @@ const MobilitySettingsView = ({ navigator }) => {
     if (selectedMarkedTrails.length) {
       setSelectedMarkedTrails([]);
     }
-    /* if (showMarkedTrails) {
-      setShowMarkedTrails(false);
-    } */
   };
 
   const natureTrailListToggle = () => {
@@ -850,9 +847,6 @@ const MobilitySettingsView = ({ navigator }) => {
     if (selectedNatureTrails.length) {
       setSelectedNatureTrails([]);
     }
-    /* if (showNatureTrails) {
-      setShowNatureTrails(false);
-    } */
   };
 
   const fitnessTrailListToggle = () => {
@@ -860,9 +854,6 @@ const MobilitySettingsView = ({ navigator }) => {
     if (selectedFitnessTrails.length) {
       setSelectedFitnessTrails([]);
     }
-    /* if (showFitnessTrails) {
-      setShowFitnessTrails(false);
-    } */
   };
 
   const streetMaintenanceListToggle = () => {
