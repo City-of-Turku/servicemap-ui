@@ -132,18 +132,12 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowBrushSandedRoute,
     showBrushSaltedRoute,
     setShowBrushSaltedRoute,
-    showMarkedTrails,
-    setShowMarkedTrails,
-    markedTrailsObj,
-    setMarkedTrailsObj,
-    showNatureTrails,
-    setShowNatureTrails,
-    natureTrailsObj,
-    setNatureTrailsObj,
-    showFitnessTrails,
-    setShowFitnessTrails,
-    fitnessTrailsObj,
-    setFitnessTrailsObj,
+    selectedMarkedTrails,
+    setSelectedMarkedTrails,
+    selectedNatureTrails,
+    setSelectedNatureTrails,
+    selectedFitnessTrails,
+    setSelectedFitnessTrails,
     showParkingMachines,
     setShowParkingMachines,
     showPublicParking,
@@ -185,6 +179,10 @@ const MobilitySettingsView = ({ navigator }) => {
   const locale = useSelector(state => state.user.locale);
   const location = useLocation();
   const getLocaleText = useLocaleText();
+
+  const showMarkedTrails = selectedMarkedTrails.length > 0;
+  const showNatureTrails = selectedNatureTrails.length > 0;
+  const showFitnessTrails = selectedFitnessTrails.length > 0;
 
   const iconClass = css({
     fill: 'rgba(0, 0, 0, 255)',
@@ -850,31 +848,22 @@ const MobilitySettingsView = ({ navigator }) => {
 
   const markedTrailListToggle = () => {
     setOpenMarkedTrailsList(current => !current);
-    if (markedTrailsObj) {
-      setMarkedTrailsObj({});
-    }
-    if (showMarkedTrails) {
-      setShowMarkedTrails(false);
+    if (selectedMarkedTrails.length) {
+      setSelectedMarkedTrails([]);
     }
   };
 
   const natureTrailListToggle = () => {
     setOpenNatureTrailsList(current => !current);
-    if (natureTrailsObj) {
-      setNatureTrailsObj({});
-    }
-    if (showNatureTrails) {
-      setShowNatureTrails(false);
+    if (selectedNatureTrails.length) {
+      setSelectedNatureTrails([]);
     }
   };
 
   const fitnessTrailListToggle = () => {
     setOpenFitnessTrailsList(current => !current);
-    if (fitnessTrailsObj) {
-      setFitnessTrailsObj({});
-    }
-    if (showFitnessTrails) {
-      setShowFitnessTrails(false);
+    if (selectedFitnessTrails.length) {
+      setSelectedFitnessTrails([]);
     }
   };
 
@@ -944,75 +933,44 @@ const MobilitySettingsView = ({ navigator }) => {
     }
   };
 
-  /**
-   * Stores previous value
-   */
-  const prevMarkedTrailObjRef = useRef();
+  const hasTrailBeenSelected = (trailsData, id) => trailsData.some(item => item.id === id);
 
   /**
-   * If user clicks same trail again, then reset name and set visiblity to false
-   * Otherwise new values are set
-   */
-  useEffect(() => {
-    prevMarkedTrailObjRef.current = markedTrailsObj;
-  }, [markedTrailsObj]);
-
-  /**
+   * Update an array of objects containing selected marked trails.
    * @param {obj}
    */
   const setMarkedTrailState = obj => {
-    setMarkedTrailsObj(obj);
-    setShowMarkedTrails(true);
-    if (obj === prevMarkedTrailObjRef.current) {
-      setMarkedTrailsObj({});
-      setShowMarkedTrails(false);
+    const hasTrail = hasTrailBeenSelected(selectedMarkedTrails, obj.id);
+    if (hasTrail) {
+      setSelectedMarkedTrails(prevState => prevState.filter(trail => trail.id !== obj.id));
+    } else {
+      setSelectedMarkedTrails(prevState => [...prevState, obj]);
     }
   };
 
-  const prevNatureTrailObjRef = useRef();
-
   /**
-   * If user clicks same trail again, then reset name and set visiblity to false
-   * Otherwise new values are set
-   */
-  useEffect(() => {
-    prevNatureTrailObjRef.current = natureTrailsObj;
-  }, [natureTrailsObj]);
-
-  /**
+   * Update an array of objects containing selected nature trails.
    * @param {obj}
    */
   const setNatureTrailState = obj => {
-    setNatureTrailsObj(obj);
-    setShowNatureTrails(true);
-    if (obj === prevNatureTrailObjRef.current) {
-      setNatureTrailsObj({});
-      setShowNatureTrails(false);
+    const hasTrail = hasTrailBeenSelected(selectedNatureTrails, obj.id);
+    if (hasTrail) {
+      setSelectedNatureTrails(prevState => prevState.filter(trail => trail.id !== obj.id));
+    } else {
+      setSelectedNatureTrails(prevState => [...prevState, obj]);
     }
   };
 
   /**
-   * Stores previous value
-   */
-  const prevFitnessTrailObjRef = useRef();
-
-  /**
-   * If user clicks same trail again, then reset name and set visiblity to false
-   * Otherwise new values are set
-   */
-  useEffect(() => {
-    prevFitnessTrailObjRef.current = fitnessTrailsObj;
-  }, [fitnessTrailsObj]);
-
-  /**
+   * Update an array of objects containing selected fitness trails.
    * @param {obj}
    */
   const setFitnessTrailState = obj => {
-    setFitnessTrailsObj(obj);
-    setShowFitnessTrails(true);
-    if (obj === prevFitnessTrailObjRef.current) {
-      setFitnessTrailsObj({});
-      setShowFitnessTrails(false);
+    const hasTrail = hasTrailBeenSelected(selectedFitnessTrails, obj.id);
+    if (hasTrail) {
+      setSelectedFitnessTrails(prevState => prevState.filter(trail => trail.id !== obj.id));
+    } else {
+      setSelectedFitnessTrails(prevState => [...prevState, obj]);
     }
   };
 
@@ -1834,28 +1792,28 @@ const MobilitySettingsView = ({ navigator }) => {
         ? renderCultureRoutes(sortedLocalizedCultureRoutes)
         : null}
       {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(sortedCultureRoutes) : null}
-      {renderSelectTrailText(openMarkedTrailsList, markedTrailsObj, markedTrailsList)}
+      {renderSelectTrailText(openMarkedTrailsList, selectedMarkedTrails, markedTrailsList)}
       <TrailList
         openList={openMarkedTrailsList}
         items={markedTrailsSorted}
         itemsPerPage={5}
-        trailsObj={markedTrailsObj}
+        selectedTrails={selectedMarkedTrails}
         setTrailState={setMarkedTrailState}
       />
-      {renderSelectTrailText(openNatureTrailsList, natureTrailsObj, natureTrailsTkuSorted)}
+      {renderSelectTrailText(openNatureTrailsList, selectedNatureTrails, natureTrailsTkuSorted)}
       <TrailList
         openList={openNatureTrailsList}
         items={natureTrailsTkuSorted}
         itemsPerPage={5}
-        trailsObj={natureTrailsObj}
+        selectedTrails={selectedNatureTrails}
         setTrailState={setNatureTrailState}
       />
-      {renderSelectTrailText(openFitnessTrailsList, fitnessTrailsObj, fitnessTrailsTkuSorted)}
+      {renderSelectTrailText(openFitnessTrailsList, selectedFitnessTrails, fitnessTrailsTkuSorted)}
       <TrailList
         openList={openFitnessTrailsList}
         items={fitnessTrailsTkuSorted}
         itemsPerPage={5}
-        trailsObj={fitnessTrailsObj}
+        selectedTrails={selectedFitnessTrails}
         setTrailState={setFitnessTrailState}
       />
       {renderInfoTexts(infoTextsWalking)}

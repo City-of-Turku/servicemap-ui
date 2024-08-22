@@ -97,12 +97,9 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showBrushSaltedRoute, setShowBrushSaltedRoute] = useState(false);
 
   // trails (nature & fitness)
-  const [showMarkedTrails, setShowMarkedTrails] = useState(false);
-  const [markedTrailsObj, setMarkedTrailsObj] = useState({});
-  const [showNatureTrails, setShowNatureTrails] = useState(false);
-  const [natureTrailsObj, setNatureTrailsObj] = useState({});
-  const [showFitnessTrails, setShowFitnessTrails] = useState(false);
-  const [fitnessTrailsObj, setFitnessTrailsObj] = useState({});
+  const [selectedMarkedTrails, setSelectedMarkedTrails] = useState([]);
+  const [selectedNatureTrails, setSelectedNatureTrails] = useState([]);
+  const [selectedFitnessTrails, setSelectedFitnessTrails] = useState([]);
 
   // public transport
   const [showBusStops, setShowBusStops] = useState(false);
@@ -178,12 +175,9 @@ const MobilityPlatformContextProvider = ({ children }) => {
     showBrushSandedRoute,
     showBrushSaltedRoute,
     // trails (nature, fitness)
-    showMarkedTrails,
-    markedTrailsObj,
-    showNatureTrails,
-    natureTrailsObj,
-    showFitnessTrails,
-    fitnessTrailsObj,
+    selectedMarkedTrails,
+    selectedNatureTrails,
+    selectedFitnessTrails,
     // public transport
     showBusStops,
     showRailwayStations,
@@ -257,12 +251,9 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setShowBrushSandedRoute,
     setShowBrushSaltedRoute,
     // trails (nature, fitness)
-    setShowMarkedTrails,
-    setMarkedTrailsObj,
-    setShowNatureTrails,
-    setNatureTrailsObj,
-    setShowFitnessTrails,
-    setFitnessTrailsObj,
+    setSelectedMarkedTrails,
+    setSelectedNatureTrails,
+    setSelectedFitnessTrails,
     // public transport
     setShowBusStops,
     setShowRailwayStations,
