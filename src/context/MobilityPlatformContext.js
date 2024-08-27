@@ -65,6 +65,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showPublicParking, setShowPublicParking] = useState(false);
   const [showRentalCarParking, setShowRentalCarParking] = useState(false);
   const [showParkingGarages, setShowParkingGarages] = useState(false);
+  const [showParkAndRideAreas, setShowParkAndRideAreas] = useState(false);
 
   // boating
   const [showMarinas, setShowMarinas] = useState(false);
@@ -90,12 +91,9 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showBrushSaltedRoute, setShowBrushSaltedRoute] = useState(false);
 
   // trails (nature & fitness)
-  const [showMarkedTrails, setShowMarkedTrails] = useState(false);
-  const [markedTrailsObj, setMarkedTrailsObj] = useState({});
-  const [showNatureTrails, setShowNatureTrails] = useState(false);
-  const [natureTrailsObj, setNatureTrailsObj] = useState({});
-  const [showFitnessTrails, setShowFitnessTrails] = useState(false);
-  const [fitnessTrailsObj, setFitnessTrailsObj] = useState({});
+  const [selectedMarkedTrails, setSelectedMarkedTrails] = useState([]);
+  const [selectedNatureTrails, setSelectedNatureTrails] = useState([]);
+  const [selectedFitnessTrails, setSelectedFitnessTrails] = useState([]);
 
   // public transport
   const [showBusStops, setShowBusStops] = useState(false);
@@ -150,6 +148,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     showDisabledParking,
     showRentalCarParking,
     showParkingGarages,
+    showParkAndRideAreas,
     // boating
     showMarinas,
     showBoatParking,
@@ -170,12 +169,9 @@ const MobilityPlatformContextProvider = ({ children }) => {
     showBrushSandedRoute,
     showBrushSaltedRoute,
     // trails (nature, fitness)
-    showMarkedTrails,
-    markedTrailsObj,
-    showNatureTrails,
-    natureTrailsObj,
-    showFitnessTrails,
-    fitnessTrailsObj,
+    selectedMarkedTrails,
+    selectedNatureTrails,
+    selectedFitnessTrails,
     // public transport
     showBusStops,
     showRailwayStations,
@@ -228,6 +224,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setShowDisabledParking,
     setShowRentalCarParking,
     setShowParkingGarages,
+    setShowParkAndRideAreas,
     // boating
     setShowMarinas,
     setShowBoatParking,
@@ -248,12 +245,9 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setShowBrushSandedRoute,
     setShowBrushSaltedRoute,
     // trails (nature, fitness)
-    setShowMarkedTrails,
-    setMarkedTrailsObj,
-    setShowNatureTrails,
-    setNatureTrailsObj,
-    setShowFitnessTrails,
-    setFitnessTrailsObj,
+    setSelectedMarkedTrails,
+    setSelectedNatureTrails,
+    setSelectedFitnessTrails,
     // public transport
     setShowBusStops,
     setShowRailwayStations,
