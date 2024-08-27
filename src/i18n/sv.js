@@ -827,6 +827,7 @@ const translations = {
   'mobilityPlatform.menu.show.airPorts': 'Flygplats',
   'mobilityPlatform.menu.show.parkingGarages': 'Parkeringsgaragen',
   'mobilityPlatform.menu.show.portInfo': 'Passagerarfartyg',
+  'mobilityPlatform.menu.showparkAndRideAreas': 'Infartsparkering',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
@@ -953,6 +954,9 @@ const translations = {
   'mobilityPlatform.content.airport.cities.rhodes': 'Till Rhodos',
   'mobilityPlatform.content.portInfo.arrivals': 'Ankommande fartyg:',
   'mobilityPlatform.content.portInfo.departing': 'Avgående fartyg:',
+  'mobilityPlatform.content.parkAndRide.title': 'Infartsparkeringsplats',
+  'mobilityPlatform.content.parkAndRide.busNumbers': 'Närliggande busslinjer',
+  'mobilityPlatform.content.parkAndRide.bus': 'Linjen: {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Beskrivning av rutten',
@@ -1017,6 +1021,8 @@ const translations = {
   'mobilityPlatform.info.airport': 'Kartan visar Åbo flygplats och flygtidtabeller för den aktuella dagen. Flygtrafiken är uppdelad i flyg som avgår från och ankommer till flygplatsen. Uppgifterna kommer från Finavia gränssnitt.',
   'mobilityPlatform.info.parkingGarages': 'Allmänna parkeringsgaragen visas på kartan. Det finns dock ingen information om deras utnyttjandegrad. Mer detaljerad information om det valda parkeringsgarage kan läsas genom att trycka på ikon på kartan.',
   'mobilityPlatform.info.portInfo': 'Kartan visar hamnarna i Åbo och Nådendal och fartygets tidtabeller för de två dagarna. Passagerartrafiken är uppdelad på fartyg som avgår från och ankommer till hamnarna. Uppgifterna kommer från Digitraffic gränssnitt.',
+  'mobilityPlatform.info.parkAndRide': 'Infartsparkeringen erbjuder möjlighet att lämna din egen bil på parkeringsplatsen och fortsätta resan med buss. Inom Åbo stad finns några infartsparkeringsplatser för bilar. Infartsparkeringen är gratis och endast avsedd för dem som fortsätter sin resa med kollektivtrafik.',
+  'mobilityPlatform.info.parkAndRide.link': 'För mer information besök https://www.turku.fi/liityntapysakointi',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',

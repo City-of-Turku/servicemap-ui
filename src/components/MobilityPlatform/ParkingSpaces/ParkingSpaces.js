@@ -1,19 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
-import { fetchAreaGeometries, fetchParkingAreaStats } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { isObjValid } from '../utils/utils';
 import config from '../../../../config';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
+import useParkingDataFetch from '../utils/useParkingDataFetch';
+import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import ParkingSpacesContent from './components/ParkingSpacesContent';
 
 const ParkingSpaces = () => {
-  const [parkingSpaces, setParkingSpaces] = useState({});
-  const [parkingStatistics, setParkingStatistics] = useState([]);
-  const [fetchError, setFetchError] = useState(false);
-
   const { showParkingSpaces } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
@@ -37,21 +34,17 @@ const ParkingSpaces = () => {
 
   const pathOptions = useContrast ? whiteColor : blueColor;
 
-  const parkingSpacesUrl = config.parkingSpacesURL;
-  const isParkingSpacesUrl = !parkingSpacesUrl || parkingSpacesUrl === 'undefined' ? null : parkingSpacesUrl;
+  const parkingSpacesUrlBase = config.parkingSpacesURL;
+  const isParkingSpacesUrl = !parkingSpacesUrlBase || parkingSpacesUrlBase === 'undefined' ? null : parkingSpacesUrlBase;
 
-  const parkingStatisticsUrl = config.parkingStatisticsURL;
-  const isParkingStatisticsUrl = !parkingStatisticsUrl || parkingStatisticsUrl === 'undefined' ? null : parkingStatisticsUrl;
+  const parkingAreaUrl = `${isParkingSpacesUrl}/parking_area/`;
+  const parkingStatisticsUrl = `${isParkingSpacesUrl}/parking_area_statistics/`;
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const { signal } = controller;
-    if (showParkingSpaces && isParkingSpacesUrl && isParkingStatisticsUrl) {
-      fetchAreaGeometries(isParkingSpacesUrl, setParkingSpaces, setFetchError, signal);
-      fetchParkingAreaStats(isParkingStatisticsUrl, setParkingStatistics, setFetchError, signal);
-    }
-    return () => controller.abort();
-  }, [showParkingSpaces]);
+  const { areasData, statisticsData, fetchError } = useParkingDataFetch(
+    parkingAreaUrl,
+    parkingStatisticsUrl,
+    showParkingSpaces,
+  );
 
   const swapCoords = inputData => {
     if (inputData.length > 0) {
@@ -62,20 +55,20 @@ const ParkingSpaces = () => {
 
   const map = useMap();
 
-  const renderData = isObjValid(showParkingSpaces, parkingSpaces);
+  const renderData = isObjValid(showParkingSpaces, areasData);
 
   useEffect(() => {
     if (!fetchError && renderData) {
       const bounds = [];
-      parkingSpaces.forEach(item => {
+      areasData.forEach(item => {
         bounds.push(swapCoords(item.geometry.coordinates));
       });
       map.fitBounds(bounds);
     }
-  }, [showParkingSpaces, parkingSpaces, fetchError]);
+  }, [showParkingSpaces, areasData, fetchError]);
 
   const renderColor = (itemId, capacity) => {
-    const stats = parkingStatistics?.find(item => item.id === itemId);
+    const stats = statisticsData?.find(item => item.id === itemId);
     const almostFull = capacity * 0.85;
     const parkingCount = stats?.current_parking_count;
     if (parkingCount >= almostFull) {
@@ -86,7 +79,7 @@ const ParkingSpaces = () => {
 
   return (
     !fetchError && renderData
-      ? parkingSpaces.map(item => (
+      ? areasData.map(item => (
         <Polygon
           key={item.id}
           pathOptions={renderColor(item.id, item.properties.capacity_estimate)}
@@ -100,9 +93,13 @@ const ParkingSpaces = () => {
             },
           }}
         >
-          <Popup>
-            <ParkingSpacesContent parkingSpace={item} parkingStatistics={parkingStatistics} />
-          </Popup>
+          <StyledPopupWrapper>
+            <Popup>
+              <StyledPopupInner>
+                <ParkingSpacesContent parkingSpace={item} parkingStatistics={statisticsData} />
+              </StyledPopupInner>
+            </Popup>
+          </StyledPopupWrapper>
         </Polygon>
       ))
       : null
