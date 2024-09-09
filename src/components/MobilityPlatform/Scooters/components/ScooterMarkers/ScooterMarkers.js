@@ -57,7 +57,7 @@ const ScooterMarkers = ({ mapObject }) => {
   const isDetailZoom = zoomLevel >= mapObject.options.detailZoom;
 
   const { iotData: scooterDataRyde } = useIotDataFetch('SDR', showScooters.ryde);
-  const { data: scooterDataVoi } = useScootersDataFetch(showScooters.voi);
+  const { iotData: scooterDataVoi } = useIotDataFetch('SDV', showScooters.voi);
   const { data: scooterDataTier } = useScootersDataFetch(showScooters.tier);
 
   const filterByBounds = data => {

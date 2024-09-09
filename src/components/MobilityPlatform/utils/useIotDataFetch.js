@@ -15,7 +15,7 @@ const useIotDataFetch = (source, showData, embedded) => {
   }, [showData, embedded]);
 
   const setDataBySource = () => {
-    if (source === 'SDR') {
+    if (source === 'SDR' || source === 'SDV') {
       return data?.data?.bikes;
     }
     if (source === 'CBI' || source === 'CBS') {
