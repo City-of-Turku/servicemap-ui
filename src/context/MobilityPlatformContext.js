@@ -90,6 +90,10 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showBrushSandedRoute, setShowBrushSandedRoute] = useState(false);
   const [showBrushSaltedRoute, setShowBrushSaltedRoute] = useState(false);
 
+  // sports maintenance
+  const [showSportsMaintenance, setShowSportsMaintenance] = useState(false);
+  const [sportsMaintenancePeriod, setSportsMaintenancePeriod] = useState(null);
+
   // trails (nature & fitness)
   const [selectedMarkedTrails, setSelectedMarkedTrails] = useState([]);
   const [selectedNatureTrails, setSelectedNatureTrails] = useState([]);
@@ -168,6 +172,9 @@ const MobilityPlatformContextProvider = ({ children }) => {
     isActiveStreetMaintenance,
     showBrushSandedRoute,
     showBrushSaltedRoute,
+    // sports maintenance
+    showSportsMaintenance,
+    sportsMaintenancePeriod,
     // trails (nature, fitness)
     selectedMarkedTrails,
     selectedNatureTrails,
@@ -244,6 +251,9 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setIsActiveStreetMaintenance,
     setShowBrushSandedRoute,
     setShowBrushSaltedRoute,
+    // sports maintenance
+    setShowSportsMaintenance,
+    setSportsMaintenancePeriod,
     // trails (nature, fitness)
     setSelectedMarkedTrails,
     setSelectedNatureTrails,

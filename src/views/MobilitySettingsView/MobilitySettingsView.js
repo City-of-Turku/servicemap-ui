@@ -40,6 +40,7 @@ import RouteList from './components/RouteList';
 import StreetMaintenanceList from './components/StreetMaintenanceList';
 import MobilityToggleButton from './components/MobilityToggleButton';
 import AirMonitoringInfo from './components/AirMonitoringInfo';
+import SportsMaintenanceList from './components/SportsMaintenanceList';
 
 const MobilitySettingsView = ({ navigator }) => {
   const [pageTitle, setPageTitle] = useState(null);
@@ -49,6 +50,7 @@ const MobilitySettingsView = ({ navigator }) => {
   const [openBoatingSettings, setOpenBoatingSettings] = useState(false);
   const [openScooterSettings, setOpenScooterSettings] = useState(false);
   const [openStreetMaintenanceSettings, setOpenStreetMaintenanceSettings] = useState(false);
+  const [openSportsMaintenanceSettings, setOpenSportsMaintenanceSettings] = useState(false);
   const [openPublicTransportSettings, setOpenPublicTransportSettings] = useState(false);
   const [openAirMonitoringSettings, setOpenAirMonitoringSettings] = useState(false);
   const [openRoadworkSettings, setOpenRoadworkSettings] = useState(false);
@@ -58,6 +60,7 @@ const MobilitySettingsView = ({ navigator }) => {
   const [openParkingChargeZoneList, setOpenParkingChargeZoneList] = useState(false);
   const [openScooterProviderList, setOpenScooterProviderList] = useState(false);
   const [openStreetMaintenanceSelectionList, setOpenStreetMaintenanceSelectionList] = useState(false);
+  const [openSportsMaintenanceSelectionList, setOpenSportsMaintenanceSelectionList] = useState(false);
   const [openMarkedTrailsList, setOpenMarkedTrailsList] = useState(false);
   const [openNatureTrailsList, setOpenNatureTrailsList] = useState(false);
   const [openFitnessTrailsList, setOpenFitnessTrailsList] = useState(false);
@@ -127,6 +130,10 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowStreetMaintenance,
     streetMaintenancePeriod,
     setStreetMaintenancePeriod,
+    showSportsMaintenance,
+    setShowSportsMaintenance,
+    sportsMaintenancePeriod,
+    setSportsMaintenancePeriod,
     isActiveStreetMaintenance,
     showBrushSandedRoute,
     setShowBrushSandedRoute,
@@ -299,6 +306,7 @@ const MobilitySettingsView = ({ navigator }) => {
       setOpenBoatingSettings(true);
     } else if (location.pathname.includes('snowplows')) {
       setOpenStreetMaintenanceSettings(true);
+      // TODO: sports maintenance
     } else if (location.pathname.includes('weather')) {
       setOpenAirMonitoringSettings(true);
     } else if (location.pathname.includes('roadworks')) {
@@ -570,6 +578,14 @@ const MobilitySettingsView = ({ navigator }) => {
     }
   };
 
+  const sportsMaintenanceSettingsToggle = () => {
+    setOpenSportsMaintenanceSettings(current => !current);
+    if (!openSportsMaintenanceSettings) {
+      navigator.push('mobilityPlatform', 'sports');
+      setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.sportsMaintenance' }));
+    }
+  };
+
   const airMonitoringSettingsToggle = () => {
     setOpenAirMonitoringSettings(current => !current);
     if (!openAirMonitoringSettings) {
@@ -595,7 +611,7 @@ const MobilitySettingsView = ({ navigator }) => {
       && !openBoatingSettings
       && !openScooterSettings
       && !openStreetMaintenanceSettings
-      && !openPublicTransportSettings
+      && !openPublicTransportSettings // ladut alle..
       && !openAirMonitoringSettings
       && !openRoadworkSettings
       && pageTitle
@@ -866,6 +882,16 @@ const MobilitySettingsView = ({ navigator }) => {
     }
   };
 
+  const sportsMaintenanceListToggle = () => {
+    setOpenSportsMaintenanceSelectionList(current => !current);
+    if (sportsMaintenancePeriod) {
+      setSportsMaintenancePeriod(null);
+    }
+    if (showSportsMaintenance) {
+      setShowSportsMaintenance(false);
+    }
+  };
+
   const brushSandedRouteToggle = () => {
     setShowBrushSandedRoute(current => !current);
   };
@@ -1058,6 +1084,15 @@ const MobilitySettingsView = ({ navigator }) => {
     {
       type: '3days',
       msgId: 'mobilityPlatform.menu.streetMaintenance.3days',
+      onChangeValue: setStreetMaintenancePeriodSelection,
+    },
+  ];
+
+  // TODO: sports maintenance
+  const sportsMaintenanceSelections = [
+    {
+      type: '1hour',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.1hour',
       onChangeValue: setStreetMaintenancePeriodSelection,
     },
   ];
@@ -1383,6 +1418,15 @@ const MobilitySettingsView = ({ navigator }) => {
     },
   ];
 
+  const sportsMaintenanceControlTypes = [
+    {
+      type: 'sportsMaintenanceWorks',
+      msgId: 'mobilityPlatform.menu.show.sportsMaintenanceWorks',
+      checkedValue: openSportsMaintenanceSelectionList,
+      onChangeValue: sportsMaintenanceListToggle,
+    },
+  ];
+
   const airMonitoringControlTypes = [
     {
       type: 'airMonitoringStations',
@@ -1467,6 +1511,15 @@ const MobilitySettingsView = ({ navigator }) => {
       isActive={isActiveStreetMaintenance}
       streetMaintenancePeriod={streetMaintenancePeriod}
       streetMaintenanceSelections={streetMaintenanceSelections}
+    />
+  );
+
+  const renderSportsMaintenanceSelectionList = () => (
+    <SportsMaintenanceList
+      openSportsMaintenanceList={openStreetMaintenanceSelectionList}
+      isActive={isActiveStreetMaintenance}
+      sportsMaintenancePeriod={sportsMaintenancePeriod}
+      sportsMaintenanceSelections={sportsMaintenanceSelections}
     />
   );
 
@@ -1850,6 +1903,14 @@ const MobilitySettingsView = ({ navigator }) => {
     </>
   );
 
+  const renderSportsMaintenanceSettings = () => (
+    <>
+      {renderSettings(openSportsMaintenanceSettings, sportsMaintenanceControlTypes)}
+      {renderSportsMaintenanceSelectionList()}
+      {/* renderInfoTexts(infoTextsSnowplow) */}
+    </>
+  );
+
   const renderPublicTransportSettings = () => (
     <>
       {renderSettings(openPublicTransportSettings, publicTransportControlTypes)}
@@ -1927,6 +1988,13 @@ const MobilitySettingsView = ({ navigator }) => {
       icon: <ReactSVG src={iconSnowplow} className={iconClass} />,
       onClick: streetMaintenanceSettingsToggle,
       setState: openStreetMaintenanceSettings,
+    },
+    { // TODO: sports maintenance
+      component: renderSportsMaintenanceSettings(),
+      title: 'Liikuntapaikkojen kunnossapito',
+      icon: <ReactSVG src={iconSnowplow} className={iconClass} />,
+      onClick: sportsMaintenanceSettingsToggle,
+      setState: openSportsMaintenanceSettings,
     },
     {
       component: renderAirMonitoringSettings(),
