@@ -90,9 +90,10 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showBrushSandedRoute, setShowBrushSandedRoute] = useState(false);
   const [showBrushSaltedRoute, setShowBrushSaltedRoute] = useState(false);
 
-  // sports maintenance
-  const [showSportsMaintenance, setShowSportsMaintenance] = useState(false);
-  const [sportsMaintenancePeriod, setSportsMaintenancePeriod] = useState(null);
+  // ski trails
+  const [showSkiTrails, setShowSkiTrails] = useState(false);
+  const [skiTrailsPeriod, setSkiTrailsPeriod] = useState(null);
+  const [isActiveSkiTrails, setIsActiveSkiTrails] = useState(true);
 
   // trails (nature & fitness)
   const [selectedMarkedTrails, setSelectedMarkedTrails] = useState([]);
@@ -172,9 +173,10 @@ const MobilityPlatformContextProvider = ({ children }) => {
     isActiveStreetMaintenance,
     showBrushSandedRoute,
     showBrushSaltedRoute,
-    // sports maintenance
-    showSportsMaintenance,
-    sportsMaintenancePeriod,
+    // ski trails
+    showSkiTrails,
+    skiTrailsPeriod,
+    isActiveSkiTrails,
     // trails (nature, fitness)
     selectedMarkedTrails,
     selectedNatureTrails,
@@ -251,9 +253,10 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setIsActiveStreetMaintenance,
     setShowBrushSandedRoute,
     setShowBrushSaltedRoute,
-    // sports maintenance
-    setShowSportsMaintenance,
-    setSportsMaintenancePeriod,
+    // ski trails
+    setShowSkiTrails,
+    setSkiTrailsPeriod,
+    setIsActiveSkiTrails,
     // trails (nature, fitness)
     setSelectedMarkedTrails,
     setSelectedNatureTrails,

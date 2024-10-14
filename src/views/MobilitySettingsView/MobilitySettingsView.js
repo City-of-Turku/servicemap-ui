@@ -40,7 +40,7 @@ import RouteList from './components/RouteList';
 import StreetMaintenanceList from './components/StreetMaintenanceList';
 import MobilityToggleButton from './components/MobilityToggleButton';
 import AirMonitoringInfo from './components/AirMonitoringInfo';
-import SportsMaintenanceList from './components/SportsMaintenanceList';
+import SkiTrailsList from './components/SkiTrailsList';
 
 const MobilitySettingsView = ({ navigator }) => {
   const [pageTitle, setPageTitle] = useState(null);
@@ -60,7 +60,7 @@ const MobilitySettingsView = ({ navigator }) => {
   const [openParkingChargeZoneList, setOpenParkingChargeZoneList] = useState(false);
   const [openScooterProviderList, setOpenScooterProviderList] = useState(false);
   const [openStreetMaintenanceSelectionList, setOpenStreetMaintenanceSelectionList] = useState(false);
-  const [openSportsMaintenanceSelectionList, setOpenSportsMaintenanceSelectionList] = useState(false);
+  const [openSkiTrailsSelectionList, setOpenSkiTrailsSelectionList] = useState(false);
   const [openMarkedTrailsList, setOpenMarkedTrailsList] = useState(false);
   const [openNatureTrailsList, setOpenNatureTrailsList] = useState(false);
   const [openFitnessTrailsList, setOpenFitnessTrailsList] = useState(false);
@@ -130,10 +130,11 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowStreetMaintenance,
     streetMaintenancePeriod,
     setStreetMaintenancePeriod,
-    showSportsMaintenance,
-    setShowSportsMaintenance,
-    sportsMaintenancePeriod,
-    setSportsMaintenancePeriod,
+    showSkiTrails,
+    setShowSkiTrails,
+    skiTrailsPeriod,
+    setSkiTrailsPeriod,
+    isActiveSkiTrails,
     isActiveStreetMaintenance,
     showBrushSandedRoute,
     setShowBrushSandedRoute,
@@ -461,6 +462,12 @@ const MobilitySettingsView = ({ navigator }) => {
     checkVisibilityValues(showStreetMaintenance, setOpenStreetMaintenanceSelectionList);
   }, [showStreetMaintenance]);
 
+  /* TODO: ski trails
+  useEffect(() => {
+    checkVisibilityValues(showSkiTrails, setOpenSkiTrailSettings);
+    checkVisibilityValues(showSkiTrails, setSkiTrailsSelectionList);
+  }, [showSkiTrails]);
+  */
   useEffect(() => {
     checkVisibilityValues(showBusStops, setOpenPublicTransportSettings);
     checkVisibilityValues(showRailwayStations, setOpenPublicTransportSettings);
@@ -882,13 +889,13 @@ const MobilitySettingsView = ({ navigator }) => {
     }
   };
 
-  const sportsMaintenanceListToggle = () => {
-    setOpenSportsMaintenanceSelectionList(current => !current);
-    if (sportsMaintenancePeriod) {
-      setSportsMaintenancePeriod(null);
+  const skiTrailsListToggle = () => {
+    setOpenSkiTrailsSelectionList(current => !current);
+    if (skiTrailsPeriod) {
+      setSkiTrailsPeriod(null);
     }
-    if (showSportsMaintenance) {
-      setShowSportsMaintenance(false);
+    if (showSkiTrails) {
+      setShowSkiTrails(false);
     }
   };
 
@@ -1088,12 +1095,40 @@ const MobilitySettingsView = ({ navigator }) => {
     },
   ];
 
-  // TODO: sports maintenance
-  const sportsMaintenanceSelections = [
+  /**
+   * Stores previous value
+   */
+  const prevSkiTrailsPeriodRef = useRef();
+
+  useEffect(() => {
+    prevSkiTrailsPeriodRef.current = skiTrailsPeriod;
+  }, [skiTrailsPeriod]);
+
+  const setSkiTrailsPeriodSelection = periodType => {
+    setSkiTrailsPeriod(periodType);
+    setShowSkiTrails(true);
+    if (periodType === prevSkiTrailsPeriodRef.current) {
+      setSkiTrailsPeriod(null);
+      setShowSkiTrails(false);
+    }
+  };
+
+  // TODO: ski trails
+  const skiTrailsSelections = [
     {
       type: '1hour',
       msgId: 'mobilityPlatform.menu.streetMaintenance.1hour',
-      onChangeValue: setStreetMaintenancePeriodSelection,
+      onChangeValue: setSkiTrailsPeriodSelection,
+    },
+    {
+      type: '1day',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.1day',
+      onChangeValue: setSkiTrailsPeriodSelection,
+    },
+    {
+      type: '3days',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.3days',
+      onChangeValue: setSkiTrailsPeriodSelection,
     },
   ];
 
@@ -1420,10 +1455,10 @@ const MobilitySettingsView = ({ navigator }) => {
 
   const sportsMaintenanceControlTypes = [
     {
-      type: 'sportsMaintenanceWorks',
-      msgId: 'mobilityPlatform.menu.show.sportsMaintenanceWorks',
-      checkedValue: openSportsMaintenanceSelectionList,
-      onChangeValue: sportsMaintenanceListToggle,
+      type: 'skiTrails',
+      msgId: 'mobilityPlatform.menu.show.skiTrails',
+      checkedValue: openSkiTrailsSelectionList,
+      onChangeValue: skiTrailsListToggle,
     },
   ];
 
@@ -1514,12 +1549,12 @@ const MobilitySettingsView = ({ navigator }) => {
     />
   );
 
-  const renderSportsMaintenanceSelectionList = () => (
-    <SportsMaintenanceList
-      openSportsMaintenanceList={openStreetMaintenanceSelectionList}
-      isActive={isActiveStreetMaintenance}
-      sportsMaintenancePeriod={sportsMaintenancePeriod}
-      sportsMaintenanceSelections={sportsMaintenanceSelections}
+  const renderSkiTrailsSelectionList = () => (
+    <SkiTrailsList
+      openSkiTrailsList={openSkiTrailsSelectionList}
+      isActive={isActiveSkiTrails}
+      skiTrailsPeriod={skiTrailsPeriod}
+      skiTrailsSelections={skiTrailsSelections}
     />
   );
 
@@ -1906,7 +1941,7 @@ const MobilitySettingsView = ({ navigator }) => {
   const renderSportsMaintenanceSettings = () => (
     <>
       {renderSettings(openSportsMaintenanceSettings, sportsMaintenanceControlTypes)}
-      {renderSportsMaintenanceSelectionList()}
+      {renderSkiTrailsSelectionList()}
       {/* renderInfoTexts(infoTextsSnowplow) */}
     </>
   );

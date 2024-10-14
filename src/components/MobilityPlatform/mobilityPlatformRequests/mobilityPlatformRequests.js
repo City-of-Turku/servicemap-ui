@@ -104,6 +104,16 @@ const fetchStreetMaintenanceData = async (endpoint, setData) => {
   }
 };
 
+const fetchMaintenanceData = async (endpoint, setData) => {
+  try {
+    const response = await fetch(`${isApiUrl}/maintenance/${endpoint}`);
+    const jsonData = await response.json();
+    setData(jsonData.results);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 const fetchAreaGeometries = async (endpoint, setData, setError, signal) => {
   try {
     const response = await fetch(endpoint, { signal });
@@ -187,6 +197,7 @@ export {
   fetchBicycleRoutesGeometry,
   fetchIotData,
   fetchStreetMaintenanceData,
+  fetchMaintenanceData,
   fetchAreaGeometries,
   fetchParkingAreaStats,
   fetchRailwaysData,

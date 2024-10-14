@@ -45,6 +45,7 @@ import AccessibilityAreas from '../../components/MobilityPlatform/AccessibilityA
 import ParkingGarages from '../../components/MobilityPlatform/Parking/ParkingGarages';
 import PortInfo from '../../components/MobilityPlatform/PortInfo';
 import ParkAndRideAreas from '../../components/MobilityPlatform/Parking/ParkAndRideAreas';
+import SkiTrails from '../../components/MobilityPlatform/SkiTrails';
 
 const MobilityPlatformMapView = ({ mapObject }) => (
   <>
@@ -71,6 +72,7 @@ const MobilityPlatformMapView = ({ mapObject }) => (
     <DisabledParking />
     <LoadingPlaces />
     <SnowPlows />
+    <SkiTrails />
     <BrushedBicycleRoads />
     <MarkedTrails />
     <NatureTrails />
