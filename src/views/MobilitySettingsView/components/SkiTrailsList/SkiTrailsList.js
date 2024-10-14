@@ -14,22 +14,6 @@ const SkiTrailsList = ({
 }) => {
   const intl = useIntl();
 
-  const streetMaintenanceInfo = (colorClass, translationId) => (
-    <StyledFlexBox>
-      <StyledBox color={colorClass} />
-      <StyledMarginLeftSm>
-        <Typography variant="body2">{intl.formatMessage({ id: translationId })}</Typography>
-      </StyledMarginLeftSm>
-    </StyledFlexBox>
-  );
-
-  const colorValues = {
-    blue: 'rgba(7, 44, 115, 255)',
-    purple: 'rgba(202, 15, 212, 255)',
-    burgundy: 'rgba(128, 0, 32, 255)',
-    green: 'rgba(15, 115, 6, 255)',
-  };
-
   return (
     openSkiTrailsList ? (
       <>
@@ -63,11 +47,6 @@ const SkiTrailsList = ({
                   />
                 </StyledCheckBoxItem>
               ))}
-        <StyledBorderedParagraph>
-          <div>
-            {streetMaintenanceInfo(colorValues.blue, 'mobilityPlatform.menu.streetMaintenance.info.snowplow')}
-          </div>
-        </StyledBorderedParagraph>
       </>
     ) : null
   );
@@ -89,25 +68,6 @@ const StyledCheckBoxItem = styled.div(() => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'start',
-}));
-
-const StyledFlexBox = styled.div(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  marginTop: theme.spacing(1),
-}));
-
-const StyledBox = styled.div(({ color }) => ({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  width: '1.5rem',
-  height: '1.5rem',
-  backgroundColor: color,
-}));
-
-const StyledMarginLeftSm = styled.div(({ theme }) => ({
-  marginLeft: theme.spacing(0.7),
 }));
 
 SkiTrailsList.propTypes = {
