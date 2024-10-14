@@ -20,12 +20,12 @@ const SkiTrailsList = ({
         <StyledBorderedParagraph>
           <Typography
             variant="body2"
-            aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.streetMaintenance.info' })}
+            aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.skiTrails.info' })}
           >
-            {intl.formatMessage({ id: 'mobilityPlatform.menu.streetMaintenance.info' })}
+            {intl.formatMessage({ id: 'mobilityPlatform.menu.skiTrails.info' })}
           </Typography>
           {!isActive && skiTrailsPeriod ? (
-            <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.noActivity" reducePadding />
+            <InfoTextBox infoText="mobilityPlatform.info.skiTrails.noActivity" reducePadding />
           ) : null}
         </StyledBorderedParagraph>
         {skiTrailsSelections?.length > 0
