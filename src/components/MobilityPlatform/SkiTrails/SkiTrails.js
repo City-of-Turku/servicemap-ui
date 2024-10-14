@@ -90,7 +90,7 @@ const SkiTrails = () => {
   const renderSkiTrails = () => {
     const works = new Map();
     // TODO: handle different time options
-    works.set('1hour', skiTrails1Day);
+    works.set('1day', skiTrails1Day);
     if (works.has(skiTrailsPeriod)) {
       return renderData(works.get(skiTrailsPeriod));
     }

@@ -1116,18 +1116,28 @@ const MobilitySettingsView = ({ navigator }) => {
   // TODO: ski trails
   const skiTrailsSelections = [
     {
-      type: '1hour',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.1hour',
-      onChangeValue: setSkiTrailsPeriodSelection,
-    },
-    {
       type: '1day',
       msgId: 'mobilityPlatform.menu.streetMaintenance.1day',
       onChangeValue: setSkiTrailsPeriodSelection,
     },
     {
+      type: '2days',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.2days',
+      onChangeValue: setSkiTrailsPeriodSelection,
+    },
+    {
       type: '3days',
       msgId: 'mobilityPlatform.menu.streetMaintenance.3days',
+      onChangeValue: setSkiTrailsPeriodSelection,
+    },
+    {
+      type: '4days',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.4days',
+      onChangeValue: setSkiTrailsPeriodSelection,
+    },
+    {
+      type: '5days',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.5days',
       onChangeValue: setSkiTrailsPeriodSelection,
     },
   ];
@@ -2024,9 +2034,9 @@ const MobilitySettingsView = ({ navigator }) => {
       onClick: streetMaintenanceSettingsToggle,
       setState: openStreetMaintenanceSettings,
     },
-    { // TODO: sports maintenance
+    {
       component: renderSportsMaintenanceSettings(),
-      title: 'Liikuntapaikkojen kunnossapito',
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.sportsMaintenance' }),
       icon: <ReactSVG src={iconSnowplow} className={iconClass} />,
       onClick: sportsMaintenanceSettingsToggle,
       setState: openSportsMaintenanceSettings,
