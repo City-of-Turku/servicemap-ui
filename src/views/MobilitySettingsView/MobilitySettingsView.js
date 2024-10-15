@@ -307,7 +307,8 @@ const MobilitySettingsView = ({ navigator }) => {
       setOpenBoatingSettings(true);
     } else if (location.pathname.includes('snowplows')) {
       setOpenStreetMaintenanceSettings(true);
-      // TODO: sports maintenance
+    } else if (location.pathname.includes('sports')) {
+      setOpenSportsMaintenanceSettings(true);
     } else if (location.pathname.includes('weather')) {
       setOpenAirMonitoringSettings(true);
     } else if (location.pathname.includes('roadworks')) {
@@ -462,12 +463,11 @@ const MobilitySettingsView = ({ navigator }) => {
     checkVisibilityValues(showStreetMaintenance, setOpenStreetMaintenanceSelectionList);
   }, [showStreetMaintenance]);
 
-  /* TODO: ski trails
   useEffect(() => {
-    checkVisibilityValues(showSkiTrails, setOpenSkiTrailSettings);
-    checkVisibilityValues(showSkiTrails, setSkiTrailsSelectionList);
+    checkVisibilityValues(showSkiTrails, setOpenSportsMaintenanceSettings);
+    checkVisibilityValues(showSkiTrails, setOpenSkiTrailsSelectionList);
   }, [showSkiTrails]);
-  */
+
   useEffect(() => {
     checkVisibilityValues(showBusStops, setOpenPublicTransportSettings);
     checkVisibilityValues(showRailwayStations, setOpenPublicTransportSettings);
