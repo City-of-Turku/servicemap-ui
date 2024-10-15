@@ -19,9 +19,12 @@ export function getCoordinates(s) {
     // Split each pair into numbers and create an array of arrays [x, y]
     const coordinates = coordPairs.map(pair => {
       const [x, y] = pair.split(' ').map(Number);
+      if (Number.isNaN(x) || Number.isNaN(y)) {
+        return null;
+      }
       // swap coordinate order for map
       return [y, x];
-    });
+    }).filter(Boolean);
     return coordinates;
   }
   return [];
