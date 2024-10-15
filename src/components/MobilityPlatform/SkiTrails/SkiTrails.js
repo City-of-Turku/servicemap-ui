@@ -19,17 +19,6 @@ const SkiTrails = () => {
 
   const { Polyline } = global.rL;
 
-  const getPathOptions = () => {
-    const rgba = [15, 115, 6, 255];
-    const pattern = '8 3 8';
-    return {
-      color: `rgba(${rgba})`,
-      fillOpacity: 0.3,
-      dashArray: pattern,
-      weight: 5,
-    };
-  };
-
   const currentDate = new Date();
   // TODO: handle correct time options
   const yesterDay = format(subDays(currentDate, 1), 'yyyy-MM-dd HH:mm:ss');
@@ -50,15 +39,6 @@ const SkiTrails = () => {
 
   const validateData = inputData => inputData && inputData.length > 0;
   let isDataValid = false;
-  // TODO: swapping can be done in coords get util
-  const swapCoords = coordsData => {
-    const isValid = validateData(coordsData);
-    if (isValid) {
-      const swapped = coordsData.map(item => [item[1], item[0]]);
-      return swapped;
-    }
-    return coordsData;
-  };
 
   useEffect(() => {
     if (!isDataValid) {
@@ -67,32 +47,13 @@ const SkiTrails = () => {
   }, [isDataValid, skiTrailsPeriod, isActiveSkiTrails, setIsActiveSkiTrails]);
 
   const renderData = inputData => {
-    // TODO: below dont work. Handle geometries.geometry string
-    // geometry: "SRID=4326;LINESTRING(x y, x y, x y)"
-    // handle possible empty data?
-    const filtered = inputData.reduce((acc, curr) => {
-      if (curr.geometry_type === 'LineString') {
-        acc.push(curr);
-      }
-      return acc;
-    }, []);
-    const mapped = inputData.map(item => {
-      // eslint-disable-next-line camelcase
-      const { id, last_imported_time, geometries } = item;
-      const coordinates = getCoordinates(geometries[0].geometry);
-      // eslint-disable-next-line camelcase
-      return { id, last_imported_time, coordinates };
-    });
-
-    isDataValid = validateData(mapped);
-
+    isDataValid = validateData(inputData);
     if (isDataValid) {
-      return mapped.map((item, i) => (
+      return inputData.map((item, i) => (
         <Polyline
           // eslint-disable-next-line react/no-array-index-key
           key={`${item.id}${item.last_imported_time}${i}`}
-          // pathOptions={getPathOptions(item.events[0])}
-          positions={swapCoords(item.coordinates)}
+          positions={getCoordinates(item.geometries[0]?.geometry)}
         />
       ));
     }
