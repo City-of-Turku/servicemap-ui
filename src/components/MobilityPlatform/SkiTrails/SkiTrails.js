@@ -27,7 +27,7 @@ const SkiTrails = () => {
   const fourDays = format(subDays(currentDate, 4), 'yyyy-MM-dd HH:mm:ss');
   const fiveDays = format(subDays(currentDate, 90), 'yyyy-MM-dd HH:mm:ss');
 
-  const createQuery = dateItem => `unit_maintenance?page_size=50000&event=ski_trail&maintained_at__gte=${dateItem}`;
+  const createQuery = dateItem => `unit_maintenance?page_size=50000&target__iexact=ski_trail&maintained_at__gte=${dateItem}`;
 
   useEffect(() => {
     fetchMaintenanceData(createQuery(yesterDay), setSkiTrails1Day);
