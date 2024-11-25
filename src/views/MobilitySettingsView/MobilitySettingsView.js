@@ -1116,6 +1116,16 @@ const MobilitySettingsView = ({ navigator }) => {
   // TODO: ski trails
   const skiTrailsSelections = [
     {
+      type: '3hrs',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.3hours',
+      onChangeValue: setSkiTrailsPeriodSelection,
+    },
+    {
+      type: '12hrs',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.12hours',
+      onChangeValue: setSkiTrailsPeriodSelection,
+    },
+    {
       type: '1day',
       msgId: 'mobilityPlatform.menu.streetMaintenance.1day',
       onChangeValue: setSkiTrailsPeriodSelection,
@@ -1126,18 +1136,18 @@ const MobilitySettingsView = ({ navigator }) => {
       onChangeValue: setSkiTrailsPeriodSelection,
     },
     {
-      type: '3days',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.3days',
-      onChangeValue: setSkiTrailsPeriodSelection,
-    },
-    {
       type: '4days',
       msgId: 'mobilityPlatform.menu.streetMaintenance.4days',
       onChangeValue: setSkiTrailsPeriodSelection,
     },
     {
-      type: '5days',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.5days',
+      type: '8days',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.8days',
+      onChangeValue: setSkiTrailsPeriodSelection,
+    },
+    {
+      type: '16days',
+      msgId: 'mobilityPlatform.menu.streetMaintenance.16days',
       onChangeValue: setSkiTrailsPeriodSelection,
     },
   ];
