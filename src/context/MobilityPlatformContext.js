@@ -110,6 +110,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showLoadingPlaces, setShowLoadingPlaces] = useState(false);
   const [showPublicToilets, setShowPublicToilets] = useState(false);
   const [showCrossWalks, setShowCrossWalks] = useState(false);
+  const [showAudibleCrossWalks, setShowAudibleCrossWalks] = useState(false);
   const [showOverpasses, setShowOverpasses] = useState(false);
   const [showUnderpasses, setShowUnderpasses] = useState(false);
   const [showPublicBenches, setShowPublicBenches] = useState(false);
@@ -185,6 +186,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     showPublicToilets,
     showLoadingPlaces,
     showCrossWalks,
+    showAudibleCrossWalks,
     showOverpasses,
     showUnderpasses,
     showPublicBenches,
@@ -261,6 +263,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setShowPublicToilets,
     setShowLoadingPlaces,
     setShowCrossWalks,
+    setShowAudibleCrossWalks,
     setShowUnderpasses,
     setShowOverpasses,
     setShowPublicBenches,
