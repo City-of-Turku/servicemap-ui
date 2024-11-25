@@ -829,6 +829,7 @@ const translations = {
   'mobilityPlatform.menu.show.parkingGarages': 'Pysäköintihallit',
   'mobilityPlatform.menu.show.portInfo': 'Matkustajalaivat',
   'mobilityPlatform.menu.showparkAndRideAreas': 'Liityntäpysäköinti',
+  'mobilityPlatform.menu.show.taxiStands': 'Taksitolpat',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',
@@ -1014,6 +1015,7 @@ const translations = {
   'mobilityPlatform.info.portInfo': 'Kartalla näkyvät Turun ja Naantalin satamat sekä matkustajalaivojen aikataulut kahden vuorokauden ajalta. Matkustajaliikenne on jaettu satamista lähteviin ja sinne saapuviin aluksiin. Tiedot tulevat Digitrafficin rajapinnasta.',
   'mobilityPlatform.info.parkAndRide': 'Liityntäpysäköinti tarjoaa mahdollisuuden jättää oma auto parkkiin ja jatkaa matkaa linja-autolla. Turussa on muutamia liityntäpysäköintialueita autoille. Liityntäpysäköinti on maksutonta ja tarkoitettu vain joukkoliikennettä vaihtoyhteytenä käyttäville.',
   'mobilityPlatform.info.parkAndRide.link': 'Lisätietoja löytyy osoitteesta https://www.turku.fi/liityntapysakointi',
+  'mobilityPlatform.info.taxiStands': 'Turun kaupungin ylläpitämät taksitolpat ovat kaikkien taksiyrittäjien käytössä.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',

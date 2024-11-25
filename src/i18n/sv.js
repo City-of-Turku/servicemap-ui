@@ -828,6 +828,7 @@ const translations = {
   'mobilityPlatform.menu.show.parkingGarages': 'Parkeringsgaragen',
   'mobilityPlatform.menu.show.portInfo': 'Passagerarfartyg',
   'mobilityPlatform.menu.showparkAndRideAreas': 'Infartsparkering',
+  'mobilityPlatform.menu.show.taxiStands': 'Taxistation',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Tjänsteleverantör: {value}',
@@ -1023,6 +1024,7 @@ const translations = {
   'mobilityPlatform.info.portInfo': 'Kartan visar hamnarna i Åbo och Nådendal och fartygets tidtabeller för de två dagarna. Passagerartrafiken är uppdelad på fartyg som avgår från och ankommer till hamnarna. Uppgifterna kommer från Digitraffic gränssnitt.',
   'mobilityPlatform.info.parkAndRide': 'Infartsparkeringen erbjuder möjlighet att lämna din egen bil på parkeringsplatsen och fortsätta resan med buss. Inom Åbo stad finns några infartsparkeringsplatser för bilar. Infartsparkeringen är gratis och endast avsedd för dem som fortsätter sin resa med kollektivtrafik.',
   'mobilityPlatform.info.parkAndRide.link': 'För mer information besök https://www.turku.fi/liityntapysakointi',
+  'mobilityPlatform.info.taxiStands': 'Taxistationer som underhålls av Åbo stad är tillgängliga för alla taxiföretagare.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',

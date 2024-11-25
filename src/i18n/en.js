@@ -824,6 +824,7 @@ const translations = {
   'mobilityPlatform.menu.show.parkingGarages': 'Parking garages',
   'mobilityPlatform.menu.show.portInfo': 'Passenger ships',
   'mobilityPlatform.menu.showparkAndRideAreas': 'Park-and-ride',
+  'mobilityPlatform.menu.show.taxiStands': 'Taxi stands',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
@@ -1019,6 +1020,7 @@ const translations = {
   'mobilityPlatform.info.portInfo': 'The map shows the ports in Turku and Naantali and the timetables of passenger ships for two days. Passenger traffic is divided into ships departing from and ships arriving at the ports. The data comes from the interface provided by Digitraffic.',
   'mobilityPlatform.info.parkAndRide': 'Park-and-ride arrangements provide the opportunity to leave your car parked safely and hop on a bus to continue your journey. City of Turku boasts few park-and-ride sites for cars.  Park-and-ride parking is free and intended for those using public transport for connections.',
   'mobilityPlatform.info.parkAndRide.link': 'For more information visit https://www.turku.fi/liityntapysakointi',
+  'mobilityPlatform.info.taxiStands': 'Taxi stands maintained by the City of Turku are available for use by all taxi operators.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',

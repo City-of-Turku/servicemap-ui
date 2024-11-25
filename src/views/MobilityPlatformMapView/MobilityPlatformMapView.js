@@ -45,6 +45,7 @@ import AccessibilityAreas from '../../components/MobilityPlatform/AccessibilityA
 import ParkingGarages from '../../components/MobilityPlatform/Parking/ParkingGarages';
 import PortInfo from '../../components/MobilityPlatform/PortInfo';
 import ParkAndRideAreas from '../../components/MobilityPlatform/Parking/ParkAndRideAreas';
+import TaxiStands from '../../components/MobilityPlatform/TaxiStands';
 
 const MobilityPlatformMapView = ({ mapObject }) => (
   <>
@@ -93,6 +94,7 @@ const MobilityPlatformMapView = ({ mapObject }) => (
     <ParkingGarages />
     <PortInfo />
     <ParkAndRideAreas />
+    <TaxiStands />
   </>
 );
 
