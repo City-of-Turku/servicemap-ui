@@ -17,6 +17,7 @@ import iconBoat from 'servicemap-ui-turku/assets/icons/icons-icon_boating.svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
 import iconScooter from 'servicemap-ui-turku/assets/icons/icons-icon_scooter.svg';
 import iconSnowplow from 'servicemap-ui-turku/assets/icons/icons-icon_street_maintenance.svg';
+import iconSportsMaintenance from 'servicemap-ui-turku/assets/icons/icons-icon_sports_maintenance.svg';
 import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import iconPublicTransport from 'servicemap-ui-turku/assets/icons/icons-icon_public_transport.svg';
 import InfoTextBox from '../../components/MobilityPlatform/InfoTextBox';
@@ -1113,7 +1114,6 @@ const MobilitySettingsView = ({ navigator }) => {
     }
   };
 
-  // TODO: ski trails
   const skiTrailsSelections = [
     {
       type: '3hrs',
@@ -2047,7 +2047,7 @@ const MobilitySettingsView = ({ navigator }) => {
     {
       component: renderSportsMaintenanceSettings(),
       title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.sportsMaintenance' }),
-      icon: <ReactSVG src={iconSnowplow} className={iconClass} />,
+      icon: <ReactSVG src={iconSportsMaintenance} className={iconClass} />,
       onClick: sportsMaintenanceSettingsToggle,
       setState: openSportsMaintenanceSettings,
     },
