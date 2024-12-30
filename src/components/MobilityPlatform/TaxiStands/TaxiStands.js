@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
-import railwayIcon from 'servicemap-ui-turku/assets/icons/icons-icon_railway_station.svg';
-import railwayIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_railway_station-bw.svg';
+import taxiIcon from 'servicemap-ui-turku/assets/icons/icons-icon_taxi.svg';
+import taxiIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_taxi-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
@@ -17,8 +17,7 @@ const TaxiStands = () => {
   const { Marker } = global.rL;
   const { icon } = global.L;
   const useContrast = useSelector(useAccessibleMap);
-  // TODO: change icons
-  const customIcon = icon(createIcon(useContrast ? railwayIconBw : railwayIcon));
+  const customIcon = icon(createIcon(useContrast ? taxiIconBw : taxiIcon));
 
   useEffect(() => {
     const controller = new AbortController();
