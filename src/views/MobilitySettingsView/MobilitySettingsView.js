@@ -132,18 +132,12 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowBrushSandedRoute,
     showBrushSaltedRoute,
     setShowBrushSaltedRoute,
-    showMarkedTrails,
-    setShowMarkedTrails,
-    markedTrailsObj,
-    setMarkedTrailsObj,
-    showNatureTrails,
-    setShowNatureTrails,
-    natureTrailsObj,
-    setNatureTrailsObj,
-    showFitnessTrails,
-    setShowFitnessTrails,
-    fitnessTrailsObj,
-    setFitnessTrailsObj,
+    selectedMarkedTrails,
+    setSelectedMarkedTrails,
+    selectedNatureTrails,
+    setSelectedNatureTrails,
+    selectedFitnessTrails,
+    setSelectedFitnessTrails,
     showParkingMachines,
     setShowParkingMachines,
     showPublicParking,
@@ -174,11 +168,21 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowBarbecuePlaces,
     showAirports,
     setShowAirports,
+    showParkingGarages,
+    setShowParkingGarages,
+    showPortInfo,
+    setShowPortInfo,
+    showParkAndRideAreas,
+    setShowParkAndRideAreas,
   } = useMobilityPlatformContext();
 
   const locale = useSelector(state => state.user.locale);
   const location = useLocation();
   const getLocaleText = useLocaleText();
+
+  const showMarkedTrails = selectedMarkedTrails.length > 0;
+  const showNatureTrails = selectedNatureTrails.length > 0;
+  const showFitnessTrails = selectedFitnessTrails.length > 0;
 
   const iconClass = css({
     fill: 'rgba(0, 0, 0, 255)',
@@ -405,6 +409,8 @@ const MobilitySettingsView = ({ navigator }) => {
     checkVisibilityValues(showParkingMachines, setOpenCarSettings);
     checkVisibilityValues(showPublicParking, setOpenCarSettings);
     checkVisibilityValues(showRentalCarParking, setOpenCarSettings);
+    checkVisibilityValues(showParkingGarages, setOpenCarSettings);
+    checkVisibilityValues(showParkAndRideAreas, setOpenCarSettings);
   }, [
     showRentalCars,
     showGasFillingStations,
@@ -416,6 +422,8 @@ const MobilitySettingsView = ({ navigator }) => {
     showParkingMachines,
     showPublicParking,
     showRentalCarParking,
+    showParkingGarages,
+    showParkAndRideAreas,
   ]);
 
   useEffect(() => {
@@ -449,7 +457,8 @@ const MobilitySettingsView = ({ navigator }) => {
     checkVisibilityValues(showBusStops, setOpenPublicTransportSettings);
     checkVisibilityValues(showRailwayStations, setOpenPublicTransportSettings);
     checkVisibilityValues(showAirports, setOpenPublicTransportSettings);
-  }, [showBusStops, showRailwayStations, showAirports]);
+    checkVisibilityValues(showPortInfo, setOpenPublicTransportSettings);
+  }, [showBusStops, showRailwayStations, showAirports, showPortInfo]);
 
   useEffect(() => {
     checkVisibilityValues(showAirMonitoringStations, setOpenAirMonitoringSettings);
@@ -754,6 +763,10 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowScootersRyde(current => !current);
   };
 
+  const parkAndRideAreasToggle = () => {
+    setShowParkAndRideAreas(current => !current);
+  };
+
   const disabledParkingToggle = () => {
     setShowDisabledParking(current => !current);
   };
@@ -782,6 +795,10 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowAirports(current => !current);
   };
 
+  const portInfoToggle = () => {
+    setShowPortInfo(current => !current);
+  };
+
   const roadWorksToggle = () => {
     setShowRoadworks(current => !current);
   };
@@ -792,6 +809,10 @@ const MobilitySettingsView = ({ navigator }) => {
 
   const barbecuePlacesToggle = () => {
     setShowBarbecuePlaces(current => !current);
+  };
+
+  const parkingGaragesToggle = () => {
+    setShowParkingGarages(current => !current);
   };
 
   const cultureRouteListToggle = () => {
@@ -816,31 +837,22 @@ const MobilitySettingsView = ({ navigator }) => {
 
   const markedTrailListToggle = () => {
     setOpenMarkedTrailsList(current => !current);
-    if (markedTrailsObj) {
-      setMarkedTrailsObj({});
-    }
-    if (showMarkedTrails) {
-      setShowMarkedTrails(false);
+    if (selectedMarkedTrails.length) {
+      setSelectedMarkedTrails([]);
     }
   };
 
   const natureTrailListToggle = () => {
     setOpenNatureTrailsList(current => !current);
-    if (natureTrailsObj) {
-      setNatureTrailsObj({});
-    }
-    if (showNatureTrails) {
-      setShowNatureTrails(false);
+    if (selectedNatureTrails.length) {
+      setSelectedNatureTrails([]);
     }
   };
 
   const fitnessTrailListToggle = () => {
     setOpenFitnessTrailsList(current => !current);
-    if (fitnessTrailsObj) {
-      setFitnessTrailsObj({});
-    }
-    if (showFitnessTrails) {
-      setShowFitnessTrails(false);
+    if (selectedFitnessTrails.length) {
+      setSelectedFitnessTrails([]);
     }
   };
 
@@ -910,75 +922,44 @@ const MobilitySettingsView = ({ navigator }) => {
     }
   };
 
-  /**
-   * Stores previous value
-   */
-  const prevMarkedTrailObjRef = useRef();
+  const hasTrailBeenSelected = (trailsData, id) => trailsData.some(item => item.id === id);
 
   /**
-   * If user clicks same trail again, then reset name and set visiblity to false
-   * Otherwise new values are set
-   */
-  useEffect(() => {
-    prevMarkedTrailObjRef.current = markedTrailsObj;
-  }, [markedTrailsObj]);
-
-  /**
+   * Update an array of objects containing selected marked trails.
    * @param {obj}
    */
   const setMarkedTrailState = obj => {
-    setMarkedTrailsObj(obj);
-    setShowMarkedTrails(true);
-    if (obj === prevMarkedTrailObjRef.current) {
-      setMarkedTrailsObj({});
-      setShowMarkedTrails(false);
+    const hasTrail = hasTrailBeenSelected(selectedMarkedTrails, obj.id);
+    if (hasTrail) {
+      setSelectedMarkedTrails(prevState => prevState.filter(trail => trail.id !== obj.id));
+    } else {
+      setSelectedMarkedTrails(prevState => [...prevState, obj]);
     }
   };
 
-  const prevNatureTrailObjRef = useRef();
-
   /**
-   * If user clicks same trail again, then reset name and set visiblity to false
-   * Otherwise new values are set
-   */
-  useEffect(() => {
-    prevNatureTrailObjRef.current = natureTrailsObj;
-  }, [natureTrailsObj]);
-
-  /**
+   * Update an array of objects containing selected nature trails.
    * @param {obj}
    */
   const setNatureTrailState = obj => {
-    setNatureTrailsObj(obj);
-    setShowNatureTrails(true);
-    if (obj === prevNatureTrailObjRef.current) {
-      setNatureTrailsObj({});
-      setShowNatureTrails(false);
+    const hasTrail = hasTrailBeenSelected(selectedNatureTrails, obj.id);
+    if (hasTrail) {
+      setSelectedNatureTrails(prevState => prevState.filter(trail => trail.id !== obj.id));
+    } else {
+      setSelectedNatureTrails(prevState => [...prevState, obj]);
     }
   };
 
   /**
-   * Stores previous value
-   */
-  const prevFitnessTrailObjRef = useRef();
-
-  /**
-   * If user clicks same trail again, then reset name and set visiblity to false
-   * Otherwise new values are set
-   */
-  useEffect(() => {
-    prevFitnessTrailObjRef.current = fitnessTrailsObj;
-  }, [fitnessTrailsObj]);
-
-  /**
+   * Update an array of objects containing selected fitness trails.
    * @param {obj}
    */
   const setFitnessTrailState = obj => {
-    setFitnessTrailsObj(obj);
-    setShowFitnessTrails(true);
-    if (obj === prevFitnessTrailObjRef.current) {
-      setFitnessTrailsObj({});
-      setShowFitnessTrails(false);
+    const hasTrail = hasTrailBeenSelected(selectedFitnessTrails, obj.id);
+    if (hasTrail) {
+      setSelectedFitnessTrails(prevState => prevState.filter(trail => trail.id !== obj.id));
+    } else {
+      setSelectedFitnessTrails(prevState => [...prevState, obj]);
     }
   };
 
@@ -1260,6 +1241,18 @@ const MobilitySettingsView = ({ navigator }) => {
       onChangeValue: publicParkingToggle,
     },
     {
+      type: 'parkAndRideAreas',
+      msgId: 'mobilityPlatform.menu.showparkAndRideAreas',
+      checkedValue: showParkAndRideAreas,
+      onChangeValue: parkAndRideAreasToggle,
+    },
+    {
+      type: 'parkingGarages',
+      msgId: 'mobilityPlatform.menu.show.parkingGarages',
+      checkedValue: showParkingGarages,
+      onChangeValue: parkingGaragesToggle,
+    },
+    {
       type: 'disabledParking',
       msgId: 'mobilityPlatform.menu.show.disabledParking',
       checkedValue: showDisabledParking,
@@ -1315,6 +1308,12 @@ const MobilitySettingsView = ({ navigator }) => {
       msgId: 'mobilityPlatform.menu.show.airPorts',
       checkedValue: showAirports,
       onChangeValue: airPortsToggle,
+    },
+    {
+      type: 'portInfo',
+      msgId: 'mobilityPlatform.menu.show.portInfo',
+      checkedValue: showPortInfo,
+      onChangeValue: portInfoToggle,
     },
   ];
 
@@ -1589,6 +1588,22 @@ const MobilitySettingsView = ({ navigator }) => {
       component: <InfoTextBox infoText="mobilityPlatform.info.publicParkingSpaces" />,
     },
     {
+      visible: showParkAndRideAreas,
+      type: 'parkAndRideAreasInfo',
+      component: (
+        <InfoTextBox
+          infoText="mobilityPlatform.info.parkAndRide"
+          linkUrl="https://www.turku.fi/liityntapysakointi"
+          linkText="mobilityPlatform.info.parkAndRide.link"
+        />
+      ),
+    },
+    {
+      visible: showParkingGarages,
+      type: 'parkingGaragesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.parkingGarages" />,
+    },
+    {
       visible: showDisabledParking,
       type: 'disabledParking',
       component: <InfoTextBox infoText="mobilityPlatform.info.disabledParking" />,
@@ -1698,6 +1713,11 @@ const MobilitySettingsView = ({ navigator }) => {
       type: 'airportInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.airport" />,
     },
+    {
+      visible: showPortInfo,
+      type: 'portInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.portInfo" />,
+    },
   ];
 
   const infoTextsRoadworks = [
@@ -1749,28 +1769,28 @@ const MobilitySettingsView = ({ navigator }) => {
         ? renderCultureRoutes(sortedLocalizedCultureRoutes)
         : null}
       {openCultureRouteList && locale === 'fi' ? renderCultureRoutes(sortedCultureRoutes) : null}
-      {renderSelectTrailText(openMarkedTrailsList, markedTrailsObj, markedTrailsList)}
+      {renderSelectTrailText(openMarkedTrailsList, selectedMarkedTrails, markedTrailsList)}
       <TrailList
         openList={openMarkedTrailsList}
         items={markedTrailsSorted}
         itemsPerPage={5}
-        trailsObj={markedTrailsObj}
+        selectedTrails={selectedMarkedTrails}
         setTrailState={setMarkedTrailState}
       />
-      {renderSelectTrailText(openNatureTrailsList, natureTrailsObj, natureTrailsTkuSorted)}
+      {renderSelectTrailText(openNatureTrailsList, selectedNatureTrails, natureTrailsTkuSorted)}
       <TrailList
         openList={openNatureTrailsList}
         items={natureTrailsTkuSorted}
         itemsPerPage={5}
-        trailsObj={natureTrailsObj}
+        selectedTrails={selectedNatureTrails}
         setTrailState={setNatureTrailState}
       />
-      {renderSelectTrailText(openFitnessTrailsList, fitnessTrailsObj, fitnessTrailsTkuSorted)}
+      {renderSelectTrailText(openFitnessTrailsList, selectedFitnessTrails, fitnessTrailsTkuSorted)}
       <TrailList
         openList={openFitnessTrailsList}
         items={fitnessTrailsTkuSorted}
         itemsPerPage={5}
-        trailsObj={fitnessTrailsObj}
+        selectedTrails={selectedFitnessTrails}
         setTrailState={setFitnessTrailState}
       />
       {renderInfoTexts(infoTextsWalking)}

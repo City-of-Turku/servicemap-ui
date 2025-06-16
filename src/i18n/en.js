@@ -399,7 +399,7 @@ const translations = {
   'home.buttons.closeByServices': 'Show nearby services',
   'home.buttons.instructions': 'Tips for using the service map',
   'home.buttons.area': 'View the areas for healthcare, education, pre-primary education, civil defence, nature and neighborhoods.',
-  'home.buttons.area.tku': 'View the areas for education, postcode, voting and neighborhoods.',
+  'home.buttons.area.tku': 'View the neighborhoods, areas for education, postcode, voting and mobility profiles of Turku region.',
   'home.example.search': 'Search for',
   'home.message': 'Message from the developers',
   'home.send.feedback': 'Give feedback',
@@ -827,6 +827,9 @@ const translations = {
   'mobilityPlatform.menu.show.parkAndRideBikes': 'Park and ride stops for bicycles',
   'mobilityPlatform.menu.show.barbecuePlaces': 'Sites for barbequing & making fire',
   'mobilityPlatform.menu.show.airPorts': 'Airport',
+  'mobilityPlatform.menu.show.parkingGarages': 'Parking garages',
+  'mobilityPlatform.menu.show.portInfo': 'Passenger ships',
+  'mobilityPlatform.menu.showparkAndRideAreas': 'Park-and-ride',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Service provider: {value}',
@@ -876,6 +879,9 @@ const translations = {
   'mobilityPlatform.content.parkingSpaces.type': 'Payment type',
   'mobilityPlatform.content.parkingSpaces.paid': 'Toll parking',
   'mobilityPlatform.content.parkingSpaces.empty': 'No vacant spaces left',
+  'mobilityPlatform.content.parking.capacity': 'Number of parking spaces: {value}',
+  'mobilityPlatform.content.parking.disabled.capacity': 'Parking spaces for disabled: {value}',
+  'mobilityPlatform.content.parking.chargers.capacity': 'E-charging points: {value}',
   'mobilityPlatform.content.parkingChargeZones.zone': 'Zone: {value}',
   'mobilityPlatform.content.parkingChargeZones.price': 'Charge: {value}',
   'mobilityPlatform.content.parkingChargeZones.price.weekDays': 'Toll charge on workdays: {value}',
@@ -948,6 +954,11 @@ const translations = {
   'mobilityPlatform.content.airport.cities.gdansk': 'To Gdańsk',
   'mobilityPlatform.content.airport.cities.rome': 'To Rome',
   'mobilityPlatform.content.airport.cities.rhodes': 'To Rhodes',
+  'mobilityPlatform.content.portInfo.arrivals': 'Incoming ships:',
+  'mobilityPlatform.content.portInfo.departing': 'Departing ships:',
+  'mobilityPlatform.content.parkAndRide.title': 'Park-and-ride site',
+  'mobilityPlatform.content.parkAndRide.busNumbers': 'Nearby bus lines',
+  'mobilityPlatform.content.parkAndRide.bus': 'Line: {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Route description',
@@ -1010,6 +1021,10 @@ const translations = {
   'mobilityPlatform.info.parkAndRideBicycles': 'Park-and-ride arrangements provide the opportunity to leave your bicycle parked safely and hop on a bus to continue your journey. The Föli area boasts many park-and-ride sites for bicycles.  Park-and-ride parking is free and intended for those using public transport for connections.',
   'mobilityPlatform.info.barbecuePlaces': 'The map shows official sites for barbequing or making fire. Making a fire on the land administered by Turku City is allowed only on places designated for making an open flame. Making a fire on any other place than the official campfire and barbeque sites is always forbidden.',
   'mobilityPlatform.info.airport': 'The map shows Turku airport and information about flights for the current day. Flight traffic has been divided into incoming and departing flights. The data comes from the interface provided by Finavia.',
+  'mobilityPlatform.info.parkingGarages': 'The map shows parking garages that are available for general public. Information about occupancy is not available however. Additional information can be read by selecting an icon from the map.',
+  'mobilityPlatform.info.portInfo': 'The map shows the ports in Turku and Naantali and the timetables of passenger ships for two days. Passenger traffic is divided into ships departing from and ships arriving at the ports. The data comes from the interface provided by Digitraffic.',
+  'mobilityPlatform.info.parkAndRide': 'Park-and-ride arrangements provide the opportunity to leave your car parked safely and hop on a bus to continue your journey. City of Turku boasts few park-and-ride sites for cars.  Park-and-ride parking is free and intended for those using public transport for connections.',
+  'mobilityPlatform.info.parkAndRide.link': 'For more information visit https://www.turku.fi/liityntapysakointi',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',

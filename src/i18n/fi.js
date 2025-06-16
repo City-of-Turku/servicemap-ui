@@ -401,8 +401,8 @@ const translations = {
   'home.buttons.services': 'Tutustu palveluihin palveluluettelon avulla',
   'home.buttons.closeByServices': 'Näytä lähellä olevat palvelut',
   'home.buttons.instructions': 'Vinkkejä Palvelukartan käyttöön',
-  'home.buttons.area': 'Katso terveys-, neuvola-, oppilaaksiotto-, esiopetus-, väestön- ja luonnonsuojelualueet sekä kaupunginosat',
-  'home.buttons.area.tku': 'Katso oppilaaksiotto-, postinumero- ja äänestysalueet sekä kaupunginosat',
+  'home.buttons.area': 'Katso terveys-, neuvola-, oppilaaksiotto-, esiopetus-, väestön- ja luonnonsuojelualueet sekä kaupunginosat.',
+  'home.buttons.area.tku': 'Katso kaupunginosat, oppilaaksiotto-, postinumero- ja äänestysalueet sekä Turun alueen liikkumisprofiilit.',
   'home.example.search': 'Hae hakusanalla',
   'home.message': 'Terveisiä palvelukartan kehittäjiltä',
   'home.send.feedback': 'Anna palautetta',
@@ -832,6 +832,9 @@ const translations = {
   'mobilityPlatform.menu.show.parkAndRideBikes': 'Liityntäpysäkit pyörille',
   'mobilityPlatform.menu.show.barbecuePlaces': 'Grillaus- ja tulentekopaikat',
   'mobilityPlatform.menu.show.airPorts': 'Lentoasema',
+  'mobilityPlatform.menu.show.parkingGarages': 'Pysäköintihallit',
+  'mobilityPlatform.menu.show.portInfo': 'Matkustajalaivat',
+  'mobilityPlatform.menu.showparkAndRideAreas': 'Liityntäpysäköinti',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',
@@ -871,6 +874,9 @@ const translations = {
   'mobilityPlatform.content.parkingSpaces.type': 'Maksutyyppi',
   'mobilityPlatform.content.parkingSpaces.paid': 'Maksullinen',
   'mobilityPlatform.content.parkingSpaces.empty': 'Ei vapaita paikkoja jäljellä',
+  'mobilityPlatform.content.parking.capacity': 'Parkkipaikkojen määrä: {value}',
+  'mobilityPlatform.content.parking.disabled.capacity': 'Invapaikkojen määrä: {value}',
+  'mobilityPlatform.content.parking.chargers.capacity': 'Sähkölatauspaikat: {value}',
   'mobilityPlatform.content.parkingChargeZones.zone': 'Vyöhyke: {value}',
   'mobilityPlatform.content.parkingChargeZones.price': 'Hinta: {value}',
   'mobilityPlatform.content.parkingChargeZones.price.weekDays': 'Maksullisuus arkisin: {value}',
@@ -943,6 +949,11 @@ const translations = {
   'mobilityPlatform.content.airport.cities.gdansk': 'Gdańskiin',
   'mobilityPlatform.content.airport.cities.rome': 'Roomaan',
   'mobilityPlatform.content.airport.cities.rhodes': 'Ródokselle',
+  'mobilityPlatform.content.portInfo.arrivals': 'Saapuvat laivat:',
+  'mobilityPlatform.content.portInfo.departing': 'Lähtevät laivat:',
+  'mobilityPlatform.content.parkAndRide.title': 'Liityntäpysäköintipaikka',
+  'mobilityPlatform.content.parkAndRide.busNumbers': 'Läheltä kulkevat linja-autot',
+  'mobilityPlatform.content.parkAndRide.bus': 'Linja: {value}',
 
   // Info text
   'mobilityPlatform.info.description.title': 'Tietoja reitistä',
@@ -1002,9 +1013,13 @@ const translations = {
   'mobilityPlatform.info.airMonitoring.paragraph.2': 'Laskennassa otetaan huomioon rikkidioksidi (SO2), typpidioksidi (NO2), hengitettävät hiukkaset (PM10), pienhiukkaset (PM2,5) sekä otsoni (O3). Kun ilmanlaatu on huono tai erittäin huono, terveysvaikutukset ovat mahdollisia herkillä ihmisillä. Ilmanlaatua heikentävät katupöly, liikenteen päästöt, puun pienpoltto, energiantuotanto sekä ajoittaiset kaukokulkeumat.',
   'mobilityPlatform.info.airMonitoring.paragraph.3': 'Palvelukartan ilmanlaatutiedot saadaan Turun seudun ilmansuojelun yhteistyöryhmältä.',
   'mobilityPlatform.info.airMonitoring.link': 'Lisätietoja saa osoitteesta https://www.ilmatieteenlaitos.fi/ilmanlaatu',
-  'mobilityPlatform.info.parkAndRideBicycles': 'Liityntäpysäköinti tarjoaa mahdollisuuden jättää oma pyörä parkkiin ja jatkaa matkaa bussilla. Föli-alueella on useita liityntäpysäköintipaikkoja pyörille. Liityntäpysäköinti on maksutonta ja tarkoitettu vain joukkoliikennettä vaihtoyhteytenä käyttäville.',
+  'mobilityPlatform.info.parkAndRideBicycles': 'Liityntäpysäköinti tarjoaa mahdollisuuden jättää oma pyörä parkkiin ja jatkaa matkaa linja-autolla. Föli-alueella on useita liityntäpysäköintipaikkoja pyörille. Liityntäpysäköinti on maksutonta ja tarkoitettu vain joukkoliikennettä vaihtoyhteytenä käyttäville.',
   'mobilityPlatform.info.barbecuePlaces': 'Kartalla näkyvät Turun viralliset tulenteko- ja grillauspaikat. Turun kaupungin hallinnoimilla mailla tulenteko on sallittu ainoastaan avotulen tekoon tarkoitetuilla paikoilla. Muilla kuin virallisilla nuotio- ja grillauspaikoilla avotulen teko on aina kielletty.',
   'mobilityPlatform.info.airport': 'Kartalla näkyvät Turun lentoasema ja lentojen tiedot kuluvan vuorokauden ajalta. Lennot on jaettu saapuviin ja lähteviin lentoihin. Tiedot ovat peräisin Finavian rajapinnasta.',
+  'mobilityPlatform.info.parkingGarages': 'Kartalla näkyvät yleisessä käytössä olevat pysäköintihallit. Niiden käyttöasteesta ei ole kuitenkaan saatavilla tietoja. Tarkempia tietoja valitusta pysäköintihallista voi lukea painamalla kuvaketta kartalla.',
+  'mobilityPlatform.info.portInfo': 'Kartalla näkyvät Turun ja Naantalin satamat sekä matkustajalaivojen aikataulut kahden vuorokauden ajalta. Matkustajaliikenne on jaettu satamista lähteviin ja sinne saapuviin aluksiin. Tiedot tulevat Digitrafficin rajapinnasta.',
+  'mobilityPlatform.info.parkAndRide': 'Liityntäpysäköinti tarjoaa mahdollisuuden jättää oma auto parkkiin ja jatkaa matkaa linja-autolla. Turussa on muutamia liityntäpysäköintialueita autoille. Liityntäpysäköinti on maksutonta ja tarkoitettu vain joukkoliikennettä vaihtoyhteytenä käyttäville.',
+  'mobilityPlatform.info.parkAndRide.link': 'Lisätietoja löytyy osoitteesta https://www.turku.fi/liityntapysakointi',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',

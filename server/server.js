@@ -272,11 +272,11 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, emotionCss,
         window.nodeEnvSettings.THEME_PKG = "${process.env.THEME_PKG}";
         window.nodeEnvSettings.MOBILITY_PLATFORM_API = "${process.env.MOBILITY_PLATFORM_API}";
         window.nodeEnvSettings.PARKING_SPACES_URL = "${process.env.PARKING_SPACES_URL}";
-        window.nodeEnvSettings.PARKING_STATISTICS_URL = "${process.env.PARKING_STATISTICS_URL}";
         window.nodeEnvSettings.ROADWORKS_API = "${process.env.ROADWORKS_API}";
         window.nodeEnvSettings.RAILWAYS_API = "${process.env.RAILWAYS_API}";
         window.nodeEnvSettings.AIR_MONITORING_API = "${process.env.AIR_MONITORING_API}";
         window.nodeEnvSettings.MOBILITY_TEST_API = "${process.env.MOBILITY_TEST_API}";
+        window.nodeEnvSettings.PORTNET_API = "${process.env.PORTNET_API}";
         window.nodeEnvSettings.FEATURE_SERVICEMAP_PAGE_TRACKING = "${process.env.FEATURE_SERVICEMAP_PAGE_TRACKING}";
         window.nodeEnvSettings.TEST_AUTH_PASSWORDS = "${process.env.TEST_AUTH_PASSWORDS}";
 

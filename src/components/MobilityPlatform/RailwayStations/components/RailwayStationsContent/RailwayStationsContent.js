@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { format } from 'date-fns';
 import { useIntl } from 'react-intl';
 import { fetchRailwaysData } from '../../../mobilityPlatformRequests/mobilityPlatformRequests';
+import { optionsToParams } from '../../../utils/utils';
 import {
   StyledContainer, StyledHeaderContainer, StyledFlexContainer, StyledTextContainer,
 } from '../../../styled/styled';
@@ -14,14 +15,6 @@ const RailwayStationsContent = ({ item, stationsData }) => {
 
   const intl = useIntl();
   const formatDateTime = timeValue => format(new Date(timeValue), 'HH:mm');
-
-  const optionsToParams = options => {
-    const params = new URLSearchParams();
-    Object.entries({ ...options }).forEach(([key, value]) => {
-      params.set(key, value);
-    });
-    return params.toString();
-  };
 
   useEffect(() => {
     const controller = new AbortController();
