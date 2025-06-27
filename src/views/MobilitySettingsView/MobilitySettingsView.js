@@ -146,6 +146,8 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowOutdoorGymDevices,
     showCrossWalks,
     setShowCrossWalks,
+    showAudibleCrossWalks,
+    setShowAudibleCrossWalks,
     showBusStops,
     setShowBusStops,
     showUnderpasses,
@@ -160,6 +162,8 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowRoadworks,
     showRailwayStations,
     setShowRailwayStations,
+    showTaxiStands,
+    setshowTaxiStands,
     showAirMonitoringStations,
     setShowAirMonitoringStations,
     showParkAndRideBikes,
@@ -322,6 +326,7 @@ const MobilitySettingsView = ({ navigator }) => {
     checkVisibilityValues(showPublicToilets, setOpenWalkSettings);
     checkVisibilityValues(showOutdoorGymDevices, setOpenWalkSettings);
     checkVisibilityValues(showCrossWalks, setOpenWalkSettings);
+    checkVisibilityValues(showAudibleCrossWalks, setOpenWalkSettings);
     checkVisibilityValues(showUnderpasses, setOpenWalkSettings);
     checkVisibilityValues(showOverpasses, setOpenWalkSettings);
     checkVisibilityValues(showPublicBenches, setOpenWalkSettings);
@@ -330,6 +335,7 @@ const MobilitySettingsView = ({ navigator }) => {
     showPublicToilets,
     showOutdoorGymDevices,
     showCrossWalks,
+    showAudibleCrossWalks,
     showUnderpasses,
     showOverpasses,
     showPublicBenches,
@@ -458,7 +464,8 @@ const MobilitySettingsView = ({ navigator }) => {
     checkVisibilityValues(showRailwayStations, setOpenPublicTransportSettings);
     checkVisibilityValues(showAirports, setOpenPublicTransportSettings);
     checkVisibilityValues(showPortInfo, setOpenPublicTransportSettings);
-  }, [showBusStops, showRailwayStations, showAirports, showPortInfo]);
+    checkVisibilityValues(showTaxiStands, setOpenPublicTransportSettings);
+  }, [showBusStops, showRailwayStations, showAirports, showPortInfo, showTaxiStands]);
 
   useEffect(() => {
     checkVisibilityValues(showAirMonitoringStations, setOpenAirMonitoringSettings);
@@ -740,6 +747,10 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowCrossWalks(current => !current);
   };
 
+  const audibleCrossWalksToggle = () => {
+    setShowAudibleCrossWalks(current => !current);
+  };
+
   const overPassesToggle = () => {
     setShowOverpasses(current => !current);
   };
@@ -797,6 +808,10 @@ const MobilitySettingsView = ({ navigator }) => {
 
   const portInfoToggle = () => {
     setShowPortInfo(current => !current);
+  };
+
+  const taxiStationsToggle = () => {
+    setshowTaxiStands(current => !current);
   };
 
   const roadWorksToggle = () => {
@@ -1085,6 +1100,12 @@ const MobilitySettingsView = ({ navigator }) => {
       onChangeValue: crossWalksToggle,
     },
     {
+      type: 'audibleCrossWalks',
+      msgId: 'mobilityPlatform.menu.show.audibleCrossWalks',
+      checkedValue: showAudibleCrossWalks,
+      onChangeValue: audibleCrossWalksToggle,
+    },
+    {
       type: 'underPasses',
       msgId: 'mobilityPlatform.menu.show.underPasses',
       checkedValue: showUnderpasses,
@@ -1315,6 +1336,12 @@ const MobilitySettingsView = ({ navigator }) => {
       checkedValue: showPortInfo,
       onChangeValue: portInfoToggle,
     },
+    {
+      type: 'taxiStands',
+      msgId: 'mobilityPlatform.menu.show.taxiStands',
+      checkedValue: showTaxiStands,
+      onChangeValue: taxiStationsToggle,
+    },
   ];
 
   const boatingControlTypes = [
@@ -1485,6 +1512,11 @@ const MobilitySettingsView = ({ navigator }) => {
       visible: showCrossWalks,
       type: 'crosswalksInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.crosswalks" />,
+    },
+    {
+      visible: showAudibleCrossWalks,
+      type: 'audibleCrosswalksInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.audibleCrosswalks" />,
     },
     {
       visible: showUnderpasses || showOverpasses,
@@ -1717,6 +1749,11 @@ const MobilitySettingsView = ({ navigator }) => {
       visible: showPortInfo,
       type: 'portInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.portInfo" />,
+    },
+    {
+      visible: showTaxiStands,
+      type: 'taxiStationsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.taxiStands" />,
     },
   ];
 

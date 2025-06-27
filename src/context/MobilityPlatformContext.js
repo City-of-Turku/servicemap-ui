@@ -100,6 +100,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showRailwayStations, setShowRailwayStations] = useState(false);
   const [showAirports, setShowAirports] = useState(false);
   const [showPortInfo, setShowPortInfo] = useState(false);
+  const [showTaxiStands, setshowTaxiStands] = useState(false);
 
   // units
   const [showAccessibilityAreas, setShowAccessibilityAreas] = useState(accessibilityAreasInitial);
@@ -110,6 +111,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showLoadingPlaces, setShowLoadingPlaces] = useState(false);
   const [showPublicToilets, setShowPublicToilets] = useState(false);
   const [showCrossWalks, setShowCrossWalks] = useState(false);
+  const [showAudibleCrossWalks, setShowAudibleCrossWalks] = useState(false);
   const [showOverpasses, setShowOverpasses] = useState(false);
   const [showUnderpasses, setShowUnderpasses] = useState(false);
   const [showPublicBenches, setShowPublicBenches] = useState(false);
@@ -177,6 +179,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     showRailwayStations,
     showAirports,
     showPortInfo,
+    showTaxiStands,
     // units
     showAccessibilityAreas,
     accessibilityAreasData,
@@ -185,6 +188,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     showPublicToilets,
     showLoadingPlaces,
     showCrossWalks,
+    showAudibleCrossWalks,
     showOverpasses,
     showUnderpasses,
     showPublicBenches,
@@ -253,6 +257,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setShowRailwayStations,
     setShowAirports,
     setShowPortInfo,
+    setshowTaxiStands,
     // units
     setShowAccessibilityAreas,
     setAccessibilityAreasData,
@@ -261,6 +266,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setShowPublicToilets,
     setShowLoadingPlaces,
     setShowCrossWalks,
+    setShowAudibleCrossWalks,
     setShowUnderpasses,
     setShowOverpasses,
     setShowPublicBenches,

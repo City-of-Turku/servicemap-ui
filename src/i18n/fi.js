@@ -820,6 +820,7 @@ const translations = {
   'mobilityPlatform.menu.show.outdoorGymDevices': 'Ulkokuntoilulaitteet',
   'mobilityPlatform.menu.show.crossWalks': 'Suojatiet (tarkenna karttaa)',
   'mobilityPlatform.embedded.label.crossWalks': 'Suojatiet (tarkenna karttaa lähietäisyydelle, jotta suojatiet näkyvät)',
+  'mobilityPlatform.menu.show.audibleCrossWalks': 'Ääniopastetut suojatiet',
   'mobilityPlatform.menu.show.busStops': 'Linja-autopysäkit (tarkenna karttaa)',
   'mobilityPlatform.menu.show.underPasses': 'Alikulkuväylät',
   'mobilityPlatform.menu.show.overPasses': 'Ylikulkusillat',
@@ -835,6 +836,7 @@ const translations = {
   'mobilityPlatform.menu.show.parkingGarages': 'Pysäköintihallit',
   'mobilityPlatform.menu.show.portInfo': 'Matkustajalaivat',
   'mobilityPlatform.menu.showparkAndRideAreas': 'Liityntäpysäköinti',
+  'mobilityPlatform.menu.show.taxiStands': 'Taksitolpat',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',
@@ -1003,6 +1005,7 @@ const translations = {
   'mobilityPlatform.info.outdoorGymDevices': 'Turun kaupunki ylläpitää ulkoliikuntapaikkoja. Ulkokuntosalilaitteet tarjoavat hauskan tavan harjoittaa lihaskuntoa ulkoilmasta nauttien. Ympäri kaupunkia sijaitsevilla ulkokuntoilulaitteilla pystyt harjoittamaan koko kehoa. Ylätaljat, jalkaprässit, punnerrus-, surffaus- ja kävelylaitteet sopivat kaikille. Enemmän haastetta tarjoavat leuanvetoteline, dippi, vatsalauta ja selkäpenkki.',
   'mobilityPlatform.info.crosswalks': 'Kartalla näkyvät Turun alueen suojatieden sijainnit. Tarkenna karttaa lähietäisyydelle, jotta suojatiet näkyvät.',
   'mobilityPlatform.info.short.crosswalks': 'Kartalla näkyvät Turun suojatiet.',
+  'mobilityPlatform.info.audibleCrosswalks': 'Kartalla näkyvät Turun alueen ääniopastettujen suojatieden sijainnit',
   'mobilityPlatform.info.busStops': 'Kartalla näkyvät Turun seudun joukkoliikenteen Fölin linja-autopysäkit. Kuvaketta painamalle voi nähdä seuraavat pysäkiltä lähtevät vuorot. Tarkenna karttaa lähietäisyydelle, jotta linja-autopysäkit näkyvät. Tiedot tulevat Digitransitin ylläpitämästä rajapinnasta.',
   'mobilityPlatform.info.underAndOverpasses': 'Kartalla näkyvät Turun alueella sijaitsevat alikulkutunnelit ja ylikulkukuväylät.',
   'mobilityPlatform.info.rentalCarParking': 'Turussa on yhteensä viisi vain yhteiskäyttöautoille tarkoitettua pysäköintipaikkaa.',
@@ -1020,6 +1023,7 @@ const translations = {
   'mobilityPlatform.info.portInfo': 'Kartalla näkyvät Turun ja Naantalin satamat sekä matkustajalaivojen aikataulut kahden vuorokauden ajalta. Matkustajaliikenne on jaettu satamista lähteviin ja sinne saapuviin aluksiin. Tiedot tulevat Digitrafficin rajapinnasta.',
   'mobilityPlatform.info.parkAndRide': 'Liityntäpysäköinti tarjoaa mahdollisuuden jättää oma auto parkkiin ja jatkaa matkaa linja-autolla. Turussa on muutamia liityntäpysäköintialueita autoille. Liityntäpysäköinti on maksutonta ja tarkoitettu vain joukkoliikennettä vaihtoyhteytenä käyttäville.',
   'mobilityPlatform.info.parkAndRide.link': 'Lisätietoja löytyy osoitteesta https://www.turku.fi/liityntapysakointi',
+  'mobilityPlatform.info.taxiStands': 'Turun kaupungin ylläpitämät taksitolpat ovat kaikkien taksiyrittäjien käytössä.',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',

@@ -45,6 +45,8 @@ import AccessibilityAreas from '../../components/MobilityPlatform/AccessibilityA
 import ParkingGarages from '../../components/MobilityPlatform/Parking/ParkingGarages';
 import PortInfo from '../../components/MobilityPlatform/PortInfo';
 import ParkAndRideAreas from '../../components/MobilityPlatform/Parking/ParkAndRideAreas';
+import TaxiStands from '../../components/MobilityPlatform/TaxiStands';
+import AudibleCrossWalks from '../../components/MobilityPlatform/AudibleCrossWalks';
 
 const MobilityPlatformMapView = ({ mapObject }) => (
   <>
@@ -79,6 +81,7 @@ const MobilityPlatformMapView = ({ mapObject }) => (
     <PublicParking />
     <OutdoorGymDevices />
     <CrossWalks mapObject={mapObject} />
+    <AudibleCrossWalks />
     <Overpasses />
     <RentalCarParking />
     <PublicBenches mapObject={mapObject} />
@@ -93,6 +96,7 @@ const MobilityPlatformMapView = ({ mapObject }) => (
     <ParkingGarages />
     <PortInfo />
     <ParkAndRideAreas />
+    <TaxiStands />
   </>
 );
 
