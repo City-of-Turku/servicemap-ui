@@ -86,6 +86,9 @@ app.set('trust proxy', true);
 if (Sentry) {
   app.use(Sentry.Handlers.requestHandler());
 }
+app.get('/healthz', (req, res) => {
+  res.status(200).send('OK');
+});
 // Add static folder
 app.use(express.static(path.resolve(__dirname, 'src')));
 
@@ -275,6 +278,7 @@ const htmlTemplate = (req, reactDom, preloadedState, css, cssString, emotionCss,
         window.nodeEnvSettings.MOBILITY_TEST_API = "${process.env.MOBILITY_TEST_API}";
         window.nodeEnvSettings.PORTNET_API = "${process.env.PORTNET_API}";
         window.nodeEnvSettings.FEATURE_SERVICEMAP_PAGE_TRACKING = "${process.env.FEATURE_SERVICEMAP_PAGE_TRACKING}";
+        window.nodeEnvSettings.TEST_AUTH_PASSWORDS = "${process.env.TEST_AUTH_PASSWORDS}";
 
         window.appVersion = {};
         window.appVersion.tag = "${versionTag}";

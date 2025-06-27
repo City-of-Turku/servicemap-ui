@@ -146,6 +146,8 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowOutdoorGymDevices,
     showCrossWalks,
     setShowCrossWalks,
+    showAudibleCrossWalks,
+    setShowAudibleCrossWalks,
     showBusStops,
     setShowBusStops,
     showUnderpasses,
@@ -324,6 +326,7 @@ const MobilitySettingsView = ({ navigator }) => {
     checkVisibilityValues(showPublicToilets, setOpenWalkSettings);
     checkVisibilityValues(showOutdoorGymDevices, setOpenWalkSettings);
     checkVisibilityValues(showCrossWalks, setOpenWalkSettings);
+    checkVisibilityValues(showAudibleCrossWalks, setOpenWalkSettings);
     checkVisibilityValues(showUnderpasses, setOpenWalkSettings);
     checkVisibilityValues(showOverpasses, setOpenWalkSettings);
     checkVisibilityValues(showPublicBenches, setOpenWalkSettings);
@@ -332,6 +335,7 @@ const MobilitySettingsView = ({ navigator }) => {
     showPublicToilets,
     showOutdoorGymDevices,
     showCrossWalks,
+    showAudibleCrossWalks,
     showUnderpasses,
     showOverpasses,
     showPublicBenches,
@@ -743,6 +747,10 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowCrossWalks(current => !current);
   };
 
+  const audibleCrossWalksToggle = () => {
+    setShowAudibleCrossWalks(current => !current);
+  };
+
   const overPassesToggle = () => {
     setShowOverpasses(current => !current);
   };
@@ -1090,6 +1098,12 @@ const MobilitySettingsView = ({ navigator }) => {
       msgId: 'mobilityPlatform.menu.show.crossWalks',
       checkedValue: showCrossWalks,
       onChangeValue: crossWalksToggle,
+    },
+    {
+      type: 'audibleCrossWalks',
+      msgId: 'mobilityPlatform.menu.show.audibleCrossWalks',
+      checkedValue: showAudibleCrossWalks,
+      onChangeValue: audibleCrossWalksToggle,
     },
     {
       type: 'underPasses',
@@ -1498,6 +1512,11 @@ const MobilitySettingsView = ({ navigator }) => {
       visible: showCrossWalks,
       type: 'crosswalksInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.crosswalks" />,
+    },
+    {
+      visible: showAudibleCrossWalks,
+      type: 'audibleCrosswalksInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.audibleCrosswalks" />,
     },
     {
       visible: showUnderpasses || showOverpasses,

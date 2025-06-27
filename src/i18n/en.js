@@ -736,6 +736,12 @@ const translations = {
 
   'alert.close': 'Close the notification',
 
+  'dev.incorrect.password': 'Incorrect password',
+  'dev.password.error': 'Password verification error',
+  'dev.enter.password': 'Enter password',
+  'dev.login': 'Login',
+  'dev.login.title': 'Servicemap testsite login',
+
   // Mobility Platform of Turku
   'mobilityPlatform.info.title': 'Mobility platform',
   'mobilityPlatform.info.statement': 'The mobility data platform of the service map has been developed as part of European Union Horizon 2020 programme funded SCALE-UP project (grant agreement no. 955332).',
@@ -809,6 +815,7 @@ const translations = {
   'mobilityPlatform.menu.show.outdoorGymDevices': 'Outdoor gym devices',
   'mobilityPlatform.menu.show.crossWalks': 'Crosswalks (zoom in on the map)',
   'mobilityPlatform.embedded.label.crossWalks': 'Crosswalks (zoom in on the map to see crosswalks)',
+  'mobilityPlatform.menu.show.audibleCrossWalks': 'Audibly guided crosswalks',
   'mobilityPlatform.menu.show.busStops': 'Bus stops (zoom in on the map)',
   'mobilityPlatform.menu.show.underPasses': 'Underpasses',
   'mobilityPlatform.menu.show.overPasses': 'Overpasses',
@@ -1003,6 +1010,7 @@ const translations = {
   'mobilityPlatform.info.outdoorGymDevices': 'City of Turku maintains outdoor gym devices. They offer a fun way to train muscles outdoors anytime for free while enjoying the fresh air. With outdoor gym devices, such as lat pull down, pull up, leg press and benches, one can exercise the whole body. The combination of devices varies between places.',
   'mobilityPlatform.info.crosswalks': 'The map shows locations of crosswalks inside the city of Turku. Zoom in on the map to see crosswalks.',
   'mobilityPlatform.info.short.crosswalks': 'The maps show crosswalks in Turku.',
+  'mobilityPlatform.info.audibleCrosswalks': 'The map shows locations of audibly guided crosswalks inside the city of Turku',
   'mobilityPlatform.info.busStops': 'The map shows bus stops by Turku region traffic provider Föli. By clicking the icon on the map, you can see next few departure times from the selected bus stop. Zoom in the map to see the stops. The Map data comes from the interface provided by Digitransit.',
   'mobilityPlatform.info.underAndOverpasses': 'The map shows underpasses and overpasses located within the city of Turku.',
   'mobilityPlatform.info.rentalCarParking': 'There are total of five parking places in Turku intended only for shared use cars.',

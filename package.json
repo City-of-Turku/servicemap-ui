@@ -53,7 +53,7 @@
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.7",
     "reselect": "^4.1.6",
-    "servicemap-ui-turku": "file:../servicemap-ui-turku",
+    "servicemap-ui-turku": "file:servicemap-ui-turku",
     "sitemap": "^6.4.0",
     "urijs": "^1.19.11",
     "whatwg-fetch": "^3.5.0",

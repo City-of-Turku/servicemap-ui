@@ -8,12 +8,12 @@ WORKDIR /servicemap-ui
 # where available (npm@5+)
 COPY package*.json ./
 RUN npm install
+RUN npm ci --only=production
 
 COPY . .
+RUN git clone -b master https://github.com/City-of-Turku/servicemap-ui-turku ./servicemap-ui-turku
+RUN npm install ./servicemap-ui-turku
 RUN npm run build
-
-# If you are building your code for production
-# RUN npm ci --only=production
 
 # Bundle app source
 EXPOSE 2048

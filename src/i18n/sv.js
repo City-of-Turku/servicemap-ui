@@ -740,6 +740,12 @@ const translations = {
 
   'alert.close': 'Stäng meddelande',
 
+  'dev.incorrect.password': 'Felaktigt lösenord',
+  'dev.password.error': 'Fel vid verifiering av lösenord',
+  'dev.enter.password': 'Ange lösenord',
+  'dev.login': 'Logga in',
+  'dev.login.title': 'Servicemap testsite inloggning',
+
   // Mobility Platform of Turku
   'mobilityPlatform.info.title': 'Mobilitetsplatform',
   'mobilityPlatform.info.statement': 'Mobilitetsdataplattformen från servicekartan har utvecklats som en del av SCALE-UP-projekt, finansierat av Europeiska unionens Horizon 2020-program (bidragsavtal nr 955332).',
@@ -813,6 +819,7 @@ const translations = {
   'mobilityPlatform.menu.show.outdoorGymDevices': 'Träningsredskap utomhus',
   'mobilityPlatform.menu.show.crossWalks': 'Övergångställen (zooma in på kartan)',
   'mobilityPlatform.embedded.label.crossWalks': 'Övergångställen (zooma in på kartan för att se övergångställen)',
+  'mobilityPlatform.menu.show.audibleCrossWalks': 'Ljudguidada övergångsställen',
   'mobilityPlatform.menu.show.busStops': 'Busshållplatser (zooma in på kartan)',
   'mobilityPlatform.menu.show.underPasses': 'Gångtunnlar',
   'mobilityPlatform.menu.show.overPasses': 'Vägbroar',
@@ -1007,6 +1014,7 @@ const translations = {
   'mobilityPlatform.info.outdoorGymDevices': 'Åbo stad upprätthåller utomhusgym. De erbjuder ett roligt sätt att träna medan du njuter av den friska luften. På de utomhusgym som finns runt om i staden kan du träna hela kroppen. Overhead-remskivor, benpressar, armhävningar, surf- och promenadutrustning passar alla. Fler utmaningar erbjuds av armhävningsräcket, dip, magplanka och ryggbänk.',
   'mobilityPlatform.info.crosswalks': 'Kartan visar placeringarna av övergångsställen inne i Åbo stad. Zooma in på kartan för att se övergångsställen.',
   'mobilityPlatform.info.short.crosswalks': 'Kartan visar övergångsställen inne i Åbo.',
+  'mobilityPlatform.info.audibleCrosswalks': 'Kartan visar platser för ljudguidade övergångsställen inom Åbo stad.',
   'mobilityPlatform.info.busStops': 'Kartan visar Åboregionens kollektivtrafiks, Fölis, busshållplatser. Om du kilckar på ikonen kan du se nästa buss som går från hållplatsen. Zooma in på kartan för att se hållplatserna. Datan kommer från gränssnittet som underhålls av Digitransit.',
   'mobilityPlatform.info.underAndOverpasses': 'Kartan visar gångtunnlar och gångbroar som ligger i Åbo stadsområdet.',
   'mobilityPlatform.info.rentalCarParking': 'Det finns totalt fem parkeringsplatser i Åbo som endast är avsedda för bilpool bilar.',
