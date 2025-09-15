@@ -33,7 +33,7 @@ const DevLoginGate = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const isDev = typeof window !== 'undefined' ? window.nodeEnvSettings?.SERVICEMAP_API?.includes('-testi') : false;
+  const isDev = typeof window !== 'undefined' ? window.nodeEnvSettings?.SERVICEMAP_API?.includes('testi') : false;
   const [correctPasswords, setCorrectPasswords] = useState([]);
   const intl = useIntl();
 
