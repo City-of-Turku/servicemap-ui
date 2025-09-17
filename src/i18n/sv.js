@@ -759,7 +759,7 @@ const translations = {
   'mobilityPlatform.menu.title.scooter': 'Elsparkcyklar',
   'mobilityPlatform.menu.title.streetMaintenance': 'Gatuunderhåll',
   'mobilityPlatform.menu.title.public.transport': 'Kollektivtrafik',
-  'mobilityPlatform.menu.title.airMonitoring': 'Väder och luftkvalitet',
+  'mobilityPlatform.menu.title.airMonitoring': 'Luftkvalitet',
   'mobilityPlatform.menu.title.roadworksMain': 'Exceptionella situationer',
   'mobilityPlatform.menu.showChargingStations': 'Elladdningsstationer för bilar',
   'mobilityPlatform.menu.showGasFillingStations': 'Tankstationer med gas',
