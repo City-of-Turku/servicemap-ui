@@ -4,13 +4,16 @@ import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import parkAndRideIcon from 'servicemap-ui-turku/assets/icons/icons-icon_park_and_ride_bicycle.svg';
 import parkAndRideIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_park_and_ride_bicycle-bw.svg';
-import { isObjValid, createIcon } from '../../utils/utils';
+import { isObjValid, createIcon, isDataValid } from '../../utils/utils';
 import config from '../../../../../config';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import useParkingDataFetch from '../../utils/useParkingDataFetch';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import { StyledPopupWrapper, StyledPopupInner } from '../../styled/styled';
 import ParkAndRideAreasContent from './components/ParkAndRideAreasContent';
+import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
+import MarkerComponent from '../../MarkerComponent';
+import ParkAndRideCarsContent from './components/ParkAndRideCarsContent';
 
 const ParkAndRideAreas = () => {
   const { showParkAndRideAreas } = useMobilityPlatformContext();
@@ -49,6 +52,14 @@ const ParkAndRideAreas = () => {
     parkAndRideStatisticsUrl,
     showParkAndRideAreas,
   );
+
+  const options = {
+    type_name: 'FoliParkAndRideCarsStop',
+    page_size: 100,
+  };
+
+  const liipiData = useMobilityDataFetch(options, showParkAndRideAreas).data;
+  const renderLiipiData = isDataValid(showParkAndRideAreas, liipiData);
 
   /**
    * Swap coordinates to be in correct order for Leaflet
@@ -153,9 +164,18 @@ const ParkAndRideAreas = () => {
       ))
       : null);
 
+  const renderLiipiMarkersData = (showData, data) => (
+    renderLiipiData
+      ? data.map(item => (
+        <MarkerComponent key={item.id} item={item} icon={customIcon}>
+          <ParkAndRideCarsContent item={item} />
+        </MarkerComponent>
+      )) : null);
+
   return (
     <>
       {renderMarkersData(showAreasData, areasData)}
+      {renderLiipiMarkersData(showAreasData, liipiData)}
       {renderPolygonData(showAreasData, areasData)}
     </>
   );
