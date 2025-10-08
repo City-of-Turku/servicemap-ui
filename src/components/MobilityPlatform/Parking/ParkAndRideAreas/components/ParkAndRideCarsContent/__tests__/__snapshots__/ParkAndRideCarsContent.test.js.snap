@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ParkAndRideCarsContent /> should work 1`] = `
+<div>
+  <div
+    class="css-1ynyhby"
+  >
+    <div
+      class="css-1ynyhby"
+    >
+      <div
+        class="css-1dznbe2"
+      >
+        <div
+          class="css-1fhgjcy"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-subtitle1 css-dlbwt1-MuiTypography-root"
+          >
+            Testinimi
+          </p>
+        </div>
+      </div>
+      <div>
+        <div
+          class="css-1fhgjcy"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+          >
+            Liityntäpysäkki pyörille
+          </p>
+        </div>
+        <div
+          class="css-1fhgjcy"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+          >
+            Osoite: Testiosoite, 20200 Turku
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
