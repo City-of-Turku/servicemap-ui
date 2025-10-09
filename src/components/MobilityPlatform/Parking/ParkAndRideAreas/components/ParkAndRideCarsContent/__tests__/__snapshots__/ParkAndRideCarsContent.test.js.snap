@@ -28,7 +28,7 @@ exports[`<ParkAndRideCarsContent /> should work 1`] = `
           <p
             class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
           >
-            Liityntäpysäkki pyörille
+            Liityntäpysäkki autoille
           </p>
         </div>
         <div
