@@ -4,12 +4,14 @@ import { useSelector } from 'react-redux';
 import { useMap } from 'react-leaflet';
 import parkAndRideIcon from 'servicemap-ui-turku/assets/icons/icons-icon_park_and_ride_bicycle.svg';
 import parkAndRideIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_park_and_ride_bicycle-bw.svg';
-import { isObjValid, createIcon, isDataValid } from '../../utils/utils';
+import {
+  createIcon, getDistanceBetweenPoints, isDataValid, isObjValid,
+} from '../../utils/utils';
 import config from '../../../../../config';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import useParkingDataFetch from '../../utils/useParkingDataFetch';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
-import { StyledPopupWrapper, StyledPopupInner } from '../../styled/styled';
+import { StyledPopupInner, StyledPopupWrapper } from '../../styled/styled';
 import ParkAndRideAreasContent from './components/ParkAndRideAreasContent';
 import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
 import MarkerComponent from '../../MarkerComponent';
@@ -58,9 +60,6 @@ const ParkAndRideAreas = () => {
     page_size: 100,
   };
 
-  const liipiData = useMobilityDataFetch(options, showParkAndRideAreas).data;
-  const renderLiipiData = isDataValid(showParkAndRideAreas, liipiData);
-
   /**
    * Swap coordinates to be in correct order for Leaflet
    * @param {array} inputData
@@ -106,6 +105,23 @@ const ParkAndRideAreas = () => {
       map.fitBounds(bounds);
     }
   }, [showParkAndRideAreas, areasData, fetchError]);
+
+  const filterCloseObjects = (listA, listB) => listA.filter(pointA => {
+    if (listA != null && listB != null && listB.length > 0) {
+      const { lat: latA, lon: lngA } = pointA.geometry_coords;
+      return listB.every(pointB => {
+        // Seems that the geometry values should be in MultiPolygon type but making it more failsafe by checking this
+        const isPolygonType = pointB.geometry.type === 'MultiPolygon';
+        // Areas data geometry is the other way around and useEffect is not yet in use
+        const latB = isPolygonType ? pointB.geometry.coordinates[0][0][0][1] : pointB.geometry?.coordinates?.lat || 60.451799;
+        const lngB = isPolygonType ? pointB.geometry.coordinates[0][0][0][0] : pointB.geometry?.coordinates?.lng || 22.266414;
+        return getDistanceBetweenPoints(latA, lngA, latB, lngB) > 0.33;
+      });
+    } return true;
+  });
+
+  const liipiData = filterCloseObjects(useMobilityDataFetch(options, showParkAndRideAreas).data, areasData);
+  const renderLiipiData = isDataValid(showParkAndRideAreas, liipiData);
 
   const renderColor = (itemId, capacity) => {
     const stats = statisticsData?.find(item => item.id === itemId);
