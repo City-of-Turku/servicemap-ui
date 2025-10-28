@@ -945,6 +945,7 @@ const translations = {
   'mobilityPlatform.content.departingTrains.empty': 'Inga avgående tåg',
   'mobilityPlatform.content.arrivingTrains.empty': 'Inga inkommande tåg',
   'mobilityPlatform.parkAndRide.content.subtitle': 'Infartspark for cyklarna',
+  'mobilityPlatform.parkAndRide.content.cars.subtitle': 'Infartspark for bilarna',
   'mobilityPlatform.content.barbecuePlace.title': 'Grill- och eldningplats',
   'mobilityPlatform.content.barbecuePlace.manufacturer': 'Tillverkare: {value}',
   'mobilityPlatform.content.barbecuePlace.model': 'Modell: {value}',
