@@ -16,6 +16,7 @@ const NoParking = () => {
   const options = {
     type_name: 'ScooterNoParkingArea',
     latlon: true,
+    page_size: 1000,
   };
 
   const { showScooterNoParking } = useMobilityPlatformContext();
