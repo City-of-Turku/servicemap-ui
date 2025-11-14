@@ -31,7 +31,6 @@ import StatisticalDistrictList from './components/StatisticalDistrictList';
 import useMobileStatus from '../../utils/isMobile';
 import MapUtility from '../../utils/mapUtility';
 import config from '../../../config';
-import MobilityResultTab from './components/MobilityResultTab';
 
 const AreaView = ({
   setSelectedDistrictType,
@@ -283,10 +282,6 @@ const AreaView = ({
     />
   );
 
-  const renderMobilityResultTab = () => (
-    <MobilityResultTab />
-  );
-
   const areaSectionSelection = (open, i) => {
     setAreaSelection(!open ? i : null);
     if (selectedDistrictType) {
@@ -333,12 +328,6 @@ const AreaView = ({
         title: intl.formatMessage({ id: 'area.tab.geographical' }),
         icon: <LocationCity className={classes.icon} />,
         type: 'geographic',
-      },
-      {
-        component: renderMobilityResultTab(),
-        title: intl.formatMessage({ id: 'area.tab.mobilityTest.results' }),
-        icon: <DirectionsWalk className={classes.icon} />,
-        type: 'mobilityResults',
       },
       {
         component: <StatisticalDistrictList />,

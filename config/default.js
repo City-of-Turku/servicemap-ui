@@ -284,6 +284,5 @@ export default {
   "airMonitoringAPI": settings.AIR_MONITORING_API,
   "roadworksAPI": settings.ROADWORKS_API,
   "railwaysAPI": settings.RAILWAYS_API,
-  "mobilityTestAPI": settings.MOBILITY_TEST_API,
   "portnetAPI": settings.PORTNET_API,
 }
