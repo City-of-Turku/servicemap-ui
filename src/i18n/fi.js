@@ -402,7 +402,7 @@ const translations = {
   'home.buttons.closeByServices': 'Näytä lähellä olevat palvelut',
   'home.buttons.instructions': 'Vinkkejä Palvelukartan käyttöön',
   'home.buttons.area': 'Katso terveys-, neuvola-, oppilaaksiotto-, esiopetus-, väestön- ja luonnonsuojelualueet sekä kaupunginosat.',
-  'home.buttons.area.tku': 'Katso kaupunginosat, oppilaaksiotto-, postinumero- ja äänestysalueet sekä Turun alueen liikkumisprofiilit.',
+  'home.buttons.area.tku': 'Katso kaupunginosat, oppilaaksiotto-, postinumero- ja äänestysalueet.',
   'home.example.search': 'Hae hakusanalla',
   'home.message': 'Terveisiä palvelukartan kehittäjiltä',
   'home.send.feedback': 'Anna palautetta',

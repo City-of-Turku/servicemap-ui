@@ -399,7 +399,7 @@ const translations = {
   'home.buttons.closeByServices': 'Show nearby services',
   'home.buttons.instructions': 'Tips for using the service map',
   'home.buttons.area': 'View the areas for healthcare, education, pre-primary education, civil defence, nature and neighborhoods.',
-  'home.buttons.area.tku': 'View the neighborhoods, areas for education, postcode, voting and mobility profiles of Turku region.',
+  'home.buttons.area.tku': 'View the neighborhoods, areas for education, postcode and voting.',
   'home.example.search': 'Search for',
   'home.message': 'Message from the developers',
   'home.send.feedback': 'Give feedback',
