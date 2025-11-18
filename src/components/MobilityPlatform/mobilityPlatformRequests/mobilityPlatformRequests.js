@@ -13,9 +13,6 @@ const serviceMapApiUrlVersion = config.serviceMapAPI.version;
 const serviceMapApiUrl = `${serviceMapApiUrlBase}${serviceMapApiUrlVersion}`;
 const isServiceMapApiUrl = !serviceMapApiUrlBase || serviceMapApiUrlBase === 'undefined' ? null : serviceMapApiUrl;
 
-const mobilityTestApiUrl = config.mobilityTestAPI;
-const isMobilityTestApiUrl = !mobilityTestApiUrl || mobilityTestApiUrl === 'undefined' ? null : mobilityTestApiUrl;
-
 const roadworksApiUrl = config.roadworksAPI;
 const isRoadworksApiUrl = !roadworksApiUrl || roadworksApiUrl === 'undefined' ? null : roadworksApiUrl;
 
@@ -160,16 +157,6 @@ const fetchPostCodeAreas = async (setData, signal) => {
   }
 };
 
-const fetchMobilityProfilesData = async (setData, signal) => {
-  try {
-    const response = await fetch(`${isMobilityTestApiUrl}/?page_size=300`, { signal });
-    const jsonData = await response.json();
-    setData(jsonData.results);
-  } catch (err) {
-    console.warn(err.message);
-  }
-};
-
 const fetchPortNetData = async (endpoint, setData, isPortCalls, signal) => {
   try {
     const response = await fetch(`${isPortNetApiUrl}/${endpoint}`, { signal });
@@ -192,6 +179,5 @@ export {
   fetchRailwaysData,
   fetchRoadworksData,
   fetchPostCodeAreas,
-  fetchMobilityProfilesData,
   fetchPortNetData,
 };

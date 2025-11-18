@@ -167,12 +167,6 @@ const translations = {
   'area.list.statistic.30-49': 'Ålder 30-49 år',
   'area.list.statistic.50-64': 'Ålder 50-64 år',
   'area.list.statistic.65+': 'Ålder över 65 år',
-  'area.tab.mobilityTest.results': 'Mobilitetsprofiler av Åbo område',
-  'area.mobilityResults.toggle': 'Mobilitetsprofiler',
-  'area.mobilityResults.postCodeArea': 'Postnummerområd: {value}',
-  'area.mobilityResults.empty': 'Inga mobilitetsprofiler hittades.',
-  'area.mobilityResults.info.text': 'Kartan visas information om mobilitetsprofiler (till exempel Hinderfri Hare) i Åbo-området uppdelat efter postnummerområden. Informationen visas när det finns minst fem svar i varje profil. Genom att göra Åbos mobilitetsprofiltest kan du ta reda på vilken typ av rörlig person du är.',
-  'area.mobilityResults.link.text': 'liikkumistesti.turku.fi (ny flik)',
 
   // TODO: translate all
   'parkingArea.popup.residentName': 'Zon {letter}',
@@ -403,7 +397,7 @@ const translations = {
   'home.buttons.closeByServices': 'Visa närtjänster',
   'home.buttons.instructions': 'Tips för användning av servicekartan',
   'home.buttons.area': 'Se hälsovårds-, rådgivnings-, elevupptagnings-, förskole-, befolkningsskydds- och naturskyddsområdena samt stadsdelarna',
-  'home.buttons.area.tku': 'Se stadsdelarna, elevupptagnings-, postnummer- och röstningområdena samt mobilitetsprofiler av Åbo område.',
+  'home.buttons.area.tku': 'Se stadsdelarna, elevupptagnings-, postnummer- och röstningområdena.',
   'home.example.search': 'Sök med sökord',
   'home.message': 'Hälsningar av servicekartans utvecklare',
   'home.send.feedback': 'Skicka respons',
