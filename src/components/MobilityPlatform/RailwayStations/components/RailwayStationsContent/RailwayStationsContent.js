@@ -33,18 +33,38 @@ const RailwayStationsContent = ({ item, stationsData }) => {
     return () => controller.abort();
   }, [item.stationShortCode]);
 
-  const filterArrivals = data => data.filter(train => {
-    const lastRow = train.timeTableRows.slice(-1)[0];
-    return lastRow.stationShortCode === item.stationShortCode && lastRow.type === 'ARRIVAL';
+  const filterArrivals = data => data.filter(
+    train => train.timeTableRows.some(
+      row => row.stationShortCode === item.stationShortCode
+      && row.type === 'ARRIVAL'
+      && row.trainStopping
+      && row.commercialStop,
+    ),
+  );
+
+  const filterDeparting = data => data.filter(
+    train => train.timeTableRows.some(
+      row => row.stationShortCode === item.stationShortCode
+              && row.type === 'DEPARTURE'
+              && row.trainStopping
+              && row.commercialStop,
+    ),
+  );
+
+  const sortTrainsByTime = (trains, rowType) => trains.sort((a, b) => {
+    const aRow = a.timeTableRows.find(
+      row => row.stationShortCode === item.stationShortCode && row.type === rowType,
+    );
+    const bRow = b.timeTableRows.find(
+      row => row.stationShortCode === item.stationShortCode && row.type === rowType,
+    );
+    const aTime = aRow?.actualTime || aRow?.scheduledTime;
+    const bTime = bRow?.actualTime || bRow?.scheduledTime;
+    return new Date(aTime) - new Date(bTime);
   });
 
-  const filterDeparting = data => data.filter(train => {
-    const firstRow = train.timeTableRows[0];
-    return firstRow.stationShortCode === item.stationShortCode && firstRow.type === 'DEPARTURE';
-  });
-
-  const arrivingTrains = filterArrivals(stationTrainsData);
-  const departingTrains = filterDeparting(stationTrainsData);
+  const arrivingTrains = sortTrainsByTime(filterArrivals(stationTrainsData), 'ARRIVAL');
+  const departingTrains = sortTrainsByTime(filterDeparting(stationTrainsData), 'DEPARTURE');
 
   const findStation = (stationsArr, codeValue) => stationsArr.find(station => station.stationShortCode === codeValue);
 
@@ -62,13 +82,13 @@ const RailwayStationsContent = ({ item, stationsData }) => {
 
   const renderTrainInfo = train => (
     <StyledTextContainer>
-      <Typography variant="body2" component="p">{`${train.trainType} ${train.trainNumber}`}</Typography>
+      <Typography variant="body2" component="p" left>{`${train.trainType} ${train.trainNumber}`}</Typography>
     </StyledTextContainer>
   );
 
   const renderTimeValues = elem => (
     <StyledTextContainer>
-      <Typography key={elem.scheduledTime} variant="body2" component="p">
+      <Typography key={elem.scheduledTime} variant="body2" component="p" right>
         {elem.liveEstimateTime && elem.differenceInMinutes > 1
           ? `${formatDateTime(elem.liveEstimateTime)} (${formatDateTime(elem.scheduledTime)})`
           : `${formatDateTime(elem.scheduledTime)}`}
@@ -104,7 +124,7 @@ const RailwayStationsContent = ({ item, stationsData }) => {
               {renderDestination(train.timeTableRows)}
               {train.timeTableRows
                 .filter(elem => elem.stationShortCode === item.stationShortCode && elem.type === 'DEPARTURE')
-                .map(elem => renderTimeValues(elem))}
+                .map(elem => <span key={elem.scheduledTime}>{renderTimeValues(elem)}</span>)}
             </StyledFlexContainer>
           ))}
         </div>
@@ -128,7 +148,7 @@ const RailwayStationsContent = ({ item, stationsData }) => {
               {renderDestination(train.timeTableRows)}
               {train.timeTableRows
                 .filter(elem => elem.stationShortCode === item.stationShortCode && elem.type === 'ARRIVAL')
-                .map(elem => renderTimeValues(elem))}
+                .map(elem => <span key={elem.scheduledTime}>{renderTimeValues(elem)}</span>)}
             </StyledFlexContainer>
           ))}
         </div>
