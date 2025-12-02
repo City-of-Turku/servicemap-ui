@@ -34,13 +34,8 @@ const RailwayStations = () => {
     return () => controller.abort();
   }, [showRailwayStations]);
 
-  /** Separate railway stations of Turku, eg. Turku station and Kupittaa */
-  /* TKUAOK-22: filterArrivals and filterDeparting on RailwayStationsContent has faulty logic as in that
-   * only routes that are the first in departing or last in arriving are shown, which means that KUT will
-   * be empty always since all the routes go at least to and from TKU. Will hide KUT until this is fixed.
-   */
-  // const turkuStationCodes = ['TKU', 'KUT', 'TUS'];
-  const turkuStationCodes = ['TKU', 'TUS'];
+  // List of the railway station codes to show in the map
+  const turkuStationCodes = ['TKU', 'TUS', 'KUT'];
   const railwayStationsTku = railwayStations.filter(curr => turkuStationCodes.includes(curr.stationShortCode));
 
   const renderData = isDataValid(showRailwayStations, railwayStationsTku);
