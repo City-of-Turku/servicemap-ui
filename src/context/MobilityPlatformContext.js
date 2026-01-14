@@ -109,6 +109,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
   // skiing and ice-skating
   const [showSkiTrails, setShowSkiTrails] = useState(false);
   const [showIceTracks, setShowIceTracks] = useState(false);
+  const [isActiveSportsMaintenance, setIsActiveSportsMaintenance] = useState(true);
 
   // other
   const [showOutdoorGymDevices, setShowOutdoorGymDevices] = useState(false);
@@ -189,6 +190,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     // skiing and ice-skating
     showSkiTrails,
     showIceTracks,
+    isActiveSportsMaintenance,
     // other
     showOutdoorGymDevices,
     showPublicToilets,
@@ -269,6 +271,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     // skiing and ice-skating
     setShowSkiTrails,
     setShowIceTracks,
+    setIsActiveSportsMaintenance,
     // other
     setShowOutdoorGymDevices,
     setShowPublicToilets,
