@@ -19,7 +19,7 @@ import iconScooter from 'servicemap-ui-turku/assets/icons/icons-icon_scooter.svg
 import iconSnowplow from 'servicemap-ui-turku/assets/icons/icons-icon_street_maintenance.svg';
 import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import iconPublicTransport from 'servicemap-ui-turku/assets/icons/icons-icon_public_transport.svg';
-import iconSkiing from 'servicemap-ui-turku/assets/icons/icons-icon_sport_facilities.svg';
+import iconSkiing from 'servicemap-ui-turku/assets/icons/icons-icon_sports_maintenance.svg';
 import InfoTextBox from '../../components/MobilityPlatform/InfoTextBox';
 import useMobilityDataFetch from '../../components/MobilityPlatform/utils/useMobilityDataFetch';
 import useLocaleText from '../../utils/useLocaleText';
