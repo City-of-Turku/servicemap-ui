@@ -831,6 +831,10 @@ const translations = {
   'mobilityPlatform.menu.show.portInfo': 'Matkustajalaivat',
   'mobilityPlatform.menu.showparkAndRideAreas': 'Liityntäpysäköinti',
   'mobilityPlatform.menu.show.taxiStands': 'Taksitolpat',
+  'mobilityPlatform.menu.title.sportFacilitiesMain': 'Liikuntapaikkojen kunnossapito',
+  'mobilityPlatform.menu.show.sportFacilitiesMaintenance': 'Liikuntapaikkojen kunnossapito',
+  'mobilityPlatform.menu.show.skiTrails': 'Hiihtoladut',
+  'mobilityPlatform.menu.show.iceSkating': 'Luistelukentät',
 
   // Content
   'mobilityPlatform.content.general.provider': 'Palveluntarjoaja: {value}',
@@ -1019,6 +1023,8 @@ const translations = {
   'mobilityPlatform.info.parkAndRide': 'Liityntäpysäköinti tarjoaa mahdollisuuden jättää oma auto parkkiin ja jatkaa matkaa linja-autolla. Turussa on muutamia liityntäpysäköintialueita autoille. Liityntäpysäköinti on maksutonta ja tarkoitettu vain joukkoliikennettä vaihtoyhteytenä käyttäville.',
   'mobilityPlatform.info.parkAndRide.link': 'Lisätietoja löytyy osoitteesta https://www.turku.fi/liityntapysakointi',
   'mobilityPlatform.info.taxiStands': 'Turun kaupungin ylläpitämät taksitolpat ovat kaikkien taksiyrittäjien käytössä.',
+  'mobilityPlatform.info.skiTrails': 'Turun kaupungin ylläpitämien hiihtolatujen reaaliaikainen kunnostustilanne. Voit näyttää tehtyjä latujen kunnossapitotöitä valitulta ajanjaksolta.',
+  'mobilityPlatform.info.iceTracks': 'VIHREÄ Avoinna (kunto hyvä) \nORANSSI Avoinna (kunto kohtalainen) \nPUNAINEN Suljettu (kunnoltaan vaarallinen)',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',
