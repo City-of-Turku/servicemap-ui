@@ -106,6 +106,10 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showAccessibilityAreas, setShowAccessibilityAreas] = useState(accessibilityAreasInitial);
   const [accessibilityAreasData, setAccessibilityAreasData] = useState([]);
 
+  // skiing and ice-skating
+  const [showSkiTrails, setShowSkiTrails] = useState(false);
+  const [showIceTracks, setShowIceTracks] = useState(false);
+
   // other
   const [showOutdoorGymDevices, setShowOutdoorGymDevices] = useState(false);
   const [showLoadingPlaces, setShowLoadingPlaces] = useState(false);
@@ -182,6 +186,9 @@ const MobilityPlatformContextProvider = ({ children }) => {
     // units
     showAccessibilityAreas,
     accessibilityAreasData,
+    // skiing and ice-skating
+    showSkiTrails,
+    showIceTracks,
     // other
     showOutdoorGymDevices,
     showPublicToilets,
@@ -259,6 +266,9 @@ const MobilityPlatformContextProvider = ({ children }) => {
     // units
     setShowAccessibilityAreas,
     setAccessibilityAreasData,
+    // skiing and ice-skating
+    setShowSkiTrails,
+    setShowIceTracks,
     // other
     setShowOutdoorGymDevices,
     setShowPublicToilets,
