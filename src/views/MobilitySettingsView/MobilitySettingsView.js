@@ -1094,32 +1094,32 @@ const MobilitySettingsView = ({ navigator }) => {
   const streetMaintenanceSelections = [
     {
       type: '1hour',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.1hour',
+      msgId: 'mobilityPlatform.menu.maintenance.1hour',
       onChangeValue: setStreetMaintenancePeriodSelection,
     },
     {
       type: '3hours',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.3hours',
+      msgId: 'mobilityPlatform.menu.maintenance.3hours',
       onChangeValue: setStreetMaintenancePeriodSelection,
     },
     {
       type: '6hours',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.6hours',
+      msgId: 'mobilityPlatform.menu.maintenance.6hours',
       onChangeValue: setStreetMaintenancePeriodSelection,
     },
     {
       type: '12hours',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.12hours',
+      msgId: 'mobilityPlatform.menu.maintenance.12hours',
       onChangeValue: setStreetMaintenancePeriodSelection,
     },
     {
       type: '1day',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.1day',
+      msgId: 'mobilityPlatform.menu.maintenance.1day',
       onChangeValue: setStreetMaintenancePeriodSelection,
     },
     {
       type: '3days',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.3days',
+      msgId: 'mobilityPlatform.menu.maintenance.3days',
       onChangeValue: setStreetMaintenancePeriodSelection,
     },
   ];
@@ -1145,17 +1145,17 @@ const MobilitySettingsView = ({ navigator }) => {
   const sportsFacilitiesMaintenanceSelections = [
     {
       type: '1day',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.1day',
+      msgId: 'mobilityPlatform.menu.maintenance.1day',
       onChangeValue: setSportsMaintenancePeriodSelection,
     },
     {
       type: '3days',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.3days',
+      msgId: 'mobilityPlatform.menu.maintenance.3days',
       onChangeValue: setSportsMaintenancePeriodSelection,
     },
     {
       type: 'over3days',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.over3days',
+      msgId: 'mobilityPlatform.menu.maintenance.over3days',
       onChangeValue: setSportsMaintenancePeriodSelection,
     },
   ];
