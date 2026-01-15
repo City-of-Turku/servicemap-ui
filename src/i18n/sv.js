@@ -1033,8 +1033,10 @@ const translations = {
   'mobilityPlatform.info.parkAndRide': 'Infartsparkeringen erbjuder möjlighet att lämna din egen bil på parkeringsplatsen och fortsätta resan med buss. Inom Åbo stad finns några infartsparkeringsplatser för bilar. Infartsparkeringen är gratis och endast avsedd för dem som fortsätter sin resa med kollektivtrafik.',
   'mobilityPlatform.info.parkAndRide.link': 'För mer information besök https://www.turku.fi/liityntapysakointi',
   'mobilityPlatform.info.taxiStands': 'Taxistationer som underhålls av Åbo stad är tillgängliga för alla taxiföretagare.',
-  'mobilityPlatform.info.skiTrails': 'GRÖN Öppen (i gott skick) \nORANGE Öppen (i måttligt skick) \nRÖD Stängd (i farligt skick)',
-  'mobilityPlatform.info.iceTracks': 'Aktuella underhållsläget för längdskidspår som underhålls av Åbo stad. Du kan se pågående underhållsarbete för den valda tidsperioden.',
+  'mobilityPlatform.info.skiTrails': 'Aktuella underhållsläget för längdskidspår som underhålls av Åbo stad. Du kan se pågående underhållsarbete för den valda tidsperioden.',
+  'mobilityPlatform.info.iceTracks.green': 'Öppen (i gott skick)',
+  'mobilityPlatform.info.iceTracks.orange': 'Öppen (i måttligt skick)',
+  'mobilityPlatform.info.iceTracks.red': 'Stängd (i farligt skick)',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',

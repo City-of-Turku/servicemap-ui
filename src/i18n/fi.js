@@ -1025,7 +1025,9 @@ const translations = {
   'mobilityPlatform.info.parkAndRide.link': 'Lisätietoja löytyy osoitteesta https://www.turku.fi/liityntapysakointi',
   'mobilityPlatform.info.taxiStands': 'Turun kaupungin ylläpitämät taksitolpat ovat kaikkien taksiyrittäjien käytössä.',
   'mobilityPlatform.info.skiTrails': 'Turun kaupungin ylläpitämien hiihtolatujen reaaliaikainen kunnostustilanne. Voit näyttää tehtyjä latujen kunnossapitotöitä valitulta ajanjaksolta.',
-  'mobilityPlatform.info.iceTracks': 'VIHREÄ Avoinna (kunto hyvä) \nORANSSI Avoinna (kunto kohtalainen) \nPUNAINEN Suljettu (kunnoltaan vaarallinen)',
+  'mobilityPlatform.info.iceTracks.green': 'Avoinna (kunto hyvä)',
+  'mobilityPlatform.info.iceTracks.orange': 'Avoinna (kunto kohtalainen)',
+  'mobilityPlatform.info.iceTracks.red': 'Suljettu (kunnoltaan vaarallinen)',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',

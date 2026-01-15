@@ -1878,11 +1878,6 @@ const MobilitySettingsView = ({ navigator }) => {
       type: 'skiTrailsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.skiTrails" />,
     },
-    {
-      visible: showIceTracks,
-      type: 'iceTrackMaintenanceHistoryInfo',
-      component: <InfoTextBox infoText="mobilityPlatform.info.iceTracks" />,
-    },
   ];
 
   const infoTextsWeatherObservations = [
