@@ -20,6 +20,7 @@ import ParkingAreas from '../../components/MobilityPlatform/Scooters/components/
 import ScooterMarkers from '../../components/MobilityPlatform/Scooters/components/ScooterMarkers';
 import SpeedLimitAreas from '../../components/MobilityPlatform/Scooters/components/SpeedLimitAreas';
 import SnowPlows from '../../components/MobilityPlatform/SnowPlows';
+import SportsFacilitiesMaintenance from '../../components/MobilityPlatform/SportsFacilitiesMaintenance';
 import SpeedLimitZones from '../../components/MobilityPlatform/SpeedLimitZones';
 import DisabledParking from '../../components/MobilityPlatform/Parking/DisabledParking';
 import LoadingPlaces from '../../components/MobilityPlatform/LoadingPlaces';
@@ -72,6 +73,7 @@ const MobilityPlatformMapView = ({ mapObject }) => (
     <DisabledParking />
     <LoadingPlaces />
     <SnowPlows />
+    <SportsFacilitiesMaintenance />
     <BrushedBicycleRoads />
     <MarkedTrails />
     <NatureTrails />
