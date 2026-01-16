@@ -1037,6 +1037,14 @@ const translations = {
   'mobilityPlatform.info.iceTracks.green': 'Öppen (i gott skick)',
   'mobilityPlatform.info.iceTracks.orange': 'Öppen (i måttligt skick)',
   'mobilityPlatform.info.iceTracks.red': 'Stängd (i farligt skick)',
+  'mobilityPlatform.popup.iceTrack.title': 'Skridskobana',
+  'mobilityPlatform.popup.iceTrack.status.usable': 'I bruk',
+  'mobilityPlatform.popup.iceTrack.status.unusable': 'Inte i bruk',
+  'mobilityPlatform.popup.iceTrack.status.undefined': 'Odefinierad',
+  'mobilityPlatform.popup.skiTrail.title': 'Längdskidspår',
+  'mobilityPlatform.popup.skiTrail.maintainedAt': 'Underhållen',
+  'mobilityPlatform.popup.skiTrail.maintainedAt.unknown': 'Okänt',
+  'mobilityPlatform.popup.unitId': 'Enhets-ID',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 är en europeisk cykelrutt som följer den finländska kusten. Sträckan mellan Helsingfors och Åbo är skyltad.',

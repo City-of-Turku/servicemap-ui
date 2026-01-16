@@ -1033,6 +1033,14 @@ const translations = {
   'mobilityPlatform.info.iceTracks.green': 'Open (in good condition)',
   'mobilityPlatform.info.iceTracks.orange': 'Open (in fair condition)',
   'mobilityPlatform.info.iceTracks.red': 'Closed (in dangerous condition)',
+  'mobilityPlatform.popup.iceTrack.title': 'Ice track',
+  'mobilityPlatform.popup.iceTrack.status.usable': 'In use',
+  'mobilityPlatform.popup.iceTrack.status.unusable': 'Not in use',
+  'mobilityPlatform.popup.iceTrack.status.undefined': 'Undefined',
+  'mobilityPlatform.popup.skiTrail.title': 'Ski trail',
+  'mobilityPlatform.popup.skiTrail.maintainedAt': 'Maintained',
+  'mobilityPlatform.popup.skiTrail.maintainedAt.unknown': 'Unknown',
+  'mobilityPlatform.popup.unitId': 'Unit ID',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'The EuroVelo 10, is the European cycle route that stretches along the Finnish costal line. The distance between Helsinki and Turku has roadside directions for the route.',

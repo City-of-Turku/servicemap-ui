@@ -1028,6 +1028,14 @@ const translations = {
   'mobilityPlatform.info.iceTracks.green': 'Avoinna (kunto hyvä)',
   'mobilityPlatform.info.iceTracks.orange': 'Avoinna (kunto kohtalainen)',
   'mobilityPlatform.info.iceTracks.red': 'Suljettu (kunnoltaan vaarallinen)',
+  'mobilityPlatform.popup.iceTrack.title': 'Luistelukenttä',
+  'mobilityPlatform.popup.iceTrack.status.usable': 'Käytössä',
+  'mobilityPlatform.popup.iceTrack.status.unusable': 'Ei käytössä',
+  'mobilityPlatform.popup.iceTrack.status.undefined': 'Määrittämätön',
+  'mobilityPlatform.popup.skiTrail.title': 'Hiihtolatu',
+  'mobilityPlatform.popup.skiTrail.maintainedAt': 'Kunnostettu',
+  'mobilityPlatform.popup.skiTrail.maintainedAt.unknown': 'Ei tiedossa',
+  'mobilityPlatform.popup.unitId': 'Yksikkö ID',
 
   // Bicycle routes
   'mobilityPlatform.menu.bicycleRoutes.euroVelo': 'EuroVelo 10 on eurooppalainen Suomen rannikkoa seuraava polkupyöräreitti. Helsingin ja Turun välisellä matkalla reitti on merkitty opastein.',
