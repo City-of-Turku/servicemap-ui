@@ -29,7 +29,6 @@ const isPortNetApiUrl = !portNetApiUrl || portNetApiUrl === 'undefined' ? null :
 const optionsToParams = options => {
   const defaultOptions = {
     page_size: 100,
-    srid: 4326,
   };
   const params = new URLSearchParams();
   Object.entries({ ...defaultOptions, ...options }).forEach(([key, value]) => {
