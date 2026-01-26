@@ -31,9 +31,9 @@ const SportsFacilitiesMaintenanceList = ({
         <StyledBorderedParagraph>
           <Typography
             variant="body2"
-            aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.streetMaintenance.info' })}
+            aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.sportsFacilitiesMaintenance.info' })}
           >
-            {intl.formatMessage({ id: 'mobilityPlatform.menu.streetMaintenance.info' })}
+            {intl.formatMessage({ id: 'mobilityPlatform.menu.sportsFacilitiesMaintenance.info' })}
           </Typography>
           {!isActive && maintenancePeriod ? (
             <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.noActivity" reducePadding />
