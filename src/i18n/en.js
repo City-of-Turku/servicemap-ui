@@ -828,7 +828,7 @@ const translations = {
   'mobilityPlatform.menu.showparkAndRideAreas': 'Park-and-ride',
   'mobilityPlatform.menu.show.taxiStands': 'Taxi stands',
   'mobilityPlatform.menu.title.sportFacilitiesMain': 'Maintenance of sports facilities',
-  'mobilityPlatform.menu.show.sportFacilitiesMaintenance': 'Maintenance of sports facilities',
+  'mobilityPlatform.menu.sportsFacilitiesMaintenance.info': 'You can show maintenance work situation from a selected period.',
   'mobilityPlatform.menu.show.skiTrails': 'Ski trails',
   'mobilityPlatform.menu.show.iceSkating': 'Skating rinks',
 

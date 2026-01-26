@@ -832,7 +832,7 @@ const translations = {
   'mobilityPlatform.menu.showparkAndRideAreas': 'Infartsparkering',
   'mobilityPlatform.menu.show.taxiStands': 'Taxistation',
   'mobilityPlatform.menu.title.sportFacilitiesMain': 'Underhåll av idrottsanläggningar',
-  'mobilityPlatform.menu.show.sportFacilitiesMaintenance': 'Underhåll av idrottsanläggningar',
+  'mobilityPlatform.menu.sportsFacilitiesMaintenance.info': 'Du kan visa underhållsarbetets status för en vald period.',
   'mobilityPlatform.menu.show.skiTrails': 'Längdskidspår',
   'mobilityPlatform.menu.show.iceSkating': 'Skridskoplaner',
 
