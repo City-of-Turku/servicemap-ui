@@ -129,6 +129,24 @@ const SportsFacilitiesMaintenance = () => {
     }
   };
 
+  // Filter ice tracks based on selected period
+  const filteredIceTracksGeometries = useMemo(() => {
+    if (!sportsMaintenancePeriod || sportsMaintenancePeriod === 'over3days') {
+      return iceTracksGeometries;
+    }
+
+    return iceTracksGeometries.filter(geom => {
+      const maintenance = geom.maintenance_data;
+      if (!maintenance) return false;
+
+      if (sportsMaintenancePeriod === '1day' || sportsMaintenancePeriod === '3days') {
+        return maintenance.condition === 'USABLE';
+      }
+
+      return false;
+    });
+  }, [iceTracksGeometries, sportsMaintenancePeriod]);
+
   const getSkiTrailColor = lastMaintenance => {
     switch (lastMaintenance) {
       case '1day':
@@ -279,11 +297,11 @@ const SportsFacilitiesMaintenance = () => {
   };
 
   const renderIceTracks = () => {
-    if (!showIceTracks || iceTracksGeometries.length === 0) {
+    if (!showIceTracks || filteredIceTracksGeometries.length === 0) {
       return null;
     }
 
-    return iceTracksGeometries.map((geom, index) => {
+    return filteredIceTracksGeometries.map((geom, index) => {
       const maintenance = geom.maintenance_data;
       if (!maintenance) return null;
 
