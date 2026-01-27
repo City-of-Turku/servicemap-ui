@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import iceTracksIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ice.svg';
-import iceTracksIconBw from 'servicemap-ui-turku/assets/icons/icons-icon_ice_bw.svg';
+// import iceTracksIconBw from 'servicemap-ui-turku/assets/icons/icons-icon_ice_bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { fetchUnitMaintenanceData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
@@ -30,7 +30,9 @@ const SportsFacilitiesMaintenance = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const customIcon = icon(createIcon(useContrast ? iceTracksIconBw : iceTracksIcon));
+  // TODO: fix this when servicemap-ui-turku includes bw
+  // const customIcon = icon(createIcon(useContrast ? iceTracksIconBw : iceTracksIcon));
+  const customIcon = icon(createIcon(iceTracksIcon));
 
   const currentDate = new Date();
 
@@ -110,18 +112,18 @@ const SportsFacilitiesMaintenance = () => {
   }, [showSkiTrails, showIceTracks, allSkiTrailsGeometries, iceTracksGeometries, setIsActiveSportsMaintenance]);
 
   const colorValues = {
-    green: 'rgba(15, 115, 6, 255)',
-    orange: 'rgba(227, 97, 32, 255)',
-    red: 'rgba(240, 22, 22, 255)',
+    blue: 'rgba(7, 44, 115, 255)',
+    purple: 'rgba(202, 15, 212, 255)',
+    burgundy: 'rgba(128, 0, 32, 255)',
     gray: 'rgba(128, 128, 128, 255)',
   };
 
   const getIceTrackColor = condition => {
     switch (condition) {
       case 'USABLE':
-        return colorValues.green;
+        return colorValues.blue;
       case 'UNUSABLE':
-        return colorValues.orange;
+        return colorValues.burgundy;
       default:
         return colorValues.gray;
     }
@@ -130,11 +132,11 @@ const SportsFacilitiesMaintenance = () => {
   const getSkiTrailColor = lastMaintenance => {
     switch (lastMaintenance) {
       case '1day':
-        return colorValues.green;
+        return colorValues.blue;
       case '3days':
-        return colorValues.orange;
+        return colorValues.purple;
       case 'over3days':
-        return colorValues.red;
+        return colorValues.burgundy;
       default:
         return colorValues.gray;
     }
@@ -163,10 +165,8 @@ const SportsFacilitiesMaintenance = () => {
       const period = getSkiTrailPeriod(maintenance.maintained_at);
 
       if (sportsMaintenancePeriod === '1day') {
-        // "1day" selected: only show trails maintained within 1 day
         return period === '1day';
       } if (sportsMaintenancePeriod === '3days') {
-        // "3days" selected: show trails maintained within 1 day OR 3 days
         return period === '1day' || period === '3days';
       }
 
@@ -178,7 +178,9 @@ const SportsFacilitiesMaintenance = () => {
     <StyledContainer>
       <StyledHeaderContainer>
         <Typography variant="subtitle1" component="h4">
-          {intl.formatMessage({ id: 'mobilityPlatform.popup.iceTrack.title' })}
+          {maintenance.unit.name && maintenance.unit.name !== ''
+            ? maintenance.unit.name
+            : intl.formatMessage({ id: 'mobilityPlatform.popup.iceTrack.title' })}
         </Typography>
       </StyledHeaderContainer>
       <div>
@@ -189,19 +191,16 @@ const SportsFacilitiesMaintenance = () => {
               : maintenance.condition === 'UNUSABLE'
                 ? intl.formatMessage({ id: 'mobilityPlatform.popup.iceTrack.status.unusable' })
                 : intl.formatMessage({ id: 'mobilityPlatform.popup.iceTrack.status.undefined' })}
-            {maintenance.unit && (
-              <>
-                <br />
-                {maintenance.unit.name && (
-                  <>
-                    {maintenance.unit.name}
-                    <br />
-                  </>
-                )}
-                {`${intl.formatMessage({ id: 'mobilityPlatform.popup.unitId' })}: `}
-                {maintenance.unit.id}
-              </>
-            )}
+            {/* TODO based on preference, change this to show info about the point or parse HTML of description */}
+            {/* {maintenance.unit && ( */}
+            {/*  <> */}
+            {/*    {maintenance.unit.description && ( */}
+            {/*      <> */}
+            {/*        {maintenance.unit.description} */}
+            {/*      </> */}
+            {/*    )} */}
+            {/*  </> */}
+            {/* )} */}
           </Typography>
         </StyledTextContainer>
       </div>
@@ -212,7 +211,9 @@ const SportsFacilitiesMaintenance = () => {
     <StyledContainer>
       <StyledHeaderContainer>
         <Typography variant="subtitle1" component="h4">
-          {intl.formatMessage({ id: 'mobilityPlatform.popup.skiTrail.title' })}
+          {maintenance.unit.name && maintenance.unit.name !== ''
+            ? maintenance.unit.name
+            : intl.formatMessage({ id: 'mobilityPlatform.popup.skiTrail.title' })}
         </Typography>
       </StyledHeaderContainer>
       <div>
@@ -225,21 +226,6 @@ const SportsFacilitiesMaintenance = () => {
               </>
             ) : (
               intl.formatMessage({ id: 'mobilityPlatform.popup.skiTrail.maintainedAt.unknown' })
-            )}
-          </Typography>
-          <Typography variant="body2" component="p">
-            {maintenance && maintenance.unit && (
-              <>
-                <br />
-                {maintenance.unit.name && (
-                  <>
-                    {maintenance.unit.name}
-                    <br />
-                  </>
-                )}
-                {`${intl.formatMessage({ id: 'mobilityPlatform.popup.unitId' })}: `}
-                {maintenance.unit.id}
-              </>
             )}
           </Typography>
         </StyledTextContainer>
