@@ -1142,17 +1142,22 @@ const MobilitySettingsView = ({ navigator }) => {
     }
   };
 
+  /**
+   * For ice tracks: only show 1day and over3days
+   * For ski trails: show all three options (1day, 3days, over3days)
+   * When both are selected: show all three options
+   */
   const sportsFacilitiesMaintenanceSelections = [
     {
       type: '1day',
       msgId: 'mobilityPlatform.menu.maintenance.1day',
       onChangeValue: setSportsMaintenancePeriodSelection,
     },
-    {
+    ...(showSkiTrails ? [{
       type: '3days',
       msgId: 'mobilityPlatform.menu.maintenance.3days',
       onChangeValue: setSportsMaintenancePeriodSelection,
-    },
+    }] : []),
     {
       type: 'over3days',
       msgId: 'mobilityPlatform.menu.maintenance.over3days',

@@ -20,9 +20,9 @@ const SportsFacilitiesMaintenanceList = ({
   );
 
   const colorValues = {
-    green: 'rgba(15, 115, 6, 255)',
-    orange: 'rgba(227, 97, 32, 255)',
-    red: 'rgba(240, 22, 22, 255)',
+    blue: 'rgba(7, 44, 115, 255)',
+    purple: 'rgba(202, 15, 212, 255)',
+    burgundy: 'rgba(128, 0, 32, 255)',
   };
 
   return (
@@ -60,9 +60,20 @@ const SportsFacilitiesMaintenanceList = ({
               ))}
         <StyledBorderedParagraph>
           <div>
-            {streetMaintenanceInfo(colorValues.green, 'mobilityPlatform.info.iceTracks.green')}
-            {streetMaintenanceInfo(colorValues.orange, 'mobilityPlatform.info.iceTracks.orange')}
-            {streetMaintenanceInfo(colorValues.red, 'mobilityPlatform.info.iceTracks.red')}
+            {maintenanceSelections?.length > 2
+              ? (
+                <>
+                  {streetMaintenanceInfo(colorValues.blue, 'mobilityPlatform.info.iceTracks.green')}
+                  {streetMaintenanceInfo(colorValues.purple, 'mobilityPlatform.info.iceTracks.orange')}
+                  {streetMaintenanceInfo(colorValues.burgundy, 'mobilityPlatform.info.iceTracks.red')}
+                </>
+              )
+              : (
+                <>
+                  {streetMaintenanceInfo(colorValues.blue, 'mobilityPlatform.info.iceTracks.green')}
+                  {streetMaintenanceInfo(colorValues.burgundy, 'mobilityPlatform.info.iceTracks.red')}
+                </>
+              )}
           </div>
         </StyledBorderedParagraph>
       </>
