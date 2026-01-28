@@ -2052,6 +2052,13 @@ const MobilitySettingsView = ({ navigator }) => {
       setState: openWalkSettings,
     },
     {
+      component: renderSportFacilitiesMaintenanceSettings(),
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.sportFacilitiesMain' }),
+      icon: <ReactSVG src={iconSkiing} className={iconClass} />,
+      onClick: sportFacilitiesMaintenanceSettingsToggle,
+      setState: openSportFacilitiesMaintenanceSettings,
+    },
+    {
       component: renderBicycleSettings(),
       title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.bicycle' }),
       icon: <ReactSVG src={iconBicycle} className={iconClass} />,
@@ -2106,13 +2113,6 @@ const MobilitySettingsView = ({ navigator }) => {
       icon: renderIcon(<WarningAmber fontSize="large" />),
       onClick: roadworkSettingsToggle,
       setState: openRoadworkSettings,
-    },
-    {
-      component: renderSportFacilitiesMaintenanceSettings(),
-      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.sportFacilitiesMain' }),
-      icon: <ReactSVG src={iconSkiing} className={iconClass} />,
-      onClick: sportFacilitiesMaintenanceSettingsToggle,
-      setState: openSportFacilitiesMaintenanceSettings,
     },
   ];
 
