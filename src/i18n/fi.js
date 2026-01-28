@@ -832,7 +832,7 @@ const translations = {
   'mobilityPlatform.menu.show.portInfo': 'Matkustajalaivat',
   'mobilityPlatform.menu.showparkAndRideAreas': 'Liityntäpysäköinti',
   'mobilityPlatform.menu.show.taxiStands': 'Taksitolpat',
-  'mobilityPlatform.menu.title.sportFacilitiesMain': 'Liikuntapaikkojen kunnossapito',
+  'mobilityPlatform.menu.title.sportFacilitiesMain': 'Liikuntapaikkojen talvikunnossapito',
   'mobilityPlatform.menu.sportsFacilitiesMaintenance.info': 'Voit näyttää kunnossapitotöiden tilanteen valitulta ajanjaksolta.',
   'mobilityPlatform.menu.show.skiTrails': 'Hiihtoladut',
   'mobilityPlatform.menu.show.iceSkating': 'Luistelukentät',
