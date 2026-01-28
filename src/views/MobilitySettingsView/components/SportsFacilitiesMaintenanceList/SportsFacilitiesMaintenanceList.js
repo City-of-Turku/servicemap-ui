@@ -68,12 +68,7 @@ const SportsFacilitiesMaintenanceList = ({
                   {streetMaintenanceInfo(colorValues.burgundy, 'mobilityPlatform.info.iceTracks.red')}
                 </>
               )
-              : (
-                <>
-                  {streetMaintenanceInfo(colorValues.blue, 'mobilityPlatform.info.iceTracks.green')}
-                  {streetMaintenanceInfo(colorValues.burgundy, 'mobilityPlatform.info.iceTracks.red')}
-                </>
-              )}
+              : null}
           </div>
         </StyledBorderedParagraph>
       </>

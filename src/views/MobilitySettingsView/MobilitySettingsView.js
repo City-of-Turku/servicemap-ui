@@ -1150,7 +1150,7 @@ const MobilitySettingsView = ({ navigator }) => {
   const sportsFacilitiesMaintenanceSelections = [
     {
       type: '1day',
-      msgId: 'mobilityPlatform.menu.maintenance.1day',
+      msgId: !showSkiTrails ? 'mobilityPlatform.popup.iceTrack.status.usable' : 'mobilityPlatform.menu.maintenance.1day',
       onChangeValue: setSportsMaintenancePeriodSelection,
     },
     ...(showSkiTrails ? [{
@@ -1160,7 +1160,7 @@ const MobilitySettingsView = ({ navigator }) => {
     }] : []),
     {
       type: 'over3days',
-      msgId: 'mobilityPlatform.menu.maintenance.over3days',
+      msgId: !showSkiTrails ? 'mobilityPlatform.popup.iceTrack.status.unusable' : 'mobilityPlatform.menu.maintenance.over3days',
       onChangeValue: setSportsMaintenancePeriodSelection,
     },
   ];

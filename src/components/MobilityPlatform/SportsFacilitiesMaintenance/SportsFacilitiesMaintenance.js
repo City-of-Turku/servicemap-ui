@@ -131,7 +131,7 @@ const SportsFacilitiesMaintenance = () => {
 
   // Filter ice tracks based on selected period
   const filteredIceTracksGeometries = useMemo(() => {
-    if (!sportsMaintenancePeriod || sportsMaintenancePeriod === 'over3days') {
+    if (!sportsMaintenancePeriod) {
       return iceTracksGeometries;
     }
 
@@ -141,6 +141,9 @@ const SportsFacilitiesMaintenance = () => {
 
       if (sportsMaintenancePeriod === '1day' || sportsMaintenancePeriod === '3days') {
         return maintenance.condition === 'USABLE';
+      }
+      if (sportsMaintenancePeriod === 'over3days') {
+        return maintenance.condition === 'UNUSABLE';
       }
 
       return false;
