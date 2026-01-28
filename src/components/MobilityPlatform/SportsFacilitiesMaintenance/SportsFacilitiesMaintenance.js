@@ -112,18 +112,18 @@ const SportsFacilitiesMaintenance = () => {
   }, [showSkiTrails, showIceTracks, allSkiTrailsGeometries, iceTracksGeometries, setIsActiveSportsMaintenance]);
 
   const colorValues = {
+    green: 'rgba(15, 115, 6, 255)',
     blue: 'rgba(7, 44, 115, 255)',
     purple: 'rgba(202, 15, 212, 255)',
-    burgundy: 'rgba(128, 0, 32, 255)',
     gray: 'rgba(128, 128, 128, 255)',
   };
 
   const getIceTrackColor = condition => {
     switch (condition) {
       case 'USABLE':
-        return colorValues.blue;
+        return colorValues.green;
       case 'UNUSABLE':
-        return colorValues.burgundy;
+        return colorValues.purple;
       default:
         return colorValues.gray;
     }
@@ -153,11 +153,11 @@ const SportsFacilitiesMaintenance = () => {
   const getSkiTrailColor = lastMaintenance => {
     switch (lastMaintenance) {
       case '1day':
-        return colorValues.blue;
+        return colorValues.green;
       case '3days':
-        return colorValues.purple;
+        return colorValues.blue;
       case 'over3days':
-        return colorValues.burgundy;
+        return colorValues.purple;
       default:
         return colorValues.gray;
     }
