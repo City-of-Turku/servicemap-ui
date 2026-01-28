@@ -3,7 +3,8 @@ import { useIntl } from 'react-intl';
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import iceTracksIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ice.svg';
-// import iceTracksIconBw from 'servicemap-ui-turku/assets/icons/icons-icon_ice_bw.svg';
+import iceTracksIconBw from 'servicemap-ui-turku/assets/icons/icons-icon_ice_bw.svg';
+import iceTracksUnusableIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ice_crossed.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { fetchUnitMaintenanceData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import {
@@ -30,9 +31,8 @@ const SportsFacilitiesMaintenance = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  // TODO: fix this when servicemap-ui-turku includes bw
-  // const customIcon = icon(createIcon(useContrast ? iceTracksIconBw : iceTracksIcon));
-  const customIcon = icon(createIcon(iceTracksIcon));
+  const customIceIcon = icon(createIcon(useContrast ? iceTracksIconBw : iceTracksIcon));
+  const customUnusableIceIcon = icon(createIcon(iceTracksUnusableIcon));
 
   const currentDate = new Date();
 
@@ -286,7 +286,11 @@ const SportsFacilitiesMaintenance = () => {
     if (geomType === 'Point' && geom.geometry.coordinates) {
       const [lon, lat] = geom.geometry.coordinates;
       return (
-        <Marker key={`${prefix}-marker-${geom.id}-${index}`} icon={customIcon} position={[lat, lon]}>
+        <Marker
+          key={`${prefix}-marker-${geom.id}-${index}`}
+          icon={geom?.maintenance_data?.condition === 'UNUSABLE' ? customUnusableIceIcon : customIceIcon}
+          position={[lat, lon]}
+        >
           <StyledPopupWrapper>
             <Popup className="popup-w350">
               {popupContent}
