@@ -37,6 +37,15 @@ exports[`<PublicToiletsContent /> should work 1`] = `
           Joka päivä kello 00 - 24
         </p>
       </div>
+      <div
+        class="css-1fhgjcy"
+      >
+        <p
+          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+        >
+          Maksullinen (1,27 €)
+        </p>
+      </div>
     </div>
   </div>
 </div>

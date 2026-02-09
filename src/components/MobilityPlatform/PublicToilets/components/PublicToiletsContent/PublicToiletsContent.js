@@ -33,6 +33,7 @@ const PublicToiletsContent = () => {
         {singleValTypo('mobilityPlatform.content.publicToilets.openNormalTitle', true)}
         {/* {singleValTypo('mobilityPlatform.content.publicToilets.openNormalDate')} */}
         {singleValTypo('mobilityPlatform.content.publicToilets.openNormal')}
+        {singleValTypo('mobilityPlatform.content.publicToilets.priceInfo')}
         {/* {singleValTypo('mobilityPlatform.content.publicToilets.openSummerTitle', true)} */}
         {/* {singleValTypo('mobilityPlatform.content.publicToilets.openSummerDate')} */}
         {/* {singleValTypo('mobilityPlatform.content.publicToilets.openSummer')} */}

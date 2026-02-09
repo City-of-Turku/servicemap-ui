@@ -905,6 +905,7 @@ const translations = {
   'mobilityPlatform.content.publicToilets.openSummerDate': 'Mellan: 1.5 - 30.9',
   'mobilityPlatform.content.publicToilets.openNormal': 'Varje dag, 00 - 24',
   'mobilityPlatform.content.publicToilets.openSummer': 'Varje dag, 7 - 02',
+  'mobilityPlatform.content.publicToilets.priceInfo': 'Mot avgift (1,27 €)',
   'mobilityPlatform.content.marinas.price': 'Priset: {value} €',
   'mobilityPlatform.content.marinas.typeTitle': 'Båttyp (exempel):',
   'mobilityPlatform.content.marinas.type': 'Typ: {value}',
