@@ -31,11 +31,11 @@ const PublicToiletsContent = () => {
       <StyledHeaderContainer>{titleTypo('mobilityPlatform.content.publicToilets.title')}</StyledHeaderContainer>
       <div>
         {singleValTypo('mobilityPlatform.content.publicToilets.openNormalTitle', true)}
-        {singleValTypo('mobilityPlatform.content.publicToilets.openNormalDate')}
+        {/* {singleValTypo('mobilityPlatform.content.publicToilets.openNormalDate')} */}
         {singleValTypo('mobilityPlatform.content.publicToilets.openNormal')}
-        {singleValTypo('mobilityPlatform.content.publicToilets.openSummerTitle', true)}
-        {singleValTypo('mobilityPlatform.content.publicToilets.openSummerDate')}
-        {singleValTypo('mobilityPlatform.content.publicToilets.openSummer')}
+        {/* {singleValTypo('mobilityPlatform.content.publicToilets.openSummerTitle', true)} */}
+        {/* {singleValTypo('mobilityPlatform.content.publicToilets.openSummerDate')} */}
+        {/* {singleValTypo('mobilityPlatform.content.publicToilets.openSummer')} */}
       </div>
     </StyledContainer>
   );

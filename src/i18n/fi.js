@@ -894,7 +894,7 @@ const translations = {
   'mobilityPlatform.content.publicToilets.openSummerTitle': 'Erityisaukioloajat:',
   'mobilityPlatform.content.publicToilets.openNormalDate': 'Välillä: 1.10 - 30.4',
   'mobilityPlatform.content.publicToilets.openSummerDate': 'Välillä: 1.5 - 30.9',
-  'mobilityPlatform.content.publicToilets.openNormal': 'Joka päivä kello 7 - 23',
+  'mobilityPlatform.content.publicToilets.openNormal': 'Joka päivä kello 00 - 24',
   'mobilityPlatform.content.publicToilets.openSummer': 'Joka päivä kello 7 - 02',
   'mobilityPlatform.content.marinas.price': 'Hinta: {value} €',
   'mobilityPlatform.content.marinas.typeTitle': 'Venetyyppi (esimerkki):',
