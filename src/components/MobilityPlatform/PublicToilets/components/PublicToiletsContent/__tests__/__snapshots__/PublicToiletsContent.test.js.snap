@@ -34,15 +34,6 @@ exports[`<PublicToiletsContent /> should work 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
-          Välillä: 1.10 - 30.4
-        </p>
-      </div>
-      <div
-        class="css-1fhgjcy"
-      >
-        <p
-          class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
-        >
           Joka päivä kello 7 - 23
         </p>
       </div>
