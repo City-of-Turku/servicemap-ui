@@ -34,7 +34,7 @@ exports[`<PublicToiletsContent /> should work 1`] = `
         <p
           class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
         >
-          Joka päivä kello 7 - 23
+          Joka päivä kello 00 - 24
         </p>
       </div>
     </div>
