@@ -6,6 +6,7 @@ import finnishTranslations from '../../../../../../i18n/fi';
 
 const renderWithProviders = getRenderWithProviders({});
 
+/** If summer times are added later, uncheck comments and check that indexes match. Remember to modify snapshots as well. */
 describe('<PublicToiletsContent />', () => {
   it('should work', () => {
     const { container } = renderWithProviders(<PublicToiletsContent />);
@@ -20,10 +21,10 @@ describe('<PublicToiletsContent />', () => {
     const h4 = container.querySelectorAll('h4');
     expect(h3.textContent).toContain(finnishTranslations['mobilityPlatform.content.publicToilets.title']);
     expect(h4[0].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicToilets.openNormalTitle']);
-    expect(p[0].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicToilets.openNormalDate']);
-    expect(p[1].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicToilets.openNormal']);
-    expect(h4[1].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicToilets.openSummerTitle']);
-    expect(p[2].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicToilets.openSummerDate']);
-    expect(p[3].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicToilets.openSummer']);
+    // expect(p[0].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicToilets.openNormalDate']);
+    expect(p[0].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicToilets.openNormal']);
+    // expect(h4[1].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicToilets.openSummerTitle']);
+    // expect(p[2].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicToilets.openSummerDate']);
+    // expect(p[3].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicToilets.openSummer']);
   });
 });

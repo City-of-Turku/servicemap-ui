@@ -904,7 +904,7 @@ const translations = {
   'mobilityPlatform.content.publicToilets.openSummerTitle': 'Special opening hours:',
   'mobilityPlatform.content.publicToilets.openNormalDate': 'Between: 1.10 - 30.4',
   'mobilityPlatform.content.publicToilets.openSummerDate': 'Between: 1.5 - 30.9',
-  'mobilityPlatform.content.publicToilets.openNormal': 'Every day, 7 - 23',
+  'mobilityPlatform.content.publicToilets.openNormal': 'Every day, 00 - 24',
   'mobilityPlatform.content.publicToilets.openSummer': 'Every day, 7 - 02',
   'mobilityPlatform.content.marinas.price': 'Price: {value} €',
   'mobilityPlatform.content.marinas.typeTitle': 'Boat type (example):',
