@@ -13,10 +13,12 @@ const BrushedBicycleRoads = () => {
   const optionsBrushSanded = {
     type_name: 'BrushSandedBicycleNetwork',
     latlon: true,
+    page_size: 500,
   };
   const optionsBrushSalted = {
     type_name: 'BrushSaltedBicycleNetwork',
     latlon: true,
+    page_size: 500,
   };
 
   const { showBrushSandedRoute, showBrushSaltedRoute } = useMobilityPlatformContext();
