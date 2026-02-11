@@ -990,7 +990,7 @@ const translations = {
   'mobilityPlatform.info.marinas': 'Åbo stad har båtplatser vid Färjstranden, Uittamo och Aura å. Båtplatser kan bokas och betalas via Bokningstjänsten. Båtsäsongen börjar den 1 maj och slutar den 31 oktober. Båtplatser kan bokas från januari 31. Där går det att bläddra bland lediga platser efter hamn och båtens mått. Vid Färjstranden finns det också vinterförvaringsplatser. Båten kan laggas i vinterforvaring mellan september 1 och maj 31.',
   'mobilityPlatform.info.marinas.link': 'Bokningstjänsten',
   'mobilityPlatform.info.boatParking': 'Vid båtparkeringarna på båda sidorna av Aura å intill Aurabron kan man förtöja båten avgiftsfritt i tre timmar med parkeringsskiva.',
-  'mobilityPlatform.info.publicToilets': 'I Åbo finns 6 allmänna toaletter som är öppna klockan 7-23. 1.5-30.9 är öppettiderna klockan 7-02.',
+  'mobilityPlatform.info.publicToilets': 'På kartan syns Åbos allmänna toaletter.',
   'mobilityPlatform.info.scooters.noParking': 'Elsparkcykelparkering förbjuden på det på kartan synliga området.',
   'mobilityPlatform.info.scooters.parkingAreas': 'Elsparkcyklarna har också dedikerade parkeringsplatser, som är märkta med målade rutor.',
   'mobilityPlatform.info.scooters.speedLimitAreas': 'Hastigheten på området är max. 15km/h.',
