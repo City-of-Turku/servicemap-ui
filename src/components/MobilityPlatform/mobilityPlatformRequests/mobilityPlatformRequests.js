@@ -167,6 +167,17 @@ const fetchPortNetData = async (endpoint, setData, isPortCalls, signal) => {
   }
 };
 
+const fetchUnitMaintenanceData = async (options, setData, signal) => {
+  const params = optionsToParams(options);
+  try {
+    const response = await fetch(`${isApiUrl}/maintenance/unit_maintenance/?${params}`, { signal });
+    const jsonData = await response.json();
+    setData(jsonData.results);
+  } catch (err) {
+    console.warn(err.message);
+  }
+};
+
 export {
   fetchMobilityMapData,
   fetchCultureRouteNames,
@@ -180,4 +191,5 @@ export {
   fetchRoadworksData,
   fetchPostCodeAreas,
   fetchPortNetData,
+  fetchUnitMaintenanceData,
 };
