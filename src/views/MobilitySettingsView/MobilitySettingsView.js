@@ -128,6 +128,7 @@ const MobilitySettingsView = ({ navigator }) => {
     streetMaintenancePeriod,
     setStreetMaintenancePeriod,
     isActiveStreetMaintenance,
+    isStreetMaintenanceLoading,
     showBrushSandedRoute,
     setShowBrushSandedRoute,
     showBrushSaltedRoute,
@@ -1511,6 +1512,7 @@ const MobilitySettingsView = ({ navigator }) => {
     <StreetMaintenanceList
       openStreetMaintenanceList={openStreetMaintenanceSelectionList}
       isActive={isActiveStreetMaintenance}
+      isLoading={isStreetMaintenanceLoading}
       streetMaintenancePeriod={streetMaintenancePeriod}
       streetMaintenanceSelections={streetMaintenanceSelections}
     />

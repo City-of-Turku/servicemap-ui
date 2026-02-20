@@ -30,7 +30,11 @@ const SnowPlows = () => {
   const [streetMaintenanceDeIcing12Hours, setStreetMaintenanceDeIcing12Hours] = useState([]);
 
   const {
-    streetMaintenancePeriod, showStreetMaintenance, isActiveStreetMaintenance, setIsActiveStreetMaintenance,
+    streetMaintenancePeriod,
+    showStreetMaintenance,
+    isStreetMaintenanceLoading,
+    setIsStreetMaintenanceLoading,
+    setIsActiveStreetMaintenance,
   } = useMobilityPlatformContext();
 
   const { Polyline } = global.rL;
@@ -138,44 +142,83 @@ const SnowPlows = () => {
     + streetMaintenanceSandRemoval3Days.length;
 
   useEffect(() => {
-    if (showStreetMaintenance && streetMaintenancePeriod) {
+    let isMounted = true;
+
+    const fetchSelectedPeriodData = async () => {
+      if (!showStreetMaintenance || !streetMaintenancePeriod) {
+        return;
+      }
+
+      let requests = [];
+
       if (streetMaintenancePeriod === '1hour' && streetMaintenance1HourLength === 0) {
-        fetchStreetMaintenanceData(createQuery('sanitation', oneHour), setStreetMaintenanceSanitation1Hour);
-        fetchStreetMaintenanceData(createQuery('snowplow', oneHour), setStreetMaintenanceSnowplow1Hour);
-        fetchStreetMaintenanceData(createQuery('deIcing', oneHour), setStreetMaintenanceDeIcing1Hour);
-        fetchStreetMaintenanceData(createQuery('sandRemoval', oneHour), setStreetMaintenanceSandRemoval1Hour);
+        requests = [
+          fetchStreetMaintenanceData(createQuery('sanitation', oneHour), setStreetMaintenanceSanitation1Hour),
+          fetchStreetMaintenanceData(createQuery('snowplow', oneHour), setStreetMaintenanceSnowplow1Hour),
+          fetchStreetMaintenanceData(createQuery('deIcing', oneHour), setStreetMaintenanceDeIcing1Hour),
+          fetchStreetMaintenanceData(createQuery('sandRemoval', oneHour), setStreetMaintenanceSandRemoval1Hour),
+        ];
       }
+
       if (streetMaintenancePeriod === '3hours' && streetMaintenance3HoursLength === 0) {
-        fetchStreetMaintenanceData(createQuery('sanitation', threeHours), setStreetMaintenanceSanitation3Hours);
-        fetchStreetMaintenanceData(createQuery('snowplow', threeHours), setStreetMaintenanceSnowplow3Hours);
-        fetchStreetMaintenanceData(createQuery('deIcing', threeHours), setStreetMaintenanceDeIcing3Hours);
-        fetchStreetMaintenanceData(createQuery('sandRemoval', threeHours), setStreetMaintenanceSandRemoval3Hours);
+        requests = [
+          fetchStreetMaintenanceData(createQuery('sanitation', threeHours), setStreetMaintenanceSanitation3Hours),
+          fetchStreetMaintenanceData(createQuery('snowplow', threeHours), setStreetMaintenanceSnowplow3Hours),
+          fetchStreetMaintenanceData(createQuery('deIcing', threeHours), setStreetMaintenanceDeIcing3Hours),
+          fetchStreetMaintenanceData(createQuery('sandRemoval', threeHours), setStreetMaintenanceSandRemoval3Hours),
+        ];
       }
+
       if (streetMaintenancePeriod === '6hours' && streetMaintenance6HoursLength === 0) {
-        fetchStreetMaintenanceData(createQuery('sanitation', sixHours), setStreetMaintenanceSanitation6Hours);
-        fetchStreetMaintenanceData(createQuery('snowplow', sixHours), setStreetMaintenanceSnowplow6Hours);
-        fetchStreetMaintenanceData(createQuery('deIcing', sixHours), setStreetMaintenanceDeIcing6Hours);
-        fetchStreetMaintenanceData(createQuery('sandRemoval', sixHours), setStreetMaintenanceSandRemoval6Hours);
+        requests = [
+          fetchStreetMaintenanceData(createQuery('sanitation', sixHours), setStreetMaintenanceSanitation6Hours),
+          fetchStreetMaintenanceData(createQuery('snowplow', sixHours), setStreetMaintenanceSnowplow6Hours),
+          fetchStreetMaintenanceData(createQuery('deIcing', sixHours), setStreetMaintenanceDeIcing6Hours),
+          fetchStreetMaintenanceData(createQuery('sandRemoval', sixHours), setStreetMaintenanceSandRemoval6Hours),
+        ];
       }
+
       if (streetMaintenancePeriod === '12hours' && streetMaintenance12HoursLength === 0) {
-        fetchStreetMaintenanceData(createQuery('sanitation', twelveHours), setStreetMaintenanceSanitation12Hours);
-        fetchStreetMaintenanceData(createQuery('snowplow', twelveHours), setStreetMaintenanceSnowplow12Hours);
-        fetchStreetMaintenanceData(createQuery('deIcing', twelveHours), setStreetMaintenanceDeIcing12Hours);
-        fetchStreetMaintenanceData(createQuery('sandRemoval', twelveHours), setStreetMaintenanceSandRemoval12Hours);
+        requests = [
+          fetchStreetMaintenanceData(createQuery('sanitation', twelveHours), setStreetMaintenanceSanitation12Hours),
+          fetchStreetMaintenanceData(createQuery('snowplow', twelveHours), setStreetMaintenanceSnowplow12Hours),
+          fetchStreetMaintenanceData(createQuery('deIcing', twelveHours), setStreetMaintenanceDeIcing12Hours),
+          fetchStreetMaintenanceData(createQuery('sandRemoval', twelveHours), setStreetMaintenanceSandRemoval12Hours),
+        ];
       }
+
       if (streetMaintenancePeriod === '1day' && streetMaintenance1DayLength === 0) {
-        fetchStreetMaintenanceData(createQuery('sanitation', yesterDay), setStreetMaintenanceSanitation1Day);
-        fetchStreetMaintenanceData(createQuery('snowplow', yesterDay), setStreetMaintenanceSnowplow1Day);
-        fetchStreetMaintenanceData(createQuery('deIcing', yesterDay), setStreetMaintenanceDeIcing1Day);
-        fetchStreetMaintenanceData(createQuery('sandRemoval', yesterDay), setStreetMaintenanceSandRemoval1Day);
+        requests = [
+          fetchStreetMaintenanceData(createQuery('sanitation', yesterDay), setStreetMaintenanceSanitation1Day),
+          fetchStreetMaintenanceData(createQuery('snowplow', yesterDay), setStreetMaintenanceSnowplow1Day),
+          fetchStreetMaintenanceData(createQuery('deIcing', yesterDay), setStreetMaintenanceDeIcing1Day),
+          fetchStreetMaintenanceData(createQuery('sandRemoval', yesterDay), setStreetMaintenanceSandRemoval1Day),
+        ];
       }
+
       if (streetMaintenancePeriod === '3days' && streetMaintenance3DaysLength === 0) {
-        fetchStreetMaintenanceData(createQuery('sanitation', threeDays), setStreetMaintenanceSanitation3Days);
-        fetchStreetMaintenanceData(createQuery('snowplow', threeDays), setStreetMaintenanceSnowplow3Days);
-        fetchStreetMaintenanceData(createQuery('deIcing', threeDays), setStreetMaintenanceDeIcing3Days);
-        fetchStreetMaintenanceData(createQuery('sandRemoval', threeDays), setStreetMaintenanceSandRemoval3Days);
+        requests = [
+          fetchStreetMaintenanceData(createQuery('sanitation', threeDays), setStreetMaintenanceSanitation3Days),
+          fetchStreetMaintenanceData(createQuery('snowplow', threeDays), setStreetMaintenanceSnowplow3Days),
+          fetchStreetMaintenanceData(createQuery('deIcing', threeDays), setStreetMaintenanceDeIcing3Days),
+          fetchStreetMaintenanceData(createQuery('sandRemoval', threeDays), setStreetMaintenanceSandRemoval3Days),
+        ];
       }
-    }
+
+      if (requests.length > 0) {
+        setIsStreetMaintenanceLoading(true);
+        await Promise.all(requests);
+        if (isMounted) {
+          setIsStreetMaintenanceLoading(false);
+        }
+      }
+    };
+
+    fetchSelectedPeriodData();
+
+    return () => {
+      isMounted = false;
+    };
   }, [
     showStreetMaintenance,
     streetMaintenancePeriod,
@@ -231,8 +274,6 @@ const SnowPlows = () => {
 
   const validateData = (inputData) => inputData && inputData.length > 0;
 
-  let isDataValid = false;
-
   const swapCoords = (coordsData) => {
     const isValid = validateData(coordsData);
     if (isValid) {
@@ -242,11 +283,37 @@ const SnowPlows = () => {
     return coordsData;
   };
 
+  const getStreetMaintenanceDataByPeriod = (period) => {
+    const works = new Map();
+    works.set('1day', streetMaintenance1Day);
+    works.set('3days', streetMaintenance3Days);
+    works.set('1hour', streetMaintenance1Hour);
+    works.set('3hours', streetMaintenance3Hours);
+    works.set('6hours', streetMaintenance6Hours);
+    works.set('12hours', streetMaintenance12Hours);
+    return works.get(period) || [];
+  };
+
   useEffect(() => {
-    if (!isDataValid) {
+    if (!showStreetMaintenance || !streetMaintenancePeriod || isStreetMaintenanceLoading) {
       setIsActiveStreetMaintenance(false);
-    } else setIsActiveStreetMaintenance(true);
-  }, [isDataValid, streetMaintenancePeriod, isActiveStreetMaintenance, setIsActiveStreetMaintenance]);
+      return;
+    }
+    const selectedPeriodData = getStreetMaintenanceDataByPeriod(streetMaintenancePeriod);
+    const hasRenderableData = selectedPeriodData.some(item => item.geometry_type === 'LineString');
+    setIsActiveStreetMaintenance(hasRenderableData);
+  }, [
+    showStreetMaintenance,
+    streetMaintenancePeriod,
+    isStreetMaintenanceLoading,
+    streetMaintenance1HourLength,
+    streetMaintenance3HoursLength,
+    streetMaintenance6HoursLength,
+    streetMaintenance12HoursLength,
+    streetMaintenance1DayLength,
+    streetMaintenance3DaysLength,
+    setIsActiveStreetMaintenance,
+  ]);
 
   const renderData = (inputData) => {
     const filtered = inputData.reduce((acc, curr) => {
@@ -256,8 +323,7 @@ const SnowPlows = () => {
       return acc;
     }, []);
 
-    isDataValid = validateData(filtered);
-    if (isDataValid) {
+    if (validateData(filtered)) {
       return filtered.map((item, i) => (
         <Polyline
           // eslint-disable-next-line react/no-array-index-key
