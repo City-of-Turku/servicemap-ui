@@ -381,6 +381,9 @@ const EcoCounterContent = ({ station }) => {
     setChannelTotals(channelTotals => [...channelTotals, newValue3]);
   };
 
+  const getSafeCountValue = value => value ?? 0;
+  const getSafeSeriesValue = value => (Array.isArray(value) ? value : []);
+
   /**
    * Gets correct values from data and returns them based on currentType
    * @param {object} el
@@ -389,15 +392,31 @@ const EcoCounterContent = ({ station }) => {
   const getUserTypedata = el => {
     switch (currentType) {
       case 'walking':
-        return [el.value_jk, el.value_jp, el.value_jt];
+        return [
+          getSafeCountValue(el.value_jk),
+          getSafeCountValue(el.value_jp),
+          getSafeCountValue(el.value_jt),
+        ];
       case 'bicycle':
-        return [el.value_pk, el.value_pp, el.value_pt];
+        return [
+          getSafeCountValue(el.value_pk),
+          getSafeCountValue(el.value_pp),
+          getSafeCountValue(el.value_pt),
+        ];
       case 'driving':
-        return [el.value_ak, el.value_ap, el.value_at];
+        return [
+          getSafeCountValue(el.value_ak),
+          getSafeCountValue(el.value_ap),
+          getSafeCountValue(el.value_at),
+        ];
       case 'scooter':
-        return [el.value_sk, el.value_sp, el.value_st];
+        return [
+          getSafeCountValue(el.value_sk),
+          getSafeCountValue(el.value_sp),
+          getSafeCountValue(el.value_st),
+        ];
       default:
-        return [];
+        return [0, 0, 0];
     }
   };
 
@@ -425,17 +444,33 @@ const EcoCounterContent = ({ station }) => {
     if (ecoCounterHour?.station === stationId) {
       const countsArr = [];
       if (currentType === 'walking') {
-        countsArr.push(ecoCounterHour.values_jk, ecoCounterHour.values_jp, ecoCounterHour.values_jt);
+        countsArr.push(
+          getSafeSeriesValue(ecoCounterHour.values_jk),
+          getSafeSeriesValue(ecoCounterHour.values_jp),
+          getSafeSeriesValue(ecoCounterHour.values_jt),
+        );
       } else if (currentType === 'bicycle') {
-        countsArr.push(ecoCounterHour.values_pk, ecoCounterHour.values_pp, ecoCounterHour.values_pt);
+        countsArr.push(
+          getSafeSeriesValue(ecoCounterHour.values_pk),
+          getSafeSeriesValue(ecoCounterHour.values_pp),
+          getSafeSeriesValue(ecoCounterHour.values_pt),
+        );
       } else if (currentType === 'driving') {
-        countsArr.push(ecoCounterHour.values_ak, ecoCounterHour.values_ap, ecoCounterHour.values_at);
+        countsArr.push(
+          getSafeSeriesValue(ecoCounterHour.values_ak),
+          getSafeSeriesValue(ecoCounterHour.values_ap),
+          getSafeSeriesValue(ecoCounterHour.values_at),
+        );
       } else if (currentType === 'scooter') {
-        countsArr.push(ecoCounterHour.values_sk, ecoCounterHour.values_sp, ecoCounterHour.values_st);
+        countsArr.push(
+          getSafeSeriesValue(ecoCounterHour.values_sk),
+          getSafeSeriesValue(ecoCounterHour.values_sp),
+          getSafeSeriesValue(ecoCounterHour.values_st),
+        );
       }
-      setChannel1Counts(countsArr[0]);
-      setChannel2Counts(countsArr[1]);
-      setChannelTotals(countsArr[2]);
+      setChannel1Counts(countsArr[0] ?? []);
+      setChannel2Counts(countsArr[1] ?? []);
+      setChannelTotals(countsArr[2] ?? []);
     }
   };
 
