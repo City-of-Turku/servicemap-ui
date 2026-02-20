@@ -1079,6 +1079,7 @@ const translations = {
   'ecocounter.walk': 'Promenad',
   'ecocounter.bicycle': 'Cykling',
   'ecocounter.car': 'Bilåkning',
+  'ecocounter.scooter': 'Elsparkcyklar',
   'ecocounter.chart.labelTo': 'Till centrum',
   'ecocounter.chart.labelFrom': 'Från centrum',
   'ecocounter.chart.labelTotal': 'Totalt',

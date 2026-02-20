@@ -5,6 +5,12 @@ import config from '../../../../config';
 
 const apiUrl = config.mobilityPlatformAPI;
 const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
+const TRAFFIC_COUNTER_DATA_TYPES = {
+  walking: 'j',
+  cycling: 'p',
+  driving: 'a',
+  scooter: 's',
+};
 
 /** fetch counter stations by counter type, eg. 'TR' (Telraam). */
 const fetchTrafficCounterStations = async (type, setStations) => {
@@ -99,6 +105,7 @@ const fetchSelectedYearData = async (startYear, endYear, id, setYearData) => {
 };
 
 export {
+  TRAFFIC_COUNTER_DATA_TYPES,
   fetchTrafficCounterStations,
   fetchTrafficCounterStationsByType,
   fetchInitialHourData,

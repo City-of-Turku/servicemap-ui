@@ -20,6 +20,7 @@ const trafficCountersInitial = {
   walking: false,
   cycling: false,
   driving: false,
+  scooter: false,
 };
 
 const accessibilityAreasInitial = {
