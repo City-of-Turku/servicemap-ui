@@ -13,7 +13,7 @@ import {
   StyledContainer, StyledHeaderContainer, StyledPopupWrapper, StyledTextContainer,
 } from '../styled/styled';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
-import { createIcon } from '../utils/utils';
+import { createIcon, whiteOptionsBase, blackOptionsBase } from '../utils/utils';
 
 const SportsFacilitiesMaintenance = () => {
   const intl = useIntl();
@@ -166,6 +166,20 @@ const SportsFacilitiesMaintenance = () => {
     }
   };
 
+  // Dash patterns per condition for accessibility (color + texture in both normal and contrast mode)
+  const getSkiTrailDashArray = period => {
+    switch (period) {
+      case '1day':
+        return ''; // solid line – maintained within 1 day
+      case '3days':
+        return '12, 8'; // dashed – maintained within 3 days
+      case 'over3days':
+        return '4, 4, 12, 4'; // dash-dot – over 3 days
+      default:
+        return '2, 6'; // dotted – unknown
+    }
+  };
+
   // Determine maintenance period category for a ski trail
   const getSkiTrailPeriod = maintainedAt => {
     if (!maintainedAt) return 'over3days';
@@ -257,7 +271,7 @@ const SportsFacilitiesMaintenance = () => {
     </StyledContainer>
   );
 
-  const renderGeometry = (geom, index, color, prefix, popupContent) => {
+  const renderGeometry = (geom, index, color, prefix, popupContent, lineOptions = {}) => {
     if (!geom.geometry) {
       console.warn(`Geometry ${geom.id} has no geometry data`);
       return null;
@@ -268,30 +282,58 @@ const SportsFacilitiesMaintenance = () => {
     if (geomType === 'LineString' && geom.geometry.coordinates) {
       // GeoJSON coordinates are [lon, lat], Leaflet needs [lat, lon]
       const coords = geom.geometry.coordinates.map(coord => [coord[1], coord[0]]);
-      return (
-        <Polyline
-          key={`${prefix}-${geom.id}-${index}`}
-          pathOptions={{
-            color,
-            weight: 4,
-            opacity: 0.8,
-          }}
-          positions={coords}
-        >
-          <StyledPopupWrapper>
-            <Marker
-              key={`${prefix}-marker-${geom.id}-${index}`}
-              icon={customSkiIcon}
-              position={coords[0]}
-            >
-              <Popup className="popup-w350">
-                {popupContent}
-              </Popup>
-            </Marker>
+      const { dashArray, useContrast } = lineOptions;
+
+      const basePathOptions = {
+        weight: 4,
+        opacity: 0.8,
+        ...(dashArray ? { dashArray } : {}),
+      };
+
+      const popupContentWrapper = (
+        <StyledPopupWrapper>
+          <Marker
+            key={`${prefix}-marker-${geom.id}-${index}`}
+            icon={customSkiIcon}
+            position={coords[0]}
+          >
             <Popup className="popup-w350">
               {popupContent}
             </Popup>
-          </StyledPopupWrapper>
+          </Marker>
+          <Popup className="popup-w350">
+            {popupContent}
+          </Popup>
+        </StyledPopupWrapper>
+      );
+
+      if (useContrast && dashArray !== undefined) {
+        // Contrast mode: white base + black line with same dash pattern (accessible without color)
+        return (
+          <React.Fragment key={`${prefix}-${geom.id}-${index}`}>
+            <Polyline
+              pathOptions={whiteOptionsBase()}
+              weight={8}
+              positions={coords}
+            />
+            <Polyline
+              pathOptions={blackOptionsBase({ dashArray: dashArray || undefined, opacity: 0.9 })}
+              weight={4}
+              positions={coords}
+            >
+              {popupContentWrapper}
+            </Polyline>
+          </React.Fragment>
+        );
+      }
+
+      return (
+        <Polyline
+          key={`${prefix}-${geom.id}-${index}`}
+          pathOptions={{ color, ...basePathOptions }}
+          positions={coords}
+        >
+          {popupContentWrapper}
         </Polyline>
       );
     }
@@ -340,8 +382,12 @@ const SportsFacilitiesMaintenance = () => {
 
       const period = getSkiTrailPeriod(maintenance.maintained_at);
       const color = getSkiTrailColor(period);
+      const dashArray = getSkiTrailDashArray(period);
 
-      return renderGeometry(geom, index, color, 'ski-trail', renderSkiTrailPopup(maintenance));
+      return renderGeometry(geom, index, color, 'ski-trail', renderSkiTrailPopup(maintenance), {
+        dashArray,
+        useContrast,
+      });
     }).filter(Boolean);
   };
 
