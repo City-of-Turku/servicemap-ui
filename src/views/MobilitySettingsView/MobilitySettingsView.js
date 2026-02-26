@@ -19,6 +19,7 @@ import iconScooter from 'servicemap-ui-turku/assets/icons/icons-icon_scooter.svg
 import iconSnowplow from 'servicemap-ui-turku/assets/icons/icons-icon_street_maintenance.svg';
 import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import iconPublicTransport from 'servicemap-ui-turku/assets/icons/icons-icon_public_transport.svg';
+import iconSkiing from 'servicemap-ui-turku/assets/icons/icons-icon_sports_maintenance.svg';
 import InfoTextBox from '../../components/MobilityPlatform/InfoTextBox';
 import useMobilityDataFetch from '../../components/MobilityPlatform/utils/useMobilityDataFetch';
 import useLocaleText from '../../utils/useLocaleText';
@@ -40,6 +41,7 @@ import RouteList from './components/RouteList';
 import StreetMaintenanceList from './components/StreetMaintenanceList';
 import MobilityToggleButton from './components/MobilityToggleButton';
 import AirMonitoringInfo from './components/AirMonitoringInfo';
+import SportsFacilitiesMaintenanceList from './components/SportsFacilitiesMaintenanceList';
 
 const MobilitySettingsView = ({ navigator }) => {
   const [pageTitle, setPageTitle] = useState(null);
@@ -61,6 +63,8 @@ const MobilitySettingsView = ({ navigator }) => {
   const [openMarkedTrailsList, setOpenMarkedTrailsList] = useState(false);
   const [openNatureTrailsList, setOpenNatureTrailsList] = useState(false);
   const [openFitnessTrailsList, setOpenFitnessTrailsList] = useState(false);
+  const [openSportFacilitiesMaintenanceSettings, setOpenSportFacilitiesMaintenanceSettings] = useState(false);
+  const [openSportFacilitiesMaintenanceSelectionList, setOpenSportFacilitiesMaintenanceSelectionList] = useState(false);
 
   const intl = useIntl();
   const theme = useTheme();
@@ -178,6 +182,13 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowPortInfo,
     showParkAndRideAreas,
     setShowParkAndRideAreas,
+    sportsMaintenancePeriod,
+    setSportsMaintenancePeriod,
+    showSkiTrails,
+    setShowSkiTrails,
+    showIceTracks,
+    setShowIceTracks,
+    isActiveSportsMaintenance,
   } = useMobilityPlatformContext();
 
   const locale = useSelector(state => state.user.locale);
@@ -307,6 +318,8 @@ const MobilitySettingsView = ({ navigator }) => {
       setOpenAirMonitoringSettings(true);
     } else if (location.pathname.includes('roadworks')) {
       setOpenRoadworkSettings(true);
+    } else if (location.pathname.includes('sports-facilities')) {
+      setOpenSportFacilitiesMaintenanceSettings(true);
     }
   }, [location]);
 
@@ -475,6 +488,11 @@ const MobilitySettingsView = ({ navigator }) => {
     checkVisibilityValues(showRoadworks, setOpenRoadworkSettings);
   }, [showRoadworks]);
 
+  useEffect(() => {
+    checkVisibilityValues(showSkiTrails, setOpenSportFacilitiesMaintenanceSettings);
+    checkVisibilityValues(showIceTracks, setOpenSportFacilitiesMaintenanceSettings);
+  }, [showSkiTrails, showIceTracks]);
+
   const nameKeys = {
     fi: 'name',
     en: 'name_en',
@@ -593,6 +611,14 @@ const MobilitySettingsView = ({ navigator }) => {
     }
   };
 
+  const sportFacilitiesMaintenanceSettingsToggle = () => {
+    setOpenSportFacilitiesMaintenanceSettings(current => !current);
+    if (!openSportFacilitiesMaintenanceSettings) {
+      navigator.push('mobilityPlatform', 'sports-facilities');
+      setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.sportFacilitiesMain' }));
+    }
+  };
+
   /** Reset page title if opened sections have been closed and page title is not initial value */
   useEffect(() => {
     if (
@@ -605,6 +631,7 @@ const MobilitySettingsView = ({ navigator }) => {
       && !openPublicTransportSettings
       && !openAirMonitoringSettings
       && !openRoadworkSettings
+      && !openSportFacilitiesMaintenanceSettings
       && pageTitle
     ) {
       setPageTitle(null);
@@ -619,6 +646,7 @@ const MobilitySettingsView = ({ navigator }) => {
     openPublicTransportSettings,
     openAirMonitoringSettings,
     openRoadworkSettings,
+    openSportFacilitiesMaintenanceSettings,
     pageTitle,
   ]);
 
@@ -889,6 +917,25 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowBrushSaltedRoute(current => !current);
   };
 
+  const sportFacilitiesMaintenanceListToggle = () => {
+    if (openSportFacilitiesMaintenanceSettings) {
+      setOpenSportFacilitiesMaintenanceSelectionList(true);
+    }
+    if (sportsMaintenancePeriod) {
+      setSportsMaintenancePeriod(null);
+    }
+  };
+
+  const skiTrailsToggle = () => {
+    setShowSkiTrails(current => !current);
+    sportFacilitiesMaintenanceListToggle();
+  };
+
+  const iceTracksToggle = () => {
+    setShowIceTracks(current => !current);
+    sportFacilitiesMaintenanceListToggle();
+  };
+
   /**
    * Stores previous value
    */
@@ -1047,33 +1094,74 @@ const MobilitySettingsView = ({ navigator }) => {
   const streetMaintenanceSelections = [
     {
       type: '1hour',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.1hour',
+      msgId: 'mobilityPlatform.menu.maintenance.1hour',
       onChangeValue: setStreetMaintenancePeriodSelection,
     },
     {
       type: '3hours',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.3hours',
+      msgId: 'mobilityPlatform.menu.maintenance.3hours',
       onChangeValue: setStreetMaintenancePeriodSelection,
     },
     {
       type: '6hours',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.6hours',
+      msgId: 'mobilityPlatform.menu.maintenance.6hours',
       onChangeValue: setStreetMaintenancePeriodSelection,
     },
     {
       type: '12hours',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.12hours',
+      msgId: 'mobilityPlatform.menu.maintenance.12hours',
       onChangeValue: setStreetMaintenancePeriodSelection,
     },
     {
       type: '1day',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.1day',
+      msgId: 'mobilityPlatform.menu.maintenance.1day',
       onChangeValue: setStreetMaintenancePeriodSelection,
     },
     {
       type: '3days',
-      msgId: 'mobilityPlatform.menu.streetMaintenance.3days',
+      msgId: 'mobilityPlatform.menu.maintenance.3days',
       onChangeValue: setStreetMaintenancePeriodSelection,
+    },
+  ];
+
+  /**
+   * Stores previous value
+   */
+  const prevSportsMaintenancePeriodRef = useRef();
+
+  useEffect(() => {
+    prevSportsMaintenancePeriodRef.current = sportsMaintenancePeriod;
+  }, [sportsMaintenancePeriod]);
+
+  const setSportsMaintenancePeriodSelection = periodType => {
+    setSportsMaintenancePeriod(periodType);
+    setOpenSportFacilitiesMaintenanceSettings(true);
+    if (periodType === prevSportsMaintenancePeriodRef.current) {
+      setSportsMaintenancePeriod(null);
+      setOpenSportFacilitiesMaintenanceSettings(false);
+    }
+  };
+
+  /**
+   * For ice tracks: only show 1day and over3days
+   * For ski trails: show all three options (1day, 3days, over3days)
+   * When both are selected: show all three options
+   */
+  const sportsFacilitiesMaintenanceSelections = [
+    {
+      type: '1day',
+      msgId: !showSkiTrails ? 'mobilityPlatform.popup.iceTrack.status.usable' : 'mobilityPlatform.menu.maintenance.1day',
+      onChangeValue: setSportsMaintenancePeriodSelection,
+    },
+    ...(showSkiTrails ? [{
+      type: '3days',
+      msgId: 'mobilityPlatform.menu.maintenance.3days',
+      onChangeValue: setSportsMaintenancePeriodSelection,
+    }] : []),
+    {
+      type: 'over3days',
+      msgId: !showSkiTrails ? 'mobilityPlatform.popup.iceTrack.status.unusable' : 'mobilityPlatform.menu.maintenance.over3days',
+      onChangeValue: setSportsMaintenancePeriodSelection,
     },
   ];
 
@@ -1428,6 +1516,21 @@ const MobilitySettingsView = ({ navigator }) => {
     },
   ];
 
+  const sportFacilitiesMaintenanceControlTypes = [
+    {
+      type: 'skiTrails',
+      msgId: 'mobilityPlatform.menu.show.skiTrails',
+      checkedValue: showSkiTrails,
+      onChangeValue: skiTrailsToggle,
+    },
+    {
+      type: 'iceSkating',
+      msgId: 'mobilityPlatform.menu.show.iceSkating',
+      checkedValue: showIceTracks,
+      onChangeValue: iceTracksToggle,
+    },
+  ];
+
   /**
    * @param {Array} inputData
    * @return {JSX Element}
@@ -1494,6 +1597,15 @@ const MobilitySettingsView = ({ navigator }) => {
       isActive={isActiveStreetMaintenance}
       streetMaintenancePeriod={streetMaintenancePeriod}
       streetMaintenanceSelections={streetMaintenanceSelections}
+    />
+  );
+
+  const renderSportsFacilityMaintenanceSelectionList = () => (
+    <SportsFacilitiesMaintenanceList
+      openSportsFacilitiesMaintenanceList={openSportFacilitiesMaintenanceSelectionList}
+      isActive={isActiveSportsMaintenance}
+      maintenancePeriod={sportsMaintenancePeriod}
+      maintenanceSelections={sportsFacilitiesMaintenanceSelections}
     />
   );
 
@@ -1765,6 +1877,14 @@ const MobilitySettingsView = ({ navigator }) => {
     },
   ];
 
+  const infoTextsSportFacilities = [
+    {
+      visible: showSkiTrails,
+      type: 'skiTrailsInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.skiTrails" />,
+    },
+  ];
+
   const infoTextsWeatherObservations = [
     {
       visible: showAirMonitoringStations,
@@ -1915,6 +2035,14 @@ const MobilitySettingsView = ({ navigator }) => {
     </>
   );
 
+  const renderSportFacilitiesMaintenanceSettings = () => (
+    <>
+      {renderSettings(openSportFacilitiesMaintenanceSettings, sportFacilitiesMaintenanceControlTypes)}
+      {renderInfoTexts(infoTextsSportFacilities)}
+      {renderSportsFacilityMaintenanceSelectionList()}
+    </>
+  );
+
   const categories = [
     {
       component: renderWalkSettings(),
@@ -1922,6 +2050,13 @@ const MobilitySettingsView = ({ navigator }) => {
       icon: <ReactSVG src={iconWalk} className={iconClass} />,
       onClick: walkSettingsToggle,
       setState: openWalkSettings,
+    },
+    {
+      component: renderSportFacilitiesMaintenanceSettings(),
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.sportFacilitiesMain' }),
+      icon: <ReactSVG src={iconSkiing} className={iconClass} />,
+      onClick: sportFacilitiesMaintenanceSettingsToggle,
+      setState: openSportFacilitiesMaintenanceSettings,
     },
     {
       component: renderBicycleSettings(),
