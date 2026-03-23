@@ -1043,8 +1043,15 @@ const translations = {
   'mobilityPlatform.popup.iceTrack.status.unusable': 'Inte i bruk',
   'mobilityPlatform.popup.iceTrack.status.undefined': 'Odefinierad',
   'mobilityPlatform.popup.skiTrail.title': 'Längdskidspår',
-  'mobilityPlatform.popup.skiTrail.maintainedAt': 'Underhållen',
+  'mobilityPlatform.popup.skiTrail.maintainedAt': 'Underhållstidpunkt',
   'mobilityPlatform.popup.skiTrail.maintainedAt.unknown': 'Okänt',
+  'mobilityPlatform.popup.skiTrail.length': 'Längder',
+  'mobilityPlatform.popup.skiTrail.lights': 'Belysning',
+  'mobilityPlatform.popup.conditioned': 'Underhållen',
+  'mobilityPlatform.popup.conditioned.yes': 'Ja',
+  'mobilityPlatform.popup.conditioned.no': 'Nej',
+  'mobilityPlatform.popup.conditionNote': 'Underhållsanmärkning',
+  'mobilityPlatform.popup.iceTrack.description': 'Beskrivning',
   'mobilityPlatform.popup.unitId': 'Enhets-ID',
 
   // Bicycle routes

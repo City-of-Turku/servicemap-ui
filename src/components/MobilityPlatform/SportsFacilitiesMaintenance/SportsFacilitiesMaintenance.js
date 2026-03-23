@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { Typography } from '@mui/material';
@@ -13,7 +14,181 @@ import {
   StyledContainer, StyledHeaderContainer, StyledPopupWrapper, StyledTextContainer,
 } from '../styled/styled';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
+import isClient from '../../../utils';
 import { createIcon, whiteOptionsBase, blackOptionsBase } from '../utils/utils';
+import {
+  displayableConditionNote,
+  getTranslatedUnitName,
+  hasPopupDisplayValue,
+  hideBrFromScreenReader,
+  parseIceUnitDescription,
+  parseSkiUnitDescription,
+  sanitizeIceMaintenanceHtml,
+} from './sportsFacilitiesDescription';
+
+function MaintenancePopupRow({ labelText, value }) {
+  if (!hasPopupDisplayValue(value)) return null;
+  return (
+    <StyledTextContainer>
+      <dl
+        style={{
+          margin: 0,
+          marginBottom: 4,
+          textAlign: 'left',
+        }}
+      >
+        <div>
+          <Typography
+            component="dt"
+            variant="body2"
+            style={{ fontWeight: 600, margin: 0 }}
+          >
+            {labelText}
+          </Typography>
+          <Typography
+            component="dd"
+            variant="body2"
+            style={{
+              margin: 0,
+              marginInlineStart: 0,
+            }}
+          >
+            {value}
+          </Typography>
+        </div>
+      </dl>
+    </StyledTextContainer>
+  );
+}
+
+function IceDescriptionSection({ title, rawHtml }) {
+  const [headingId] = useState(
+    () => `ice-maint-desc-${Math.random().toString(36).slice(2, 11)}`,
+  );
+  if (!hasPopupDisplayValue(rawHtml) || !isClient()) return null;
+  const safe = hideBrFromScreenReader(sanitizeIceMaintenanceHtml(String(rawHtml)));
+  if (!safe.trim()) return null;
+  return (
+    <StyledTextContainer>
+      <section
+        aria-labelledby={headingId}
+        lang="fi"
+        style={{ textAlign: 'left' }}
+      >
+        <Typography
+          id={headingId}
+          variant="body2"
+          component="h5"
+          style={{ fontWeight: 600, margin: '0 0 2px', fontSize: '0.875rem' }}
+        >
+          {title}
+        </Typography>
+        <Typography
+          component="div"
+          variant="body2"
+          style={{ wordBreak: 'break-word' }}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: safe }}
+        />
+      </section>
+    </StyledTextContainer>
+  );
+}
+
+MaintenancePopupRow.propTypes = {
+  labelText: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.node]),
+};
+
+MaintenancePopupRow.defaultProps = {
+  value: null,
+};
+
+IceDescriptionSection.propTypes = {
+  title: PropTypes.string.isRequired,
+  rawHtml: PropTypes.string,
+};
+
+IceDescriptionSection.defaultProps = {
+  rawHtml: '',
+};
+
+function maintenanceConditionDisplayValue(maintenance, intl) {
+  if (maintenance.condition === 'USABLE') {
+    return intl.formatMessage({ id: 'mobilityPlatform.popup.conditioned.yes' });
+  }
+  if (maintenance.condition === 'UNUSABLE') {
+    return intl.formatMessage({ id: 'mobilityPlatform.popup.conditioned.no' });
+  }
+  return null;
+}
+
+function maintenanceDateDisplayValue(maintenance, intl) {
+  if (!maintenance.maintained_at) return null;
+  return new Date(maintenance.maintained_at).toLocaleString(intl.locale);
+}
+
+function SportsFacilityPopupFrame({ title, children }) {
+  const [titleId] = useState(
+    () => `sports-maint-popup-${Math.random().toString(36).slice(2, 11)}`,
+  );
+  return (
+    <StyledContainer style={{ textAlign: 'left' }}>
+      <section aria-labelledby={titleId}>
+        <StyledHeaderContainer style={{ textAlign: 'left' }}>
+          <Typography id={titleId} variant="subtitle1" component="h4">
+            {title}
+          </Typography>
+        </StyledHeaderContainer>
+        <div>{children}</div>
+      </section>
+    </StyledContainer>
+  );
+}
+
+SportsFacilityPopupFrame.propTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node,
+};
+
+SportsFacilityPopupFrame.defaultProps = {
+  children: null,
+};
+
+function SharedSportsMaintenancePopupRows({ maintenance, intl, note }) {
+  return (
+    <>
+      <MaintenancePopupRow
+        labelText={intl.formatMessage({ id: 'mobilityPlatform.popup.conditioned' })}
+        value={maintenanceConditionDisplayValue(maintenance, intl)}
+      />
+      <MaintenancePopupRow
+        labelText={intl.formatMessage({ id: 'mobilityPlatform.popup.skiTrail.maintainedAt' })}
+        value={maintenanceDateDisplayValue(maintenance, intl)}
+      />
+      <MaintenancePopupRow
+        labelText={intl.formatMessage({ id: 'mobilityPlatform.popup.conditionNote' })}
+        value={note}
+      />
+    </>
+  );
+}
+
+SharedSportsMaintenancePopupRows.propTypes = {
+  maintenance: PropTypes.shape({
+    condition: PropTypes.string,
+    maintained_at: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }).isRequired,
+  intl: PropTypes.shape({
+    formatMessage: PropTypes.func.isRequired,
+    locale: PropTypes.string,
+  }).isRequired,
+  note: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+};
+
+SharedSportsMaintenancePopupRows.defaultProps = {
+  note: null,
+};
 
 const SportsFacilitiesMaintenance = () => {
   const intl = useIntl();
@@ -21,7 +196,6 @@ const SportsFacilitiesMaintenance = () => {
     sportsMaintenancePeriod,
     showSkiTrails,
     showIceTracks,
-    isActiveSportsMaintenance,
     setIsActiveSportsMaintenance,
   } = useMobilityPlatformContext();
 
@@ -212,64 +386,45 @@ const SportsFacilitiesMaintenance = () => {
     });
   }, [allSkiTrailsGeometries, getSkiTrailPeriod, sportsMaintenancePeriod]);
 
-  const renderIceTrackPopup = maintenance => (
-    <StyledContainer>
-      <StyledHeaderContainer>
-        <Typography variant="subtitle1" component="h4">
-          {maintenance.unit.name && maintenance.unit.name !== ''
-            ? maintenance.unit.name
-            : intl.formatMessage({ id: 'mobilityPlatform.popup.iceTrack.title' })}
-        </Typography>
-      </StyledHeaderContainer>
-      <div>
-        <StyledTextContainer>
-          <Typography variant="body2" component="p">
-            {maintenance.condition === 'USABLE'
-              ? intl.formatMessage({ id: 'mobilityPlatform.popup.iceTrack.status.usable' })
-              : maintenance.condition === 'UNUSABLE'
-                ? intl.formatMessage({ id: 'mobilityPlatform.popup.iceTrack.status.unusable' })
-                : intl.formatMessage({ id: 'mobilityPlatform.popup.iceTrack.status.undefined' })}
-            {/* TODO based on preference, change this to show info about the point or parse HTML of description */}
-            {/* {maintenance.unit && ( */}
-            {/*  <> */}
-            {/*    {maintenance.unit.description && ( */}
-            {/*      <> */}
-            {/*        {maintenance.unit.description} */}
-            {/*      </> */}
-            {/*    )} */}
-            {/*  </> */}
-            {/* )} */}
-          </Typography>
-        </StyledTextContainer>
-      </div>
-    </StyledContainer>
-  );
+  const renderIceTrackPopup = maintenance => {
+    const unit = maintenance.unit || {};
+    const title = getTranslatedUnitName(unit, intl.locale)
+      || intl.formatMessage({ id: 'mobilityPlatform.popup.iceTrack.title' });
+    const parsed = parseIceUnitDescription(unit.description);
+    const note = displayableConditionNote(parsed.condition_note);
 
-  const renderSkiTrailPopup = maintenance => (
-    <StyledContainer>
-      <StyledHeaderContainer>
-        <Typography variant="subtitle1" component="h4">
-          {maintenance.unit.name && maintenance.unit.name !== ''
-            ? maintenance.unit.name
-            : intl.formatMessage({ id: 'mobilityPlatform.popup.skiTrail.title' })}
-        </Typography>
-      </StyledHeaderContainer>
-      <div>
-        <StyledTextContainer>
-          <Typography variant="body2" component="p">
-            {maintenance && maintenance.maintained_at ? (
-              <>
-                {`${intl.formatMessage({ id: 'mobilityPlatform.popup.skiTrail.maintainedAt' })}: `}
-                {new Date(maintenance.maintained_at).toLocaleString(intl.locale)}
-              </>
-            ) : (
-              intl.formatMessage({ id: 'mobilityPlatform.popup.skiTrail.maintainedAt.unknown' })
-            )}
-          </Typography>
-        </StyledTextContainer>
-      </div>
-    </StyledContainer>
-  );
+    return (
+      <SportsFacilityPopupFrame title={title}>
+        <SharedSportsMaintenancePopupRows maintenance={maintenance} intl={intl} note={note} />
+        <IceDescriptionSection
+          title={intl.formatMessage({ id: 'mobilityPlatform.popup.iceTrack.description' })}
+          rawHtml={parsed.description}
+        />
+      </SportsFacilityPopupFrame>
+    );
+  };
+
+  const renderSkiTrailPopup = maintenance => {
+    const unit = maintenance.unit || {};
+    const title = getTranslatedUnitName(unit, intl.locale)
+      || intl.formatMessage({ id: 'mobilityPlatform.popup.skiTrail.title' });
+    const parsed = parseSkiUnitDescription(unit.description);
+    const note = displayableConditionNote(parsed.condition_note);
+
+    return (
+      <SportsFacilityPopupFrame title={title}>
+        <MaintenancePopupRow
+          labelText={intl.formatMessage({ id: 'mobilityPlatform.popup.skiTrail.length' })}
+          value={hasPopupDisplayValue(parsed.length) ? parsed.length : null}
+        />
+        <MaintenancePopupRow
+          labelText={intl.formatMessage({ id: 'mobilityPlatform.popup.skiTrail.lights' })}
+          value={hasPopupDisplayValue(parsed.lights) ? parsed.lights : null}
+        />
+        <SharedSportsMaintenancePopupRows maintenance={maintenance} intl={intl} note={note} />
+      </SportsFacilityPopupFrame>
+    );
+  };
 
   const renderGeometry = (geom, index, color, prefix, popupContent, lineOptions = {}) => {
     if (!geom.geometry) {
@@ -401,6 +556,13 @@ const SportsFacilitiesMaintenance = () => {
       {renderSkiTrails()}
     </>
   );
+};
+
+export {
+  IceDescriptionSection,
+  MaintenancePopupRow,
+  SharedSportsMaintenancePopupRows,
+  SportsFacilityPopupFrame,
 };
 
 export default SportsFacilitiesMaintenance;

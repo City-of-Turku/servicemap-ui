@@ -1034,8 +1034,15 @@ const translations = {
   'mobilityPlatform.popup.iceTrack.status.unusable': 'Ei käytössä',
   'mobilityPlatform.popup.iceTrack.status.undefined': 'Määrittämätön',
   'mobilityPlatform.popup.skiTrail.title': 'Hiihtolatu',
-  'mobilityPlatform.popup.skiTrail.maintainedAt': 'Kunnostettu',
+  'mobilityPlatform.popup.skiTrail.maintainedAt': 'Kunnostusajankohta',
   'mobilityPlatform.popup.skiTrail.maintainedAt.unknown': 'Ei tiedossa',
+  'mobilityPlatform.popup.skiTrail.length': 'Pituudet',
+  'mobilityPlatform.popup.skiTrail.lights': 'Valot',
+  'mobilityPlatform.popup.conditioned': 'Kunnostettu',
+  'mobilityPlatform.popup.conditioned.yes': 'Kyllä',
+  'mobilityPlatform.popup.conditioned.no': 'Ei',
+  'mobilityPlatform.popup.conditionNote': 'Kunnostusmerkintä',
+  'mobilityPlatform.popup.iceTrack.description': 'Kuvaus',
   'mobilityPlatform.popup.unitId': 'Yksikkö ID',
 
   // Bicycle routes

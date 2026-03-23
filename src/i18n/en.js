@@ -1039,8 +1039,15 @@ const translations = {
   'mobilityPlatform.popup.iceTrack.status.unusable': 'Not in use',
   'mobilityPlatform.popup.iceTrack.status.undefined': 'Undefined',
   'mobilityPlatform.popup.skiTrail.title': 'Ski trail',
-  'mobilityPlatform.popup.skiTrail.maintainedAt': 'Maintained',
+  'mobilityPlatform.popup.skiTrail.maintainedAt': 'Maintenance time',
   'mobilityPlatform.popup.skiTrail.maintainedAt.unknown': 'Unknown',
+  'mobilityPlatform.popup.skiTrail.length': 'Lengths',
+  'mobilityPlatform.popup.skiTrail.lights': 'Lighting hours',
+  'mobilityPlatform.popup.conditioned': 'Maintained',
+  'mobilityPlatform.popup.conditioned.yes': 'Yes',
+  'mobilityPlatform.popup.conditioned.no': 'No',
+  'mobilityPlatform.popup.conditionNote': 'Maintenance note',
+  'mobilityPlatform.popup.iceTrack.description': 'Description',
   'mobilityPlatform.popup.unitId': 'Unit ID',
 
   // Bicycle routes
