@@ -493,6 +493,13 @@ const MobilitySettingsView = ({ navigator }) => {
     checkVisibilityValues(showIceTracks, setOpenSportFacilitiesMaintenanceSettings);
   }, [showSkiTrails, showIceTracks]);
 
+  useEffect(() => {
+    if (!showSkiTrails && !showIceTracks) {
+      setOpenSportFacilitiesMaintenanceSelectionList(false);
+      setSportsMaintenancePeriod(null);
+    }
+  }, [showSkiTrails, showIceTracks, setSportsMaintenancePeriod]);
+
   const nameKeys = {
     fi: 'name',
     en: 'name_en',
@@ -917,9 +924,13 @@ const MobilitySettingsView = ({ navigator }) => {
     setShowBrushSaltedRoute(current => !current);
   };
 
-  const sportFacilitiesMaintenanceListToggle = () => {
+  const sportFacilitiesMaintenanceListToggle = (nextShowSkiTrails, nextShowIceTracks) => {
     if (openSportFacilitiesMaintenanceSettings) {
-      setOpenSportFacilitiesMaintenanceSelectionList(true);
+      if (nextShowSkiTrails || nextShowIceTracks) {
+        setOpenSportFacilitiesMaintenanceSelectionList(true);
+      } else {
+        setOpenSportFacilitiesMaintenanceSelectionList(false);
+      }
     }
     if (sportsMaintenancePeriod) {
       setSportsMaintenancePeriod(null);
@@ -927,13 +938,15 @@ const MobilitySettingsView = ({ navigator }) => {
   };
 
   const skiTrailsToggle = () => {
-    setShowSkiTrails(current => !current);
-    sportFacilitiesMaintenanceListToggle();
+    const nextSki = !showSkiTrails;
+    setShowSkiTrails(nextSki);
+    sportFacilitiesMaintenanceListToggle(nextSki, showIceTracks);
   };
 
   const iceTracksToggle = () => {
-    setShowIceTracks(current => !current);
-    sportFacilitiesMaintenanceListToggle();
+    const nextIce = !showIceTracks;
+    setShowIceTracks(nextIce);
+    sportFacilitiesMaintenanceListToggle(showSkiTrails, nextIce);
   };
 
   /**
@@ -1143,27 +1156,45 @@ const MobilitySettingsView = ({ navigator }) => {
   };
 
   /**
-   * For ice tracks: only show 1day and over3days
-   * For ski trails: show all three options (1day, 3days, over3days)
-   * When both are selected: show all three options
+   * For ice tracks only: 1day and over3days with ice status labels
+   * For ski trails (alone or with ice): all three maintenance period options
    */
-  const sportsFacilitiesMaintenanceSelections = [
-    {
-      type: '1day',
-      msgId: !showSkiTrails ? 'mobilityPlatform.popup.iceTrack.status.usable' : 'mobilityPlatform.menu.maintenance.1day',
-      onChangeValue: setSportsMaintenancePeriodSelection,
-    },
-    ...(showSkiTrails ? [{
-      type: '3days',
-      msgId: 'mobilityPlatform.menu.maintenance.3days',
-      onChangeValue: setSportsMaintenancePeriodSelection,
-    }] : []),
-    {
-      type: 'over3days',
-      msgId: !showSkiTrails ? 'mobilityPlatform.popup.iceTrack.status.unusable' : 'mobilityPlatform.menu.maintenance.over3days',
-      onChangeValue: setSportsMaintenancePeriodSelection,
-    },
-  ];
+  const sportsFacilitiesMaintenanceSelections = (() => {
+    if (!showSkiTrails && !showIceTracks) {
+      return [];
+    }
+    if (showSkiTrails) {
+      return [
+        {
+          type: '1day',
+          msgId: 'mobilityPlatform.menu.maintenance.1day',
+          onChangeValue: setSportsMaintenancePeriodSelection,
+        },
+        {
+          type: '3days',
+          msgId: 'mobilityPlatform.menu.maintenance.3days',
+          onChangeValue: setSportsMaintenancePeriodSelection,
+        },
+        {
+          type: 'over3days',
+          msgId: 'mobilityPlatform.menu.maintenance.over3days',
+          onChangeValue: setSportsMaintenancePeriodSelection,
+        },
+      ];
+    }
+    return [
+      {
+        type: '1day',
+        msgId: 'mobilityPlatform.popup.iceTrack.status.usable',
+        onChangeValue: setSportsMaintenancePeriodSelection,
+      },
+      {
+        type: 'over3days',
+        msgId: 'mobilityPlatform.popup.iceTrack.status.unusable',
+        onChangeValue: setSportsMaintenancePeriodSelection,
+      },
+    ];
+  })();
 
   /**
    * Control types for different user types
@@ -1606,6 +1637,7 @@ const MobilitySettingsView = ({ navigator }) => {
       isActive={isActiveSportsMaintenance}
       maintenancePeriod={sportsMaintenancePeriod}
       maintenanceSelections={sportsFacilitiesMaintenanceSelections}
+      showSkiTrails={showSkiTrails}
     />
   );
 
@@ -1879,9 +1911,9 @@ const MobilitySettingsView = ({ navigator }) => {
 
   const infoTextsSportFacilities = [
     {
-      visible: showSkiTrails,
-      type: 'skiTrailsInfo',
-      component: <InfoTextBox infoText="mobilityPlatform.info.skiTrails" />,
+      visible: openSportFacilitiesMaintenanceSettings,
+      type: 'sportsFacilitiesMaintenanceInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.SportsFacilitiesMaintenance" />,
     },
   ];
 

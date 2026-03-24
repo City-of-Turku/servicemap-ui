@@ -1025,7 +1025,7 @@ const translations = {
   'mobilityPlatform.info.parkAndRide': 'Liityntäpysäköinti tarjoaa mahdollisuuden jättää oma auto parkkiin ja jatkaa matkaa linja-autolla. Turussa on muutamia liityntäpysäköintialueita autoille. Liityntäpysäköinti on maksutonta ja tarkoitettu vain joukkoliikennettä vaihtoyhteytenä käyttäville.',
   'mobilityPlatform.info.parkAndRide.link': 'Lisätietoja löytyy osoitteesta https://www.turku.fi/liityntapysakointi',
   'mobilityPlatform.info.taxiStands': 'Turun kaupungin ylläpitämät taksitolpat ovat kaikkien taksiyrittäjien käytössä.',
-  'mobilityPlatform.info.skiTrails': 'Turun kaupungin ylläpitämien hiihtolatujen reaaliaikainen kunnostustilanne. Voit näyttää tehtyjä latujen kunnossapitotöitä valitulta ajanjaksolta.',
+  'mobilityPlatform.info.SportsFacilitiesMaintenance': 'Turun kaupungin ylläpitämien hiihtolatujen ja luistelukenttien reaaliaikainen kunnostustilanne.',
   'mobilityPlatform.info.iceTracks.green': 'Avoinna (kunto hyvä)',
   'mobilityPlatform.info.iceTracks.orange': 'Avoinna (kunto kohtalainen)',
   'mobilityPlatform.info.iceTracks.red': 'Suljettu (kunnoltaan vaarallinen)',
