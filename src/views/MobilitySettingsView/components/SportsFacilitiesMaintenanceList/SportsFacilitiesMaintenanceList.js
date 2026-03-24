@@ -8,19 +8,12 @@ import InfoTextBox from '../../../../components/MobilityPlatform/InfoTextBox';
 import { useAccessibleMap } from '../../../../redux/selectors/settings';
 
 const SportsFacilitiesMaintenanceList = ({
-  openSportsFacilitiesMaintenanceList, isActive, maintenancePeriod, maintenanceSelections,
+  openSportsFacilitiesMaintenanceList,
+  isActive, maintenancePeriod, maintenanceSelections,
+  showSkiTrails,
 }) => {
   const intl = useIntl();
   const useContrast = useSelector(useAccessibleMap);
-
-  const streetMaintenanceInfo = (colorClass, translationId) => (
-    <StyledFlexBox>
-      <StyledBox color={colorClass} />
-      <StyledMarginLeftSm>
-        <Typography variant="body2">{intl.formatMessage({ id: translationId })}</Typography>
-      </StyledMarginLeftSm>
-    </StyledFlexBox>
-  );
 
   const colorValues = {
     green: 'rgba(15, 115, 6, 255)',
@@ -75,12 +68,14 @@ const SportsFacilitiesMaintenanceList = ({
     openSportsFacilitiesMaintenanceList ? (
       <>
         <StyledBorderedParagraph>
-          <Typography
-            variant="body2"
-            aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.sportsFacilitiesMaintenance.info' })}
-          >
-            {intl.formatMessage({ id: 'mobilityPlatform.menu.sportsFacilitiesMaintenance.info' })}
-          </Typography>
+          {showSkiTrails ? (
+            <Typography
+              variant="body2"
+              aria-label={intl.formatMessage({ id: 'mobilityPlatform.menu.sportsFacilitiesMaintenance.info' })}
+            >
+              {intl.formatMessage({ id: 'mobilityPlatform.menu.sportsFacilitiesMaintenance.info' })}
+            </Typography>
+          ) : null}
           {!isActive && maintenancePeriod ? (
             <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.noActivity" reducePadding />
           ) : null}
@@ -104,23 +99,15 @@ const SportsFacilitiesMaintenanceList = ({
                   />
                 </StyledCheckBoxItem>
               ))}
-        <StyledBorderedParagraph>
-          <div>
-            {showSkiTrailLegend ? (
-              <>
-                {skiTrailLegendItem('1day', 'mobilityPlatform.menu.maintenance.1day')}
-                {skiTrailLegendItem('3days', 'mobilityPlatform.menu.maintenance.3days')}
-                {skiTrailLegendItem('over3days', 'mobilityPlatform.menu.maintenance.over3days')}
-              </>
-            ) : maintenanceSelections?.length > 0 ? (
-              <>
-                {streetMaintenanceInfo(colorValues.green, 'mobilityPlatform.info.iceTracks.green')}
-                {streetMaintenanceInfo(colorValues.blue, 'mobilityPlatform.info.iceTracks.orange')}
-                {streetMaintenanceInfo(colorValues.purple, 'mobilityPlatform.info.iceTracks.red')}
-              </>
-            ) : null}
-          </div>
-        </StyledBorderedParagraph>
+        {showSkiTrailLegend ? (
+          <StyledBorderedParagraph>
+            <div>
+              {skiTrailLegendItem('1day', 'mobilityPlatform.menu.maintenance.1day')}
+              {skiTrailLegendItem('3days', 'mobilityPlatform.menu.maintenance.3days')}
+              {skiTrailLegendItem('over3days', 'mobilityPlatform.menu.maintenance.over3days')}
+            </div>
+          </StyledBorderedParagraph>
+        ) : null}
       </>
     ) : null
   );
@@ -146,15 +133,6 @@ const StyledFlexBox = styled.div(({ theme }) => ({
   marginTop: theme.spacing(1),
 }));
 
-const StyledBox = styled.div(({ color }) => ({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  width: '1.5rem',
-  height: '1.5rem',
-  backgroundColor: color,
-}));
-
 const StyledLineSample = styled.div(() => ({
   display: 'flex',
   alignItems: 'center',
@@ -178,6 +156,7 @@ SportsFacilitiesMaintenanceList.propTypes = {
   maintenanceSelections: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string,
   })),
+  showSkiTrails: PropTypes.bool,
 };
 
 SportsFacilitiesMaintenanceList.defaultProps = {
@@ -185,6 +164,7 @@ SportsFacilitiesMaintenanceList.defaultProps = {
   isActive: false,
   maintenancePeriod: '',
   maintenanceSelections: [],
+  showSkiTrails: false,
 };
 
 export default SportsFacilitiesMaintenanceList;
