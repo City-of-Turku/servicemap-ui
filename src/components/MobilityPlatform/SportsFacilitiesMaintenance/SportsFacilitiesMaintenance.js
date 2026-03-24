@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import iceTracksIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ice.svg';
 import iceTracksIconBw from 'servicemap-ui-turku/assets/icons/icons-icon_ice_bw.svg';
 import iceTracksUnusableIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ice_crossed.svg';
+import iceTracksUnusableIconBw from 'servicemap-ui-turku/assets/icons/icons-icon_rink-not-in-use-bw.svg';
 import skiIcon from 'servicemap-ui-turku/assets/icons/icons-icon-skier.svg';
 import skiIconBw from 'servicemap-ui-turku/assets/icons/icons-icon_skier-bw.svg';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
@@ -208,7 +209,7 @@ const SportsFacilitiesMaintenance = () => {
   const useContrast = useSelector(useAccessibleMap);
 
   const customIceIcon = icon(createIcon(useContrast ? iceTracksIconBw : iceTracksIcon));
-  const customUnusableIceIcon = icon(createIcon(iceTracksUnusableIcon));
+  const customUnusableIceIcon = icon(createIcon(useContrast ? iceTracksUnusableIconBw : iceTracksUnusableIcon));
   const customSkiIcon = icon(createIcon(useContrast ? skiIconBw : skiIcon));
 
   const currentDate = new Date();
