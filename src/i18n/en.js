@@ -1047,7 +1047,7 @@ const translations = {
   'mobilityPlatform.popup.conditioned.yes': 'Yes',
   'mobilityPlatform.popup.conditioned.no': 'No',
   'mobilityPlatform.popup.conditionNote': 'Maintenance note',
-  'mobilityPlatform.popup.iceTrack.description': 'Description',
+  'mobilityPlatform.popup.iceTrack.description': 'Description (Finnish only)',
   'mobilityPlatform.popup.unitId': 'Unit ID',
 
   // Bicycle routes
