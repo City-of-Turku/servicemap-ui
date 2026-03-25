@@ -87,7 +87,11 @@ function IceDescriptionSection({ title, rawHtml }) {
         <Typography
           component="div"
           variant="body2"
-          style={{ wordBreak: 'break-word' }}
+          style={{
+            wordBreak: 'break-word',
+            borderLeft: '2px solid #333',
+            paddingLeft: '8px',
+          }}
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: safe }}
         />
