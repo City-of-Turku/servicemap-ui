@@ -1030,7 +1030,7 @@ const translations = {
   'mobilityPlatform.info.parkAndRide': 'Park-and-ride arrangements provide the opportunity to leave your car parked safely and hop on a bus to continue your journey. City of Turku boasts few park-and-ride sites for cars.  Park-and-ride parking is free and intended for those using public transport for connections.',
   'mobilityPlatform.info.parkAndRide.link': 'For more information visit https://www.turku.fi/liityntapysakointi',
   'mobilityPlatform.info.taxiStands': 'Taxi stands maintained by the City of Turku are available for use by all taxi operators.',
-  'mobilityPlatform.info.SportsFacilitiesMaintenance': 'Real-time maintenance status of ski trails and skating rinks maintained by the City of Turku.',
+  'mobilityPlatform.info.SportsFacilitiesMaintenance': 'Real-time maintenance status of the City of Turku’s ski trails and ice skating rinks during the winter season.',
   'mobilityPlatform.info.iceTracks.green': 'Open (in good condition)',
   'mobilityPlatform.info.iceTracks.orange': 'Open (in fair condition)',
   'mobilityPlatform.info.iceTracks.red': 'Closed (in dangerous condition)',
