@@ -207,8 +207,9 @@ const SnowPlows = () => {
 
       if (requests.length > 0) {
         setIsStreetMaintenanceLoading(true);
-        await Promise.all(requests);
-        if (isMounted) {
+        try {
+          await Promise.all(requests);
+        } finally {
           setIsStreetMaintenanceLoading(false);
         }
       }
