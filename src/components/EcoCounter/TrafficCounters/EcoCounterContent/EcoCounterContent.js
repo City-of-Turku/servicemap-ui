@@ -27,6 +27,7 @@ import sv from 'date-fns/locale/sv';
 import { ReactSVG } from 'react-svg';
 import iconBicycle from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle.svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
+import iconScooter from 'servicemap-ui-turku/assets/icons/icons-icon_scooter.svg';
 import iconWalk from 'servicemap-ui-turku/assets/icons/icons-icon_walk.svg';
 import {
   fetchInitialDayDatas,
@@ -63,7 +64,6 @@ const EcoCounterContent = ({ station }) => {
   const [channel2Counts, setChannel2Counts] = useState([]);
   const [channelTotals, setChannelTotals] = useState([]);
   const [ecoCounterLabels, setEcoCounterLabels] = useState([]);
-  const [currentType, setCurrentType] = useState('bicycle');
   const [currentTime, setCurrentTime] = useState('hour');
   const [activeStep, setActiveStep] = useState(0);
 
@@ -104,14 +104,24 @@ const EcoCounterContent = ({ station }) => {
 
   const userTypes = reverseUserTypes();
 
-  const setUserTypeValue = () => {
-    if (userTypes.includes('at')) {
-      return 1;
+  const getUserTypeName = type => {
+    if (type === 'jt') return 'walking';
+    if (type === 'pt') return 'bicycle';
+    if (type === 'at') return 'driving';
+    if (type === 'st') return 'scooter';
+    return 'bicycle';
+  };
+
+  const getDefaultUserTypeIndex = () => {
+    const drivingTypeIndex = userTypes.indexOf('at');
+    if (drivingTypeIndex !== -1) {
+      return drivingTypeIndex;
     }
     return 0;
   };
 
-  const [activeType, setActiveType] = useState(setUserTypeValue());
+  const [activeType, setActiveType] = useState(getDefaultUserTypeIndex());
+  const [currentType, setCurrentType] = useState(getUserTypeName(userTypes[getDefaultUserTypeIndex()]));
 
   // steps that determine which data is shown on the chart
   const buttonSteps = [
@@ -162,6 +172,7 @@ const EcoCounterContent = ({ station }) => {
     if (type === 'jt') setUserTypeState(index, 'walking');
     else if (type === 'pt') setUserTypeState(index, 'bicycle');
     else if (type === 'at') setUserTypeState(index, 'driving');
+    else if (type === 'st') setUserTypeState(index, 'scooter');
   };
 
   /**
@@ -189,6 +200,9 @@ const EcoCounterContent = ({ station }) => {
     }
     if (userType === 'jt') {
       return userTypeText('ecocounter.walk');
+    }
+    if (userType === 'st') {
+      return userTypeText('ecocounter.scooter');
     }
     return null;
   };
@@ -230,6 +244,9 @@ const EcoCounterContent = ({ station }) => {
     }
     if (userType === 'jt') {
       return userTypeButton(userType, iconWalk, i);
+    }
+    if (userType === 'st') {
+      return userTypeButton(userType, iconScooter, i);
     }
     return null;
   };
@@ -292,6 +309,12 @@ const EcoCounterContent = ({ station }) => {
   // Reset selectedDate value when the new popup is opened.
   useEffect(() => {
     setSelectedDate(subDays(new Date(dataUntil), 1));
+  }, [stationId]);
+
+  useEffect(() => {
+    const defaultUserTypeIndex = getDefaultUserTypeIndex();
+    setActiveType(defaultUserTypeIndex);
+    setCurrentType(getUserTypeName(userTypes[defaultUserTypeIndex]));
   }, [stationId]);
 
   useEffect(() => {
@@ -358,6 +381,9 @@ const EcoCounterContent = ({ station }) => {
     setChannelTotals(channelTotals => [...channelTotals, newValue3]);
   };
 
+  const getSafeCountValue = value => value ?? 0;
+  const getSafeSeriesValue = value => (Array.isArray(value) ? value : []);
+
   /**
    * Gets correct values from data and returns them based on currentType
    * @param {object} el
@@ -366,13 +392,31 @@ const EcoCounterContent = ({ station }) => {
   const getUserTypedata = el => {
     switch (currentType) {
       case 'walking':
-        return [el.value_jk, el.value_jp, el.value_jt];
+        return [
+          getSafeCountValue(el.value_jk),
+          getSafeCountValue(el.value_jp),
+          getSafeCountValue(el.value_jt),
+        ];
       case 'bicycle':
-        return [el.value_pk, el.value_pp, el.value_pt];
+        return [
+          getSafeCountValue(el.value_pk),
+          getSafeCountValue(el.value_pp),
+          getSafeCountValue(el.value_pt),
+        ];
       case 'driving':
-        return [el.value_ak, el.value_ap, el.value_at];
+        return [
+          getSafeCountValue(el.value_ak),
+          getSafeCountValue(el.value_ap),
+          getSafeCountValue(el.value_at),
+        ];
+      case 'scooter':
+        return [
+          getSafeCountValue(el.value_sk),
+          getSafeCountValue(el.value_sp),
+          getSafeCountValue(el.value_st),
+        ];
       default:
-        return [];
+        return [0, 0, 0];
     }
   };
 
@@ -400,15 +444,33 @@ const EcoCounterContent = ({ station }) => {
     if (ecoCounterHour?.station === stationId) {
       const countsArr = [];
       if (currentType === 'walking') {
-        countsArr.push(ecoCounterHour.values_jk, ecoCounterHour.values_jp, ecoCounterHour.values_jt);
+        countsArr.push(
+          getSafeSeriesValue(ecoCounterHour.values_jk),
+          getSafeSeriesValue(ecoCounterHour.values_jp),
+          getSafeSeriesValue(ecoCounterHour.values_jt),
+        );
       } else if (currentType === 'bicycle') {
-        countsArr.push(ecoCounterHour.values_pk, ecoCounterHour.values_pp, ecoCounterHour.values_pt);
+        countsArr.push(
+          getSafeSeriesValue(ecoCounterHour.values_pk),
+          getSafeSeriesValue(ecoCounterHour.values_pp),
+          getSafeSeriesValue(ecoCounterHour.values_pt),
+        );
       } else if (currentType === 'driving') {
-        countsArr.push(ecoCounterHour.values_ak, ecoCounterHour.values_ap, ecoCounterHour.values_at);
+        countsArr.push(
+          getSafeSeriesValue(ecoCounterHour.values_ak),
+          getSafeSeriesValue(ecoCounterHour.values_ap),
+          getSafeSeriesValue(ecoCounterHour.values_at),
+        );
+      } else if (currentType === 'scooter') {
+        countsArr.push(
+          getSafeSeriesValue(ecoCounterHour.values_sk),
+          getSafeSeriesValue(ecoCounterHour.values_sp),
+          getSafeSeriesValue(ecoCounterHour.values_st),
+        );
       }
-      setChannel1Counts(countsArr[0]);
-      setChannel2Counts(countsArr[1]);
-      setChannelTotals(countsArr[2]);
+      setChannel1Counts(countsArr[0] ?? []);
+      setChannel2Counts(countsArr[1] ?? []);
+      setChannelTotals(countsArr[2] ?? []);
     }
   };
 

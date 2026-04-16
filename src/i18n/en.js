@@ -1100,6 +1100,7 @@ const translations = {
   'ecocounter.walk': 'Walking',
   'ecocounter.bicycle': 'Cycling',
   'ecocounter.car': 'Driving',
+  'ecocounter.scooter': 'Scooters',
   'ecocounter.chart.labelTo': 'To city',
   'ecocounter.chart.labelFrom': 'From city',
   'ecocounter.chart.labelTotal': 'Total',

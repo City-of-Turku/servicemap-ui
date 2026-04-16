@@ -20,6 +20,7 @@ const trafficCountersInitial = {
   walking: false,
   cycling: false,
   driving: false,
+  scooter: false,
 };
 
 const accessibilityAreasInitial = {
@@ -87,6 +88,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showStreetMaintenance, setShowStreetMaintenance] = useState(false);
   const [streetMaintenancePeriod, setStreetMaintenancePeriod] = useState(null);
   const [isActiveStreetMaintenance, setIsActiveStreetMaintenance] = useState(true);
+  const [isStreetMaintenanceLoading, setIsStreetMaintenanceLoading] = useState(false);
   const [showBrushSandedRoute, setShowBrushSandedRoute] = useState(false);
   const [showBrushSaltedRoute, setShowBrushSaltedRoute] = useState(false);
 
@@ -174,6 +176,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     showStreetMaintenance,
     streetMaintenancePeriod,
     isActiveStreetMaintenance,
+    isStreetMaintenanceLoading,
     showBrushSandedRoute,
     showBrushSaltedRoute,
     // trails (nature, fitness)
@@ -257,6 +260,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setShowStreetMaintenance,
     setStreetMaintenancePeriod,
     setIsActiveStreetMaintenance,
+    setIsStreetMaintenanceLoading,
     setShowBrushSandedRoute,
     setShowBrushSaltedRoute,
     // trails (nature, fitness)

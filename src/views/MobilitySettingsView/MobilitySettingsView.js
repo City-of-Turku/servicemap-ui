@@ -132,6 +132,7 @@ const MobilitySettingsView = ({ navigator }) => {
     streetMaintenancePeriod,
     setStreetMaintenancePeriod,
     isActiveStreetMaintenance,
+    isStreetMaintenanceLoading,
     showBrushSandedRoute,
     setShowBrushSandedRoute,
     showBrushSaltedRoute,
@@ -366,6 +367,10 @@ const MobilitySettingsView = ({ navigator }) => {
   useEffect(() => {
     checkVisibilityValues(showTrafficCounter.driving, setOpenCarSettings);
   }, [showTrafficCounter.driving]);
+
+  useEffect(() => {
+    checkVisibilityValues(showTrafficCounter.scooter, setOpenScooterSettings);
+  }, [showTrafficCounter.scooter]);
 
   useEffect(() => {
     checkVisibilityValues(showBicycleStands, setOpenBicycleSettings);
@@ -695,6 +700,15 @@ const MobilitySettingsView = ({ navigator }) => {
    */
   const trafficCounterStationsToggleDriving = () => {
     toggleObjectValue('driving', showTrafficCounter, setShowTrafficCounter);
+  };
+
+  /**
+   * Toggle function for traffic counter stations that contain data about scooters
+   * @var {Object} showTrafficCounter
+   * @returns {Object} showTrafficCounter
+   */
+  const trafficCounterStationsToggleScooter = () => {
+    toggleObjectValue('scooter', showTrafficCounter, setShowTrafficCounter);
   };
 
   /**
@@ -1486,6 +1500,12 @@ const MobilitySettingsView = ({ navigator }) => {
 
   const scooterControlTypes = [
     {
+      type: 'counterStationsScooter',
+      msgId: 'mobilityPlatform.menu.showEcoCounter',
+      checkedValue: showTrafficCounter.scooter,
+      onChangeValue: trafficCounterStationsToggleScooter,
+    },
+    {
       type: 'scooterProviders',
       msgId: 'mobilityPlatform.menu.show.scooterProviders',
       checkedValue: openScooterProviderList,
@@ -1626,6 +1646,7 @@ const MobilitySettingsView = ({ navigator }) => {
     <StreetMaintenanceList
       openStreetMaintenanceList={openStreetMaintenanceSelectionList}
       isActive={isActiveStreetMaintenance}
+      isLoading={isStreetMaintenanceLoading}
       streetMaintenancePeriod={streetMaintenancePeriod}
       streetMaintenanceSelections={streetMaintenanceSelections}
     />
@@ -1807,6 +1828,11 @@ const MobilitySettingsView = ({ navigator }) => {
   ];
 
   const infoTextsScooter = [
+    {
+      visible: showTrafficCounter.scooter,
+      type: 'ecoCounterInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.ecoCounter" />,
+    },
     {
       visible: openScooterProviderList,
       type: 'scooterProviderListInfo',
