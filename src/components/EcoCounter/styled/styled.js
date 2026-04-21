@@ -22,7 +22,6 @@ const StyledHeaderSubtitle = styled(Typography)(({ theme }) => ({
 const StyledUserTypeText = styled(Typography)(({ theme }) => ({
   fontWeight: 'bold',
   paddingTop: theme.spacing(0.5),
-  paddingRight: theme.spacing(1),
   fontSize: '0.8rem',
 }));
 
@@ -30,7 +29,6 @@ const StyledButtonBase = styled(ButtonBase)(({ theme }) => ({
   border: '1px solid gray',
   borderRadius: '5px',
   cursor: 'pointer',
-  marginRight: theme.spacing(1.5),
 }));
 
 const StyledDateContainer = styled.div(() => ({
@@ -42,15 +40,15 @@ const StyledDateContainer = styled.div(() => ({
 
 const StyledUserTypesContainer = styled.div(({ theme }) => ({
   display: 'flex',
-  justifyContent: 'flex-end',
+  justifyContent: 'space-evenly',
   marginBottom: theme.spacing(0.5),
 }));
 
 const StyledButtonText = styled.div(() => ({
   display: 'flex',
   flexDirection: 'column',
-  marginRight: '0.7rem',
   alignItems: 'center',
+  justifyContent: 'center',
 }));
 
 const StyledChartContainer = styled.div(() => ({
@@ -66,11 +64,13 @@ const StyledStepsContainer = styled.div(() => ({
 }));
 
 const StyledIconContainer = styled.div(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   backgroundColor: 'rgba(7, 44, 115, 255)',
   color: 'rgba(255, 255, 255, 255)',
   border: '1px solid gray',
   borderRadius: '5px',
-  marginRight: theme.spacing(1.5),
   padding: theme.spacing(0.5),
 }));
 

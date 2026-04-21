@@ -53,6 +53,7 @@ import InputDate from '../../InputDate';
 import CounterActiveText from '../CounterActiveText';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
+const SUPPORTED_SENSOR_TYPES = ['jt', 'pt', 'at', 'st'];
 
 const EcoCounterContent = ({ station }) => {
   const [ecoCounterHour, setEcoCounterHour] = useState([]);
@@ -96,10 +97,11 @@ const EcoCounterContent = ({ station }) => {
 
   /** When all 3 user types are rendered, a reverse order is required where 'at' is placed last */
   const reverseUserTypes = () => {
-    if (station.sensor_types.includes('at')) {
-      return [...station.sensor_types].reverse();
+    const validSensorTypes = (station?.sensor_types || []).filter(type => SUPPORTED_SENSOR_TYPES.includes(type));
+    if (validSensorTypes.includes('at')) {
+      return [...validSensorTypes].reverse();
     }
-    return station.sensor_types;
+    return validSensorTypes;
   };
 
   const userTypes = reverseUserTypes();
