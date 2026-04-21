@@ -73,6 +73,7 @@ const MobilitySettingsView = ({ navigator }) => {
     setOpenMobilityPlatform,
     showTrafficCounter,
     setShowTrafficCounter,
+    setLastPickedTrafficCounterFilter,
     showBicycleStands,
     setShowBicycleStands,
     showHullLockableStands,
@@ -681,6 +682,9 @@ const MobilitySettingsView = ({ navigator }) => {
    * @returns {Object} showTrafficCounter
    */
   const trafficCounterStationsToggle = () => {
+    if (!showTrafficCounter.walking) {
+      setLastPickedTrafficCounterFilter('walking');
+    }
     toggleObjectValue('walking', showTrafficCounter, setShowTrafficCounter);
   };
 
@@ -690,6 +694,9 @@ const MobilitySettingsView = ({ navigator }) => {
    * @returns {Object} showTrafficCounter
    */
   const trafficCounterStationsToggleCycling = () => {
+    if (!showTrafficCounter.cycling) {
+      setLastPickedTrafficCounterFilter('cycling');
+    }
     toggleObjectValue('cycling', showTrafficCounter, setShowTrafficCounter);
   };
 
@@ -699,6 +706,9 @@ const MobilitySettingsView = ({ navigator }) => {
    * @returns {Object} showTrafficCounter
    */
   const trafficCounterStationsToggleDriving = () => {
+    if (!showTrafficCounter.driving) {
+      setLastPickedTrafficCounterFilter('driving');
+    }
     toggleObjectValue('driving', showTrafficCounter, setShowTrafficCounter);
   };
 
@@ -708,6 +718,9 @@ const MobilitySettingsView = ({ navigator }) => {
    * @returns {Object} showTrafficCounter
    */
   const trafficCounterStationsToggleScooter = () => {
+    if (!showTrafficCounter.scooter) {
+      setLastPickedTrafficCounterFilter('scooter');
+    }
     toggleObjectValue('scooter', showTrafficCounter, setShowTrafficCounter);
   };
 

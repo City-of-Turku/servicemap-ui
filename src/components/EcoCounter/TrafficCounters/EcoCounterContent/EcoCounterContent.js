@@ -3,7 +3,7 @@
 import { Typography, useMediaQuery } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, {
-  useEffect, useState, useRef, forwardRef,
+  useCallback, useEffect, useState, useRef, forwardRef,
 } from 'react';
 import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
@@ -51,9 +51,16 @@ import {
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
 import CounterActiveText from '../CounterActiveText';
+import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 const SUPPORTED_SENSOR_TYPES = ['jt', 'pt', 'at', 'st'];
+const FILTER_TYPE_TO_SENSOR_TYPE = {
+  walking: 'jt',
+  cycling: 'pt',
+  driving: 'at',
+  scooter: 'st',
+};
 
 const EcoCounterContent = ({ station }) => {
   const [ecoCounterHour, setEcoCounterHour] = useState([]);
@@ -70,6 +77,7 @@ const EcoCounterContent = ({ station }) => {
 
   const intl = useIntl();
   const locale = useSelector(state => state.user.locale);
+  const { showTrafficCounter, lastPickedTrafficCounterFilter } = useMobilityPlatformContext();
   const inputRef = useRef(null);
 
   const useMobileStatus = () => useMediaQuery('(max-width:768px)');
@@ -106,6 +114,18 @@ const EcoCounterContent = ({ station }) => {
 
   const userTypes = reverseUserTypes();
 
+  const getSingleEnabledSensorType = useCallback(() => {
+    const enabledFilterTypes = Object.entries(showTrafficCounter || {})
+      .filter(([, isEnabled]) => isEnabled)
+      .map(([filterType]) => filterType);
+
+    if (enabledFilterTypes.length !== 1) {
+      return null;
+    }
+
+    return FILTER_TYPE_TO_SENSOR_TYPE[enabledFilterTypes[0]] || null;
+  }, [showTrafficCounter]);
+
   const getUserTypeName = type => {
     if (type === 'jt') return 'walking';
     if (type === 'pt') return 'bicycle';
@@ -115,6 +135,22 @@ const EcoCounterContent = ({ station }) => {
   };
 
   const getDefaultUserTypeIndex = () => {
+    const lastPickedSensorType = FILTER_TYPE_TO_SENSOR_TYPE[lastPickedTrafficCounterFilter];
+    if (lastPickedSensorType) {
+      const lastPickedIndex = userTypes.indexOf(lastPickedSensorType);
+      if (lastPickedIndex !== -1) {
+        return lastPickedIndex;
+      }
+    }
+
+    const singleEnabledSensorType = getSingleEnabledSensorType();
+    if (singleEnabledSensorType) {
+      const singleEnabledIndex = userTypes.indexOf(singleEnabledSensorType);
+      if (singleEnabledIndex !== -1) {
+        return singleEnabledIndex;
+      }
+    }
+
     const drivingTypeIndex = userTypes.indexOf('at');
     if (drivingTypeIndex !== -1) {
       return drivingTypeIndex;
@@ -317,7 +353,14 @@ const EcoCounterContent = ({ station }) => {
     const defaultUserTypeIndex = getDefaultUserTypeIndex();
     setActiveType(defaultUserTypeIndex);
     setCurrentType(getUserTypeName(userTypes[defaultUserTypeIndex]));
-  }, [stationId]);
+  }, [
+    stationId,
+    lastPickedTrafficCounterFilter,
+    showTrafficCounter?.walking,
+    showTrafficCounter?.cycling,
+    showTrafficCounter?.driving,
+    showTrafficCounter?.scooter,
+  ]);
 
   useEffect(() => {
     checkYear();
