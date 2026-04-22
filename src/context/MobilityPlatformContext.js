@@ -35,6 +35,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
 
   // measurement points
   const [showTrafficCounter, setShowTrafficCounter] = useState(trafficCountersInitial);
+  const [lastPickedTrafficCounterFilter, setLastPickedTrafficCounterFilter] = useState(null);
 
   // air monitoring
   const [showAirMonitoringStations, setShowAirMonitoringStations] = useState(false);
@@ -131,6 +132,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     openMobilityPlatform,
     // measurement points
     showTrafficCounter,
+    lastPickedTrafficCounterFilter,
     // air monitoring
     showAirMonitoringStations,
     // cycling
@@ -215,6 +217,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setOpenMobilityPlatform,
     // measurement points
     setShowTrafficCounter,
+    setLastPickedTrafficCounterFilter,
     // air monitoring
     setShowAirMonitoringStations,
     // cycling

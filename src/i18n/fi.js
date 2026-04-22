@@ -1095,7 +1095,7 @@ const translations = {
   'ecocounter.walk': 'Kävely',
   'ecocounter.bicycle': 'Pyöräily',
   'ecocounter.car': 'Autoilu',
-  'ecocounter.scooter': 'Sähköpotkulaudat',
+  'ecocounter.scooter': 'Potkulaudat',
   'ecocounter.chart.labelTo': 'Keskustaan',
   'ecocounter.chart.labelFrom': 'Keskustasta',
   'ecocounter.chart.labelTotal': 'Yhteensä',
