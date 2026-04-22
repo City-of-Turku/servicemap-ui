@@ -1050,7 +1050,7 @@ const translations = {
   'mobilityPlatform.popup.conditioned': 'Underhållen',
   'mobilityPlatform.popup.conditioned.yes': 'Ja',
   'mobilityPlatform.popup.conditioned.no': 'Nej',
-  'mobilityPlatform.popup.conditionNote': 'Underhållsanmärkning',
+  'mobilityPlatform.popup.conditionNote': 'Underhållsanmärkning (endast på finska)',
   'mobilityPlatform.popup.iceTrack.description': 'Beskrivning (endast på finska)',
   'mobilityPlatform.popup.unitId': 'Enhets-ID',
 
