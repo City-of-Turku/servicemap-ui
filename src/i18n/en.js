@@ -1046,7 +1046,7 @@ const translations = {
   'mobilityPlatform.popup.conditioned': 'Maintained',
   'mobilityPlatform.popup.conditioned.yes': 'Yes',
   'mobilityPlatform.popup.conditioned.no': 'No',
-  'mobilityPlatform.popup.conditionNote': 'Maintenance note (Finnish Only',
+  'mobilityPlatform.popup.conditionNote': 'Maintenance note (Finnish Only)',
   'mobilityPlatform.popup.iceTrack.description': 'Description (Finnish only)',
   'mobilityPlatform.popup.unitId': 'Unit ID',
 
