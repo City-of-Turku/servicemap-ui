@@ -20,6 +20,7 @@ const trafficCountersInitial = {
   walking: false,
   cycling: false,
   driving: false,
+  scooter: false,
 };
 
 const accessibilityAreasInitial = {
@@ -34,6 +35,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
 
   // measurement points
   const [showTrafficCounter, setShowTrafficCounter] = useState(trafficCountersInitial);
+  const [lastPickedTrafficCounterFilter, setLastPickedTrafficCounterFilter] = useState(null);
 
   // air monitoring
   const [showAirMonitoringStations, setShowAirMonitoringStations] = useState(false);
@@ -87,6 +89,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showStreetMaintenance, setShowStreetMaintenance] = useState(false);
   const [streetMaintenancePeriod, setStreetMaintenancePeriod] = useState(null);
   const [isActiveStreetMaintenance, setIsActiveStreetMaintenance] = useState(true);
+  const [isStreetMaintenanceLoading, setIsStreetMaintenanceLoading] = useState(false);
   const [showBrushSandedRoute, setShowBrushSandedRoute] = useState(false);
   const [showBrushSaltedRoute, setShowBrushSaltedRoute] = useState(false);
 
@@ -106,6 +109,13 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showAccessibilityAreas, setShowAccessibilityAreas] = useState(accessibilityAreasInitial);
   const [accessibilityAreasData, setAccessibilityAreasData] = useState([]);
 
+  // skiing and ice-skating
+  const [showSportsMaintenance, setShowSportsMaintenance] = useState(false);
+  const [sportsMaintenancePeriod, setSportsMaintenancePeriod] = useState(null);
+  const [showSkiTrails, setShowSkiTrails] = useState(false);
+  const [showIceTracks, setShowIceTracks] = useState(false);
+  const [isActiveSportsMaintenance, setIsActiveSportsMaintenance] = useState(true);
+
   // other
   const [showOutdoorGymDevices, setShowOutdoorGymDevices] = useState(false);
   const [showLoadingPlaces, setShowLoadingPlaces] = useState(false);
@@ -122,6 +132,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     openMobilityPlatform,
     // measurement points
     showTrafficCounter,
+    lastPickedTrafficCounterFilter,
     // air monitoring
     showAirMonitoringStations,
     // cycling
@@ -167,6 +178,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     showStreetMaintenance,
     streetMaintenancePeriod,
     isActiveStreetMaintenance,
+    isStreetMaintenanceLoading,
     showBrushSandedRoute,
     showBrushSaltedRoute,
     // trails (nature, fitness)
@@ -182,6 +194,12 @@ const MobilityPlatformContextProvider = ({ children }) => {
     // units
     showAccessibilityAreas,
     accessibilityAreasData,
+    // skiing and ice-skating
+    showSportsMaintenance,
+    sportsMaintenancePeriod,
+    showSkiTrails,
+    showIceTracks,
+    isActiveSportsMaintenance,
     // other
     showOutdoorGymDevices,
     showPublicToilets,
@@ -199,6 +217,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setOpenMobilityPlatform,
     // measurement points
     setShowTrafficCounter,
+    setLastPickedTrafficCounterFilter,
     // air monitoring
     setShowAirMonitoringStations,
     // cycling
@@ -244,6 +263,7 @@ const MobilityPlatformContextProvider = ({ children }) => {
     setShowStreetMaintenance,
     setStreetMaintenancePeriod,
     setIsActiveStreetMaintenance,
+    setIsStreetMaintenanceLoading,
     setShowBrushSandedRoute,
     setShowBrushSaltedRoute,
     // trails (nature, fitness)
@@ -259,6 +279,12 @@ const MobilityPlatformContextProvider = ({ children }) => {
     // units
     setShowAccessibilityAreas,
     setAccessibilityAreasData,
+    // skiing and ice-skating
+    setShowSportsMaintenance,
+    setSportsMaintenancePeriod,
+    setShowSkiTrails,
+    setShowIceTracks,
+    setIsActiveSportsMaintenance,
     // other
     setShowOutdoorGymDevices,
     setShowPublicToilets,

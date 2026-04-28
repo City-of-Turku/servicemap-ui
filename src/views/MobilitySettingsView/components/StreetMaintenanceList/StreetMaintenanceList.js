@@ -6,7 +6,11 @@ import styled from '@emotion/styled';
 import InfoTextBox from '../../../../components/MobilityPlatform/InfoTextBox';
 
 const StreetMaintenanceList = ({
-  openStreetMaintenanceList, isActive, streetMaintenancePeriod, streetMaintenanceSelections,
+  openStreetMaintenanceList,
+  isActive,
+  isLoading,
+  streetMaintenancePeriod,
+  streetMaintenanceSelections,
 }) => {
   const intl = useIntl();
 
@@ -36,7 +40,7 @@ const StreetMaintenanceList = ({
           >
             {intl.formatMessage({ id: 'mobilityPlatform.menu.streetMaintenance.info' })}
           </Typography>
-          {!isActive && streetMaintenancePeriod ? (
+          {!isLoading && !isActive && streetMaintenancePeriod ? (
             <InfoTextBox infoText="mobilityPlatform.info.streetMaintenance.noActivity" reducePadding />
           ) : null}
         </StyledBorderedParagraph>
@@ -112,6 +116,7 @@ const StyledMarginLeftSm = styled.div(({ theme }) => ({
 StreetMaintenanceList.propTypes = {
   openStreetMaintenanceList: PropTypes.bool,
   isActive: PropTypes.bool,
+  isLoading: PropTypes.bool,
   streetMaintenancePeriod: PropTypes.string,
   streetMaintenanceSelections: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string,
@@ -121,6 +126,7 @@ StreetMaintenanceList.propTypes = {
 StreetMaintenanceList.defaultProps = {
   openStreetMaintenanceList: false,
   isActive: false,
+  isLoading: false,
   streetMaintenancePeriod: '',
   streetMaintenanceSelections: [],
 };

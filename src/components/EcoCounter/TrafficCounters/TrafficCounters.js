@@ -3,7 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useMap } from 'react-leaflet';
 import { useMobilityPlatformContext } from '../../../context/MobilityPlatformContext';
 import { isDataValid } from '../../MobilityPlatform/utils/utils';
-import { fetchTrafficCounterStationsByType } from '../EcoCounterRequests/ecoCounterRequests';
+import {
+  fetchTrafficCounterStationsByType,
+  TRAFFIC_COUNTER_DATA_TYPES,
+} from '../EcoCounterRequests/ecoCounterRequests';
 import CounterMarkers from '../CounterMarkers';
 import EcoCounterContent from './EcoCounterContent';
 import LamCounterContent from './LamCounterContent';
@@ -14,32 +17,40 @@ const TrafficCounters = () => {
   const [pedestrianCounterStations, setPedestrianCounterStations] = useState([]);
   const [bicycleCounterStations, setBicycleCounterStations] = useState([]);
   const [carCounterStations, setCarCounterStations] = useState([]);
+  const [scooterCounterStations, setScooterCounterStations] = useState([]);
 
   const { showTrafficCounter } = useMobilityPlatformContext();
 
   useEffect(() => {
     if (showTrafficCounter.walking && !pedestrianCounterStations.length) {
-      fetchTrafficCounterStationsByType('j', setPedestrianCounterStations);
+      fetchTrafficCounterStationsByType(TRAFFIC_COUNTER_DATA_TYPES.walking, setPedestrianCounterStations);
     }
   }, [showTrafficCounter.walking]);
 
   useEffect(() => {
     if (showTrafficCounter.cycling && !bicycleCounterStations.length) {
-      fetchTrafficCounterStationsByType('p', setBicycleCounterStations);
+      fetchTrafficCounterStationsByType(TRAFFIC_COUNTER_DATA_TYPES.cycling, setBicycleCounterStations);
     }
   }, [showTrafficCounter.cycling]);
 
   useEffect(() => {
     if (showTrafficCounter.driving && !carCounterStations.length) {
-      fetchTrafficCounterStationsByType('a', setCarCounterStations);
+      fetchTrafficCounterStationsByType(TRAFFIC_COUNTER_DATA_TYPES.driving, setCarCounterStations);
     }
   }, [showTrafficCounter.driving]);
+
+  useEffect(() => {
+    if (showTrafficCounter.scooter && !scooterCounterStations.length) {
+      fetchTrafficCounterStationsByType(TRAFFIC_COUNTER_DATA_TYPES.scooter, setScooterCounterStations);
+    }
+  }, [showTrafficCounter.scooter]);
 
   const map = useMap();
 
   const renderPedestrianCounters = isDataValid(showTrafficCounter.walking, pedestrianCounterStations);
   const renderBicycleCounters = isDataValid(showTrafficCounter.cycling, bicycleCounterStations);
   const renderCarCounters = isDataValid(showTrafficCounter.driving, carCounterStations);
+  const renderScooterCounters = isDataValid(showTrafficCounter.scooter, scooterCounterStations);
 
   const fitToMapBounds = (isValid, data) => {
     if (isValid) {
@@ -62,6 +73,10 @@ const TrafficCounters = () => {
   useEffect(() => {
     fitToMapBounds(renderCarCounters, carCounterStations);
   }, [renderCarCounters, carCounterStations]);
+
+  useEffect(() => {
+    fitToMapBounds(renderScooterCounters, scooterCounterStations);
+  }, [renderScooterCounters, scooterCounterStations]);
 
   const renderContent = item => {
     const csvSource = item.csv_data_source;
@@ -89,6 +104,7 @@ const TrafficCounters = () => {
       {renderStationsOnMap(renderPedestrianCounters, pedestrianCounterStations)}
       {renderStationsOnMap(renderBicycleCounters, bicycleCounterStations)}
       {renderStationsOnMap(renderCarCounters, carCounterStations)}
+      {renderStationsOnMap(renderScooterCounters, scooterCounterStations)}
     </>
   );
 };
