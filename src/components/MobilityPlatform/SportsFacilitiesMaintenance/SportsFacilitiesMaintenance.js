@@ -287,12 +287,6 @@ const SportsFacilitiesMaintenance = () => {
     [allSkiTrailsData],
   );
 
-  useEffect(() => {
-    const hasValidData = (showSkiTrails && filteredSkiTrailsGeometries.length > 0)
-      || (showIceTracks && filteredIceTracksGeometries.length > 0);
-    setIsActiveSportsMaintenance(hasValidData);
-  }, [showSkiTrails, showIceTracks, filteredSkiTrailsGeometries, filteredIceTracksGeometries, setIsActiveSportsMaintenance]);
-
   const colorValues = {
     green: 'rgba(15, 115, 6, 255)',
     blue: 'rgba(7, 44, 115, 255)',
@@ -390,6 +384,12 @@ const SportsFacilitiesMaintenance = () => {
       return false;
     });
   }, [allSkiTrailsGeometries, getSkiTrailPeriod, sportsMaintenancePeriod]);
+
+  useEffect(() => {
+    const hasValidData = (showSkiTrails && filteredSkiTrailsGeometries.length > 0)
+      || (showIceTracks && filteredIceTracksGeometries.length > 0);
+    setIsActiveSportsMaintenance(hasValidData);
+  }, [showSkiTrails, showIceTracks, filteredSkiTrailsGeometries, filteredIceTracksGeometries, setIsActiveSportsMaintenance]);
 
   const renderIceTrackPopup = maintenance => {
     const unit = maintenance.unit || {};
