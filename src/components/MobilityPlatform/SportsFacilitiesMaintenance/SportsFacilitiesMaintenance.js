@@ -288,10 +288,10 @@ const SportsFacilitiesMaintenance = () => {
   );
 
   useEffect(() => {
-    const hasValidData = (showSkiTrails && allSkiTrailsGeometries.length > 0)
-      || (showIceTracks && iceTracksGeometries.length > 0);
+    const hasValidData = (showSkiTrails && filteredSkiTrailsGeometries.length > 0)
+      || (showIceTracks && filteredIceTracksGeometries.length > 0);
     setIsActiveSportsMaintenance(hasValidData);
-  }, [showSkiTrails, showIceTracks, allSkiTrailsGeometries, iceTracksGeometries, setIsActiveSportsMaintenance]);
+  }, [showSkiTrails, showIceTracks, filteredSkiTrailsGeometries, filteredIceTracksGeometries, setIsActiveSportsMaintenance]);
 
   const colorValues = {
     green: 'rgba(15, 115, 6, 255)',
