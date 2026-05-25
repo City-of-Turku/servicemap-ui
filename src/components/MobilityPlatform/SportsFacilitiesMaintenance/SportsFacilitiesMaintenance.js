@@ -414,7 +414,9 @@ const SportsFacilitiesMaintenance = () => {
     const title = getTranslatedUnitName(unit, intl.locale)
       || intl.formatMessage({ id: 'mobilityPlatform.popup.skiTrail.title' });
     const parsed = parseSkiUnitDescription(unit.description);
-    const note = displayableConditionNote(parsed.condition_note);
+    const note = maintenance.maintained_at
+      ? displayableConditionNote(parsed.condition_note)
+      : null;
 
     return (
       <SportsFacilityPopupFrame title={title}>
