@@ -1,4 +1,3 @@
-import AbortController from 'abort-controller';
 import config from '../../../config';
 
 export const hearingMapAPIName = 'hearingmap';

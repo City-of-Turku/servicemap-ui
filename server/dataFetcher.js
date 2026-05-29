@@ -1,4 +1,3 @@
-import AbortController from 'abort-controller';
 import paths from '../config/paths';
 import { eventFetch, selectedUnitFetch, unitEventsFetch, accessibilitySentencesFetch, reservationsFetch, idFetch } from '../src/utils/fetch';
 import { changeSelectedEvent } from '../src/redux/actions/event';

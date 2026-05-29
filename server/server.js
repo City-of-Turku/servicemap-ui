@@ -2,7 +2,6 @@ import { ServerStyleSheets } from '@mui/styles';
 import { CacheProvider } from '@emotion/react';
 import createEmotionServer from '@emotion/server/create-instance';
 import express from 'express';
-import IntlPolyfill from 'intl';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import fetch from 'node-fetch';
 import schedule from 'node-schedule';
@@ -47,13 +46,6 @@ if (sentryDSN) {
 }
 
 const setupTests = () => {
-  if (global.Intl) {
-    Intl.NumberFormat = IntlPolyfill.NumberFormat;
-    Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;
-  } else {
-    global.Intl = IntlPolyfill;
-  }
-
   if (!global.fetch) {
     global.fetch = fetch;
   }
