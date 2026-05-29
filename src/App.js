@@ -26,10 +26,6 @@ import '@formatjs/intl-pluralrules/dist/locale-data/fi';
 import '@formatjs/intl-pluralrules/dist/locale-data/sv';
 import '@formatjs/intl-pluralrules/polyfill';
 
-import '@formatjs/intl-relativetimeformat/dist/locale-data/en';
-import '@formatjs/intl-relativetimeformat/dist/locale-data/fi';
-import '@formatjs/intl-relativetimeformat/dist/locale-data/sv';
-import '@formatjs/intl-relativetimeformat/polyfill';
 import config from '../config';
 import ogImage from './assets/images/servicemap-meta-img.png';
 import ThemeWrapper from './themes/ThemeWrapper';
