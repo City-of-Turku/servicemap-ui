@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 import * as Sentry from '@sentry/react';
-import ac from 'abortcontroller-polyfill';
 import 'core-js/stable';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { CacheProvider } from '@emotion/react';
@@ -32,10 +31,6 @@ if (config.sentryDSN) {
       /adrum/,
     ],
   });
-}
-
-if (!global.AbortController) {
-  global.AbortController = ac.AbortController;
 }
 
 const getPreloadedState = () => {
