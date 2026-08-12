@@ -427,7 +427,7 @@ const translations = {
   'map.open': 'Open Map',
   'map.close': 'Close Map',
   'map.ariaLabel': 'Map. Currently map information is only accessible visually.',
-  'map.attribution.osm': '&copy; <a href="http://osm.org/copyright">OpenStreetMap contributors</a>',
+  'map.attribution.osm': 'Base map &copy; Turun kaupunki, license CC BY 4.0 | &copy; <a href="http://osm.org/copyright">OpenStreetMap contributors</a>',
   'map.attribution.helsinki': '&copy; Cities of Helsinki, Espoo, Vantaa ja Kauniainen',
   'map.transit.endStation': 'Terminus',
   'map.address.coordinate': 'Create a link to the GPS coordinates',

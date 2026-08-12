@@ -430,7 +430,7 @@ const translations = {
   'map.open': 'Avaa Kartta',
   'map.close': 'Sulje Kartta',
   'map.ariaLabel': 'Karttanäkymä. Kartan tietoja voi tarkastella tällä hetkellä vain näönvaraisesti.',
-  'map.attribution.osm': '&copy; <a href="http://osm.org/copyright">OpenStreetMapin tekijät</a>',
+  'map.attribution.osm': 'Pohjakartta &copy; Turun kaupunki, käyttölupa CC BY 4.0 | &copy; <a href="http://osm.org/copyright">OpenStreetMapin tekijät</a>',
   'map.attribution.helsinki': '&copy; Helsingin, Espoon, Vantaan ja Kauniaisen kaupungit',
   'map.transit.endStation': 'Päätepysäkki',
   'map.address.coordinate': 'Tee linkki GPS-koordinaatteihin',

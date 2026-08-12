@@ -431,7 +431,7 @@ const translations = {
   'map.open': 'Öppna Karta',
   'map.close': 'Stäng Karta',
   'map.ariaLabel': 'Kartvy. Kartans uppgifter kan i nuläget granskas endast visuellt.',
-  'map.attribution.osm': '&copy; <a href="http://osm.org/copyright">Upphovsmännen bakom OpenStreetMaps</a>',
+  'map.attribution.osm': 'Baskarta &copy; Åbo stad, användningstillstånd CC BY 4.0 | &copy; <a href="http://osm.org/copyright">Upphovsmännen bakom OpenStreetMaps</a>',
   'map.attribution.helsinki': '&copy; Helsingfors, Esbo, Vanda och Grankulla städer',
   'map.transit.endStation': 'Ändhållplats',
   'map.address.coordinate': 'Skapa en länk till GPS-koordinaterna',
