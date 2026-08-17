@@ -2,16 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import useLocaleText from '../../../../utils/useLocaleText';
 import LinkBasic from '../LinkBasic';
-import List from '../List';
 import Paragraph from '../Paragraph';
 
 const OptionalA11yText = ({ classes, intl }) => {
   const getLocaleText = useLocaleText();
-
-  const unitOptions = [
-    intl.formatMessage({ id: 'info.view.a11y.page.information.units.1' }),
-    intl.formatMessage({ id: 'info.view.a11y.page.information.units.2' }),
-  ];
 
   const auditReportLink = 'https://www.hel.fi/static/liitteet-2019/Helsinki/Saavutettavuusselosteet/Palvelukartta-auditointiraportti.pdf';
 
@@ -34,14 +28,21 @@ const OptionalA11yText = ({ classes, intl }) => {
   };
 
   const feedbackLinks = {
-    fi: 'https://opaskartta.turku.fi/eFeedback/fi/Feedback/87/1048',
-    en: 'https://opaskartta.turku.fi/eFeedback/en/Feedback/87/1048',
-    sv: 'https://opaskartta.turku.fi/eFeedback/sv/Feedback/87/1048',
+    fi: 'https://turku.asiointi.fi/eFeedback/fi/Feedback/48/1118',
+    en: 'https://turku.asiointi.fi/eFeedback/en/Feedback/48/1118',
+    sv: 'https://turku.asiointi.fi/eFeedback/sv/Feedback/48/1118',
+  };
+
+  const digitSupportLinks = {
+    fi: 'https://www.turku.fi/asiointi-ja-yhteystiedot/digituki',
+    en: 'https://www.turku.fi/en/service-channels-and-contact-information/digital-support',
+    sv: 'https://www.turku.fi/sv/kundtjanst-och-kontaktuppgifter/digitalt-stod',
   };
 
   return (
     <div className={classes.container}>
       <Paragraph isTitle translationId="info.view.a11y.page.title" />
+      <Paragraph translationId="info.view.a11y.page.intro" />
       <Paragraph translationId="info.view.a11y.page.info.turku" />
       <LinkBasic linkUrl={getLocaleText(servicemapTurkuLinks)} translationId="info.view.a11y.page.info.turku.url" />
       <Paragraph translationId="info.view.a11y.page.info.helsinki" />
@@ -52,16 +53,20 @@ const OptionalA11yText = ({ classes, intl }) => {
       <Paragraph translationId="info.view.a11y.page.nonAccessible.info" />
       <Paragraph isTitle translationId="info.view.a11y.page.correction.title" />
       <Paragraph translationId="info.view.a11y.page.correction.info" />
+      <Paragraph isTitle translationId="info.view.a11y.page.preparation.title" />
+      <Paragraph translationId="info.view.a11y.page.preparation.prepared" />
+      <Paragraph translationId="info.view.a11y.page.preparation.basis" />
+      <Paragraph translationId="info.view.a11y.page.preparation.updated" />
       <Paragraph isTitle translationId="info.view.a11y.page.information.title" />
       <Paragraph translationId="info.view.a11y.page.information.info" />
       <LinkBasic linkUrl={getLocaleText(serviceDirectoryLinks)} translationId="info.view.turkuServices.link" />
-      <Paragraph translationId="info.view.a11y.page.information.units" />
-      <List input={unitOptions} />
       <Paragraph isTitle translationId="info.view.a11y.page.feedback.title" />
       <Paragraph translationId="info.view.a11y.page.feedback.info" />
       <LinkBasic linkUrl={getLocaleText(feedbackLinks)} translationId="info.view.a11y.page.feedback.link" />
       <Paragraph isTitle translationId="info.view.a11y.page.supervisor.title" />
       <Paragraph translationId="info.view.a11y.page.supervisor.info" />
+      <Paragraph isTitle translationId="info.view.a11y.page.supervisor.contact.title" />
+      <Paragraph translationId="info.view.a11y.page.supervisor.contact.info" />
       <Paragraph isTitle translationId="info.view.a11y.page.work.title" />
       <Paragraph isTitle translationId="info.view.a11y.page.evaluation.title" />
       <Paragraph translationId="info.view.a11y.page.evaluation.info" />
@@ -71,10 +76,9 @@ const OptionalA11yText = ({ classes, intl }) => {
       <Paragraph translationId="info.view.a11y.page.services.info" />
       <Paragraph isTitle translationId="info.view.a11y.page.support.title" />
       <Paragraph translationId="info.view.a11y.page.support.info" />
-      <List input={unitOptions} />
+      <LinkBasic linkUrl={getLocaleText(digitSupportLinks)} translationId="info.view.a11y.page.support.link" />
       <Paragraph isTitle translationId="info.view.a11y.page.statement.update.title" />
       <Paragraph translationId="info.view.a11y.page.statement.update.info" />
-      <Paragraph translationId="info.view.a11y.page.date" />
     </div>
   );
 };
