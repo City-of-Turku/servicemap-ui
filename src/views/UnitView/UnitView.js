@@ -46,6 +46,9 @@ import Util from '../../utils/mapUtility';
 import useMobilityDataFetch from '../../components/MobilityPlatform/utils/useMobilityDataFetch';
 import { useMobilityPlatformContext } from '../../context/MobilityPlatformContext';
 import AccessibilityAreasInfo from './components/AccessibilityAreasInfo';
+import NewTabIndicator from '../../components/NewTabIndicator/NewTabIndicator';
+import { getLocale } from '../../redux/selectors/locale';
+import { getServiceMapFeedbackUrl } from '../../utils/feedbackLink';
 
 const UnitView = props => {
   const {
@@ -77,6 +80,7 @@ const UnitView = props => {
   const [openAcceptSettingsDialog, setOpenAcceptSettingsDialog] = useState(false);
   const [openLinkDialog, setOpenLinkDialog] = useState(false);
   const getLocaleText = useLocaleText();
+  const locale = useSelector(getLocale);
   const dispatch = useDispatch();
 
   // If external theme (by Turku) is true, then can be used to select which content to render
@@ -184,19 +188,21 @@ const UnitView = props => {
     }
   };
 
-  const handleFeedbackClick = () => {
+  const getFeedbackUrl = () => {
     const URLs = config.additionalFeedbackURLs;
     if (unit.municipality === 'espoo') {
-      window.open(URLs.espoo);
-    } else if (unit.municipality === 'vantaa') {
-      window.open(URLs.vantaa);
-    } else if (unit.municipality === 'kauniainen') {
-      window.open(URLs.kauniainen);
-    } else if (unit.municipality === 'kirkkonummi') {
-      window.open(URLs.kirkkonummi);
-    } else {
-      navigator.push('unit', { id: unit.id, type: 'feedback' });
+      return URLs.espoo;
     }
+    if (unit.municipality === 'vantaa') {
+      return URLs.vantaa;
+    }
+    if (unit.municipality === 'kauniainen') {
+      return URLs.kauniainen;
+    }
+    if (unit.municipality === 'kirkkonummi') {
+      return URLs.kirkkonummi;
+    }
+    return getServiceMapFeedbackUrl(locale);
   };
 
   const saveMapPosition = () => {
@@ -211,13 +217,25 @@ const UnitView = props => {
 
   const feedbackButton = () => (
     <SMButton
-      messageID="home.send.feedback"
       icon={<Mail />}
-      onClick={() => handleFeedbackClick()}
       margin
       role="link"
       id="UnitFeedbackButton"
-    />
+      component="a"
+      href={getFeedbackUrl()}
+      target="_blank"
+      rel="noopener noreferrer"
+      sx={theme => ({
+        '&:hover, &:active, &:focus, &:visited': {
+          color: `${theme.palette.white.contrastText} !important`,
+        },
+      })}
+    >
+      <Typography color="inherit" component="span" variant="caption" sx={{ fontSize: '0.875rem' }}>
+        <FormattedMessage id="home.send.feedback" />
+        <NewTabIndicator />
+      </Typography>
+    </SMButton>
   );
 
   useEffect(() => { // On mount

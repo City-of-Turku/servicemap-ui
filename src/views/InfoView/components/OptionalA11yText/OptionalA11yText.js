@@ -1,3 +1,4 @@
+import { Link, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import useLocaleText from '../../../../utils/useLocaleText';
@@ -39,6 +40,23 @@ const OptionalA11yText = ({ classes, intl }) => {
     sv: 'https://www.turku.fi/sv/kundtjanst-och-kontaktuppgifter/digitalt-stod',
   };
 
+  const accessibilityRequirementsLinks = {
+    fi: 'https://www.saavutettavuusvaatimukset.fi',
+    sv: 'https://www.tillganglighetskrav.fi',
+    en: 'https://www.webaccessibility.fi',
+  };
+
+  const supervisorRequirementsLink = (chunks) => (
+    <Link
+      target="_blank"
+      rel="noopener noreferrer"
+      href={getLocaleText(accessibilityRequirementsLinks)}
+      className={classes.link}
+    >
+      {chunks}
+    </Link>
+  );
+
   return (
     <div className={classes.container}>
       <Paragraph isTitle translationId="info.view.a11y.page.title" />
@@ -62,9 +80,20 @@ const OptionalA11yText = ({ classes, intl }) => {
       <LinkBasic linkUrl={getLocaleText(serviceDirectoryLinks)} translationId="info.view.turkuServices.link" />
       <Paragraph isTitle translationId="info.view.a11y.page.feedback.title" />
       <Paragraph translationId="info.view.a11y.page.feedback.info" />
-      <LinkBasic linkUrl={getLocaleText(feedbackLinks)} translationId="info.view.a11y.page.feedback.link" />
+      <LinkBasic
+        linkUrl={getLocaleText(feedbackLinks)}
+        translationId="info.view.a11y.page.feedback.link"
+        indicateNewTab
+      />
       <Paragraph isTitle translationId="info.view.a11y.page.supervisor.title" />
-      <Paragraph translationId="info.view.a11y.page.supervisor.info" />
+      <div className={classes.text}>
+        <Typography component="p" variant="body2">
+          {intl.formatMessage(
+            { id: 'info.view.a11y.page.supervisor.info' },
+            { link: supervisorRequirementsLink },
+          )}
+        </Typography>
+      </div>
       <Paragraph isTitle translationId="info.view.a11y.page.supervisor.contact.title" />
       <Paragraph translationId="info.view.a11y.page.supervisor.contact.info" />
       <Paragraph isTitle translationId="info.view.a11y.page.work.title" />
