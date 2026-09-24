@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useParams } from 'react-router-dom';
+import { getServiceMapFeedbackUrl } from '../../../utils/feedbackLink';
 import SearchView from '../../../views/SearchView';
 import UnitView from '../../../views/UnitView';
 import HomeView from '../../../views/HomeView';
@@ -10,7 +11,6 @@ import AddressView from '../../../views/AddressView';
 import ServiceTreeView from '../../../views/ServiceTreeView';
 import ViewTitle from './ViewTitle';
 import PageHandler from '../PageHandler';
-import FeedbackView from '../../../views/FeedbackView';
 import DivisionView from '../../../views/DivisionView';
 import InfoView from '../../../views/InfoView';
 import ExtendedData from '../../../views/UnitView/components/ExtendedData';
@@ -100,13 +100,16 @@ const UnitReservations = () => (
     </PageWrapper>
   </TitleWrapper>
 );
-const UnitFeedback = () => (
-  <TitleWrapper messageId="general.pageTitles.feedback">
-    <PageWrapper headMsgId="general.pageTitles.feedback" page="unit">
-      <FeedbackView />
-    </PageWrapper>
-  </TitleWrapper>
-);
+// The in-app feedback form is retired. Old addresses leave the app for Turku's feedback service.
+const ExternalFeedbackRedirect = () => {
+  const { lng } = useParams();
+
+  useEffect(() => {
+    window.location.replace(getServiceMapFeedbackUrl(lng));
+  }, [lng]);
+
+  return null;
+};
 
 const Service = () => (
   <TitleWrapper messageId="general.pageTitles.service">
@@ -148,14 +151,6 @@ const Info = () => (
   </TitleWrapper>
 );
 
-const Feedback = () => (
-  <TitleWrapper messageId="general.pageTitles.feedback">
-    <PageWrapper headMsgId="general.pageTitles.feedback" page="feedback">
-      <FeedbackView />
-    </PageWrapper>
-  </TitleWrapper>
-);
-
 const Area = () => (
   <TitleWrapper messageId="general.pageTitles.area">
     <PageWrapper headMsgId="general.pageTitles.area" page="area">
@@ -182,7 +177,7 @@ class ViewRouter extends React.Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/:lng/unit/:unit/feedback" component={UnitFeedback} />
+        <Route exact path="/:lng/unit/:unit/feedback" component={ExternalFeedbackRedirect} />
         <Route exact path="/:lng/unit/:unit/events" component={UnitEvents} />
         <Route exact path="/:lng/unit/:unit/reservations" component={UnitReservations} />
         <Route exact path="/:lng/unit/:unit/services" component={UnitServices} />
@@ -193,7 +188,7 @@ class ViewRouter extends React.Component {
         <Route path="/:lng/service/:service" component={Service} />
         <Route path="/:lng/event/:event" component={Event} />
         <Route path="/:lng/address/:municipality/:street" component={Address} />
-        <Route exact path="/:lng/feedback/" component={Feedback} />
+        <Route exact path={['/:lng/feedback', '/:lng/feedback/']} component={ExternalFeedbackRedirect} />
         <Route exact path="/:lng/area/" component={Area} />
         <Route
           path="/:lng/division/:city?/:area?"

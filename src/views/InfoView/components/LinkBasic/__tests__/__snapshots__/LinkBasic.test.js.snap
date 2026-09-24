@@ -8,13 +8,14 @@ exports[`<LinkBasic /> should work 1`] = `
     <a
       class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-11g60ih-MuiTypography-root-MuiLink-root"
       href="https://www.turku.fi/feedback"
+      rel="noopener noreferrer"
       target="_blank"
     >
       <p
-        aria-label="www.turku.fi/palaute (linkki avautuu uudelle välilehdelle)."
+        aria-label="Anna palautetta"
         class="MuiTypography-root MuiTypography-body2 LinkBasic-link-2 css-1ak20dk-MuiTypography-root"
       >
-        www.turku.fi/palaute (linkki avautuu uudelle välilehdelle).
+        Anna palautetta
       </p>
     </a>
   </div>

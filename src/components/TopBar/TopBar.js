@@ -23,6 +23,8 @@ import MobileNavButton from './MobileNavButton/MobileNavButton';
 import LanguageMenuComponent from './LanguageMenu/LanguageMenuComponent';
 import openA11yLink from './util';
 import config from '../../../config';
+import NewTabIndicator from '../NewTabIndicator/NewTabIndicator';
+import { getServiceMapFeedbackUrl } from '../../utils/feedbackLink';
 
 const TopBar = (props) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -128,10 +130,6 @@ const TopBar = (props) => {
         navigator.push('area');
         break;
 
-      case 'feedback':
-        navigator.push('feedback');
-        break;
-
       case 'info':
         navigator.push('info');
         break;
@@ -173,6 +171,29 @@ const TopBar = (props) => {
       </ButtonBase>
     );
 
+    const feedbackLink = (linkId) => (
+      <ButtonBase
+        component="a"
+        href={getServiceMapFeedbackUrl(locale)}
+        target="_blank"
+        rel="noopener noreferrer"
+        sx={{
+          ml: 3,
+          color: 'inherit',
+          textDecoration: 'none',
+          '&:hover, &:active, &:focus, &:visited': {
+            color: 'inherit !important',
+          },
+        }}
+        id={linkId}
+      >
+        <Typography component="span">
+          <FormattedMessage id="home.send.feedback" />
+          <NewTabIndicator />
+        </Typography>
+      </ButtonBase>
+    );
+
     const navigationButton = (textId, onClick, isCurrent, buttonId) => (
       <ButtonBase onClick={onClick} aria-current={isCurrent} className={classes.navigationButton} id={buttonId}>
         <Typography sx={{ color: '#000', fontSize: '1.125rem', fontWeight: 600 }}>
@@ -197,7 +218,7 @@ const TopBar = (props) => {
                       <>
                         {isA11yUrl ? topBarLink('info.statement', () => openA11yLink(locale), false, undefined, 'AccessibilityStatementLink') : null}
                         {topBarLink('general.pageTitles.info', () => handleNavigation('info'), currentPage === 'info', undefined, 'PageInfoLink')}
-                        {topBarLink('home.send.feedback', () => handleNavigation('feedback'), currentPage === 'feedback', undefined, 'FeedbackLink')}
+                        {feedbackLink('FeedbackLink')}
                       </>
                     )
                     : null}
