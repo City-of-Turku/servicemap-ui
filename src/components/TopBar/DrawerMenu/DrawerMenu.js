@@ -12,6 +12,8 @@ import { changeTheme } from '../../../redux/actions/user';
 import openA11yLink from '../util';
 import { getLocale } from '../../../redux/selectors/locale';
 import config from '../../../../config';
+import NewTabIndicator from '../../NewTabIndicator/NewTabIndicator';
+import { getServiceMapFeedbackUrl } from '../../../utils/feedbackLink';
 
 const DrawerMenu = (props) => {
   const {
@@ -40,6 +42,33 @@ const DrawerMenu = (props) => {
         </Typography>
       </StyledTextContainer>
       <ArrowForward sx={{ fontSize: '2.5rem', ml: 'auto' }} />
+    </StyledButtonBase>
+  );
+
+  const menuExternalLink = (headerId, href, buttonId) => (
+    <StyledButtonBase
+      id={buttonId}
+      component="a"
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      sx={{
+        backgroundColor: 'rgba(167, 200, 232, 0.15)',
+        color: 'inherit',
+        textDecoration: 'none',
+        width: '100%',
+        '&:hover, &:active, &:focus, &:visited': {
+          color: 'inherit !important',
+        },
+      }}
+      onClick={() => toggleDrawerMenu()}
+    >
+      <StyledTextContainer>
+        <StyledTitle component="span">
+          <FormattedMessage id={headerId} />
+          <NewTabIndicator />
+        </StyledTitle>
+      </StyledTextContainer>
     </StyledButtonBase>
   );
 
@@ -118,7 +147,7 @@ const DrawerMenu = (props) => {
           )
           : null}
         <Divider />
-        {menuSecondaryButton('home.send.feedback', 'feedback', null, true, 'FeedbackButton')}
+        {menuExternalLink('home.send.feedback', getServiceMapFeedbackUrl(locale), 'FeedbackButton')}
         <Divider />
         {menuSecondaryButton('general.pageTitles.info', 'info', null, true, 'PageInfoButton')}
       </div>

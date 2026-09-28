@@ -5,6 +5,7 @@ import InfoList from '../InfoList';
 import unitSectionFilter from '../../utils/unitSectionFilter';
 import useLocaleText from '../../../../utils/useLocaleText';
 import config from '../../../../../config';
+import { serviceMapFeedbackUrls } from '../../../../utils/feedbackLink';
 
 const UnitLinks = ({ unit }) => {
   const getLocaleText = useLocaleText();
@@ -15,7 +16,10 @@ const UnitLinks = ({ unit }) => {
 
   // Filter out duplicate feedback links, since we already have feedback button
   const filteredData = data.filter((link) => {
-    const feedbackUrls = Object.values(config.additionalFeedbackURLs);
+    const feedbackUrls = [
+      ...Object.values(config.additionalFeedbackURLs),
+      ...Object.values(serviceMapFeedbackUrls),
+    ];
     if (link.value?.www && feedbackUrls.includes(getLocaleText(link.value.www))) {
       return false;
     }

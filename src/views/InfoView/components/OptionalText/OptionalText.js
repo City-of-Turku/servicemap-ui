@@ -1,6 +1,7 @@
 import { ButtonBase, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { serviceMapFeedbackUrls } from '../../../../utils/feedbackLink';
 import useLocaleText from '../../../../utils/useLocaleText';
 import LinkBasic from '../LinkBasic';
 import List from '../List';
@@ -47,12 +48,6 @@ const OptionalText = ({ classes, intl }) => {
     fi: 'https://www.turku.fi/palveluhakemisto',
     en: 'https://www.turku.fi/en/service-directory',
     sv: 'https://www.turku.fi/sv/service-directory',
-  };
-
-  const feedbackLinks = {
-    fi: 'https://www.turku.fi/palaute',
-    en: 'https://www.turku.fi/feedback',
-    sv: 'https://www.turku.fi/feedbacktjansten',
   };
 
   const renderNestedList = () => (
@@ -140,7 +135,11 @@ const OptionalText = ({ classes, intl }) => {
       <List input={mapOptions} />
       <Paragraph isTitle translationId="info.view.feedbackInfoTitle" />
       <Paragraph translationId="info.view.feedbackInfo" />
-      <LinkBasic linkUrl={getLocaleText(feedbackLinks)} translationId="info.view.feedback.link" />
+      <LinkBasic
+        linkUrl={getLocaleText(serviceMapFeedbackUrls)}
+        translationId="info.view.feedback.link"
+        indicateNewTab
+      />
       <Paragraph isTitle translationId="info.view.copyrightInfoTitle" />
       <Paragraph translationId="info.view.copyrightInfo" />
       <LinkBasic linkUrl={appLink} translationId="info.view.repository.app" />
