@@ -1,4 +1,5 @@
 import config from '../../../config';
+import fetchAllPages from '../../utils/fetchAllPages';
 import { alertErrors, alertNews } from './fetchDataActions';
 
 // Thunk fetch
@@ -9,9 +10,8 @@ export const fetchNews = () => async (dispatch) => {
   } = alertNews;
 
   dispatch(isFetching());
-  fetch(`${config.serviceMapAPI.root}${config.serviceMapAPI.version}/announcement/`)
-    .then(res => res.json())
-    .then(data => dispatch(fetchSuccess(data.results)))
+  fetchAllPages(`${config.serviceMapAPI.root}${config.serviceMapAPI.version}/announcement/`)
+    .then(results => dispatch(fetchSuccess(results)))
     .catch((e) => {
       dispatch(fetchError(e.message));
       console.warn('Error fetching news data:', e);
@@ -27,9 +27,8 @@ export const fetchErrors = () => async (dispatch) => {
   } = alertErrors;
 
   dispatch(isFetching());
-  fetch(`${config.serviceMapAPI.root}${config.serviceMapAPI.version}/error_message/`)
-    .then(res => res.json())
-    .then(data => dispatch(fetchSuccess(data.results)))
+  fetchAllPages(`${config.serviceMapAPI.root}${config.serviceMapAPI.version}/error_message/`)
+    .then(results => dispatch(fetchSuccess(results)))
     .catch((e) => {
       dispatch(fetchError(e.message));
       console.warn('Error fetching news data:', e);

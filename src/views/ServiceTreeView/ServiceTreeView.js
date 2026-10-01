@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import config from '../../../config';
+import fetchAllPages from '../../utils/fetchAllPages';
 import useLocaleText from '../../utils/useLocaleText';
 import { SMAccordion, SMButton, TitleBar } from '../../components';
 import useMobileStatus from '../../utils/isMobile';
@@ -54,9 +55,7 @@ const ServiceTreeView = (props) => {
 
   const fetchRootNodes = () => (
     // Fetch all top level 0 nodes (root nodes)
-    fetch(`${config.serviceMapAPI.root}${config.serviceMapAPI.version}/service_node/?level=0&page=1&page_size=100`)
-      .then((response) => response.json())
-      .then((data) => data.results)
+    fetchAllPages(`${config.serviceMapAPI.root}${config.serviceMapAPI.version}/service_node/?level=0&page=1&page_size=100`)
   );
 
   const setInitialServices = () => {
@@ -67,14 +66,13 @@ const ServiceTreeView = (props) => {
 
   const fetchChildServices = async (service) => {
     // Fetch and set to state the child nodes of the opened node
-    fetch(`${config.serviceMapAPI.root}${config.serviceMapAPI.version}/service_node/?parent=${service}&page=1&page_size=1000`)
-      .then((response) => response.json())
-      .then((data) => {
-        setServices([...services, ...data.results]);
+    fetchAllPages(`${config.serviceMapAPI.root}${config.serviceMapAPI.version}/service_node/?parent=${service}&page=1&page_size=1000`)
+      .then((results) => {
+        setServices([...services, ...results]);
         // Expand the opened parent node once the child nodes have been fetched
         setOpened([...opened, service]);
         if (selected.find((e) => e.id === service)) {
-          setSelected([...selected, ...data.results]);
+          setSelected([...selected, ...results]);
         }
       });
   };

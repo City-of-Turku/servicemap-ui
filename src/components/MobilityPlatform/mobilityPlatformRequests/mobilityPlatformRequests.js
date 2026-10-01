@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 // Functions to make requests to the API
 import config from '../../../../config';
+import fetchAllPages from '../../../utils/fetchAllPages';
 
 const apiUrl = config.mobilityPlatformAPI;
 const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
@@ -41,9 +42,8 @@ const optionsToParams = options => {
 const fetchMobilityMapData = async (options, setData, signal) => {
   const params = optionsToParams(options);
   try {
-    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?${params}`, { signal });
-    const jsonData = await response.json();
-    setData(jsonData.results);
+    const results = await fetchAllPages(`${isApiUrl}/mobility_data/mobile_units?${params}`, signal);
+    setData(results);
   } catch (err) {
     console.warn(err.message);
   }
@@ -51,9 +51,8 @@ const fetchMobilityMapData = async (options, setData, signal) => {
 
 const fetchCultureRouteNames = async (setData, signal) => {
   try {
-    const response = await fetch(`${isApiUrl}/mobility_data/mobile_unit_groups/`, { signal });
-    const jsonData = await response.json();
-    setData(jsonData.results);
+    const results = await fetchAllPages(`${isApiUrl}/mobility_data/mobile_unit_groups/`, signal);
+    setData(results);
   } catch (err) {
     console.warn(err.message);
   }
@@ -61,9 +60,8 @@ const fetchCultureRouteNames = async (setData, signal) => {
 
 const fetchBicycleRouteNames = async (setData, signal) => {
   try {
-    const response = await fetch(`${isApiUrl}/bicycle_network/bicycle_networks/`, { signal });
-    const jsonData = await response.json();
-    setData(jsonData.results);
+    const results = await fetchAllPages(`${isApiUrl}/bicycle_network/bicycle_networks/`, signal);
+    setData(results);
   } catch (err) {
     console.warn(err.message);
   }
@@ -71,11 +69,8 @@ const fetchBicycleRouteNames = async (setData, signal) => {
 
 const fetchBicycleRoutesGeometry = async (setData, signal) => {
   try {
-    const response = await fetch(`${isApiUrl}/bicycle_network/bicycle_networkparts/?page_size=1000&latlon=true`, {
-      signal,
-    });
-    const jsonData = await response.json();
-    setData(jsonData.results);
+    const results = await fetchAllPages(`${isApiUrl}/bicycle_network/bicycle_networkparts/?page_size=1000&latlon=true`, signal);
+    setData(results);
   } catch (err) {
     console.warn(err.message);
   }
@@ -93,9 +88,8 @@ const fetchIotData = async (sourceName, setData, signal) => {
 
 const fetchStreetMaintenanceData = async (endpoint, setData) => {
   try {
-    const response = await fetch(`${isApiUrl}/street_maintenance/${endpoint}`);
-    const jsonData = await response.json();
-    setData(jsonData.results);
+    const results = await fetchAllPages(`${isApiUrl}/street_maintenance/${endpoint}`);
+    setData(results);
   } catch (err) {
     console.warn(err.message);
   }
@@ -114,9 +108,8 @@ const fetchAreaGeometries = async (endpoint, setData, setError, signal) => {
 
 const fetchParkingAreaStats = async (endpoint, setData, setError, signal) => {
   try {
-    const response = await fetch(endpoint, { signal });
-    const jsonData = await response.json();
-    setData(jsonData.results);
+    const results = await fetchAllPages(endpoint, signal);
+    setData(results);
   } catch (err) {
     setError(true);
     console.warn(err.message);
@@ -136,9 +129,8 @@ const fetchRailwaysData = async (endpoint, setData, signal) => {
 const fetchRoadworksData = async (options, setData, signal) => {
   const params = optionsToParams(options);
   try {
-    const response = await fetch(`${isRoadworksApiUrl}/situation/?${params}`, { signal });
-    const jsonData = await response.json();
-    setData(jsonData.results);
+    const results = await fetchAllPages(`${isRoadworksApiUrl}/situation/?${params}`, signal);
+    setData(results);
   } catch (err) {
     console.warn(err.message);
   }
@@ -146,12 +138,11 @@ const fetchRoadworksData = async (options, setData, signal) => {
 
 const fetchPostCodeAreas = async (setData, signal) => {
   try {
-    const response = await fetch(
+    const results = await fetchAllPages(
       `${isServiceMapApiUrl}/administrative_division/?type=postcode_area&geometry=true&page_size=100`,
-      { signal },
+      signal,
     );
-    const jsonData = await response.json();
-    setData(jsonData.results);
+    setData(results);
   } catch (err) {
     console.warn(err.message);
   }
@@ -170,9 +161,8 @@ const fetchPortNetData = async (endpoint, setData, isPortCalls, signal) => {
 const fetchUnitMaintenanceData = async (options, setData, signal) => {
   const params = optionsToParams(options);
   try {
-    const response = await fetch(`${isApiUrl}/maintenance/unit_maintenance/?${params}`, { signal });
-    const jsonData = await response.json();
-    setData(jsonData.results);
+    const results = await fetchAllPages(`${isApiUrl}/maintenance/unit_maintenance/?${params}`, signal);
+    setData(results);
   } catch (err) {
     console.warn(err.message);
   }

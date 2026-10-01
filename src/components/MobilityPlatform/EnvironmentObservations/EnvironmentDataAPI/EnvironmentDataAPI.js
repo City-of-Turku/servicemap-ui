@@ -1,4 +1,5 @@
 import config from '../../../../../config';
+import fetchAllPages from '../../../../utils/fetchAllPages';
 
 const apiUrl = config.airMonitoringAPI;
 const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
@@ -25,9 +26,8 @@ const optionsToParams = options => {
  */
 const fetchObservationStations = async (type, setStations) => {
   try {
-    const response = await fetch(`${isApiUrl}/stations?data_type=${type}&page_size=20`);
-    const jsonData = await response.json();
-    setStations(jsonData.results);
+    const results = await fetchAllPages(`${isApiUrl}/stations?data_type=${type}&page_size=20`);
+    setStations(results);
   } catch (err) {
     console.warn(err.message);
   }
@@ -39,9 +39,8 @@ const fetchObservationStations = async (type, setStations) => {
  */
 const fetchObservationParameters = async setData => {
   try {
-    const response = await fetch(`${isApiUrl}/parameters?page_size=10`);
-    const jsonData = await response.json();
-    setData(jsonData.results);
+    const results = await fetchAllPages(`${isApiUrl}/parameters?page_size=10`);
+    setData(results);
   } catch (err) {
     console.warn(err.message);
   }
@@ -55,11 +54,8 @@ const fetchObservationParameters = async setData => {
 const fetchObservationDatas = async (options, setData) => {
   const params = optionsToParams(options);
   try {
-    const response = await fetch(
-      `${isApiUrl}/data?${params}`,
-    );
-    const jsonData = await response.json();
-    setData(jsonData.results);
+    const results = await fetchAllPages(`${isApiUrl}/data?${params}`);
+    setData(results);
   } catch (err) {
     console.warn(err.message);
   }

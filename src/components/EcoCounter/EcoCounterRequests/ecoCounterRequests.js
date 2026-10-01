@@ -2,6 +2,7 @@
 // Functions to make requests to ecouCounter API
 
 import config from '../../../../config';
+import fetchAllPages from '../../../utils/fetchAllPages';
 
 const apiUrl = config.mobilityPlatformAPI;
 const isApiUrl = !apiUrl || apiUrl === 'undefined' ? null : apiUrl;
@@ -15,9 +16,8 @@ const TRAFFIC_COUNTER_DATA_TYPES = {
 /** fetch counter stations by counter type, eg. 'TR' (Telraam). */
 const fetchTrafficCounterStations = async (type, setStations) => {
   try {
-    const response = await fetch(`${isApiUrl}/eco-counter/stations?page_size=200&counter_type=${type}`);
-    const jsonData = await response.json();
-    setStations(jsonData.results);
+    const results = await fetchAllPages(`${isApiUrl}/eco-counter/stations?page_size=200&counter_type=${type}`);
+    setStations(results);
   } catch (err) {
     console.warn(err.message);
   }
@@ -26,9 +26,8 @@ const fetchTrafficCounterStations = async (type, setStations) => {
 /** Fetch traffic counter stations by user type, eg. 'p' (cyclists / pyöräilijät). */
 const fetchTrafficCounterStationsByType = async (dataType, setStations) => {
   try {
-    const response = await fetch(`${isApiUrl}/eco-counter/stations?page_size=200&data_type=${dataType}`);
-    const jsonData = await response.json();
-    setStations(jsonData.results);
+    const results = await fetchAllPages(`${isApiUrl}/eco-counter/stations?page_size=200&data_type=${dataType}`);
+    setStations(results);
   } catch (err) {
     console.warn(err.message);
   }
