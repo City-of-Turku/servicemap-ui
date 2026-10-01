@@ -47,8 +47,10 @@ const fetchAdministrativeDistricts = async (lnglat) => {
     geometry: true,
     unit_include: 'name,root_service_nodes,location,street_address,accessibility_shortcoming_count,municipality,address_zip',
   };
-  const districtData = await districtFetch(options);
-  const data = districtData.results.reduce((result, item) => {
+  // Pass a no-op onNext to force following all result pages ("next" links),
+  // otherwise only the first page (page_size) of districts would be returned.
+  const districtData = await districtFetch(options, null, null, null, () => {});
+  const data = districtData.reduce((result, item) => {
     const newItem = item;
     const { unit } = newItem;
     if (unit) {
