@@ -39,11 +39,25 @@ const optionsToParams = options => {
   return params.toString();
 };
 
+/**
+ * Some mobile unit entries from the API can have missing/invalid geometry
+ * (e.g. geometry_coords is an empty string or lat/lon are missing), which
+ * crashes Leaflet markers with "Invalid LatLng object". Filter those out.
+ * @param {Array} results
+ * @returns {Array}
+ */
+const filterValidGeometry = results => (results || []).filter(item => (
+  item?.geometry_coords
+  && typeof item.geometry_coords.lat === 'number'
+  && typeof item.geometry_coords.lon === 'number'
+));
+
 const fetchMobilityMapData = async (options, setData, signal) => {
   const params = optionsToParams(options);
   try {
-    const results = await fetchAllPages(`${isApiUrl}/mobility_data/mobile_units?${params}`, signal);
-    setData(results);
+    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?${params}`, { signal });
+    const jsonData = await response.json();
+    setData(filterValidGeometry(jsonData.results));
   } catch (err) {
     console.warn(err.message);
   }
