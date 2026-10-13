@@ -7,12 +7,11 @@ const fetchDivisionDistrict = async (ocdID) => {
     page: 1,
     geometry: true,
   };
-  const districtData = await districtFetch(options);
+  // Pass a no-op onNext to force following all result pages ("next" links),
+  // otherwise only the first page of districts would be returned.
+  const districts = await districtFetch(options, null, null, null, () => {});
 
-  const { results } = districtData;
-  const districts = results || null;
-
-  const data = districts.reduce((result, item) => {
+  const data = (districts || []).reduce((result, item) => {
     result.push(item);
     return result;
   }, []);

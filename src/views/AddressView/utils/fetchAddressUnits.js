@@ -11,8 +11,10 @@ const fetchAddressUnits = async (lnglat) => {
     page_size: 500,
   };
 
-  const unitData = await unitsFetch(options);
-  return unitData;
+  // Pass a no-op onNext to force following all result pages ("next" links),
+  // otherwise only the first page (page_size) of units would be returned.
+  const units = await unitsFetch(options, null, null, null, () => {});
+  return units;
 };
 
 export default fetchAddressUnits;

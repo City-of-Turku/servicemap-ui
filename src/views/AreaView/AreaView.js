@@ -105,11 +105,13 @@ const AreaView = ({
       geometry: true,
       unit_include: 'name,location',
     };
-    await districtFetch(options)
-      .then(data => {
+    // Pass a no-op onNext to force following all result pages ("next" links),
+    // otherwise only the first page (page_size) of districts would be returned.
+    await districtFetch(options, null, null, null, () => {})
+      .then(districts => {
         setDistrictAddressData({
           address: selectedAddress,
-          districts: data.results,
+          districts,
         });
       });
   };
