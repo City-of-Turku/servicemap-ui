@@ -99,12 +99,11 @@ const AddressView = (props) => {
 
   const fetchUnits = (lnglat) => {
     fetchAddressUnits(lnglat)
-      .then((data) => {
-        const units = data.results;
+      .then((units) => {
         units.forEach((unit) => {
           unit.object_type = 'unit';
         });
-        setAddressUnits(data.results);
+        setAddressUnits(units);
       });
   };
 
