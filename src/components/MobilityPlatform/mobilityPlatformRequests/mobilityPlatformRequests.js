@@ -39,25 +39,33 @@ const optionsToParams = options => {
   return params.toString();
 };
 
+const isValidLatLon = (lat, lon) => Number.isFinite(lat) && Number.isFinite(lon) && Math.abs(lat) <= 90 && Math.abs(lon) <= 180;
+
+// Points are { lat, lon } objects or [a, b] number pairs, lines and polygons are (nested) non-empty arrays of points
+const isValidCoords = coords => {
+  if (!coords || typeof coords !== 'object') return false;
+  if (!Array.isArray(coords)) return isValidLatLon(coords.lat, coords.lon);
+  if (coords.length === 0) return false;
+  if (typeof coords[0] === 'number') {
+    return coords.length >= 2 && coords.every(value => Number.isFinite(value) && Math.abs(value) <= 180);
+  }
+  return coords.every(isValidCoords);
+};
+
 /**
  * Some mobile unit entries from the API can have missing/invalid geometry
- * (e.g. geometry_coords is an empty string or lat/lon are missing), which
+ * (e.g. geometry_coords is an empty string, an empty array, contains non-finite values or lat/lon are missing), which
  * crashes Leaflet markers with "Invalid LatLng object". Filter those out.
  * @param {Array} results
  * @returns {Array}
  */
-const filterValidGeometry = results => (results || []).filter(item => (
-  item?.geometry_coords
-  && typeof item.geometry_coords.lat === 'number'
-  && typeof item.geometry_coords.lon === 'number'
-));
+const filterValidGeometry = results => (results || []).filter(item => isValidCoords(item?.geometry_coords));
 
 const fetchMobilityMapData = async (options, setData, signal) => {
   const params = optionsToParams(options);
   try {
-    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units?${params}`, { signal });
-    const jsonData = await response.json();
-    setData(filterValidGeometry(jsonData.results));
+    const results = await fetchAllPages(`${isApiUrl}/mobility_data/mobile_units?${params}`, signal);
+    setData(filterValidGeometry(results));
   } catch (err) {
     console.warn(err.message);
   }
