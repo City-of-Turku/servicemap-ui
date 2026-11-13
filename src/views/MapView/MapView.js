@@ -3,7 +3,7 @@ import { ButtonBase } from '@mui/material';
 import { LocationDisabled, MyLocation } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { useMapEvents } from 'react-leaflet';
+import { useMap, useMapEvents } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Loading from '../../components/Loading';
@@ -63,12 +63,21 @@ const EmbeddedActions = () => {
 
 // Replace Leaflet's English 'Close popup' label on the default popup close button
 const PopupCloseButtonLabel = ({ label }) => {
-  useMapEvents({
-    popupopen(e) {
-      const closeButton = e.popup.getElement()?.querySelector('.leaflet-popup-close-button');
-      if (closeButton) closeButton.setAttribute('aria-label', label);
-    },
-  });
+  const map = useMap();
+
+  useEffect(() => {
+    const setLabel = (element) => {
+      element?.querySelectorAll('.leaflet-popup-close-button').forEach((closeButton) => {
+        closeButton.setAttribute('aria-label', label);
+      });
+    };
+    const onPopupOpen = e => setLabel(e.popup.getElement());
+
+    // Label popups opened before this effect ran, and update open popups when language changes
+    setLabel(map.getContainer());
+    map.on('popupopen', onPopupOpen);
+    return () => map.off('popupopen', onPopupOpen);
+  }, [map, label]);
 
   return null;
 };
@@ -273,7 +282,6 @@ const MapView = (props) => {
     return (
       <>
         <MapContainer
-          tap={false} // This should fix leaflet safari double click bug
           preferCanvas
           className={`${classes.map} ${embedded ? classes.mapNoSidebar : ''} `}
           key={mapObject.options.name}
