@@ -257,11 +257,11 @@ const EmbedLayout = ({ intl }) => {
             />
           </Switch>
         </div>
-        <Typography style={visuallyHidden}>{intl.formatMessage({ id: 'map.ariaLabel' })}</Typography>
         {selectedUnitData ? renderEmbeddedUnitInfo() : null}
-        <div aria-hidden tabIndex="-1" style={styles.map}>
+        <section aria-label={intl.formatMessage({ id: 'map' })} style={styles.map}>
+          <Typography style={visuallyHidden}>{intl.formatMessage({ id: 'map.ariaLabel' })}</Typography>
           <MapView />
-        </div>
+        </section>
       </div>
     </>
   );
