@@ -39,8 +39,11 @@ import { getStatisticalDistrictUnitsState } from '../../redux/selectors/statisti
 import SimpleStatisticalComponent from './components/StatisticalDataMapInfo';
 
 if (global.window) {
-  require('leaflet');
+  const L = require('leaflet');
   require('leaflet.markercluster');
+  // Leaflet 1.9 defaults marker alt to 'Marker', which screen readers announce for every marker.
+  // Keep icons decorative by default; markers that need a name pass their own label.
+  L.Marker.mergeOptions({ alt: '' });
   global.rL = require('react-leaflet');
 }
 
@@ -56,6 +59,22 @@ const EmbeddedActions = () => {
   });
 
   return null;
+};
+
+// Replace Leaflet's English 'Close popup' label on the default popup close button
+const PopupCloseButtonLabel = ({ label }) => {
+  useMapEvents({
+    popupopen(e) {
+      const closeButton = e.popup.getElement()?.querySelector('.leaflet-popup-close-button');
+      if (closeButton) closeButton.setAttribute('aria-label', label);
+    },
+  });
+
+  return null;
+};
+
+PopupCloseButtonLabel.propTypes = {
+  label: PropTypes.string.isRequired,
 };
 
 const MapView = (props) => {
@@ -380,6 +399,7 @@ const MapView = (props) => {
             : null}
           <CoordinateMarker position={getCoordinatesFromUrl()} />
           <EmbeddedActions />
+          <PopupCloseButtonLabel label={intl.formatMessage({ id: 'general.close' })} />
           <MobilityPlatformMapView mapObject={mapObject} />
         </MapContainer>
       </>
