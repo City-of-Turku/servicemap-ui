@@ -6,7 +6,9 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import { useMap } from 'react-leaflet';
 import { drawMarkerIcon } from '../../utils/drawIcon';
 import { isEmbed } from '../../../../utils/path';
-import { createMarkerClusterLayer, createTooltipContent, createPopupContent } from './clusterUtils';
+import {
+  createMarkerClusterLayer, createTooltipContent, createPopupContent, UNIT_MARKER_SELECTOR,
+} from './clusterUtils';
 import { mapTypes } from '../../config/mapConfig';
 import { keyboardHandler } from '../../../../utils';
 import UnitHelper from '../../../../utils/unitHelper';
@@ -430,13 +432,17 @@ const MarkerCluster = ({
     cluster.addLayers(markers);
 
 
-    // Hide all markers from screen readers
-    document.querySelectorAll('.leaflet-marker-icon').forEach((item) => {
+    // Hide unit markers from screen readers
+    document.querySelectorAll(UNIT_MARKER_SELECTOR).forEach((item) => {
       item.setAttribute('tabindex', '-1');
       item.setAttribute('aria-hidden', 'true');
-      // Remove marker interaction when using measuring tool or if interactions are disabled
-      if (measuringMode || disableInteraction) item.classList.remove('leaflet-interactive');
     });
+    // Remove marker interaction when using measuring tool or if interactions are disabled
+    if (measuringMode || disableInteraction) {
+      document.querySelectorAll('.leaflet-marker-icon').forEach((item) => {
+        item.classList.remove('leaflet-interactive');
+      });
+    }
   }, [cluster, data, isMobile, measuringMode]);
 
   const removeMarkerInteraction = useCallback(() => {

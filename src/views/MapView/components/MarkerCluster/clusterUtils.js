@@ -5,6 +5,10 @@ import { getAddressFromUnit } from '../../../../utils/address';
 import formatEventDate from '../../../../utils/events';
 import { isEmbed } from '../../../../utils/path';
 
+// Unit, entrance and cluster markers are reached via the result list, so only they are hidden.
+// Other map markers (e.g. mobility platform layers) must stay focusable and visible to screen readers.
+export const UNIT_MARKER_SELECTOR = '.unitMarker, .unitClusterMarker, .entranceMarker';
+
 export const createMarkerClusterLayer = (
   createClusterCustomIcon,
   clusterMouseover,
@@ -40,7 +44,7 @@ export const createMarkerClusterLayer = (
   clusterLayer.on('animationend', (a) => {
     if (clusterAnimationend) clusterAnimationend(a);
 
-    document.querySelectorAll('.leaflet-marker-icon').forEach((item) => {
+    document.querySelectorAll(UNIT_MARKER_SELECTOR).forEach((item) => {
       item.setAttribute('tabindex', '-1');
       item.setAttribute('aria-hidden', 'true');
     });
