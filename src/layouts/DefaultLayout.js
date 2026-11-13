@@ -184,18 +184,18 @@ const DefaultLayout = (props) => {
                   <ViewRouter />
                 </div>
               </main>
-              <Typography style={visuallyHidden}>{intl.formatMessage({ id: 'map.ariaLabel' })}</Typography>
-              <div
-                aria-hidden
-                tabIndex={-1}
+              <section
+                aria-label={intl.formatMessage({ id: 'map' })}
+                aria-hidden={!!settingsToggled}
                 style={styles.map}
               >
+                <Typography style={visuallyHidden}>{intl.formatMessage({ id: 'map.ariaLabel' })}</Typography>
                 <MapView
                   sidebarHidden={sidebarHidden}
                   toggleSidebar={toggleSidebar}
                   isMobile={!!isMobile}
                 />
-              </div>
+              </section>
             </div>
 
             {isMobile ? (
