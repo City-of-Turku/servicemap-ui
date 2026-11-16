@@ -13,6 +13,7 @@ import swapCoordinates from '../../utils/swapCoordinates';
 import AddressMarker from '../AddressMarker';
 import UnitHelper from '../../../../utils/unitHelper';
 import ParkingAreas from './ParkingAreas';
+import AccessibleMarker from '../../../../components/AccessibleMarker';
 
 
 const Districts = ({
@@ -82,9 +83,11 @@ const Districts = ({
 
     const renderMarker = unit => (
       unit.location ? (
-        <Marker
+        <AccessibleMarker
           customUnitData={unit}
           key={unit.id}
+          typeId="unit"
+          name={unit.name}
           position={[
             unit.location.coordinates[1],
             unit.location.coordinates[0],
@@ -114,7 +117,7 @@ const Districts = ({
               {getLocaleText(unit.name)}
             </Typography>
           </Tooltip>
-        </Marker>
+        </AccessibleMarker>
       ) : null
     );
 

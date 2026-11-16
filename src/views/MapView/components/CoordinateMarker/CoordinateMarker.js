@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useSelector } from 'react-redux';
 import { getIcon } from '../../../../components';
+import AccessibleMarker from '../../../../components/AccessibleMarker';
 
 
 const CoordinateMarker = ({ position }) => {
-  const { Marker } = global.rL;
   const { divIcon } = global.L;
   const theme = useSelector(state => state.user.theme);
 
@@ -20,7 +20,8 @@ const CoordinateMarker = ({ position }) => {
   });
 
   return (
-    <Marker
+    <AccessibleMarker
+      typeId="map.marker.coordinate"
       className="addressMarker"
       position={position}
       icon={coordIcon}

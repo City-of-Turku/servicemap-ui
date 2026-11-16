@@ -8,7 +8,7 @@ import { useMobilityPlatformContext } from '../../../context/MobilityPlatformCon
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid } from '../utils/utils';
-import AccessibleMarker from '../AccessibleMarker';
+import AccessibleMarker from '../../AccessibleMarker';
 
 const TaxiStands = () => {
   const [taxiStands, setTaxiStands] = useState([]);

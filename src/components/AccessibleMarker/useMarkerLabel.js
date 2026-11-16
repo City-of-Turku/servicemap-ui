@@ -1,11 +1,17 @@
 import { useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
-import useLocaleText from '../../../utils/useLocaleText';
+import useLocaleText from '../../utils/useLocaleText';
 
 const applyLabel = (marker, label) => {
   const element = marker.getElement();
   if (!element) return;
-  element.setAttribute(element.tagName === 'IMG' ? 'alt' : 'aria-label', label);
+  if (element.tagName === 'IMG') {
+    element.setAttribute('alt', label);
+    return;
+  }
+  // aria-label is ignored without a role, and Leaflet only adds role="button" to focusable markers
+  if (!element.getAttribute('role')) element.setAttribute('role', 'img');
+  element.setAttribute('aria-label', label);
 };
 
 /**

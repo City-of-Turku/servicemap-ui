@@ -390,6 +390,7 @@ const MarkerCluster = ({
             ),
             customUnitData: unit,
             keyboard: false,
+            alt: getLocaleText(unit.name),
           },
         ).bindPopup(
           popupContent,

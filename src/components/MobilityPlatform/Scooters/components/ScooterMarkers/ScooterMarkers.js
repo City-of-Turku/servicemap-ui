@@ -10,7 +10,7 @@ import useIotDataFetch from '../../../utils/useIotDataFetch';
 import ScooterInfo from './components/ScooterInfo';
 import { isDataValid } from '../../../utils/utils';
 import { StyledPopupWrapper, StyledPopupInner } from '../../../styled/styled';
-import AccessibleMarker from '../../../AccessibleMarker';
+import AccessibleMarker from '../../../../AccessibleMarker';
 
 const ScooterMarkers = ({ mapObject }) => {
   const { showScootersRyde } = useMobilityPlatformContext();

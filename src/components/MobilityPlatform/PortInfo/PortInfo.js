@@ -11,7 +11,7 @@ import { fetchPortNetData } from '../mobilityPlatformRequests/mobilityPlatformRe
 import { createIcon, isDataValid, optionsToParams } from '../utils/utils';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import PortInfoContent from './components/PortInfoContent';
-import AccessibleMarker from '../AccessibleMarker';
+import AccessibleMarker from '../../AccessibleMarker';
 
 /** Show ports of Turku and Naantali on the map */
 const PortInfo = () => {

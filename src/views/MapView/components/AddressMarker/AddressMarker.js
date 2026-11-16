@@ -4,6 +4,7 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { getAddressText } from '../../../../utils/address';
 import useLocaleText from '../../../../utils/useLocaleText';
+import AccessibleMarker from '../../../../components/AccessibleMarker';
 
 const AddressMarker = ({
   address,
@@ -16,7 +17,7 @@ const AddressMarker = ({
     return null;
   }
 
-  const { Marker, Tooltip } = global.rL;
+  const { Tooltip } = global.rL;
 
   // eslint-disable-next-line global-require
   const { divIcon } = require('leaflet');
@@ -36,7 +37,9 @@ const AddressMarker = ({
   const tooltipText = getAddressText(addressData, getLocaleText);
 
   return (
-    <Marker
+    <AccessibleMarker
+      typeId="address"
+      name={tooltipText}
       className="addressMarker"
       position={position || [addressCoordinates[1], addressCoordinates[0]]}
       icon={addressIcon}
@@ -57,7 +60,7 @@ const AddressMarker = ({
           </Tooltip>
         )
       }
-    </Marker>
+    </AccessibleMarker>
   );
 };
 

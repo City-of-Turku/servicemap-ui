@@ -14,6 +14,7 @@ import formatEventDate from '../../../../utils/events';
 import { generatePath, isEmbed } from '../../../../utils/path';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { drawMarkerIcon } from '../../utils/drawIcon';
+import AccessibleMarker from '../../../../components/AccessibleMarker';
 
 
 const EventMarkers = ({ searchData, classes, navigator }) => {
@@ -24,7 +25,7 @@ const EventMarkers = ({ searchData, classes, navigator }) => {
   const theme = useSelector(state => state.user.theme);
   const intl = useIntl();
   const map = useMap();
-  const { Marker, Popup } = global.rL;
+  const { Popup } = global.rL;
   const searchParams = parseSearchParams(location.search);
 
   const [unitData, setUnitData] = useState([]);
@@ -102,8 +103,10 @@ const EventMarkers = ({ searchData, classes, navigator }) => {
       const streetAddress = getAddressFromUnit(unit, getLocaleText, intl);
       const eventList = unit.events;
       return (
-        <Marker
+        <AccessibleMarker
           key={unit.id}
+          typeId="unit.events"
+          name={unit.name}
           icon={drawMarkerIcon(theme === 'dark', `unit-marker-${unit.id}`, null, [0, -15])}
           onMouseOver={(e) => { e.target.openPopup(); }}
           position={[
@@ -148,7 +151,7 @@ const EventMarkers = ({ searchData, classes, navigator }) => {
               </List>
             </div>
           </Popup>
-        </Marker>
+        </AccessibleMarker>
       );
     })
   );

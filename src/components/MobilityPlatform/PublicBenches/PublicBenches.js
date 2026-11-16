@@ -13,7 +13,7 @@ import {
 } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import MapUtility from '../../../utils/mapUtility';
-import AccessibleMarker from '../AccessibleMarker';
+import AccessibleMarker from '../../AccessibleMarker';
 
 /** Shows public benches on the map in marker form */
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
-import AccessibleMarker from '../AccessibleMarker';
+import AccessibleMarker from '../../AccessibleMarker';
 
 const MarkerComponent = ({
   item, icon, typeId, name, children,

@@ -9,7 +9,7 @@ import { useMobilityPlatformContext } from '../../../../context/MobilityPlatform
 import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
 import { isDataValid, fitPolygonsToBounds, createIcon } from '../../utils/utils';
 import RentalCarParkingContent from './components/RentalCarParkingContent';
-import AccessibleMarker from '../../AccessibleMarker';
+import AccessibleMarker from '../../../AccessibleMarker';
 
 /**
  * Displays parking places for the rental cars on the map.

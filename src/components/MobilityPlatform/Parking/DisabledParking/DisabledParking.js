@@ -9,7 +9,7 @@ import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
 import { createIcon, isDataValid, fitPolygonsToBounds } from '../../utils/utils';
 import DisabledParkingContent from './components/DisabledParkingContent';
-import AccessibleMarker from '../../AccessibleMarker';
+import AccessibleMarker from '../../../AccessibleMarker';
 
 /**
  * Displays disabled parking areas on the map in marker format.

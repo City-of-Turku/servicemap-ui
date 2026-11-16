@@ -21,7 +21,7 @@ import {
 import { isEmbed } from '../../../utils/path';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import AccessibilityAreasContent from './components/AccessibilityAreasContent';
-import AccessibleMarker from '../AccessibleMarker';
+import AccessibleMarker from '../../AccessibleMarker';
 
 /**
  * Displays school accessibility areas on the map in polygon format.

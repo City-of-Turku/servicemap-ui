@@ -10,7 +10,7 @@ import { createIcon } from '../utils/utils';
 import useIotDataFetch from '../utils/useIotDataFetch';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import AirportFlightsContent from './components/AirportFlightsContent';
-import AccessibleMarker from '../AccessibleMarker';
+import AccessibleMarker from '../../AccessibleMarker';
 
 const AirportFlights = () => {
   const { showAirports } = useMobilityPlatformContext();

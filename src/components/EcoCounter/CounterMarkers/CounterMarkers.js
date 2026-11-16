@@ -6,7 +6,7 @@ import ecoCounterIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ecocount
 import ecoCounterIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ecocounter-bw.svg';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { createIcon } from '../../MobilityPlatform/utils/utils';
-import AccessibleMarker from '../../MobilityPlatform/AccessibleMarker';
+import AccessibleMarker from '../../AccessibleMarker';
 
 const CounterMarkers = ({ counterStation, children }) => {
   const useContrast = useSelector(useAccessibleMap);

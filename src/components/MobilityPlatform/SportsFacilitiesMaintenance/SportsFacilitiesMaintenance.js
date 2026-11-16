@@ -26,7 +26,7 @@ import {
   parseSkiUnitDescription,
   sanitizeIceMaintenanceHtml,
 } from './sportsFacilitiesDescription';
-import AccessibleMarker from '../AccessibleMarker';
+import AccessibleMarker from '../../AccessibleMarker';
 
 function MaintenancePopupRow({ labelText, value }) {
   if (!hasPopupDisplayValue(value)) return null;

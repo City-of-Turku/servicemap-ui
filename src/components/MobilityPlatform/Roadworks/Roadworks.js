@@ -13,7 +13,7 @@ import config from '../../../../config';
 import useRoadworksDataFetch from '../utils/useRoadworksDataFetch';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import RoadworksContent from './components/RoadworksContent';
-import AccessibleMarker from '../AccessibleMarker';
+import AccessibleMarker from '../../AccessibleMarker';
 
 const Roadworks = () => {
   const getOptions = typeStr => {

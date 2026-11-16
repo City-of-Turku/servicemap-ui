@@ -12,7 +12,7 @@ import { isDataValid, setRender, checkMapType } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import RentalCarsContent from './components/RentalCarsContent';
-import AccessibleMarker from '../AccessibleMarker';
+import AccessibleMarker from '../../AccessibleMarker';
 
 const RentalCars = () => {
   const [zoomLevel, setZoomLevel] = useState(13);

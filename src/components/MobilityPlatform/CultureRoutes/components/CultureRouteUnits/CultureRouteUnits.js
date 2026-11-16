@@ -12,7 +12,7 @@ import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatf
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { createIcon } from '../../../utils/utils';
 import useLocaleText from '../../../../../utils/useLocaleText';
-import AccessibleMarker from '../../../AccessibleMarker';
+import AccessibleMarker from '../../../../AccessibleMarker';
 
 const CultureRouteUnits = ({ cultureRouteUnits }) => {
   const { cultureRouteId } = useMobilityPlatformContext();

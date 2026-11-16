@@ -9,7 +9,7 @@ import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import useMobilityDataFetch from '../../../utils/useMobilityDataFetch';
 import { createIcon, isDataValid, fitToMapBounds } from '../../../utils/utils';
 import TextContent from '../../../TextContent';
-import AccessibleMarker from '../../../AccessibleMarker';
+import AccessibleMarker from '../../../../AccessibleMarker';
 
 const ParkingAreas = () => {
   const options = {

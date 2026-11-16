@@ -9,7 +9,7 @@ import { useAccessibleMap } from '../../../redux/selectors/settings';
 import useMobilityDataFetch from '../utils/useMobilityDataFetch';
 import { isDataValid, fitPolygonsToBounds, createIcon } from '../utils/utils';
 import LoadingPlacesContent from './components/LoadingPlacesContent';
-import AccessibleMarker from '../AccessibleMarker';
+import AccessibleMarker from '../../AccessibleMarker';
 
 const LoadingPlaces = () => {
   const options = {

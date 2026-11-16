@@ -9,7 +9,7 @@ import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import { fetchObservationStations } from '../EnvironmentDataAPI/EnvironmentDataAPI';
 import { isDataValid, createIcon } from '../../utils/utils';
 import AirMonitoringContent from './components/AirMonitoringContent';
-import AccessibleMarker from '../../AccessibleMarker';
+import AccessibleMarker from '../../../AccessibleMarker';
 
 const AirMonitoring = () => {
   const [airMonitoringStations, setAirMonitoringStations] = useState([]);

@@ -10,7 +10,7 @@ import { fetchRailwaysData } from '../mobilityPlatformRequests/mobilityPlatformR
 import { createIcon, isDataValid } from '../utils/utils';
 import RailwayStationsContent from './components/RailwayStationsContent';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
-import AccessibleMarker from '../AccessibleMarker';
+import AccessibleMarker from '../../AccessibleMarker';
 
 const RailwayStations = () => {
   const [railwayStations, setRailwayStations] = useState([]);

@@ -10,10 +10,11 @@ import config from '../../../../../config';
 import { isEmbed } from '../../../../utils/path';
 import useMobileStatus from '../../../../utils/isMobile';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
+import AccessibleMarker from '../../../../components/AccessibleMarker';
 
 const TransitStops = ({ mapObject, classes }) => {
   const isMobile = useMobileStatus();
-  const { Marker, Popup } = global.rL;
+  const { Popup } = global.rL;
 
   const [transitStops, setTransitStops] = useState([]);
   // const [rentalBikeStations, setRentalBikeStations] = useState([]);
@@ -127,13 +128,22 @@ const TransitStops = ({ mapObject, classes }) => {
     map.closePopup();
   };
 
+  const stopTypeIds = {
+    0: 'map.marker.tramStop',
+    1: 'map.marker.metroStation',
+    4: 'map.marker.ferryPier',
+    109: 'map.marker.trainStation',
+  };
+
   if (!showTransitStops()) return null;
 
   return (
     showTransitStops() ? transitStops.map(stop => {
       const icon = getTransitIcon(stop.vehicleType);
       return (
-        <Marker
+        <AccessibleMarker
+          typeId={stopTypeIds[stop.vehicleType] || 'map.marker.busStop'}
+          name={stop.name}
           icon={icon}
           key={stop.name.fi + stop.gtfsId}
           position={[stop.lat, stop.lon]}
@@ -147,7 +157,7 @@ const TransitStops = ({ mapObject, classes }) => {
               />
             </Popup>
           </div>
-        </Marker>
+        </AccessibleMarker>
       );
     }) : null
   );

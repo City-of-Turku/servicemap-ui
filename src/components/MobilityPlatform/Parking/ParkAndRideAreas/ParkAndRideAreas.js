@@ -15,7 +15,7 @@ import { StyledPopupInner, StyledPopupWrapper } from '../../styled/styled';
 import ParkAndRideAreasContent from './components/ParkAndRideAreasContent';
 import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
 import MarkerComponent from '../../MarkerComponent';
-import AccessibleMarker from '../../AccessibleMarker';
+import AccessibleMarker from '../../../AccessibleMarker';
 import ParkAndRideCarsContent from './components/ParkAndRideCarsContent';
 
 const ParkAndRideAreas = () => {

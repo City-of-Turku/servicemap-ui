@@ -3,9 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { getIcon } from '../../../../components';
+import AccessibleMarker from '../../../../components/AccessibleMarker';
 
 const UserMarker = ({ position, classes, onClick }) => {
-  const { Marker } = require('react-leaflet');
   const { divIcon } = require('leaflet');
 
   const icon = divIcon({
@@ -16,7 +16,8 @@ const UserMarker = ({ position, classes, onClick }) => {
   });
 
   return (
-    <Marker
+    <AccessibleMarker
+      typeId="map.marker.userLocation"
       id="userMarker"
       onClick={onClick}
       position={position}
