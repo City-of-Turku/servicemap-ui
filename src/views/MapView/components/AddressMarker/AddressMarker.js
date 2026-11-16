@@ -8,7 +8,7 @@ import useLocaleText from '../../../../utils/useLocaleText';
 const AddressMarker = ({
   address,
   classes,
-  embeded,
+  embedded,
   position,
 }) => {
   const getLocaleText = useLocaleText();
@@ -43,7 +43,7 @@ const AddressMarker = ({
       keyboard={false}
     >
       {
-        embeded
+        embedded
         && (
           <Tooltip
             className={classes.unitTooltip}
@@ -65,11 +65,11 @@ AddressMarker.propTypes = {
   address: PropTypes.objectOf(PropTypes.any).isRequired,
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
   position: PropTypes.arrayOf(PropTypes.number),
-  embeded: PropTypes.bool,
+  embedded: PropTypes.bool,
 };
 
 AddressMarker.defaultProps = {
-  embeded: false,
+  embedded: false,
   position: null,
 };
 
