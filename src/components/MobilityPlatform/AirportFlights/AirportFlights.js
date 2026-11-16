@@ -10,6 +10,7 @@ import { createIcon } from '../utils/utils';
 import useIotDataFetch from '../utils/useIotDataFetch';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import AirportFlightsContent from './components/AirportFlightsContent';
+import AccessibleMarker from '../AccessibleMarker';
 
 const AirportFlights = () => {
   const { showAirports } = useMobilityPlatformContext();
@@ -18,7 +19,7 @@ const AirportFlights = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const { Marker, Popup } = global.rL;
+  const { Popup } = global.rL;
   const { icon } = global.L;
 
   const customIcon = icon(createIcon(useContrast ? airPlaneIconBw : airPlaneIcon));
@@ -41,7 +42,11 @@ const AirportFlights = () => {
   const { iotData: departeesData } = useIotDataFetch('FAD', showAirports);
 
   return showAirports ? (
-    <Marker icon={customIcon} position={[airportData.lat, airportData.lon]}>
+    <AccessibleMarker
+      typeId="mobilityPlatform.content.airport.title"
+      icon={customIcon}
+      position={[airportData.lat, airportData.lon]}
+    >
       <StyledPopupWrapper>
         <Popup className="popup-w350">
           <StyledPopupInner>
@@ -49,7 +54,7 @@ const AirportFlights = () => {
           </StyledPopupInner>
         </Popup>
       </StyledPopupWrapper>
-    </Marker>
+    </AccessibleMarker>
   ) : null;
 };
 

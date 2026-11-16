@@ -35,7 +35,12 @@ const BarbecuePlaces = () => {
 
   return (renderData
     ? data.map(item => (
-      <MarkerComponent key={item.id} item={item} icon={customIcon}>
+      <MarkerComponent
+        key={item.id}
+        item={item}
+        icon={customIcon}
+        typeId="mobilityPlatform.content.barbecuePlace.title"
+      >
         <BarbecuePlacesContent item={item} />
       </MarkerComponent>
     ))

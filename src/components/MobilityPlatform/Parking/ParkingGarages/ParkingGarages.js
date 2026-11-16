@@ -40,6 +40,8 @@ const ParkingGarages = () => {
           key={item.id}
           item={item}
           icon={customIcon}
+          typeId="mobilityPlatform.marker.parkingGarage"
+          name={{ fi: item.name_fi, sv: item.name_sv, en: item.name_en }}
         >
           <ParkingGarageContent item={item} />
         </MarkerComponent>

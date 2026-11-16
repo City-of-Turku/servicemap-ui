@@ -17,6 +17,7 @@ import { isDataValid, setRender, checkMapType } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import CityBikesContent from './components/CityBikesContent';
+import AccessibleMarker from '../AccessibleMarker';
 
 const CityBikes = () => {
   const [zoomLevel, setZoomLevel] = useState(13);
@@ -29,7 +30,7 @@ const CityBikes = () => {
   const map = useMap();
   const useContrast = useSelector(useAccessibleMap);
 
-  const { Marker, Popup } = global.rL;
+  const { Popup } = global.rL;
   const { icon } = global.L;
 
   const mapEvent = useMapEvents({
@@ -92,10 +93,15 @@ const CityBikes = () => {
     }
   }, [showCityBikes, showCargoBikes]);
 
-  const renderCityBikeMarkers = (isValid, data, icon) => (isValid ? (
+  /** Cargo bike station names start with 'eCargo bikes:', which the marker type already says */
+  const getStationName = name => name?.replace(/^eCargo bikes:\s*/, '');
+
+  const renderCityBikeMarkers = (isValid, data, icon, typeId) => (isValid ? (
     data.map(item => (
-      <Marker
+      <AccessibleMarker
         key={item.station_id}
+        typeId={typeId}
+        name={getStationName(item.name)}
         icon={icon}
         position={[item.lat, item.lon]}
       >
@@ -106,14 +112,14 @@ const CityBikes = () => {
             </StyledPopupInner>
           </Popup>
         </StyledPopupWrapper>
-      </Marker>
+      </AccessibleMarker>
     ))
   ) : null);
 
   return (
     <>
-      {renderCityBikeMarkers(renderCityBikes, cityBikeStations, iconForCityBikes)}
-      {renderCityBikeMarkers(renderCargoBikes, cargoBikeStations, iconForCargoBikes)}
+      {renderCityBikeMarkers(renderCityBikes, cityBikeStations, iconForCityBikes, 'mobilityPlatform.content.cityBikes.title')}
+      {renderCityBikeMarkers(renderCargoBikes, cargoBikeStations, iconForCargoBikes, 'mobilityPlatform.content.cargoBikes.title')}
     </>
   );
 };

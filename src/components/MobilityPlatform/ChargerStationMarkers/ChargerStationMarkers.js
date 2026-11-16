@@ -46,7 +46,13 @@ const ChargerStationMarkers = () => {
   return (
     renderData
       ? data.map(item => (
-        <MarkerComponent key={item.id} item={item} icon={chargerStationIcon}>
+        <MarkerComponent
+          key={item.id}
+          item={item}
+          icon={chargerStationIcon}
+          typeId="mobilityPlatform.marker.chargerStation"
+          name={{ fi: item.name, sv: item.name_sv, en: item.name_en }}
+        >
           <ChargerStationContent station={item} />
         </MarkerComponent>
       ))

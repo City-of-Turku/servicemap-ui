@@ -1094,6 +1094,27 @@ const translations = {
   'mobilityPlatform.airMonitoring.button.month': 'Månad',
   'mobilityPlatform.airMonitoring.button.year': 'År',
 
+  // Map marker types, used in the accessible names of map markers
+  'mobilityPlatform.marker.trafficCounter': 'Räknepunkt',
+  'mobilityPlatform.marker.chargerStation': 'Laddstation',
+  'mobilityPlatform.marker.outdoorGymDevice': 'Utegymredskap',
+  'mobilityPlatform.marker.bikeServiceStation': 'Cykelservicepunkt',
+  'mobilityPlatform.marker.parkingGarage': 'Parkeringshus',
+  'mobilityPlatform.marker.bicycleStand': 'Cykelparkering',
+  'mobilityPlatform.marker.hullLockableBicycleStand': 'Cykelparkering med ramlåsning',
+  'mobilityPlatform.marker.port': 'Hamn',
+  'mobilityPlatform.marker.publicBench': 'Bänk',
+  'mobilityPlatform.marker.taxiStand': 'Taxistation',
+  'mobilityPlatform.marker.cultureRouteUnit': 'Objekt på kulturrutten',
+  'mobilityPlatform.marker.railwayStation': 'Järnvägsstation',
+  'mobilityPlatform.marker.airMonitoringStation': 'Mätstation för luftkvalitet',
+  'mobilityPlatform.marker.rentalCarParking': 'Parkeringsplats för bil för delad användning',
+  'mobilityPlatform.marker.scooterParking': 'Parkeringsplats för elsparkcyklar',
+  'mobilityPlatform.marker.loadingPlace': 'Lastplats',
+  'mobilityPlatform.marker.accessibilityArea.walking': 'Tillgänglighetsområde (gång)',
+  'mobilityPlatform.marker.accessibilityArea.cycling': 'Tillgänglighetsområde (cykling)',
+  'mobilityPlatform.marker.roadwork': 'Vägarbete',
+
   // Ecocounter
   'ecocounter.hour': 'Timmar',
   'ecocounter.day': 'Dagar',

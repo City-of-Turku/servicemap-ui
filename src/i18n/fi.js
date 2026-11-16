@@ -1086,6 +1086,27 @@ const translations = {
   'mobilityPlatform.airMonitoring.button.month': 'Kuukausi',
   'mobilityPlatform.airMonitoring.button.year': 'Vuosi',
 
+  // Map marker types, used in the accessible names of map markers
+  'mobilityPlatform.marker.trafficCounter': 'Laskentapiste',
+  'mobilityPlatform.marker.chargerStation': 'Latausasema',
+  'mobilityPlatform.marker.outdoorGymDevice': 'Ulkokuntoilulaite',
+  'mobilityPlatform.marker.bikeServiceStation': 'Pyörähuoltopiste',
+  'mobilityPlatform.marker.parkingGarage': 'Pysäköintilaitos',
+  'mobilityPlatform.marker.bicycleStand': 'Polkupyöräpysäköinti',
+  'mobilityPlatform.marker.hullLockableBicycleStand': 'Runkolukittava polkupyöräpysäköinti',
+  'mobilityPlatform.marker.port': 'Satama',
+  'mobilityPlatform.marker.publicBench': 'Penkki',
+  'mobilityPlatform.marker.taxiStand': 'Taksitolppa',
+  'mobilityPlatform.marker.cultureRouteUnit': 'Kulttuurireitin kohde',
+  'mobilityPlatform.marker.railwayStation': 'Rautatieasema',
+  'mobilityPlatform.marker.airMonitoringStation': 'Ilmanlaadun mittauspiste',
+  'mobilityPlatform.marker.rentalCarParking': 'Yhteiskäyttöauton pysäköintipaikka',
+  'mobilityPlatform.marker.scooterParking': 'Sähköpotkulautojen pysäköintipaikka',
+  'mobilityPlatform.marker.loadingPlace': 'Kuormauspaikka',
+  'mobilityPlatform.marker.accessibilityArea.walking': 'Lähestymisalue (kävely)',
+  'mobilityPlatform.marker.accessibilityArea.cycling': 'Lähestymisalue (pyöräily)',
+  'mobilityPlatform.marker.roadwork': 'Tietyömaa',
+
   // Ecocounter
   'ecocounter.hour': 'Tunnit',
   'ecocounter.day': 'Päivät',

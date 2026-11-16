@@ -125,6 +125,16 @@ const MapView = (props) => {
 
   const unitData = useMapUnits();
 
+  // Leaflet makes the container focusable but leaves it unnamed, so screen readers announce
+  // the labels of all markers inside it as its name. The surrounding section is already the
+  // map landmark, so the container is a group rather than a second region.
+  useEffect(() => {
+    if (!mapElement) return;
+    const container = mapElement.getContainer();
+    container.setAttribute('role', 'group');
+    container.setAttribute('aria-label', intl.formatMessage({ id: 'map' }));
+  }, [mapElement, intl.locale]);
+
   // This unassigned selector is used to trigger re-render after events are fetched
   useSelector(state => getSelectedUnitEvents(state));
 

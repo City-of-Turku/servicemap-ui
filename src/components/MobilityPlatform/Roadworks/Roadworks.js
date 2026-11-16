@@ -13,6 +13,7 @@ import config from '../../../../config';
 import useRoadworksDataFetch from '../utils/useRoadworksDataFetch';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import RoadworksContent from './components/RoadworksContent';
+import AccessibleMarker from '../AccessibleMarker';
 
 const Roadworks = () => {
   const getOptions = typeStr => {
@@ -27,7 +28,7 @@ const Roadworks = () => {
   const { showRoadworks } = useMobilityPlatformContext();
 
   const { icon } = global.L;
-  const { Marker, Polyline, Popup } = global.rL;
+  const { Polyline, Popup } = global.rL;
 
   const map = useMap();
 
@@ -52,11 +53,11 @@ const Roadworks = () => {
 
   /** Separate roadworks of Turku from the rest */
   const roadworksFiltered = roadworksDataFull.reduce((acc, curr) => {
-    const roadWorkDetails = curr?.announcements[0];
+    const roadWorkDetails = curr?.announcements?.[0];
     const selectedCities = config.cities.filter(c => citySettings[c]);
     const cities = checkCitySettings(selectedCities);
     if (
-      cities.includes(roadWorkDetails?.location?.details?.primaryPoint?.municipality.toLowerCase())
+      cities.includes(roadWorkDetails?.location?.details?.primaryPoint?.municipality?.toLowerCase())
     ) {
       acc.push(curr);
     }
@@ -70,7 +71,7 @@ const Roadworks = () => {
    * @returns array
    */
   const filterRoadworksByGeometry = (data, geomType) => data.reduce((acc, curr) => {
-    if (curr?.announcements[0]?.location?.geometry?.includes(geomType)) {
+    if (curr?.announcements?.[0]?.location?.geometry?.includes(geomType)) {
       acc.push(curr);
     }
     return acc;
@@ -154,7 +155,7 @@ const Roadworks = () => {
     if (areMultiLinesValid) {
       const bounds = [];
       roadworksMultiLines.forEach(item => {
-        bounds.push(getMultiLineCoordinates(item?.announcements[0]?.location?.geometry));
+        bounds.push(getMultiLineCoordinates(item?.announcements?.[0]?.location?.geometry));
       });
       map.fitBounds(bounds);
     }
@@ -172,13 +173,15 @@ const Roadworks = () => {
 
   const renderMarkers = () => (areMarkersValid
     ? roadworksPoints.map(item => (
-      <Marker
+      <AccessibleMarker
         key={item.situation_id}
+        typeId="mobilityPlatform.marker.roadwork"
+        name={item?.announcements?.[0]?.title}
         icon={customIcon}
-        position={getPointCoordinates(item?.announcements[0]?.location?.geometry)}
+        position={getPointCoordinates(item?.announcements?.[0]?.location?.geometry)}
       >
         {renderContent(item)}
-      </Marker>
+      </AccessibleMarker>
     ))
     : null);
 
@@ -188,14 +191,16 @@ const Roadworks = () => {
         <Polyline
           weight={useContrast ? 10 : 8}
           pathOptions={useContrast ? whiteOptions : grayOptions}
-          positions={getLineCoordinates(item?.announcements[0]?.location?.geometry)}
+          positions={getLineCoordinates(item?.announcements?.[0]?.location?.geometry)}
         />
-        <Marker
+        <AccessibleMarker
+          typeId="mobilityPlatform.marker.roadwork"
+          name={item?.announcements?.[0]?.title}
           icon={customIcon}
-          position={parseLineAndGetSingleCoordinates(item?.announcements[0]?.location?.geometry)}
+          position={parseLineAndGetSingleCoordinates(item?.announcements?.[0]?.location?.geometry)}
         >
           {renderContent(item)}
-        </Marker>
+        </AccessibleMarker>
       </React.Fragment>
     ))
   ) : null);
@@ -206,14 +211,16 @@ const Roadworks = () => {
         <Polyline
           weight={useContrast ? 10 : 8}
           pathOptions={useContrast ? whiteOptions : grayOptions}
-          positions={getMultiLineCoordinates(item?.announcements[0]?.location?.geometry)}
+          positions={getMultiLineCoordinates(item?.announcements?.[0]?.location?.geometry)}
         />
-        <Marker
+        <AccessibleMarker
+          typeId="mobilityPlatform.marker.roadwork"
+          name={item?.announcements?.[0]?.title}
           icon={customIcon}
-          position={parseMultiAndGetSingleCoordinates(item?.announcements[0]?.location?.geometry)}
+          position={parseMultiAndGetSingleCoordinates(item?.announcements?.[0]?.location?.geometry)}
         >
           {renderContent(item)}
-        </Marker>
+        </AccessibleMarker>
       </React.Fragment>
     ))
   ) : null);

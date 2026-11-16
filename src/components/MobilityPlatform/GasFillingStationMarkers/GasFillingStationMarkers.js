@@ -35,7 +35,13 @@ const GasFillingStationMarkers = () => {
   return (
     renderData
       ? data.map(item => (
-        <MarkerComponent key={item.id} item={item} icon={gasStationIcon}>
+        <MarkerComponent
+          key={item.id}
+          item={item}
+          icon={gasStationIcon}
+          typeId="mobilityPlatform.content.gfsTitle"
+          name={item.name}
+        >
           <GasFillingStationContent station={item} />
         </MarkerComponent>
       ))

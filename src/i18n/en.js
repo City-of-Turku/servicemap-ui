@@ -1091,6 +1091,27 @@ const translations = {
   'mobilityPlatform.airMonitoring.button.month': 'Month',
   'mobilityPlatform.airMonitoring.button.year': 'Year',
 
+  // Map marker types, used in the accessible names of map markers
+  'mobilityPlatform.marker.trafficCounter': 'Counting point',
+  'mobilityPlatform.marker.chargerStation': 'Charging station',
+  'mobilityPlatform.marker.outdoorGymDevice': 'Outdoor gym device',
+  'mobilityPlatform.marker.bikeServiceStation': 'Bike service station',
+  'mobilityPlatform.marker.parkingGarage': 'Parking garage',
+  'mobilityPlatform.marker.bicycleStand': 'Bicycle parking',
+  'mobilityPlatform.marker.hullLockableBicycleStand': 'Frame-lockable bicycle parking',
+  'mobilityPlatform.marker.port': 'Port',
+  'mobilityPlatform.marker.publicBench': 'Bench',
+  'mobilityPlatform.marker.taxiStand': 'Taxi stand',
+  'mobilityPlatform.marker.cultureRouteUnit': 'Culture route site',
+  'mobilityPlatform.marker.railwayStation': 'Railway station',
+  'mobilityPlatform.marker.airMonitoringStation': 'Air quality monitoring station',
+  'mobilityPlatform.marker.rentalCarParking': 'Shared use car parking space',
+  'mobilityPlatform.marker.scooterParking': 'Electric scooter parking spot',
+  'mobilityPlatform.marker.loadingPlace': 'Loading place',
+  'mobilityPlatform.marker.accessibilityArea.walking': 'Accessibility zone (walking)',
+  'mobilityPlatform.marker.accessibilityArea.cycling': 'Accessibility zone (cycling)',
+  'mobilityPlatform.marker.roadwork': 'Roadwork',
+
   // Ecocounter
   'ecocounter.hour': 'Hours',
   'ecocounter.day': 'Days',

@@ -39,6 +39,8 @@ const ParkingMachines = () => {
           key={item.id}
           item={item}
           icon={customIcon}
+          typeId="mobilityPlatform.content.parkingMachine.title"
+          name={{ fi: item.address_fi, sv: item.address_sv, en: item.address_en }}
         >
           <ParkingMachinesContent item={item} />
         </MarkerComponent>

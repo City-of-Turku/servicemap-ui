@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, useLocation } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
-import { Tooltip as MUITooltip, ButtonBase, Typography } from '@mui/material';
+import { Tooltip as MUITooltip, ButtonBase } from '@mui/material';
 import { useTheme } from '@mui/styles';
 import { useSelector } from 'react-redux';
 import { OpenInNew, Map } from '@mui/icons-material';
-import { visuallyHidden } from '@mui/utils';
 import { parseSearchParams } from '../utils';
 import AddressView from '../views/AddressView';
 import EventDetailView from '../views/EventDetailView';
@@ -259,7 +258,6 @@ const EmbedLayout = ({ intl }) => {
         </div>
         {selectedUnitData ? renderEmbeddedUnitInfo() : null}
         <section aria-label={intl.formatMessage({ id: 'map' })} style={styles.map}>
-          <Typography style={visuallyHidden}>{intl.formatMessage({ id: 'map.ariaLabel' })}</Typography>
           <MapView />
         </section>
       </div>

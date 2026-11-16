@@ -12,6 +12,7 @@ import { useMobilityPlatformContext } from '../../../../../context/MobilityPlatf
 import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import { createIcon } from '../../../utils/utils';
 import useLocaleText from '../../../../../utils/useLocaleText';
+import AccessibleMarker from '../../../AccessibleMarker';
 
 const CultureRouteUnits = ({ cultureRouteUnits }) => {
   const { cultureRouteId } = useMobilityPlatformContext();
@@ -22,7 +23,7 @@ const CultureRouteUnits = ({ cultureRouteUnits }) => {
   const getLocaleText = useLocaleText();
   const map = useMap();
 
-  const { Marker, Popup } = global.rL;
+  const { Popup } = global.rL;
   const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
@@ -95,7 +96,13 @@ const CultureRouteUnits = ({ cultureRouteUnits }) => {
   return (activeCultureRouteUnits
           && activeCultureRouteUnits.length > 0 ? (
       activeCultureRouteUnits.map(item => (
-        <Marker key={item.id} icon={customIcon} position={[item.geometry_coords.lat, item.geometry_coords.lon]}>
+        <AccessibleMarker
+          key={item.id}
+          typeId="mobilityPlatform.marker.cultureRouteUnit"
+          name={{ fi: item.name, sv: item.name_sv, en: item.name_en }}
+          icon={customIcon}
+          position={[item.geometry_coords.lat, item.geometry_coords.lon]}
+        >
           <Popup closeButton={false} maxHeight={400} className="culture-route-unit-popup">
             <StyledContent>
               <StyledHeader>
@@ -115,7 +122,7 @@ const CultureRouteUnits = ({ cultureRouteUnits }) => {
               </div>
             </StyledContent>
           </Popup>
-        </Marker>
+        </AccessibleMarker>
       ))
     ) : null
   );

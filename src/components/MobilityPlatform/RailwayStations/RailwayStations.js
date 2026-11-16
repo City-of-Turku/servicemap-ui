@@ -10,6 +10,7 @@ import { fetchRailwaysData } from '../mobilityPlatformRequests/mobilityPlatformR
 import { createIcon, isDataValid } from '../utils/utils';
 import RailwayStationsContent from './components/RailwayStationsContent';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
+import AccessibleMarker from '../AccessibleMarker';
 
 const RailwayStations = () => {
   const [railwayStations, setRailwayStations] = useState([]);
@@ -18,7 +19,7 @@ const RailwayStations = () => {
 
   const map = useMap();
 
-  const { Marker, Popup } = global.rL;
+  const { Popup } = global.rL;
   const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
@@ -52,7 +53,13 @@ const RailwayStations = () => {
 
   return renderData
     ? railwayStationsTku.map(item => (
-      <Marker key={item.stationName} icon={customIcon} position={[item.latitude, item.longitude]}>
+      <AccessibleMarker
+        key={item.stationName}
+        typeId="mobilityPlatform.marker.railwayStation"
+        name={item.stationName}
+        icon={customIcon}
+        position={[item.latitude, item.longitude]}
+      >
         <StyledPopupWrapper>
           <Popup className="popup-w350">
             <StyledPopupInner>
@@ -60,7 +67,7 @@ const RailwayStations = () => {
             </StyledPopupInner>
           </Popup>
         </StyledPopupWrapper>
-      </Marker>
+      </AccessibleMarker>
     ))
     : null;
 };

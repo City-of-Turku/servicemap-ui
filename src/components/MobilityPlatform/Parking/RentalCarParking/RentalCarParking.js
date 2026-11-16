@@ -9,6 +9,7 @@ import { useMobilityPlatformContext } from '../../../../context/MobilityPlatform
 import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
 import { isDataValid, fitPolygonsToBounds, createIcon } from '../../utils/utils';
 import RentalCarParkingContent from './components/RentalCarParkingContent';
+import AccessibleMarker from '../../AccessibleMarker';
 
 /**
  * Displays parking places for the rental cars on the map.
@@ -25,7 +26,7 @@ const RentalCarParking = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const { Marker, Popup } = global.rL;
+  const { Popup } = global.rL;
   const { icon } = global.L;
 
   const customIcon = icon(createIcon(useContrast ? rentalCarParkingIconBw : rentalCarParkingIcon));
@@ -44,11 +45,17 @@ const RentalCarParking = () => {
   return (
     renderData
       ? data.map(item => (
-        <Marker key={item.id} icon={customIcon} position={getSingleCoordinates(item.geometry_coords)}>
+        <AccessibleMarker
+          key={item.id}
+          typeId="mobilityPlatform.marker.rentalCarParking"
+          name={{ fi: item.name_fi, sv: item.name_sv, en: item.name_en }}
+          icon={customIcon}
+          position={getSingleCoordinates(item.geometry_coords)}
+        >
           <Popup>
             <RentalCarParkingContent item={item} />
           </Popup>
-        </Marker>
+        </AccessibleMarker>
       ))
       : null
   );

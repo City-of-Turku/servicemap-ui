@@ -8,13 +8,13 @@ import { useMobilityPlatformContext } from '../../../context/MobilityPlatformCon
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { fetchMobilityMapData } from '../mobilityPlatformRequests/mobilityPlatformRequests';
 import { createIcon, isDataValid } from '../utils/utils';
+import AccessibleMarker from '../AccessibleMarker';
 
 const TaxiStands = () => {
   const [taxiStands, setTaxiStands] = useState([]);
 
   const { showTaxiStands } = useMobilityPlatformContext();
   const map = useMap();
-  const { Marker } = global.rL;
   const { icon } = global.L;
   const useContrast = useSelector(useAccessibleMap);
   const customIcon = icon(createIcon(useContrast ? taxiIconBw : taxiIcon));
@@ -46,7 +46,14 @@ const TaxiStands = () => {
 
   return renderData
     ? taxiStands.map(item => (
-      <Marker key={item.id} icon={customIcon} position={[item.geometry_coords.lat, item.geometry_coords.lon]} />
+      // No popup, so the marker is an image with a name instead of a focusable button
+      <AccessibleMarker
+        key={item.id}
+        typeId="mobilityPlatform.marker.taxiStand"
+        icon={customIcon}
+        keyboard={false}
+        position={[item.geometry_coords.lat, item.geometry_coords.lon]}
+      />
     ))
     : null;
 };
