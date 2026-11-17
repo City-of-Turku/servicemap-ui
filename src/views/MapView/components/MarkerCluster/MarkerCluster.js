@@ -229,10 +229,10 @@ const MarkerCluster = ({
     // Create container and title
     const container = document.createElement('div');
     container.className = classes.unitTooltipContainer;
-    container.setAttribute('aria-hidden', 'true');
 
     // Render simple info popup
     if (!showListOfUnits()) {
+      container.setAttribute('aria-hidden', 'true');
       const title = document.createElement('p');
       title.innerText = popupTexts.info(units.length);
       title.className = classes.unitTooltipTitle;

@@ -72,6 +72,8 @@ export const createAccessibleDivIcon = (options) => {
   return new AccessibleDivIcon(options);
 };
 
+const BUTTON_ACTIVATION_KEYS = ['Enter', ' '];
+
 export const createMarkerClusterLayer = (
   createClusterCustomIcon,
   clusterMouseover,
@@ -103,13 +105,15 @@ export const createMarkerClusterLayer = (
     }
   });
 
-  // Cluster markers are role="button", which users expect to activate with Space as well.
-  // Leaflet.markercluster only handles Enter (on keypress), so pass Space on as Enter.
-  // keydown is used so the page doesn't scroll.
   clusterLayer.on('clusterkeydown', (e) => {
     const { originalEvent, layer } = e;
-    if (originalEvent?.key !== ' ') return;
+    if (!BUTTON_ACTIVATION_KEYS.includes(originalEvent?.key)) return;
     originalEvent.preventDefault();
+    if (clusterMouseover && showListOfUnits()) {
+      clusterMouseover(e);
+      layer.getPopup()?.getElement()?.querySelector('[role="link"]')?.focus();
+      return;
+    }
     clusterLayer._zoomOrSpiderfy({
       type: 'clusterkeypress',
       layer,
