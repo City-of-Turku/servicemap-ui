@@ -107,7 +107,7 @@ const EventMarkers = ({ searchData, classes, navigator }) => {
           key={unit.id}
           typeId="unit.events"
           name={unit.name}
-          icon={drawMarkerIcon(theme === 'dark', `unit-marker-${unit.id}`, null, [0, -15])}
+          icon={drawMarkerIcon(theme === 'dark', `unit-marker-${unit.id}`)}
           onMouseOver={(e) => { e.target.openPopup(); }}
           position={[
             unit.location.coordinates[1],

@@ -33,7 +33,6 @@ const popupOptions = isMobile => ({
   closeOnClick: false,
   direction: 'top',
   opacity: 1,
-  offset: [2, -20],
 });
 
 // Cluster icon size handler

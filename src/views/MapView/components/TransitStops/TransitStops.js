@@ -11,6 +11,7 @@ import { isEmbed } from '../../../../utils/path';
 import useMobileStatus from '../../../../utils/isMobile';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import AccessibleMarker from '../../../../components/AccessibleMarker';
+import getPopupAnchor from '../../../../utils/popupAnchor';
 
 const TransitStops = ({ mapObject, classes }) => {
   const isMobile = useMobileStatus();
@@ -120,7 +121,7 @@ const TransitStops = ({ mapObject, classes }) => {
         </>,
       ),
       iconSize: [transitIconSize, transitIconSize],
-      popupAnchor: [0, -13],
+      popupAnchor: getPopupAnchor([transitIconSize, transitIconSize]),
     });
   };
 

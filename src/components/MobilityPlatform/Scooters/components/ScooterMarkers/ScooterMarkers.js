@@ -11,6 +11,7 @@ import ScooterInfo from './components/ScooterInfo';
 import { isDataValid } from '../../../utils/utils';
 import { StyledPopupWrapper, StyledPopupInner } from '../../../styled/styled';
 import AccessibleMarker from '../../../../AccessibleMarker';
+import getPopupAnchor from '../../../../../utils/popupAnchor';
 
 const ScooterMarkers = ({ mapObject }) => {
   const { showScootersRyde } = useMobilityPlatformContext();
@@ -35,6 +36,7 @@ const ScooterMarkers = ({ mapObject }) => {
   const customIcon = icon({
     iconUrl: setProviderIcon,
     iconSize: [40, 40],
+    popupAnchor: getPopupAnchor([40, 40]),
   });
 
   const { iotData: scooterData } = useIotDataFetch('SDR', showScootersRyde);

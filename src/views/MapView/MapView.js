@@ -30,6 +30,7 @@ import MapUtility from './utils/mapUtility';
 import Util from '../../utils/mapUtility';
 import HideSidebarButton from './components/HideSidebarButton';
 import PanControl from './components/PanControl';
+import PopupEscapeHandler from './components/PopupEscapeHandler';
 import TransitStops from './components/TransitStops';
 import UserMarker from './components/UserMarker';
 import adjustControlElements from './utils';
@@ -416,6 +417,7 @@ const MapView = (props) => {
           <CoordinateMarker position={getCoordinatesFromUrl()} />
           <EmbeddedActions />
           <PopupCloseButtonLabel label={intl.formatMessage({ id: 'general.close' })} />
+          <PopupEscapeHandler />
           <MobilityPlatformMapView mapObject={mapObject} />
         </MapContainer>
       </>

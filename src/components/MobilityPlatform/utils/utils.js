@@ -1,3 +1,5 @@
+import getPopupAnchor from '../../../utils/popupAnchor';
+
 /**
  * Returns boolean based on if visibilityValue is truthy and data is not null or empty.
  * @param {boolean} visibilityValue
@@ -14,10 +16,14 @@ const isDataValid = (visibilityValue, data) => visibilityValue && data && data.l
  */
 const isObjValid = (visibilityValue, obj) => visibilityValue && obj && Object.entries(obj).length > 0;
 
-const createIcon = (icon, isSmall) => ({
-  iconUrl: icon,
-  iconSize: isSmall ? [35, 35] : [45, 45],
-});
+const createIcon = (icon, isSmall) => {
+  const iconSize = isSmall ? [35, 35] : [45, 45];
+  return {
+    iconUrl: icon,
+    iconSize,
+    popupAnchor: getPopupAnchor(iconSize),
+  };
+};
 
 const whiteOptionsBase = (attrs = {}) => ({ color: 'rgba(255, 255, 255, 255)', ...attrs });
 const blackOptionsBase = (attrs = {}) => ({ color: 'rgba(0, 0, 0, 255)', ...attrs });
