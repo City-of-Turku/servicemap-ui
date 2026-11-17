@@ -147,16 +147,13 @@ const TransitStops = ({ mapObject, classes }) => {
           icon={icon}
           key={stop.name.fi + stop.gtfsId}
           position={[stop.lat, stop.lon]}
-          keyboard={false}
         >
-          <div aria-hidden>
-            <Popup closeButton={false} className="popup" autoPan={false}>
-              <TransitStopInfo
-                stop={stop}
-                onCloseClick={() => closePopup()}
-              />
-            </Popup>
-          </div>
+          <Popup closeButton={false} className="popup" autoPan={false}>
+            <TransitStopInfo
+              stop={stop}
+              onCloseClick={() => closePopup()}
+            />
+          </Popup>
         </AccessibleMarker>
       );
     }) : null
