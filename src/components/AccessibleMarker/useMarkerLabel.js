@@ -28,10 +28,13 @@ const useMarkerLabel = (typeId, name, icon) => {
   const intl = useIntl();
   const getLocaleText = useLocaleText();
   const markerRef = useRef(null);
-  // Callers create a new icon object on every render, so compare by image url instead
+  // Callers create a new icon object on every render, so compare by image url instead.
+  // setIcon replaces the element without an 'add' event when the icon type changes.
   const iconKey = icon?.options?.iconUrl ?? icon;
-
-  const toText = value => (value && typeof value === 'object' ? getLocaleText(value) : value)?.trim();
+  const toText = (value) => {
+    if (value == null) return '';
+    return String(typeof value === 'object' ? getLocaleText(value) : value).trim();
+  };
   const type = typeId ? intl.formatMessage({ id: typeId }) : '';
   const label = [type, toText(name)].filter(Boolean).join(', ');
 

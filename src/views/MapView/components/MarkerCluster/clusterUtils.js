@@ -5,9 +5,72 @@ import { getAddressFromUnit } from '../../../../utils/address';
 import formatEventDate from '../../../../utils/events';
 import { isEmbed } from '../../../../utils/path';
 
-// Unit, entrance and cluster markers are reached via the result list, so only they are hidden.
-// Other map markers (e.g. mobility platform layers) must stay focusable and visible to screen readers.
-export const UNIT_MARKER_SELECTOR = '.unitMarker, .unitClusterMarker, .entranceMarker';
+// Unit and entrance markers are reached via the result list, so only they are hidden.
+// Cluster markers (see createAccessibleDivIcon) and other map markers (e.g. mobility platform
+// layers) must stay focusable and visible to screen readers.
+export const UNIT_MARKER_SELECTOR = '.unitMarker, .entranceMarker';
+
+// Remove unit markers from keyboard and screen readers within the given map only
+export const hideUnitMarkers = (map) => {
+  const container = map?.getContainer?.();
+  if (!container) return;
+  container.querySelectorAll(UNIT_MARKER_SELECTOR).forEach((item) => {
+    item.setAttribute('tabindex', '-1');
+    item.setAttribute('aria-hidden', 'true');
+  });
+};
+
+const DESCRIPTION_CLASS = 'marker-description';
+let AccessibleDivIcon = null;
+let descriptionIdCounter = 0;
+
+/**
+ * L.divIcon for a marker that is either a named button or hidden from assistive technology.
+ *
+ * options.ariaLabel: accessible name. Leaflet only uses options.alt for IMG icons, and adds
+ * tabindex="0" and role="button" itself when the marker's keyboard option is true.
+ * options.ariaDescription: optional text linked with aria-describedby through a hidden child.
+ * Without ariaLabel the icon is hidden; the marker's keyboard option must then be false.
+ *
+ * Leaflet reuses the icon element when a marker's icon updates (e.g. cluster count changes),
+ * so every attribute set here is also cleared when it no longer applies.
+ */
+export const createAccessibleDivIcon = (options) => {
+  if (!AccessibleDivIcon) {
+    AccessibleDivIcon = global.L.DivIcon.extend({
+      createIcon(oldIcon) {
+        const div = global.L.DivIcon.prototype.createIcon.call(this, oldIcon);
+        const { ariaLabel, ariaDescription } = this.options;
+
+        if (ariaLabel) {
+          div.setAttribute('aria-label', ariaLabel);
+          div.removeAttribute('aria-hidden');
+        } else {
+          div.removeAttribute('aria-label');
+          div.removeAttribute('role');
+          div.setAttribute('aria-hidden', 'true');
+          div.setAttribute('tabindex', '-1');
+        }
+
+        // DivIcon replaces the element's content, so the description child is always new
+        if (ariaLabel && ariaDescription) {
+          descriptionIdCounter += 1;
+          const description = document.createElement('span');
+          description.id = `marker-description-${descriptionIdCounter}`;
+          description.className = DESCRIPTION_CLASS;
+          description.hidden = true;
+          description.textContent = ariaDescription;
+          div.appendChild(description);
+          div.setAttribute('aria-describedby', description.id);
+        } else {
+          div.removeAttribute('aria-describedby');
+        }
+        return div;
+      },
+    });
+  }
+  return new AccessibleDivIcon(options);
+};
 
 export const createMarkerClusterLayer = (
   createClusterCustomIcon,
@@ -40,14 +103,24 @@ export const createMarkerClusterLayer = (
     }
   });
 
-  // Hide clusters and markers from keyboard after clustering animations are done
+  // Cluster markers are role="button", which users expect to activate with Space as well.
+  // Leaflet.markercluster only handles Enter (on keypress), so pass Space on as Enter.
+  // keydown is used so the page doesn't scroll.
+  clusterLayer.on('clusterkeydown', (e) => {
+    const { originalEvent, layer } = e;
+    if (originalEvent?.key !== ' ') return;
+    originalEvent.preventDefault();
+    clusterLayer._zoomOrSpiderfy({
+      type: 'clusterkeypress',
+      layer,
+      originalEvent: { keyCode: 13 },
+    });
+  });
+
+  // Hide unit markers from keyboard after clustering animations are done
   clusterLayer.on('animationend', (a) => {
     if (clusterAnimationend) clusterAnimationend(a);
-
-    document.querySelectorAll(UNIT_MARKER_SELECTOR).forEach((item) => {
-      item.setAttribute('tabindex', '-1');
-      item.setAttribute('aria-hidden', 'true');
-    });
+    hideUnitMarkers(clusterLayer._map);
   });
 
   // Run clustermouseout function

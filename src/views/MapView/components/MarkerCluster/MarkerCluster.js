@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
@@ -7,7 +9,8 @@ import { useMap } from 'react-leaflet';
 import { drawMarkerIcon } from '../../utils/drawIcon';
 import { isEmbed } from '../../../../utils/path';
 import {
-  createMarkerClusterLayer, createTooltipContent, createPopupContent, UNIT_MARKER_SELECTOR,
+  createMarkerClusterLayer, createTooltipContent, createPopupContent, createAccessibleDivIcon,
+  hideUnitMarkers,
 } from './clusterUtils';
 import { mapTypes } from '../../config/mapConfig';
 import { keyboardHandler } from '../../../../utils';
@@ -41,6 +44,9 @@ const getClusterIconSize = (count) => {
   else iconSize = 30;
   return iconSize;
 };
+
+// Clusters this small also list their service point names in the accessible description
+const CLUSTER_DESCRIPTION_MAX_NAMES = 5;
 
 const clusterData = {};
 
@@ -144,7 +150,28 @@ const MarkerCluster = ({
       .map(marker => marker?.options?.customUnitData?.id && `unit-marker-${marker.options.customUnitData.id}`)
       .filter(v => !!v);
     const iconClasses = unitClasses.join(' ');
-    const icon = global.L.divIcon({
+    // Clusters are focusable buttons unless the map is non-interactive. Leaflet reads this
+    // option right after this function returns, when it sets tabindex and role on the icon.
+    cluster.options.keyboard = !disableInteraction;
+    // Accessible name, e.g. "Group of 5 service points", and for small clusters the
+    // service point names as the description, e.g. "Library, Swimming hall and Park"
+    const ariaLabel = disableInteraction
+      ? null
+      : intl.formatMessage({ id: 'map.unit.cluster.ariaLabel' }, { count: cCount });
+    const ariaDescription = !disableInteraction && cCount <= CLUSTER_DESCRIPTION_MAX_NAMES
+      ? intl.formatList(
+        children
+          .map((marker) => {
+            const name = marker?.options?.customUnitData?.name;
+            return typeof name === 'object' && name ? getLocaleText(name) : name;
+          })
+          .filter(name => typeof name === 'string' && name.trim()),
+        { type: 'conjunction' },
+      )
+      : null;
+    const icon = createAccessibleDivIcon({
+      ariaLabel,
+      ariaDescription,
       html: `
         <div class="${classes.bgCircle} ${classes.markerCircle} ${iconClasses}" aria-hidden="true" tabindex="-1">
           <div class="${classes.outerCircle} ${classes.markerCircle} ${useContrast ? 'dark' : ''}" aria-hidden="true" tabindex="-1">
@@ -161,6 +188,11 @@ const MarkerCluster = ({
     });
     return icon;
   };
+
+  // The cluster layer is created once, so it calls the icon function through a ref to always
+  // use the current locale, theme and props
+  const createClusterIconRef = useRef(createClusterCustomIcon);
+  createClusterIconRef.current = createClusterCustomIcon;
 
   // Remove popup from old marker and set new highligted marker
   const setNewHighlightedMarker = (marker) => {
@@ -315,7 +347,7 @@ const MarkerCluster = ({
   // Create and initialize marker cluster layer on mount
   useEffect(() => {
     const mcg = createMarkerClusterLayer(
-      createClusterCustomIcon,
+      clusterLayer => createClusterIconRef.current(clusterLayer),
       clusterMouseover,
       clusterMouseout,
       clusterAnimationEnd,
@@ -390,7 +422,6 @@ const MarkerCluster = ({
             ),
             customUnitData: unit,
             keyboard: false,
-            alt: getLocaleText(unit.name),
           },
         ).bindPopup(
           popupContent,
@@ -434,10 +465,7 @@ const MarkerCluster = ({
 
 
     // Hide unit markers from screen readers
-    document.querySelectorAll(UNIT_MARKER_SELECTOR).forEach((item) => {
-      item.setAttribute('tabindex', '-1');
-      item.setAttribute('aria-hidden', 'true');
-    });
+    hideUnitMarkers(map);
     // Remove marker interaction when using measuring tool or if interactions are disabled
     if (measuringMode || disableInteraction) {
       document.querySelectorAll('.leaflet-marker-icon').forEach((item) => {
@@ -445,6 +473,11 @@ const MarkerCluster = ({
       });
     }
   }, [cluster, data, isMobile, measuringMode]);
+
+  // Redraw cluster icons so their accessible names follow a language change
+  useEffect(() => {
+    if (cluster) cluster.refreshClusters();
+  }, [intl.locale, getLocaleText]);
 
   const removeMarkerInteraction = useCallback(() => {
     /* Remove interactions from markers during measuring mode.
