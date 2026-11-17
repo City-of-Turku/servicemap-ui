@@ -150,11 +150,8 @@ const MarkerCluster = ({
       .map(marker => marker?.options?.customUnitData?.id && `unit-marker-${marker.options.customUnitData.id}`)
       .filter(v => !!v);
     const iconClasses = unitClasses.join(' ');
-    // Clusters are focusable buttons unless the map is non-interactive. Leaflet reads this
-    // option right after this function returns, when it sets tabindex and role on the icon.
+    // Leaflet reads this right after we return to set tabindex/role
     cluster.options.keyboard = !disableInteraction;
-    // Accessible name, e.g. "Group of 5 service points", and for small clusters the
-    // service point names as the description, e.g. "Library, Swimming hall and Park"
     const ariaLabel = disableInteraction
       ? null
       : intl.formatMessage({ id: 'map.unit.cluster.ariaLabel' }, { count: cCount });
@@ -464,7 +461,6 @@ const MarkerCluster = ({
     cluster.addLayers(markers);
 
 
-    // Hide unit markers from screen readers
     hideUnitMarkers(map);
     // Remove marker interaction when using measuring tool or if interactions are disabled
     if (measuringMode || disableInteraction) {

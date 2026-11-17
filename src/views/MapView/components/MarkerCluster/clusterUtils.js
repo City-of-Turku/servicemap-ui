@@ -5,9 +5,7 @@ import { getAddressFromUnit } from '../../../../utils/address';
 import formatEventDate from '../../../../utils/events';
 import { isEmbed } from '../../../../utils/path';
 
-// Unit and entrance markers are reached via the result list, so only they are hidden.
-// Cluster markers (see createAccessibleDivIcon) and other map markers (e.g. mobility platform
-// layers) must stay focusable and visible to screen readers.
+// Only unit/entrance markers are hidden; they are reachable via the result list.
 export const UNIT_MARKER_SELECTOR = '.unitMarker, .entranceMarker';
 
 // Remove unit markers from keyboard and screen readers within the given map only
@@ -25,15 +23,8 @@ let AccessibleDivIcon = null;
 let descriptionIdCounter = 0;
 
 /**
- * L.divIcon for a marker that is either a named button or hidden from assistive technology.
- *
- * options.ariaLabel: accessible name. Leaflet only uses options.alt for IMG icons, and adds
- * tabindex="0" and role="button" itself when the marker's keyboard option is true.
- * options.ariaDescription: optional text linked with aria-describedby through a hidden child.
- * Without ariaLabel the icon is hidden; the marker's keyboard option must then be false.
- *
- * Leaflet reuses the icon element when a marker's icon updates (e.g. cluster count changes),
- * so every attribute set here is also cleared when it no longer applies.
+ * L.divIcon with an aria-label (and optional aria-description), or aria-hidden without a label.
+ * Leaflet reuses the element when the icon updates, so attributes are also cleared here.
  */
 export const createAccessibleDivIcon = (options) => {
   if (!AccessibleDivIcon) {

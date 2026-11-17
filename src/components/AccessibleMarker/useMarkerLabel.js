@@ -14,16 +14,8 @@ const applyLabel = (marker, label) => {
   element.setAttribute('aria-label', label);
 };
 
-/**
- * Builds a marker label like "Laskentapiste, Auransilta" and keeps it on the icon element.
- * Leaflet uses options.alt only for IMG icons and creates a new element whenever the marker
- * is added to the map, so the label is re-applied on every add.
- *
- * @param {string} typeId translation id of the marker type
- * @param {string|Object} name item name as a string or a { fi, sv, en } object
- * @param {Object} icon the marker's Leaflet icon
- * @returns {{ markerRef: Object, label: string }}
- */
+// Leaflet uses options.alt only for IMG icons and recreates the element on every add,
+// so the label is re-applied on each 'add' event.
 const useMarkerLabel = (typeId, name, icon) => {
   const intl = useIntl();
   const getLocaleText = useLocaleText();

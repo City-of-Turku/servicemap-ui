@@ -32,7 +32,6 @@ MarkerComponent.propTypes = {
     path: PropTypes.string,
     viewBox: PropTypes.string,
   }).isRequired,
-  /** See AccessibleMarker */
   typeId: PropTypes.string.isRequired,
   name: PropTypes.oneOfType([PropTypes.string, PropTypes.objectOf(PropTypes.string)]),
   children: PropTypes.node,

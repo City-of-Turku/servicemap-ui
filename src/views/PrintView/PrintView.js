@@ -178,7 +178,7 @@ const PrintView = ({
     // Layer for markers
     const layer = global.L.featureGroup();
     layer.on('add', () => {
-      // Hide print map markers from screen readers. Scoped to the print map so markers on the main map stay accessible
+      // Hide print map markers from screen readers (scoped to this map)
       mymap.getContainer().querySelectorAll('.leaflet-marker-icon').forEach((item) => {
         item.setAttribute('tabindex', '-1');
         item.setAttribute('aria-hidden', 'true');

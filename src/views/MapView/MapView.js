@@ -41,8 +41,7 @@ import SimpleStatisticalComponent from './components/StatisticalDataMapInfo';
 if (global.window) {
   const L = require('leaflet');
   require('leaflet.markercluster');
-  // Leaflet 1.9 defaults marker alt to 'Marker', which screen readers announce for every marker.
-  // Keep icons decorative by default; markers that need a name pass their own label.
+  // Leaflet 1.9 defaults alt to 'Marker'; keep icons decorative unless labelled.
   L.Marker.mergeOptions({ alt: '' });
   global.rL = require('react-leaflet');
 }
@@ -125,9 +124,8 @@ const MapView = (props) => {
 
   const unitData = useMapUnits();
 
-  // Leaflet makes the container focusable but leaves it unnamed, so screen readers announce
-  // the labels of all markers inside it as its name. The surrounding section is already the
-  // map landmark, so the container is a group rather than a second region.
+  // Leaflet's container is focusable but unnamed, so SRs read all marker labels as its name.
+  // The section is already the landmark, so use group.
   useEffect(() => {
     if (!mapElement) return;
     const container = mapElement.getContainer();
