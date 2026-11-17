@@ -93,7 +93,12 @@ const CrossWalks = ({ mapObject }) => {
   return (
     renderData
       ? crossWalksData.map(item => (
-        <MarkerComponent key={item.id} item={item} icon={customIcon}>
+        <MarkerComponent
+          key={item.id}
+          item={item}
+          icon={customIcon}
+          typeId="mobilityPlatform.content.crosswalks.title"
+        >
           <TextContent
             titleId="mobilityPlatform.content.crosswalks.title"
             translationId="mobilityPlatform.info.short.crosswalks"

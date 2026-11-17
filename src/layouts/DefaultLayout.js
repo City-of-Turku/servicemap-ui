@@ -2,8 +2,6 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Typography } from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
 import MapView from '../views/MapView';
 import config from '../../config';
 import ViewRouter from './components/ViewRouter';
@@ -189,7 +187,6 @@ const DefaultLayout = (props) => {
                 aria-hidden={!!settingsToggled}
                 style={styles.map}
               >
-                <Typography style={visuallyHidden}>{intl.formatMessage({ id: 'map.ariaLabel' })}</Typography>
                 <MapView
                   sidebarHidden={sidebarHidden}
                   toggleSidebar={toggleSidebar}

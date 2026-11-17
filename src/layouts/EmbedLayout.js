@@ -259,7 +259,9 @@ const EmbedLayout = ({ intl }) => {
         </div>
         {selectedUnitData ? renderEmbeddedUnitInfo() : null}
         <section aria-label={intl.formatMessage({ id: 'map' })} style={styles.map}>
-          <Typography style={visuallyHidden}>{intl.formatMessage({ id: 'map.ariaLabel' })}</Typography>
+          {!showList && (
+            <Typography style={visuallyHidden}>{intl.formatMessage({ id: 'map.screenReaderInfo.embed' })}</Typography>
+          )}
           <MapView />
         </section>
       </div>

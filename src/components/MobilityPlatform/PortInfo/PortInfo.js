@@ -11,6 +11,7 @@ import { fetchPortNetData } from '../mobilityPlatformRequests/mobilityPlatformRe
 import { createIcon, isDataValid, optionsToParams } from '../utils/utils';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import PortInfoContent from './components/PortInfoContent';
+import AccessibleMarker from '../../AccessibleMarker';
 
 /** Show ports of Turku and Naantali on the map */
 const PortInfo = () => {
@@ -22,7 +23,7 @@ const PortInfo = () => {
 
   const map = useMap();
 
-  const { Marker, Popup } = global.rL;
+  const { Popup } = global.rL;
   const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
@@ -83,8 +84,10 @@ const PortInfo = () => {
 
   return renderData
     ? portAreasFiltered.map(item => (
-      <Marker
-        key={item.portAreaCode}
+      <AccessibleMarker
+        key={`${item?.properties?.portAreaName}-${item?.geometry?.coordinates}`}
+        typeId="mobilityPlatform.marker.port"
+        name={item?.properties?.portAreaName}
         icon={customIcon}
         position={[item?.geometry?.coordinates[1], item?.geometry?.coordinates[0]]}
       >
@@ -98,7 +101,7 @@ const PortInfo = () => {
             </StyledPopupInner>
           </Popup>
         </StyledPopupWrapper>
-      </Marker>
+      </AccessibleMarker>
     ))
     : null;
 };

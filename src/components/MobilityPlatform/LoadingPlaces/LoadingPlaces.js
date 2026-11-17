@@ -9,6 +9,7 @@ import { useAccessibleMap } from '../../../redux/selectors/settings';
 import useMobilityDataFetch from '../utils/useMobilityDataFetch';
 import { isDataValid, fitPolygonsToBounds, createIcon } from '../utils/utils';
 import LoadingPlacesContent from './components/LoadingPlacesContent';
+import AccessibleMarker from '../../AccessibleMarker';
 
 const LoadingPlaces = () => {
   const options = {
@@ -23,7 +24,7 @@ const LoadingPlaces = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const { Marker, Popup } = global.rL;
+  const { Popup } = global.rL;
   const { icon } = global.L;
 
   const customIcon = icon(createIcon(useContrast ? loadingPlaceIconBw : loadingPlaceIcon));
@@ -40,15 +41,17 @@ const LoadingPlaces = () => {
   return (
     renderData
       ? data.map(item => (
-        <Marker
+        <AccessibleMarker
           key={item.id}
+          typeId="mobilityPlatform.marker.loadingPlace"
+          name={{ fi: item.name_fi, sv: item.name_sv, en: item.name_en }}
           icon={customIcon}
           position={getSingleCoordinates(item.geometry_coords)}
         >
           <Popup>
             <LoadingPlacesContent item={item} />
           </Popup>
-        </Marker>
+        </AccessibleMarker>
       ))
       : null
   );

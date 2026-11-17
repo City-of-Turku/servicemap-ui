@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
@@ -6,7 +8,10 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import { useMap } from 'react-leaflet';
 import { drawMarkerIcon } from '../../utils/drawIcon';
 import { isEmbed } from '../../../../utils/path';
-import { createMarkerClusterLayer, createTooltipContent, createPopupContent } from './clusterUtils';
+import {
+  createMarkerClusterLayer, createTooltipContent, createPopupContent, createAccessibleDivIcon,
+  hideUnitMarkers,
+} from './clusterUtils';
 import { mapTypes } from '../../config/mapConfig';
 import { keyboardHandler } from '../../../../utils';
 import UnitHelper from '../../../../utils/unitHelper';
@@ -39,6 +44,9 @@ const getClusterIconSize = (count) => {
   else iconSize = 30;
   return iconSize;
 };
+
+// Clusters this small also list their service point names in the accessible description
+const CLUSTER_DESCRIPTION_MAX_NAMES = 5;
 
 const clusterData = {};
 
@@ -142,7 +150,25 @@ const MarkerCluster = ({
       .map(marker => marker?.options?.customUnitData?.id && `unit-marker-${marker.options.customUnitData.id}`)
       .filter(v => !!v);
     const iconClasses = unitClasses.join(' ');
-    const icon = global.L.divIcon({
+    // Leaflet reads this right after we return to set tabindex/role
+    cluster.options.keyboard = !disableInteraction;
+    const ariaLabel = disableInteraction
+      ? null
+      : intl.formatMessage({ id: 'map.unit.cluster.ariaLabel' }, { count: cCount });
+    const ariaDescription = !disableInteraction && cCount <= CLUSTER_DESCRIPTION_MAX_NAMES
+      ? intl.formatList(
+        children
+          .map((marker) => {
+            const name = marker?.options?.customUnitData?.name;
+            return typeof name === 'object' && name ? getLocaleText(name) : name;
+          })
+          .filter(name => typeof name === 'string' && name.trim()),
+        { type: 'conjunction' },
+      )
+      : null;
+    const icon = createAccessibleDivIcon({
+      ariaLabel,
+      ariaDescription,
       html: `
         <div class="${classes.bgCircle} ${classes.markerCircle} ${iconClasses}" aria-hidden="true" tabindex="-1">
           <div class="${classes.outerCircle} ${classes.markerCircle} ${useContrast ? 'dark' : ''}" aria-hidden="true" tabindex="-1">
@@ -159,6 +185,11 @@ const MarkerCluster = ({
     });
     return icon;
   };
+
+  // The cluster layer is created once, so it calls the icon function through a ref to always
+  // use the current locale, theme and props
+  const createClusterIconRef = useRef(createClusterCustomIcon);
+  createClusterIconRef.current = createClusterCustomIcon;
 
   // Remove popup from old marker and set new highligted marker
   const setNewHighlightedMarker = (marker) => {
@@ -195,10 +226,10 @@ const MarkerCluster = ({
     // Create container and title
     const container = document.createElement('div');
     container.className = classes.unitTooltipContainer;
-    container.setAttribute('aria-hidden', 'true');
 
     // Render simple info popup
     if (!showListOfUnits()) {
+      container.setAttribute('aria-hidden', 'true');
       const title = document.createElement('p');
       title.innerText = popupTexts.info(units.length);
       title.className = classes.unitTooltipTitle;
@@ -313,7 +344,7 @@ const MarkerCluster = ({
   // Create and initialize marker cluster layer on mount
   useEffect(() => {
     const mcg = createMarkerClusterLayer(
-      createClusterCustomIcon,
+      clusterLayer => createClusterIconRef.current(clusterLayer),
       clusterMouseover,
       clusterMouseout,
       clusterAnimationEnd,
@@ -430,14 +461,19 @@ const MarkerCluster = ({
     cluster.addLayers(markers);
 
 
-    // Hide all markers from screen readers
-    document.querySelectorAll('.leaflet-marker-icon').forEach((item) => {
-      item.setAttribute('tabindex', '-1');
-      item.setAttribute('aria-hidden', 'true');
-      // Remove marker interaction when using measuring tool or if interactions are disabled
-      if (measuringMode || disableInteraction) item.classList.remove('leaflet-interactive');
-    });
+    hideUnitMarkers(map);
+    // Remove marker interaction when using measuring tool or if interactions are disabled
+    if (measuringMode || disableInteraction) {
+      document.querySelectorAll('.leaflet-marker-icon').forEach((item) => {
+        item.classList.remove('leaflet-interactive');
+      });
+    }
   }, [cluster, data, isMobile, measuringMode]);
+
+  // Redraw cluster icons so their accessible names follow a language change
+  useEffect(() => {
+    if (cluster) cluster.refreshClusters();
+  }, [intl.locale, getLocaleText]);
 
   const removeMarkerInteraction = useCallback(() => {
     /* Remove interactions from markers during measuring mode.

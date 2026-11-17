@@ -5,6 +5,66 @@ import { getAddressFromUnit } from '../../../../utils/address';
 import formatEventDate from '../../../../utils/events';
 import { isEmbed } from '../../../../utils/path';
 
+// Only unit/entrance markers are hidden; they are reachable via the result list.
+export const UNIT_MARKER_SELECTOR = '.unitMarker, .entranceMarker';
+
+// Remove unit markers from keyboard and screen readers within the given map only
+export const hideUnitMarkers = (map) => {
+  const container = map?.getContainer?.();
+  if (!container) return;
+  container.querySelectorAll(UNIT_MARKER_SELECTOR).forEach((item) => {
+    item.setAttribute('tabindex', '-1');
+    item.setAttribute('aria-hidden', 'true');
+  });
+};
+
+const DESCRIPTION_CLASS = 'marker-description';
+let AccessibleDivIcon = null;
+let descriptionIdCounter = 0;
+
+/**
+ * L.divIcon with an aria-label (and optional aria-description), or aria-hidden without a label.
+ * Leaflet reuses the element when the icon updates, so attributes are also cleared here.
+ */
+export const createAccessibleDivIcon = (options) => {
+  if (!AccessibleDivIcon) {
+    AccessibleDivIcon = global.L.DivIcon.extend({
+      createIcon(oldIcon) {
+        const div = global.L.DivIcon.prototype.createIcon.call(this, oldIcon);
+        const { ariaLabel, ariaDescription } = this.options;
+
+        if (ariaLabel) {
+          div.setAttribute('aria-label', ariaLabel);
+          div.removeAttribute('aria-hidden');
+        } else {
+          div.removeAttribute('aria-label');
+          div.removeAttribute('role');
+          div.setAttribute('aria-hidden', 'true');
+          div.setAttribute('tabindex', '-1');
+        }
+
+        // DivIcon replaces the element's content, so the description child is always new
+        if (ariaLabel && ariaDescription) {
+          descriptionIdCounter += 1;
+          const description = document.createElement('span');
+          description.id = `marker-description-${descriptionIdCounter}`;
+          description.className = DESCRIPTION_CLASS;
+          description.hidden = true;
+          description.textContent = ariaDescription;
+          div.appendChild(description);
+          div.setAttribute('aria-describedby', description.id);
+        } else {
+          div.removeAttribute('aria-describedby');
+        }
+        return div;
+      },
+    });
+  }
+  return new AccessibleDivIcon(options);
+};
+
+const BUTTON_ACTIVATION_KEYS = ['Enter', ' '];
+
 export const createMarkerClusterLayer = (
   createClusterCustomIcon,
   clusterMouseover,
@@ -36,14 +96,26 @@ export const createMarkerClusterLayer = (
     }
   });
 
-  // Hide clusters and markers from keyboard after clustering animations are done
+  clusterLayer.on('clusterkeydown', (e) => {
+    const { originalEvent, layer } = e;
+    if (!BUTTON_ACTIVATION_KEYS.includes(originalEvent?.key)) return;
+    originalEvent.preventDefault();
+    if (clusterMouseover && showListOfUnits()) {
+      clusterMouseover(e);
+      layer.getPopup()?.getElement()?.querySelector('[role="link"]')?.focus();
+      return;
+    }
+    clusterLayer._zoomOrSpiderfy({
+      type: 'clusterkeypress',
+      layer,
+      originalEvent: { keyCode: 13 },
+    });
+  });
+
+  // Hide unit markers from keyboard after clustering animations are done
   clusterLayer.on('animationend', (a) => {
     if (clusterAnimationend) clusterAnimationend(a);
-
-    document.querySelectorAll('.leaflet-marker-icon').forEach((item) => {
-      item.setAttribute('tabindex', '-1');
-      item.setAttribute('aria-hidden', 'true');
-    });
+    hideUnitMarkers(clusterLayer._map);
   });
 
   // Run clustermouseout function

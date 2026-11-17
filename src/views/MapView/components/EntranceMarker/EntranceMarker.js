@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { getSelectedUnit } from '../../../../redux/selectors/selectedUnit';
 import useLocaleText from '../../../../utils/useLocaleText';
 import { drawEntranceMarkreIcon } from '../../utils/drawIcon';
+import AccessibleMarker from '../../../../components/AccessibleMarker';
 
 const EntranceMarker = ({ classes }) => {
   const getLocaleText = useLocaleText();
@@ -40,7 +41,7 @@ const EntranceMarker = ({ classes }) => {
 
 
   if (unit?.entrances?.length && showMarkers) {
-    const { Marker, Popup } = global.rL || {};
+    const { Popup } = global.rL || {};
     return (
       unit.entrances.map((entrance) => {
         if (!entrance.location) return null;
@@ -53,8 +54,10 @@ const EntranceMarker = ({ classes }) => {
         const { coordinates } = position;
 
         return (
-          <Marker
+          <AccessibleMarker
             key={`${coordinates[0]},${coordinates[1]}`}
+            typeId={entrance.is_main_entrance ? 'unit.entrances.main' : 'unit.entrances.secondary'}
+            name={entrance.name || unit.name}
             icon={drawEntranceMarkreIcon(theme === 'dark')}
             position={coordinates}
           >
@@ -75,7 +78,7 @@ const EntranceMarker = ({ classes }) => {
                 </Typography>
               </div>
             </Popup>
-          </Marker>
+          </AccessibleMarker>
         );
       })
     );

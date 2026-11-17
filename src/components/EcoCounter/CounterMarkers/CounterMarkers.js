@@ -6,17 +6,27 @@ import ecoCounterIcon from 'servicemap-ui-turku/assets/icons/icons-icon_ecocount
 import ecoCounterIconBw from 'servicemap-ui-turku/assets/icons/contrast/icons-icon_ecocounter-bw.svg';
 import { useAccessibleMap } from '../../../redux/selectors/settings';
 import { createIcon } from '../../MobilityPlatform/utils/utils';
+import AccessibleMarker from '../../AccessibleMarker';
 
 const CounterMarkers = ({ counterStation, children }) => {
   const useContrast = useSelector(useAccessibleMap);
 
-  const { Marker, Popup } = global.rL;
+  const { Popup } = global.rL;
   const { icon } = global.L;
 
   const customIcon = icon(createIcon(useContrast ? ecoCounterIconBw : ecoCounterIcon));
 
   return (
-    <Marker icon={customIcon} position={[counterStation.lat, counterStation.lon]}>
+    <AccessibleMarker
+      typeId="mobilityPlatform.marker.trafficCounter"
+      name={{
+        fi: counterStation.name_fi || counterStation.name,
+        sv: counterStation.name_sv,
+        en: counterStation.name_en,
+      }}
+      icon={customIcon}
+      position={[counterStation.lat, counterStation.lon]}
+    >
       <StyledWrapper>
         <Popup className="ecocounter-popup">
           <StyledContentInner>
@@ -24,7 +34,7 @@ const CounterMarkers = ({ counterStation, children }) => {
           </StyledContentInner>
         </Popup>
       </StyledWrapper>
-    </Marker>
+    </AccessibleMarker>
   );
 };
 
@@ -45,6 +55,10 @@ const StyledContentInner = styled.div(({ theme }) => ({
 
 CounterMarkers.propTypes = {
   counterStation: PropTypes.shape({
+    name: PropTypes.string,
+    name_fi: PropTypes.string,
+    name_sv: PropTypes.string,
+    name_en: PropTypes.string,
     lat: PropTypes.number,
     lon: PropTypes.number,
   }),

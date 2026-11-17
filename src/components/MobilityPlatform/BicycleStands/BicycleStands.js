@@ -82,12 +82,14 @@ const BicycleStands = () => {
     }
   }, [showHullLockableStands]);
 
-  const renderBicycleStands = (isValid, data) => (isValid ? (
+  const renderBicycleStands = (isValid, data, typeId) => (isValid ? (
     data?.map(item => (
       <MarkerComponent
         key={item.id}
         item={item}
         icon={customIcon}
+        typeId={typeId}
+        name={item.name}
       >
         <BicycleStandContent bicycleStand={item} />
       </MarkerComponent>
@@ -96,8 +98,12 @@ const BicycleStands = () => {
 
   return (
     <>
-      {renderBicycleStands(validBicycleStands, otherBicycleStands)}
-      {renderBicycleStands(validHulllockableStands, hullLockableBicycleStands)}
+      {renderBicycleStands(validBicycleStands, otherBicycleStands, 'mobilityPlatform.marker.bicycleStand')}
+      {renderBicycleStands(
+        validHulllockableStands,
+        hullLockableBicycleStands,
+        'mobilityPlatform.marker.hullLockableBicycleStand',
+      )}
     </>
   );
 };

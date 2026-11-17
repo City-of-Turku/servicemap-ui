@@ -3,7 +3,7 @@ import { ButtonBase } from '@mui/material';
 import { LocationDisabled, MyLocation } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { useMapEvents } from 'react-leaflet';
+import { useMap, useMapEvents } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Loading from '../../components/Loading';
@@ -39,8 +39,10 @@ import { getStatisticalDistrictUnitsState } from '../../redux/selectors/statisti
 import SimpleStatisticalComponent from './components/StatisticalDataMapInfo';
 
 if (global.window) {
-  require('leaflet');
+  const L = require('leaflet');
   require('leaflet.markercluster');
+  // Leaflet 1.9 defaults alt to 'Marker'; keep icons decorative unless labelled.
+  L.Marker.mergeOptions({ alt: '' });
   global.rL = require('react-leaflet');
 }
 
@@ -56,6 +58,31 @@ const EmbeddedActions = () => {
   });
 
   return null;
+};
+
+// Replace Leaflet's English 'Close popup' label on the default popup close button
+const PopupCloseButtonLabel = ({ label }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    const setLabel = (element) => {
+      element?.querySelectorAll('.leaflet-popup-close-button').forEach((closeButton) => {
+        closeButton.setAttribute('aria-label', label);
+      });
+    };
+    const onPopupOpen = e => setLabel(e.popup.getElement());
+
+    // Label popups opened before this effect ran, and update open popups when language changes
+    setLabel(map.getContainer());
+    map.on('popupopen', onPopupOpen);
+    return () => map.off('popupopen', onPopupOpen);
+  }, [map, label]);
+
+  return null;
+};
+
+PopupCloseButtonLabel.propTypes = {
+  label: PropTypes.string.isRequired,
 };
 
 const MapView = (props) => {
@@ -96,6 +123,15 @@ const MapView = (props) => {
   const statisticalDistrictFetch = useSelector(getStatisticalDistrictUnitsState);
 
   const unitData = useMapUnits();
+
+  // Leaflet's container is focusable but unnamed, so SRs read all marker labels as its name.
+  // The section is already the landmark, so use group.
+  useEffect(() => {
+    if (!mapElement) return;
+    const container = mapElement.getContainer();
+    container.setAttribute('role', 'group');
+    container.setAttribute('aria-label', intl.formatMessage({ id: 'map' }));
+  }, [mapElement, intl.locale]);
 
   // This unassigned selector is used to trigger re-render after events are fetched
   useSelector(state => getSelectedUnitEvents(state));
@@ -254,7 +290,6 @@ const MapView = (props) => {
     return (
       <>
         <MapContainer
-          tap={false} // This should fix leaflet safari double click bug
           preferCanvas
           className={`${classes.map} ${embedded ? classes.mapNoSidebar : ''} `}
           key={mapObject.options.name}
@@ -380,6 +415,7 @@ const MapView = (props) => {
             : null}
           <CoordinateMarker position={getCoordinatesFromUrl()} />
           <EmbeddedActions />
+          <PopupCloseButtonLabel label={intl.formatMessage({ id: 'general.close' })} />
           <MobilityPlatformMapView mapObject={mapObject} />
         </MapContainer>
       </>

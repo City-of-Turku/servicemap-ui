@@ -40,7 +40,13 @@ const ParkAndRideBikes = () => {
   return (
     renderData
       ? data.map(item => (
-        <MarkerComponent key={item.id} item={item} icon={customIcon}>
+        <MarkerComponent
+          key={item.id}
+          item={item}
+          icon={customIcon}
+          typeId="mobilityPlatform.parkAndRide.content.subtitle"
+          name={{ fi: item.name_fi, sv: item.name_sv, en: item.name_en }}
+        >
           <ParkAndRideBikesContent item={item} />
         </MarkerComponent>
       ))

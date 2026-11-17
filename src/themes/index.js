@@ -366,7 +366,7 @@ const SMThemeTku = createTheme({
   custom,
   palette: paletteTurku,
   zIndex,
-  focusIndicatorTku,
+  focusIndicator: focusIndicatorTku,
 });
 
 export default { SMTheme, SMThemeDark, SMThemeTku };

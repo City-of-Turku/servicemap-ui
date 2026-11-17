@@ -36,7 +36,12 @@ const PublicToilets = () => {
   return (
     renderData
       ? data.map(item => (
-        <MarkerComponent key={item.id} item={item} icon={customIcon}>
+        <MarkerComponent
+          key={item.id}
+          item={item}
+          icon={customIcon}
+          typeId="mobilityPlatform.content.publicToilets.title"
+        >
           <PublicToiletsContent />
         </MarkerComponent>
       ))

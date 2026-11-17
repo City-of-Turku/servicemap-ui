@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Typography, useTheme } from '@mui/material';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useMapEvents } from 'react-leaflet';
+import AccessibleMarker from '../../../../components/AccessibleMarker';
 
 const DistanceMeasure = (props) => {
   const {
@@ -10,7 +11,7 @@ const DistanceMeasure = (props) => {
   } = props;
 
   const {
-    Marker, Polyline, Tooltip, Popup,
+    Polyline, Tooltip, Popup,
   } = global.rL;
 
   const theme = useTheme();
@@ -86,7 +87,9 @@ const DistanceMeasure = (props) => {
     return (
       <>
         {markerArray.map((point, i) => (
-          <Marker
+          <AccessibleMarker
+            typeId="map.marker.measuringPoint"
+            name={i > 0 ? `${getDistance(i)} m` : null}
             zIndexOffset={500}
             keyboard={false}
             icon={icon}
@@ -120,7 +123,7 @@ const DistanceMeasure = (props) => {
               </div>
             </Popup>
             )}
-          </Marker>
+          </AccessibleMarker>
         ))}
         <Polyline color={theme.palette.measuringStroke.border} weight="14" positions={lineArray} />
         <Polyline color={theme.palette.measuringStroke.background} weight="10" positions={lineArray} />

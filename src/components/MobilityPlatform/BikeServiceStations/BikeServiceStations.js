@@ -35,7 +35,13 @@ const BikeServiceStations = () => {
   return (
     renderData
       ? data.map(item => (
-        <MarkerComponent key={item.id} item={item} icon={customIcon}>
+        <MarkerComponent
+          key={item.id}
+          item={item}
+          icon={customIcon}
+          typeId="mobilityPlatform.marker.bikeServiceStation"
+          name={{ fi: item.name, sv: item.name_sv, en: item.name_en }}
+        >
           <BikeServiceStationContent station={item} />
         </MarkerComponent>
       ))

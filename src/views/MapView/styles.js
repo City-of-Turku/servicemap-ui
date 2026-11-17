@@ -19,6 +19,7 @@ const styles = theme => ({
       outline: '2px solid transparent',
       boxShadow: `0 0 0 4px ${theme.palette.focusBorder.main}`,
     },
+    '& .leaflet-marker-icon:focus-visible': theme.focusIndicator,
     zIndex: theme.zIndex.forward,
   },
   mapNoSidebar: {

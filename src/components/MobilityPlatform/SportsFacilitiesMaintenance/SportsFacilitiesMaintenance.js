@@ -26,6 +26,7 @@ import {
   parseSkiUnitDescription,
   sanitizeIceMaintenanceHtml,
 } from './sportsFacilitiesDescription';
+import AccessibleMarker from '../../AccessibleMarker';
 
 function MaintenancePopupRow({ labelText, value }) {
   if (!hasPopupDisplayValue(value)) return null;
@@ -207,7 +208,7 @@ const SportsFacilitiesMaintenance = () => {
   const [allSkiTrailsData, setAllSkiTrailsData] = useState([]);
   const [iceTracksData, setIceTracksData] = useState([]);
 
-  const { Polyline, Marker, Popup } = global.rL;
+  const { Polyline, Popup } = global.rL;
   const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
@@ -440,6 +441,10 @@ const SportsFacilitiesMaintenance = () => {
     }
 
     const geomType = geom.geometry.type;
+    const markerTypeId = prefix === 'ice-track'
+      ? 'mobilityPlatform.popup.iceTrack.title'
+      : 'mobilityPlatform.popup.skiTrail.title';
+    const markerName = getTranslatedUnitName(geom.maintenance_data?.unit, intl.locale);
 
     if (geomType === 'LineString' && geom.geometry.coordinates) {
       // GeoJSON coordinates are [lon, lat], Leaflet needs [lat, lon]
@@ -454,15 +459,17 @@ const SportsFacilitiesMaintenance = () => {
 
       const popupContentWrapper = (
         <StyledPopupWrapper>
-          <Marker
+          <AccessibleMarker
             key={`${prefix}-marker-${geom.id}-${index}`}
+            typeId={markerTypeId}
+            name={markerName}
             icon={customSkiIcon}
             position={coords[0]}
           >
             <Popup className="popup-w350">
               {popupContent}
             </Popup>
-          </Marker>
+          </AccessibleMarker>
           <Popup className="popup-w350">
             {popupContent}
           </Popup>
@@ -502,8 +509,10 @@ const SportsFacilitiesMaintenance = () => {
     if (geomType === 'Point' && geom.geometry.coordinates) {
       const [lon, lat] = geom.geometry.coordinates;
       return (
-        <Marker
+        <AccessibleMarker
           key={`${prefix}-marker-${geom.id}-${index}`}
+          typeId={markerTypeId}
+          name={markerName}
           icon={geom?.maintenance_data?.condition === 'UNUSABLE' ? customUnusableIceIcon : customIceIcon}
           position={[lat, lon]}
         >
@@ -512,7 +521,7 @@ const SportsFacilitiesMaintenance = () => {
               {popupContent}
             </Popup>
           </StyledPopupWrapper>
-        </Marker>
+        </AccessibleMarker>
       );
     }
 

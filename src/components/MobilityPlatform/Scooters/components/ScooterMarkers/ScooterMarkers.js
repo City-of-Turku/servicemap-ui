@@ -10,13 +10,14 @@ import useIotDataFetch from '../../../utils/useIotDataFetch';
 import ScooterInfo from './components/ScooterInfo';
 import { isDataValid } from '../../../utils/utils';
 import { StyledPopupWrapper, StyledPopupInner } from '../../../styled/styled';
+import AccessibleMarker from '../../../../AccessibleMarker';
 
 const ScooterMarkers = ({ mapObject }) => {
   const { showScootersRyde } = useMobilityPlatformContext();
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const { Marker, Popup } = global.rL;
+  const { Popup } = global.rL;
   const { icon } = global.L;
 
   const map = useMap();
@@ -51,8 +52,9 @@ const ScooterMarkers = ({ mapObject }) => {
   return (
     renderData ? (
       filteredScooters.map(item => (
-        <Marker
+        <AccessibleMarker
           key={item.bike_id}
+          typeId="mobilityPlatform.content.scooter.title"
           icon={customIcon}
           position={[item.lat, item.lon]}
         >
@@ -63,7 +65,7 @@ const ScooterMarkers = ({ mapObject }) => {
               </StyledPopupInner>
             </Popup>
           </StyledPopupWrapper>
-        </Marker>
+        </AccessibleMarker>
       ))
     ) : null
   );

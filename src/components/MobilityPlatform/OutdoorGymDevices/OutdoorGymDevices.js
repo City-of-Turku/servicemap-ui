@@ -40,6 +40,8 @@ const OutdoorGymDevices = () => {
           key={item.id}
           item={item}
           icon={customIcon}
+          typeId="mobilityPlatform.marker.outdoorGymDevice"
+          name={{ fi: item.name_fi, sv: item.name_sv, en: item.name_en }}
         >
           <OutdoorGymDevicesContent item={item} />
         </MarkerComponent>

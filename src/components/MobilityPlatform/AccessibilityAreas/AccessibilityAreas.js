@@ -21,6 +21,7 @@ import {
 import { isEmbed } from '../../../utils/path';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import AccessibilityAreasContent from './components/AccessibilityAreasContent';
+import AccessibleMarker from '../../AccessibleMarker';
 
 /**
  * Displays school accessibility areas on the map in polygon format.
@@ -36,7 +37,7 @@ const AccessibilityAreas = () => {
   const embedded = isEmbed({ url: url.toString() });
 
   const map = useMap();
-  const { Marker, Polygon, Popup } = global.rL;
+  const { Polygon, Popup } = global.rL;
   const { icon } = global.L;
 
   const walk = 'kävely';
@@ -130,8 +131,12 @@ const AccessibilityAreas = () => {
 
   const renderMarkers = (showData, data) => (showData
     ? data.map(item => (
-      <Marker
+      <AccessibleMarker
         key={item.id}
+        typeId={item.extra?.kulkumuoto?.includes(walk)
+          ? 'mobilityPlatform.marker.accessibilityArea.walking'
+          : 'mobilityPlatform.marker.accessibilityArea.cycling'}
+        name={{ fi: item.name_fi, sv: item.name_sv, en: item.name_en }}
         icon={getCorrectIcon(item.extra.kulkumuoto)}
         position={getSingleCoordinates(item.geometry_coords)}
       >
@@ -142,7 +147,7 @@ const AccessibilityAreas = () => {
             </StyledPopupInner>
           </Popup>
         </StyledPopupWrapper>
-      </Marker>
+      </AccessibleMarker>
     ))
     : null);
 

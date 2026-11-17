@@ -9,6 +9,7 @@ import { useAccessibleMap } from '../../../../redux/selectors/settings';
 import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
 import { createIcon, isDataValid, fitPolygonsToBounds } from '../../utils/utils';
 import DisabledParkingContent from './components/DisabledParkingContent';
+import AccessibleMarker from '../../../AccessibleMarker';
 
 /**
  * Displays disabled parking areas on the map in marker format.
@@ -22,7 +23,7 @@ const DisabledParking = () => {
   };
   const { showDisabledParking } = useMobilityPlatformContext();
 
-  const { Marker, Popup } = global.rL;
+  const { Popup } = global.rL;
   const { icon } = global.L;
 
   const useContrast = useSelector(useAccessibleMap);
@@ -44,11 +45,16 @@ const DisabledParking = () => {
     renderData ? (
       data.map(item => (
         <div key={item.id}>
-          <Marker icon={customIcon} position={getSingleCoordinates(item.geometry_coords)}>
+          <AccessibleMarker
+            typeId="mobilityPlatform.content.disabledParking.title"
+            name={{ fi: item.address_fi, sv: item.address_sv, en: item.address_en }}
+            icon={customIcon}
+            position={getSingleCoordinates(item.geometry_coords)}
+          >
             <Popup className="disabled-parking-popup">
               <DisabledParkingContent item={item} />
             </Popup>
-          </Marker>
+          </AccessibleMarker>
         </div>
       ))
     ) : null

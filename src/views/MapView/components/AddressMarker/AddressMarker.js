@@ -4,11 +4,12 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { getAddressText } from '../../../../utils/address';
 import useLocaleText from '../../../../utils/useLocaleText';
+import AccessibleMarker from '../../../../components/AccessibleMarker';
 
 const AddressMarker = ({
   address,
   classes,
-  embeded,
+  embedded,
   position,
 }) => {
   const getLocaleText = useLocaleText();
@@ -16,7 +17,7 @@ const AddressMarker = ({
     return null;
   }
 
-  const { Marker, Tooltip } = global.rL;
+  const { Tooltip } = global.rL;
 
   // eslint-disable-next-line global-require
   const { divIcon } = require('leaflet');
@@ -36,14 +37,16 @@ const AddressMarker = ({
   const tooltipText = getAddressText(addressData, getLocaleText);
 
   return (
-    <Marker
+    <AccessibleMarker
+      typeId="address"
+      name={tooltipText}
       className="addressMarker"
       position={position || [addressCoordinates[1], addressCoordinates[0]]}
       icon={addressIcon}
       keyboard={false}
     >
       {
-        embeded
+        embedded
         && (
           <Tooltip
             className={classes.unitTooltip}
@@ -57,7 +60,7 @@ const AddressMarker = ({
           </Tooltip>
         )
       }
-    </Marker>
+    </AccessibleMarker>
   );
 };
 
@@ -65,11 +68,11 @@ AddressMarker.propTypes = {
   address: PropTypes.objectOf(PropTypes.any).isRequired,
   classes: PropTypes.objectOf(PropTypes.any).isRequired,
   position: PropTypes.arrayOf(PropTypes.number),
-  embeded: PropTypes.bool,
+  embedded: PropTypes.bool,
 };
 
 AddressMarker.defaultProps = {
-  embeded: false,
+  embedded: false,
   position: null,
 };
 

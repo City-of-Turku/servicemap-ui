@@ -9,6 +9,7 @@ import { useAccessibleMap } from '../../../../../redux/selectors/settings';
 import useMobilityDataFetch from '../../../utils/useMobilityDataFetch';
 import { createIcon, isDataValid, fitToMapBounds } from '../../../utils/utils';
 import TextContent from '../../../TextContent';
+import AccessibleMarker from '../../../../AccessibleMarker';
 
 const ParkingAreas = () => {
   const options = {
@@ -20,7 +21,7 @@ const ParkingAreas = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const { Marker, Popup } = global.rL;
+  const { Popup } = global.rL;
   const { icon } = global.L;
 
   const customIcon = icon(createIcon(useContrast ? scooterParkingIconBw : scooterParkingIcon));
@@ -35,8 +36,9 @@ const ParkingAreas = () => {
   return (
     renderData ? (
       data.map(item => (
-        <Marker
+        <AccessibleMarker
           key={item.id}
+          typeId="mobilityPlatform.marker.scooterParking"
           icon={customIcon}
           position={[item.geometry_coords.lat, item.geometry_coords.lon]}
         >
@@ -46,7 +48,7 @@ const ParkingAreas = () => {
               translationId="mobilityPlatform.info.scooters.parkingAreas"
             />
           </Popup>
-        </Marker>
+        </AccessibleMarker>
       ))
     ) : null
   );

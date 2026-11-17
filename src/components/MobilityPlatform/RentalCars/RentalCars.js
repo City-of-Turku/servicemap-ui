@@ -12,6 +12,7 @@ import { isDataValid, setRender, checkMapType } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import RentalCarsContent from './components/RentalCarsContent';
+import AccessibleMarker from '../../AccessibleMarker';
 
 const RentalCars = () => {
   const [zoomLevel, setZoomLevel] = useState(13);
@@ -23,7 +24,7 @@ const RentalCars = () => {
 
   const useContrast = useSelector(useAccessibleMap);
 
-  const { Marker, Popup } = global.rL;
+  const { Popup } = global.rL;
   const { icon } = global.L;
 
   const mapEvent = useMapEvents({
@@ -59,8 +60,10 @@ const RentalCars = () => {
   return (
     renderData ? (
       rentalCarsData.filter(item => item.availabilityData.available).map(item => (
-        <Marker
+        <AccessibleMarker
           key={item.id}
+          typeId="mobilityPlatform.content.rentalCars.title"
+          name={item.homeLocationData?.fullAddress}
           icon={customIcon}
           position={[item.homeLocationData.coordinates.latitude, item.homeLocationData.coordinates.longitude]}
         >
@@ -73,7 +76,7 @@ const RentalCars = () => {
               </StyledPopupInner>
             </Popup>
           </StyledPopupWrapper>
-        </Marker>
+        </AccessibleMarker>
       ))
     ) : null
   );

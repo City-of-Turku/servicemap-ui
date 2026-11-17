@@ -15,13 +15,14 @@ import { StyledPopupInner, StyledPopupWrapper } from '../../styled/styled';
 import ParkAndRideAreasContent from './components/ParkAndRideAreasContent';
 import useMobilityDataFetch from '../../utils/useMobilityDataFetch';
 import MarkerComponent from '../../MarkerComponent';
+import AccessibleMarker from '../../../AccessibleMarker';
 import ParkAndRideCarsContent from './components/ParkAndRideCarsContent';
 
 const ParkAndRideAreas = () => {
   const { showParkAndRideAreas } = useMobilityPlatformContext();
   const useContrast = useSelector(useAccessibleMap);
 
-  const { Marker, Polygon, Popup } = global.rL;
+  const { Polygon, Popup } = global.rL;
   const { icon, polygon } = global.L;
 
   const customIcon = icon(createIcon(useContrast ? parkAndRideIconBw : parkAndRideIcon));
@@ -137,8 +138,9 @@ const ParkAndRideAreas = () => {
 
   const renderMarkersData = (showData, data) => (showData
     ? data.map(item => (
-      <Marker
+      <AccessibleMarker
         key={item.id}
+        typeId="mobilityPlatform.content.parkAndRide.title"
         icon={customIcon}
         position={swapAndGetCoordinates(item.geometry.coordinates)}
       >
@@ -149,7 +151,7 @@ const ParkAndRideAreas = () => {
             </StyledPopupInner>
           </Popup>
         </StyledPopupWrapper>
-      </Marker>
+      </AccessibleMarker>
     ))
     : null);
 
@@ -183,7 +185,13 @@ const ParkAndRideAreas = () => {
   const renderLiipiMarkersData = (showData, data) => (
     renderLiipiData
       ? data.map(item => (
-        <MarkerComponent key={item.id} item={item} icon={customIcon}>
+        <MarkerComponent
+          key={item.id}
+          item={item}
+          icon={customIcon}
+          typeId="mobilityPlatform.parkAndRide.content.cars.subtitle"
+          name={{ fi: item.name_fi, sv: item.name_sv, en: item.name_en }}
+        >
           <ParkAndRideCarsContent item={item} />
         </MarkerComponent>
       )) : null);

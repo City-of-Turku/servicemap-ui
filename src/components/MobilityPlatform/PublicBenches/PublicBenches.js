@@ -13,6 +13,7 @@ import {
 } from '../utils/utils';
 import { isEmbed } from '../../../utils/path';
 import MapUtility from '../../../utils/mapUtility';
+import AccessibleMarker from '../../AccessibleMarker';
 
 /** Shows public benches on the map in marker form */
 
@@ -24,8 +25,6 @@ const PublicBenches = ({ mapObject }) => {
   const map = useMap();
   const currentZoom = map.getZoom();
   const [zoomLevel, setZoomLevel] = useState(currentZoom);
-
-  const { Marker } = global.rL;
 
   const L = require('leaflet');
   const { icon } = global.L;
@@ -88,7 +87,14 @@ const PublicBenches = ({ mapObject }) => {
 
   return renderData
     ? publicBenchesData.map(item => (
-      <Marker key={item.id} icon={customIcon} position={[item.geometry_coords.lat, item.geometry_coords.lon]} />
+      // No popup, so the marker is an image with a name instead of a focusable button
+      <AccessibleMarker
+        key={item.id}
+        typeId="mobilityPlatform.marker.publicBench"
+        icon={customIcon}
+        keyboard={false}
+        position={[item.geometry_coords.lat, item.geometry_coords.lon]}
+      />
     ))
     : null;
 };
