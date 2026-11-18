@@ -28,3 +28,11 @@ export const setOrRemoveAttributes = (element, attributes) => Object.entries(att
   .forEach(([name, value]) => (value == null
     ? element.removeAttribute(name)
     : element.setAttribute(name, value)));
+
+export const moveElementBefore = (parent, element, referenceElement) => {
+  if ('moveBefore' in Element.prototype) {
+    parent.moveBefore(element, referenceElement);
+  } else {
+    parent.insertBefore(element, referenceElement);
+  }
+};

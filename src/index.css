@@ -77,6 +77,11 @@ input[type='search']::-webkit-search-cancel-button {
   color: #4a4a4c !important;
 }
 
+.leaflet-marker-pane > .leaflet-popup {
+  z-index: 1000000;
+  cursor: auto;
+}
+
 /* This allows clicks to go through control background to the map. Control buttons need style: pointer-events: auto */
 .leaflet-control {
   pointer-events: none;

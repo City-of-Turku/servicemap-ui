@@ -1,10 +1,18 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
+import { moveElementBefore } from '../../../../utils/mapPopup';
 
 const CLOSE_BUTTON_SELECTOR = '.leaflet-popup-close-button';
 
 const isCloseButton = target => target instanceof Element && target.matches(CLOSE_BUTTON_SELECTOR);
+
+const moveCloseButtonToStart = popupElement => {
+  const closeButton = popupElement?.querySelector(CLOSE_BUTTON_SELECTOR);
+  if (closeButton && popupElement.firstElementChild !== closeButton) {
+    moveElementBefore(popupElement, closeButton, popupElement.firstChild);
+  }
+};
 
 const PopupCloseButton = ({ label }) => {
   const map = useMap();
@@ -23,6 +31,12 @@ const PopupCloseButton = ({ label }) => {
     map.on('popupopen', labelOpenedPopup);
     return () => map.off('popupopen', labelOpenedPopup);
   }, [map, label]);
+
+  useEffect(() => {
+    const moveOpenedPopupCloseButton = e => moveCloseButtonToStart(e.popup.getElement());
+    map.on('popupopen', moveOpenedPopupCloseButton);
+    return () => map.off('popupopen', moveOpenedPopupCloseButton);
+  }, [map]);
 
   useEffect(() => {
     const container = map.getContainer();

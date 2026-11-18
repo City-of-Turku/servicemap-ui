@@ -17,6 +17,12 @@ describe('<PopupCloseButton />', () => {
     expect(closeButton).toHaveAttribute('aria-label', 'Sulje');
   });
 
+  it('moves the close button to the start of the popup', async () => {
+    const { marker, closeButton } = await setup();
+
+    expect(marker.getPopup().getElement().firstElementChild).toBe(closeButton);
+  });
+
   it('closes the popup when Space is released on the close button', async () => {
     const { marker, closeButton } = await setup();
 
