@@ -1,44 +1,17 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
-import L from 'leaflet';
-import { MapContainer } from 'react-leaflet';
+import { openMarkerPopup, getPopupLink, renderMap } from '../../../../../../jestMapUtils';
 import PopupEscapeHandler from '../PopupEscapeHandler';
-
-global.L = L;
-
-const CENTER = [60.45, 22.26];
+import PopupFocusReturn from '../../PopupFocusReturn';
 
 const pressEscape = () => {
   document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
 };
-
-const renderMap = (withHandler = true) => {
-  let map;
-  const result = render(
-    <>
-      <MapContainer center={CENTER} zoom={12} whenCreated={(created) => { map = created; }}>
-        {withHandler ? <PopupEscapeHandler /> : null}
-      </MapContainer>
-      <input data-testid="outside" />
-    </>,
-  );
-  return { ...result, map };
-};
-
-const addMarker = (map, markerOptions = {}, popupOptions = {}) => {
-  const marker = L.marker(CENTER, markerOptions)
-    .bindPopup('<a href="#">Link</a>', popupOptions)
-    .addTo(map);
-  act(() => { marker.openPopup(); });
-  return marker;
-};
-
-const focusPopupLink = marker => marker.getPopup().getElement().querySelector('a').focus();
+const stayOpen = { popupOptions: { autoClose: false } };
 
 describe('<PopupEscapeHandler />', () => {
-  it('closes the popup with Esc when focus is on the marker', () => {
-    const { map } = renderMap();
-    const marker = addMarker(map);
+  it('closes the popup with Esc when focus is on the marker', async () => {
+    const { map } = renderMap(<PopupEscapeHandler />);
+    const marker = await openMarkerPopup(map);
     marker.getElement().focus();
 
     pressEscape();
@@ -46,32 +19,10 @@ describe('<PopupEscapeHandler />', () => {
     expect(marker.isPopupOpen()).toBe(false);
   });
 
-  it('returns focus to the marker when focus was inside the popup', () => {
-    const { map } = renderMap();
-    const marker = addMarker(map);
-    focusPopupLink(marker);
-
-    pressEscape();
-
-    expect(marker.isPopupOpen()).toBe(false);
-    expect(document.activeElement).toBe(marker.getElement());
-  });
-
-  it('moves focus to the map when the marker is not focusable', () => {
-    const { map } = renderMap();
-    const marker = addMarker(map, { keyboard: false });
-    focusPopupLink(marker);
-
-    pressEscape();
-
-    expect(marker.isPopupOpen()).toBe(false);
-    expect(document.activeElement).toBe(map.getContainer());
-  });
-
-  it('closes several open popups one at a time, newest first', () => {
-    const { map } = renderMap();
-    const first = addMarker(map, {}, { autoClose: false });
-    const second = addMarker(map, {}, { autoClose: false });
+  it('closes several open popups one at a time, newest first', async () => {
+    const { map } = renderMap(<PopupEscapeHandler />);
+    const first = await openMarkerPopup(map, stayOpen);
+    const second = await openMarkerPopup(map, stayOpen);
     map.getContainer().focus();
 
     pressEscape();
@@ -82,11 +33,11 @@ describe('<PopupEscapeHandler />', () => {
     expect(first.isPopupOpen()).toBe(false);
   });
 
-  it('closes the popup that contains focus rather than the newest one', () => {
-    const { map } = renderMap();
-    const first = addMarker(map, {}, { autoClose: false });
-    const second = addMarker(map, {}, { autoClose: false });
-    focusPopupLink(first);
+  it('closes the popup that contains focus rather than the newest one', async () => {
+    const { map } = renderMap(<PopupEscapeHandler />);
+    const first = await openMarkerPopup(map, stayOpen);
+    const second = await openMarkerPopup(map, stayOpen);
+    getPopupLink(first).focus();
 
     pressEscape();
 
@@ -94,14 +45,10 @@ describe('<PopupEscapeHandler />', () => {
     expect(second.isPopupOpen()).toBe(true);
   });
 
-  it('closes a popup that was opened before the handler mounted', () => {
-    const { map, rerender } = renderMap(false);
-    const marker = addMarker(map);
-    rerender(
-      <MapContainer center={CENTER} zoom={12}>
-        <PopupEscapeHandler />
-      </MapContainer>,
-    );
+  it('closes a popup that was opened before the handler mounted', async () => {
+    const { map, rerenderMap } = renderMap();
+    const marker = await openMarkerPopup(map);
+    rerenderMap(<PopupEscapeHandler />);
     marker.getElement().focus();
 
     pressEscape();
@@ -109,9 +56,9 @@ describe('<PopupEscapeHandler />', () => {
     expect(marker.isPopupOpen()).toBe(false);
   });
 
-  it('keeps popups that opt out with closeOnEscapeKey: false', () => {
-    const { map } = renderMap();
-    const marker = addMarker(map, {}, { closeOnEscapeKey: false });
+  it('keeps popups that opt out with closeOnEscapeKey: false', async () => {
+    const { map } = renderMap(<PopupEscapeHandler />);
+    const marker = await openMarkerPopup(map, { popupOptions: { closeOnEscapeKey: false } });
     marker.getElement().focus();
 
     pressEscape();
@@ -119,10 +66,10 @@ describe('<PopupEscapeHandler />', () => {
     expect(marker.isPopupOpen()).toBe(true);
   });
 
-  it('does not close the popup when focus is outside the map', () => {
-    const { map, getByTestId } = renderMap();
-    const marker = addMarker(map);
-    getByTestId('outside').focus();
+  it('does not close the popup when focus is outside the map', async () => {
+    const { map, getByTestId } = renderMap(<PopupEscapeHandler />);
+    const marker = await openMarkerPopup(map);
+    getByTestId('outside-map').focus();
 
     pressEscape();
     expect(marker.isPopupOpen()).toBe(true);
@@ -130,5 +77,21 @@ describe('<PopupEscapeHandler />', () => {
     document.activeElement.blur();
     pressEscape();
     expect(marker.isPopupOpen()).toBe(true);
+  });
+
+  it('returns focus to the marker together with PopupFocusReturn', async () => {
+    const { map } = renderMap(
+      <>
+        <PopupEscapeHandler />
+        <PopupFocusReturn />
+      </>,
+    );
+    const marker = await openMarkerPopup(map);
+    getPopupLink(marker).focus();
+
+    pressEscape();
+
+    expect(marker.isPopupOpen()).toBe(false);
+    expect(document.activeElement).toBe(marker.getElement());
   });
 });

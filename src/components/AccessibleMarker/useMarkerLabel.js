@@ -14,15 +14,16 @@ const applyLabel = (marker, label) => {
   element.setAttribute('aria-label', label);
 };
 
+export const getIconKey = icon => icon?.options?.iconUrl ?? icon;
+
 // Leaflet uses options.alt only for IMG icons and recreates the element on every add,
 // so the label is re-applied on each 'add' event.
 const useMarkerLabel = (typeId, name, icon) => {
   const intl = useIntl();
   const getLocaleText = useLocaleText();
   const markerRef = useRef(null);
-  // Callers create a new icon object on every render, so compare by image url instead.
-  // setIcon replaces the element without an 'add' event when the icon type changes.
-  const iconKey = icon?.options?.iconUrl ?? icon;
+  // setIcon replaces the element without an 'add' event when the icon type changes
+  const iconKey = getIconKey(icon);
   const toText = (value) => {
     if (value == null) return '';
     return String(typeof value === 'object' ? getLocaleText(value) : value).trim();

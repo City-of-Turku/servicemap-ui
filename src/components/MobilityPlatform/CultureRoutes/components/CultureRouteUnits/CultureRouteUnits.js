@@ -109,7 +109,10 @@ const CultureRouteUnits = ({ cultureRouteUnits }) => {
                 <Typography variant="subtitle1" component="h3">
                   {getRouteUnitName(item.name, item.name_en, item.name_sv)}
                 </Typography>
-                <StyledButton onClick={() => closePopup()}>
+                <StyledButton
+                  aria-label={intl.formatMessage({ id: 'general.close' })}
+                  onClick={() => closePopup()}
+                >
                   <StyledCloseIcon />
                 </StyledButton>
               </StyledHeader>

@@ -18,7 +18,7 @@ import { isEmbed } from '../../../utils/path';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import CityBikesContent from './components/CityBikesContent';
 import AccessibleMarker from '../../AccessibleMarker';
-import getPopupAnchor from '../../../utils/popupAnchor';
+import withPopupAboveIcon from '../../../utils/popupAnchor';
 
 const CityBikes = () => {
   const [zoomLevel, setZoomLevel] = useState(13);
@@ -45,19 +45,15 @@ const CityBikes = () => {
   const setCargoBikesIcon = checkMapType(embedded, useContrast, url) ? cargoBikeIconMainBw : cargoBikeIconMain;
   const setCargoBikesProviderIcon = checkMapType(embedded, useContrast, url) ? cargoBikesIconProviderBw : cargoBikesIconProvider;
 
-  const bikeIconSize = zoomLevel < 14 ? [45, 45] : [35, 35];
-
-  const iconForCityBikes = icon({
+  const iconForCityBikes = icon(withPopupAboveIcon({
     iconUrl: zoomLevel < 14 ? setBaseIcon : setFollariIcon,
-    iconSize: bikeIconSize,
-    popupAnchor: getPopupAnchor(bikeIconSize),
-  });
+    iconSize: zoomLevel < 14 ? [45, 45] : [35, 35],
+  }));
 
-  const iconForCargoBikes = icon({
+  const iconForCargoBikes = icon(withPopupAboveIcon({
     iconUrl: zoomLevel < 14 ? setCargoBikesIcon : setCargoBikesProviderIcon,
-    iconSize: bikeIconSize,
-    popupAnchor: getPopupAnchor(bikeIconSize),
-  });
+    iconSize: zoomLevel < 14 ? [45, 45] : [35, 35],
+  }));
 
   const fetchData = showCityBikes || showCargoBikes;
 
