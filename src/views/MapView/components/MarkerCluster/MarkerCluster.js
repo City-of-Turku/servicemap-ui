@@ -10,8 +10,8 @@ import { drawMarkerIcon } from '../../utils/drawIcon';
 import { isEmbed } from '../../../../utils/path';
 import {
   createMarkerClusterLayer, createTooltipContent, createPopupContent, createAccessibleDivIcon,
-  hideUnitMarkers,
 } from './clusterUtils';
+import { bindMarkerPopupState } from '../../../../components/AccessibleMarker/useMarkerPopupState';
 import { mapTypes } from '../../config/mapConfig';
 import { keyboardHandler } from '../../../../utils';
 import UnitHelper from '../../../../utils/unitHelper';
@@ -417,12 +417,14 @@ const MarkerCluster = ({
               tooltipPermanent && unitHasEvents,
             ),
             customUnitData: unit,
-            keyboard: false,
+            keyboard: !measuringMode && !disableInteraction,
+            alt: `${intl.formatMessage({ id: 'unit' })}, ${getLocaleText(unit.name)}`,
           },
         ).bindPopup(
           popupContent,
           popupOptions(isMobile),
         );
+        bindMarkerPopupState(markerElem);
 
         if (isMobile) {
           markerElem.on('popupopen', (e) => {
@@ -459,8 +461,6 @@ const MarkerCluster = ({
     // Add markers in bulk
     cluster.addLayers(markers);
 
-
-    hideUnitMarkers(map);
     // Remove marker interaction when using measuring tool or if interactions are disabled
     if (measuringMode || disableInteraction) {
       document.querySelectorAll('.leaflet-marker-icon').forEach((item) => {

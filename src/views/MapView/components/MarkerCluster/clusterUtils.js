@@ -5,19 +5,6 @@ import { getAddressFromUnit } from '../../../../utils/address';
 import formatEventDate from '../../../../utils/events';
 import { isEmbed } from '../../../../utils/path';
 
-// Only unit/entrance markers are hidden; they are reachable via the result list.
-export const UNIT_MARKER_SELECTOR = '.unitMarker, .entranceMarker';
-
-// Remove unit markers from keyboard and screen readers within the given map only
-export const hideUnitMarkers = (map) => {
-  const container = map?.getContainer?.();
-  if (!container) return;
-  container.querySelectorAll(UNIT_MARKER_SELECTOR).forEach((item) => {
-    item.setAttribute('tabindex', '-1');
-    item.setAttribute('aria-hidden', 'true');
-  });
-};
-
 const DESCRIPTION_CLASS = 'marker-description';
 let AccessibleDivIcon = null;
 let descriptionIdCounter = 0;
@@ -112,10 +99,8 @@ export const createMarkerClusterLayer = (
     });
   });
 
-  // Hide unit markers from keyboard after clustering animations are done
   clusterLayer.on('animationend', (a) => {
     if (clusterAnimationend) clusterAnimationend(a);
-    hideUnitMarkers(clusterLayer._map);
   });
 
   // Run clustermouseout function
