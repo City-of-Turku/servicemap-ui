@@ -12,6 +12,7 @@ import {
   createMarkerClusterLayer, createTooltipContent, createPopupContent, createAccessibleDivIcon,
 } from './clusterUtils';
 import { bindMarkerPopupState } from '../../../../components/AccessibleMarker/useMarkerPopupState';
+import bindMarkerKeyboardActivation from '../../../../components/AccessibleMarker/markerKeyboardActivation';
 import { mapTypes } from '../../config/mapConfig';
 import { keyboardHandler } from '../../../../utils';
 import UnitHelper from '../../../../utils/unitHelper';
@@ -425,6 +426,7 @@ const MarkerCluster = ({
           popupOptions(isMobile),
         );
         bindMarkerPopupState(markerElem);
+        bindMarkerKeyboardActivation(markerElem);
 
         if (isMobile) {
           markerElem.on('popupopen', (e) => {
