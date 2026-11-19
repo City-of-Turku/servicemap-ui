@@ -13,7 +13,7 @@ const TextComponent = ({
   const wrapper = prop => (messageId ? intl.formatMessage({ id: messageId }, { value: prop }) : prop);
   return (
     <StyledContainer>
-      <Typography component="p" variant={isTitle ? 'subtitle1' : 'body2'}>
+      <Typography component={isTitle ? 'h3' : 'p'} variant={isTitle ? 'subtitle1' : 'body2'}>
         {wrapper(getLocaleText(textObj))}
       </Typography>
     </StyledContainer>

@@ -10,7 +10,7 @@ const BarbecuePlacesContent = ({ item }) => {
   return (
     <StyledContainer>
       <StyledHeaderContainer>
-        <Typography variant="subtitle1" component="p">
+        <Typography variant="subtitle1" component="h3">
           {intl.formatMessage({ id: 'mobilityPlatform.content.barbecuePlace.title' })}
         </Typography>
       </StyledHeaderContainer>

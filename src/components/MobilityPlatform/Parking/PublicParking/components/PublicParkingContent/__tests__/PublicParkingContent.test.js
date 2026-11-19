@@ -39,13 +39,14 @@ describe('<PublicParkingContent />', () => {
   it('does show text correctly', () => {
     const { container } = renderWithProviders(<PublicParkingContent {...mockProps} />);
 
+    const title = container.querySelector('h3');
     const p = container.querySelectorAll('p');
-    expect(p[0].textContent).toContain(mockProps.item.name_fi);
-    expect(p[1].textContent).toContain(`Osoite: ${mockProps.item.address_fi}`);
-    expect(p[2].textContent).toContain(`Parkkipaikkojen määrä: ${mockProps.item.extra.paikkoja_y}`);
-    expect(p[3].textContent).toContain(`Pysäköinnin enimmäisaika: ${mockProps.item.extra.max_aika_h}`);
-    expect(p[4].textContent).toContain(mockProps.item.extra.rajoitustyyppi.fi);
-    expect(p[5].textContent).toContain(mockProps.item.extra.rajoit_lisat.fi);
-    expect(p[6].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicParking.access']);
+    expect(title.textContent).toContain(mockProps.item.name_fi);
+    expect(p[0].textContent).toContain(`Osoite: ${mockProps.item.address_fi}`);
+    expect(p[1].textContent).toContain(`Parkkipaikkojen määrä: ${mockProps.item.extra.paikkoja_y}`);
+    expect(p[2].textContent).toContain(`Pysäköinnin enimmäisaika: ${mockProps.item.extra.max_aika_h}`);
+    expect(p[3].textContent).toContain(mockProps.item.extra.rajoitustyyppi.fi);
+    expect(p[4].textContent).toContain(mockProps.item.extra.rajoit_lisat.fi);
+    expect(p[5].textContent).toContain(finnishTranslations['mobilityPlatform.content.publicParking.access']);
   });
 });

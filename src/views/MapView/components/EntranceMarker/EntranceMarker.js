@@ -63,7 +63,7 @@ const EntranceMarker = ({ classes }) => {
           >
             <Popup>
               <div className={classes.unitTooltipWrapper}>
-                <Typography className={classes.unitTooltipTitle}>
+                <Typography component="h3" className={classes.unitTooltipTitle}>
                   {getLocaleText(unit.name)}
                 </Typography>
                 {entrance.name ? (

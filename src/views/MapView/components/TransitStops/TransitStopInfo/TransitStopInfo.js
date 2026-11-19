@@ -110,7 +110,7 @@ const TransitStopInfo = ({
         <Close className={classes.infoIcon} />
       </ButtonBase>
       <div className={classes.transitInfoTitle}>
-        <Typography className={classes.bold}>
+        <Typography component="h3" className={classes.bold}>
           {typeof stop.name === 'object' ? getLocaleText(stop.name) : stop.name}
         </Typography>
         {getAccessibilityIcon(stopData.wheelchair)}

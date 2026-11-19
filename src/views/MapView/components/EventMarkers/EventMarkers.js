@@ -118,7 +118,7 @@ const EventMarkers = ({ searchData, classes, navigator }) => {
             <div className={classes.popupContainer}>
               <div className={classes.popupTopArea}>
                 <div className={classes.popoupTitleArea}>
-                  <Typography className={classes.unitTooltipTitle}>
+                  <Typography component="h3" className={classes.unitTooltipTitle}>
                     {getLocaleText(unit.name)}
                   </Typography>
                   <ButtonBase onClick={() => closePopup()} className={classes.popupCloseButton}>

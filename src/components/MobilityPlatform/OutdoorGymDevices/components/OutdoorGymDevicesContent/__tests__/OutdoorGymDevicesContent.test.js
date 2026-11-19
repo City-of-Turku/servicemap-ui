@@ -30,9 +30,10 @@ describe('<OutdoorGymDevicesContent />', () => {
 
   it('does show text correctly', () => {
     const { container } = renderWithProviders(<OutdoorGymDevicesContent {...mockProps} />);
+    const title = container.querySelector('h3');
     const p = container.querySelectorAll('p');
-    expect(p[0].textContent).toContain(mockProps.item.name_fi);
-    expect(p[1].textContent).toContain(`Osoite: ${mockProps.item.address_fi}`);
-    expect(p[2].textContent).toContain(mockProps.item.description_fi);
+    expect(title.textContent).toContain(mockProps.item.name_fi);
+    expect(p[0].textContent).toContain(`Osoite: ${mockProps.item.address_fi}`);
+    expect(p[1].textContent).toContain(mockProps.item.description_fi);
   });
 });

@@ -13,7 +13,7 @@ const ChargerStationContent = ({ station }) => {
 
   const titleTypo = messageId => (
     <StyledTextContainer>
-      <Typography variant="subtitle2" component="h3">
+      <Typography variant="subtitle2" component="h4">
         {intl.formatMessage({
           id: messageId,
         })}

@@ -240,7 +240,7 @@ const MarkerCluster = ({
     /**
      * Render element with list of units in cluster
      * */
-    const title = document.createElement('p');
+    const title = document.createElement('h3');
     title.innerText = popupTexts.title;
     title.className = classes.unitPopupTitle;
     container.appendChild(title);
