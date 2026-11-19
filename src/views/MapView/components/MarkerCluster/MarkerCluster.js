@@ -419,7 +419,9 @@ const MarkerCluster = ({
             ),
             customUnitData: unit,
             keyboard: !measuringMode && !disableInteraction,
-            alt: `${intl.formatMessage({ id: 'unit' })}, ${getLocaleText(unit.name)}`,
+            alt: [intl.formatMessage({ id: 'unit' }), unit.name ? getLocaleText(unit.name) : '']
+              .filter(Boolean)
+              .join(', '),
           },
         ).bindPopup(
           popupContent,
@@ -469,12 +471,9 @@ const MarkerCluster = ({
         item.classList.remove('leaflet-interactive');
       });
     }
-  }, [cluster, data, isMobile, measuringMode]);
-
-  // Redraw cluster icons so their accessible names follow a language change
-  useEffect(() => {
-    if (cluster) cluster.refreshClusters();
-  }, [intl.locale, getLocaleText]);
+    // Locale is a dependency so marker names, tooltips and popups follow a language change.
+    // Rebuilding the markers also redraws the cluster icons.
+  }, [cluster, data, isMobile, measuringMode, intl.locale, getLocaleText]);
 
   const removeMarkerInteraction = useCallback(() => {
     /* Remove interactions from markers during measuring mode.
