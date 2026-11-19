@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 import useMarkerLabel from './useMarkerLabel';
+import useMarkerPopupState from './useMarkerPopupState';
+import bindMarkerKeyboardActivation from './markerKeyboardActivation';
 
 /**
  * react-leaflet Marker with an accessible name built from the marker type and item name,
@@ -11,6 +13,13 @@ const AccessibleMarker = ({
 }) => {
   const { Marker } = global.rL;
   const { markerRef, label } = useMarkerLabel(typeId, name, markerProps.icon);
+  useMarkerPopupState(markerRef, markerProps.icon, React.Children.toArray(children).length > 0);
+  useEffect(() => {
+    if (!markerRef.current) {
+      return undefined;
+    }
+    return bindMarkerKeyboardActivation(markerRef.current);
+  }, [markerRef]);
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading

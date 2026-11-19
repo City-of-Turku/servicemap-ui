@@ -33,26 +33,27 @@ describe('<ParkingGarageContent />', () => {
   it('does show text correctly', () => {
     const { container } = renderWithProviders(<ParkingGarageContent {...mockProps} />);
 
+    const title = container.querySelector('h3');
     const p = container.querySelectorAll('p');
-    expect(p[0].textContent).toContain(mockProps.item.name_fi);
-    expect(p[1].textContent).toContain(
+    expect(title.textContent).toContain(mockProps.item.name_fi);
+    expect(p[0].textContent).toContain(
       `${finnishTranslations['mobilityPlatform.content.address'].replace(
         '{value}',
         `${mockProps.item.address_fi}`,
       )}`,
     );
-    expect(p[2].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.parking.capacity'].replace(
+    expect(p[1].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.parking.capacity'].replace(
       '{value}',
       `${mockProps.item.extra.parking_spaces}`,
     )}`);
-    expect(p[3].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.parking.disabled.capacity'].replace(
+    expect(p[2].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.parking.disabled.capacity'].replace(
       '{value}',
       `${mockProps.item.extra.disabled_spaces}`,
     )}`);
-    expect(p[4].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.parking.chargers.capacity'].replace(
+    expect(p[3].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.parking.chargers.capacity'].replace(
       '{value}',
       `${mockProps.item.extra.charging_stations}`,
     )}`);
-    expect(p[5].textContent).toContain(mockProps.item.extra.services.fi);
+    expect(p[4].textContent).toContain(mockProps.item.extra.services.fi);
   });
 });

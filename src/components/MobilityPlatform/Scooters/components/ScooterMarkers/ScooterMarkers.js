@@ -11,6 +11,7 @@ import ScooterInfo from './components/ScooterInfo';
 import { isDataValid } from '../../../utils/utils';
 import { StyledPopupWrapper, StyledPopupInner } from '../../../styled/styled';
 import AccessibleMarker from '../../../../AccessibleMarker';
+import withPopupAboveIcon from '../../../../../utils/popupAnchor';
 
 const ScooterMarkers = ({ mapObject }) => {
   const { showScootersRyde } = useMobilityPlatformContext();
@@ -32,10 +33,10 @@ const ScooterMarkers = ({ mapObject }) => {
   const isDetailZoom = zoomLevel >= mapObject.options.detailZoom;
   const setProviderIcon = useContrast ? rydeIconBw : rydeIcon;
 
-  const customIcon = icon({
+  const customIcon = icon(withPopupAboveIcon({
     iconUrl: setProviderIcon,
     iconSize: [40, 40],
-  });
+  }));
 
   const { iotData: scooterData } = useIotDataFetch('SDR', showScootersRyde);
 

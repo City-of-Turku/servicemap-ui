@@ -32,9 +32,10 @@ describe('<BikeServiceStationContent />', () => {
   it('does show text correctly', () => {
     const { container } = renderWithProviders(<BikeServiceStationContent {...mockProps} />);
 
+    const title = container.querySelector('h3');
     const p = container.querySelectorAll('p');
-    expect(p[0].textContent).toEqual(mockProps.station.name);
-    expect(p[1].textContent).toEqual(`Osoite: ${mockProps.station.address_fi}`);
-    expect(p[2].textContent).toEqual(mockProps.station.description);
+    expect(title.textContent).toEqual(mockProps.station.name);
+    expect(p[0].textContent).toEqual(`Osoite: ${mockProps.station.address_fi}`);
+    expect(p[1].textContent).toEqual(mockProps.station.description);
   });
 });

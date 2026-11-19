@@ -1,3 +1,5 @@
+import withPopupAboveIcon from '../../../utils/popupAnchor';
+
 /**
  * Returns boolean based on if visibilityValue is truthy and data is not null or empty.
  * @param {boolean} visibilityValue
@@ -14,7 +16,7 @@ const isDataValid = (visibilityValue, data) => visibilityValue && data && data.l
  */
 const isObjValid = (visibilityValue, obj) => visibilityValue && obj && Object.entries(obj).length > 0;
 
-const createIcon = (icon, isSmall) => ({
+const createIcon = (icon, isSmall) => withPopupAboveIcon({
   iconUrl: icon,
   iconSize: isSmall ? [35, 35] : [45, 45],
 });

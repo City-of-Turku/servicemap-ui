@@ -24,15 +24,16 @@ describe('<BarbecuePlacesContent />', () => {
   it('does show text correctly', () => {
     const { container } = renderWithProviders(<BarbecuePlacesContent {...mockProps} />);
 
+    const title = container.querySelector('h3');
     const p = container.querySelectorAll('p');
-    expect(p[0].textContent).toContain(`${finnishTranslations['mobilityPlatform.content.barbecuePlace.title']}`);
-    expect(p[1].textContent).toContain(
+    expect(title.textContent).toContain(`${finnishTranslations['mobilityPlatform.content.barbecuePlace.title']}`);
+    expect(p[0].textContent).toContain(
       `${finnishTranslations['mobilityPlatform.content.barbecuePlace.manufacturer'].replace(
         '{value}',
         `${mockProps.item.extra.valmistaja}`,
       )}`,
     );
-    expect(p[2].textContent).toContain(
+    expect(p[1].textContent).toContain(
       `${finnishTranslations['mobilityPlatform.content.barbecuePlace.model'].replace(
         '{value}',
         `${mockProps.item.extra.malli}`,

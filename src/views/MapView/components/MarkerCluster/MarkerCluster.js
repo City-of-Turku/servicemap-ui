@@ -10,8 +10,9 @@ import { drawMarkerIcon } from '../../utils/drawIcon';
 import { isEmbed } from '../../../../utils/path';
 import {
   createMarkerClusterLayer, createTooltipContent, createPopupContent, createAccessibleDivIcon,
-  hideUnitMarkers,
 } from './clusterUtils';
+import { bindMarkerPopupState } from '../../../../components/AccessibleMarker/useMarkerPopupState';
+import bindMarkerKeyboardActivation from '../../../../components/AccessibleMarker/markerKeyboardActivation';
 import { mapTypes } from '../../config/mapConfig';
 import { keyboardHandler } from '../../../../utils';
 import UnitHelper from '../../../../utils/unitHelper';
@@ -33,7 +34,6 @@ const popupOptions = isMobile => ({
   closeOnClick: false,
   direction: 'top',
   opacity: 1,
-  offset: [2, -20],
 });
 
 // Cluster icon size handler
@@ -241,7 +241,7 @@ const MarkerCluster = ({
     /**
      * Render element with list of units in cluster
      * */
-    const title = document.createElement('p');
+    const title = document.createElement('h3');
     title.innerText = popupTexts.title;
     title.className = classes.unitPopupTitle;
     container.appendChild(title);
@@ -418,12 +418,17 @@ const MarkerCluster = ({
               tooltipPermanent && unitHasEvents,
             ),
             customUnitData: unit,
-            keyboard: false,
+            keyboard: !measuringMode && !disableInteraction,
+            alt: [intl.formatMessage({ id: 'unit' }), unit.name ? getLocaleText(unit.name) : '']
+              .filter(Boolean)
+              .join(', '),
           },
         ).bindPopup(
           popupContent,
           popupOptions(isMobile),
         );
+        bindMarkerPopupState(markerElem);
+        bindMarkerKeyboardActivation(markerElem);
 
         if (isMobile) {
           markerElem.on('popupopen', (e) => {
@@ -460,20 +465,15 @@ const MarkerCluster = ({
     // Add markers in bulk
     cluster.addLayers(markers);
 
-
-    hideUnitMarkers(map);
     // Remove marker interaction when using measuring tool or if interactions are disabled
     if (measuringMode || disableInteraction) {
       document.querySelectorAll('.leaflet-marker-icon').forEach((item) => {
         item.classList.remove('leaflet-interactive');
       });
     }
-  }, [cluster, data, isMobile, measuringMode]);
-
-  // Redraw cluster icons so their accessible names follow a language change
-  useEffect(() => {
-    if (cluster) cluster.refreshClusters();
-  }, [intl.locale, getLocaleText]);
+    // Locale is a dependency so marker names, tooltips and popups follow a language change.
+    // Rebuilding the markers also redraws the cluster icons.
+  }, [cluster, data, isMobile, measuringMode, intl.locale, getLocaleText]);
 
   const removeMarkerInteraction = useCallback(() => {
     /* Remove interactions from markers during measuring mode.

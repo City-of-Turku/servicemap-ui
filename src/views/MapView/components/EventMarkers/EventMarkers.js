@@ -107,7 +107,7 @@ const EventMarkers = ({ searchData, classes, navigator }) => {
           key={unit.id}
           typeId="unit.events"
           name={unit.name}
-          icon={drawMarkerIcon(theme === 'dark', `unit-marker-${unit.id}`, null, [0, -15])}
+          icon={drawMarkerIcon(theme === 'dark', `unit-marker-${unit.id}`)}
           onMouseOver={(e) => { e.target.openPopup(); }}
           position={[
             unit.location.coordinates[1],
@@ -118,7 +118,7 @@ const EventMarkers = ({ searchData, classes, navigator }) => {
             <div className={classes.popupContainer}>
               <div className={classes.popupTopArea}>
                 <div className={classes.popoupTitleArea}>
-                  <Typography className={classes.unitTooltipTitle}>
+                  <Typography component="h3" className={classes.unitTooltipTitle}>
                     {getLocaleText(unit.name)}
                   </Typography>
                   <ButtonBase onClick={() => closePopup()} className={classes.popupCloseButton}>

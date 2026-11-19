@@ -32,9 +32,10 @@ describe('<ParkAndRideCarsContent />', () => {
   it('does show text correctly', () => {
     const { container } = renderWithProviders(<ParkAndRideCarsContent {...mockProps} />);
 
+    const title = container.querySelector('h3');
     const p = container.querySelectorAll('p');
-    expect(p[0].textContent).toEqual('Testinimi');
-    expect(p[1].textContent).toContain(finnishTranslations['mobilityPlatform.parkAndRide.content.cars.subtitle']);
-    expect(p[2].textContent).toEqual('Osoite: Testiosoite, 20200 Turku');
+    expect(title.textContent).toEqual('Testinimi');
+    expect(p[0].textContent).toContain(finnishTranslations['mobilityPlatform.parkAndRide.content.cars.subtitle']);
+    expect(p[1].textContent).toEqual('Osoite: Testiosoite, 20200 Turku');
   });
 });

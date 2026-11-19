@@ -3,7 +3,7 @@ import { ButtonBase } from '@mui/material';
 import { LocationDisabled, MyLocation } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { useMap, useMapEvents } from 'react-leaflet';
+import { useMapEvents } from 'react-leaflet';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Loading from '../../components/Loading';
@@ -30,6 +30,7 @@ import MapUtility from './utils/mapUtility';
 import Util from '../../utils/mapUtility';
 import HideSidebarButton from './components/HideSidebarButton';
 import PanControl from './components/PanControl';
+import AccessibleMapPopups from './components/AccessibleMapPopups';
 import TransitStops from './components/TransitStops';
 import UserMarker from './components/UserMarker';
 import adjustControlElements from './utils';
@@ -58,31 +59,6 @@ const EmbeddedActions = () => {
   });
 
   return null;
-};
-
-// Replace Leaflet's English 'Close popup' label on the default popup close button
-const PopupCloseButtonLabel = ({ label }) => {
-  const map = useMap();
-
-  useEffect(() => {
-    const setLabel = (element) => {
-      element?.querySelectorAll('.leaflet-popup-close-button').forEach((closeButton) => {
-        closeButton.setAttribute('aria-label', label);
-      });
-    };
-    const onPopupOpen = e => setLabel(e.popup.getElement());
-
-    // Label popups opened before this effect ran, and update open popups when language changes
-    setLabel(map.getContainer());
-    map.on('popupopen', onPopupOpen);
-    return () => map.off('popupopen', onPopupOpen);
-  }, [map, label]);
-
-  return null;
-};
-
-PopupCloseButtonLabel.propTypes = {
-  label: PropTypes.string.isRequired,
 };
 
 const MapView = (props) => {
@@ -415,7 +391,7 @@ const MapView = (props) => {
             : null}
           <CoordinateMarker position={getCoordinatesFromUrl()} />
           <EmbeddedActions />
-          <PopupCloseButtonLabel label={intl.formatMessage({ id: 'general.close' })} />
+          <AccessibleMapPopups />
           <MobilityPlatformMapView mapObject={mapObject} />
         </MapContainer>
       </>

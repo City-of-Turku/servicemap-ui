@@ -13,6 +13,7 @@ import { isEmbed } from '../../../utils/path';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import RentalCarsContent from './components/RentalCarsContent';
 import AccessibleMarker from '../../AccessibleMarker';
+import withPopupAboveIcon from '../../../utils/popupAnchor';
 
 const RentalCars = () => {
   const [zoomLevel, setZoomLevel] = useState(13);
@@ -35,10 +36,10 @@ const RentalCars = () => {
 
   const setBaseIcon = checkMapType(embedded, useContrast, url) ? rentalCarIconBw : rentalCarIcon;
 
-  const customIcon = icon({
+  const customIcon = icon(withPopupAboveIcon({
     iconUrl: zoomLevel < 14 ? setBaseIcon : providerIcon,
     iconSize: zoomLevel < 14 ? [45, 45] : [50, 56],
-  });
+  }));
 
   const { iotData: rentalCarsData } = useIotDataFetch('R24', showRentalCars, embedded);
 
