@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Typography, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, {
   useCallback, useEffect, useState, useRef, forwardRef,
@@ -36,17 +36,15 @@ import {
   fetchInitialWeekDatas,
   fetchSelectedYearData,
 } from '../../EcoCounterRequests/ecoCounterRequests';
-import { formatDates, formatMonths } from '../../utils';
+import { formatDates, formatMonths, getChartDescription } from '../../utils';
 import {
-  StyledButtonText,
   StyledChartContainer,
   StyledContentHeader,
   StyledDateContainer,
   StyledHeaderSubtitle,
   StyledUserTypeText,
-  StyledStepsContainer,
-  StyledUserTypesContainer,
-  StyledButtonBase,
+  StyledTimeStepChoices,
+  StyledUserTypeChoices,
 } from '../../styled/styled';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
@@ -54,7 +52,13 @@ import CounterActiveText from '../CounterActiveText';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 
 const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
-const SUPPORTED_SENSOR_TYPES = ['jt', 'pt', 'at', 'st'];
+const USER_TYPES = {
+  jt: { translationId: 'ecocounter.walk', icon: iconWalk },
+  pt: { translationId: 'ecocounter.bicycle', icon: iconBicycle },
+  at: { translationId: 'ecocounter.car', icon: iconCar },
+  st: { translationId: 'ecocounter.scooter', icon: iconScooter },
+};
+const SUPPORTED_SENSOR_TYPES = Object.keys(USER_TYPES);
 const FILTER_TYPE_TO_SENSOR_TYPE = {
   walking: 'jt',
   cycling: 'pt',
@@ -95,12 +99,18 @@ const EcoCounterContent = ({ station }) => {
     fill: 'rgba(0, 0, 0, 255)',
     width: '40px',
     height: '40px',
+    '& svg': {
+      display: 'block',
+    },
   });
 
   const iconActiveClass = css({
     fill: 'rgba(255, 255, 255, 255)',
     width: '40px',
     height: '40px',
+    '& svg': {
+      display: 'block',
+    },
   });
 
   /** When all 3 user types are rendered, a reverse order is required where 'at' is placed last */
@@ -199,6 +209,8 @@ const EcoCounterContent = ({ station }) => {
       },
     },
   ];
+  const visibleSteps = buttonSteps.filter(item => item.step.visible);
+  const getStepIndex = type => visibleSteps.findIndex(({ step }) => step.type === type);
 
   // Sets current user type and active button index
   const setUserTypeState = (index, typeValue) => {
@@ -213,81 +225,16 @@ const EcoCounterContent = ({ station }) => {
     else if (type === 'st') setUserTypeState(index, 'scooter');
   };
 
-  /**
-   * Text component
-   * @param {string} translationId
-   * @returns JSX element
-   */
-  const userTypeText = translationId => (
-    <div>
-      <StyledUserTypeText variant="body2">{intl.formatMessage({ id: translationId })}</StyledUserTypeText>
-    </div>
+  const renderUserTypeOption = ({ value }, checked) => (
+    <>
+      <span className="choice-face" aria-hidden="true">
+        <ReactSVG wrapper="span" className={checked ? iconActiveClass : iconClass} src={USER_TYPES[value].icon} />
+      </span>
+      <StyledUserTypeText variant="body2" component="span">
+        {intl.formatMessage({ id: USER_TYPES[value].translationId })}
+      </StyledUserTypeText>
+    </>
   );
-
-  /**
-   * Renders texts based on user type value
-   * @param {string} userType
-   * @returns JSX element
-   */
-  const renderUserTypeText = userType => {
-    if (userType === 'at') {
-      return userTypeText('ecocounter.car');
-    }
-    if (userType === 'pt') {
-      return userTypeText('ecocounter.bicycle');
-    }
-    if (userType === 'jt') {
-      return userTypeText('ecocounter.walk');
-    }
-    if (userType === 'st') {
-      return userTypeText('ecocounter.scooter');
-    }
-    return null;
-  };
-
-  /**
-   * Returns button with icon which is based on user type value
-   * @param {string} userType
-   * @param {node} iconValue
-   * @param {number} i
-   * @returns JSX Element
-   */
-  const userTypeButton = (userType, iconValue, i) => (
-    <StyledButtonBase
-      role="button"
-      sx={
-        i === activeType
-          ? { backgroundColor: 'rgba(7, 44, 115, 255)', color: 'rgb(255, 255, 255)', padding: '4px' }
-          : { color: 'rgb(0, 0, 0)', padding: '4px' }
-      }
-      onClick={() => setUserTypes(userType, i)}
-    >
-      <div>
-        <ReactSVG className={i === activeType ? `${iconActiveClass}` : `${iconClass}`} src={iconValue} />
-      </div>
-    </StyledButtonBase>
-  );
-
-  /**
-   * Renders buttons and icons based on user types
-   * @param {string} userType
-   * @param {node} iconValue
-   */
-  const renderUserTypeIcon = (userType, i) => {
-    if (userType === 'at') {
-      return userTypeButton(userType, iconCar, i);
-    }
-    if (userType === 'pt') {
-      return userTypeButton(userType, iconBicycle, i);
-    }
-    if (userType === 'jt') {
-      return userTypeButton(userType, iconWalk, i);
-    }
-    if (userType === 'st') {
-      return userTypeButton(userType, iconScooter, i);
-    }
-    return null;
-  };
 
   const changeDate = newDate => {
     setSelectedDate(newDate);
@@ -609,15 +556,19 @@ const EcoCounterContent = ({ station }) => {
     fetchSelectedYearData(selectedYear, initialYear, stationId, setEcoCounterMultipleYears);
   }, [selectedYear, stationId]);
 
-  // useEffect is used to fill the chart with default data (default step is 'hourly')
-  useEffect(() => {
-    processHourData();
-  }, [ecoCounterHour, stationId]);
-
-  // When current user type or step changes, calls function to update the chart data
+  // Redraw whenever the selection changes or data arrives, so a late response for another step can't replace it
   useEffect(() => {
     setChannelData();
-  }, [currentType, currentTime]);
+  }, [
+    currentType,
+    currentTime,
+    stationId,
+    ecoCounterHour,
+    ecoCounterDay,
+    ecoCounterWeek,
+    ecoCounterMonth,
+    ecoCounterMultipleYears,
+  ]);
 
   /**
    * Fix incorrect spelling of Teatteriranta.
@@ -632,11 +583,33 @@ const EcoCounterContent = ({ station }) => {
     return input;
   };
 
+  const displayedStationName = stationSource === 'TR' ? 'Telraam' : renderStationName(stationName);
+
+  const userTypeMessageIds = {
+    walking: 'ecocounter.walk',
+    bicycle: 'ecocounter.bicycle',
+    driving: 'ecocounter.car',
+    scooter: 'ecocounter.scooter',
+  };
+
+  const chartDescription = getChartDescription(intl, {
+    stationName: displayedStationName,
+    userTypeText: userTypeMessageIds[currentType] ? intl.formatMessage({ id: userTypeMessageIds[currentType] }) : '',
+    period: {
+      step: currentTime,
+      selectedDate,
+      weekStart: selectedDateStart,
+      weekEnd: selectedDateEnd,
+      selectedYear,
+      latestYear: initialYear,
+    },
+  });
+
   return (
     <>
       <StyledContentHeader isNarrow={isNarrow}>
         <StyledHeaderSubtitle component="h4">
-          {stationSource === 'TR' ? 'Telraam' : renderStationName(stationName)}
+          {displayedStationName}
         </StyledHeaderSubtitle>
         <StyledDateContainer>
           <DatePicker
@@ -653,14 +626,15 @@ const EcoCounterContent = ({ station }) => {
         </StyledDateContainer>
       </StyledContentHeader>
       <div>
-        <StyledUserTypesContainer>
-          {userTypes?.map((userType, i) => (
-            <StyledButtonText key={userType}>
-              {renderUserTypeIcon(userType, i)}
-              {renderUserTypeText(userType)}
-            </StyledButtonText>
-          ))}
-        </StyledUserTypesContainer>
+        <StyledUserTypeChoices
+          type="radio"
+          name={`ecocounter-${stationId}-user-type`}
+          legend={intl.formatMessage({ id: 'ecocounter.chart.userTypeGroup' })}
+          options={userTypes.map(userType => ({ value: userType }))}
+          isSelected={userType => userTypes.indexOf(userType) === activeType}
+          onChange={userType => setUserTypes(userType, userTypes.indexOf(userType))}
+          renderOption={renderUserTypeOption}
+        />
         <CounterActiveText dataFrom={dataFrom} dataUntil={dataUntil} />
         <StyledChartContainer>
           <LineChart
@@ -677,28 +651,18 @@ const EcoCounterContent = ({ station }) => {
             channelTotalsData={channelTotals}
             channel1Data={channel1Counts}
             channel2Data={channel2Counts}
+            description={chartDescription}
           />
         </StyledChartContainer>
-        <StyledStepsContainer>
-          {buttonSteps
-            .filter(item => item.step.visible)
-            .map((timing, i) => (
-              <StyledButtonBase
-                key={timing.step.type}
-                type="button"
-                sx={
-                  i === activeStep
-                    ? { backgroundColor: 'rgba(7, 44, 115, 255)', color: 'rgb(255, 255, 255)', padding: '4px 8px' }
-                    : { color: 'rgb(0, 0, 0)', padding: '4px 8px' }
-                }
-                onClick={() => handleClick(timing.step.type, i)}
-              >
-                <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
-                  {timing.step.text}
-                </Typography>
-              </StyledButtonBase>
-            ))}
-        </StyledStepsContainer>
+        <StyledTimeStepChoices
+          type="radio"
+          name={`ecocounter-${stationId}-time-step`}
+          legend={intl.formatMessage({ id: 'ecocounter.chart.timeStepGroup' })}
+          options={visibleSteps.map(({ step }) => ({ value: step.type, label: step.text }))}
+          isSelected={type => getStepIndex(type) === activeStep}
+          onChange={type => handleClick(type, getStepIndex(type))}
+          renderOption={({ label }) => <span className="choice-face">{label}</span>}
+        />
       </div>
     </>
   );

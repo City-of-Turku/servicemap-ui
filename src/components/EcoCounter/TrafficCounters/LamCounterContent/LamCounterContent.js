@@ -33,18 +33,17 @@ import {
   fetchInitialYearData,
   fetchSelectedYearData,
 } from '../../EcoCounterRequests/ecoCounterRequests';
-import { formatDates, formatMonths } from '../../utils';
+import { formatDates, formatMonths, getChartDescription } from '../../utils';
 import LineChart from '../../LineChart';
 import InputDate from '../../InputDate';
 import CounterActiveText from '../CounterActiveText';
 import {
-  StyledButtonBase,
   StyledChartContainer,
   StyledContentHeader,
   StyledDateContainer,
   StyledHeaderSubtitle,
   StyledIconContainer,
-  StyledStepsContainer,
+  StyledTimeStepChoices,
   StyledUserTypeText,
   StyledUserTypesContainer,
 } from '../../styled/styled';
@@ -120,6 +119,7 @@ const LamCounterContent = ({ station }) => {
       },
     },
   ];
+  const getStepIndex = type => buttonSteps.findIndex(({ step }) => step.type === type);
 
   const renderUserTypeText = userType => {
     if (userType === 'at') {
@@ -385,15 +385,10 @@ const LamCounterContent = ({ station }) => {
     fetchSelectedYearData(selectedYear, initialYear, stationId, setLamCounterMultipleYears);
   }, [selectedYear, stationId]);
 
-  // useEffect is used to fill the chart with default data (default step is 'hourly')
-  useEffect(() => {
-    processHourData();
-  }, [lamCounterHour, stationId]);
-
-  // When current user type or step changes, calls function to update the chart data
+  // Redraw whenever the selection changes or data arrives, so a late response for another step can't replace it
   useEffect(() => {
     setChannelData();
-  }, [currentTime]);
+  }, [currentTime, stationId, lamCounterHour, lamCounterDay, lamCounterWeek, lamCounterMonth, lamCounterMultipleYears]);
 
   /**
    * Split name into array of words and remove special characters (_) and first index (for example 'vt1').
@@ -402,11 +397,26 @@ const LamCounterContent = ({ station }) => {
    */
   const formatCounterName = name => name?.split('_').splice(1).join(' ');
 
+  const displayedStationName = stationSource === 'LC' ? formatCounterName(stationName) : stationName;
+
+  const chartDescription = getChartDescription(intl, {
+    stationName: displayedStationName,
+    userTypeText: userTypes?.includes('at') ? intl.formatMessage({ id: 'ecocounter.car' }) : '',
+    period: {
+      step: currentTime,
+      selectedDate,
+      weekStart: selectedDateStart,
+      weekEnd: selectedDateEnd,
+      selectedYear,
+      latestYear: initialYear,
+    },
+  });
+
   return (
     <>
       <StyledContentHeader isNarrow={isNarrow}>
         <StyledHeaderSubtitle component="h4">
-          {stationSource === 'LC' ? formatCounterName(stationName) : stationName}
+          {displayedStationName}
         </StyledHeaderSubtitle>
         <StyledDateContainer>
           <DatePicker
@@ -454,26 +464,18 @@ const LamCounterContent = ({ station }) => {
             channelTotalsData={channelTotals}
             channel1Data={channel1Counts}
             channel2Data={channel2Counts}
+            description={chartDescription}
           />
         </StyledChartContainer>
-        <StyledStepsContainer>
-          {buttonSteps.map((timing, i) => (
-            <StyledButtonBase
-              key={timing.step.type}
-              type="button"
-              sx={
-                i === activeStep
-                  ? { backgroundColor: 'rgba(7, 44, 115, 255)', color: 'rgb(255, 255, 255)', padding: '4px 8px' }
-                  : { color: 'rgb(0, 0, 0)', padding: '4px 8px' }
-              }
-              onClick={() => handleClick(timing.step.type, i)}
-            >
-              <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
-                {timing.step.text}
-              </Typography>
-            </StyledButtonBase>
-          ))}
-        </StyledStepsContainer>
+        <StyledTimeStepChoices
+          type="radio"
+          name={`lamcounter-${stationId}-time-step`}
+          legend={intl.formatMessage({ id: 'ecocounter.chart.timeStepGroup' })}
+          options={buttonSteps.map(({ step }) => ({ value: step.type, label: step.text }))}
+          isSelected={type => getStepIndex(type) === activeStep}
+          onChange={type => handleClick(type, getStepIndex(type))}
+          renderOption={({ label }) => <span className="choice-face">{label}</span>}
+        />
       </div>
     </>
   );
