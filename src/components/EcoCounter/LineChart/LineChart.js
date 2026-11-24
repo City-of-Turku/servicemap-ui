@@ -7,10 +7,18 @@ import ChartDataTable from './ChartDataTable';
 import SeriesSwatch from './SeriesSwatch';
 import useChartPointHighlight from './useChartPointHighlight';
 import {
-  SERIES_KEYS, buildDatasets, chartOptions, getInitialVisibility,
+  SERIES_KEYS,
+  buildDatasets,
+  chartOptions,
+  getInitialVisibility,
 } from './chartConfig';
 
 let chartInstanceCount = 0;
+
+const columnHeaderMessageIds = {
+  hour: 'ecocounter.chart.table.columnHeader.hour',
+  week: 'ecocounter.chart.table.columnHeader.week',
+};
 
 const LineChart = ({
   labels,
@@ -21,6 +29,7 @@ const LineChart = ({
   labelChannel2,
   labelChannelTotal,
   description,
+  timeStep,
 }) => {
   const intl = useIntl();
   const chartRef = useRef(null);
@@ -35,28 +44,51 @@ const LineChart = ({
     setVisibleSeries((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const datasets = useMemo(() => buildDatasets([
-    { key: SERIES_KEYS.to, label: labelChannel1, data: channel1Data },
-    { key: SERIES_KEYS.from, label: labelChannel2, data: channel2Data },
-    { key: SERIES_KEYS.total, label: labelChannelTotal, data: channelTotalsData },
-  ], visibleSeries), [
-    channel1Data,
-    channel2Data,
-    channelTotalsData,
-    labelChannel1,
-    labelChannel2,
-    labelChannelTotal,
-    visibleSeries,
-  ]);
+  const datasets = useMemo(
+    () =>
+      buildDatasets(
+        [
+          { key: SERIES_KEYS.to, label: labelChannel1, data: channel1Data },
+          { key: SERIES_KEYS.from, label: labelChannel2, data: channel2Data },
+          {
+            key: SERIES_KEYS.total,
+            label: labelChannelTotal,
+            data: channelTotalsData,
+          },
+        ],
+        visibleSeries,
+      ),
+    [
+      channel1Data,
+      channel2Data,
+      channelTotalsData,
+      labelChannel1,
+      labelChannel2,
+      labelChannelTotal,
+      visibleSeries,
+    ],
+  );
 
-  const { activateChartPoint, clearChartPoint } = useChartPointHighlight(chartRef, datasets);
+  const { activateChartPoint, clearChartPoint } = useChartPointHighlight(
+    chartRef,
+    datasets,
+  );
 
   const data = useMemo(() => ({ labels, datasets }), [labels, datasets]);
 
   const tableDatasets = datasets.filter(
-    (dataset) => !dataset.hidden && dataset.data.length > 0,
+    (dataset) =>
+      !dataset.hidden &&
+      dataset.data.some((value) => typeof value === 'number'),
   );
   const hasTable = labels.length > 0 && tableDatasets.length > 0;
+
+  const tableLabels = useMemo(() => {
+    const messageId = columnHeaderMessageIds[timeStep];
+    return messageId
+      ? labels.map((label) => intl.formatMessage({ id: messageId }, { label }))
+      : labels;
+  }, [intl, labels, timeStep]);
 
   return (
     <div className="chart-container">
@@ -94,7 +126,7 @@ const LineChart = ({
             { id: 'ecocounter.chart.table.caption' },
             { details: description },
           )}
-          labels={labels}
+          labels={tableLabels}
           datasets={tableDatasets}
           onCellFocus={activateChartPoint}
           onCellBlur={clearChartPoint}
@@ -114,6 +146,12 @@ LineChart.propTypes = {
   channelTotalsData: PropTypes.arrayOf(PropTypes.any).isRequired,
   /** What the chart shows, e.g. 'Teatteriranta, Pyöräily, kuukausittain 2025' */
   description: PropTypes.string.isRequired,
+  /** Time step of the x-axis, used to describe the columns of the data table */
+  timeStep: PropTypes.oneOf(['hour', 'day', 'week', 'month', 'year']),
+};
+
+LineChart.defaultProps = {
+  timeStep: undefined,
 };
 
 export default LineChart;

@@ -1,7 +1,7 @@
 import { createIntl } from 'react-intl';
 import finnish from '../../../i18n/fi';
 import english from '../../../i18n/en';
-import { getChartDescription, getChartPeriodText } from '../utils';
+import { formatWeekStart, getChartDescription, getChartPeriodText } from '../utils';
 
 const intlFi = createIntl({ locale: 'fi', messages: finnish });
 const intlEn = createIntl({ locale: 'en', messages: english });
@@ -47,5 +47,30 @@ describe('getChartDescription', () => {
       userTypeText: '',
       period: { ...basePeriod, step: 'month' },
     })).toBe('Kupittaa, monthly, 2025');
+  });
+});
+
+describe('formatWeekStart', () => {
+  it('gives the Monday of the ISO week', () => {
+    // 1 January 2024 is a Monday
+    expect(formatWeekStart(2024, 1)).toBe('01.01');
+    expect(formatWeekStart(2024, 10)).toBe('04.03');
+  });
+
+  it('starts week 1 on the Monday after 1 January when 1 January is on Friday to Sunday', () => {
+    // 1 January 2021 is a Friday, ISO week 1 starts on 4 January
+    expect(formatWeekStart(2021, 1)).toBe('04.01');
+    expect(formatWeekStart(2021, 52)).toBe('27.12');
+  });
+
+  it('starts the first days of January, numbered as the previous ISO year\'s last week, on 1 January', () => {
+    // 1–3 January 2021 belong to ISO week 53 of 2020
+    expect(formatWeekStart(2021, 53)).toBe('01.01');
+  });
+
+  it('does not start week 1 before 1 January when the ISO week begins in December', () => {
+    // 1 January 2026 is a Thursday, ISO week 1 starts on 29 December 2025
+    expect(formatWeekStart(2026, 1)).toBe('01.01');
+    expect(formatWeekStart(2026, 2)).toBe('05.01');
   });
 });

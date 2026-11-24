@@ -1,4 +1,6 @@
-import { format } from 'date-fns';
+import {
+  format, getISOWeeksInYear, max, setISOWeek, startOfISOWeek,
+} from 'date-fns';
 
 /**
  * Format dates for the chart
@@ -8,6 +10,26 @@ import { format } from 'date-fns';
 const formatDates = (dateValue) => {
   const fields = dateValue.split('-');
   return `${fields[2]}.${fields[1]}`;
+};
+
+/**
+ * Format the start date of an ISO week for the chart, e.g. '04.01'.
+ * The API groups the data by calendar year and ISO week number, so a week never starts before
+ * 1 January of its year: week 1 may begin in the previous December, and the first days of January
+ * can be numbered as week 52 or 53 of the previous ISO year.
+ * @param {number} year calendar year of the data
+ * @param {number} weekNumber ISO week number
+ * @returns {string}
+ */
+const formatWeekStart = (year, weekNumber) => {
+  // ISO week 1 is the week that contains 4 January
+  const january4 = new Date(year, 0, 4);
+  const january1 = new Date(year, 0, 1);
+  // A week number the ISO year doesn't have is the first days of January
+  const isoWeekStart = weekNumber > getISOWeeksInYear(january4)
+    ? january1
+    : startOfISOWeek(setISOWeek(january4, weekNumber));
+  return format(max([isoWeekStart, january1]), 'dd.MM');
 };
 
 /**
@@ -119,6 +141,14 @@ const getChartDescription = (intl, { stationName, userTypeText, period }) => (
   [stationName, userTypeText, getChartPeriodText(intl, period)].filter(Boolean).join(', ')
 );
 
+/**
+ * Keeps datepicker clicks from reaching the Leaflet map. Selecting a day removes it from the DOM
+ * before the click bubbles to the map, so Leaflet no longer sees it as inside the popup and closes the popup.
+ * Use as a React onClick: it runs after the datepicker has handled the click.
+ * @param {Event} event
+ */
+const stopClickReachingMap = event => event.stopPropagation();
+
 export {
-  formatDates, formatFullDates, formatMonths, getChartPeriodText, getChartDescription,
+  formatDates, formatFullDates, formatMonths, formatWeekStart, getChartPeriodText, getChartDescription, stopClickReachingMap,
 };

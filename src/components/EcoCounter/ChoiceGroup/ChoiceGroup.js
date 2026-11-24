@@ -43,6 +43,7 @@ const StyledFieldset = styled.fieldset(({ theme }) => ({
   margin: 0,
   padding: 0,
   minWidth: 0,
+  isolation: 'isolate',
   '& .choice': {
     position: 'relative',
     cursor: 'pointer',

@@ -104,7 +104,7 @@ describe('<LineChart />', () => {
   describe('accessible data table', () => {
     it('has a caption, column headers for the x-axis labels and row headers for the visible series', () => {
       renderWithProviders(<LineChart {...defaultProps} />);
-      const table = screen.getByRole('table', { name: 'Laskentatiedot: Testiasema, Pyöräily, tunneittain 02.03.2025' });
+      const table = screen.getByRole('grid', { name: 'Liikennemäärät: Testiasema, Pyöräily, tunneittain 02.03.2025' });
 
       const columnHeaders = within(table).getAllByRole('columnheader');
       expect(columnHeaders.map(th => th.textContent)).toEqual(['Suunta', '00:00', '01:00']);
@@ -114,13 +114,28 @@ describe('<LineChart />', () => {
       expect(rowHeaders.map(th => th.textContent)).toEqual(['Yhteensä']);
       expect(rowHeaders[0]).toHaveAttribute('scope', 'row');
 
-      expect(within(table).getAllByRole('cell').map(td => td.textContent)).toEqual(['4', '6']);
+      expect(within(table).getAllByRole('gridcell').map(td => td.textContent)).toEqual(['4', '6']);
+    });
+
+    it('describes the hour and week columns in the column headers', () => {
+      const columnHeaders = () => within(screen.getByRole('grid')).getAllByRole('columnheader')
+        .slice(1)
+        .map(th => th.textContent);
+
+      const { rerender } = renderWithProviders(<LineChart {...defaultProps} timeStep="hour" />);
+      expect(columnHeaders()).toEqual(['klo 00:00', 'klo 01:00']);
+
+      rerender(<LineChart {...defaultProps} labels={['03.03', '10.03']} timeStep="week" />);
+      expect(columnHeaders()).toEqual(['Viikko alkaen 03.03', 'Viikko alkaen 10.03']);
+
+      rerender(<LineChart {...defaultProps} labels={['03.03', '04.03']} timeStep="day" />);
+      expect(columnHeaders()).toEqual(['03.03', '04.03']);
     });
 
     it('adds and removes rows when series are toggled', () => {
       renderWithProviders(<LineChart {...defaultProps} />);
       fireEvent.click(screen.getByRole('checkbox', { name: 'Keskustaan' }));
-      const rowHeaders = () => within(screen.getByRole('table')).getAllByRole('rowheader').map(th => th.textContent);
+      const rowHeaders = () => within(screen.getByRole('grid')).getAllByRole('rowheader').map(th => th.textContent);
       expect(rowHeaders()).toEqual(['Keskustaan', 'Yhteensä']);
 
       fireEvent.click(screen.getByRole('checkbox', { name: 'Yhteensä' }));
@@ -129,15 +144,88 @@ describe('<LineChart />', () => {
 
     it('formats numbers with the current locale', () => {
       renderWithProviders(<LineChart {...defaultProps} channelTotalsData={[12345, 6]} />);
-      const cells = within(screen.getByRole('table')).getAllByRole('cell');
+      const cells = within(screen.getByRole('grid')).getAllByRole('gridcell');
       expect(cells[0].textContent).toBe(new Intl.NumberFormat('fi').format(12345));
     });
 
-    it('makes every value cell keyboard focusable', () => {
+    it('is a single tab stop on the first value cell', () => {
       renderWithProviders(<LineChart {...defaultProps} />);
-      within(screen.getByRole('table')).getAllByRole('cell').forEach(td => {
-        expect(td).toHaveAttribute('tabindex', '0');
+      const [firstCell, secondCell] = within(screen.getByRole('grid')).getAllByRole('gridcell');
+      expect(firstCell).toHaveAttribute('tabindex', '0');
+      expect(secondCell).toHaveAttribute('tabindex', '-1');
+    });
+
+    it('keeps cells without a value unfocusable', () => {
+      jest.clearAllMocks();
+      renderWithProviders(
+        <LineChart {...defaultProps} labels={['00:00', '01:00', '02:00']} channelTotalsData={[null, 6]} />,
+      );
+      const [missingCell, valueCell, beyondDataCell] = within(screen.getByRole('grid')).getAllByRole('gridcell');
+
+      expect(valueCell).toHaveAttribute('tabindex', '0');
+      [missingCell, beyondDataCell].forEach(td => {
+        expect(td).not.toHaveAttribute('tabindex');
+        expect(td.textContent).toBe('');
+        fireEvent.focus(td);
       });
+      expect(mockChart.setActiveElements).not.toHaveBeenCalled();
+    });
+
+    it('moves focus between value cells with the arrow, Home and End keys', () => {
+      renderWithProviders(
+        <LineChart
+          {...defaultProps}
+          labels={['00:00', '01:00', '02:00', '03:00']}
+          channel1Data={[1, 2, null, 4]}
+          channelTotalsData={[5, null, 7, 8]}
+        />,
+      );
+      fireEvent.click(screen.getByRole('checkbox', { name: 'Keskustaan' }));
+      const rows = within(screen.getByRole('grid')).getAllByRole('row');
+      const toCells = within(rows[1]).getAllByRole('gridcell');
+      const totalCells = within(rows[2]).getAllByRole('gridcell');
+
+      toCells[0].focus();
+      fireEvent.keyDown(toCells[0], { key: 'ArrowRight' });
+      expect(toCells[1]).toHaveFocus();
+      // Skips the cell without a value
+      fireEvent.keyDown(toCells[1], { key: 'ArrowRight' });
+      expect(toCells[3]).toHaveFocus();
+      fireEvent.keyDown(toCells[3], { key: 'ArrowRight' });
+      expect(toCells[3]).toHaveFocus();
+      fireEvent.keyDown(toCells[3], { key: 'ArrowDown' });
+      expect(totalCells[3]).toHaveFocus();
+      fireEvent.keyDown(totalCells[3], { key: 'Home' });
+      expect(totalCells[0]).toHaveFocus();
+      fireEvent.keyDown(totalCells[0], { key: 'End' });
+      expect(totalCells[3]).toHaveFocus();
+      fireEvent.keyDown(totalCells[3], { key: 'ArrowLeft' });
+      expect(totalCells[2]).toHaveFocus();
+      // No value above, focus stays
+      fireEvent.keyDown(totalCells[2], { key: 'ArrowUp' });
+      expect(totalCells[2]).toHaveFocus();
+    });
+
+    it('keeps the last focused cell as the tab stop', () => {
+      renderWithProviders(<LineChart {...defaultProps} />);
+      const [firstCell, secondCell] = within(screen.getByRole('grid')).getAllByRole('gridcell');
+
+      firstCell.focus();
+      fireEvent.keyDown(firstCell, { key: 'ArrowRight' });
+      expect(firstCell).toHaveAttribute('tabindex', '-1');
+      expect(secondCell).toHaveAttribute('tabindex', '0');
+    });
+
+    it('moves the tab stop to the first value cell when the focused series is hidden', () => {
+      renderWithProviders(<LineChart {...defaultProps} />);
+      fireEvent.click(screen.getByRole('checkbox', { name: 'Keskustaan' }));
+      const rows = within(screen.getByRole('grid')).getAllByRole('row');
+      const lastTotalCell = within(rows[2]).getAllByRole('gridcell')[1];
+      lastTotalCell.focus();
+
+      fireEvent.click(screen.getByRole('checkbox', { name: 'Yhteensä' }));
+      const cells = within(screen.getByRole('grid')).getAllByRole('gridcell');
+      expect(cells.map(td => td.getAttribute('tabindex'))).toEqual(['0', '-1']);
     });
 
     it('highlights the matching chart point and opens its tooltip when a cell is focused', () => {
@@ -145,11 +233,11 @@ describe('<LineChart />', () => {
       renderWithProviders(<LineChart {...defaultProps} />);
       // Show 'Keskustaan' as well, so the visible rows and the chart's dataset indexes differ
       fireEvent.click(screen.getByRole('checkbox', { name: 'Keskustaan' }));
-      const rows = within(screen.getByRole('table')).getAllByRole('row');
+      const rows = within(screen.getByRole('grid')).getAllByRole('row');
       // rows[0] is the header row, rows[2] is 'Yhteensä' which is the 3rd chart dataset (index 2)
-      const secondTotalCell = within(rows[2]).getAllByRole('cell')[1];
+      const secondTotalCell = within(rows[2]).getAllByRole('gridcell')[1];
 
-      fireEvent.focus(secondTotalCell);
+      secondTotalCell.focus();
       expect(mockChart.setActiveElements).toHaveBeenLastCalledWith([{ datasetIndex: 2, index: 1 }]);
       expect(mockChart.tooltip.setActiveElements).toHaveBeenLastCalledWith(
         [{ datasetIndex: 2, index: 1 }],
@@ -157,7 +245,7 @@ describe('<LineChart />', () => {
       );
       expect(mockChart.update).toHaveBeenCalled();
 
-      fireEvent.blur(secondTotalCell);
+      secondTotalCell.blur();
       expect(mockChart.setActiveElements).toHaveBeenLastCalledWith([]);
       expect(mockChart.tooltip.setActiveElements).toHaveBeenLastCalledWith([], { x: 0, y: 0 });
     });
@@ -165,31 +253,71 @@ describe('<LineChart />', () => {
     it('keeps the chart point active while focus moves between cells', () => {
       jest.clearAllMocks();
       renderWithProviders(<LineChart {...defaultProps} />);
-      const [firstCell, secondCell] = within(screen.getByRole('table')).getAllByRole('cell');
+      const [firstCell, secondCell] = within(screen.getByRole('grid')).getAllByRole('gridcell');
 
-      fireEvent.focus(firstCell);
+      firstCell.focus();
+      // jsdom leaves relatedTarget unset when focus moves, browsers set it to the cell gaining focus
       fireEvent.blur(firstCell, { relatedTarget: secondCell });
       expect(mockChart.setActiveElements).not.toHaveBeenCalledWith([]);
     });
 
     it('renders a column for every label, even when labels repeat', () => {
       renderWithProviders(<LineChart {...defaultProps} labels={['2025', '2025']} />);
-      expect(within(screen.getByRole('table')).getAllByRole('cell')).toHaveLength(2);
+      expect(within(screen.getByRole('grid')).getAllByRole('gridcell')).toHaveLength(2);
     });
 
     it('is not rendered, nor mentioned in the chart name, when no series is visible', () => {
       renderWithProviders(<LineChart {...defaultProps} />);
       fireEvent.click(screen.getByRole('checkbox', { name: 'Yhteensä' }));
-      expect(screen.queryByRole('table')).not.toBeInTheDocument();
+      expect(screen.queryByRole('grid')).not.toBeInTheDocument();
       expect(screen.getByTestId('mock-chart')).toHaveAttribute(
         'aria-label',
         'Kuvaaja: Testiasema, Pyöräily, tunneittain 02.03.2025.',
       );
     });
 
+    it('is not rendered, nor mentioned in the chart name, when the visible series have no values', () => {
+      renderWithProviders(<LineChart {...defaultProps} channelTotalsData={[null, null]} />);
+      expect(screen.queryByRole('grid')).not.toBeInTheDocument();
+      expect(screen.getByTestId('mock-chart')).toHaveAttribute(
+        'aria-label',
+        'Kuvaaja: Testiasema, Pyöräily, tunneittain 02.03.2025.',
+      );
+    });
+
+    it('leaves out the rows of series without any values', () => {
+      renderWithProviders(<LineChart {...defaultProps} channel1Data={[null, null]} />);
+      fireEvent.click(screen.getByRole('checkbox', { name: 'Keskustaan' }));
+      const rowHeaders = within(screen.getByRole('grid')).getAllByRole('rowheader').map(th => th.textContent);
+      expect(rowHeaders).toEqual(['Yhteensä']);
+    });
+
+    it('clears the chart point when the series of the focused cell is hidden', () => {
+      jest.clearAllMocks();
+      renderWithProviders(<LineChart {...defaultProps} />);
+      fireEvent.click(screen.getByRole('checkbox', { name: 'Keskustaan' }));
+      const rows = within(screen.getByRole('grid')).getAllByRole('row');
+      within(rows[1]).getAllByRole('gridcell')[0].focus();
+      expect(mockChart.setActiveElements).toHaveBeenLastCalledWith([{ datasetIndex: 0, index: 0 }]);
+
+      fireEvent.click(screen.getByRole('checkbox', { name: 'Keskustaan' }));
+      expect(mockChart.setActiveElements).toHaveBeenLastCalledWith([]);
+    });
+
+    it('clears the chart point when the table is removed while a cell has focus', () => {
+      jest.clearAllMocks();
+      renderWithProviders(<LineChart {...defaultProps} />);
+      within(screen.getByRole('grid')).getAllByRole('gridcell')[0].focus();
+      expect(mockChart.setActiveElements).toHaveBeenLastCalledWith([{ datasetIndex: 2, index: 0 }]);
+
+      fireEvent.click(screen.getByRole('checkbox', { name: 'Yhteensä' }));
+      expect(screen.queryByRole('grid')).not.toBeInTheDocument();
+      expect(mockChart.setActiveElements).toHaveBeenLastCalledWith([]);
+    });
+
     it('is not rendered while there is no data', () => {
       renderWithProviders(<LineChart {...defaultProps} channelTotalsData={[]} />);
-      expect(screen.queryByRole('table')).not.toBeInTheDocument();
+      expect(screen.queryByRole('grid')).not.toBeInTheDocument();
     });
   });
 
