@@ -1,7 +1,24 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, createRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import { Line } from 'react-chartjs-2';
+import { StyledSeriesChoices } from '../styled/styled';
+import ChartDataTable from './ChartDataTable';
+import SeriesSwatch from './SeriesSwatch';
+import useChartPointHighlight from './useChartPointHighlight';
+import {
+  SERIES_KEYS,
+  buildDatasets,
+  chartOptions,
+  getInitialVisibility,
+} from './chartConfig';
+
+let chartInstanceCount = 0;
+
+const columnHeaderMessageIds = {
+  hour: 'ecocounter.chart.table.columnHeader.hour',
+  week: 'ecocounter.chart.table.columnHeader.week',
+};
 
 const LineChart = ({
   labels,
@@ -11,89 +28,110 @@ const LineChart = ({
   labelChannel1,
   labelChannel2,
   labelChannelTotal,
+  description,
+  timeStep,
 }) => {
-  const [data, setChartData] = useState({});
-  const chartRef = createRef();
+  const intl = useIntl();
+  const chartRef = useRef(null);
+  const [visibleSeries, setVisibleSeries] = useState(getInitialVisibility);
+  // Unique per chart so the series checkbox ids don't clash when several popups are open
+  const [seriesInputName] = useState(() => {
+    chartInstanceCount += 1;
+    return `ecocounter-chart-series-${chartInstanceCount}`;
+  });
 
-  const datasets = [];
-
-  const addChannelData = () => {
-    if (channel1Data.length > 0) {
-      datasets.push({
-        fill: false,
-        label: labelChannel1,
-        lineTension: 0.2,
-        borderColor: 'rgba(0, 167, 225, 255)',
-        borderWidth: 3,
-        backgroundColor: 'rgba(0, 167, 225, 255)',
-        data: channel1Data,
-        pointRadius: 4,
-        pointBackgroundColor: '#fff',
-        pointBorderWidth: 2,
-        hidden: true,
-      });
-    }
-    if (channel2Data.length > 0) {
-      datasets.push({
-        fill: false,
-        label: labelChannel2,
-        lineTension: 0.2,
-        borderColor: 'rgba(235,169,0,255)',
-        borderWidth: 3,
-        backgroundColor: 'rgba(235, 169, 0, 255)',
-        data: channel2Data,
-        pointRadius: 4,
-        pointBackgroundColor: '#fff',
-        pointBorderWidth: 2,
-        hidden: true,
-      });
-    }
-    if (channelTotalsData.length > 0) {
-      datasets.push({
-        fill: false,
-        label: labelChannelTotal,
-        lineTension: 0.2,
-        borderColor: 'rgba(7, 44, 115, 255)',
-        borderWidth: 3,
-        backgroundColor: 'rgba(7, 44, 115, 255)',
-        data: channelTotalsData,
-        pointRadius: 4,
-        pointBackgroundColor: '#fff',
-        pointBorderWidth: 2,
-        hidden: false,
-      });
-    }
+  const toggleSeries = (key) => {
+    setVisibleSeries((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const ecoCounterChart = () => {
-    setChartData({
-      labels,
-      datasets,
-    });
-  };
+  const datasets = useMemo(
+    () =>
+      buildDatasets(
+        [
+          { key: SERIES_KEYS.to, label: labelChannel1, data: channel1Data },
+          { key: SERIES_KEYS.from, label: labelChannel2, data: channel2Data },
+          {
+            key: SERIES_KEYS.total,
+            label: labelChannelTotal,
+            data: channelTotalsData,
+          },
+        ],
+        visibleSeries,
+      ),
+    [
+      channel1Data,
+      channel2Data,
+      channelTotalsData,
+      labelChannel1,
+      labelChannel2,
+      labelChannelTotal,
+      visibleSeries,
+    ],
+  );
 
-  const options = {
-    responsive: true,
-    scales: {
-      y: {
-        ticks: {
-          beginAtZero: true,
-        },
-      },
-    },
-  };
+  const { activateChartPoint, clearChartPoint } = useChartPointHighlight(
+    chartRef,
+    datasets,
+  );
 
-  useEffect(() => {
-    ecoCounterChart();
-  }, [channelTotalsData]);
+  const data = useMemo(() => ({ labels, datasets }), [labels, datasets]);
 
-  useEffect(() => {
-    addChannelData();
-  }, [channel1Data, channel2Data]);
+  const tableDatasets = datasets.filter(
+    (dataset) =>
+      !dataset.hidden &&
+      dataset.data.some((value) => typeof value === 'number'),
+  );
+  const hasTable = labels.length > 0 && tableDatasets.length > 0;
+
+  const tableLabels = useMemo(() => {
+    const messageId = columnHeaderMessageIds[timeStep];
+    return messageId
+      ? labels.map((label) => intl.formatMessage({ id: messageId }, { label }))
+      : labels;
+  }, [intl, labels, timeStep]);
 
   return (
     <div className="chart-container">
-      {data.datasets ? <Line ref={chartRef} data={data} width={496} height={248} options={options} /> : null}
+      <StyledSeriesChoices
+        type="checkbox"
+        name={seriesInputName}
+        legend={intl.formatMessage({ id: 'ecocounter.chart.seriesGroup' })}
+        options={datasets.map(({ key, label }) => ({ value: key, label }))}
+        isSelected={(key) => visibleSeries[key]}
+        onChange={toggleSeries}
+        renderOption={({ value, label }) => (
+          <span className="choice-face">
+            <SeriesSwatch seriesKey={value} />
+            <span className="series-label">{label}</span>
+          </span>
+        )}
+      />
+      {/* react-chartjs-2 renders the canvas with role="img"; aria-label gives it an accessible name */}
+      <Line
+        ref={chartRef}
+        data={data}
+        options={chartOptions}
+        aria-label={intl.formatMessage(
+          {
+            id: hasTable
+              ? 'ecocounter.chart.ariaLabel'
+              : 'ecocounter.chart.ariaLabelNoTable',
+          },
+          { details: description },
+        )}
+      />
+      {hasTable && (
+        <ChartDataTable
+          caption={intl.formatMessage(
+            { id: 'ecocounter.chart.table.caption' },
+            { details: description },
+          )}
+          labels={tableLabels}
+          datasets={tableDatasets}
+          onCellFocus={activateChartPoint}
+          onCellBlur={clearChartPoint}
+        />
+      )}
     </div>
   );
 };
@@ -106,6 +144,14 @@ LineChart.propTypes = {
   channel1Data: PropTypes.arrayOf(PropTypes.any).isRequired,
   channel2Data: PropTypes.arrayOf(PropTypes.any).isRequired,
   channelTotalsData: PropTypes.arrayOf(PropTypes.any).isRequired,
+  /** What the chart shows, e.g. 'Teatteriranta, Pyöräily, kuukausittain 2025' */
+  description: PropTypes.string.isRequired,
+  /** Time step of the x-axis, used to describe the columns of the data table */
+  timeStep: PropTypes.oneOf(['hour', 'day', 'week', 'month', 'year']),
+};
+
+LineChart.defaultProps = {
+  timeStep: undefined,
 };
 
 export default LineChart;
