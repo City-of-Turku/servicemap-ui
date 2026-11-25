@@ -7,7 +7,7 @@ exports[`<PaginationComponent /> should work 1`] = `
   >
     <button
       aria-label="Aiempi sivu"
-      class="MuiButtonBase-root SMButton SMButton-button-16  SMButton-marginRight-19 injectIntl(PaginationComponent)-button-4 injectIntl(PaginationComponent)-arrowFlip-2 injectIntl(PaginationComponent)-borderBlack-3 SMButton-primary-20 css-itjqu4-MuiButtonBase-root"
+      class="MuiButtonBase-root SMButton SMButton-button-16 SMButton-marginRight-19 injectIntl(PaginationComponent)-button-4 injectIntl(PaginationComponent)-arrowFlip-2 injectIntl(PaginationComponent)-borderBlack-3 SMButton-primary-20 css-itjqu4-MuiButtonBase-root"
       id="PaginationPreviousButton"
       role="link"
       tabindex="0"
@@ -28,7 +28,7 @@ exports[`<PaginationComponent /> should work 1`] = `
     </button>
     <button
       aria-label="Seuraava sivu"
-      class="MuiButtonBase-root SMButton SMButton-button-16  SMButton-marginRight-19 injectIntl(PaginationComponent)-button-4 injectIntl(PaginationComponent)-borderBlack-3 SMButton-primary-20 css-itjqu4-MuiButtonBase-root"
+      class="MuiButtonBase-root SMButton SMButton-button-16 SMButton-marginRight-19 injectIntl(PaginationComponent)-button-4 injectIntl(PaginationComponent)-borderBlack-3 SMButton-primary-20 css-itjqu4-MuiButtonBase-root"
       id="PaginationNextButton"
       role="link"
       tabindex="0"
@@ -61,7 +61,7 @@ exports[`<PaginationComponent /> should work 1`] = `
             type="button"
           >
             <p
-              class="MuiTypography-root MuiTypography-subtitle1  PageElement-pageItem-33 PageElement-pageElement-31 css-dlbwt1-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-subtitle1 PageElement-pageItem-33 PageElement-pageElement-31 css-dlbwt1-MuiTypography-root"
             >
               <span
                 aria-hidden="true"
@@ -86,7 +86,7 @@ exports[`<PaginationComponent /> should work 1`] = `
             type="button"
           >
             <p
-              class="MuiTypography-root MuiTypography-subtitle1  PageElement-pageItem-33 PageElement-pageElementActive-32 css-dlbwt1-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-subtitle1 PageElement-pageItem-33 PageElement-pageElementActive-32 css-dlbwt1-MuiTypography-root"
             >
               <span
                 aria-hidden="true"
@@ -110,7 +110,7 @@ exports[`<PaginationComponent /> should work 1`] = `
             type="button"
           >
             <p
-              class="MuiTypography-root MuiTypography-subtitle1  PageElement-pageItem-33 PageElement-pageElement-31 css-dlbwt1-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-subtitle1 PageElement-pageItem-33 PageElement-pageElement-31 css-dlbwt1-MuiTypography-root"
             >
               <span
                 aria-hidden="true"
@@ -134,7 +134,7 @@ exports[`<PaginationComponent /> should work 1`] = `
             type="button"
           >
             <p
-              class="MuiTypography-root MuiTypography-subtitle1  PageElement-pageItem-33 PageElement-pageElement-31 css-dlbwt1-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-subtitle1 PageElement-pageItem-33 PageElement-pageElement-31 css-dlbwt1-MuiTypography-root"
             >
               <span
                 aria-hidden="true"
@@ -158,7 +158,7 @@ exports[`<PaginationComponent /> should work 1`] = `
             type="button"
           >
             <p
-              class="MuiTypography-root MuiTypography-subtitle1  PageElement-pageItem-33 PageElement-pageElement-31 css-dlbwt1-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-subtitle1 PageElement-pageItem-33 PageElement-pageElement-31 css-dlbwt1-MuiTypography-root"
             >
               <span
                 aria-hidden="true"

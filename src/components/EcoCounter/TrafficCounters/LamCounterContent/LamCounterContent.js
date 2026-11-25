@@ -1,13 +1,10 @@
-/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, forwardRef, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { Typography, useMediaQuery } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { css } from '@emotion/css';
 import styled from '@emotion/styled';
-import DatePicker, { registerLocale } from 'react-datepicker';
 import {
   endOfMonth,
   startOfMonth,
@@ -19,7 +16,6 @@ import {
   endOfWeek,
   subDays,
 } from 'date-fns';
-import { enGB, fi, sv } from 'date-fns/locale';
 import { ReactSVG } from 'react-svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
 import {
@@ -36,10 +32,9 @@ import {
   formatMonths,
   formatWeekStart,
   getChartDescription,
-  stopClickReachingMap,
 } from '../../utils';
 import LineChart from '../../LineChart';
-import InputDate from '../../InputDate';
+import DatePickerDialog from '../../../DatePickerDialog';
 import CounterActiveText from '../CounterActiveText';
 import {
   StyledChartContainer,
@@ -51,10 +46,6 @@ import {
   StyledUserTypeText,
   StyledUserTypesContainer,
 } from '../../styled/styled';
-
-const CustomInput = forwardRef((props, ref) => (
-  <InputDate {...props} ref={ref} />
-));
 
 const LamCounterContent = ({ station }) => {
   const [lamCounterHour, setLamCounterHour] = useState([]);
@@ -71,8 +62,6 @@ const LamCounterContent = ({ station }) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const intl = useIntl();
-  const locale = useSelector((state) => state.user.locale);
-  const inputRef = useRef(null);
 
   const useMobileStatus = () => useMediaQuery('(max-width:768px)');
   const isNarrow = useMobileStatus();
@@ -157,15 +146,6 @@ const LamCounterContent = ({ station }) => {
   const changeDate = (newDate) => {
     setSelectedDate(newDate);
   };
-
-  // Set datepicker language
-  useEffect(() => {
-    if (locale === 'en') {
-      registerLocale('en', enGB);
-    } else if (locale === 'sv') {
-      registerLocale('sv', sv);
-    } else registerLocale('fi', fi);
-  }, [locale]);
 
   /**
    * API returns empty data if start_week_number parameter is higher number than end_week_number.
@@ -461,17 +441,18 @@ const LamCounterContent = ({ station }) => {
         <StyledHeaderSubtitle component="h4">
           {displayedStationName}
         </StyledHeaderSubtitle>
-        <StyledDateContainer onClick={stopClickReachingMap}>
-          <DatePicker
-            selected={selectedDate}
-            onChange={(newDate) => changeDate(newDate)}
-            locale={locale}
-            dateFormat="P"
-            showYearDropdown
-            dropdownMode="select"
+        <StyledDateContainer>
+          <DatePickerDialog
+            value={selectedDate}
+            onChange={changeDate}
             minDate={new Date(dataFrom)}
             maxDate={new Date(dataUntil)}
-            customInput={<CustomInput inputRef={inputRef} />}
+            buttonLabel={intl.formatMessage({
+              id: 'ecocounter.chart.datePicker.button',
+            })}
+            dialogTitle={intl.formatMessage({
+              id: 'ecocounter.chart.datePicker.title',
+            })}
           />
         </StyledDateContainer>
       </StyledContentHeader>

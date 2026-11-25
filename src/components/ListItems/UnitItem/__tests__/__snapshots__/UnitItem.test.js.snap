@@ -37,7 +37,7 @@ exports[`<UnitItem /> should work 1`] = `
         </p>
         <p
           aria-hidden="true"
-          class="MuiTypography-root MuiTypography-body2 ResultItem-title-8  Connect(UnitItem)-title-1  ResultItem-title css-1ak20dk-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body2 ResultItem-title-8 Connect(UnitItem)-title-1 ResultItem-title css-1ak20dk-MuiTypography-root"
           role="textbox"
         >
           Pääkirjasto
@@ -47,7 +47,7 @@ exports[`<UnitItem /> should work 1`] = `
         <div>
           <p
             aria-hidden="true"
-            class="MuiTypography-root MuiTypography-caption ResultItem-noMargin-9 ResultItem-text-17  ResultItem-subtitle css-r3hlsg-MuiTypography-root"
+            class="MuiTypography-root MuiTypography-caption ResultItem-noMargin-9 ResultItem-text-17 ResultItem-subtitle css-r3hlsg-MuiTypography-root"
           >
             Kunnallinen palvelu
           </p>

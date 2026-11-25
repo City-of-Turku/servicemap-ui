@@ -141,14 +141,6 @@ const getChartDescription = (intl, { stationName, userTypeText, period }) => (
   [stationName, userTypeText, getChartPeriodText(intl, period)].filter(Boolean).join(', ')
 );
 
-/**
- * Keeps datepicker clicks from reaching the Leaflet map. Selecting a day removes it from the DOM
- * before the click bubbles to the map, so Leaflet no longer sees it as inside the popup and closes the popup.
- * Use as a React onClick: it runs after the datepicker has handled the click.
- * @param {Event} event
- */
-const stopClickReachingMap = event => event.stopPropagation();
-
 export {
-  formatDates, formatFullDates, formatMonths, formatWeekStart, getChartPeriodText, getChartDescription, stopClickReachingMap,
+  formatDates, formatFullDates, formatMonths, formatWeekStart, getChartPeriodText, getChartDescription,
 };

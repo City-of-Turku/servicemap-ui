@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/system';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -27,10 +27,17 @@ const getTheme = () => {
   return themes.SMTheme;
 };
 
+// Copy once so @mui/styles class names stay stable across renders (Leaflet sets className once)
+const withoutCssVars = theme => ({ ...theme, vars: null });
+const stableThemes = {
+  dark: withoutCssVars(themes.SMThemeDark),
+  default: withoutCssVars(getTheme()),
+};
+
 // Component to handle theme changes
 const ThemeHandler = ({ children, theme }) => (
 // Get correct theme setting from store
-  <ThemeProvider theme={theme === 'dark' ? themes.SMThemeDark : getTheme()}>
+  <ThemeProvider theme={theme === 'dark' ? stableThemes.dark : stableThemes.default}>
     {children}
   </ThemeProvider>
 );

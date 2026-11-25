@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useMediaQuery } from '@mui/material';
 import PropTypes from 'prop-types';
@@ -6,13 +5,9 @@ import React, {
   useCallback,
   useEffect,
   useState,
-  useRef,
-  forwardRef,
 } from 'react';
-import { useSelector } from 'react-redux';
 import { useIntl } from 'react-intl';
 import { css } from '@emotion/css';
-import DatePicker, { registerLocale } from 'react-datepicker';
 import {
   endOfMonth,
   startOfMonth,
@@ -24,9 +19,6 @@ import {
   endOfWeek,
   subDays,
 } from 'date-fns';
-import enGB from 'date-fns/locale/en-GB';
-import fi from 'date-fns/locale/fi';
-import sv from 'date-fns/locale/sv';
 import { ReactSVG } from 'react-svg';
 import iconBicycle from 'servicemap-ui-turku/assets/icons/icons-icon_bicycle.svg';
 import iconCar from 'servicemap-ui-turku/assets/icons/icons-icon_car.svg';
@@ -45,7 +37,6 @@ import {
   formatMonths,
   formatWeekStart,
   getChartDescription,
-  stopClickReachingMap,
 } from '../../utils';
 import {
   StyledChartContainer,
@@ -57,13 +48,10 @@ import {
   StyledUserTypeChoices,
 } from '../../styled/styled';
 import LineChart from '../../LineChart';
-import InputDate from '../../InputDate';
 import CounterActiveText from '../CounterActiveText';
+import DatePickerDialog from '../../../DatePickerDialog';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 
-const CustomInput = forwardRef((props, ref) => (
-  <InputDate {...props} ref={ref} />
-));
 const USER_TYPES = {
   jt: { translationId: 'ecocounter.walk', icon: iconWalk },
   pt: { translationId: 'ecocounter.bicycle', icon: iconBicycle },
@@ -92,10 +80,8 @@ const EcoCounterContent = ({ station }) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const intl = useIntl();
-  const locale = useSelector((state) => state.user.locale);
   const { showTrafficCounter, lastPickedTrafficCounterFilter } =
     useMobilityPlatformContext();
-  const inputRef = useRef(null);
 
   const useMobileStatus = () => useMediaQuery('(max-width:768px)');
   const isNarrow = useMobileStatus();
@@ -264,15 +250,6 @@ const EcoCounterContent = ({ station }) => {
   const changeDate = (newDate) => {
     setSelectedDate(newDate);
   };
-
-  // Set datepicker language
-  useEffect(() => {
-    if (locale === 'en') {
-      registerLocale('en', enGB);
-    } else if (locale === 'sv') {
-      registerLocale('sv', sv);
-    } else registerLocale('fi', fi);
-  }, [locale]);
 
   /**
    * API returns empty data if start_week_number parameter is higher number than end_week_number.
@@ -657,17 +634,19 @@ const EcoCounterContent = ({ station }) => {
         <StyledHeaderSubtitle component="h4">
           {displayedStationName}
         </StyledHeaderSubtitle>
-        <StyledDateContainer onClick={stopClickReachingMap}>
-          <DatePicker
-            selected={selectedDate}
-            onChange={(newDate) => changeDate(newDate)}
-            locale={locale}
-            dateFormat="P"
-            showYearDropdown={stationSource !== 'TR'}
-            dropdownMode="select"
+        <StyledDateContainer>
+          <DatePickerDialog
+            value={selectedDate}
+            onChange={changeDate}
             minDate={new Date(dataFrom)}
             maxDate={new Date(dataUntil)}
-            customInput={<CustomInput inputRef={inputRef} />}
+            showYearSelection={stationSource !== 'TR'}
+            buttonLabel={intl.formatMessage({
+              id: 'ecocounter.chart.datePicker.button',
+            })}
+            dialogTitle={intl.formatMessage({
+              id: 'ecocounter.chart.datePicker.title',
+            })}
           />
         </StyledDateContainer>
       </StyledContentHeader>

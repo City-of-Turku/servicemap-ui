@@ -37,7 +37,7 @@ exports[`<UnitDataList /> should work 1`] = `
             viewBox="0 0 24 24"
           >
             <path
-              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+              d="M17 12h-5v5h5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1zm3 18H5V8h14z"
             />
           </svg>
         </div>
@@ -61,7 +61,7 @@ exports[`<UnitDataList /> should work 1`] = `
             </p>
             <p
               aria-hidden="true"
-              class="MuiTypography-root MuiTypography-body2 ResultItem-title-24    ResultItem-title css-1ak20dk-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 ResultItem-title-24 ResultItem-title css-1ak20dk-MuiTypography-root"
               role="textbox"
             >
               Suomen kielen kielikahvila
@@ -93,7 +93,7 @@ exports[`<UnitDataList /> should work 1`] = `
             viewBox="0 0 24 24"
           >
             <path
-              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+              d="M17 12h-5v5h5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1zm3 18H5V8h14z"
             />
           </svg>
         </div>
@@ -117,7 +117,7 @@ exports[`<UnitDataList /> should work 1`] = `
             </p>
             <p
               aria-hidden="true"
-              class="MuiTypography-root MuiTypography-body2 ResultItem-title-24    ResultItem-title css-1ak20dk-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 ResultItem-title-24 ResultItem-title css-1ak20dk-MuiTypography-root"
               role="textbox"
             >
               R&A x Armas: Vanhenemisen estetiikka
@@ -149,7 +149,7 @@ exports[`<UnitDataList /> should work 1`] = `
             viewBox="0 0 24 24"
           >
             <path
-              d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+              d="M17 12h-5v5h5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1zm3 18H5V8h14z"
             />
           </svg>
         </div>
@@ -173,7 +173,7 @@ exports[`<UnitDataList /> should work 1`] = `
             </p>
             <p
               aria-hidden="true"
-              class="MuiTypography-root MuiTypography-body2 ResultItem-title-24    ResultItem-title css-1ak20dk-MuiTypography-root"
+              class="MuiTypography-root MuiTypography-body2 ResultItem-title-24 ResultItem-title css-1ak20dk-MuiTypography-root"
               role="textbox"
             >
               Digital guidance for seniors
@@ -184,7 +184,7 @@ exports[`<UnitDataList /> should work 1`] = `
     </ul>
     <button
       aria-label="Näytä lisää tapahtumia (2)"
-      class="MuiButtonBase-root SMButton SMButton-button-10 SMButton-smallButton-11 SMButton-margin-12  SMButton-default-16 css-itjqu4-MuiButtonBase-root"
+      class="MuiButtonBase-root SMButton SMButton-button-10 SMButton-smallButton-11 SMButton-margin-12 SMButton-default-16 css-itjqu4-MuiButtonBase-root"
       id="UniteventsButton"
       role="link"
       tabindex="0"
