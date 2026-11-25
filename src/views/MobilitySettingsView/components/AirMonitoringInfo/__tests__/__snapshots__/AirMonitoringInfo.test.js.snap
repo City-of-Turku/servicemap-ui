@@ -21,7 +21,7 @@ exports[`<AirMonitoringInfo /> should match snapshot 1`] = `
       Palvelukartan ilmanlaatutiedot saadaan Turun seudun ilmansuojelun yhteistyöryhmältä.
     </p>
     <a
-      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-11g60ih-MuiTypography-root-MuiLink-root"
+      class="MuiTypography-root MuiTypography-inherit MuiLink-root MuiLink-underlineAlways css-b1yg0p-MuiTypography-root-MuiLink-root"
       href="https://www.ilmatieteenlaitos.fi/ilmanlaatu"
       target="_blank"
     >

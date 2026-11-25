@@ -1,10 +1,8 @@
-/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useState, useEffect, useRef, forwardRef,
+  useState, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 import {
   Box, ButtonBase, Card, Container, Typography,
 } from '@mui/material';
@@ -12,14 +10,10 @@ import styled from '@emotion/styled';
 import {
   getMonth, getWeek, getYear, format, startOfMonth, subDays,
 } from 'date-fns';
-import { enGB, fi, sv } from 'date-fns/locale';
-import DatePicker, { registerLocale } from 'react-datepicker';
 import { fetchObservationDatas } from '../../../EnvironmentDataAPI/EnvironmentDataAPI';
 import { formatDates, formatMonths } from '../../../../../EcoCounter/utils';
-import InputDate from '../../../../../EcoCounter/InputDate';
+import DatePickerDialog from '../../../../../DatePickerDialog';
 import { StyledPopupInner, StyledContentHeader } from '../../../../styled/styled';
-
-const CustomInput = forwardRef((props, ref) => <InputDate {...props} ref={ref} />);
 
 const AirMonitoringContent = ({ intl, station }) => {
   const [airQualityDays, setAirQualityDays] = useState([]);
@@ -32,10 +26,6 @@ const AirMonitoringContent = ({ intl, station }) => {
 
   const stationId = station.id;
   const stationName = station.name;
-
-  const locale = useSelector(state => state.user.locale);
-
-  const inputRef = useRef(null);
 
   // Initial values that are used to fetch data
   const initialDate = startOfMonth(new Date());
@@ -55,15 +45,6 @@ const AirMonitoringContent = ({ intl, station }) => {
   const changeDate = newDate => {
     setSelectedDate(newDate);
   };
-
-  // Set datepicker language
-  useEffect(() => {
-    if (locale === 'en') {
-      registerLocale('en', enGB);
-    } else if (locale === 'sv') {
-      registerLocale('sv', sv);
-    } else registerLocale('fi', fi);
-  }, [locale]);
 
   // Reset selectedDate value when the new popup is opened.
   useEffect(() => {
@@ -381,16 +362,13 @@ const AirMonitoringContent = ({ intl, station }) => {
       <StyledContentHeader>
         <StyledHeaderText component="h4">{stationName}</StyledHeaderText>
         <StyledDateContainer>
-          <DatePicker
-            selected={selectedDate}
-            onChange={newDate => changeDate(newDate)}
-            locale={locale}
-            dateFormat="P"
-            showYearDropdown
-            dropdownMode="select"
+          <DatePickerDialog
+            value={selectedDate}
+            onChange={changeDate}
             minDate={new Date('2011-01-01')}
             maxDate={yesterday}
-            customInput={<CustomInput inputRef={inputRef} />}
+            buttonLabel={intl.formatMessage({ id: 'datePicker.button' })}
+            dialogTitle={intl.formatMessage({ id: 'datePicker.title' })}
           />
         </StyledDateContainer>
       </StyledContentHeader>

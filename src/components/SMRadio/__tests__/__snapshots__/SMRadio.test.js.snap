@@ -7,28 +7,28 @@ exports[`<SMRadio /> should work 1`] = `
   >
     <div
       aria-label="Aria label text"
-      class="MuiFormGroup-root css-dmmspl-MuiFormGroup-root"
+      class="MuiFormGroup-root MuiRadioGroup-root css-dmmspl-MuiFormGroup-root"
       role="radiogroup"
     >
       <label
         class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
       >
         <span
-          class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-7f7ydk-MuiButtonBase-root-MuiRadio-root"
+          class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary Mui-checked MuiRadio-root MuiRadio-colorPrimary css-k6ruuh-MuiButtonBase-root-MuiSwitchBase-root-MuiRadio-root"
         >
           <input
             checked=""
-            class="PrivateSwitchBase-input css-1m9pwf3"
+            class="PrivateSwitchBase-input css-1p3z7et-MuiSwitchBase-root"
             name="service"
             type="radio"
             value="none"
           />
           <span
-            class="css-hyxlzm"
+            class="css-19y5vkv-MuiRadioButtonIcon-root"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-7iu7pi-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-17ea5vu-MuiSvgIcon-root-MuiRadioButtonIcon-root"
               data-testid="RadioButtonUncheckedIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -39,7 +39,7 @@ exports[`<SMRadio /> should work 1`] = `
             </svg>
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1fjbjql-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1qtae2h-MuiSvgIcon-root-MuiRadioButtonIcon-root"
               data-testid="RadioButtonCheckedIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -60,20 +60,20 @@ exports[`<SMRadio /> should work 1`] = `
         class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
       >
         <span
-          class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-7f7ydk-MuiButtonBase-root-MuiRadio-root"
+          class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-k6ruuh-MuiButtonBase-root-MuiSwitchBase-root-MuiRadio-root"
         >
           <input
-            class="PrivateSwitchBase-input css-1m9pwf3"
+            class="PrivateSwitchBase-input css-1p3z7et-MuiSwitchBase-root"
             name="service"
             type="radio"
             value="common"
           />
           <span
-            class="css-hyxlzm"
+            class="css-19y5vkv-MuiRadioButtonIcon-root"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-7iu7pi-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-17ea5vu-MuiSvgIcon-root-MuiRadioButtonIcon-root"
               data-testid="RadioButtonUncheckedIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -84,7 +84,7 @@ exports[`<SMRadio /> should work 1`] = `
             </svg>
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dilyji-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-kwqz3d-MuiSvgIcon-root-MuiRadioButtonIcon-root"
               data-testid="RadioButtonCheckedIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -105,20 +105,20 @@ exports[`<SMRadio /> should work 1`] = `
         class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
       >
         <span
-          class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-7f7ydk-MuiButtonBase-root-MuiRadio-root"
+          class="MuiButtonBase-root MuiRadio-root MuiRadio-colorPrimary PrivateSwitchBase-root MuiRadio-root MuiRadio-colorPrimary MuiRadio-root MuiRadio-colorPrimary css-k6ruuh-MuiButtonBase-root-MuiSwitchBase-root-MuiRadio-root"
         >
           <input
-            class="PrivateSwitchBase-input css-1m9pwf3"
+            class="PrivateSwitchBase-input css-1p3z7et-MuiSwitchBase-root"
             name="service"
             type="radio"
             value="all"
           />
           <span
-            class="css-hyxlzm"
+            class="css-19y5vkv-MuiRadioButtonIcon-root"
           >
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-7iu7pi-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-17ea5vu-MuiSvgIcon-root-MuiRadioButtonIcon-root"
               data-testid="RadioButtonUncheckedIcon"
               focusable="false"
               viewBox="0 0 24 24"
@@ -129,7 +129,7 @@ exports[`<SMRadio /> should work 1`] = `
             </svg>
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1dilyji-MuiSvgIcon-root"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-kwqz3d-MuiSvgIcon-root-MuiRadioButtonIcon-root"
               data-testid="RadioButtonCheckedIcon"
               focusable="false"
               viewBox="0 0 24 24"
