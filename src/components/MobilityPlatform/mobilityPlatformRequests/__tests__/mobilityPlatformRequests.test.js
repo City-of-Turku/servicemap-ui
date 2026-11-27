@@ -1,4 +1,8 @@
-import { fetchMobilityMapData } from '../mobilityPlatformRequests';
+import {
+  fetchMobileUnitGeometries,
+  fetchMobilityDataWithoutGeometry,
+  fetchMobilityMapData,
+} from '../mobilityPlatformRequests';
 
 const mockResponse = results => Promise.resolve({ json: () => Promise.resolve({ results }) });
 
@@ -112,5 +116,40 @@ describe('fetchMobilityMapData geometry filtering', () => {
     expect(setData).not.toHaveBeenCalled();
     expect(warn).toHaveBeenCalledWith('network down');
     warn.mockRestore();
+  });
+});
+
+describe('accessibility zone requests', () => {
+  const originalFetch = global.fetch;
+
+  afterEach(() => {
+    global.fetch = originalFetch;
+  });
+
+  it('fetches a list without filtering out items without geometry', async () => {
+    const items = [{ id: 1, name_fi: 'Kauppatori', extra: { minuutit: 5 } }];
+    global.fetch = jest.fn(() => mockResponse(items));
+
+    expect(await fetchMobilityDataWithoutGeometry({ type_name: 'Test', only: 'name_fi,extra' })).toEqual(items);
+    expect(global.fetch.mock.calls[0][0]).toContain('only=name_fi%2Cextra');
+  });
+
+  it('fetches geometries by id and drops invalid ones', async () => {
+    const units = {
+      a: { id: 'a', geometry_coords: [[[60.1, 22.1], [60.2, 22.2], [60.3, 22.3]]] },
+      b: { id: 'b', geometry_coords: '' },
+    };
+    global.fetch = jest.fn(url => {
+      const id = url.match(/mobile_units\/(\w+)\//)[1];
+      return Promise.resolve({ ok: true, json: () => Promise.resolve(units[id]) });
+    });
+
+    expect(await fetchMobileUnitGeometries(['a', 'b'])).toEqual([units.a]);
+    expect(global.fetch.mock.calls[0][0]).toContain('latlon=true');
+  });
+
+  it('rejects when fetching a geometry fails', async () => {
+    global.fetch = jest.fn(() => Promise.resolve({ ok: false, status: 404 }));
+    await expect(fetchMobileUnitGeometries(['a'])).rejects.toThrow('404');
   });
 });

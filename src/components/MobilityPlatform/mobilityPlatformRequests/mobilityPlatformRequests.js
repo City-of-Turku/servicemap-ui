@@ -71,6 +71,35 @@ const fetchMobilityMapData = async (options, setData, signal) => {
   }
 };
 
+/**
+ * Fetch mobile units without geometry, e.g. a list of names with options.only = 'name_fi,extra'.
+ * @param {Object} options
+ * @param {AbortSignal} signal
+ * @returns {Promise<Array>}
+ */
+const fetchMobilityDataWithoutGeometry = async (options, signal) => fetchAllPages(
+  `${isApiUrl}/mobility_data/mobile_units?${optionsToParams(options)}`,
+  signal,
+);
+
+/**
+ * Fetch the geometries of mobile units by id. Units with invalid geometry are left out.
+ * @param {Array} ids
+ * @param {AbortSignal} signal
+ * @returns {Promise<Array>} mobile units with geometry_coords in lat, lon order
+ */
+const fetchMobileUnitGeometries = async (ids, signal) => {
+  const params = optionsToParams({ latlon: true });
+  const results = await Promise.all(ids.map(async id => {
+    const response = await fetch(`${isApiUrl}/mobility_data/mobile_units/${id}/?${params}`, { signal });
+    if (!response.ok) {
+      throw new Error(`Fetching mobile unit ${id} failed with status ${response.status}`);
+    }
+    return response.json();
+  }));
+  return filterValidGeometry(results);
+};
+
 const fetchCultureRouteNames = async (setData, signal) => {
   try {
     const results = await fetchAllPages(`${isApiUrl}/mobility_data/mobile_unit_groups/`, signal);
@@ -192,6 +221,8 @@ const fetchUnitMaintenanceData = async (options, setData, signal) => {
 
 export {
   fetchMobilityMapData,
+  fetchMobilityDataWithoutGeometry,
+  fetchMobileUnitGeometries,
   fetchCultureRouteNames,
   fetchBicycleRouteNames,
   fetchBicycleRoutesGeometry,

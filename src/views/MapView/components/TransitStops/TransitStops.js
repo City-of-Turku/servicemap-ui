@@ -1,17 +1,15 @@
 /* eslint-disable global-require, no-use-before-define */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { renderToStaticMarkup } from 'react-dom/server';
 import { useMapEvents } from 'react-leaflet';
 import TransitStopInfo from './TransitStopInfo';
+import createTransitIcon from './createTransitIcon';
 import { fetchStops } from '../../utils/transitFetch';
-import { transitIconSize } from '../../config/mapConfig';
 import config from '../../../../../config';
 import { isEmbed } from '../../../../utils/path';
 import useMobileStatus from '../../../../utils/isMobile';
 import { useMobilityPlatformContext } from '../../../../context/MobilityPlatformContext';
 import AccessibleMarker from '../../../../components/AccessibleMarker';
-import withPopupAboveIcon from '../../../../utils/popupAnchor';
 
 const TransitStops = ({ mapObject, classes }) => {
   const isMobile = useMobileStatus();
@@ -75,54 +73,7 @@ const TransitStops = ({ mapObject, classes }) => {
     }
   }, []); */
 
-  const getTransitIcon = type => {
-    const { divIcon } = require('leaflet');
-    let icon;
-
-    switch (type) {
-      case 3: // Bus stops
-        icon = <span aria-hidden className={`${classes.transitIconMap} ${classes.busIconColor} icon-icon-hsl-bus`} />;
-        break;
-      case 0: // Tram stops
-        icon = <span aria-hidden className={`${classes.transitIconMap} ${classes.tramIconColor} icon-icon-hsl-tram`} />;
-        break;
-      case 109: // Train stops
-        icon = <span aria-hidden className={`${classes.transitIconMap} ${classes.trainIconColor} icon-icon-hsl-train`} />;
-        break;
-      case 1: // Subway stops
-        icon = <span aria-hidden className={`${classes.transitIconMap} ${classes.metroIconColor} icon-icon-hsl-metro`} />;
-        break;
-      case 7: // Bike stations
-        icon = <span aria-hidden className={`${classes.transitIconMap} ${classes.bikeIconColor} icon-icon-hsl-bike`} />;
-        break;
-      case 4: // Ferry stops
-        icon = <spanz aria-hidden className={`${classes.transitIconMap} ${classes.ferryIconColor} icon-icon-hsl-ferry`} />;
-        break;
-      case -999:
-        icon = (
-          <span
-            aria-hidden
-            className={`${classes.transitIconMap} ${
-              isExternalTheme ? classes.busIconColorDark : classes.busIconColor
-            } icon-icon-hsl-bus`}
-          />
-        );
-        break;
-      default:
-        icon = <span aria-hidden className={`${classes.transitIconMap} ${classes.busIconColor} icon-icon-hsl-bus`} />;
-        break;
-    }
-
-    return divIcon(withPopupAboveIcon({
-      html: renderToStaticMarkup(
-        <>
-          <span aria-hidden className={`${classes.transitBackground} icon-icon-hsl-background`} />
-          {icon}
-        </>,
-      ),
-      iconSize: [transitIconSize, transitIconSize],
-    }));
-  };
+  const getTransitIcon = type => createTransitIcon(type, classes, isExternalTheme);
 
   const closePopup = () => {
     map.closePopup();

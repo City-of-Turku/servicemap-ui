@@ -109,6 +109,9 @@ const MobilityPlatformContextProvider = ({ children }) => {
   const [showAccessibilityAreas, setShowAccessibilityAreas] = useState(accessibilityAreasInitial);
   const [accessibilityAreasData, setAccessibilityAreasData] = useState([]);
 
+  // accessibility zones (bus stops, schools and kindergartens)
+  const [accessibilityZoneSelections, setAccessibilityZoneSelections] = useState([]);
+
   // skiing and ice-skating
   const [showSportsMaintenance, setShowSportsMaintenance] = useState(false);
   const [sportsMaintenancePeriod, setSportsMaintenancePeriod] = useState(null);
@@ -194,6 +197,8 @@ const MobilityPlatformContextProvider = ({ children }) => {
     // units
     showAccessibilityAreas,
     accessibilityAreasData,
+    // accessibility zones
+    accessibilityZoneSelections,
     // skiing and ice-skating
     showSportsMaintenance,
     sportsMaintenancePeriod,
@@ -279,6 +284,8 @@ const MobilityPlatformContextProvider = ({ children }) => {
     // units
     setShowAccessibilityAreas,
     setAccessibilityAreasData,
+    // accessibility zones
+    setAccessibilityZoneSelections,
     // skiing and ice-skating
     setShowSportsMaintenance,
     setSportsMaintenancePeriod,

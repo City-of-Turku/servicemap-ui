@@ -21,6 +21,7 @@ import {
 import { isEmbed } from '../../../utils/path';
 import { StyledPopupWrapper, StyledPopupInner } from '../styled/styled';
 import AccessibilityAreasContent from './components/AccessibilityAreasContent';
+import { transportKeywords, walkingDashArray } from '../AccessibilityZones/utils/utils';
 import AccessibleMarker from '../../AccessibleMarker';
 
 /**
@@ -40,16 +41,16 @@ const AccessibilityAreas = () => {
   const { Polygon, Popup } = global.rL;
   const { icon } = global.L;
 
-  const walk = 'kävely';
-  const bicycle = 'pyöräily';
+  const walk = transportKeywords.walking;
+  const bicycle = transportKeywords.cycling;
 
-  const blueOptions = blueOptionsBase({ weight: 5, dashArray: '12 6 3', fillOpacity: '0' });
+  const blueOptions = blueOptionsBase({ weight: 5, dashArray: walkingDashArray, fillOpacity: '0' });
   const greenOptions = greenOptionsBase({ weight: 5, fillOpacity: '0' });
   const blackOptions = blackOptionsBase({ weight: 5 });
   const whiteOptionsDashed = whiteOptionsBase({
     fillOpacity: '0.1',
     weight: 5,
-    dashArray: '12 6 3',
+    dashArray: walkingDashArray,
   });
   const whiteOptionsSolid = whiteOptionsBase({
     fillOpacity: '0.1',

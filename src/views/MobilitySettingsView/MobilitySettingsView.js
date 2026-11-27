@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet';
 import { ReactSVG } from 'react-svg';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { Air, WarningAmber } from '@mui/icons-material';
+import { Air, School, WarningAmber } from '@mui/icons-material';
 import { useTheme } from '@mui/styles';
 import { useIntl } from 'react-intl';
 import { css } from '@emotion/css';
@@ -28,6 +28,8 @@ import useCultureRouteFetch from './hooks/useCultureRouteFetch';
 import useBicycleRouteFetch from './hooks/useBicycleRouteFetch';
 import useSpeedLimitZoneFetch from './hooks/useSpeedLimitZoneFetch';
 import useParkingChargeZoneFetch from './hooks/useParkingChargeZoneFetch';
+import useAccessibilityZoneFetch from './hooks/useAccessibilityZoneFetch';
+import { accessibilityZoneCategories } from '../../components/MobilityPlatform/AccessibilityZones/utils/utils';
 import TitleBar from '../../components/TitleBar';
 import CityBikeInfo from './components/CityBikeInfo';
 import EmptyRouteList from './components/EmptyRouteList';
@@ -42,6 +44,12 @@ import StreetMaintenanceList from './components/StreetMaintenanceList';
 import MobilityToggleButton from './components/MobilityToggleButton';
 import AirMonitoringInfo from './components/AirMonitoringInfo';
 import SportsFacilitiesMaintenanceList from './components/SportsFacilitiesMaintenanceList';
+import AccessibilityZoneList from './components/AccessibilityZoneList';
+
+const accessibilityZoneListsInitial = accessibilityZoneCategories.reduce((acc, category) => {
+  acc[category.key] = false;
+  return acc;
+}, {});
 
 const MobilitySettingsView = ({ navigator }) => {
   const [pageTitle, setPageTitle] = useState(null);
@@ -65,6 +73,8 @@ const MobilitySettingsView = ({ navigator }) => {
   const [openFitnessTrailsList, setOpenFitnessTrailsList] = useState(false);
   const [openSportFacilitiesMaintenanceSettings, setOpenSportFacilitiesMaintenanceSettings] = useState(false);
   const [openSportFacilitiesMaintenanceSelectionList, setOpenSportFacilitiesMaintenanceSelectionList] = useState(false);
+  const [openSchoolAccessibilitySettings, setOpenSchoolAccessibilitySettings] = useState(false);
+  const [openAccessibilityZoneLists, setOpenAccessibilityZoneLists] = useState(accessibilityZoneListsInitial);
 
   const intl = useIntl();
   const theme = useTheme();
@@ -191,6 +201,8 @@ const MobilitySettingsView = ({ navigator }) => {
     showIceTracks,
     setShowIceTracks,
     isActiveSportsMaintenance,
+    accessibilityZoneSelections,
+    setAccessibilityZoneSelections,
   } = useMobilityPlatformContext();
 
   const locale = useSelector(state => state.user.locale);
@@ -277,6 +289,7 @@ const MobilitySettingsView = ({ navigator }) => {
   const { sortedBicycleRoutes } = useBicycleRouteFetch(openBicycleSettings, locale);
   const { speedLimitListAsc } = useSpeedLimitZoneFetch(openCarSettings);
   const { parkingChargeZonesSorted } = useParkingChargeZoneFetch(openCarSettings);
+  const { accessibilityZoneGroups } = useAccessibilityZoneFetch(openAccessibilityZoneLists);
 
   const optionsPaavoTrails = {
     type_name: 'PaavonPolku',
@@ -322,6 +335,8 @@ const MobilitySettingsView = ({ navigator }) => {
       setOpenRoadworkSettings(true);
     } else if (location.pathname.includes('sports-facilities')) {
       setOpenSportFacilitiesMaintenanceSettings(true);
+    } else if (location.pathname.includes('school-accessibility')) {
+      setOpenSchoolAccessibilitySettings(true);
     }
   }, [location]);
 
@@ -499,6 +514,29 @@ const MobilitySettingsView = ({ navigator }) => {
     checkVisibilityValues(showIceTracks, setOpenSportFacilitiesMaintenanceSettings);
   }, [showSkiTrails, showIceTracks]);
 
+  /**
+   * If accessibility zones were selected before leaving the mobility view, open their sections and lists on return.
+   * Runs only on mount, so that sections closed by the user are not reopened when the selections change.
+   */
+  useEffect(() => {
+    if (accessibilityZoneSelections.length) {
+      const sectionSetters = {
+        publicTransport: setOpenPublicTransportSettings,
+        schools: setOpenSchoolAccessibilitySettings,
+      };
+      accessibilityZoneCategories.forEach(category => {
+        if (accessibilityZoneSelections.some(item => item.category === category.key)) {
+          sectionSetters[category.section](true);
+        }
+      });
+      setOpenAccessibilityZoneLists(prevState => accessibilityZoneSelections.reduce(
+        (acc, curr) => ({ ...acc, [curr.category]: true }),
+        prevState,
+      ));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (!showSkiTrails && !showIceTracks) {
       setOpenSportFacilitiesMaintenanceSelectionList(false);
@@ -632,6 +670,14 @@ const MobilitySettingsView = ({ navigator }) => {
     }
   };
 
+  const schoolAccessibilitySettingsToggle = () => {
+    setOpenSchoolAccessibilitySettings(current => !current);
+    if (!openSchoolAccessibilitySettings) {
+      navigator.push('mobilityPlatform', 'school-accessibility');
+      setPageTitle(intl.formatMessage({ id: 'mobilityPlatform.menu.title.schoolAccessibility' }));
+    }
+  };
+
   /** Reset page title if opened sections have been closed and page title is not initial value */
   useEffect(() => {
     if (
@@ -645,6 +691,7 @@ const MobilitySettingsView = ({ navigator }) => {
       && !openAirMonitoringSettings
       && !openRoadworkSettings
       && !openSportFacilitiesMaintenanceSettings
+      && !openSchoolAccessibilitySettings
       && pageTitle
     ) {
       setPageTitle(null);
@@ -660,6 +707,7 @@ const MobilitySettingsView = ({ navigator }) => {
     openAirMonitoringSettings,
     openRoadworkSettings,
     openSportFacilitiesMaintenanceSettings,
+    openSchoolAccessibilitySettings,
     pageTitle,
   ]);
 
@@ -1027,6 +1075,27 @@ const MobilitySettingsView = ({ navigator }) => {
   const hasTrailBeenSelected = (trailsData, id) => trailsData.some(item => item.id === id);
 
   /**
+   * Toggle accessibility zone list of a category. Selections of the category are removed when the list is closed.
+   * @param {string} categoryKey
+   */
+  const accessibilityZoneListToggle = categoryKey => {
+    if (openAccessibilityZoneLists[categoryKey]) {
+      setAccessibilityZoneSelections(prevState => prevState.filter(item => item.category !== categoryKey));
+    }
+    toggleObjectValue(categoryKey, openAccessibilityZoneLists, setOpenAccessibilityZoneLists);
+  };
+
+  /**
+   * Select or deselect an accessibility zone group.
+   * @param {Object} group
+   */
+  const setAccessibilityZoneState = group => {
+    setAccessibilityZoneSelections(prevState => (prevState.some(item => item.id === group.id)
+      ? prevState.filter(item => item.id !== group.id)
+      : [...prevState, group]));
+  };
+
+  /**
    * Update an array of objects containing selected marked trails.
    * @param {obj}
    */
@@ -1222,6 +1291,20 @@ const MobilitySettingsView = ({ navigator }) => {
       },
     ];
   })();
+
+  /**
+   * Get toggles of accessibility zone lists shown in the given menu section.
+   * @param {string} section
+   * @returns {Array}
+   */
+  const getAccessibilityZoneControlTypes = section => accessibilityZoneCategories
+    .filter(category => category.section === section)
+    .map(category => ({
+      type: category.key,
+      msgId: category.msgId,
+      checkedValue: openAccessibilityZoneLists[category.key],
+      onChangeValue: () => accessibilityZoneListToggle(category.key),
+    }));
 
   /**
    * Control types for different user types
@@ -1488,6 +1571,7 @@ const MobilitySettingsView = ({ navigator }) => {
       checkedValue: showTaxiStands,
       onChangeValue: taxiStationsToggle,
     },
+    ...getAccessibilityZoneControlTypes('publicTransport'),
   ];
 
   const boatingControlTypes = [
@@ -1938,6 +2022,19 @@ const MobilitySettingsView = ({ navigator }) => {
       type: 'taxiStationsInfo',
       component: <InfoTextBox infoText="mobilityPlatform.info.taxiStands" />,
     },
+    {
+      visible: openAccessibilityZoneLists.busStopsWalking || openAccessibilityZoneLists.busStopsCycling,
+      type: 'busStopAccessibilityZonesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.accessibilityZones.busStops" />,
+    },
+  ];
+
+  const infoTextsSchoolAccessibility = [
+    {
+      visible: openSchoolAccessibilitySettings,
+      type: 'schoolAccessibilityZonesInfo',
+      component: <InfoTextBox infoText="mobilityPlatform.info.accessibilityZones.schools" />,
+    },
   ];
 
   const infoTextsRoadworks = [
@@ -1985,6 +2082,24 @@ const MobilitySettingsView = ({ navigator }) => {
       </Helmet>
     );
   };
+
+  /**
+   * Render accessibility zone lists shown in the given menu section.
+   * @param {string} section
+   * @returns {JSX Element}
+   */
+  const renderAccessibilityZoneLists = section => accessibilityZoneCategories
+    .filter(category => category.section === section)
+    .map(category => (
+      <AccessibilityZoneList
+        key={category.key}
+        openList={openAccessibilityZoneLists[category.key]}
+        items={accessibilityZoneGroups[category.key]}
+        itemsPerPage={10}
+        selections={accessibilityZoneSelections}
+        setState={setAccessibilityZoneState}
+      />
+    ));
 
   /** render section contents */
   const renderWalkSettings = () => (
@@ -2081,7 +2196,16 @@ const MobilitySettingsView = ({ navigator }) => {
   const renderPublicTransportSettings = () => (
     <>
       {renderSettings(openPublicTransportSettings, publicTransportControlTypes)}
+      {renderAccessibilityZoneLists('publicTransport')}
       {renderInfoTexts(infoTextsPublicTransport)}
+    </>
+  );
+
+  const renderSchoolAccessibilitySettings = () => (
+    <>
+      {renderSettings(openSchoolAccessibilitySettings, getAccessibilityZoneControlTypes('schools'))}
+      {renderAccessibilityZoneLists('schools')}
+      {renderInfoTexts(infoTextsSchoolAccessibility)}
     </>
   );
 
@@ -2149,6 +2273,13 @@ const MobilitySettingsView = ({ navigator }) => {
       icon: <ReactSVG src={iconPublicTransport} className={iconClass} />,
       onClick: publicTransportSettingsToggle,
       setState: openPublicTransportSettings,
+    },
+    {
+      component: renderSchoolAccessibilitySettings(),
+      title: intl.formatMessage({ id: 'mobilityPlatform.menu.title.schoolAccessibility' }),
+      icon: renderIcon(<School fontSize="large" />),
+      onClick: schoolAccessibilitySettingsToggle,
+      setState: openSchoolAccessibilitySettings,
     },
     {
       component: renderScooterSettings(),

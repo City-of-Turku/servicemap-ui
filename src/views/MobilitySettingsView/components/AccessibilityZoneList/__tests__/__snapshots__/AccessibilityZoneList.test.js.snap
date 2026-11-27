@@ -1,0 +1,236 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AccessibilityZoneList /> should work 1`] = `
+<div>
+  <div>
+    <div
+      class="css-1haizvu"
+    >
+      <div
+        class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined css-fo89lg-MuiFormLabel-root-MuiInputLabel-root"
+          data-shrink="false"
+          for="mui-1"
+          id="mui-1-label"
+        >
+          Hae nimellä
+        </label>
+        <div
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-s05pk2-MuiInputBase-root-MuiOutlinedInput-root"
+        >
+          <input
+            aria-invalid="false"
+            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputTypeSearch MuiInputBase-inputSizeSmall css-xmwe8s-MuiInputBase-input-MuiOutlinedInput-input"
+            id="mui-1"
+            type="search"
+            value=""
+          />
+          <fieldset
+            aria-hidden="true"
+            class="MuiOutlinedInput-notchedOutline css-r01yff-MuiNotchedOutlined-root-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="css-njhac4-MuiNotchedOutlined-root"
+            >
+              <span>
+                Hae nimellä
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        class="css-27tg7a"
+      >
+        <label
+          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
+        >
+          <span
+            aria-checked="true"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium Mui-checked MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-207y5d-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+          >
+            <input
+              checked=""
+              class="PrivateSwitchBase-input css-1p3z7et-MuiSwitchBase-root"
+              data-indeterminate="false"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-6yqi1c-MuiSvgIcon-root"
+              data-testid="CheckBoxIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+              />
+            </svg>
+          </span>
+          <p
+            aria-label="Kauppatori"
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+          >
+            Kauppatori
+          </p>
+        </label>
+        <div
+          class="css-1o2se5a"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+            id="busStopsWalking-Kauppatori-legend"
+          >
+            Aikavyöhykkeet
+          </p>
+          <ul
+            aria-labelledby="busStopsWalking-Kauppatori-legend"
+            class="css-hjryq5"
+          >
+            <li
+              class="css-axw7ok"
+            >
+              <svg
+                aria-hidden="true"
+                height="10"
+                viewBox="0 0 40 10"
+                width="40"
+              >
+                <line
+                  stroke="rgba(15, 115, 6, 255)"
+                  stroke-dasharray="12 6 3"
+                  stroke-width="3"
+                  x1="0"
+                  x2="40"
+                  y1="5"
+                  y2="5"
+                />
+              </svg>
+              <span
+                class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+              >
+                5 min
+              </span>
+            </li>
+            <li
+              class="css-axw7ok"
+            >
+              <svg
+                aria-hidden="true"
+                height="10"
+                viewBox="0 0 40 10"
+                width="40"
+              >
+                <line
+                  stroke="rgba(7, 44, 115, 255)"
+                  stroke-dasharray="12 6 3"
+                  stroke-width="3"
+                  x1="0"
+                  x2="40"
+                  y1="5"
+                  y2="5"
+                />
+              </svg>
+              <span
+                class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+              >
+                10 min
+              </span>
+            </li>
+            <li
+              class="css-axw7ok"
+            >
+              <svg
+                aria-hidden="true"
+                height="10"
+                viewBox="0 0 40 10"
+                width="40"
+              >
+                <line
+                  stroke="rgba(163, 79, 0, 255)"
+                  stroke-dasharray="12 6 3"
+                  stroke-width="3"
+                  x1="0"
+                  x2="40"
+                  y1="5"
+                  y2="5"
+                />
+              </svg>
+              <span
+                class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+              >
+                15 min
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="css-27tg7a"
+      >
+        <label
+          class="MuiFormControlLabel-root MuiFormControlLabel-labelPlacementEnd css-j204z7-MuiFormControlLabel-root"
+        >
+          <span
+            aria-checked="false"
+            class="MuiButtonBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium PrivateSwitchBase-root MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium MuiCheckbox-root MuiCheckbox-colorPrimary MuiCheckbox-sizeMedium css-207y5d-MuiButtonBase-root-MuiSwitchBase-root-MuiCheckbox-root"
+          >
+            <input
+              class="PrivateSwitchBase-input css-1p3z7et-MuiSwitchBase-root"
+              data-indeterminate="false"
+              type="checkbox"
+            />
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-6yqi1c-MuiSvgIcon-root"
+              data-testid="CheckBoxOutlineBlankIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+              />
+            </svg>
+          </span>
+          <p
+            aria-label="Kohmo"
+            class="MuiTypography-root MuiTypography-body2 css-1ak20dk-MuiTypography-root"
+          >
+            Kohmo
+          </p>
+        </label>
+      </div>
+    </div>
+    <div
+      class="css-d08bg8"
+    >
+      <button
+        aria-current="true"
+        aria-label="Sivu 1"
+        class="MuiButtonBase-root css-ylw499-MuiButtonBase-root"
+        role="link"
+        tabindex="0"
+        type="button"
+        variant="contained"
+      >
+        1
+      </button>
+      <button
+        aria-current="false"
+        aria-label="Sivu 2"
+        class="MuiButtonBase-root css-1fxx1w0-MuiButtonBase-root"
+        role="link"
+        tabindex="0"
+        type="button"
+        variant="contained"
+      >
+        2
+      </button>
+    </div>
+  </div>
+</div>
+`;
